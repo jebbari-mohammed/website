@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your AI Coach – Train Smarter. Transform Faster.</title>
-  <meta name="description" content="AI-powered fitness guidance tailored to your body. Get personalized workout plans, meal plans, and body scan analysis. Available on iOS and Android." />
+  <meta name="description"
+    content="AI-powered fitness guidance tailored to your body. Get personalized workout plans, meal plans, and body scan analysis. Available on iOS and Android." />
   <meta property="og:title" content="Your AI Coach – Train Smarter. Transform Faster." />
-  <meta property="og:description" content="AI-powered fitness guidance tailored to your body. Personalized workout plans, meal plans, and more." />
+  <meta property="og:description"
+    content="AI-powered fitness guidance tailored to your body. Personalized workout plans, meal plans, and more." />
   <meta property="og:image" content="/og-image.png" />
   <meta property="og:url" content="https://youraicoach.life" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     :root {
       --bg: #060B1D;
       --bg2: #0C1232;
@@ -26,470 +37,1203 @@
       --text3: #64748B;
       --error: #EF4444;
       --success: #34D399;
-      --glass: rgba(255,255,255,0.04);
-      --border: rgba(255,255,255,0.08);
+      --glass: rgba(255, 255, 255, 0.04);
+      --border: rgba(255, 255, 255, 0.08);
       --r: 16px;
       --r-lg: 24px;
     }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
     /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; background: rgba(6,11,29,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--cyan), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 18px; }
-    .nav-logo-text { font-size: 17px; font-weight: 700; color: var(--text); }
-    .nav-links { display: flex; align-items: center; gap: 28px; }
-    .nav-links a { color: var(--text2); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
-    .nav-links a:hover { color: var(--cyan); }
-    .nav-cta { background: linear-gradient(90deg, var(--cyan), var(--purple)); color: #fff; padding: 9px 20px; border-radius: 100px; font-size: 14px; font-weight: 600; text-decoration: none; transition: opacity .2s; }
-    .nav-cta:hover { opacity: .85; }
-    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text2); margin: 5px 0; border-radius: 2px; transition: .3s; }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(6, 11, 29, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .nav-logo-text {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--cyan);
+    }
+
+    .nav-cta {
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      color: #fff;
+      padding: 9px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .nav-cta:hover {
+      opacity: .85;
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text2);
+      margin: 5px 0;
+      border-radius: 2px;
+      transition: .3s;
+    }
 
     /* HERO */
-    .hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 24px 80px; position: relative; overflow: hidden; }
-    .orb { position: absolute; border-radius: 50%; pointer-events: none; }
-    .orb1 { width: 600px; height: 600px; top: -200px; right: -200px; background: radial-gradient(circle, rgba(0,212,255,0.12), transparent 70%); }
-    .orb2 { width: 500px; height: 500px; bottom: -100px; left: -150px; background: radial-gradient(circle, rgba(124,92,252,0.12), transparent 70%); }
-    .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); border-radius: 100px; padding: 6px 14px; font-size: 13px; color: var(--cyan); font-weight: 500; margin-bottom: 24px; }
-    .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
-    .hero-headline { font-size: clamp(38px, 5vw, 64px); font-weight: 900; line-height: 1.1; letter-spacing: -2px; margin-bottom: 20px; }
-    .hero-headline span { background: linear-gradient(90deg, var(--cyan), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero-sub { font-size: clamp(16px, 2vw, 19px); color: var(--text2); margin-bottom: 40px; max-width: 480px; line-height: 1.7; }
-    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
-    .btn-store { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 14px; text-decoration: none; font-weight: 600; font-size: 15px; transition: transform .2s, box-shadow .2s; }
-    .btn-store:hover { transform: translateY(-2px); }
-    .btn-store-primary { background: linear-gradient(90deg, var(--cyan), var(--purple)); color: #fff; box-shadow: 0 8px 32px rgba(0,212,255,0.25); }
-    .btn-store-secondary { background: var(--glass); border: 1px solid var(--border); color: var(--text); }
-    .btn-store-secondary:hover { border-color: rgba(0,212,255,0.3); }
-    .store-icon { font-size: 22px; }
-    .btn-store-label { display: flex; flex-direction: column; line-height: 1.2; }
-    .btn-store-label small { font-size: 11px; opacity: .75; font-weight: 400; }
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .orb1 {
+      width: 600px;
+      height: 600px;
+      top: -200px;
+      right: -200px;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.12), transparent 70%);
+    }
+
+    .orb2 {
+      width: 500px;
+      height: 500px;
+      bottom: -100px;
+      left: -150px;
+      background: radial-gradient(circle, rgba(124, 92, 252, 0.12), transparent 70%);
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 13px;
+      color: var(--cyan);
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(1.3)
+      }
+    }
+
+    .hero-headline {
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    .hero-headline span {
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--text2);
+      margin-bottom: 40px;
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-store {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .btn-store:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-store-primary {
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      color: #fff;
+      box-shadow: 0 8px 32px rgba(0, 212, 255, 0.25);
+    }
+
+    .btn-store-secondary {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-store-secondary:hover {
+      border-color: rgba(0, 212, 255, 0.3);
+    }
+
+    .store-icon {
+      font-size: 22px;
+    }
+
+    .btn-store-label {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .btn-store-label small {
+      font-size: 11px;
+      opacity: .75;
+      font-weight: 400;
+    }
 
     /* Phone mockup */
-    .hero-visual { display: flex; justify-content: center; gap: 20px; }
-    .phone-wrap { position: relative; }
-    .phone { width: 200px; height: 400px; border-radius: 32px; border: 2px solid rgba(255,255,255,0.15); background: linear-gradient(160deg, #0C1232, #060B1D); overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05); position: relative; }
-    .phone::before { content:''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 22px; background: #060B1D; border-radius: 0 0 16px 16px; z-index: 10; }
-    .phone-screen { padding: 36px 16px 16px; height: 100%; display: flex; flex-direction: column; gap: 10px; }
-    .phone-stat { background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); border-radius: 12px; padding: 10px 12px; }
-    .phone-stat-label { font-size: 10px; color: var(--cyan); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
-    .phone-stat-val { font-size: 20px; font-weight: 800; color: var(--text); }
-    .phone-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 12px; }
-    .phone-card-title { font-size: 10px; color: var(--text2); font-weight: 500; }
-    .phone-card-val { font-size: 13px; font-weight: 700; color: var(--text); }
-    .phone-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.06); margin-top: 6px; overflow: hidden; }
-    .phone-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--cyan), var(--purple)); }
-    .phone-badge { background: rgba(52,211,153,0.15); border: 1px solid rgba(52,211,153,0.25); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--success); font-weight: 600; }
-    .phone2 { transform: translateY(32px) rotate(2deg); opacity: .7; }
-    .phone3 { transform: translateY(-16px) rotate(-2deg); opacity: .85; }
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .phone-wrap {
+      position: relative;
+    }
+
+    .phone {
+      width: 200px;
+      height: 400px;
+      border-radius: 32px;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      background: linear-gradient(160deg, #0C1232, #060B1D);
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+
+    .phone::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 22px;
+      background: #060B1D;
+      border-radius: 0 0 16px 16px;
+      z-index: 10;
+    }
+
+    .phone-screen {
+      padding: 36px 16px 16px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .phone-stat {
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .phone-stat-label {
+      font-size: 10px;
+      color: var(--cyan);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .phone-stat-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .phone-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .phone-card-title {
+      font-size: 10px;
+      color: var(--text2);
+      font-weight: 500;
+    }
+
+    .phone-card-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .phone-bar {
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.06);
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .phone-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+    }
+
+    .phone-badge {
+      background: rgba(52, 211, 153, 0.15);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .phone2 {
+      transform: translateY(32px) rotate(2deg);
+      opacity: .7;
+    }
+
+    .phone3 {
+      transform: translateY(-16px) rotate(-2deg);
+      opacity: .85;
+    }
 
     /* SECTION COMMON */
-    section { padding: 100px 24px; }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .section-label { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--cyan); margin-bottom: 16px; }
-    .section-title { font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: 1.15; letter-spacing: -1px; margin-bottom: 16px; }
-    .section-sub { font-size: 17px; color: var(--text2); max-width: 560px; line-height: 1.7; }
+    section {
+      padding: 100px 24px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--cyan);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--text2);
+      max-width: 560px;
+      line-height: 1.7;
+    }
 
     /* HOW IT WORKS */
-    .how { background: linear-gradient(180deg, transparent, rgba(12,18,50,0.5), transparent); }
-    .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 56px; }
-    .step { background: var(--glass); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 36px 28px; position: relative; transition: border-color .3s, transform .3s; }
-    .step:hover { border-color: rgba(0,212,255,0.25); transform: translateY(-4px); }
-    .step-num { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--cyan), var(--purple)); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; margin-bottom: 20px; }
-    .step h3 { font-size: 19px; font-weight: 700; margin-bottom: 10px; }
-    .step p { color: var(--text2); font-size: 14px; line-height: 1.65; }
-    .step-connector { position: absolute; top: 50%; right: -13px; transform: translateY(-50%); width: 26px; height: 26px; background: var(--bg); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; z-index: 2; }
+    .how {
+      background: linear-gradient(180deg, transparent, rgba(12, 18, 50, 0.5), transparent);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+    }
+
+    .step {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 36px 28px;
+      position: relative;
+      transition: border-color .3s, transform .3s;
+    }
+
+    .step:hover {
+      border-color: rgba(0, 212, 255, 0.25);
+      transform: translateY(-4px);
+    }
+
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .step h3 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: var(--text2);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .step-connector {
+      position: absolute;
+      top: 50%;
+      right: -13px;
+      transform: translateY(-50%);
+      width: 26px;
+      height: 26px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      z-index: 2;
+    }
 
     /* FEATURES */
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 20px; margin-top: 56px; }
-    .feat { background: var(--glass); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px; transition: all .3s; cursor: default; }
-    .feat:hover { background: rgba(0,212,255,0.05); border-color: rgba(0,212,255,0.2); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-    .feat-icon { font-size: 32px; margin-bottom: 16px; }
-    .feat h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-    .feat p { color: var(--text2); font-size: 14px; line-height: 1.65; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 56px;
+    }
+
+    .feat {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 28px;
+      transition: all .3s;
+      cursor: default;
+    }
+
+    .feat:hover {
+      background: rgba(0, 212, 255, 0.05);
+      border-color: rgba(0, 212, 255, 0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .feat-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .feat h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feat p {
+      color: var(--text2);
+      font-size: 14px;
+      line-height: 1.65;
+    }
 
     /* TRUST */
-    .trust { background: linear-gradient(135deg, rgba(0,212,255,0.04), rgba(124,92,252,0.04)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 20px; margin-top: 48px; }
-    .trust-card { text-align: center; padding: 28px 20px; background: var(--glass); border: 1px solid var(--border); border-radius: var(--r-lg); }
-    .trust-icon { font-size: 30px; margin-bottom: 12px; }
-    .trust-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
-    .trust-card p { font-size: 13px; color: var(--text2); }
-    .disclaimer { margin-top: 40px; background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.15); border-radius: var(--r); padding: 16px 20px; display: flex; gap: 12px; align-items: flex-start; }
-    .disclaimer-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
-    .disclaimer p { font-size: 13px; color: var(--text2); line-height: 1.6; }
-    .disclaimer strong { color: var(--text); }
+    .trust {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.04), rgba(124, 92, 252, 0.04));
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .trust-card {
+      text-align: center;
+      padding: 28px 20px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+    }
+
+    .trust-icon {
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    .trust-card h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .trust-card p {
+      font-size: 13px;
+      color: var(--text2);
+    }
+
+    .disclaimer {
+      margin-top: 40px;
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.15);
+      border-radius: var(--r);
+      padding: 16px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .disclaimer-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .disclaimer p {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+
+    .disclaimer strong {
+      color: var(--text);
+    }
 
     /* DATA SECTION */
-    .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 56px; }
-    .data-card { background: var(--glass); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 32px; }
-    .data-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-    .data-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .data-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--text2); line-height: 1.5; }
-    .data-list li::before { content: attr(data-icon); flex-shrink: 0; }
-    .highlight-card { border-color: rgba(0,212,255,0.2); background: rgba(0,212,255,0.04); }
+    .data-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 56px;
+    }
+
+    .data-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 32px;
+    }
+
+    .data-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .data-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .data-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    .data-list li::before {
+      content: attr(data-icon);
+      flex-shrink: 0;
+    }
+
+    .highlight-card {
+      border-color: rgba(0, 212, 255, 0.2);
+      background: rgba(0, 212, 255, 0.04);
+    }
 
     /* DELETION SECTION */
-    .deletion-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
-    .del-card { background: var(--glass); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px; }
-    .del-badge { display: inline-block; background: linear-gradient(90deg, var(--cyan), var(--purple)); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 100px; margin-bottom: 16px; }
-    .del-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
-    .del-card p, .del-card li { font-size: 14px; color: var(--text2); line-height: 1.65; }
-    .del-card ol { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
-    .del-email { font-size: 15px; font-weight: 600; color: var(--cyan); }
+    .deletion-steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .del-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 28px;
+    }
+
+    .del-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+
+    .del-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .del-card p,
+    .del-card li {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.65;
+    }
+
+    .del-card ol {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .del-email {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--cyan);
+    }
 
     /* FOOTER */
-    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 60px 24px 32px; }
-    .footer-inner { max-width: 1200px; margin: 0 auto; }
-    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-    .footer-brand p { color: var(--text2); font-size: 14px; line-height: 1.7; margin-top: 12px; max-width: 280px; }
-    .footer-col h4 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); margin-bottom: 16px; }
-    .footer-col a { display: block; color: var(--text2); text-decoration: none; font-size: 14px; margin-bottom: 10px; transition: color .2s; }
-    .footer-col a:hover { color: var(--cyan); }
-    .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .footer-bottom p { font-size: 13px; color: var(--text3); }
-    .footer-store-btns { display: flex; gap: 12px; }
-    .footer-store-btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 10px; background: var(--glass); border: 1px solid var(--border); color: var(--text2); text-decoration: none; font-size: 13px; font-weight: 500; transition: border-color .2s, color .2s; }
-    .footer-store-btn:hover { border-color: rgba(0,212,255,0.3); color: var(--cyan); }
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 60px 24px 32px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand p {
+      color: var(--text2);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-top: 12px;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text3);
+      margin-bottom: 16px;
+    }
+
+    .footer-col a {
+      display: block;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 10px;
+      transition: color .2s;
+    }
+
+    .footer-col a:hover {
+      color: var(--cyan);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-bottom p {
+      font-size: 13px;
+      color: var(--text3);
+    }
+
+    .footer-store-btns {
+      display: flex;
+      gap: 12px;
+    }
+
+    .footer-store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: border-color .2s, color .2s;
+    }
+
+    .footer-store-btn:hover {
+      border-color: rgba(0, 212, 255, 0.3);
+      color: var(--cyan);
+    }
 
     /* SCROLL ANIMATIONS */
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .revealed { opacity: 1; transform: translateY(0); }
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     /* MOBILE */
     @media (max-width: 768px) {
-      nav { padding: 14px 16px; }
-      .nav-links { display: none; }
-      .hamburger { display: block; }
-      .hero-inner { grid-template-columns: 1fr; gap: 48px; text-align: center; }
-      .hero-ctas { justify-content: center; }
-      .hero-visual { display: none; }
-      .steps { grid-template-columns: 1fr; }
-      .step-connector { display: none; }
-      .data-grid { grid-template-columns: 1fr; }
-      .deletion-steps { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
-      .footer-bottom { flex-direction: column; text-align: center; }
+      nav {
+        padding: 14px 16px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        text-align: center;
+      }
+
+      .hero-ctas {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .step-connector {
+        display: none;
+      }
+
+      .data-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .deletion-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="/" class="nav-logo">
-    <div class="nav-logo-icon">⚡</div>
-    <span class="nav-logo-text">Your AI Coach</span>
-  </a>
-  <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#how">How it Works</a>
-    <a href="#data">Privacy</a>
-    <a href="#delete">Data Deletion</a>
-    <a href="mailto:jbbari03@gmail.com">Support</a>
-  </div>
-  <a href="#download" class="nav-cta">Download Free</a>
-  <button class="hamburger" onclick="this.classList.toggle('open')">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="download">
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="hero-inner">
-    <div>
-      <div class="hero-badge"><span></span> AI-Powered Fitness Companion</div>
-      <h1 class="hero-headline">Train Smarter.<br><span>Transform Faster.</span></h1>
-      <p class="hero-sub">AI-powered fitness guidance tailored to your body — personalized workout plans, meal plans, and smart coaching. All in one app.</p>
-      <div class="hero-ctas">
-        <!-- Replace YOUR_APP_ID with your actual Apple App Store ID -->
-        <a href="https://apps.apple.com/app/id_YOUR_APP_ID" class="btn-store btn-store-primary">
-          <span class="store-icon">🍎</span>
-          <div class="btn-store-label"><small>Download on the</small>App Store</div>
-        </a>
-        <!-- Replace com.ai.gym.coach if your package name changes -->
-        <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="btn-store btn-store-secondary">
-          <span class="store-icon">▶</span>
-          <div class="btn-store-label"><small>Get it on</small>Google Play</div>
-        </a>
-      </div>
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">⚡</div>
+      <span class="nav-logo-text">Your AI Coach</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it Works</a>
+      <a href="#data">Privacy</a>
+      <a href="#delete">Data Deletion</a>
+      <a href="mailto:jbbari03@gmail.com">Support</a>
     </div>
-    <div class="hero-visual">
-      <div class="phone-wrap phone3">
-        <div class="phone">
-          <div class="phone-screen">
-            <div class="phone-stat"><div class="phone-stat-label">Today's Calories</div><div class="phone-stat-val">1,840</div></div>
-            <div class="phone-card">
-              <div class="phone-card-title">Protein Goal</div>
-              <div class="phone-card-val">142g / 160g</div>
-              <div class="phone-bar"><div class="phone-bar-fill" style="width:88%"></div></div>
+    <a href="#download" class="nav-cta">Download Free</a>
+    <button class="hamburger" onclick="this.classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="download">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge"><span></span> AI-Powered Fitness Companion</div>
+        <h1 class="hero-headline">Train Smarter.<br><span>Transform Faster.</span></h1>
+        <p class="hero-sub">AI-powered fitness guidance tailored to your body — personalized workout plans, meal plans,
+          and smart coaching. All in one app.</p>
+        <div class="hero-ctas">
+          <a href="https://apps.apple.com/app/your-ai-coach" class="btn-store btn-store-primary">
+            <span class="store-icon">🍎</span>
+            <div class="btn-store-label"><small>Download on the</small>App Store</div>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach"
+            class="btn-store btn-store-secondary">
+            <span class="store-icon">▶</span>
+            <div class="btn-store-label"><small>Get it on</small>Google Play</div>
+          </a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="phone-wrap phone3">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-stat">
+                <div class="phone-stat-label">Today's Calories</div>
+                <div class="phone-stat-val">1,840</div>
+              </div>
+              <div class="phone-card">
+                <div class="phone-card-title">Protein Goal</div>
+                <div class="phone-card-val">142g / 160g</div>
+                <div class="phone-bar">
+                  <div class="phone-bar-fill" style="width:88%"></div>
+                </div>
+              </div>
+              <div class="phone-badge">✓ Meal Plan Generated</div>
             </div>
-            <div class="phone-badge">✓ Meal Plan Generated</div>
+          </div>
+        </div>
+        <div class="phone-wrap phone2">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-stat" style="background:rgba(124,92,252,0.12);border-color:rgba(124,92,252,0.25)">
+                <div class="phone-stat-label" style="color:#7C5CFC">Streak</div>
+                <div class="phone-stat-val">🔥 14 Days</div>
+              </div>
+              <div class="phone-card">
+                <div class="phone-card-title">Workout Plan</div>
+                <div class="phone-card-val">Day 3 – Push</div>
+                <div class="phone-bar">
+                  <div class="phone-bar-fill" style="width:60%"></div>
+                </div>
+              </div>
+              <div class="phone-badge">✓ AI Plan Active</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="phone-wrap phone2">
-        <div class="phone">
-          <div class="phone-screen">
-            <div class="phone-stat" style="background:rgba(124,92,252,0.12);border-color:rgba(124,92,252,0.25)"><div class="phone-stat-label" style="color:#7C5CFC">Streak</div><div class="phone-stat-val">🔥 14 Days</div></div>
-            <div class="phone-card">
-              <div class="phone-card-title">Workout Plan</div>
-              <div class="phone-card-val">Day 3 – Push</div>
-              <div class="phone-bar"><div class="phone-bar-fill" style="width:60%"></div></div>
-            </div>
-            <div class="phone-badge">✓ AI Plan Active</div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">✦ Simple Process</div>
+        <h2 class="section-title">Three steps to your<br>strongest self</h2>
+        <p class="section-sub">No guesswork. No generic plans. Pure AI-powered precision built around you.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <h3>Complete Your Profile</h3>
+          <p>Tell us about your goals, fitness level, body metrics, dietary preferences and any injuries. Our AI builds
+            your complete picture.</p>
+          <div class="step-connector">→</div>
+        </div>
+        <div class="step reveal" style="transition-delay:.15s">
+          <div class="step-num">2</div>
+          <h3>Get Your AI Plans</h3>
+          <p>Instantly receive a personalized workout plan AND a meal plan generated by AI — tailored specifically to
+            your body and goals.</p>
+          <div class="step-connector">→</div>
+        </div>
+        <div class="step reveal" style="transition-delay:.3s">
+          <div class="step-num">3</div>
+          <h3>Train & Track Progress</h3>
+          <p>Follow your plan, scan food for nutrition analysis, chat with your AI coach, and build unbreakable
+            consistency with streak tracking.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">✦ Core Features</div>
+        <h2 class="section-title">Everything you need.<br>Nothing you don't.</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feat reveal">
+          <div class="feat-icon">🤖</div>
+          <h3>AI Workout Plans</h3>
+          <p>Fully personalized workout programs generated by AI based on your goal, fitness level, available equipment,
+            and schedule.</p>
+        </div>
+        <div class="feat reveal" style="transition-delay:.1s">
+          <div class="feat-icon">🥗</div>
+          <h3>AI Meal Plans</h3>
+          <p>Personalized nutrition plans with macros calculated for your body weight, goal, and dietary preferences.
+            Regenerate any day instantly.</p>
+        </div>
+        <div class="feat reveal" style="transition-delay:.2s">
+          <div class="feat-icon">📸</div>
+          <h3>Body & Food Scan</h3>
+          <p>Optionally use your camera for body analysis or to scan food for instant nutritional info. Images are
+            processed by AI and never stored.</p>
+        </div>
+        <div class="feat reveal" style="transition-delay:.3s">
+          <div class="feat-icon">💬</div>
+          <h3>AI Chat Coach</h3>
+          <p>Ask your personal AI fitness coach anything — form tips, injury advice, motivation, or plan adjustments.
+            Available 24/7.</p>
+        </div>
+        <div class="feat reveal" style="transition-delay:.4s">
+          <div class="feat-icon">🔥</div>
+          <h3>Streak & Progress Tracking</h3>
+          <p>Build powerful consistency with daily streak tracking, total workout counts, and motivational milestone
+            notifications.</p>
+        </div>
+        <div class="feat reveal" style="transition-delay:.5s">
+          <div class="feat-icon">🔐</div>
+          <h3>Private & Secure</h3>
+          <p>Your data is encrypted. Body images are never stored. We never sell your personal data to third parties.
+            Ever.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST & SAFETY -->
+  <section class="trust">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">✦ Trust & Safety</div>
+        <h2 class="section-title">Built with your safety<br>in mind</h2>
+      </div>
+      <div class="trust-grid">
+        <div class="trust-card reveal">
+          <div class="trust-icon">🔒</div>
+          <h4>Data Encrypted</h4>
+          <p>All data is stored with industry-standard encryption via Google Firebase.</p>
+        </div>
+        <div class="trust-card reveal" style="transition-delay:.1s">
+          <div class="trust-icon">📵</div>
+          <h4>Images Not Stored</h4>
+          <p>Body and food scan images are processed by AI instantly and immediately discarded.</p>
+        </div>
+        <div class="trust-card reveal" style="transition-delay:.2s">
+          <div class="trust-icon">🚫</div>
+          <h4>No Data Sales</h4>
+          <p>We never sell, trade, or share your personal data with any third parties for advertising.</p>
+        </div>
+        <div class="trust-card reveal" style="transition-delay:.3s">
+          <div class="trust-icon">🧹</div>
+          <h4>Delete Anytime</h4>
+          <p>Request full account and data deletion directly inside the app in seconds.</p>
+        </div>
+      </div>
+      <div class="disclaimer reveal">
+        <div class="disclaimer-icon">⚠️</div>
+        <p><strong>Medical Disclaimer:</strong> Your AI Coach provides general fitness and nutritional guidance only. It
+          is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified
+          healthcare provider before beginning any new exercise or diet programme, especially if you have a medical
+          condition or injury.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE USE YOUR DATA -->
+  <section id="data">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">✦ Data Transparency</div>
+        <h2 class="section-title">How We Use Your Data</h2>
+        <p class="section-sub">We believe in radical transparency. Here's exactly what we collect, why, and what we
+          never do.</p>
+      </div>
+      <div class="data-grid">
+        <div class="data-card reveal">
+          <h3>📥 What We Collect</h3>
+          <ul class="data-list">
+            <li data-icon="👤">Name and email address (from account sign-up)</li>
+            <li data-icon="📊">Fitness profile: age, gender, height, weight, goals</li>
+            <li data-icon="🍽️">Dietary preferences and restrictions</li>
+            <li data-icon="📱">App usage data (streaks, workout completions)</li>
+            <li data-icon="📸">Optional camera images — processed immediately and <strong>never stored</strong></li>
+          </ul>
+        </div>
+        <div class="data-card reveal" style="transition-delay:.15s">
+          <h3>⚙️ How We Use It</h3>
+          <ul class="data-list">
+            <li data-icon="🤖">Generate your personalized AI workout and meal plans</li>
+            <li data-icon="📈">Track your progress and fitness streaks</li>
+            <li data-icon="🛡️">Maintain account security and authentication</li>
+            <li data-icon="💬">Power the AI chat coach responses</li>
+            <li data-icon="🔔">Send optional workout reminders and motivational notifications</li>
+          </ul>
+        </div>
+        <div class="data-card highlight-card reveal" style="transition-delay:.3s">
+          <h3>🚫 What We NEVER Do</h3>
+          <ul class="data-list">
+            <li data-icon="✗">Sell your personal data to advertisers</li>
+            <li data-icon="✗">Share body images publicly or store them</li>
+            <li data-icon="✗">Use your data for unrelated advertising</li>
+            <li data-icon="✗">Share data with third parties (except AI processing)</li>
+          </ul>
+        </div>
+        <div class="data-card reveal" style="transition-delay:.45s">
+          <h3>🧠 AI Processing</h3>
+          <ul class="data-list">
+            <li data-icon="⚡">Workout and meal plans are generated using Google Gemini AI</li>
+            <li data-icon="📸">Camera scans are sent to Gemini for real-time analysis only</li>
+            <li data-icon="🗑️">All image data is discarded immediately after analysis</li>
+            <li data-icon="🔒">AI processing follows Google's privacy and data policies</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATA DELETION -->
+  <section id="delete" style="background: linear-gradient(180deg, transparent, rgba(12,18,50,0.5), transparent)">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">✦ Your Rights</div>
+        <h2 class="section-title">How to Delete Your Data</h2>
+        <p class="section-sub">You have full control. Delete your account and all associated data at any time —
+          instantly.</p>
+      </div>
+      <div class="deletion-steps">
+        <div class="del-card reveal">
+          <div class="del-badge">Option 1 — Instant</div>
+          <h3>Delete from the App</h3>
+          <ol>
+            <li>Open <strong>Your AI Coach</strong> app</li>
+            <li>Go to <strong>Profile</strong> (bottom navigation)</li>
+            <li>Scroll to the bottom</li>
+            <li>Tap <strong>"Delete Account"</strong></li>
+            <li>Confirm deletion</li>
+          </ol>
+          <p style="margin-top:14px;font-size:13px">This permanently and instantly deletes your account, all plans,
+            fitness data, and personal information.</p>
+        </div>
+        <div class="del-card reveal" style="transition-delay:.15s">
+          <div class="del-badge">Option 2 — Email Request</div>
+          <h3>Contact Support</h3>
+          <p>If you cannot access the app, email us at:</p>
+          <p class="del-email" style="margin:12px 0">jbbari03@gmail.com</p>
+          <p>Include: <strong>Subject:</strong> "Data Deletion Request" and your registered email address. We will
+            delete all data within <strong>30 days</strong> and confirm by email.</p>
+          <p style="margin-top:14px;font-size:13px;color:var(--success)">✓ Workout plans ✓ Meal plans ✓ Profile data ✓
+            Account ✓ All personal information</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <div class="nav-logo-icon" style="width:32px;height:32px;font-size:16px">⚡</div>
+            <span style="font-size:16px;font-weight:700">Your AI Coach</span>
           </div>
+          <p>AI-powered fitness guidance tailored to your body. Not medical advice.</p>
+        </div>
+        <div class="footer-col">
+          <h4>App</h4>
+          <a href="https://apps.apple.com/app/your-ai-coach">App Store</a>
+          <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach">Google Play</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="/privacy-policy.html">Privacy Policy</a>
+          <a href="/terms.html">Terms of Service</a>
+          <a href="#delete">Data Deletion</a>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="mailto:jbbari03@gmail.com">Contact Us</a>
+          <a href="mailto:jbbari03@gmail.com">Support</a>
+          <a href="#data">Data Policy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Your AI Coach. All rights reserved.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="/privacy-policy.html" style="color:var(--text3);font-size:13px;text-decoration:none">Privacy
+            Policy</a>
+          <a href="/terms.html" style="color:var(--text3);font-size:13px;text-decoration:none">Terms of Service</a>
+          <a href="mailto:jbbari03@gmail.com"
+            style="color:var(--text3);font-size:13px;text-decoration:none">jbbari03@gmail.com</a>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- HOW IT WORKS -->
-<section class="how" id="how">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">✦ Simple Process</div>
-      <h2 class="section-title">Three steps to your<br>strongest self</h2>
-      <p class="section-sub">No guesswork. No generic plans. Pure AI-powered precision built around you.</p>
-    </div>
-    <div class="steps">
-      <div class="step reveal">
-        <div class="step-num">1</div>
-        <h3>Complete Your Profile</h3>
-        <p>Tell us about your goals, fitness level, body metrics, dietary preferences and any injuries. Our AI builds your complete picture.</p>
-        <div class="step-connector">→</div>
-      </div>
-      <div class="step reveal" style="transition-delay:.15s">
-        <div class="step-num">2</div>
-        <h3>Get Your AI Plans</h3>
-        <p>Instantly receive a personalized workout plan AND a meal plan generated by AI — tailored specifically to your body and goals.</p>
-        <div class="step-connector">→</div>
-      </div>
-      <div class="step reveal" style="transition-delay:.3s">
-        <div class="step-num">3</div>
-        <h3>Train & Track Progress</h3>
-        <p>Follow your plan, scan food for nutrition analysis, chat with your AI coach, and build unbreakable consistency with streak tracking.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section id="features">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">✦ Core Features</div>
-      <h2 class="section-title">Everything you need.<br>Nothing you don't.</h2>
-    </div>
-    <div class="features-grid">
-      <div class="feat reveal">
-        <div class="feat-icon">🤖</div>
-        <h3>AI Workout Plans</h3>
-        <p>Fully personalized workout programs generated by AI based on your goal, fitness level, available equipment, and schedule.</p>
-      </div>
-      <div class="feat reveal" style="transition-delay:.1s">
-        <div class="feat-icon">🥗</div>
-        <h3>AI Meal Plans</h3>
-        <p>Personalized nutrition plans with macros calculated for your body weight, goal, and dietary preferences. Regenerate any day instantly.</p>
-      </div>
-      <div class="feat reveal" style="transition-delay:.2s">
-        <div class="feat-icon">📸</div>
-        <h3>Body & Food Scan</h3>
-        <p>Optionally use your camera for body analysis or to scan food for instant nutritional info. Images are processed by AI and never stored.</p>
-      </div>
-      <div class="feat reveal" style="transition-delay:.3s">
-        <div class="feat-icon">💬</div>
-        <h3>AI Chat Coach</h3>
-        <p>Ask your personal AI fitness coach anything — form tips, injury advice, motivation, or plan adjustments. Available 24/7.</p>
-      </div>
-      <div class="feat reveal" style="transition-delay:.4s">
-        <div class="feat-icon">🔥</div>
-        <h3>Streak & Progress Tracking</h3>
-        <p>Build powerful consistency with daily streak tracking, total workout counts, and motivational milestone notifications.</p>
-      </div>
-      <div class="feat reveal" style="transition-delay:.5s">
-        <div class="feat-icon">🔐</div>
-        <h3>Private & Secure</h3>
-        <p>Your data is encrypted. Body images are never stored. We never sell your personal data to third parties. Ever.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRUST & SAFETY -->
-<section class="trust">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">✦ Trust & Safety</div>
-      <h2 class="section-title">Built with your safety<br>in mind</h2>
-    </div>
-    <div class="trust-grid">
-      <div class="trust-card reveal">
-        <div class="trust-icon">🔒</div>
-        <h4>Data Encrypted</h4>
-        <p>All data is stored with industry-standard encryption via Google Firebase.</p>
-      </div>
-      <div class="trust-card reveal" style="transition-delay:.1s">
-        <div class="trust-icon">📵</div>
-        <h4>Images Not Stored</h4>
-        <p>Body and food scan images are processed by AI instantly and immediately discarded.</p>
-      </div>
-      <div class="trust-card reveal" style="transition-delay:.2s">
-        <div class="trust-icon">🚫</div>
-        <h4>No Data Sales</h4>
-        <p>We never sell, trade, or share your personal data with any third parties for advertising.</p>
-      </div>
-      <div class="trust-card reveal" style="transition-delay:.3s">
-        <div class="trust-icon">🧹</div>
-        <h4>Delete Anytime</h4>
-        <p>Request full account and data deletion directly inside the app in seconds.</p>
-      </div>
-    </div>
-    <div class="disclaimer reveal">
-      <div class="disclaimer-icon">⚠️</div>
-      <p><strong>Medical Disclaimer:</strong> Your AI Coach provides general fitness and nutritional guidance only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before beginning any new exercise or diet programme, especially if you have a medical condition or injury.</p>
-    </div>
-  </div>
-</section>
-
-<!-- HOW WE USE YOUR DATA -->
-<section id="data">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">✦ Data Transparency</div>
-      <h2 class="section-title">How We Use Your Data</h2>
-      <p class="section-sub">We believe in radical transparency. Here's exactly what we collect, why, and what we never do.</p>
-    </div>
-    <div class="data-grid">
-      <div class="data-card reveal">
-        <h3>📥 What We Collect</h3>
-        <ul class="data-list">
-          <li data-icon="👤">Name and email address (from account sign-up)</li>
-          <li data-icon="📊">Fitness profile: age, gender, height, weight, goals</li>
-          <li data-icon="🍽️">Dietary preferences and restrictions</li>
-          <li data-icon="📱">App usage data (streaks, workout completions)</li>
-          <li data-icon="📸">Optional camera images — processed immediately and <strong>never stored</strong></li>
-        </ul>
-      </div>
-      <div class="data-card reveal" style="transition-delay:.15s">
-        <h3>⚙️ How We Use It</h3>
-        <ul class="data-list">
-          <li data-icon="🤖">Generate your personalized AI workout and meal plans</li>
-          <li data-icon="📈">Track your progress and fitness streaks</li>
-          <li data-icon="🛡️">Maintain account security and authentication</li>
-          <li data-icon="💬">Power the AI chat coach responses</li>
-          <li data-icon="🔔">Send optional workout reminders and motivational notifications</li>
-        </ul>
-      </div>
-      <div class="data-card highlight-card reveal" style="transition-delay:.3s">
-        <h3>🚫 What We NEVER Do</h3>
-        <ul class="data-list">
-          <li data-icon="✗">Sell your personal data to advertisers</li>
-          <li data-icon="✗">Share body images publicly or store them</li>
-          <li data-icon="✗">Use your data for unrelated advertising</li>
-          <li data-icon="✗">Share data with third parties (except AI processing)</li>
-        </ul>
-      </div>
-      <div class="data-card reveal" style="transition-delay:.45s">
-        <h3>🧠 AI Processing</h3>
-        <ul class="data-list">
-          <li data-icon="⚡">Workout and meal plans are generated using Google Gemini AI</li>
-          <li data-icon="📸">Camera scans are sent to Gemini for real-time analysis only</li>
-          <li data-icon="🗑️">All image data is discarded immediately after analysis</li>
-          <li data-icon="🔒">AI processing follows Google's privacy and data policies</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- DATA DELETION -->
-<section id="delete" style="background: linear-gradient(180deg, transparent, rgba(12,18,50,0.5), transparent)">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">✦ Your Rights</div>
-      <h2 class="section-title">How to Delete Your Data</h2>
-      <p class="section-sub">You have full control. Delete your account and all associated data at any time — instantly.</p>
-    </div>
-    <div class="deletion-steps">
-      <div class="del-card reveal">
-        <div class="del-badge">Option 1 — Instant</div>
-        <h3>Delete from the App</h3>
-        <ol>
-          <li>Open <strong>Your AI Coach</strong> app</li>
-          <li>Go to <strong>Profile</strong> (bottom navigation)</li>
-          <li>Scroll to the bottom</li>
-          <li>Tap <strong>"Delete Account"</strong></li>
-          <li>Confirm deletion</li>
-        </ol>
-        <p style="margin-top:14px;font-size:13px">This permanently and instantly deletes your account, all plans, fitness data, and personal information.</p>
-      </div>
-      <div class="del-card reveal" style="transition-delay:.15s">
-        <div class="del-badge">Option 2 — Email Request</div>
-        <h3>Contact Support</h3>
-        <p>If you cannot access the app, email us at:</p>
-        <p class="del-email" style="margin:12px 0">jbbari03@gmail.com</p>
-        <p>Include: <strong>Subject:</strong> "Data Deletion Request" and your registered email address. We will delete all data within <strong>30 days</strong> and confirm by email.</p>
-        <p style="margin-top:14px;font-size:13px;color:var(--success)">✓ Workout plans ✓ Meal plans ✓ Profile data ✓ Account ✓ All personal information</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-          <div class="nav-logo-icon" style="width:32px;height:32px;font-size:16px">⚡</div>
-          <span style="font-size:16px;font-weight:700">Your AI Coach</span>
-        </div>
-        <p>AI-powered fitness guidance tailored to your body. Not medical advice.</p>
-      </div>
-      <div class="footer-col">
-        <h4>App</h4>
-        <!-- Replace YOUR_APP_ID below -->
-        <a href="https://apps.apple.com/app/id_YOUR_APP_ID">App Store</a>
-        <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach">Google Play</a>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <a href="/privacy-policy.html">Privacy Policy</a>
-        <a href="/terms.html">Terms of Service</a>
-        <a href="#delete">Data Deletion</a>
-      </div>
-      <div class="footer-col">
-        <h4>Support</h4>
-        <a href="mailto:jbbari03@gmail.com">Contact Us</a>
-        <a href="mailto:jbbari03@gmail.com">Support</a>
-        <a href="#data">Data Policy</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2026 Your AI Coach. All rights reserved.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a href="/privacy-policy.html" style="color:var(--text3);font-size:13px;text-decoration:none">Privacy Policy</a>
-        <a href="/terms.html" style="color:var(--text3);font-size:13px;text-decoration:none">Terms of Service</a>
-        <a href="mailto:jbbari03@gmail.com" style="color:var(--text3);font-size:13px;text-decoration:none">jbbari03@gmail.com</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script>
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 </body>
+
 </html>
