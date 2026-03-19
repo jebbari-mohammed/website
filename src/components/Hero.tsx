@@ -4,8 +4,8 @@ export default function Hero() {
     return (
         <section id="download" className="min-h-screen flex items-center pt-[120px] pb-[80px] px-6 relative overflow-hidden">
             {/* Decorative Orbs */}
-            <div className="absolute w-[600px] h-[600px] -top-[200px] -right-[200px] rounded-full bg-[radial-gradient(circle,rgba(249,115,22,0.12),transparent_70%)] pointer-events-none" />
-            <div className="absolute w-[500px] h-[500px] -bottom-[100px] -left-[150px] rounded-full bg-[radial-gradient(circle,rgba(34,197,94,0.12),transparent_70%)] pointer-events-none" />
+            <div className="absolute w-[600px] h-[600px] -top-[200px] -right-[200px] rounded-full bg-[radial-gradient(circle,rgba(0,212,255,0.12),transparent_70%)] pointer-events-none" />
+            <div className="absolute w-[500px] h-[500px] -bottom-[100px] -left-[150px] rounded-full bg-[radial-gradient(circle,rgba(124,92,252,0.12),transparent_70%)] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-16 items-center z-10">
                 <motion.div
