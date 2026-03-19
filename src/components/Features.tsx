@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Bot, Utensils, ScanFace, MessageSquareWarning, Flame, ShieldCheck } from 'lucide-react';
+import { Bot, Utensils, ScanFace, PhoneCall, Flame, ShieldCheck } from 'lucide-react';
 
 export default function Features() {
     return (
@@ -98,7 +98,7 @@ export default function Features() {
                         </p>
                     </motion.div>
 
-                    {/* 4. Small Feature - Chat */}
+                    {/* 4. Small Feature - Voice Calls */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -106,18 +106,21 @@ export default function Features() {
                         transition={{ duration: 0.5, delay: 0.3 }}
                         className="bg-[#0C1232]/80 border border-white/10 rounded-[32px] p-8 relative overflow-hidden group hover:bg-[#131A42]/90 transition-all duration-300"
                     >
-                        {/* Visual: Chat Bubbles */}
-                        <div className="absolute top-8 right-8 flex flex-col gap-2 opacity-30 group-hover:opacity-60 transition-opacity z-0">
-                            <div className="w-16 h-6 bg-white/10 rounded-full rounded-br-sm self-end group-hover:-translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
-                            <div className="w-20 h-6 bg-primary/20 rounded-full rounded-bl-sm group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-500" />
+                        {/* Visual: Sound Waves */}
+                        <div className="absolute top-1/2 right-8 flex items-center gap-1.5 opacity-30 group-hover:opacity-80 transition-opacity z-0 transform -translate-y-1/2">
+                            <div className="w-1 h-4 bg-primary rounded-full group-hover:animate-[sound_1s_ease-in-out_infinite_0.1s]" />
+                            <div className="w-1.5 h-8 bg-secondary rounded-full group-hover:animate-[sound_1s_ease-in-out_infinite_0.2s]" />
+                            <div className="w-1.5 h-12 bg-primary rounded-full group-hover:animate-[sound_1s_ease-in-out_infinite_0.3s]" />
+                            <div className="w-1.5 h-7 bg-secondary rounded-full group-hover:animate-[sound_1s_ease-in-out_infinite_0.4s]" />
+                            <div className="w-1 h-5 bg-primary rounded-full group-hover:animate-[sound_1s_ease-in-out_infinite_0.5s]" />
                         </div>
 
-                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-white/20 group-hover:border-white/30 transition-all duration-300 relative z-10">
-                            <MessageSquareWarning className="text-textSecondary group-hover:text-white transition-colors" size={24} />
+                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 group-hover:border-primary/30 transition-all duration-300 relative z-10 shadow-[0_0_15px_rgba(0,212,255,0)] group-hover:shadow-[0_0_20px_rgba(0,212,255,0.2)]">
+                            <PhoneCall className="text-textSecondary group-hover:text-primary transition-colors" size={24} />
                         </div>
-                        <h3 className="text-[22px] font-bold font-condensed mb-2 relative z-10 text-white">24/7 AI Coach</h3>
+                        <h3 className="text-[22px] font-bold font-condensed mb-2 relative z-10 text-white">Proactive AI Calls</h3>
                         <p className="text-[14px] text-textSecondary leading-relaxed font-light relative z-10">
-                            Instant form checks, injury modification advice, and real-time motivational chats whenever you need it.
+                            Your coach literally calls your phone to remind you of sessions, review your day, and keep you strictly accountable.
                         </p>
                     </motion.div>
 
@@ -184,6 +187,10 @@ export default function Features() {
           10% { opacity: 1; }
           90% { opacity: 1; }
           100% { transform: translateY(40px); opacity: 0; }
+        }
+        @keyframes sound {
+          0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
+          50% { transform: scaleY(1.2); opacity: 1; }
         }
       `}</style>
         </section>
