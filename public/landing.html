@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to Your AI Coach...</title>
+    <script>
+        (function () {
+            // Smart App Store Redirect Logic
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+
+            // Store Links
+            var iosLink = "https://apps.apple.com/app/your-ai-coach";
+            var androidLink = "https://play.google.com/store/apps/details?id=com.ai.gym.coach";
+
+            // Desktop Fallback
+            var fallbackLink = "/";
+
+            if (/android/i.test(ua)) {
+                window.location.replace(androidLink);
+            } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+                window.location.replace(iosLink);
+            } else {
+                // Desktop traffic gets redirected to the React landing page
+                window.location.replace(fallbackLink);
+            }
+        })();
+    </script>
+    <style>
+        body {
+            background-color: #060B1D;
+            color: #F8FAFC;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div>Opening your app store...</div>
+</body>
+
+</html>
