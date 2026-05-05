@@ -189,15 +189,19 @@ Return ONLY valid JSON (no markdown fences) in this exact format:
           throw new Error('Failed to parse response');
         }
       } catch (err) {
-        const isRateLimit = err.status === 429 || err.message?.includes('429');
+        const isRetryable = err.status === 429 || err.status === 503 || 
+                           err.message?.includes('429') || err.message?.includes('503') ||
+                           err.message?.includes('Service Unavailable') ||
+                           err.message?.includes('overloaded') ||
+                           err.message?.includes('high demand');
         const isLastAttempt = attempt === MAX_RETRIES;
 
-        if (isRateLimit && !isLastAttempt) {
+        if (isRetryable && !isLastAttempt) {
           const waitSec = Math.pow(2, attempt) * 5; // 10s, 20s, 40s
-          console.log(`  ⏳ Rate limited. Waiting ${waitSec}s before retry...`);
+          console.log(`  ⏳ Error ${err.status}. Waiting ${waitSec}s before retry...`);
           await new Promise(r => setTimeout(r, waitSec * 1000));
-        } else if (isRateLimit && isLastAttempt) {
-          console.log(`  ⚠️ ${modelName} rate limited after ${MAX_RETRIES} attempts. Trying next model...`);
+        } else if (isRetryable && isLastAttempt) {
+          console.log(`  ⚠️ ${modelName} failed after ${MAX_RETRIES} attempts (${err.status}). Trying next model...`);
           break; // Try next model
         } else {
           throw err; // Non-rate-limit error, fail immediately
