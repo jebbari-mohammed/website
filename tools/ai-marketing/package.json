@@ -1,0 +1,15 @@
+{
+  "name": "ai-marketing-tools",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AI-powered marketing tools for Your AI Coach",
+  "scripts": {
+    "blog": "node generate-blog.mjs",
+    "drafts": "node generate-drafts.mjs",
+    "publish": "node auto-publish.mjs",
+    "bulk-blog": "node bulk-blog.mjs"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0"
+  }
+}

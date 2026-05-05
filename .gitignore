@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+tools/ai-marketing/.env
+tools/ai-marketing/.daily-progress.json
+tools/ai-marketing/.blog-progress.json
+tools/ai-marketing/drafts/
+tools/ai-marketing/node_modules/
