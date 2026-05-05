@@ -1,0 +1,53 @@
+# Your AI Coach — robots.txt
+# Allow all AI crawlers and search engines full access
+
+# OpenAI / ChatGPT crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Google / Gemini crawlers
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+# Anthropic / Claude crawler
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity crawler
+User-agent: PerplexityBot
+Allow: /
+
+# Bing (ChatGPT search backend)
+User-agent: Bingbot
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+# Common AI training crawlers
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# All other bots
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://youraicoach.life/sitemap.xml
