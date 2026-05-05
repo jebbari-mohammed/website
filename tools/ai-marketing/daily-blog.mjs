@@ -148,7 +148,7 @@ async function generatePost(topic, apiKey) {
   const genAI = new GoogleGenerativeAI(apiKey);
 
   // Try multiple models in order of preference
-  const MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+  const MODELS = ['gemini-2.5-flash', 'gemini-3.1-flash-lite', 'gemini-2.5-flash-lite'];
   const MAX_RETRIES = 3;
 
   const prompt = `Write a comprehensive, human-sounding blog article about: "${topic}"
