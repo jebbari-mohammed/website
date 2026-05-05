@@ -146,7 +146,10 @@ function slugify(text) {
 
 async function generatePost(topic, apiKey) {
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+  // Try multiple models in order of preference
+  const MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+  const MAX_RETRIES = 3;
 
   const prompt = `Write a comprehensive, human-sounding blog article about: "${topic}"
 
@@ -161,24 +164,49 @@ Return ONLY valid JSON (no markdown fences) in this exact format:
   "content": "Full article body as HTML. Use <h2>, <h3>, <p>, <ul>, <li>, <strong>, <em>, <blockquote> tags. Include internal links to /best-ai-fitness-app, /vs-fitbod, /vs-future, /features/ai-voice-calls, /ai-fitness-coach where relevant. Do NOT include <html>, <head>, <body>, or <style> tags."
 }`;
 
-  const result = await model.generateContent({
-    contents: [{ role: 'user', parts: [{ text: prompt }] }],
-    systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-    generationConfig: {
-      temperature: 0.95, // Higher for more human-like writing
-      maxOutputTokens: 8192,
-      responseMimeType: 'application/json',
-    },
-  });
+  for (const modelName of MODELS) {
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        console.log(`  → Trying ${modelName} (attempt ${attempt}/${MAX_RETRIES})...`);
+        const model = genAI.getGenerativeModel({ model: modelName });
 
-  const text = result.response.text();
-  try {
-    return JSON.parse(text);
-  } catch {
-    const match = text.match(/\{[\s\S]*\}/);
-    if (match) return JSON.parse(match[0]);
-    throw new Error('Failed to parse response');
+        const result = await model.generateContent({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          generationConfig: {
+            temperature: 0.95,
+            maxOutputTokens: 8192,
+            responseMimeType: 'application/json',
+          },
+        });
+
+        const text = result.response.text();
+        try {
+          return JSON.parse(text);
+        } catch {
+          const match = text.match(/\{[\s\S]*\}/);
+          if (match) return JSON.parse(match[0]);
+          throw new Error('Failed to parse response');
+        }
+      } catch (err) {
+        const isRateLimit = err.status === 429 || err.message?.includes('429');
+        const isLastAttempt = attempt === MAX_RETRIES;
+
+        if (isRateLimit && !isLastAttempt) {
+          const waitSec = Math.pow(2, attempt) * 5; // 10s, 20s, 40s
+          console.log(`  ⏳ Rate limited. Waiting ${waitSec}s before retry...`);
+          await new Promise(r => setTimeout(r, waitSec * 1000));
+        } else if (isRateLimit && isLastAttempt) {
+          console.log(`  ⚠️ ${modelName} rate limited after ${MAX_RETRIES} attempts. Trying next model...`);
+          break; // Try next model
+        } else {
+          throw err; // Non-rate-limit error, fail immediately
+        }
+      }
+    }
   }
+
+  throw new Error('All models exhausted. Check your API key billing at https://aistudio.google.com/apikey');
 }
 
 function buildHTML(post) {
