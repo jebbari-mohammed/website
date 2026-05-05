@@ -1,9 +1,10 @@
 name: Daily Blog Post
 
 on:
-  # Runs every day at 8:00 AM UTC (9:00 AM Morocco time)
+  # Runs every day at 7:00 AM UTC (8:00 AM Morocco time)
+  # A random delay of 0-120 minutes is added before generating
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 7 * * *'
   # Also allow manual trigger from GitHub UI
   workflow_dispatch:
 
@@ -14,6 +15,13 @@ jobs:
   generate-blog:
     runs-on: ubuntu-latest
     steps:
+      - name: Random delay (0-120 min) for natural timing
+        if: github.event_name == 'schedule'
+        run: |
+          DELAY=$((RANDOM % 7200))
+          echo "⏳ Waiting ${DELAY} seconds ($(($DELAY / 60)) minutes) before publishing..."
+          sleep $DELAY
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
