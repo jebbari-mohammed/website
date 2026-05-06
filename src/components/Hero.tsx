@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { Phone, Star, Flame, Dumbbell } from 'lucide-react';
 
 export default function Hero() {
   const { scrollY } = useScroll();
@@ -46,22 +47,44 @@ export default function Hero() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            NEXT-GEN FITNESS AI
+            THE ONLY APP THAT CALLS YOU
           </motion.div>
 
-          <h1 className="text-6xl md:text-[84px] lg:text-[96px] font-black font-condensed leading-[0.9] tracking-tighter mb-6 relative z-10">
+          <h1 className="text-5xl md:text-[72px] lg:text-[84px] font-black font-condensed leading-[0.9] tracking-tighter mb-6 relative z-10">
             <span className="absolute -inset-4 bg-gradient-to-r from-primary/30 to-secondary/30 blur-3xl -z-10 opacity-50 rounded-[40px]"></span>
-            TRAIN SMARTER.<br />
+            YOUR AI COACH<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-              TRANSFORM FASTER.
+              CALLS YOU.
             </span>
           </h1>
 
-          <p className="text-lg md:text-[21px] text-textSecondary mb-10 max-w-[520px] leading-relaxed font-sans font-light">
-            AI-powered fitness guidance tailored precisely to your biometrics. <strong className="text-textPrimary font-medium">Personalized workout plans</strong>, smart meal generation, and 24/7 coaching in your pocket.
+          <p className="text-lg md:text-[20px] text-textSecondary mb-8 max-w-[540px] leading-relaxed font-sans font-light">
+            The only fitness app where your coach <strong className="text-textPrimary font-semibold">literally calls your phone</strong>. 
+            Before your workout to fire you up. After your day to review your progress. 
+            <span className="text-primary font-medium"> 24/7 personal coaching for almost free.</span>
           </p>
 
-          <div className="flex flex-wrap gap-4">
+          {/* Key highlights */}
+          <div className="flex flex-wrap gap-3 mb-8">
+            {[
+              { icon: Phone, text: "Real voice calls" },
+              { icon: Dumbbell, text: "Custom programs" },
+              { icon: Star, text: "AI meal plans" },
+            ].map((item, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 + idx * 0.1 }}
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-textSecondary"
+              >
+                <item.icon size={14} className="text-primary" />
+                {item.text}
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-4 mb-8">
             <motion.a
               whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(0,212,255,0.4)" }}
               whileTap={{ scale: 0.95 }}
@@ -89,6 +112,18 @@ export default function Hero() {
               </div>
             </motion.a>
           </div>
+
+          {/* Social proof bar */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 0.6 }}
+            className="flex flex-wrap gap-6 text-sm text-textSecondary/70"
+          >
+            <span className="flex items-center gap-1.5"><Flame size={14} className="text-cta" /> 24/7 AI coaching</span>
+            <span className="flex items-center gap-1.5"><Star size={14} className="text-yellow-400" /> 13 intelligence modules</span>
+            <span className="flex items-center gap-1.5"><Phone size={14} className="text-primary" /> Real phone calls</span>
+          </motion.div>
         </motion.div>
 
         <div className="hidden lg:block relative h-[600px] w-full" style={{ perspective: "1000px" }}>
@@ -100,6 +135,8 @@ export default function Hero() {
             className="absolute top-10 right-10 w-[280px] h-[580px] rounded-[48px] bg-bgPrimary border-[2px] border-white/20 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.8),_inset_0_0_20px_rgba(255,255,255,0.05)] z-20"
             whileHover={{ scale: 1.02, rotateY: -5, rotateX: 5 }}
           >
+            {/* Ringing pulse effect */}
+            <div className="absolute -inset-3 rounded-[56px] bg-gradient-to-r from-primary/30 to-secondary/30 blur-xl animate-pulse opacity-60 pointer-events-none" />
             <div className="w-full h-full rounded-[38px] border border-white/5 overflow-hidden bg-black relative">
               <img src="/images/hero1.png" alt="Your AI Coach interface" className="w-full h-full object-cover" loading="eager" fetchPriority="high" decoding="async" />
             </div>

@@ -1,198 +1,129 @@
 import { motion } from 'framer-motion';
-import { Bot, Utensils, ScanFace, PhoneCall, Flame, ShieldCheck } from 'lucide-react';
+import { Phone, Dumbbell, Utensils, Camera, Brain, ShieldCheck } from 'lucide-react';
+
+const features = [
+  {
+    icon: Phone,
+    title: "Proactive Voice Calls",
+    subtitle: "Your coach calls YOU",
+    desc: "Not a chatbot. Not a notification. Your AI coach literally calls your phone via real VoIP voice calls. Before the gym to remind and motivate you. End of day to review your workouts and plan tomorrow. Two-way conversation — you talk, your coach listens and responds.",
+    gradient: "from-primary to-blue-500",
+    span: "md:col-span-2",
+    image: "/images/hero-call.png",
+  },
+  {
+    icon: Dumbbell,
+    title: "AI Workout Generator",
+    subtitle: "Built for YOUR body",
+    desc: "After scanning your body and learning your goals, AI generates a complete personalized program. Progressive overload with Epley 1RM tracking and plateau detection.",
+    gradient: "from-secondary to-purple-500",
+    span: "",
+  },
+  {
+    icon: Utensils,
+    title: "Region-Aware Meals",
+    subtitle: "Your culture, your macros",
+    desc: "Moroccan? Get tagine with the right protein. Japanese? Get donburi. High protein, easy to make, absolutely delicious — not generic \"chicken and rice\" templates.",
+    gradient: "from-cta to-emerald-500",
+    span: "",
+  },
+  {
+    icon: Camera,
+    title: "Food & Body Scanning",
+    subtitle: "Point your camera, get answers",
+    desc: "Take a photo of your meal — instant calorie and protein analysis. Scan your body anytime for composition tracking with progress deltas over time. No manual logging ever.",
+    gradient: "from-amber-500 to-orange-500",
+    span: "md:col-span-2",
+    image: "/images/food-scan.png",
+  },
+  {
+    icon: Brain,
+    title: "13 Intelligence Modules",
+    subtitle: "A relationship engine",
+    desc: "Anti-skip detector, dark moment protocol, behavioral profiling, communication DNA, milestone detection, memory manager, personality engine — your coach remembers everything.",
+    gradient: "from-primary to-secondary",
+    span: "",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Safety-First Design",
+    subtitle: "Built with responsibility",
+    desc: "Eating disorder detection. Never uses toxic language like \"cheat meal\" or \"earn your food.\" Calorie floors prevent dangerous prescriptions. Your mental health matters.",
+    gradient: "from-rose-500 to-pink-500",
+    span: "",
+  },
+];
 
 export default function Features() {
-    return (
-        <section id="features" className="py-[120px] px-6 relative overflow-hidden">
-            {/* Background decorations */}
-            <div className="absolute top-1/4 left-0 w-1/3 h-1/2 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-1/4 h-1/3 bg-secondary/5 blur-[100px] rounded-full pointer-events-none" />
+  return (
+    <section id="features" className="py-16 sm:py-[120px] px-4 sm:px-6 relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute top-1/4 left-0 w-1/3 h-1/2 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-1/4 h-1/3 bg-secondary/5 blur-[100px] rounded-full pointer-events-none" />
 
-            <div className="max-w-7xl mx-auto w-full relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-16"
-                >
-                    <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-[12px] text-primary font-bold uppercase tracking-[2px] mb-6 backdrop-blur-md">
-                        ✦ Core Capabilities
-                    </div>
-                    <h2 className="text-5xl md:text-7xl font-extrabold font-condensed leading-[1.05] tracking-tighter">
-                        PRO-GRADE TOOLKIT.<br />
-                        <span className="text-textSecondary">ZERO FLUFF.</span>
-                    </h2>
-                </motion.div>
+      <div className="max-w-7xl mx-auto w-full relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="mb-10 sm:mb-16"
+        >
+          <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-[11px] sm:text-[12px] text-primary font-bold uppercase tracking-[2px] mb-6 backdrop-blur-md">
+            ✦ Everything You Need
+          </div>
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-extrabold font-condensed leading-[1.05] tracking-tighter">
+            NOT JUST AN APP.<br />
+            <span className="text-textSecondary">A REAL COACH.</span>
+          </h2>
+        </motion.div>
 
-                {/* Bento Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+        {/* Bento Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
+          {features.map((feature, idx) => {
+            const Icon = feature.icon;
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                className={`${feature.span || ''} bg-[#0C1232]/80 border border-white/10 rounded-[24px] sm:rounded-[28px] p-6 sm:p-8 relative overflow-hidden group hover:border-primary/30 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,212,255,0.08)]`}
+              >
+                {/* Ambient glow on hover */}
+                <div className={`absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br ${feature.gradient} blur-[80px] rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none`} />
 
-                    {/* 1. Large Feature - AI Workout */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 0.5 }}
-                        className="md:col-span-2 md:row-span-2 bg-[#0C1232]/80 border border-white/10 rounded-[32px] p-10 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,212,255,0.15)] flex flex-col justify-end"
-                    >
-                        {/* Peeking Image Visual */}
-                        <div className="absolute -right-10 top-20 w-[240px] h-[520px] rounded-[36px] bg-black border-4 border-white/10 overflow-hidden shadow-2xl rotate-[8deg] group-hover:rotate-[4deg] group-hover:-translate-x-6 group-hover:scale-105 transition-all duration-700 hidden sm:block z-0 opacity-90 group-hover:opacity-100">
-                            <img src="/images/hero1.png" alt="Workout Generator Interface" className="w-full h-full object-cover" loading="lazy" decoding="async" />
-                            {/* Image Gradient Overlay for blending */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        </div>
+                {/* Feature image for wide cards */}
+                {feature.image && (
+                  <div className="absolute -right-4 sm:-right-2 top-4 sm:top-2 w-[140px] sm:w-[200px] h-[140px] sm:h-[200px] rounded-2xl overflow-hidden opacity-30 sm:opacity-50 group-hover:opacity-70 transition-opacity duration-500 z-0">
+                    <img src={feature.image} alt={feature.title} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                    <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#0C1232]" />
+                  </div>
+                )}
 
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#0C1232] via-[#0C1232]/90 to-transparent sm:w-[70%] z-0" />
-                        <div className="absolute -top-32 -left-32 w-80 h-80 bg-gradient-to-br from-primary/20 to-transparent blur-3xl rounded-full group-hover:scale-110 transition-transform duration-700" />
-
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-6 relative z-10 shadow-lg shadow-primary/20">
-                            <Bot className="text-white" size={28} />
-                        </div>
-                        <h3 className="text-4xl font-black font-condensed tracking-tight mb-3 relative z-10 text-white">Intelligent Workout Generation</h3>
-                        <p className="text-base text-textSecondary leading-relaxed max-w-sm relative z-10 font-light">
-                            Fully personalized workout programs generated by advanced AI. Tailored directly to your current fitness level, mechanical goals, available equipment, and weekly schedule constraints.
-                        </p>
-                    </motion.div>
-
-                    {/* 2. Small Feature - AI Meal */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        className="bg-[#0C1232]/80 border border-white/10 rounded-[32px] p-8 relative overflow-hidden group hover:bg-[#131A42]/90 transition-all duration-300"
-                    >
-                        {/* Visual: Macro Ring Chart */}
-                        <div className="absolute top-8 right-8 w-16 h-16 rounded-full border-[6px] border-white/5 border-t-secondary border-r-primary rotate-45 group-hover:rotate-[225deg] transition-all duration-700 opacity-40 z-0"></div>
-
-                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-secondary/20 group-hover:text-secondary group-hover:border-secondary/30 transition-all duration-300 relative z-10">
-                            <Utensils className="text-textSecondary group-hover:text-secondary transition-colors" size={24} />
-                        </div>
-                        <h3 className="text-[22px] font-bold font-condensed mb-2 relative z-10 text-white">Macro-Aligned Meals</h3>
-                        <p className="text-[14px] text-textSecondary leading-relaxed font-light relative z-10">
-                            Nutrition blueprints precisely calculated for your exact basal metabolic rate. Regenerate anytime.
-                        </p>
-                    </motion.div>
-
-                    {/* 3. Small Feature - Scan */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="bg-[#0C1232]/80 border border-white/10 rounded-[32px] p-8 relative overflow-hidden group hover:bg-[#131A42]/90 transition-all duration-300"
-                    >
-                        {/* Visual: Scanning Laser */}
-                        <div className="absolute top-1/2 right-6 w-20 h-20 border border-white/5 rounded-lg opacity-40 overflow-hidden flex items-center justify-center z-0">
-                            <ScanFace size={40} className="text-white/10" />
-                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/40 to-transparent h-1.5 w-full -translate-y-10 group-hover:animate-[scan_2s_ease-in-out_infinite]" />
-                        </div>
-
-                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 group-hover:text-primary group-hover:border-primary/30 transition-all duration-300 relative z-10">
-                            <ScanFace className="text-textSecondary group-hover:text-primary transition-colors" size={24} />
-                        </div>
-                        <h3 className="text-[22px] font-bold font-condensed mb-2 relative z-10 text-white">Visual Biometrics</h3>
-                        <p className="text-[14px] text-textSecondary leading-relaxed font-light relative z-10">
-                            Upload photos for instant posture analysis and nutritional scanning. Privately processed, never stored.
-                        </p>
-                    </motion.div>
-
-                    {/* 4. Small Feature - Voice Calls */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        className="bg-[#0C1232]/80 border border-white/10 rounded-[32px] p-8 relative overflow-hidden group hover:bg-[#131A42]/90 transition-all duration-300"
-                    >
-                        {/* Visual: Sound Waves */}
-                        <div className="absolute top-1/2 right-8 flex items-center gap-1.5 opacity-30 group-hover:opacity-80 transition-opacity z-0 transform -translate-y-1/2">
-                            <div className="w-1 h-4 bg-primary rounded-full group-hover:animate-[sound_1s_ease-in-out_infinite_0.1s]" />
-                            <div className="w-1.5 h-8 bg-secondary rounded-full group-hover:animate-[sound_1s_ease-in-out_infinite_0.2s]" />
-                            <div className="w-1.5 h-12 bg-primary rounded-full group-hover:animate-[sound_1s_ease-in-out_infinite_0.3s]" />
-                            <div className="w-1.5 h-7 bg-secondary rounded-full group-hover:animate-[sound_1s_ease-in-out_infinite_0.4s]" />
-                            <div className="w-1 h-5 bg-primary rounded-full group-hover:animate-[sound_1s_ease-in-out_infinite_0.5s]" />
-                        </div>
-
-                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 group-hover:border-primary/30 transition-all duration-300 relative z-10 shadow-[0_0_15px_rgba(0,212,255,0)] group-hover:shadow-[0_0_20px_rgba(0,212,255,0.2)]">
-                            <PhoneCall className="text-textSecondary group-hover:text-primary transition-colors" size={24} />
-                        </div>
-                        <h3 className="text-[22px] font-bold font-condensed mb-2 relative z-10 text-white">Proactive AI Calls</h3>
-                        <p className="text-[14px] text-textSecondary leading-relaxed font-light relative z-10">
-                            Your coach literally calls your phone to remind you of sessions, review your day, and keep you strictly accountable.
-                        </p>
-                    </motion.div>
-
-                    {/* 5. Medium Feature - Streak (Spans 2 columns, short row) */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                        className="md:col-span-2 bg-[#0C1232]/80 border border-white/10 rounded-[32px] p-8 relative overflow-hidden group hover:border-cta/40 transition-all duration-500"
-                    >
-                        {/* Ambient Glow */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-cta/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
-
-                        {/* Peeking Image Visual on the far right */}
-                        <div className="absolute -right-20 -bottom-32 w-[260px] h-[360px] rounded-[36px] bg-black border-4 border-white/10 overflow-hidden shadow-2xl -rotate-[10deg] group-hover:-rotate-[5deg] group-hover:-translate-y-4 group-hover:scale-105 transition-all duration-700 hidden sm:block z-0 opacity-80 group-hover:opacity-100">
-                            <img src="/images/hero2.png" alt="Streak Dashboard" className="w-full h-full object-cover object-top" loading="lazy" decoding="async" />
-                        </div>
-
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 h-full relative z-10 sm:max-w-[50%]">
-                            <div className="w-20 h-20 shrink-0 rounded-2xl bg-gradient-to-br from-cta/20 to-cta/5 border border-cta/30 flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.15)] group-hover:scale-110 transition-transform duration-500">
-                                <Flame className="text-cta" size={36} fill="currentColor" />
-                            </div>
-                            <div>
-                                <h3 className="text-3xl font-bold font-condensed mb-2 text-white">Unbreakable Tracking</h3>
-                                <p className="text-[15px] text-textSecondary leading-relaxed font-light">
-                                    Gamified streak tracking, lifetime volume analytics, and adaptive notifications.
-                                </p>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    {/* 6. Wide Feature - Privacy (Full Width Row) */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 0.5, delay: 0.5 }}
-                        className="md:col-span-3 rounded-[32px] p-[1px] bg-gradient-to-r from-bgPrimary via-white/20 to-bgPrimary overflow-hidden"
-                    >
-                        <div className="w-full h-full bg-[#0C1232] rounded-[31px] p-6 sm:p-8 flex flex-col md:flex-row items-center gap-6 md:gap-10 justify-between group hover:bg-gradient-to-r hover:from-[#131A42] hover:to-[#0C1232] transition-colors duration-500">
-                            <div className="flex items-center gap-6">
-                                <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 shrink-0 group-hover:bg-white/10 transition-colors duration-300">
-                                    <ShieldCheck size={28} className="text-white" />
-                                </div>
-                                <div>
-                                    <h3 className="text-[22px] font-bold font-condensed mb-1 text-white">Military-Grade Privacy</h3>
-                                    <p className="text-sm text-textSecondary font-light">End-to-end encryption. No data selling. Instant account deletion inside the app.</p>
-                                </div>
-                            </div>
-                            <a href="#data" className="px-8 py-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white text-textSecondary hover:text-black text-[13px] font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap">
-                                Read Our Policy
-                            </a>
-                        </div>
-                    </motion.div>
-
+                {/* Icon */}
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-4 sm:mb-5 relative z-10 shadow-lg`}>
+                  <Icon className="text-white" size={24} />
                 </div>
-            </div>
 
-            {/* CSS Animation for scanning line */}
-            <style>{`
-        @keyframes scan {
-          0% { transform: translateY(-10px); opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { transform: translateY(40px); opacity: 0; }
-        }
-        @keyframes sound {
-          0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
-          50% { transform: scaleY(1.2); opacity: 1; }
-        }
-      `}</style>
-        </section>
-    );
+                {/* Content */}
+                <div className="relative z-10">
+                  <h3 className="text-xl sm:text-2xl font-black font-condensed tracking-tight mb-1 text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="text-primary text-xs sm:text-sm font-semibold mb-3 uppercase tracking-wider">
+                    {feature.subtitle}
+                  </p>
+                  <p className="text-sm sm:text-[15px] text-textSecondary leading-relaxed font-light">
+                    {feature.desc}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
 }

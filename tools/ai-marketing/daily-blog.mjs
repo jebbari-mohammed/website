@@ -147,8 +147,9 @@ function slugify(text) {
 async function generatePost(topic, apiKey) {
   const genAI = new GoogleGenerativeAI(apiKey);
 
-  // Try multiple models in order of preference
-  const MODELS = ['gemini-2.5-flash', 'gemini-3.1-flash-lite', 'gemini-2.5-flash-lite'];
+  // Try multiple models in order of preference (correct API identifiers)
+  // See https://ai.google.dev/gemini-api/docs/models for valid names
+  const MODELS = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemma-3-27b'];
   const MAX_RETRIES = 3;
 
   const prompt = `Write a comprehensive, human-sounding blog article about: "${topic}"
@@ -194,9 +195,14 @@ Return ONLY valid JSON (no markdown fences) in this exact format:
                            err.message?.includes('Service Unavailable') ||
                            err.message?.includes('overloaded') ||
                            err.message?.includes('high demand');
+        const isModelError = err.status === 404 || err.status === 400;
         const isLastAttempt = attempt === MAX_RETRIES;
 
-        if (isRetryable && !isLastAttempt) {
+        if (isModelError) {
+          // Model doesn't exist or doesn't support this method — skip immediately
+          console.log(`  ⚠️ ${modelName} not available (${err.status}). Trying next model...`);
+          break;
+        } else if (isRetryable && !isLastAttempt) {
           const waitSec = Math.pow(2, attempt) * 5; // 10s, 20s, 40s
           console.log(`  ⏳ Error ${err.status}. Waiting ${waitSec}s before retry...`);
           await new Promise(r => setTimeout(r, waitSec * 1000));
@@ -204,7 +210,7 @@ Return ONLY valid JSON (no markdown fences) in this exact format:
           console.log(`  ⚠️ ${modelName} failed after ${MAX_RETRIES} attempts (${err.status}). Trying next model...`);
           break; // Try next model
         } else {
-          throw err; // Non-rate-limit error, fail immediately
+          throw err; // Unknown error, fail immediately
         }
       }
     }
