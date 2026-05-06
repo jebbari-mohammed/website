@@ -18,9 +18,24 @@ const PROGRESS_FILE = path.join(__dirname, '.daily-progress.json');
 const TRANSLATION_FILE = path.join(__dirname, '.translation-progress.json');
 
 const LANGUAGES = [
-  { code: 'fr', name: 'French', dir: 'ltr', label: 'Français' },
-  { code: 'es', name: 'Spanish', dir: 'ltr', label: 'Español' },
-  { code: 'ar', name: 'Arabic', dir: 'rtl', label: 'العربية' },
+  { code: 'fr', name: 'French', dir: 'ltr', label: 'Français',
+    locale: 'France', food: 'quiche, ratatouille, crêpes protéinées', units: 'metric (kg, cm)', culture: 'French gym culture values aesthetics, functional fitness, and outdoor sports. Reference HIIT studios in Paris, CrossFit popularity.' },
+  { code: 'es', name: 'Spanish', dir: 'ltr', label: 'Español',
+    locale: 'Spain and Latin America', food: 'tortilla española, garbanzos, pollo con arroz integral', units: 'metric (kg, cm)', culture: 'Fitness culture varies — Spain loves padel and functional training, Latin America has huge bodybuilding and calisthenics communities.' },
+  { code: 'ar', name: 'Arabic', dir: 'rtl', label: 'العربية',
+    locale: 'Morocco, Middle East, North Africa', food: 'couscous, tajine, harira, msemen, dates', units: 'metric (kg, cm)', culture: 'Working out during Ramadan is huge. Reference gym culture in Dubai, Casablanca, Cairo. Mention halal nutrition naturally.' },
+  { code: 'pt', name: 'Portuguese', dir: 'ltr', label: 'Português',
+    locale: 'Brazil', food: 'açaí, frango com batata doce, pão de queijo, feijão', units: 'metric (kg, cm)', culture: 'Brazil is the #2 fitness market in the world. Reference beach body culture, CrossFit boxes, Bodytech gyms. Brazilians love group fitness and outdoor training.' },
+  { code: 'de', name: 'German', dir: 'ltr', label: 'Deutsch',
+    locale: 'Germany, Austria, Switzerland', food: 'Quark, Vollkornbrot, Hähnchenbrust, Magerquark mit Beeren', units: 'metric (kg, cm)', culture: 'Germans value efficiency, data, and structured programs. Reference McFit, FitX gyms. Precision and science-based training resonates strongly.' },
+  { code: 'hi', name: 'Hindi', dir: 'ltr', label: 'हिन्दी',
+    locale: 'India', food: 'paneer, dal, chana, roti, rajma, sprouts', units: 'metric (kg, cm)', culture: 'India has a massive fitness boom — reference Cult.fit, Gold Gym India. Vegetarian protein sources are essential. Cricket fitness crossover is popular.' },
+  { code: 'tr', name: 'Turkish', dir: 'ltr', label: 'Türkçe',
+    locale: 'Turkey', food: 'mercimek çorbası, yulaf, tavuk göğsü, yoğurt', units: 'metric (kg, cm)', culture: 'Turkish fitness culture is exploding — reference MAC gyms, Istanbul fitness scene. Ramadan training is relevant. Turkish people value community and accountability.' },
+  { code: 'id', name: 'Indonesian', dir: 'ltr', label: 'Bahasa Indonesia',
+    locale: 'Indonesia', food: 'tempe, tahu, nasi merah, ayam dada, telur rebus', units: 'metric (kg, cm)', culture: 'Indonesia has 270M people and a fast-growing fitness market. Reference Celebrity Fitness, Gold Gym Indonesia. Home workouts are hugely popular due to traffic.' },
+  { code: 'ja', name: 'Japanese', dir: 'ltr', label: '日本語',
+    locale: 'Japan', food: 'natto, edamame, tofu, grilled fish, brown rice', units: 'metric (kg, cm)', culture: 'Japan has the highest app spend per user globally. Reference Anytime Fitness Japan, RIZAP. Japanese value discipline, consistency, and kaizen (continuous improvement).' },
 ];
 
 function loadTranslationProgress() {
@@ -38,17 +53,27 @@ async function translatePost(post, lang, apiKey) {
   const genAI = new GoogleGenerativeAI(apiKey);
   const MODELS = ['gemini-3.1-flash-lite-preview', 'gemini-2.5-flash'];
   
-  const prompt = `Translate this fitness blog article into ${lang.name}. 
-DO NOT translate word-for-word. Write it naturally as a native ${lang.name} speaker would write it.
-Keep the same structure (H2, H3, paragraphs, lists, blockquotes, tables).
-Keep HTML tags intact. Keep all URLs/links unchanged.
-Keep brand names unchanged: "Your AI Coach", "Fitbod", "Future", "Freeletics".
+  const prompt = `You are a fitness journalist who was born and raised in ${lang.locale}. You write for the biggest health and fitness publication in your country. You are writing this article in ${lang.name} for a local audience.
+
+DO NOT TRANSLATE. REWRITE this article as if YOU wrote it originally in ${lang.name} for readers in ${lang.locale}.
+
+LOCALIZATION RULES:
+1. Write like a NATIVE ${lang.name} speaker — use natural expressions, local slang, and cultural references
+2. Replace ALL food examples with local equivalents: use ${lang.food} instead of generic Western foods
+3. Use ${lang.units} measurements throughout
+4. Reference local fitness culture: ${lang.culture}
+5. Keep the same structure (H2, H3, paragraphs, lists, blockquotes, tables) and similar length
+6. Keep HTML tags intact. Keep all URLs/links unchanged
+7. Keep brand names unchanged: "Your AI Coach", "Fitbod", "Future", "Freeletics"
+8. The tone should feel like a local expert talking to a friend — warm, knowledgeable, culturally aware
+9. Include at least one local cultural reference that a translator would NEVER include
+10. If mentioning meals or recipes, use meals that people in ${lang.locale} actually eat daily
 
 Return ONLY valid JSON:
 {
-  "title": "Translated title",
-  "metaDescription": "Translated meta description (150-155 chars)",
-  "content": "Translated HTML content"
+  "title": "Localized title that would grab a ${lang.name}-speaking reader",
+  "metaDescription": "Localized meta description (150-155 chars)",
+  "content": "Localized HTML content — NOT a translation, a native rewrite"
 }
 
 ORIGINAL TITLE: ${post.title}
@@ -93,6 +118,19 @@ function buildTranslatedHTML(original, translated, lang, slug) {
   const dirAttr = lang.dir === 'rtl' ? ' dir="rtl"' : '';
   const rtlStyles = lang.dir === 'rtl' ? 'text-align:right;' : '';
 
+  // Dynamic hreflang tags for all languages
+  const hreflangTags = [
+    `    <link rel="alternate" hreflang="en" href="https://youraicoach.life/blog/${slug}" />`,
+    ...LANGUAGES.map(l => `    <link rel="alternate" hreflang="${l.code}" href="https://youraicoach.life/blog/${l.code}/${slug}" />`),
+    `    <link rel="alternate" hreflang="x-default" href="https://youraicoach.life/blog/${slug}" />`,
+  ].join('\n');
+
+  // Dynamic language switcher
+  const langLinks = [
+    `<a href="/blog/${slug}">English</a>`,
+    ...LANGUAGES.map(l => `<a href="/blog/${l.code}/${slug}">${l.label}</a>`),
+  ].join(' | ');
+
   return `<!DOCTYPE html>
 <html lang="${lang.code}"${dirAttr}>
 <head>
@@ -101,11 +139,7 @@ function buildTranslatedHTML(original, translated, lang, slug) {
     <title>${translated.title} | Your AI Coach</title>
     <meta name="description" content="${translated.metaDescription}">
     <link rel="canonical" href="https://youraicoach.life/blog/${lang.code}/${slug}" />
-    <link rel="alternate" hreflang="en" href="https://youraicoach.life/blog/${slug}" />
-    <link rel="alternate" hreflang="fr" href="https://youraicoach.life/blog/fr/${slug}" />
-    <link rel="alternate" hreflang="es" href="https://youraicoach.life/blog/es/${slug}" />
-    <link rel="alternate" hreflang="ar" href="https://youraicoach.life/blog/ar/${slug}" />
-    <link rel="alternate" hreflang="x-default" href="https://youraicoach.life/blog/${slug}" />
+${hreflangTags}
     <meta property="og:title" content="${translated.title}">
     <meta property="og:url" content="https://youraicoach.life/blog/${lang.code}/${slug}">
     <meta property="og:type" content="article">
@@ -148,17 +182,12 @@ function buildTranslatedHTML(original, translated, lang, slug) {
         .meta{font-family:'Segoe UI',system-ui,sans-serif;color:#64748B;font-size:0.9rem;margin-bottom:40px}
         .cta-box{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,rgba(0,212,255,0.08),rgba(124,92,252,0.08));border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:28px;margin:48px 0;text-align:center}
         .cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;text-decoration:none;border:none;margin:4px 8px}
-        .lang-switcher{font-family:'Segoe UI',system-ui,sans-serif;text-align:center;padding:8px;font-size:0.85rem;color:#64748B}
-        .lang-switcher a{color:#94A3B8;border:none;margin:0 6px}
+        .lang-switcher{font-family:'Segoe UI',system-ui,sans-serif;text-align:center;padding:8px;font-size:0.8rem;color:#64748B;overflow-x:auto;white-space:nowrap}
+        .lang-switcher a{color:#94A3B8;border:none;margin:0 4px}
     </style>
 </head>
 <body>
-<div class="lang-switcher">
-    <a href="/blog/${slug}">English</a> |
-    <a href="/blog/fr/${slug}">Français</a> |
-    <a href="/blog/es/${slug}">Español</a> |
-    <a href="/blog/ar/${slug}">العربية</a>
-</div>
+<div class="lang-switcher">${langLinks}</div>
 <nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Your AI Coach</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;border:none">← Blog</a></div></nav>
 <article>
     <h1>${translated.title}</h1>

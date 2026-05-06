@@ -55,3 +55,9 @@ Sitemap: https://youraicoach.life/news-sitemap.xml
 Sitemap: https://youraicoach.life/sitemap-fr.xml
 Sitemap: https://youraicoach.life/sitemap-es.xml
 Sitemap: https://youraicoach.life/sitemap-ar.xml
+Sitemap: https://youraicoach.life/sitemap-pt.xml
+Sitemap: https://youraicoach.life/sitemap-de.xml
+Sitemap: https://youraicoach.life/sitemap-hi.xml
+Sitemap: https://youraicoach.life/sitemap-tr.xml
+Sitemap: https://youraicoach.life/sitemap-id.xml
+Sitemap: https://youraicoach.life/sitemap-ja.xml

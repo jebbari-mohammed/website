@@ -654,6 +654,12 @@ function buildHTML(post) {
     <link rel="alternate" hreflang="fr" href="https://youraicoach.life/blog/fr/${post.slug}" />
     <link rel="alternate" hreflang="es" href="https://youraicoach.life/blog/es/${post.slug}" />
     <link rel="alternate" hreflang="ar" href="https://youraicoach.life/blog/ar/${post.slug}" />
+    <link rel="alternate" hreflang="pt" href="https://youraicoach.life/blog/pt/${post.slug}" />
+    <link rel="alternate" hreflang="de" href="https://youraicoach.life/blog/de/${post.slug}" />
+    <link rel="alternate" hreflang="hi" href="https://youraicoach.life/blog/hi/${post.slug}" />
+    <link rel="alternate" hreflang="tr" href="https://youraicoach.life/blog/tr/${post.slug}" />
+    <link rel="alternate" hreflang="id" href="https://youraicoach.life/blog/id/${post.slug}" />
+    <link rel="alternate" hreflang="ja" href="https://youraicoach.life/blog/ja/${post.slug}" />
     <link rel="alternate" hreflang="x-default" href="https://youraicoach.life/blog/${post.slug}" />
     <link rel="alternate" type="application/rss+xml" title="Your AI Coach Blog" href="https://youraicoach.life/blog/feed.xml" />
     <script type="application/ld+json">
