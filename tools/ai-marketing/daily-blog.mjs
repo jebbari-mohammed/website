@@ -128,7 +128,32 @@ function loadProgress() {
   if (fs.existsSync(PROGRESS_FILE)) {
     return JSON.parse(fs.readFileSync(PROGRESS_FILE, 'utf-8'));
   }
-  return { generated: [], lastRun: null };
+  // Fallback: rebuild progress from existing blog HTML files
+  const progress = { generated: [], lastRun: null };
+  if (fs.existsSync(BLOG_DIR)) {
+    const files = fs.readdirSync(BLOG_DIR).filter(f => f.endsWith('.html') && f !== 'index.html');
+    for (const file of files) {
+      const slug = file.replace('.html', '');
+      const html = fs.readFileSync(path.join(BLOG_DIR, file), 'utf-8');
+      const titleMatch = html.match(/<title>([^|]+)\|/);
+      const descMatch = html.match(/<meta name="description" content="([^"]+)"/);
+      const dateMatch = html.match(/"datePublished":\s*"([^"]+)"/);
+      // Try to find the matching keyword
+      const keyword = KEYWORD_QUEUE.find(k => slug.includes(slugify(k).substring(0, 20))) || slug;
+      progress.generated.push({
+        keyword,
+        slug,
+        title: titleMatch ? titleMatch[1].trim() : slug,
+        description: descMatch ? descMatch[1] : '',
+        date: dateMatch ? dateMatch[1] : new Date().toISOString().split('T')[0],
+      });
+    }
+    if (progress.generated.length > 0) {
+      console.log(`  ℹ️ Rebuilt progress from ${progress.generated.length} existing blog files`);
+      saveProgress(progress);
+    }
+  }
+  return progress;
 }
 
 function saveProgress(progress) {

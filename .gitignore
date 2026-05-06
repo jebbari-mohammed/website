@@ -23,7 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 tools/ai-marketing/.env
-tools/ai-marketing/.daily-progress.json
-tools/ai-marketing/.blog-progress.json
+# Progress files are tracked (needed by CI)
+# tools/ai-marketing/.daily-progress.json
 tools/ai-marketing/drafts/
 tools/ai-marketing/node_modules/
