@@ -571,21 +571,37 @@ async function main() {
     return;
   }
 
-  // Pick next review from queue (cycle through monthly)
+  // Pick next review — FIRST check AI-generated queue, THEN fall back to static queue
   const completedSlugs = new Set(progress.completed.map(c => c.slug));
-  let review = REVIEW_QUEUE.find(r => !completedSlugs.has(r.slug));
+  let review = null;
+  let source = '';
 
-  // If all 30 are done, reset and start over
+  // Priority 1: Use AI-generated queue from analyze-performance.mjs
+  if (progress.autoQueue && progress.autoQueue.length > 0) {
+    review = progress.autoQueue.find(r => !completedSlugs.has(r.slug));
+    if (review) source = '🧠 AI-generated';
+  }
+
+  // Priority 2: Fall back to static 30-title queue
   if (!review) {
-    console.log('♻️  All 30 reviews completed — resetting queue for next cycle');
+    review = REVIEW_QUEUE.find(r => !completedSlugs.has(r.slug));
+    if (review) source = '📋 Static queue';
+  }
+
+  // Priority 3: All done — reset and start over
+  if (!review) {
+    console.log('♻️  All reviews completed — resetting queue for next cycle');
     progress.completed = [];
+    progress.autoQueue = [];
     review = REVIEW_QUEUE[0];
+    source = '♻️ Reset';
   }
 
   const outputFile = path.join(PODCAST_DIR, `${review.slug}.mp4`);
 
   console.log(`📝 Today's review: "${review.title}"`);
   console.log(`   Type: ${review.type}`);
+  console.log(`   Source: ${source}`);
   console.log(`   Slug: ${review.slug}\n`);
 
   // Start NotebookLM MCP
