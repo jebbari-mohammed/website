@@ -27,3 +27,8 @@ tools/ai-marketing/.env
 # tools/ai-marketing/.daily-progress.json
 tools/ai-marketing/drafts/
 tools/ai-marketing/node_modules/
+
+# Generated podcast/review videos (too large for git)
+public/podcasts/*.mp4
+public/podcasts/*.m4a
+tools/ai-marketing/.review-progress.json
