@@ -29,7 +29,7 @@ export default function FinalCTA() {
             className="text-base sm:text-xl md:text-2xl text-textSecondary max-w-[700px] mx-auto leading-relaxed font-light mb-8 sm:mb-12 px-2"
           >
             Get a coach who <strong className="text-textPrimary font-semibold">knows you</strong>, <strong className="text-textPrimary font-semibold">calls you</strong>, 
-            builds your workouts, plans your meals, and <strong className="text-primary font-semibold">never gives up on you</strong> — for almost free.
+            builds your workouts, plans your meals, and <strong className="text-primary font-semibold">never gives up on you</strong> — for a fraction of the cost of a human trainer.
           </motion.p>
 
           <motion.div
@@ -75,7 +75,7 @@ export default function FinalCTA() {
             transition={{ delay: 0.7, duration: 0.6 }}
             className="flex flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-textSecondary/50"
           >
-            <span>✓ Free to download</span>
+            <span>✓ Start for free</span>
             <span>✓ No credit card</span>
             <span>✓ iOS & Android</span>
             <span>✓ Cancel anytime</span>

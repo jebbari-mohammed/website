@@ -82,7 +82,7 @@ export default function Comparison() {
             <p className="text-sm font-bold text-textPrimary mb-3">Monthly Price</p>
             <div className="grid grid-cols-4 gap-2 text-center">
               <div>
-                <span className="text-sm font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">~Free</span>
+                <span className="text-sm font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Freemium</span>
               </div>
               <div><span className="text-xs text-textSecondary/50">$15/mo</span></div>
               <div><span className="text-xs text-textSecondary/50">$150/mo</span></div>
@@ -105,7 +105,7 @@ export default function Comparison() {
               <div className="p-4"></div>
               <div className="p-4 text-center">
                 <span className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary block">Your AI Coach</span>
-                <span className="text-[11px] text-cta font-semibold">~Free</span>
+                <span className="text-[11px] text-cta font-semibold">Freemium</span>
               </div>
               <div className="p-4 text-center">
                 <span className="text-sm font-medium text-textSecondary block">Fitbod</span>
@@ -147,7 +147,7 @@ export default function Comparison() {
             <div className="grid grid-cols-5 gap-0 mt-4 pt-4 border-t border-white/10">
               <div className="p-4"><span className="text-sm font-bold text-textPrimary">Monthly Price</span></div>
               <div className="p-4 flex items-center justify-center bg-primary/[0.03] border-x border-primary/10">
-                <span className="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">~Free</span>
+                <span className="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Freemium</span>
               </div>
               <div className="p-4 text-center"><span className="text-sm text-textSecondary/60">$15/mo</span></div>
               <div className="p-4 text-center"><span className="text-sm text-textSecondary/60">$150/mo</span></div>

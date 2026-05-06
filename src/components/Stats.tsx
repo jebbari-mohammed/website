@@ -79,7 +79,7 @@ export default function Stats() {
           <StatItem value="24/7" label="Always On" sublabel="Your coach never sleeps" delay={0} />
           <StatItem value="13" label="Intel Modules" sublabel="Behind every conversation" delay={0.1} />
           <StatItem value="44000" suffix="+" label="Token Personality" sublabel="Deepest AI coach identity" delay={0.2} />
-          <StatItem value="$0" label="Coach Cost" sublabel="24/7 coaching, almost free" delay={0.3} />
+          <StatItem value="$0" label="Coach Cost" sublabel="24/7 coaching, fraction of the cost" delay={0.3} />
         </div>
 
         {/* Bottom highlight */}

@@ -141,4 +141,10 @@
   <url><loc>https://youraicoach.life/best-ai-fitness-app/casablanca</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
   <url><loc>https://youraicoach.life/best-ai-fitness-app/cairo</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
   <url><loc>https://youraicoach.life/best-ai-fitness-app/riyadh</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
+  <url>
+    <loc>https://youraicoach.life/vs-myfitnesspal/</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

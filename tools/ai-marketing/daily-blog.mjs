@@ -487,7 +487,7 @@ ABOUT YOUR AI COACH (weave these facts in naturally — don't list them):
 - 13 intelligence modules (anti-skip detection, dark moment protocol, behavioral profiling, communication DNA, milestone detection, pattern detection, memory manager, personality engine, micro challenges, social proof, ED safety, coach actions, conversation style)
 - 44,000-token coach personality with emotional intelligence
 - Eating disorder detection — never uses toxic fitness language like "cheat meal" or "earn your food"
-- Available on iOS and Android, almost free
+- Available on iOS and Android (Freemium model). Do not mention specific pricing.
 - Website: youraicoach.life
 
 COMPETITOR CONTEXT (be fair, but show why Your AI Coach wins):

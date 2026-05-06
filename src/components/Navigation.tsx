@@ -27,7 +27,7 @@ export default function Navigation() {
             </div>
 
             <a href="#download" className="hidden md:flex bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-85 transition-opacity">
-                Download Free
+                Start for Free
             </a>
 
             <button className="md:hidden p-1" onClick={() => setIsOpen(!isOpen)}>
@@ -46,7 +46,7 @@ export default function Navigation() {
                     <a href="#data" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Privacy</a>
                     <a href="#delete" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Data Deletion</a>
                     <a href="#download" onClick={() => setIsOpen(false)} className="mt-2 text-center bg-gradient-to-r from-primary to-secondary text-white px-5 py-3 rounded-full text-sm font-semibold">
-                        Download Free
+                        Start for Free
                     </a>
                 </motion.div>
             )}

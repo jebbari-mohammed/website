@@ -61,7 +61,7 @@ export default function Hero() {
           <p className="text-lg md:text-[20px] text-textSecondary mb-8 max-w-[540px] leading-relaxed font-sans font-light">
             The only fitness app where your coach <strong className="text-textPrimary font-semibold">literally calls your phone</strong>. 
             Before your workout to fire you up. After your day to review your progress. 
-            <span className="text-primary font-medium"> 24/7 personal coaching for almost free.</span>
+            <span className="text-primary font-medium"> 24/7 personal coaching at a fraction of the cost.</span>
           </p>
 
           {/* Key highlights */}
