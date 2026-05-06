@@ -147,9 +147,9 @@ function slugify(text) {
 async function generatePost(topic, apiKey) {
   const genAI = new GoogleGenerativeAI(apiKey);
 
-  // Try multiple models in order of preference (correct API identifiers)
+  // Models ordered by daily quota: 3.1-flash-lite=500/day, 2.5-flash=20/day, 2.5-flash-lite=20/day
   // See https://ai.google.dev/gemini-api/docs/models for valid names
-  const MODELS = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemma-3-27b'];
+  const MODELS = ['gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'];
   const MAX_RETRIES = 3;
 
   const prompt = `Write a comprehensive, human-sounding blog article about: "${topic}"
