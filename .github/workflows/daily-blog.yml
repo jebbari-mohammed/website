@@ -38,6 +38,8 @@ jobs:
       - name: Generate daily blog post
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
           CI: true
           GITHUB_ACTIONS: true
         run: node tools/ai-marketing/daily-blog.mjs

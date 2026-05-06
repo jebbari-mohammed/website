@@ -191,11 +191,18 @@ ${urls}
 }
 
 async function main() {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    console.error('❌ GEMINI_API_KEY not set');
+  // Multi-key support: each language can use a different key
+  const apiKeys = [
+    process.env.GEMINI_API_KEY,
+    process.env.GEMINI_API_KEY_2,
+    process.env.GEMINI_API_KEY_3,
+  ].filter(Boolean);
+
+  if (apiKeys.length === 0) {
+    console.error('❌ No GEMINI_API_KEY environment variables set');
     process.exit(1);
   }
+  console.log(`🔑 ${apiKeys.length} API key(s) available for translations`);
 
   // Load progress
   if (!fs.existsSync(PROGRESS_FILE)) {
@@ -249,9 +256,13 @@ async function main() {
 
   const indexNowUrls = [];
 
-  for (const lang of LANGUAGES) {
+  for (let i = 0; i < LANGUAGES.length; i++) {
+    const lang = LANGUAGES[i];
+    // Rotate keys: FR=key1, ES=key2, AR=key3 (cycles if fewer keys)
+    const keyForLang = apiKeys[i % apiKeys.length];
+    console.log(`  🔑 Using key #${(i % apiKeys.length) + 1} for ${lang.name}`);
     try {
-      const translated = await translatePost(postData, lang, apiKey);
+      const translated = await translatePost(postData, lang, keyForLang);
       
       // Create language directory
       const langDir = path.join(BLOG_DIR, lang.code);

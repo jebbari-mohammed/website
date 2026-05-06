@@ -871,11 +871,19 @@ function updateNewsSitemap(post, slug) {
 // MAIN
 // ========================
 async function main() {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    console.error('❌ GEMINI_API_KEY environment variable not set');
+  // Multi-key support: GEMINI_API_KEY, GEMINI_API_KEY_2, GEMINI_API_KEY_3
+  const apiKeys = [
+    process.env.GEMINI_API_KEY,
+    process.env.GEMINI_API_KEY_2,
+    process.env.GEMINI_API_KEY_3,
+  ].filter(Boolean);
+
+  if (apiKeys.length === 0) {
+    console.error('❌ No GEMINI_API_KEY environment variables set');
     process.exit(1);
   }
+  console.log(`🔑 ${apiKeys.length} API key(s) available`);
+  const apiKey = apiKeys[0]; // Primary key for blog generation
 
   if (!fs.existsSync(BLOG_DIR)) fs.mkdirSync(BLOG_DIR, { recursive: true });
 
