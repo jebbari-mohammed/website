@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Fitness Calculators — TDEE, 1RM, Protein, BMI & More | Your AI Coach</title>
+    <meta name="description" content="Free fitness calculators: TDEE calculator, One Rep Max (1RM), protein needs, BMI, calorie deficit, macro split, and body fat estimator. Science-backed, no sign-up required.">
+    <link rel="canonical" href="https://youraicoach.life/tools">
+    <meta property="og:title" content="Free Fitness Calculators — TDEE, 1RM, Protein & More">
+    <meta property="og:url" content="https://youraicoach.life/tools">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <script type="application/ld+json">
+    [
+      {"@context":"https://schema.org","@type":"WebApplication","name":"TDEE Calculator","url":"https://youraicoach.life/tools#tdee","applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+      {"@context":"https://schema.org","@type":"WebApplication","name":"One Rep Max Calculator","url":"https://youraicoach.life/tools#1rm","applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+      {"@context":"https://schema.org","@type":"WebApplication","name":"Protein Calculator","url":"https://youraicoach.life/tools#protein","applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+      {"@context":"https://schema.org","@type":"WebApplication","name":"Macro Calculator","url":"https://youraicoach.life/tools#macros","applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+    ]
+    </script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#E2E8F0;line-height:1.7}
+        .nav{background:rgba(6,11,29,0.95);border-bottom:1px solid rgba(255,255,255,0.08);padding:16px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+        .ni{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+        .nb{font-weight:800;font-size:1.1rem;color:#F8FAFC;text-decoration:none}
+        .container{max-width:900px;margin:0 auto;padding:40px 24px}
+        h1{font-size:2.4rem;font-weight:800;margin-bottom:8px;color:#F8FAFC}
+        .sub{color:#94A3B8;margin-bottom:40px;font-size:1.05rem}
+        .calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:24px}
+        .calc{background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:border-color .3s}
+        .calc:hover{border-color:rgba(0,212,255,0.3)}
+        .calc h2{font-size:1.3rem;font-weight:700;color:#00D4FF;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .calc p.desc{color:#94A3B8;font-size:.9rem;margin-bottom:20px}
+        label{display:block;color:#CBD5E1;font-size:.85rem;margin-bottom:6px;font-weight:600}
+        input,select{width:100%;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#F8FAFC;font-size:1rem;margin-bottom:14px;outline:none;transition:border-color .3s}
+        input:focus,select:focus{border-color:#00D4FF}
+        select option{background:#0C1232;color:#F8FAFC}
+        .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .btn{width:100%;padding:12px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;border:none;border-radius:10px;font-weight:700;font-size:1rem;cursor:pointer;transition:opacity .3s;margin-top:4px}
+        .btn:hover{opacity:0.9}
+        .result{margin-top:16px;padding:16px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:12px;display:none}
+        .result h3{color:#00D4FF;font-size:1.1rem;margin-bottom:8px}
+        .result .val{font-size:1.8rem;font-weight:800;color:#F8FAFC}
+        .result .detail{color:#94A3B8;font-size:.85rem;margin-top:8px}
+        .cta-box{margin-top:48px;padding:24px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center}
+        .cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;text-decoration:none;margin:4px}
+        @media(max-width:500px){.calc-grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}h1{font-size:1.8rem}}
+    </style>
+</head>
+<body>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Your AI Coach</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;text-decoration:none">Blog</a></div></nav>
+<div class="container">
+    <h1>Free Fitness Calculators</h1>
+    <p class="sub">Science-backed tools to optimize your training and nutrition. No sign-up required.</p>
+
+    <div class="calc-grid">
+        <!-- TDEE Calculator -->
+        <div class="calc" id="tdee">
+            <h2>🔥 TDEE Calculator</h2>
+            <p class="desc">Calculate your Total Daily Energy Expenditure — how many calories you burn per day.</p>
+            <div class="row">
+                <div><label>Weight (kg)</label><input type="number" id="tdee-weight" placeholder="75"></div>
+                <div><label>Height (cm)</label><input type="number" id="tdee-height" placeholder="175"></div>
+            </div>
+            <div class="row">
+                <div><label>Age</label><input type="number" id="tdee-age" placeholder="28"></div>
+                <div><label>Sex</label><select id="tdee-sex"><option value="male">Male</option><option value="female">Female</option></select></div>
+            </div>
+            <label>Activity Level</label>
+            <select id="tdee-activity">
+                <option value="1.2">Sedentary (desk job)</option>
+                <option value="1.375">Light (1-3 days/week)</option>
+                <option value="1.55" selected>Moderate (3-5 days/week)</option>
+                <option value="1.725">Active (6-7 days/week)</option>
+                <option value="1.9">Very Active (2x/day)</option>
+            </select>
+            <button class="btn" onclick="calcTDEE()">Calculate TDEE</button>
+            <div class="result" id="tdee-result">
+                <h3>Your TDEE</h3>
+                <div class="val" id="tdee-val"></div>
+                <div class="detail" id="tdee-detail"></div>
+            </div>
+        </div>
+
+        <!-- 1RM Calculator -->
+        <div class="calc" id="1rm">
+            <h2>💪 One Rep Max (1RM)</h2>
+            <p class="desc">Estimate your one-rep max using the Epley formula — the same formula used by Your AI Coach.</p>
+            <label>Weight Lifted (kg)</label>
+            <input type="number" id="orm-weight" placeholder="100">
+            <label>Reps Completed</label>
+            <input type="number" id="orm-reps" placeholder="8">
+            <button class="btn" onclick="calcORM()">Calculate 1RM</button>
+            <div class="result" id="orm-result">
+                <h3>Estimated 1RM</h3>
+                <div class="val" id="orm-val"></div>
+                <div class="detail" id="orm-detail"></div>
+            </div>
+        </div>
+
+        <!-- Protein Calculator -->
+        <div class="calc" id="protein">
+            <h2>🥩 Protein Calculator</h2>
+            <p class="desc">How much protein you need daily based on your weight and goal.</p>
+            <label>Body Weight (kg)</label>
+            <input type="number" id="prot-weight" placeholder="75">
+            <label>Goal</label>
+            <select id="prot-goal">
+                <option value="1.6">Build Muscle</option>
+                <option value="2.0">Build Muscle (aggressive)</option>
+                <option value="2.2">Lose Fat & Keep Muscle</option>
+                <option value="1.2">Maintain</option>
+            </select>
+            <button class="btn" onclick="calcProtein()">Calculate Protein</button>
+            <div class="result" id="prot-result">
+                <h3>Daily Protein Target</h3>
+                <div class="val" id="prot-val"></div>
+                <div class="detail" id="prot-detail"></div>
+            </div>
+        </div>
+
+        <!-- Macro Calculator -->
+        <div class="calc" id="macros">
+            <h2>📊 Macro Calculator</h2>
+            <p class="desc">Get your ideal protein, carbs, and fat split based on your TDEE and goal.</p>
+            <label>Daily Calories (TDEE)</label>
+            <input type="number" id="macro-cal" placeholder="2500">
+            <label>Goal</label>
+            <select id="macro-goal">
+                <option value="bulk">Lean Bulk (+300 cal)</option>
+                <option value="maintain">Maintain</option>
+                <option value="cut">Cut (-500 cal)</option>
+                <option value="aggressivecut">Aggressive Cut (-750 cal)</option>
+            </select>
+            <button class="btn" onclick="calcMacros()">Calculate Macros</button>
+            <div class="result" id="macro-result">
+                <h3>Your Daily Macros</h3>
+                <div class="val" id="macro-val"></div>
+                <div class="detail" id="macro-detail"></div>
+            </div>
+        </div>
+
+        <!-- BMI Calculator -->
+        <div class="calc" id="bmi">
+            <h2>⚖️ BMI Calculator</h2>
+            <p class="desc">Calculate your Body Mass Index. Note: BMI doesn't account for muscle mass.</p>
+            <div class="row">
+                <div><label>Weight (kg)</label><input type="number" id="bmi-weight" placeholder="75"></div>
+                <div><label>Height (cm)</label><input type="number" id="bmi-height" placeholder="175"></div>
+            </div>
+            <button class="btn" onclick="calcBMI()">Calculate BMI</button>
+            <div class="result" id="bmi-result">
+                <h3>Your BMI</h3>
+                <div class="val" id="bmi-val"></div>
+                <div class="detail" id="bmi-detail"></div>
+            </div>
+        </div>
+
+        <!-- Calorie Deficit Calculator -->
+        <div class="calc" id="deficit">
+            <h2>📉 Weight Loss Timeline</h2>
+            <p class="desc">How long to reach your goal weight at a safe, sustainable deficit.</p>
+            <div class="row">
+                <div><label>Current Weight (kg)</label><input type="number" id="def-current" placeholder="90"></div>
+                <div><label>Goal Weight (kg)</label><input type="number" id="def-goal" placeholder="80"></div>
+            </div>
+            <label>Weekly Deficit</label>
+            <select id="def-rate">
+                <option value="0.5">Safe (0.5 kg/week)</option>
+                <option value="0.75">Moderate (0.75 kg/week)</option>
+                <option value="1.0">Aggressive (1 kg/week)</option>
+            </select>
+            <button class="btn" onclick="calcDeficit()">Calculate Timeline</button>
+            <div class="result" id="def-result">
+                <h3>Estimated Timeline</h3>
+                <div class="val" id="def-val"></div>
+                <div class="detail" id="def-detail"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-box">
+        <p style="color:#CBD5E1;margin-bottom:12px"><strong>Want these calculations done automatically?</strong> Your AI Coach tracks your TDEE, macros, 1RM, and body composition — then calls you to keep you on track.</p>
+        <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
+        <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
+    </div>
+</div>
+
+<script>
+function show(id,val,detail){const r=document.getElementById(id);r.style.display='block';document.getElementById(id.replace('-result','-val')).textContent=val;document.getElementById(id.replace('-result','-detail')).innerHTML=detail;}
+
+function calcTDEE(){
+    const w=+document.getElementById('tdee-weight').value,h=+document.getElementById('tdee-height').value,a=+document.getElementById('tdee-age').value,s=document.getElementById('tdee-sex').value,act=+document.getElementById('tdee-activity').value;
+    if(!w||!h||!a)return;
+    const bmr=s==='male'?10*w+6.25*h-5*a+5:10*w+6.25*h-5*a-161;
+    const tdee=Math.round(bmr*act);
+    show('tdee-result',tdee+' cal/day',`BMR: ${Math.round(bmr)} cal · Cut: ${tdee-500} cal · Bulk: ${tdee+300} cal`);
+}
+
+function calcORM(){
+    const w=+document.getElementById('orm-weight').value,r=+document.getElementById('orm-reps').value;
+    if(!w||!r)return;
+    const orm=Math.round(w*(1+r/30));
+    show('orm-result',orm+' kg',`Training zones → 70%: ${Math.round(orm*.7)}kg · 80%: ${Math.round(orm*.8)}kg · 90%: ${Math.round(orm*.9)}kg`);
+}
+
+function calcProtein(){
+    const w=+document.getElementById('prot-weight').value,g=+document.getElementById('prot-goal').value;
+    if(!w)return;
+    const p=Math.round(w*g);
+    show('prot-result',p+'g / day',`That's about ${Math.round(p/30)} scoops of whey, or ${Math.round(p/31)} chicken breasts, or ${Math.round(p/8)} eggs per day`);
+}
+
+function calcMacros(){
+    const cal=+document.getElementById('macro-cal').value,goal=document.getElementById('macro-goal').value;
+    if(!cal)return;
+    const adj={bulk:300,maintain:0,cut:-500,aggressivecut:-750};
+    const total=cal+(adj[goal]||0);
+    const p=Math.round(total*.30/4),c=Math.round(total*.45/4),f=Math.round(total*.25/9);
+    show('macro-result',total+' cal/day',`Protein: ${p}g · Carbs: ${c}g · Fat: ${f}g (30/45/25 split)`);
+}
+
+function calcBMI(){
+    const w=+document.getElementById('bmi-weight').value,h=+document.getElementById('bmi-height').value;
+    if(!w||!h)return;
+    const bmi=(w/((h/100)**2)).toFixed(1);
+    const cat=bmi<18.5?'Underweight':bmi<25?'Normal':bmi<30?'Overweight':'Obese';
+    show('bmi-result',bmi+' ('+cat+')',`⚠️ BMI doesn't distinguish muscle from fat. If you lift weights, use body composition scanning instead.`);
+}
+
+function calcDeficit(){
+    const c=+document.getElementById('def-current').value,g=+document.getElementById('def-goal').value,r=+document.getElementById('def-rate').value;
+    if(!c||!g||c<=g)return;
+    const weeks=Math.ceil((c-g)/r);
+    const date=new Date();date.setDate(date.getDate()+weeks*7);
+    show('def-result',weeks+' weeks',`You'd reach ${g}kg by ~${date.toLocaleDateString('en-US',{month:'long',year:'numeric'})} losing ${r}kg/week safely.`);
+}
+</script>
+</body>
+</html>
