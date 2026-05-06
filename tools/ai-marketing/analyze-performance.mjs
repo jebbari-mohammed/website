@@ -250,6 +250,22 @@ Example:
 
 Return ONLY the JSON array, no markdown, no explanation.`;
 
+  const models = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash-lite'];
+
+  for (const model of models) {
+    try {
+      const result = await callGeminiModel(model, apiKey, prompt, topVideos, trendingTopics);
+      if (result) return result;
+    } catch (e) {
+      console.log(`   ⚠️  ${model}: ${e.message}`);
+    }
+  }
+
+  console.log('   ⚠️  All Gemini models unavailable — using fallback');
+  return generateFallbackTitles(topVideos, trendingTopics);
+}
+
+function callGeminiModel(model, apiKey, prompt, topVideos, trendingTopics) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
@@ -258,7 +274,7 @@ Return ONLY the JSON array, no markdown, no explanation.`;
 
     const req = https.request({
       hostname: 'generativelanguage.googleapis.com',
-      path: `/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      path: `/v1beta/models/${model}:generateContent?key=${apiKey}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -270,21 +286,38 @@ Return ONLY the JSON array, no markdown, no explanation.`;
       res.on('end', () => {
         try {
           const parsed = JSON.parse(data);
-          const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text || '';
-          // Extract JSON from response (handle markdown code blocks)
+          if (parsed.error) {
+            reject(new Error(parsed.error.message?.slice(0, 80)));
+            return;
+          }
+          // Gemini 2.5 may return thinking parts — get the last non-thought part
+          const parts = parsed.candidates?.[0]?.content?.parts || [];
+          const textPart = parts.filter(p => !p.thought).pop();
+          const text = textPart?.text || '';
           const jsonMatch = text.match(/\[[\s\S]*\]/);
           if (jsonMatch) {
             const titles = JSON.parse(jsonMatch[0]);
-            resolve(titles);
+            const validTypes = ['review', 'comparison', 'solution', 'category'];
+            const normalized = titles.map(t => ({
+              title: t.title,
+              slug: t.slug?.startsWith('review-') ? t.slug : 'review-auto-' + (t.slug || t.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')).slice(0, 60),
+              type: validTypes.includes(t.type) ? t.type : (
+                t.title.toLowerCase().includes(' vs ') ? 'comparison' :
+                t.title.toLowerCase().includes('best ') ? 'category' :
+                t.title.toLowerCase().includes('worth') ? 'solution' : 'review'
+              ),
+            }));
+            console.log(`   ✨ ${model} generated titles successfully!`);
+            resolve(normalized);
           } else {
-            resolve(generateFallbackTitles(topVideos, trendingTopics));
+            reject(new Error('No JSON in response'));
           }
         } catch (e) {
-          resolve(generateFallbackTitles(topVideos, trendingTopics));
+          reject(new Error(e.message));
         }
       });
     });
-    req.on('error', () => resolve(generateFallbackTitles(topVideos, trendingTopics)));
+    req.on('error', reject);
     req.write(body);
     req.end();
   });
