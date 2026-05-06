@@ -250,7 +250,17 @@ Example:
 
 Return ONLY the JSON array, no markdown, no explanation.`;
 
-  const models = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash-lite'];
+  // All text-out models with available quota, ordered by capability
+  const models = [
+    'gemini-2.5-flash',           // Best quality, 20 RPD
+    'gemini-2.5-flash-lite',      // Good quality, 20 RPD
+    'gemini-3.1-flash-lite',      // Most quota: 500 RPD
+    'gemini-3-flash',             // 20 RPD (may need preview suffix)
+    'gemini-3-flash-preview',     // Alternate name
+    'gemma-3-27b-it',             // Open model, 14.4K RPD
+    'gemma-4-31b-it',             // Newest open model, 1.5K RPD
+    'gemma-3-12b-it',             // Smaller open model, 14.4K RPD
+  ];
 
   for (const model of models) {
     try {
