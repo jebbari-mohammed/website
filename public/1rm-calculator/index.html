@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free One Rep Max (1RM) Calculator | Your AI Coach</title>
+    <meta name="description" content="Calculate your One Rep Max (1RM) using the accurate Epley formula. Find out exactly how much weight you can lift for a single rep without risking injury.">
+    <link rel="canonical" href="https://youraicoach.life/1rm-calculator/">
+    <meta property="og:title" content="Free One Rep Max (1RM) Calculator">
+    <meta property="og:url" content="https://youraicoach.life/1rm-calculator/">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "One Rep Max Calculator",
+      "url": "https://youraicoach.life/1rm-calculator/",
+      "applicationCategory": "HealthApplication",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What is a One Rep Max (1RM)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your One Rep Max (1RM) is the maximum amount of weight you can lift for a single repetition of a given exercise with proper form."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Why is the Epley formula used?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Epley formula is one of the most widely used and accurate formulas for estimating 1RM based on submaximal lifting, especially for reps between 2 and 10."
+        }
+      }]
+    }
+    </script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#E2E8F0;line-height:1.7}
+        .nav{background:rgba(6,11,29,0.95);border-bottom:1px solid rgba(255,255,255,0.08);padding:16px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+        .ni{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+        .nb{font-weight:800;font-size:1.1rem;color:#F8FAFC;text-decoration:none}
+        .container{max-width:700px;margin:0 auto;padding:40px 24px}
+        h1{font-size:2.4rem;font-weight:800;margin-bottom:8px;color:#F8FAFC}
+        .sub{color:#94A3B8;margin-bottom:40px;font-size:1.05rem}
+        .calc{background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:border-color .3s;margin-bottom:40px}
+        .calc h2{font-size:1.3rem;font-weight:700;color:#00D4FF;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .calc p.desc{color:#94A3B8;font-size:.9rem;margin-bottom:20px}
+        label{display:block;color:#CBD5E1;font-size:.85rem;margin-bottom:6px;font-weight:600}
+        input{width:100%;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#F8FAFC;font-size:1rem;margin-bottom:14px;outline:none;transition:border-color .3s}
+        input:focus{border-color:#00D4FF}
+        .btn{width:100%;padding:12px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;border:none;border-radius:10px;font-weight:700;font-size:1rem;cursor:pointer;transition:opacity .3s;margin-top:4px}
+        .btn:hover{opacity:0.9}
+        .result{margin-top:16px;padding:16px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:12px;display:none}
+        .result h3{color:#00D4FF;font-size:1.1rem;margin-bottom:8px}
+        .result .val{font-size:1.8rem;font-weight:800;color:#F8FAFC}
+        .result .detail{color:#94A3B8;font-size:.85rem;margin-top:8px}
+        .content{margin-top:20px}
+        .content h2{font-size:1.5rem;color:#F8FAFC;margin-top:30px;margin-bottom:12px}
+        .content p{margin-bottom:16px;color:#94A3B8}
+        .cta-box{margin-top:48px;padding:24px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center}
+        .cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;text-decoration:none;margin:4px}
+        @media(max-width:500px){h1{font-size:1.8rem}}
+    </style>
+</head>
+<body>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Your AI Coach</a><a href="/tools/" style="color:#94A3B8;font-size:.9rem;text-decoration:none">All Tools</a></div></nav>
+<div class="container">
+    <h1>Free One Rep Max (1RM) Calculator</h1>
+    <p class="sub">Estimate your 1RM safely using the Epley formula — the exact same formula used by Your AI Coach's internal engine.</p>
+
+    <div class="calc" id="1rm">
+        <h2>💪 Calculate Your 1RM</h2>
+        <p class="desc">Enter the weight you lifted and how many reps you completed.</p>
+        <label>Weight Lifted (kg/lbs)</label>
+        <input type="number" id="orm-weight" placeholder="100">
+        <label>Reps Completed</label>
+        <input type="number" id="orm-reps" placeholder="8">
+        <button class="btn" onclick="calcORM()">Calculate 1RM</button>
+        <div class="result" id="orm-result">
+            <h3>Estimated 1RM</h3>
+            <div class="val" id="orm-val"></div>
+            <div class="detail" id="orm-detail"></div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>Why is your 1RM important?</h2>
+        <p>Your One Rep Max is the absolute maximum weight you can lift for a single repetition. Knowing your 1RM allows you to program your workouts using percentages (e.g., training at 70% of your 1RM for hypertrophy, or 90% for strength).</p>
+        
+        <h2>Why use a calculator instead of testing it?</h2>
+        <p>Testing your true 1RM in the gym is extremely fatiguing and carries a high risk of injury if your form breaks down. Using the Epley formula allows you to safely estimate your 1RM based on a weight you can lift for 3-10 reps.</p>
+    </div>
+
+    <div class="cta-box">
+        <p style="color:#CBD5E1;margin-bottom:12px"><strong>Want a program based on your true 1RM?</strong> Your AI Coach automatically tracks your 1RM over time, detects plateaus, and adjusts your workout weights using progressive overload.</p>
+        <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
+        <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
+    </div>
+</div>
+
+<script>
+function show(id,val,detail){const r=document.getElementById(id);r.style.display='block';document.getElementById(id.replace('-result','-val')).textContent=val;document.getElementById(id.replace('-result','-detail')).innerHTML=detail;}
+
+function calcORM(){
+    const w=+document.getElementById('orm-weight').value,r=+document.getElementById('orm-reps').value;
+    if(!w||!r)return;
+    const orm=Math.round(w*(1+r/30));
+    show('orm-result',orm,`Training zones → 70%: ${Math.round(orm*.7)} · 80%: ${Math.round(orm*.8)} · 90%: ${Math.round(orm*.9)}`);
+}
+</script>
+</body>
+</html>

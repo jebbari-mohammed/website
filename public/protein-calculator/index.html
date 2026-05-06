@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Protein Calculator for Muscle Gain & Weight Loss | Your AI Coach</title>
+    <meta name="description" content="Calculate exactly how much protein you need per day to build muscle or lose fat. Free daily protein calculator based on your body weight and specific fitness goals.">
+    <link rel="canonical" href="https://youraicoach.life/protein-calculator/">
+    <meta property="og:title" content="Free Protein Calculator for Muscle Gain & Weight Loss">
+    <meta property="og:url" content="https://youraicoach.life/protein-calculator/">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Protein Calculator",
+      "url": "https://youraicoach.life/protein-calculator/",
+      "applicationCategory": "HealthApplication",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "How much protein do I need to build muscle?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For optimal muscle growth, research suggests consuming 1.6 to 2.2 grams of protein per kilogram of body weight per day (roughly 0.7 to 1 gram per pound)."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Do I need more protein when cutting?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. When eating in a calorie deficit (cutting), your risk of muscle loss increases. A higher protein intake (up to 2.2g/kg) helps preserve lean muscle mass while losing fat."
+        }
+      }]
+    }
+    </script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#E2E8F0;line-height:1.7}
+        .nav{background:rgba(6,11,29,0.95);border-bottom:1px solid rgba(255,255,255,0.08);padding:16px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+        .ni{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+        .nb{font-weight:800;font-size:1.1rem;color:#F8FAFC;text-decoration:none}
+        .container{max-width:700px;margin:0 auto;padding:40px 24px}
+        h1{font-size:2.4rem;font-weight:800;margin-bottom:8px;color:#F8FAFC}
+        .sub{color:#94A3B8;margin-bottom:40px;font-size:1.05rem}
+        .calc{background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:border-color .3s;margin-bottom:40px}
+        .calc h2{font-size:1.3rem;font-weight:700;color:#00D4FF;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .calc p.desc{color:#94A3B8;font-size:.9rem;margin-bottom:20px}
+        label{display:block;color:#CBD5E1;font-size:.85rem;margin-bottom:6px;font-weight:600}
+        input,select{width:100%;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#F8FAFC;font-size:1rem;margin-bottom:14px;outline:none;transition:border-color .3s}
+        input:focus,select:focus{border-color:#00D4FF}
+        select option{background:#0C1232;color:#F8FAFC}
+        .btn{width:100%;padding:12px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;border:none;border-radius:10px;font-weight:700;font-size:1rem;cursor:pointer;transition:opacity .3s;margin-top:4px}
+        .btn:hover{opacity:0.9}
+        .result{margin-top:16px;padding:16px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:12px;display:none}
+        .result h3{color:#00D4FF;font-size:1.1rem;margin-bottom:8px}
+        .result .val{font-size:1.8rem;font-weight:800;color:#F8FAFC}
+        .result .detail{color:#94A3B8;font-size:.85rem;margin-top:8px}
+        .content{margin-top:20px}
+        .content h2{font-size:1.5rem;color:#F8FAFC;margin-top:30px;margin-bottom:12px}
+        .content p{margin-bottom:16px;color:#94A3B8}
+        .cta-box{margin-top:48px;padding:24px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center}
+        .cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;text-decoration:none;margin:4px}
+        @media(max-width:500px){h1{font-size:1.8rem}}
+    </style>
+</head>
+<body>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Your AI Coach</a><a href="/tools/" style="color:#94A3B8;font-size:.9rem;text-decoration:none">All Tools</a></div></nav>
+<div class="container">
+    <h1>Free Protein Calculator</h1>
+    <p class="sub">Find out exactly how much protein you need per day to achieve your body composition goals.</p>
+
+    <div class="calc" id="protein">
+        <h2>🥩 Calculate Your Protein Target</h2>
+        <p class="desc">Enter your body weight and goal to get your daily protein requirement.</p>
+        <label>Body Weight (kg)</label>
+        <input type="number" id="prot-weight" placeholder="75">
+        <label>Primary Goal</label>
+        <select id="prot-goal">
+            <option value="1.6">Build Muscle (Standard)</option>
+            <option value="2.0">Build Muscle (Aggressive)</option>
+            <option value="2.2">Lose Fat & Retain Muscle (Cutting)</option>
+            <option value="1.2">Maintenance / Health</option>
+        </select>
+        <button class="btn" onclick="calcProtein()">Calculate Protein Target</button>
+        <div class="result" id="prot-result">
+            <h3>Daily Protein Target</h3>
+            <div class="val" id="prot-val"></div>
+            <div class="detail" id="prot-detail"></div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>Why is Protein Important?</h2>
+        <p>Protein is the building block of muscle. When you work out, you create micro-tears in your muscle fibers. Protein provides the essential amino acids needed to repair those tears, making your muscles bigger and stronger.</p>
+        
+        <h2>How to Hit Your Target</h2>
+        <p>Hitting a high protein target can be challenging. We recommend spreading your intake across 3-4 meals. Focus on lean meats (chicken breast, turkey, lean beef), fish, eggs, Greek yogurt, and supplement with whey protein if needed to reach your daily goal.</p>
+    </div>
+
+    <div class="cta-box">
+        <p style="color:#CBD5E1;margin-bottom:12px"><strong>Struggling to hit your protein goal?</strong> Your AI Coach generates personalized, high-protein meal plans based on your region's cuisine — making hitting your macros effortless and delicious.</p>
+        <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
+        <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
+    </div>
+</div>
+
+<script>
+function show(id,val,detail){const r=document.getElementById(id);r.style.display='block';document.getElementById(id.replace('-result','-val')).textContent=val;document.getElementById(id.replace('-result','-detail')).innerHTML=detail;}
+
+function calcProtein(){
+    const w=+document.getElementById('prot-weight').value,g=+document.getElementById('prot-goal').value;
+    if(!w)return;
+    const p=Math.round(w*g);
+    show('prot-result',p+'g per day',`That's about ${Math.round(p/30)} scoops of whey, or ${Math.round(p/31)} chicken breasts, or ${Math.round(p/8)} eggs per day`);
+}
+</script>
+</body>
+</html>

@@ -55,129 +55,41 @@
     <p class="sub">Science-backed tools to optimize your training and nutrition. No sign-up required.</p>
 
     <div class="calc-grid">
-        <!-- TDEE Calculator -->
-        <div class="calc" id="tdee">
-            <h2>🔥 TDEE Calculator</h2>
-            <p class="desc">Calculate your Total Daily Energy Expenditure — how many calories you burn per day.</p>
-            <div class="row">
-                <div><label>Weight (kg)</label><input type="number" id="tdee-weight" placeholder="75"></div>
-                <div><label>Height (cm)</label><input type="number" id="tdee-height" placeholder="175"></div>
+        <!-- TDEE Link -->
+        <a href="/tdee-calculator/" style="text-decoration:none; display:block;">
+            <div class="calc">
+                <h2>🔥 TDEE Calculator</h2>
+                <p class="desc" style="margin-bottom:0;">Calculate your Total Daily Energy Expenditure — find out exactly how many calories you burn per day.</p>
+                <div style="margin-top:20px; color:#00D4FF; font-weight:bold; font-size:0.9rem;">Calculate Now →</div>
             </div>
-            <div class="row">
-                <div><label>Age</label><input type="number" id="tdee-age" placeholder="28"></div>
-                <div><label>Sex</label><select id="tdee-sex"><option value="male">Male</option><option value="female">Female</option></select></div>
-            </div>
-            <label>Activity Level</label>
-            <select id="tdee-activity">
-                <option value="1.2">Sedentary (desk job)</option>
-                <option value="1.375">Light (1-3 days/week)</option>
-                <option value="1.55" selected>Moderate (3-5 days/week)</option>
-                <option value="1.725">Active (6-7 days/week)</option>
-                <option value="1.9">Very Active (2x/day)</option>
-            </select>
-            <button class="btn" onclick="calcTDEE()">Calculate TDEE</button>
-            <div class="result" id="tdee-result">
-                <h3>Your TDEE</h3>
-                <div class="val" id="tdee-val"></div>
-                <div class="detail" id="tdee-detail"></div>
-            </div>
-        </div>
+        </a>
 
-        <!-- 1RM Calculator -->
-        <div class="calc" id="1rm">
-            <h2>💪 One Rep Max (1RM)</h2>
-            <p class="desc">Estimate your one-rep max using the Epley formula — the same formula used by Your AI Coach.</p>
-            <label>Weight Lifted (kg)</label>
-            <input type="number" id="orm-weight" placeholder="100">
-            <label>Reps Completed</label>
-            <input type="number" id="orm-reps" placeholder="8">
-            <button class="btn" onclick="calcORM()">Calculate 1RM</button>
-            <div class="result" id="orm-result">
-                <h3>Estimated 1RM</h3>
-                <div class="val" id="orm-val"></div>
-                <div class="detail" id="orm-detail"></div>
+        <!-- Macro Link -->
+        <a href="/macro-calculator/" style="text-decoration:none; display:block;">
+            <div class="calc">
+                <h2>📊 Macro Calculator</h2>
+                <p class="desc" style="margin-bottom:0;">Get your ideal protein, carbs, and fat split based on your TDEE and fitness goals.</p>
+                <div style="margin-top:20px; color:#00D4FF; font-weight:bold; font-size:0.9rem;">Calculate Now →</div>
             </div>
-        </div>
+        </a>
 
-        <!-- Protein Calculator -->
-        <div class="calc" id="protein">
-            <h2>🥩 Protein Calculator</h2>
-            <p class="desc">How much protein you need daily based on your weight and goal.</p>
-            <label>Body Weight (kg)</label>
-            <input type="number" id="prot-weight" placeholder="75">
-            <label>Goal</label>
-            <select id="prot-goal">
-                <option value="1.6">Build Muscle</option>
-                <option value="2.0">Build Muscle (aggressive)</option>
-                <option value="2.2">Lose Fat & Keep Muscle</option>
-                <option value="1.2">Maintain</option>
-            </select>
-            <button class="btn" onclick="calcProtein()">Calculate Protein</button>
-            <div class="result" id="prot-result">
-                <h3>Daily Protein Target</h3>
-                <div class="val" id="prot-val"></div>
-                <div class="detail" id="prot-detail"></div>
+        <!-- 1RM Link -->
+        <a href="/1rm-calculator/" style="text-decoration:none; display:block;">
+            <div class="calc">
+                <h2>💪 One Rep Max (1RM)</h2>
+                <p class="desc" style="margin-bottom:0;">Estimate your 1RM safely using the Epley formula to optimize your lifting program.</p>
+                <div style="margin-top:20px; color:#00D4FF; font-weight:bold; font-size:0.9rem;">Calculate Now →</div>
             </div>
-        </div>
+        </a>
 
-        <!-- Macro Calculator -->
-        <div class="calc" id="macros">
-            <h2>📊 Macro Calculator</h2>
-            <p class="desc">Get your ideal protein, carbs, and fat split based on your TDEE and goal.</p>
-            <label>Daily Calories (TDEE)</label>
-            <input type="number" id="macro-cal" placeholder="2500">
-            <label>Goal</label>
-            <select id="macro-goal">
-                <option value="bulk">Lean Bulk (+300 cal)</option>
-                <option value="maintain">Maintain</option>
-                <option value="cut">Cut (-500 cal)</option>
-                <option value="aggressivecut">Aggressive Cut (-750 cal)</option>
-            </select>
-            <button class="btn" onclick="calcMacros()">Calculate Macros</button>
-            <div class="result" id="macro-result">
-                <h3>Your Daily Macros</h3>
-                <div class="val" id="macro-val"></div>
-                <div class="detail" id="macro-detail"></div>
+        <!-- Protein Link -->
+        <a href="/protein-calculator/" style="text-decoration:none; display:block;">
+            <div class="calc">
+                <h2>🥩 Protein Calculator</h2>
+                <p class="desc" style="margin-bottom:0;">Find out exactly how much protein you need per day to achieve your body composition goals.</p>
+                <div style="margin-top:20px; color:#00D4FF; font-weight:bold; font-size:0.9rem;">Calculate Now →</div>
             </div>
-        </div>
-
-        <!-- BMI Calculator -->
-        <div class="calc" id="bmi">
-            <h2>⚖️ BMI Calculator</h2>
-            <p class="desc">Calculate your Body Mass Index. Note: BMI doesn't account for muscle mass.</p>
-            <div class="row">
-                <div><label>Weight (kg)</label><input type="number" id="bmi-weight" placeholder="75"></div>
-                <div><label>Height (cm)</label><input type="number" id="bmi-height" placeholder="175"></div>
-            </div>
-            <button class="btn" onclick="calcBMI()">Calculate BMI</button>
-            <div class="result" id="bmi-result">
-                <h3>Your BMI</h3>
-                <div class="val" id="bmi-val"></div>
-                <div class="detail" id="bmi-detail"></div>
-            </div>
-        </div>
-
-        <!-- Calorie Deficit Calculator -->
-        <div class="calc" id="deficit">
-            <h2>📉 Weight Loss Timeline</h2>
-            <p class="desc">How long to reach your goal weight at a safe, sustainable deficit.</p>
-            <div class="row">
-                <div><label>Current Weight (kg)</label><input type="number" id="def-current" placeholder="90"></div>
-                <div><label>Goal Weight (kg)</label><input type="number" id="def-goal" placeholder="80"></div>
-            </div>
-            <label>Weekly Deficit</label>
-            <select id="def-rate">
-                <option value="0.5">Safe (0.5 kg/week)</option>
-                <option value="0.75">Moderate (0.75 kg/week)</option>
-                <option value="1.0">Aggressive (1 kg/week)</option>
-            </select>
-            <button class="btn" onclick="calcDeficit()">Calculate Timeline</button>
-            <div class="result" id="def-result">
-                <h3>Estimated Timeline</h3>
-                <div class="val" id="def-val"></div>
-                <div class="detail" id="def-detail"></div>
-            </div>
-        </div>
+        </a>
     </div>
 
     <div class="cta-box">
