@@ -53,3 +53,9 @@ jobs:
           # Pull latest changes (in case you pushed manually), then push
           git pull --rebase origin main || true
           git push || (sleep 5 && git pull --rebase origin main && git push)
+
+      - name: Submit to Google Indexing API
+        if: success()
+        env:
+          GOOGLE_INDEXING_SA_JSON: ${{ secrets.GOOGLE_INDEXING_SA_JSON }}
+        run: node tools/ai-marketing/google-indexing.mjs || true

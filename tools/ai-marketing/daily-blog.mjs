@@ -16,6 +16,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
+import { patchOGImageTag, buildOGImageForPost } from './generate-og-images.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.resolve(__dirname, '../../public');
@@ -913,7 +914,20 @@ async function main() {
 
   // Build and save HTML
   post._relatedHTML = buildRelatedPosts(slug, progress);
-  const html = buildHTML(post);
+  let html = buildHTML(post);
+
+  // Generate OG image SVG and patch into HTML
+  try {
+    const ogDir = path.join(PUBLIC_DIR, 'og');
+    if (!fs.existsSync(ogDir)) fs.mkdirSync(ogDir, { recursive: true });
+    const svg = buildOGImageForPost({ title: post.title });
+    fs.writeFileSync(path.join(ogDir, `${slug}.svg`), svg);
+    html = patchOGImageTag(html, slug);
+    console.log(`✅ Generated OG image: public/og/${slug}.svg`);
+  } catch (e) {
+    console.log(`⚠️ OG image generation failed: ${e.message}`);
+  }
+
   fs.writeFileSync(path.join(BLOG_DIR, `${slug}.html`), html);
   console.log(`✅ Saved: public/blog/${slug}.html`);
 
