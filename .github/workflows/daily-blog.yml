@@ -48,4 +48,6 @@ jobs:
           git config user.email "bot@youraicoach.life"
           git add -A
           git diff --staged --quiet || git commit -m "📝 Daily blog post $(date +%Y-%m-%d)"
-          git push
+          # Pull latest changes (in case you pushed manually), then push
+          git pull --rebase origin main || true
+          git push || (sleep 5 && git pull --rebase origin main && git push)
