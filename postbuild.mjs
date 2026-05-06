@@ -24,7 +24,10 @@ async function preRender() {
     console.log('🌍 Local server running on port 3000');
     
     try {
-      const browser = await puppeteer.launch({ headless: 'new' });
+      const browser = await puppeteer.launch({ 
+        headless: 'new',
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      });
       const page = await browser.newPage();
       
       console.log('📱 Visiting http://localhost:3000...');
