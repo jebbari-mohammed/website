@@ -1,0 +1,54 @@
+name: Weekly Content Refresh
+
+on:
+  schedule:
+    - cron: '0 10 * * 0'  # Every Sunday at 10 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Refresh dateModified on blog posts
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          CHANGED=0
+          for file in public/blog/*.html; do
+            [ "$file" = "public/blog/index.html" ] && continue
+            if grep -q '"dateModified"' "$file"; then
+              sed -i "s/\"dateModified\": \"[0-9-]*\"/\"dateModified\": \"$TODAY\"/" "$file"
+              CHANGED=$((CHANGED + 1))
+            fi
+          done
+          echo "🔄 Refreshed dateModified on $CHANGED posts"
+
+      - name: Commit and push
+        run: |
+          git config user.name "AI Blog Bot"
+          git config user.email "bot@youraicoach.life"
+          git add -A
+          git diff --staged --quiet || git commit -m "🔄 Weekly content refresh $(date +%Y-%m-%d)"
+          git pull --rebase origin main || true
+          git push || (sleep 5 && git pull --rebase origin main && git push)
+
+      - name: Ping IndexNow
+        if: success()
+        run: |
+          URLS=$(ls public/blog/*.html | grep -v index.html | sed 's|public/blog/|https://youraicoach.life/blog/|;s|\.html||' | head -20 | jq -R . | jq -s .)
+          curl -s -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json" \
+            -d "{\"host\":\"youraicoach.life\",\"key\":\"a591ef961c787bfb23212d390a9d5a0c\",\"urlList\":$URLS}" || true
+          echo "✅ IndexNow pinged"

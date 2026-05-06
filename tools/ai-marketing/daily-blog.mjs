@@ -650,6 +650,12 @@ function buildHTML(post) {
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${post.title}">
     <meta name="robots" content="index, follow">
+    <link rel="alternate" hreflang="en" href="https://youraicoach.life/blog/${post.slug}" />
+    <link rel="alternate" hreflang="fr" href="https://youraicoach.life/blog/fr/${post.slug}" />
+    <link rel="alternate" hreflang="es" href="https://youraicoach.life/blog/es/${post.slug}" />
+    <link rel="alternate" hreflang="ar" href="https://youraicoach.life/blog/ar/${post.slug}" />
+    <link rel="alternate" hreflang="x-default" href="https://youraicoach.life/blog/${post.slug}" />
+    <link rel="alternate" type="application/rss+xml" title="Your AI Coach Blog" href="https://youraicoach.life/blog/feed.xml" />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -709,6 +715,7 @@ function buildHTML(post) {
     <h1>${post.title}</h1>
     <p class="meta">${readableDate} · Your AI Coach Team</p>
     ${post.content}
+    ${post._relatedHTML || ''}
     <div class="cta-box">
         <p><strong>Try Your AI Coach free</strong> — the only fitness app where your coach calls your phone.</p>
         <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
@@ -770,6 +777,97 @@ function updateBlogIndex(progress) {
 }
 
 // ========================
+// INDEXNOW AUTO-PING
+// ========================
+const INDEXNOW_KEY = 'a591ef961c787bfb23212d390a9d5a0c';
+
+async function pingIndexNow(urls) {
+  try {
+    const body = JSON.stringify({
+      host: 'youraicoach.life',
+      key: INDEXNOW_KEY,
+      urlList: urls,
+    });
+    const res = await fetch('https://api.indexnow.org/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body,
+    });
+    console.log(`✅ IndexNow pinged ${urls.length} URLs (status: ${res.status})`);
+  } catch (err) {
+    console.log(`⚠️ IndexNow ping failed: ${err.message}`);
+  }
+}
+
+// ========================
+// RELATED POSTS
+// ========================
+function buildRelatedPosts(currentSlug, progress) {
+  const others = progress.generated.filter(p => p.slug !== currentSlug).slice(-3).reverse();
+  if (others.length === 0) return '';
+  const links = others.map(p =>
+    `<li><a href="/blog/${p.slug}" style="color:#00D4FF;border:none">${p.title}</a></li>`
+  ).join('\n');
+  return `
+    <div style="margin:48px 0;padding:24px;background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:16px;font-family:'Segoe UI',system-ui,sans-serif">
+        <p style="color:#F8FAFC;font-weight:700;margin-bottom:12px">📚 You Might Also Like</p>
+        <ul style="list-style:none;padding:0;margin:0">${links}</ul>
+    </div>`;
+}
+
+// ========================
+// RSS FEED
+// ========================
+function updateRSSFeed(progress) {
+  const posts = progress.generated.slice().reverse();
+  const items = posts.map(p => `
+    <item>
+      <title>${p.title}</title>
+      <link>https://youraicoach.life/blog/${p.slug}</link>
+      <guid>https://youraicoach.life/blog/${p.slug}</guid>
+      <description>${p.description || ''}</description>
+      <pubDate>${new Date(p.date).toUTCString()}</pubDate>
+    </item>`).join('');
+
+  const rss = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Your AI Coach Blog</title>
+    <link>https://youraicoach.life/blog</link>
+    <description>Expert insights on AI fitness coaching, workout science, and nutrition</description>
+    <language>en</language>
+    <atom:link href="https://youraicoach.life/blog/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>${items}
+  </channel>
+</rss>`;
+  fs.writeFileSync(path.join(BLOG_DIR, 'feed.xml'), rss);
+}
+
+// ========================
+// NEWS SITEMAP
+// ========================
+function updateNewsSitemap(post, slug) {
+  const today = new Date().toISOString().split('T')[0];
+  // News sitemap only keeps last 48h of posts
+  const newsXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://youraicoach.life/blog/${slug}</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Your AI Coach</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>${today}</news:publication_date>
+      <news:title>${post.title}</news:title>
+    </news:news>
+  </url>
+</urlset>`;
+  fs.writeFileSync(path.join(PUBLIC_DIR, 'news-sitemap.xml'), newsXml);
+}
+
+// ========================
 // MAIN
 // ========================
 async function main() {
@@ -800,6 +898,7 @@ async function main() {
   post.slug = slug;
 
   // Build and save HTML
+  post._relatedHTML = buildRelatedPosts(slug, progress);
   const html = buildHTML(post);
   fs.writeFileSync(path.join(BLOG_DIR, `${slug}.html`), html);
   console.log(`✅ Saved: public/blog/${slug}.html`);
@@ -824,15 +923,32 @@ async function main() {
   updateBlogIndex(progress);
   console.log('✅ Updated blog index');
 
+  // Update RSS feed
+  updateRSSFeed(progress);
+  console.log('✅ Updated RSS feed');
+
+  // Update news sitemap
+  updateNewsSitemap(post, slug);
+  console.log('✅ Updated news sitemap');
+
   // Git commit and push (only in CI/GitHub Actions)
   if (process.env.CI || process.env.GITHUB_ACTIONS) {
     try {
-      execSync('git config user.name "AI Blog Bot"', { cwd: path.resolve(__dirname, '../..') });
-      execSync('git config user.email "bot@youraicoach.life"', { cwd: path.resolve(__dirname, '../..') });
-      execSync('git add -A', { cwd: path.resolve(__dirname, '../..') });
-      execSync(`git commit -m "📝 Daily blog: ${post.title}"`, { cwd: path.resolve(__dirname, '../..') });
-      execSync('git push', { cwd: path.resolve(__dirname, '../..') });
+      const ROOT = path.resolve(__dirname, '../..');
+      execSync('git config user.name "AI Blog Bot"', { cwd: ROOT });
+      execSync('git config user.email "bot@youraicoach.life"', { cwd: ROOT });
+      execSync('git add -A', { cwd: ROOT });
+      execSync(`git commit -m "📝 Daily blog: ${post.title}"`, { cwd: ROOT });
+      execSync('git pull --rebase origin main || true', { cwd: ROOT });
+      execSync('git push || (sleep 5 && git pull --rebase origin main && git push)', { cwd: ROOT, shell: '/bin/bash' });
       console.log('✅ Pushed to GitHub — will auto-deploy to youraicoach.life');
+
+      // Ping IndexNow after successful push
+      await pingIndexNow([
+        `https://youraicoach.life/blog/${slug}`,
+        'https://youraicoach.life/blog',
+        'https://youraicoach.life/sitemap.xml',
+      ]);
     } catch (err) {
       console.error('⚠️ Git push failed:', err.message);
     }

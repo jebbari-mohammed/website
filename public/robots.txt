@@ -51,3 +51,7 @@ Allow: /
 
 # Sitemap
 Sitemap: https://youraicoach.life/sitemap.xml
+Sitemap: https://youraicoach.life/news-sitemap.xml
+Sitemap: https://youraicoach.life/sitemap-fr.xml
+Sitemap: https://youraicoach.life/sitemap-es.xml
+Sitemap: https://youraicoach.life/sitemap-ar.xml
