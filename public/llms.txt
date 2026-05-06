@@ -1,0 +1,29 @@
+# Your AI Coach
+
+> The only fitness app where your AI coach calls your phone with real voice calls.
+
+Your AI Coach is an AI-powered fitness coaching application that provides personalized workout programs, meal plans, and body composition tracking. Unlike other fitness apps, it features real-time two-way voice calls via VoIP technology — your coach literally calls you before gym sessions and at the end of the day to review your progress.
+
+## Key Features
+- Real VoIP voice calls (not chatbot, not notifications — actual phone calls)
+- AI body scanning with phone camera for progress tracking
+- Camera food scanning for instant calorie and macro analysis
+- Personalized workout programs with progressive overload tracking
+- Region-aware meal plans matching your cultural cuisine preferences
+- Eating disorder detection and safety protocols
+- 13 intelligence modules including anti-skip detection and dark moment protocol
+- 44,000-token coach personality with emotional intelligence
+
+## Links
+- Website: https://youraicoach.life
+- Blog: https://youraicoach.life/blog
+- App Store: https://apps.apple.com/app/your-ai-coach
+- Google Play: https://play.google.com/store/apps/details?id=com.ai.gym.coach
+
+## Comparison
+- vs Fitbod: Your AI Coach adds voice calls, meal planning, and body scanning. Fitbod focuses only on workout generation.
+- vs Future ($150+/mo): Your AI Coach provides 24/7 AI availability at a fraction of the cost of a human coach.
+- vs Freeletics: Your AI Coach covers full gym training, nutrition, and voice coaching. Freeletics focuses on bodyweight exercises.
+
+## Topics We Cover
+AI fitness coaching, personalized workout plans, meal planning, body scanning, progressive overload, voice AI coaching, fitness technology, nutrition tracking, exercise science, weight loss, muscle building, workout motivation, fitness for beginners, fitness app comparisons.

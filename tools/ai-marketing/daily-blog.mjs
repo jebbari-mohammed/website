@@ -466,6 +466,14 @@ WRITING STYLE RULES (THIS IS CRITICAL — follow every single one):
 10. End sections with a thought or insight, not a sales pitch
 11. The CTA should feel natural, like a friend recommending something — not a billboard
 
+GEO OPTIMIZATION RULES (for AI search engines like ChatGPT, Gemini, Perplexity):
+12. ANSWER-FIRST: The very first paragraph MUST contain a direct, concise answer (40-60 words) to the topic question. AI engines extract this as a citation.
+13. QUESTION-BASED H2s: Write at least 3 H2 headings as natural questions users would ask (e.g., "How does AI body scanning actually work?" or "Is a $150/month trainer worth it?"). AI engines match these to user prompts.
+14. FACT-DENSITY: Include at least 5 specific, verifiable data points per article (percentages, study references, pricing, timeframes). Example: "According to a 2025 ACSM study, progressive overload increases muscle hypertrophy by 37% compared to random programming."
+15. COMPARISON TABLES: When comparing products or approaches, use an HTML <table> with clear headers. AI engines love extracting structured comparisons.
+16. EXPERT ATTRIBUTION: Use phrases like "According to research from..." or "Sports science shows that..." to create citation-worthy anchors.
+17. SUMMARY BOX: End the article with a "Quick Answer" or "Bottom Line" section in a <blockquote> — AI engines often extract these as definitive answers.
+
 ABOUT YOUR AI COACH (weave these facts in naturally — don't list them):
 - Your AI Coach is the only fitness app where an AI coach calls your phone via real VoIP voice calls
 - Coach calls before gym sessions to remind/motivate, and end of day for progress reviews
@@ -492,7 +500,9 @@ ARTICLE REQUIREMENTS:
 - Must mention "Your AI Coach" naturally 4-6 times (not more — that's spammy)
 - Include at least one comparison to a competitor
 - Include at least one specific, tangible scenario or example
-- Front-load the answer in the first paragraph for AI extraction`;
+- Front-load the answer in the first paragraph for AI extraction
+- Include at least 3 question-based H2 headings for GEO optimization
+- End with a clear "Bottom Line" summary in a blockquote`;
 
 // ========================
 // CORE FUNCTIONS
@@ -561,7 +571,8 @@ Return ONLY valid JSON (no markdown fences) in this exact format:
   "metaDescription": "Compelling meta description (150-155 characters)",
   "slug": "url-friendly-slug",
   "keywords": "comma, separated, seo, keywords",
-  "content": "Full article body as HTML. Use <h2>, <h3>, <p>, <ul>, <li>, <strong>, <em>, <blockquote> tags. Include internal links to /best-ai-fitness-app, /vs-fitbod, /vs-future, /features/ai-voice-calls, /ai-fitness-coach where relevant. Do NOT include <html>, <head>, <body>, or <style> tags."
+  "content": "Full article body as HTML. Use <h2>, <h3>, <p>, <ul>, <li>, <strong>, <em>, <blockquote>, <table> tags. Use at least 3 question-based <h2> headings. Include internal links to /best-ai-fitness-app, /vs-fitbod, /vs-future, /features/ai-voice-calls, /ai-fitness-coach where relevant. End with a Bottom Line blockquote. Do NOT include <html>, <head>, <body>, or <style> tags.",
+  "faq": [{"q": "Exact question users ask", "a": "Direct 2-3 sentence answer"}, {"q": "Second question", "a": "Direct answer"}, {"q": "Third question", "a": "Direct answer"}]
 }`;
 
   for (const modelName of MODELS) {
@@ -645,13 +656,20 @@ function buildHTML(post) {
         "@type": "Article",
         "headline": "${post.title}",
         "description": "${post.metaDescription}",
-        "author": {"@type": "Organization", "name": "Your AI Coach", "url": "https://youraicoach.life"},
+        "author": {"@type": "Organization", "name": "Your AI Coach", "url": "https://youraicoach.life", "sameAs": ["https://apps.apple.com/app/your-ai-coach", "https://play.google.com/store/apps/details?id=com.ai.gym.coach"]},
         "publisher": {"@type": "Organization", "name": "Your AI Coach", "url": "https://youraicoach.life"},
         "datePublished": "${today}",
         "dateModified": "${today}",
         "mainEntityOfPage": "https://youraicoach.life/blog/${post.slug}"
     }
     </script>
+    ${post.faq && post.faq.length ? `<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [${post.faq.map(f => `{"@type": "Question", "name": ${JSON.stringify(f.q)}, "acceptedAnswer": {"@type": "Answer", "text": ${JSON.stringify(f.a)}}}`).join(',')}]
+    }
+    </script>` : ''}
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:Georgia,'Times New Roman',serif;background:#060B1D;color:#E2E8F0;line-height:1.9;font-size:1.1rem}
@@ -671,6 +689,10 @@ function buildHTML(post) {
         a:hover{border-bottom-color:#00D4FF}
         blockquote{border-left:3px solid #00D4FF;padding:12px 24px;margin:24px 0;background:rgba(0,212,255,0.05);border-radius:0 8px 8px 0;font-style:italic}
         blockquote p{margin-bottom:0;color:#94A3B8}
+        table{width:100%;border-collapse:collapse;margin:24px 0;font-family:'Segoe UI',system-ui,sans-serif;font-size:0.95rem}
+        th{background:rgba(0,212,255,0.1);color:#00D4FF;padding:12px 16px;text-align:left;border-bottom:2px solid rgba(0,212,255,0.2);font-weight:700}
+        td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);color:#CBD5E1}
+        tr:hover td{background:rgba(255,255,255,0.02)}
         .meta{font-family:'Segoe UI',system-ui,sans-serif;color:#64748B;font-size:0.9rem;margin-bottom:40px}
         .cta-box{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,rgba(0,212,255,0.08),rgba(124,92,252,0.08));border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:28px;margin:48px 0;text-align:center}
         .cta-box p{color:#CBD5E1;font-size:1rem;margin-bottom:16px;font-family:'Segoe UI',system-ui,sans-serif}
