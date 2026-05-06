@@ -633,16 +633,19 @@ async function main() {
 
     // Download
     console.log('⬇️  Downloading audio...');
-    await mcp.callTool('download_audio', {
+    const dlResult = await mcp.callTool('download_audio', {
       notebook_id: NOTEBOOK_ID,
       notebook_url: NOTEBOOK_URL,
       destination_dir: PODCAST_DIR,
     });
-    console.log('✅ Downloaded');
+    console.log('✅ Downloaded result:', JSON.stringify(dlResult, null, 2));
 
     // Find the downloaded file (NotebookLM names it its own way)
-    const allFiles = fs.readdirSync(PODCAST_DIR)
-      .filter(f => (f.endsWith('.m4a') || f.endsWith('.mp4')) && !f.startsWith('review-') && !f.startsWith('best-'))
+    const allFilesDir = fs.readdirSync(PODCAST_DIR);
+    console.log('📁 Files in directory:', allFilesDir);
+    
+    const allFiles = allFilesDir
+      .filter(f => !f.startsWith('review-') && !f.startsWith('best-'))
       .map(f => ({ name: f, time: fs.statSync(path.join(PODCAST_DIR, f)).mtimeMs }))
       .sort((a, b) => b.time - a.time);
 
@@ -651,6 +654,8 @@ async function main() {
       const srcPath = path.join(PODCAST_DIR, downloadedFile.name);
       fs.renameSync(srcPath, outputFile);
       console.log(`✅ Saved as: ${review.slug}.mp4`);
+    } else {
+      console.log('❌ Could not find the downloaded file in the directory!');
     }
 
   } finally {
