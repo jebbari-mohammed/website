@@ -21,10 +21,19 @@ import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, URL } from 'url';
 import { execSync } from 'child_process';
 
+// Load .env
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const envPath = path.resolve(__dirname, '../../.env');
+if (fs.existsSync(envPath)) {
+  fs.readFileSync(envPath, 'utf-8').split('\n').forEach(line => {
+    const [k, ...v] = line.split('=');
+    if (k && !k.startsWith('#')) process.env[k.trim()] = v.join('=').trim().replace(/^"|"$/g, '');
+  });
+}
+
 const PROGRESS_FILE = path.join(__dirname, '.daily-progress.json');
 const PUBLIC_DIR = path.resolve(__dirname, '../../public');
 const PODCAST_DIR = path.join(PUBLIC_DIR, 'podcasts');
@@ -192,6 +201,101 @@ ${SITE_URL}/blog/${post.slug}
 }
 
 // ========================
+// YOUTUBE UPLOAD
+// ========================
+async function uploadToYouTube(filePath, post, accessToken) {
+  const fileSize = fs.statSync(filePath).size;
+  const mimeType = filePath.endsWith('.mp4') ? 'video/mp4' : 'audio/mp4';
+  const title = `${post.title} | AI Fitness Podcast 🎙️`;
+  const description = buildYouTubeDescription(post);
+  const tags = [
+    'AI fitness', 'AI personal trainer', 'fitness podcast', 'AI coach',
+    'workout tips', 'nutrition advice', 'fitness app', 'gym motivation',
+    'personal trainer', 'weight loss', 'muscle building', 'TDEE', 'macros',
+  ];
+
+  const metadata = {
+    snippet: {
+      title: title.slice(0, 100),
+      description: description.slice(0, 5000),
+      tags,
+      categoryId: '26', // How-to & Style — closest to fitness
+      defaultLanguage: 'en',
+    },
+    status: {
+      privacyStatus: 'public',
+      selfDeclaredMadeForKids: false,
+    },
+  };
+
+  // Step 1: Initiate resumable upload
+  const uploadUrl = await new Promise((resolve, reject) => {
+    const metaBody = JSON.stringify(metadata);
+    const req = https.request({
+      hostname: 'www.googleapis.com',
+      path: `/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status`,
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        'X-Upload-Content-Type': mimeType,
+        'X-Upload-Content-Length': fileSize,
+        'Content-Length': Buffer.byteLength(metaBody),
+      },
+    }, (res) => {
+      if (res.statusCode === 200) {
+        resolve(res.headers.location);
+      } else {
+        let d = '';
+        res.on('data', c => d += c);
+        res.on('end', () => reject(new Error(`Init failed ${res.statusCode}: ${d}`)));
+      }
+    });
+    req.on('error', reject);
+    req.write(metaBody);
+    req.end();
+  });
+
+  // Step 2: Stream the file
+  return new Promise((resolve, reject) => {
+    const urlObj = new URL(uploadUrl);
+    const fileStream = fs.createReadStream(filePath);
+    let uploaded = 0;
+
+    const req = https.request({
+      hostname: urlObj.hostname,
+      path: urlObj.pathname + urlObj.search,
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': mimeType,
+        'Content-Length': fileSize,
+      },
+    }, (res) => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        if (res.statusCode === 200 || res.statusCode === 201) {
+          const parsed = JSON.parse(data);
+          resolve(`https://youtube.com/watch?v=${parsed.id}`);
+        } else {
+          reject(new Error(`Upload failed ${res.statusCode}: ${data}`));
+        }
+      });
+    });
+
+    fileStream.on('data', (chunk) => {
+      uploaded += chunk.length;
+      process.stdout.write(`\r   Uploading: ${Math.round(uploaded / fileSize * 100)}%`);
+    });
+    fileStream.on('end', () => process.stdout.write('\n'));
+    fileStream.on('error', reject);
+    req.on('error', reject);
+    fileStream.pipe(req);
+  });
+}
+
+// ========================
 // MAIN
 // ========================
 async function main() {
@@ -307,22 +411,21 @@ Make it feel like a real fitness podcast episode, not a product ad.`,
 
   if (!accessToken) {
     console.log('\n📺 YouTube upload skipped — credentials not configured');
-    console.log('   To enable YouTube uploads, see the setup guide below');
-    console.log('\n📋 YOUTUBE SETUP (one-time):');
-    console.log('   1. Go to console.cloud.google.com → Create OAuth 2.0 credentials');
-    console.log('   2. Enable YouTube Data API v3');
-    console.log('   3. Run: node tools/ai-marketing/youtube-auth.mjs');
-    console.log('   4. Add YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REFRESH_TOKEN to .env');
+  } else if (!fs.existsSync(videoFile)) {
+    console.log('\n⚠️  No video/audio file found to upload');
   } else {
     console.log('\n📺 Uploading to YouTube...');
-    // Upload logic will be activated once credentials are set
-    console.log('✅ YouTube upload ready! (credentials configured)');
+    try {
+      const youtubeUrl = await uploadToYouTube(videoFile, post, accessToken);
+      console.log(`✅ Live on YouTube: ${youtubeUrl}`);
+    } catch (err) {
+      console.error('⚠️  YouTube upload failed:', err.message);
+    }
   }
 
   console.log('\n📊 Summary:');
   console.log(`   Post: ${post.title}`);
-  console.log(`   Audio: ${audioOut}`);
-  if (fs.existsSync(videoOut)) console.log(`   Video: ${videoOut}`);
+  if (fs.existsSync(videoFile)) console.log(`   File: ${videoFile}`);
   console.log(`   Blog: ${SITE_URL}/blog/${post.slug}`);
 }
 
