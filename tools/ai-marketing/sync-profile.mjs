@@ -49,9 +49,9 @@ async function uploadProfile() {
     process.exit(1);
   }
 
-  console.log(`📦 Zipping Chrome Profile from ${PROFILE_DIR}...`);
-  // Tar the contents, not the directory itself, so we can extract it cleanly on Linux
-  execSync(`cd "${PROFILE_DIR}" && tar -czf "${ARCHIVE_PATH}" chrome_profile`, { stdio: 'inherit' });
+  console.log(`📦 Zipping Chrome Profile and Browser State from ${PROFILE_DIR}...`);
+  // Tar both the profile and the unencrypted state JSON so cookies survive Linux decryption
+  execSync(`cd "${PROFILE_DIR}" && tar -czf "${ARCHIVE_PATH}" chrome_profile browser_state`, { stdio: 'inherit' });
 
   console.log(`☁️ Uploading to Google Cloud Storage...`);
   await storage.bucket(BUCKET_NAME).upload(ARCHIVE_PATH, {
