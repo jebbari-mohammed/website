@@ -149,7 +149,7 @@ export class BrowserSession {
             // FALLBACK: Python alternative selector
             try {
                 log.info("  ⏳ Trying fallback selector (aria-label)...");
-                await this.page.waitForSelector('textarea[aria-label="Feld für Anfragen"]', {
+                await this.page.waitForSelector('textarea[aria-label]', {
                     timeout: 30000, // Increased for slow GitHub runners
                     state: "visible",
                 });
@@ -157,6 +157,17 @@ export class BrowserSession {
             }
             catch (error) {
                 log.error(`  ❌ NotebookLM interface not ready: ${error}`);
+                // Dump diagnostic info so we can see what the page looks like
+                try {
+                    const url = this.page.url();
+                    const title = await this.page.title();
+                    const bodyText = await this.page.evaluate(() => document.body?.innerText?.slice(0, 2000) ?? 'no body');
+                    log.error(`  🔍 Diagnostic — URL: ${url}`);
+                    log.error(`  🔍 Diagnostic — Title: ${title}`);
+                    log.error(`  🔍 Diagnostic — Body text:\n${bodyText}`);
+                } catch (diagErr) {
+                    log.error(`  🔍 Diagnostic failed: ${diagErr}`);
+                }
                 throw new Error("Could not find NotebookLM chat input. " +
                     "Please ensure the notebook page has loaded correctly.", { cause: error });
             }
