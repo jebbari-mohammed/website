@@ -12,8 +12,22 @@
 
 import https from 'https';
 import http from 'http';
-import { URL } from 'url';
+import { URL, fileURLToPath } from 'url';
 import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+
+// Automatically load .env file
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const envPath = path.resolve(__dirname, '../../.env');
+if (fs.existsSync(envPath)) {
+  fs.readFileSync(envPath, 'utf-8').split('\n').forEach(line => {
+    const [k, ...v] = line.split('=');
+    if (k && !k.startsWith('#') && k.trim()) {
+      process.env[k.trim()] = v.join('=').trim().replace(/^"|"$/g, '');
+    }
+  });
+}
 
 const CLIENT_ID = process.env.YOUTUBE_CLIENT_ID;
 const CLIENT_SECRET = process.env.YOUTUBE_CLIENT_SECRET;

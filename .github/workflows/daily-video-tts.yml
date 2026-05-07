@@ -42,7 +42,8 @@ jobs:
           YOUTUBE_CLIENT_ID_2: ${{ secrets.YOUTUBE_CLIENT_ID_2 }}
           YOUTUBE_CLIENT_SECRET_2: ${{ secrets.YOUTUBE_CLIENT_SECRET_2 }}
           YOUTUBE_REFRESH_TOKEN_2: ${{ secrets.YOUTUBE_REFRESH_TOKEN_2 }}
-        run: node tools/ai-marketing/daily-podcast-tts.mjs
+        # Run from the tools dir so Node resolves local node_modules
+        run: cd tools/ai-marketing && node daily-podcast-tts.mjs
 
       - name: Commit and push progress
         run: |

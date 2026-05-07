@@ -44,7 +44,7 @@ const REVIEW_QUEUE = [
 async function generateScript(title) {
   console.log(`🧠 Generating script for: ${title}`);
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite-preview' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
   const prompt = `You are writing a short, snappy 2-minute podcast script between two hosts reviewing the AI fitness app "Your AI Coach".
 Topic: ${title}
