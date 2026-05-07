@@ -14,7 +14,7 @@ export default function FinalCTA() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black font-condensed leading-[0.95] tracking-tighter mb-6 sm:mb-8">
+          <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black font-condensed leading-[0.95] tracking-normal mb-6 sm:mb-8">
             STOP PAYING<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-500">$150/MONTH</span><br />
             <span className="text-textSecondary text-2xl sm:text-4xl md:text-5xl lg:text-6xl">FOR A COACH AVAILABLE</span><br />

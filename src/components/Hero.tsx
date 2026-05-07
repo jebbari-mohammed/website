@@ -50,7 +50,7 @@ export default function Hero() {
             THE ONLY APP THAT CALLS YOU
           </motion.div>
 
-          <h1 className="text-5xl md:text-[72px] lg:text-[84px] font-black font-condensed leading-[0.9] tracking-tighter mb-6 relative z-10">
+          <h1 className="text-5xl md:text-[72px] lg:text-[84px] font-black font-condensed leading-[0.9] tracking-normal mb-6 relative z-10">
             <span className="absolute -inset-4 bg-gradient-to-r from-primary/30 to-secondary/30 blur-3xl -z-10 opacity-50 rounded-[40px]"></span>
             Callio<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
