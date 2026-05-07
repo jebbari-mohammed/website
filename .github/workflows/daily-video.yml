@@ -51,10 +51,14 @@ jobs:
           mkdir -p ~/.local/share/notebooklm-mcp
           gsutil cp gs://ai-gym-coach-notebooklm-state/chrome_profile.tar.gz /tmp/
           tar -xzf /tmp/chrome_profile.tar.gz -C ~/.local/share/notebooklm-mcp/
-          # Delete any lock files copied from the Mac that would crash Chrome
+          # Delete Mac lock files that would crash Chrome on Linux
           rm -f ~/.local/share/notebooklm-mcp/chrome_profile/SingletonLock
           rm -f ~/.local/share/notebooklm-mcp/chrome_profile/SingletonCookie
           rm -f ~/.local/share/notebooklm-mcp/chrome_profile/SingletonSocket
+          # Reset file timestamps — notebooklm-mcp rejects state files older than 24h
+          touch ~/.local/share/notebooklm-mcp/browser_state/state.json
+          touch ~/.local/share/notebooklm-mcp/browser_state/session.json
+          echo "✅ Session state restored and timestamps refreshed"
 
       - name: Generate and publish video
         env:
@@ -70,7 +74,7 @@ jobs:
         if: always()
         run: |
           cd ~/.local/share/notebooklm-mcp
-          tar -czf /tmp/chrome_profile.tar.gz chrome_profile
+          tar -czf /tmp/chrome_profile.tar.gz chrome_profile browser_state
           gsutil cp /tmp/chrome_profile.tar.gz gs://ai-gym-coach-notebooklm-state/
 
       - name: Commit and push
