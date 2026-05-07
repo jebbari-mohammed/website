@@ -630,6 +630,7 @@ async function main() {
       notebook_url: NOTEBOOK_URL,
       custom_prompt: prompt,
       timeout_ms: 480000,
+      wait_for_completion: true,
     });
     console.log('✅ Audio generated');
 
