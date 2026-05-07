@@ -612,19 +612,22 @@ async function main() {
   try {
     // Add the app website as a source so NotebookLM has context
     console.log(`📎 Adding source: ${SITE_URL}`);
-    await mcp.callTool('add_source', {
+    const sourceResult = await mcp.callTool('add_source', {
       session_id: 'default',
       notebook_id: NOTEBOOK_ID,
       notebook_url: NOTEBOOK_URL,
       type: 'url',
       content: SITE_URL,
     });
-    console.log('✅ Source added');
+    console.log('✅ Source added result:', JSON.stringify(sourceResult, null, 2));
+    if (sourceResult && sourceResult.success === false) {
+      throw new Error(`Add source failed: ${sourceResult.error}`);
+    }
 
     // Generate audio with review-specific prompt
     const prompt = buildReviewPrompt(review);
     console.log('🎙️ Generating review audio (3-8 minutes)...');
-    await mcp.callTool('generate_audio', {
+    const genResult = await mcp.callTool('generate_audio', {
       session_id: 'default',
       notebook_id: NOTEBOOK_ID,
       notebook_url: NOTEBOOK_URL,
@@ -632,7 +635,10 @@ async function main() {
       timeout_ms: 480000,
       wait_for_completion: true,
     });
-    console.log('✅ Audio generated');
+    console.log('✅ Audio generated result:', JSON.stringify(genResult, null, 2));
+    if (genResult && genResult.success === false) {
+      throw new Error(`Audio generation failed: ${genResult.error}`);
+    }
 
     // Download
     console.log('⬇️  Downloading audio...');
