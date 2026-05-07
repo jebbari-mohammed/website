@@ -44,7 +44,9 @@ const REVIEW_QUEUE = [
 async function generateScript(title) {
   console.log(`🧠 Generating script for: ${title}`);
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const modelsToTry = ['gemini-3.1-flash', 'gemini-3.0-flash', 'gemini-2.5-flash'];
+  let result = null;
+  let lastError = null;
 
   const prompt = `You are writing a short, snappy 2-minute podcast script between two hosts reviewing the AI fitness app "Your AI Coach".
 Topic: ${title}
@@ -61,7 +63,22 @@ Rules:
   {"speaker": "Host 2", "text": "Today we're looking at something crazy..."}
 ]`;
 
-  const result = await model.generateContent(prompt);
+  for (const modelName of modelsToTry) {
+    try {
+      console.log(`   Trying model: ${modelName}...`);
+      const model = genAI.getGenerativeModel({ model: modelName });
+      result = await model.generateContent(prompt);
+      console.log(`   ✅ Success with ${modelName}`);
+      break; // Success
+    } catch (e) {
+      lastError = e;
+      console.log(`   ⚠️  Failed with ${modelName}: ${e.message}`);
+    }
+  }
+
+  if (!result) {
+    throw new Error(`All Gemini models failed. Last error: ${lastError.message}`);
+  }
   const text = result.response.text();
   const match = text.match(/\[[\s\S]*\]/);
   if (!match) throw new Error("Failed to parse JSON array from Gemini output");
