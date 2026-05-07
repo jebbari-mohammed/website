@@ -596,12 +596,18 @@ Return ONLY valid JSON (no markdown fences) in this exact format:
         try {
           return JSON.parse(text);
         } catch {
-          const match = text.match(/\{[\s\S]*\}/);
-          if (match) return JSON.parse(match[0]);
+          const firstBrace = text.indexOf('{');
+          const lastBrace = text.lastIndexOf('}');
+          if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+            return JSON.parse(text.substring(firstBrace, lastBrace + 1));
+          }
           throw new Error('Failed to parse response');
         }
       } catch (err) {
-        const isRetryable = err.status === 429 || err.status === 503 || 
+        const isRetryable = err instanceof SyntaxError ||
+                           err.message?.includes('JSON') ||
+                           err.message?.includes('parse') ||
+                           err.status === 429 || err.status === 503 || 
                            err.message?.includes('429') || err.message?.includes('503') ||
                            err.message?.includes('Service Unavailable') ||
                            err.message?.includes('overloaded') ||
