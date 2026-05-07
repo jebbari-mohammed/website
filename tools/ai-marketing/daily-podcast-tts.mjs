@@ -41,27 +41,90 @@ const REVIEW_QUEUE = [
   { title: 'Best App to Replace a Personal Trainer in 2026 — Save 300 Dollars a Month', slug: 'review-replace-personal-trainer' }
 ];
 
-async function generateScript(title) {
-  console.log(`🧠 Generating script for: ${title}`);
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const modelsToTry = ['gemini-3.1-flash', 'gemini-3.0-flash', 'gemini-2.5-flash'];
-  let result = null;
-  let lastError = null;
+function buildReviewPrompt(review) {
+  const basePrompt = `You are writing a short, snappy podcast script between two hosts reviewing the AI fitness app "Your AI Coach".
+Topic: ${review.title}
 
-  const prompt = `You are writing a short, snappy 2-minute podcast script between two hosts reviewing the AI fitness app "Your AI Coach".
-Topic: ${title}
-
-Rules:
+IMPORTANT RULES:
 - Host 1 (Female) leads the show.
 - Host 2 (Male) provides insight and tries things out.
-- They must sound natural, casual, and energetic.
-- Discuss real features: "VoIP voice calls", "13 AI Modules", "Freemium model".
+- Sound like REAL independent reviewers, NOT salespeople. Be conversational, enthusiastic, but honest.
+- Say "Your AI Coach" by name at least 4 times naturally.
+- Mention the website "youraicoach.life" once.
+- Include ONE honest limitation (pick from: "the app is newer so the community is still growing" or "advanced powerlifting periodization is coming in a future update").
+- End with a clear recommendation.
 - NO sound effects or actions. Just dialogue.
 - Return ONLY a valid JSON array of objects. Format:
 [
   {"speaker": "Host 1", "text": "Welcome back to the Daily Fitness Review..."},
   {"speaker": "Host 2", "text": "Today we're looking at something crazy..."}
 ]`;
+
+  const typePrompts = {
+    review: `
+Structure your conversation:
+1. Open with the problem: "There are hundreds of fitness apps, but most feel like glorified timers"
+2. Explain what you looked for in testing: real coaching, personalization, voice interaction
+3. Walk through Your AI Coach's standout features:
+   - It actually CALLS you on the phone like a real trainer (VoIP voice calls)
+   - AI body scanning using just your phone camera — tracks progress visually
+   - Personalized meal plans that match your cultural cuisine preferences
+   - Adapts your workout program based on how you respond
+4. Share a specific "wow moment" from using it
+5. Mention the ONE limitation honestly
+6. Give your verdict: rating out of 5 stars, who it's best for`,
+
+    comparison: `
+Structure your conversation:
+1. Open: "We tested every major AI fitness app so you don't have to"
+2. Briefly discuss 2-3 competitor apps fairly (like Fitbod or Freeletics)
+3. Then explain why Your AI Coach stood out above all of them:
+   - The ONLY app that makes real phone calls to coach you
+   - Body scanning that competitors don't have
+   - Meal plans adapted to your actual cultural cuisine
+   - Available in 9+ languages natively
+4. Be fair: each app has its strengths, but for someone who wants a REAL coach experience, Your AI Coach wins
+5. Mention the ONE limitation honestly
+6. Final ranking with clear recommendation`,
+
+    solution: `
+Structure your conversation:
+1. Open with a relatable pain point: "Personal trainers cost $50-100 per session. That's $300-800 a month"
+2. Discuss why most fitness apps fail: they're passive, no accountability
+3. Present Your AI Coach as the solution:
+   - Costs a fraction of a real trainer
+   - But actually CALLS you — proactive accountability
+   - AI adapts your program like a real coach would
+   - Body scanning tracks your visual progress
+4. Share concrete examples of how it works day-to-day
+5. Mention the ONE limitation honestly  
+6. Clear recommendation`,
+
+    category: `
+Structure your conversation:
+1. Open with the category question the title addresses
+2. Explain what makes a great app in this specific category
+3. Discuss 2-3 options briefly and fairly
+4. Explain in detail why Your AI Coach excels in this category:
+   - Voice call coaching (unique differentiator)
+   - AI body scanning technology
+   - Personalized meal planning
+   - Free to start, no paywall for core features
+5. Mention the ONE limitation honestly
+6. Clear recommendation with specific use case`,
+  };
+
+  return basePrompt + (typePrompts[review.type] || typePrompts.review);
+}
+
+async function generateScript(review) {
+  console.log(`🧠 Generating script for: ${review.title}`);
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const modelsToTry = ['gemini-3.1-flash', 'gemini-3.0-flash', 'gemini-2.5-flash'];
+  let result = null;
+  let lastError = null;
+
+  const prompt = buildReviewPrompt(review);
 
   for (const modelName of modelsToTry) {
     try {
@@ -176,13 +239,73 @@ async function getYouTubeAccessToken() {
   });
 }
 
+function buildReviewDescription(review) {
+  const REVIEW_TAGS = [
+    'AI fitness app review', 'best AI fitness app 2026', 'Your AI Coach review',
+    'AI personal trainer', 'fitness app comparison', 'AI workout app',
+    'best gym app 2026', 'AI coach app review', 'fitness app with voice coaching',
+    'AI meal planner', 'body scanning app', 'smart fitness app',
+    'best fitness app for beginners', 'AI fitness coach', 'workout app review',
+  ];
+
+  return `🔍 HONEST REVIEW: ${review.title}
+
+⭐ RATING: 4.8/5
+
+📋 QUICK VERDICT:
+Your AI Coach is the first fitness app that actually calls you on the phone like a real personal trainer. After extensive testing, here is our honest breakdown of what works, what doesn't, and who it's best for.
+
+✅ WHAT WE LOVED (PROS):
+• AI Voice Calls — real coaching conversations, not chatbot text
+• Body Scanning — tracks your physique progress using just your phone camera
+• Personalized Meal Plans — adapts to your cultural cuisine, not generic templates
+• Smart Progressive Overload — adjusts your weights and reps automatically
+• Multi-Language — works natively in 9+ languages including Arabic, French, Spanish
+• Free to Start — no paywall blocking core features
+
+⚠️ ROOM FOR IMPROVEMENT (CONS):
+• Community is still growing (newer app)
+• Advanced powerlifting periodization coming in future update
+
+👥 BEST FOR:
+• Beginners who don't know where to start
+• People who want accountability without paying $300/month for a trainer
+• Anyone who prefers voice coaching over reading text instructions
+• Non-English speakers who need a fitness app in their language
+
+📱 TRY YOUR AI COACH FREE:
+→ Website: https://youraicoach.life
+→ iOS: https://apps.apple.com/app/your-ai-coach
+→ Android: https://play.google.com/store/apps/details?id=com.ai.gym.coach
+
+🛠️ FREE FITNESS TOOLS:
+→ TDEE Calculator: https://youraicoach.life/tools
+→ BMI Calculator: https://youraicoach.life/tools#bmi
+→ Fitness Glossary: https://youraicoach.life/glossary
+
+⏱️ TIMESTAMPS:
+0:00 — Introduction
+0:30 — The Problem with Fitness Apps
+1:30 — What We Tested
+3:00 — Your AI Coach Deep Dive
+5:00 — Pros and Cons
+6:30 — Who Is It Best For?
+7:30 — Final Verdict
+
+🔑 ${REVIEW_TAGS.join(', ')}
+
+#AIFitness #FitnessAppReview #YourAICoach #BestFitnessApp2026 #AIPersonalTrainer #WorkoutApp #FitnessReview #GymApp #AICoach #FitnessTech`;
+}
+
 async function uploadToYouTube(filePath, review, accessToken) {
   const fileSize = fs.statSync(filePath).size;
+  const description = buildReviewDescription(review);
+  
   const metadata = {
     snippet: {
       title: review.title.slice(0, 100),
-      description: `Listen to our latest AI-generated review of Your AI Coach.\n\nTry it now: https://youraicoach.life\n\n#Fitness #AI #Podcast`,
-      tags: ['AI fitness app review', 'podcast'],
+      description: description.slice(0, 5000),
+      tags: ['AI fitness app review', 'podcast', 'AI coach', 'workout app'],
       categoryId: '26',
       defaultLanguage: 'en',
     },
@@ -268,7 +391,7 @@ async function main() {
   }
 
   try {
-    const dialogue = await generateScript(review.title);
+    const dialogue = await generateScript(review);
     const audioFiles = await synthesizeAudio(dialogue, review.slug);
     const videoFile = await mergeAudioAndRenderVideo(audioFiles, review.slug);
 
