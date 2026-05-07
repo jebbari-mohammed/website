@@ -51,6 +51,10 @@ jobs:
           mkdir -p ~/.local/share/notebooklm-mcp
           gsutil cp gs://ai-gym-coach-notebooklm-state/chrome_profile.tar.gz /tmp/
           tar -xzf /tmp/chrome_profile.tar.gz -C ~/.local/share/notebooklm-mcp/
+          # Delete any lock files copied from the Mac that would crash Chrome
+          rm -f ~/.local/share/notebooklm-mcp/chrome_profile/SingletonLock
+          rm -f ~/.local/share/notebooklm-mcp/chrome_profile/SingletonCookie
+          rm -f ~/.local/share/notebooklm-mcp/chrome_profile/SingletonSocket
 
       - name: Generate and publish video
         env:
