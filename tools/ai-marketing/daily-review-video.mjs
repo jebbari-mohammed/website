@@ -221,7 +221,7 @@ class NotebookLMMCP {
 
   start() {
     return new Promise((resolve, reject) => {
-      this.process = spawn('npx', ['notebooklm-mcp'], {
+      this.process = spawn('node', [path.join(__dirname, 'node_modules/notebooklm-mcp/dist/index.js')], {
         stdio: ['pipe', 'pipe', 'pipe'],
       });
 
