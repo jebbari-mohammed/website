@@ -51,10 +51,9 @@ jobs:
           mkdir -p ~/.local/share/notebooklm-mcp
           gsutil cp gs://ai-gym-coach-notebooklm-state/chrome_profile.tar.gz /tmp/
           tar -xzf /tmp/chrome_profile.tar.gz -C ~/.local/share/notebooklm-mcp/
-          # Delete Mac lock files that would crash Chrome on Linux
-          rm -f ~/.local/share/notebooklm-mcp/chrome_profile/SingletonLock
-          rm -f ~/.local/share/notebooklm-mcp/chrome_profile/SingletonCookie
-          rm -f ~/.local/share/notebooklm-mcp/chrome_profile/SingletonSocket
+          # Delete Mac lock files and LevelDB locks that cause "profile in use" errors on Linux
+          find ~/.local/share/notebooklm-mcp/chrome_profile -name "*Singleton*" -delete || true
+          find ~/.local/share/notebooklm-mcp/chrome_profile -name "LOCK" -delete || true
           # Reset file timestamps — notebooklm-mcp rejects state files older than 24h
           touch ~/.local/share/notebooklm-mcp/browser_state/state.json
           touch ~/.local/share/notebooklm-mcp/browser_state/session.json
