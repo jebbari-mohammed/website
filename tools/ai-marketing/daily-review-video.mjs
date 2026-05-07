@@ -243,7 +243,7 @@ class NotebookLMMCP {
         }
       });
 
-      this.process.stderr.on('data', () => {});
+      this.process.stderr.on('data', (data) => process.stderr.write(data));
 
       setTimeout(async () => {
         try {
