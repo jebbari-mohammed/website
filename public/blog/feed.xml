@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Your AI Coach Blog</title>
+    <link>https://youraicoach.life/blog</link>
+    <description>Expert insights on AI fitness coaching, workout science, and nutrition</description>
+    <language>en</language>
+    <atom:link href="https://youraicoach.life/blog/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 07 May 2026 16:49:30 GMT</lastBuildDate>
+    <item>
+      <title>Ditch the $150 Trainer: How AI Coaching Actually Gets Results</title>
+      <link>https://youraicoach.life/blog/cheapest-alternative-to-personal-trainer</link>
+      <guid>https://youraicoach.life/blog/cheapest-alternative-to-personal-trainer</guid>
+      <description>Tired of expensive personal trainers? Discover the most effective, affordable alternatives to reach your fitness goals using AI-driven voice technology.</description>
+      <pubDate>Thu, 07 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Why 2026 Is the Year Your Fitness Coach Finally Calls You</title>
+      <link>https://youraicoach.life/blog/best-ai-fitness-app-2026</link>
+      <guid>https://youraicoach.life/blog/best-ai-fitness-app-2026</guid>
+      <description>Stop guessing your workouts. From proactive AI voice calls to camera-based body scans, here is why your next personal trainer is actually an app.</description>
+      <pubDate>Wed, 06 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Stop Wasting Time: Finding Your Ideal AI Fitness Coach in 2026</title>
+      <link>https://youraicoach.life/blog/best-ai-fitness-app-2026-guide</link>
+      <guid>https://youraicoach.life/blog/best-ai-fitness-app-2026-guide</guid>
+      <description>Tired of generic fitness apps? From real-time voice calls to smart body scanning, here is my honest take on the best AI fitness apps to transform your 2026.</description>
+      <pubDate>Tue, 05 May 2026 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
