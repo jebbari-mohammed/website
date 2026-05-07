@@ -245,6 +245,8 @@ class NotebookLMMCP {
 
       this.process.stderr.on('data', (data) => process.stderr.write(data));
 
+      // Wait longer for browser + NotebookLM page to load (CI runners are slow)
+      const startupDelay = process.env.CI ? 12000 : 5000;
       setTimeout(async () => {
         try {
           await this.send('initialize', {
@@ -254,7 +256,7 @@ class NotebookLMMCP {
           });
           resolve();
         } catch (e) { reject(e); }
-      }, 3500);
+      }, startupDelay);
     });
   }
 
@@ -604,25 +606,26 @@ async function main() {
   console.log(`   Source: ${source}`);
   console.log(`   Slug: ${review.slug}\n`);
 
-  // Start NotebookLM MCP
-  const mcp = new NotebookLMMCP();
-  await mcp.start();
-  console.log('✅ NotebookLM MCP connected');
+  // Start NotebookLM MCP with retry on auth failure
+  async function runWithMCP() {
+    const mcp = new NotebookLMMCP();
+    await mcp.start();
+    console.log('✅ NotebookLM MCP connected');
 
-  try {
-    // Add the app website as a source so NotebookLM has context
-    console.log(`📎 Adding source: ${SITE_URL}`);
-    const sourceResult = await mcp.callTool('add_source', {
-      session_id: 'default',
-      notebook_id: NOTEBOOK_ID,
-      notebook_url: NOTEBOOK_URL,
-      type: 'url',
-      content: SITE_URL,
-    });
-    console.log('✅ Source added result:', JSON.stringify(sourceResult, null, 2));
-    if (sourceResult && sourceResult.success === false) {
-      throw new Error(`Add source failed: ${sourceResult.error}`);
-    }
+    try {
+      // Add the app website as a source so NotebookLM has context
+      console.log(`📎 Adding source: ${SITE_URL}`);
+      const sourceResult = await mcp.callTool('add_source', {
+        session_id: 'default',
+        notebook_id: NOTEBOOK_ID,
+        notebook_url: NOTEBOOK_URL,
+        type: 'url',
+        content: SITE_URL,
+      });
+      console.log('✅ Source added result:', JSON.stringify(sourceResult, null, 2));
+      if (sourceResult && sourceResult.success === false) {
+        throw new Error(`Add source failed: ${sourceResult.error}`);
+      }
 
     // Generate audio with review-specific prompt
     const prompt = buildReviewPrompt(review);
@@ -668,8 +671,23 @@ async function main() {
       console.log('❌ Could not find the downloaded file in the directory!');
     }
 
-  } finally {
-    mcp.stop();
+    } finally {
+      mcp.stop();
+    }
+  }
+
+  // Try MCP pipeline with one retry on auth/session failure
+  try {
+    await runWithMCP();
+  } catch (err) {
+    if (err.message.includes('chat input') || err.message.includes('authenticate') || err.message.includes('session')) {
+      console.log(`\n⚠️  First attempt failed (${err.message})`);
+      console.log('🔄 Retrying in 10 seconds...\n');
+      await new Promise(r => setTimeout(r, 10000));
+      await runWithMCP();
+    } else {
+      throw err;
+    }
   }
 
   // Upload to YouTube
