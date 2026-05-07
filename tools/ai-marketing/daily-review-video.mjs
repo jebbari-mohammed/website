@@ -221,7 +221,7 @@ class NotebookLMMCP {
 
   start() {
     return new Promise((resolve, reject) => {
-      this.process = spawn('npx', ['notebooklm-mcp@latest'], {
+      this.process = spawn('npx', ['notebooklm-mcp'], {
         stdio: ['pipe', 'pipe', 'pipe'],
       });
 

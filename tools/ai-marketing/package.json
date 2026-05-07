@@ -15,6 +15,7 @@
     "@google-cloud/text-to-speech": "^6.4.1",
     "@google/generative-ai": "^0.24.0",
     "dotenv": "^17.4.2",
-    "fluent-ffmpeg": "^2.1.3"
+    "fluent-ffmpeg": "^2.1.3",
+    "notebooklm-mcp": "file:./tmp_mcp/notebooklm-mcp-2.0.0.tgz"
   }
 }
