@@ -13,7 +13,11 @@ export default function Footer() {
                             <span className="text-base font-bold font-condensed tracking-wide text-textPrimary">Your AI Coach</span>
                         </div>
                         <p className="text-sm text-textSecondary leading-[1.7] max-w-[280px]">
-                            AI-powered fitness guidance tailored to your body. Not medical advice.
+                            AI-powered fitness guidance tailored to your body.
+                            <br /><br />
+                            <span className="text-[11px] opacity-70">
+                                <strong>Note:</strong> We are a consumer fitness application, not affiliated with the B2B consulting firm youraicoach.ai.
+                            </span>
                         </p>
                     </div>
 
