@@ -40,7 +40,7 @@ const features = [
     icon: Brain,
     title: "13 Intelligence Modules",
     subtitle: "A relationship engine",
-    desc: "Anti-skip detector, dark moment protocol, behavioral profiling, communication DNA, milestone detection, memory manager, personality engine — your coach remembers everything.",
+    desc: "Your coach runs 13 behavioral modules simultaneously. The Anti-Skip Detector actively notices if you haven't trained. The Dark Moment Protocol shifts to high empathy when motivation crashes. The Memory Manager recalls your past struggles. It's not a prompt; it's an engine.",
     gradient: "from-primary to-secondary",
     span: "",
   },

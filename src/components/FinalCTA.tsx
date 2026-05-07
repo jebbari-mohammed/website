@@ -75,8 +75,8 @@ export default function FinalCTA() {
             transition={{ delay: 0.7, duration: 0.6 }}
             className="flex flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-textSecondary/50"
           >
-            <span>✓ Start for free</span>
-            <span>✓ No credit card</span>
+            <span>✓ Free base app</span>
+            <span>✓ Optional voice upgrades</span>
             <span>✓ iOS & Android</span>
             <span>✓ Cancel anytime</span>
           </motion.div>

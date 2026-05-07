@@ -88,7 +88,7 @@ export default function PrivacySection() {
                             <div className="inline-block bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-4">Option 2 — Email</div>
                             <h3 className="text-base font-bold mb-3 font-sans">Contact Support</h3>
                             <p className="text-sm text-textSecondary mb-3 font-sans">If you cannot access the app, email us at:</p>
-                            <p className="text-[15px] font-semibold text-primary mb-3">jbbari03@gmail.com</p>
+                            <p className="text-[15px] font-semibold text-primary mb-3">support@youraicoach.life</p>
                             <p className="text-sm text-textSecondary leading-relaxed font-sans">Include: <strong className="text-textPrimary">Subject:</strong> "Data Deletion Request" and your registered email address. We will delete all data within <strong className="text-textPrimary">30 days</strong> and confirm by email.</p>
                             <p className="mt-3.5 text-[13px] text-cta font-sans">✓ Workout plans ✓ Meal plans ✓ Profile data ✓ Account ✓ All personal info</p>
                         </motion.div>

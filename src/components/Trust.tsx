@@ -54,12 +54,17 @@ export default function Trust() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.4 }}
-                    className="mt-10 bg-red-500/10 border border-red-500/20 rounded-[16px] p-5 flex gap-4 items-start"
+                    className="mt-12 bg-[#0C1232]/80 border-2 border-red-500/30 rounded-[20px] p-6 sm:p-8 flex flex-col sm:flex-row gap-5 items-start sm:items-center shadow-[0_10px_40px_rgba(239,68,68,0.05)]"
                 >
-                    <AlertTriangle className="text-red-500 shrink-0 mt-0.5" size={24} />
-                    <p className="text-[13px] text-textSecondary leading-[1.6]">
-                        <strong className="text-textPrimary">Medical Disclaimer:</strong> Your AI Coach provides general fitness and nutritional guidance only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before beginning any new exercise or diet programme, especially if you have a medical condition or injury.
-                    </p>
+                    <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
+                        <AlertTriangle className="text-red-500" size={24} />
+                    </div>
+                    <div>
+                        <h4 className="text-base font-bold text-white mb-1">Important Medical Disclaimer</h4>
+                        <p className="text-sm text-textSecondary leading-relaxed">
+                            Your AI Coach provides general fitness and nutritional guidance based on user inputs and AI analysis. It is <strong>NOT</strong> a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before beginning any new exercise or diet programme, especially if you have a medical condition or injury.
+                        </p>
+                    </div>
                 </motion.div>
             </div>
         </section>

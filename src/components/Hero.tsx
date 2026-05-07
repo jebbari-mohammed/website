@@ -113,17 +113,22 @@ export default function Hero() {
             </motion.a>
           </div>
 
-          {/* Social proof bar */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.6 }}
-            className="flex flex-wrap gap-6 text-sm text-textSecondary/70"
-          >
-            <span className="flex items-center gap-1.5"><Flame size={14} className="text-cta" /> 24/7 AI coaching</span>
-            <span className="flex items-center gap-1.5"><Star size={14} className="text-yellow-400" /> 13 intelligence modules</span>
-            <span className="flex items-center gap-1.5"><Phone size={14} className="text-primary" /> Real phone calls</span>
-          </motion.div>
+          <div className="flex flex-col gap-3">
+            <p className="text-[13px] text-textSecondary font-sans opacity-80 pl-2">
+              <strong>Free base app</strong> • Optional premium voice upgrades
+            </p>
+            {/* Social proof bar */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 0.6 }}
+              className="flex flex-wrap gap-6 text-sm text-textSecondary/70"
+            >
+              <span className="flex items-center gap-1.5"><Flame size={14} className="text-cta" /> Top Early Access AI App</span>
+              <span className="flex items-center gap-1.5"><Star size={14} className="text-yellow-400" /> 13 intelligence modules</span>
+              <span className="flex items-center gap-1.5"><Phone size={14} className="text-primary" /> Real phone calls</span>
+            </motion.div>
+          </div>
         </motion.div>
 
         <div className="hidden lg:block relative h-[600px] w-full" style={{ perspective: "1000px" }}>

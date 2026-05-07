@@ -41,8 +41,8 @@ export default function Footer() {
                     <div className="md:col-span-2">
                         <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Support</h4>
                         <div className="flex flex-col gap-2.5">
-                            <a href="mailto:jbbari03@gmail.com" className="text-sm text-textSecondary hover:text-primary transition-colors">Contact Us</a>
-                            <a href="mailto:jbbari03@gmail.com" className="text-sm text-textSecondary hover:text-primary transition-colors">Support</a>
+                            <a href="mailto:support@youraicoach.life" className="text-sm text-textSecondary hover:text-primary transition-colors">Contact Us</a>
+                            <a href="mailto:support@youraicoach.life" className="text-sm text-textSecondary hover:text-primary transition-colors">Support</a>
                             <a href="#data" className="text-sm text-textSecondary hover:text-primary transition-colors">Data Policy</a>
                         </div>
                     </div>
@@ -53,7 +53,7 @@ export default function Footer() {
                     <div className="flex gap-4 flex-wrap">
                         <a href="/privacy-policy.html" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">Privacy Policy</a>
                         <a href="/terms.html" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">Terms of Service</a>
-                        <a href="mailto:jbbari03@gmail.com" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">jbbari03@gmail.com</a>
+                        <a href="mailto:support@youraicoach.life" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">support@youraicoach.life</a>
                     </div>
                 </div>
             </div>
