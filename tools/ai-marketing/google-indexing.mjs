@@ -29,6 +29,7 @@ async function pingSitemap(sitemapUrl) {
       method: 'GET',
     }, (res) => {
       console.log(`  📡 Google sitemap ping: HTTP ${res.statusCode} for ${sitemapUrl}`);
+      res.resume(); // Consume response data to free up memory and close the socket
       resolve(res.statusCode);
     });
     req.on('error', (err) => {
