@@ -10,6 +10,9 @@
     "bulk-blog": "node bulk-blog.mjs"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.24.0"
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@google-cloud/text-to-speech": "^6.4.1",
+    "@google/generative-ai": "^0.24.0",
+    "fluent-ffmpeg": "^2.1.3"
   }
 }
