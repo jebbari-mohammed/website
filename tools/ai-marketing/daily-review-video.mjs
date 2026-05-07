@@ -613,6 +613,7 @@ async function main() {
     // Add the app website as a source so NotebookLM has context
     console.log(`📎 Adding source: ${SITE_URL}`);
     await mcp.callTool('add_source', {
+      session_id: 'default',
       notebook_id: NOTEBOOK_ID,
       notebook_url: NOTEBOOK_URL,
       type: 'url',
@@ -624,6 +625,7 @@ async function main() {
     const prompt = buildReviewPrompt(review);
     console.log('🎙️ Generating review audio (3-8 minutes)...');
     await mcp.callTool('generate_audio', {
+      session_id: 'default',
       notebook_id: NOTEBOOK_ID,
       notebook_url: NOTEBOOK_URL,
       custom_prompt: prompt,
@@ -634,6 +636,7 @@ async function main() {
     // Download
     console.log('⬇️  Downloading audio...');
     const dlResult = await mcp.callTool('download_audio', {
+      session_id: 'default',
       notebook_id: NOTEBOOK_ID,
       notebook_url: NOTEBOOK_URL,
       destination_dir: PODCAST_DIR,
