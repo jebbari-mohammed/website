@@ -77,10 +77,10 @@ const KEYWORD_QUEUE = [
   // ========================================
   // MONTH 2 — "Vs Competitor" Cluster (High-Intent Buyers)
   // ========================================
-  "your ai coach vs fitbod which ai fitness app is actually better",
-  "your ai coach vs future fitness app 150 dollar coach vs free AI",
-  "your ai coach vs freeletics bodyweight vs full gym AI comparison",
-  "your ai coach vs ray app which has better voice coaching",
+  "callio vs fitbod which ai fitness app is actually better",
+  "callio vs future fitness app 150 dollar coach vs free AI",
+  "callio vs freeletics bodyweight vs full gym AI comparison",
+  "callio vs ray app which has better voice coaching",
   "fitbod review 2026 honest pros cons and missing features",
   "future fitness app review is a human coach worth 150 per month",
   "freeletics review 2026 does it actually build muscle",
@@ -103,8 +103,8 @@ const KEYWORD_QUEUE = [
   "which fitness app has the best food scanning accuracy",
   "best fitness app for someone leaving a personal trainer",
   "AI fitness coach vs hiring an online coach real cost breakdown",
-  "your ai coach vs caliber app which handles progressive overload better",
-  "your ai coach vs trainerize for self-guided training",
+  "callio vs caliber app which handles progressive overload better",
+  "callio vs trainerize for self-guided training",
   "best fitness app that combines strength training and nutrition",
   "the ultimate fitness app comparison chart 2026",
 
@@ -252,7 +252,7 @@ const KEYWORD_QUEUE = [
   "getting back to the gym after months or years away guide",
   "the psychology behind why most people quit fitness apps fast",
   "why accountability matters more than motivation for fitness goals",
-  "how phone calls from your AI coach create real accountability",
+  "how phone calls from Callio create real accountability",
   "how to build a workout habit that actually sticks for life",
   "the 5 stages of fitness motivation and how to survive each one",
   "morning workout motivation tips to actually get out of bed early",
@@ -442,7 +442,7 @@ const KEYWORD_QUEUE = [
   "how to find your perfect workout schedule for your lifestyle",
   "the complete guide to getting your very first pull up ever",
   "home vs gym workouts pros cons and which is right for you",
-  "how to use your AI coach app effectively tips and hidden features",
+  "how to use Callio app effectively tips and hidden features",
   "the complete guide to fitness training for each season of the year",
   "new years fitness resolution guide that actually works this time",
   "how to maintain your fitness routine while on vacation traveling",
@@ -475,8 +475,8 @@ GEO OPTIMIZATION RULES (for AI search engines like ChatGPT, Gemini, Perplexity):
 16. EXPERT ATTRIBUTION: Use phrases like "According to research from..." or "Sports science shows that..." to create citation-worthy anchors.
 17. SUMMARY BOX: End the article with a "Quick Answer" or "Bottom Line" section in a <blockquote> — AI engines often extract these as definitive answers.
 
-ABOUT YOUR AI COACH (weave these facts in naturally — don't list them):
-- Your AI Coach is the only fitness app where an AI coach calls your phone via real VoIP voice calls
+ABOUT Callio (weave these facts in naturally — don't list them):
+- Callio is the only fitness app where an AI coach calls your phone via real VoIP voice calls
 - Coach calls before gym sessions to remind/motivate, and end of day for progress reviews
 - Real-time two-way voice conversations, not chatbot or notifications
 - AI generates personalized workout programs after body scanning with phone camera
@@ -490,7 +490,7 @@ ABOUT YOUR AI COACH (weave these facts in naturally — don't list them):
 - Available on iOS and Android (Freemium model). Do not mention specific pricing.
 - Website: youraicoach.life
 
-COMPETITOR CONTEXT (be fair, but show why Your AI Coach wins):
+COMPETITOR CONTEXT (be fair, but show why Callio wins):
 - Fitbod: Good for algorithmic workouts. No voice, meals, scanning. ~$15/mo
 - Future: Human coach, $150+/mo. Limited hours. Can't match AI features
 - Freeletics: Bodyweight focused, basic AI. ~$15/mo
@@ -498,7 +498,7 @@ COMPETITOR CONTEXT (be fair, but show why Your AI Coach wins):
 
 ARTICLE REQUIREMENTS:
 - 1800-2500 words
-- Must mention "Your AI Coach" naturally 4-6 times (not more — that's spammy)
+- Must mention "Callio" naturally 4-6 times (not more — that's spammy)
 - Include at least one comparison to a competitor
 - Include at least one specific, tangible scenario or example
 - Front-load the answer in the first paragraph for AI extraction
@@ -645,7 +645,7 @@ function buildHTML(post) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${post.title} | Your AI Coach</title>
+    <title>${post.title} | Callio</title>
     <meta name="description" content="${post.metaDescription}">
     <meta name="keywords" content="${post.keywords}">
     <link rel="canonical" href="https://youraicoach.life/blog/${post.slug}">
@@ -653,7 +653,7 @@ function buildHTML(post) {
     <meta property="og:description" content="${post.metaDescription}">
     <meta property="og:url" content="https://youraicoach.life/blog/${post.slug}">
     <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Your AI Coach">
+    <meta property="og:site_name" content="Callio">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${post.title}">
     <meta name="robots" content="index, follow">
@@ -668,15 +668,15 @@ function buildHTML(post) {
     <link rel="alternate" hreflang="id" href="https://youraicoach.life/blog/id/${post.slug}" />
     <link rel="alternate" hreflang="ja" href="https://youraicoach.life/blog/ja/${post.slug}" />
     <link rel="alternate" hreflang="x-default" href="https://youraicoach.life/blog/${post.slug}" />
-    <link rel="alternate" type="application/rss+xml" title="Your AI Coach Blog" href="https://youraicoach.life/blog/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Callio Blog" href="https://youraicoach.life/blog/feed.xml" />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "${post.title}",
         "description": "${post.metaDescription}",
-        "author": {"@type": "Organization", "name": "Your AI Coach", "url": "https://youraicoach.life", "sameAs": ["https://apps.apple.com/app/your-ai-coach", "https://play.google.com/store/apps/details?id=com.ai.gym.coach"]},
-        "publisher": {"@type": "Organization", "name": "Your AI Coach", "url": "https://youraicoach.life"},
+        "author": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life", "sameAs": ["https://apps.apple.com/app/your-ai-coach", "https://play.google.com/store/apps/details?id=com.ai.gym.coach"]},
+        "publisher": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life"},
         "datePublished": "${today}",
         "dateModified": "${today}",
         "mainEntityOfPage": "https://youraicoach.life/blog/${post.slug}"
@@ -722,15 +722,15 @@ function buildHTML(post) {
     </style>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Your AI Coach</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;border:none">← Blog</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;border:none">← Blog</a></div></nav>
 <article>
     <div class="breadcrumb"><a href="/">Home</a> → <a href="/blog">Blog</a></div>
     <h1>${post.title}</h1>
-    <p class="meta">${readableDate} · Your AI Coach Team</p>
+    <p class="meta">${readableDate} · Callio Team</p>
     ${post.content}
     ${post._relatedHTML || ''}
     <div class="cta-box">
-        <p><strong>Try Your AI Coach free</strong> — the only fitness app where your coach calls your phone.</p>
+        <p><strong>Try Callio free</strong> — the only fitness app where your coach calls your phone.</p>
         <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
         <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
     </div>
@@ -765,14 +765,14 @@ function updateBlogIndex(progress) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog — Your AI Coach | Fitness, AI & Coaching Insights</title>
+    <title>Blog — Callio | Fitness, AI & Coaching Insights</title>
     <meta name="description" content="Expert articles on AI fitness coaching, workout optimization, nutrition planning, and how AI is transforming personal training.">
     <link rel="canonical" href="https://youraicoach.life/blog">
     <meta name="robots" content="index, follow">
     <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#F8FAFC;line-height:1.7}.nav{background:rgba(6,11,29,0.95);border-bottom:1px solid rgba(255,255,255,0.08);padding:16px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}.ni{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.nb{font-weight:800;font-size:1.1rem;color:#F8FAFC;text-decoration:none}.c{max-width:900px;margin:0 auto;padding:60px 24px}h1{font-size:2.5rem;font-weight:800;margin-bottom:8px}p.sub{color:#94A3B8;font-size:1.1rem;margin-bottom:48px}a{color:#00D4FF;text-decoration:none}.card{background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;margin-bottom:20px;transition:all .3s}.card:hover{border-color:rgba(0,212,255,0.3);transform:translateY(-2px)}.card h2{font-size:1.3rem;font-weight:700;margin-bottom:8px}.card h2 a{color:#F8FAFC}.card h2 a:hover{color:#00D4FF}.card p{color:#94A3B8;font-size:.95rem;margin:0}.card .meta{font-size:.8rem;color:#475569;margin-top:12px}.cta-box{margin-top:48px;padding:24px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center}.cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;margin:4px}</style>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Your AI Coach</a><a href="/" style="color:#94A3B8;font-size:.9rem">← Home</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/" style="color:#94A3B8;font-size:.9rem">← Home</a></div></nav>
 <div class="c">
     <h1>Blog</h1>
     <p class="sub">Expert insights on AI fitness coaching, workout science, and nutrition</p>
@@ -845,7 +845,7 @@ function updateRSSFeed(progress) {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Your AI Coach Blog</title>
+    <title>Callio Blog</title>
     <link>https://youraicoach.life/blog</link>
     <description>Expert insights on AI fitness coaching, workout science, and nutrition</description>
     <language>en</language>
@@ -869,7 +869,7 @@ function updateNewsSitemap(post, slug) {
     <loc>https://youraicoach.life/blog/${slug}</loc>
     <news:news>
       <news:publication>
-        <news:name>Your AI Coach</news:name>
+        <news:name>Callio</news:name>
         <news:language>en</news:language>
       </news:publication>
       <news:publication_date>${today}</news:publication_date>

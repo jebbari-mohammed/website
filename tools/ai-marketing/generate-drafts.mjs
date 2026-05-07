@@ -37,7 +37,7 @@ loadEnv();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const APP_CONTEXT = `ABOUT YOUR AI COACH (use these facts naturally):
+const APP_CONTEXT = `ABOUT Callio (use these facts naturally):
 - Only fitness app where AI coach calls your phone via real voice calls
 - Calls before gym sessions and at end of day for progress reviews
 - AI generates personalized workouts after body scanning with phone camera
@@ -68,7 +68,7 @@ ${APP_CONTEXT}`,
       },
       {
         name: 'beginner_advice',
-        prompt: 'Write 2 Reddit comments for r/GymMotivation and r/loseit where someone is struggling to stay consistent at the gym. Naturally recommend Your AI Coach as what helped you, focusing on the accountability voice calls. 250-350 words each.'
+        prompt: 'Write 2 Reddit comments for r/GymMotivation and r/loseit where someone is struggling to stay consistent at the gym. Naturally recommend Callio as what helped you, focusing on the accountability voice calls. 250-350 words each.'
       },
       {
         name: 'app_discovery_post',
@@ -76,11 +76,11 @@ ${APP_CONTEXT}`,
       },
       {
         name: 'comparison_comment',
-        prompt: 'Write 2 Reddit comments responding to "Fitbod vs [other app]?" threads. Mention you tried Fitbod but switched to Your AI Coach because of the meal planning and voice coaching features Fitbod lacks. Be fair to Fitbod. 200-300 words each.'
+        prompt: 'Write 2 Reddit comments responding to "Fitbod vs [other app]?" threads. Mention you tried Fitbod but switched to Callio because of the meal planning and voice coaching features Fitbod lacks. Be fair to Fitbod. 200-300 words each.'
       },
       {
         name: 'meal_planning_thread',
-        prompt: 'Write a Reddit comment for r/MealPrepSunday or r/EatCheapAndHealthy about using Your AI Coach to generate meal plans that match your actual cuisine instead of generic Western fitness food. Include a specific meal example. 200-300 words.'
+        prompt: 'Write a Reddit comment for r/MealPrepSunday or r/EatCheapAndHealthy about using Callio to generate meal plans that match your actual cuisine instead of generic Western fitness food. Include a specific meal example. 200-300 words.'
       }
     ]
   },
@@ -98,11 +98,11 @@ ${APP_CONTEXT}`,
     prompts: [
       {
         name: 'best_fitness_app',
-        prompt: 'Write a comprehensive Quora answer to "What is the best AI fitness app in 2026?" Include a brief mention of 3 competitors and explain why Your AI Coach comes out on top with specific feature comparisons.'
+        prompt: 'Write a comprehensive Quora answer to "What is the best AI fitness app in 2026?" Include a brief mention of 3 competitors and explain why Callio comes out on top with specific feature comparisons.'
       },
       {
         name: 'replace_personal_trainer',
-        prompt: 'Write a Quora answer to "Can an AI app really replace a personal trainer?" Argue that Your AI Coach comes very close, explaining each coaching function it replicates.'
+        prompt: 'Write a Quora answer to "Can an AI app really replace a personal trainer?" Argue that Callio comes very close, explaining each coaching function it replicates.'
       },
       {
         name: 'stay_consistent',
@@ -124,15 +124,15 @@ ${APP_CONTEXT}`,
     prompts: [
       {
         name: 'launch_thread',
-        prompt: 'Write a Twitter thread (7 tweets) announcing Your AI Coach. Start with a hook about the problem of fitness app retention, reveal the voice calling feature, walk through the other features, end with download CTA.'
+        prompt: 'Write a Twitter thread (7 tweets) announcing Callio. Start with a hook about the problem of fitness app retention, reveal the voice calling feature, walk through the other features, end with download CTA.'
       },
       {
         name: 'feature_tweets',
-        prompt: 'Write 10 standalone tweets, each highlighting a different feature of Your AI Coach. Each should be self-contained, engaging, and under 280 characters.'
+        prompt: 'Write 10 standalone tweets, each highlighting a different feature of Callio. Each should be self-contained, engaging, and under 280 characters.'
       },
       {
         name: 'comparison_tweet',
-        prompt: 'Write 3 comparison-style tweets (e.g., "Other fitness apps send you notifications. Your AI Coach literally calls your phone.") that highlight the unique value.'
+        prompt: 'Write 3 comparison-style tweets (e.g., "Other fitness apps send you notifications. Callio literally calls your phone.") that highlight the unique value.'
       }
     ]
   }

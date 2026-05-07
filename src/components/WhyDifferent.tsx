@@ -84,13 +84,13 @@ export default function WhyDifferent() {
                       <p className="text-xs sm:text-sm text-textSecondary/70 font-light">{item.others}</p>
                     </div>
                   </div>
-                  {/* Your AI Coach */}
+                  {/* Callio */}
                   <div className="bg-[#0C1232]/80 p-4 sm:p-6 flex items-center gap-3 sm:gap-4 group-hover:bg-primary/5 transition-colors duration-300">
                     <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/15 flex items-center justify-center shrink-0">
                       <IconOurs size={18} className="text-primary" />
                     </div>
                     <div>
-                      <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-primary block mb-0.5">Your AI Coach</span>
+                      <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-primary block mb-0.5">Callio</span>
                       <p className="text-xs sm:text-sm text-textPrimary font-medium">{item.ours}</p>
                     </div>
                   </div>

@@ -64,7 +64,7 @@ LOCALIZATION RULES:
 4. Reference local fitness culture: ${lang.culture}
 5. Keep the same structure (H2, H3, paragraphs, lists, blockquotes, tables) and similar length
 6. Keep HTML tags intact. Keep all URLs/links unchanged
-7. Keep brand names unchanged: "Your AI Coach", "Fitbod", "Future", "Freeletics"
+7. Keep brand names unchanged: "Callio", "Fitbod", "Future", "Freeletics"
 8. The tone should feel like a local expert talking to a friend — warm, knowledgeable, culturally aware
 9. Include at least one local cultural reference that a translator would NEVER include
 10. If mentioning meals or recipes, use meals that people in ${lang.locale} actually eat daily
@@ -136,7 +136,7 @@ function buildTranslatedHTML(original, translated, lang, slug) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${translated.title} | Your AI Coach</title>
+    <title>${translated.title} | Callio</title>
     <meta name="description" content="${translated.metaDescription}">
     <link rel="canonical" href="https://youraicoach.life/blog/${lang.code}/${slug}" />
 ${hreflangTags}
@@ -151,8 +151,8 @@ ${hreflangTags}
         "headline": "${translated.title}",
         "description": "${translated.metaDescription}",
         "inLanguage": "${lang.code}",
-        "author": {"@type": "Organization", "name": "Your AI Coach", "url": "https://youraicoach.life"},
-        "publisher": {"@type": "Organization", "name": "Your AI Coach", "url": "https://youraicoach.life"},
+        "author": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life"},
+        "publisher": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life"},
         "datePublished": "${today}",
         "dateModified": "${today}",
         "mainEntityOfPage": "https://youraicoach.life/blog/${lang.code}/${slug}"
@@ -188,13 +188,13 @@ ${hreflangTags}
 </head>
 <body>
 <div class="lang-switcher">${langLinks}</div>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Your AI Coach</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;border:none">← Blog</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;border:none">← Blog</a></div></nav>
 <article>
     <h1>${translated.title}</h1>
-    <p class="meta">${readableDate} · Your AI Coach Team</p>
+    <p class="meta">${readableDate} · Callio Team</p>
     ${translated.content}
     <div class="cta-box">
-        <p style="color:#CBD5E1;margin-bottom:16px"><strong>Try Your AI Coach free</strong></p>
+        <p style="color:#CBD5E1;margin-bottom:16px"><strong>Try Callio free</strong></p>
         <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
         <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
     </div>

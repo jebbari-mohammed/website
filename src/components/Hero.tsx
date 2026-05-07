@@ -52,7 +52,7 @@ export default function Hero() {
 
           <h1 className="text-5xl md:text-[72px] lg:text-[84px] font-black font-condensed leading-[0.9] tracking-tighter mb-6 relative z-10">
             <span className="absolute -inset-4 bg-gradient-to-r from-primary/30 to-secondary/30 blur-3xl -z-10 opacity-50 rounded-[40px]"></span>
-            YOUR AI COACH<br />
+            Callio<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
               CALLS YOU.
             </span>
@@ -143,7 +143,7 @@ export default function Hero() {
             {/* Ringing pulse effect */}
             <div className="absolute -inset-3 rounded-[56px] bg-gradient-to-r from-primary/30 to-secondary/30 blur-xl animate-pulse opacity-60 pointer-events-none" />
             <div className="w-full h-full rounded-[38px] border border-white/5 overflow-hidden bg-black relative">
-              <img src="/images/hero1.png" alt="Your AI Coach interface" className="w-full h-full object-cover" loading="eager" fetchPriority="high" decoding="async" />
+              <img src="/images/hero1.png" alt="Callio interface" className="w-full h-full object-cover" loading="eager" fetchPriority="high" decoding="async" />
             </div>
           </motion.div>
 

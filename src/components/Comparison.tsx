@@ -104,7 +104,7 @@ export default function Comparison() {
             <div className="grid grid-cols-5 gap-0 mb-2">
               <div className="p-4"></div>
               <div className="p-4 text-center">
-                <span className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary block">Your AI Coach</span>
+                <span className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary block">Callio</span>
                 <span className="text-[11px] text-cta font-semibold">Freemium</span>
               </div>
               <div className="p-4 text-center">

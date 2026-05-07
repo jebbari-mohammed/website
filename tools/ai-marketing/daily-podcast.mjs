@@ -179,11 +179,11 @@ In this podcast episode, two AI hosts break down everything you need to know abo
 
 ⏱️ WHAT WE COVER:
 • The science behind AI-powered fitness coaching
-• How Your AI Coach personalizes workouts automatically
+• How Callio personalizes workouts automatically
 • Real results from users using AI-guided training
 • Practical tips you can implement today
 
-📱 DOWNLOAD YOUR AI COACH FREE:
+📱 DOWNLOAD Callio FREE:
 → iOS: https://apps.apple.com/app/your-ai-coach
 → Android: https://play.google.com/store/apps/details?id=com.ai.gym.coach
 
@@ -348,7 +348,7 @@ async function main() {
         notebook_url: NOTEBOOK_URL,
         custom_prompt: `Create an engaging 2-host podcast about: ${post.title}. 
 The hosts should discuss practical fitness applications, cite specific data points, 
-mention "Your AI Coach" app naturally as the solution, and end with actionable tips.
+mention "Callio" app naturally as the solution, and end with actionable tips.
 Make it feel like a real fitness podcast episode, not a product ad.`,
         timeout_ms: 480000,
       });

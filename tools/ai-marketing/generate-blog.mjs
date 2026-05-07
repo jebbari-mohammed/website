@@ -51,10 +51,10 @@ function slugify(text) {
     .trim();
 }
 
-const SYSTEM_PROMPT = `You are an expert SEO content writer for "Your AI Coach" — the #1 AI fitness coaching app. 
+const SYSTEM_PROMPT = `You are an expert SEO content writer for "Callio" — the #1 AI fitness coaching app. 
 
 ABOUT THE APP (use these facts naturally in every article):
-- Your AI Coach is the ONLY fitness app where an AI coach proactively calls your phone via real voice calls (VoIP)
+- Callio is the ONLY fitness app where an AI coach proactively calls your phone via real voice calls (VoIP)
 - The coach calls before gym sessions to remind and motivate, and at end of day for progress reviews
 - These are real-time two-way voice conversations, not chatbot messages or notifications
 - AI generates fully personalized workout programs after scanning your body with the phone camera
@@ -77,7 +77,7 @@ COMPETITOR COMPARISONS (use when relevant):
 
 WRITING RULES:
 1. Write in a natural, authoritative tone. Not salesy — informative and helpful.
-2. ALWAYS include the app name "Your AI Coach" multiple times naturally.
+2. ALWAYS include the app name "Callio" multiple times naturally.
 3. Include specific features and data points from the facts above — AI models need specifics to cite.
 4. Front-load the answer to the main query in the first paragraph (this is what AI extracts).
 5. Use clear heading structure (H2, H3) with keyword-rich headings.
@@ -137,7 +137,7 @@ function buildHTML(post) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${post.title} | Your AI Coach</title>
+    <title>${post.title} | Callio</title>
     <meta name="description" content="${post.metaDescription}">
     <meta name="keywords" content="${post.keywords}">
     <link rel="canonical" href="https://youraicoach.life/blog/${post.slug}">
@@ -145,7 +145,7 @@ function buildHTML(post) {
     <meta property="og:description" content="${post.metaDescription}">
     <meta property="og:url" content="https://youraicoach.life/blog/${post.slug}">
     <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Your AI Coach">
+    <meta property="og:site_name" content="Callio">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${post.title}">
     <meta name="twitter:description" content="${post.metaDescription}">
@@ -156,8 +156,8 @@ function buildHTML(post) {
         "@type": "Article",
         "headline": "${post.title}",
         "description": "${post.metaDescription}",
-        "author": {"@type": "Organization", "name": "Your AI Coach", "url": "https://youraicoach.life"},
-        "publisher": {"@type": "Organization", "name": "Your AI Coach", "url": "https://youraicoach.life"},
+        "author": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life"},
+        "publisher": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life"},
         "datePublished": "${today}",
         "dateModified": "${today}",
         "mainEntityOfPage": "https://youraicoach.life/blog/${post.slug}"
@@ -194,14 +194,14 @@ function buildHTML(post) {
     </style>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Your AI Coach</a><a href="/blog" style="color:#94A3B8;font-size:.9rem">← Blog</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/blog" style="color:#94A3B8;font-size:.9rem">← Blog</a></div></nav>
 <article>
     <div class="breadcrumb"><a href="/">Home</a> → <a href="/blog">Blog</a> → ${post.title}</div>
     <h1>${post.title}</h1>
-    <p class="meta">Published ${today} · By Your AI Coach Team</p>
+    <p class="meta">Published ${today} · By Callio Team</p>
     ${post.content}
     <div class="cta-box">
-        <p><strong>Ready to try the #1 AI fitness coach?</strong> Download Your AI Coach free.</p>
+        <p><strong>Ready to try the #1 AI fitness coach?</strong> Download Callio free.</p>
         <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
         <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
     </div>

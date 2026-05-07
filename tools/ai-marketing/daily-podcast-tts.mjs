@@ -34,22 +34,22 @@ if (process.env.GOOGLE_CLOUD_JSON) {
 }
 
 const REVIEW_QUEUE = [
-  { title: 'Your AI Coach Review 2026 — Is This AI Fitness App Worth It?', slug: 'review-your-ai-coach-2026' },
-  { title: 'I Tested Your AI Coach for 30 Days — Here Is My Honest Review', slug: 'review-your-ai-coach-30-days' },
-  { title: 'Your AI Coach vs Fitbod — Which AI Fitness App Is Better in 2026?', slug: 'review-vs-fitbod' },
-  { title: 'Top 5 AI Fitness Apps Compared — Your AI Coach vs The Competition', slug: 'review-top-5-ai-fitness-apps' },
+  { title: 'Callio Review 2026 — Is This AI Fitness App Worth It?', slug: 'review-your-ai-coach-2026' },
+  { title: 'I Tested Callio for 30 Days — Here Is My Honest Review', slug: 'review-your-ai-coach-30-days' },
+  { title: 'Callio vs Fitbod — Which AI Fitness App Is Better in 2026?', slug: 'review-vs-fitbod' },
+  { title: 'Top 5 AI Fitness Apps Compared — Callio vs The Competition', slug: 'review-top-5-ai-fitness-apps' },
   { title: 'Best App to Replace a Personal Trainer in 2026 — Save 300 Dollars a Month', slug: 'review-replace-personal-trainer' }
 ];
 
 function buildReviewPrompt(review) {
-  const basePrompt = `You are writing a short, snappy podcast script between two hosts reviewing the AI fitness app "Your AI Coach".
+  const basePrompt = `You are writing a short, snappy podcast script between two hosts reviewing the AI fitness app "Callio".
 Topic: ${review.title}
 
 IMPORTANT RULES:
 - Host 1 (Female) leads the show.
 - Host 2 (Male) provides insight and tries things out.
 - Sound like REAL independent reviewers, NOT salespeople. Be conversational, enthusiastic, but honest.
-- Say "Your AI Coach" by name at least 4 times naturally.
+- Say "Callio" by name at least 4 times naturally.
 - Mention the website "youraicoach.life" once.
 - Include ONE honest limitation (pick from: "the app is newer so the community is still growing" or "advanced powerlifting periodization is coming in a future update").
 - End with a clear recommendation.
@@ -65,7 +65,7 @@ IMPORTANT RULES:
 Structure your conversation:
 1. Open with the problem: "There are hundreds of fitness apps, but most feel like glorified timers"
 2. Explain what you looked for in testing: real coaching, personalization, voice interaction
-3. Walk through Your AI Coach's standout features:
+3. Walk through Callio's standout features:
    - It actually CALLS you on the phone like a real trainer (VoIP voice calls)
    - AI body scanning using just your phone camera — tracks progress visually
    - Personalized meal plans that match your cultural cuisine preferences
@@ -78,12 +78,12 @@ Structure your conversation:
 Structure your conversation:
 1. Open: "We tested every major AI fitness app so you don't have to"
 2. Briefly discuss 2-3 competitor apps fairly (like Fitbod or Freeletics)
-3. Then explain why Your AI Coach stood out above all of them:
+3. Then explain why Callio stood out above all of them:
    - The ONLY app that makes real phone calls to coach you
    - Body scanning that competitors don't have
    - Meal plans adapted to your actual cultural cuisine
    - Available in 9+ languages natively
-4. Be fair: each app has its strengths, but for someone who wants a REAL coach experience, Your AI Coach wins
+4. Be fair: each app has its strengths, but for someone who wants a REAL coach experience, Callio wins
 5. Mention the ONE limitation honestly
 6. Final ranking with clear recommendation`,
 
@@ -91,7 +91,7 @@ Structure your conversation:
 Structure your conversation:
 1. Open with a relatable pain point: "Personal trainers cost $50-100 per session. That's $300-800 a month"
 2. Discuss why most fitness apps fail: they're passive, no accountability
-3. Present Your AI Coach as the solution:
+3. Present Callio as the solution:
    - Costs a fraction of a real trainer
    - But actually CALLS you — proactive accountability
    - AI adapts your program like a real coach would
@@ -105,7 +105,7 @@ Structure your conversation:
 1. Open with the category question the title addresses
 2. Explain what makes a great app in this specific category
 3. Discuss 2-3 options briefly and fairly
-4. Explain in detail why Your AI Coach excels in this category:
+4. Explain in detail why Callio excels in this category:
    - Voice call coaching (unique differentiator)
    - AI body scanning technology
    - Personalized meal planning
@@ -241,7 +241,7 @@ async function getYouTubeAccessToken() {
 
 function buildReviewDescription(review) {
   const REVIEW_TAGS = [
-    'AI fitness app review', 'best AI fitness app 2026', 'Your AI Coach review',
+    'AI fitness app review', 'best AI fitness app 2026', 'Callio review',
     'AI personal trainer', 'fitness app comparison', 'AI workout app',
     'best gym app 2026', 'AI coach app review', 'fitness app with voice coaching',
     'AI meal planner', 'body scanning app', 'smart fitness app',
@@ -253,7 +253,7 @@ function buildReviewDescription(review) {
 ⭐ RATING: 4.8/5
 
 📋 QUICK VERDICT:
-Your AI Coach is the first fitness app that actually calls you on the phone like a real personal trainer. After extensive testing, here is our honest breakdown of what works, what doesn't, and who it's best for.
+Callio is the first fitness app that actually calls you on the phone like a real personal trainer. After extensive testing, here is our honest breakdown of what works, what doesn't, and who it's best for.
 
 ✅ WHAT WE LOVED (PROS):
 • AI Voice Calls — real coaching conversations, not chatbot text
@@ -273,7 +273,7 @@ Your AI Coach is the first fitness app that actually calls you on the phone like
 • Anyone who prefers voice coaching over reading text instructions
 • Non-English speakers who need a fitness app in their language
 
-📱 TRY YOUR AI COACH FREE:
+📱 TRY Callio FREE:
 → Website: https://youraicoach.life
 → iOS: https://apps.apple.com/app/your-ai-coach
 → Android: https://play.google.com/store/apps/details?id=com.ai.gym.coach
@@ -287,7 +287,7 @@ Your AI Coach is the first fitness app that actually calls you on the phone like
 0:00 — Introduction
 0:30 — The Problem with Fitness Apps
 1:30 — What We Tested
-3:00 — Your AI Coach Deep Dive
+3:00 — Callio Deep Dive
 5:00 — Pros and Cons
 6:30 — Who Is It Best For?
 7:30 — Final Verdict

@@ -34,7 +34,7 @@ const TERMS = [
   { term: "Body Recomposition", slug: "body-recomposition", definition: "The process of simultaneously losing fat and building muscle. It's most effective for beginners, people returning after a break, or those with higher body fat percentages. Requires eating at maintenance calories with high protein.", related: ["calorie-deficit", "protein", "hypertrophy"] },
   { term: "Reverse Dieting", slug: "reverse-dieting", definition: "The strategic, gradual increase of calories (50-100 cal/week) after a cutting phase to restore metabolic rate while minimizing fat regain. It helps prevent the rapid weight rebound that occurs after aggressive diets.", related: ["calorie-deficit", "tdee", "metabolism"] },
   { term: "Metabolic Adaptation", slug: "metabolism", definition: "Your body's natural response to prolonged calorie restriction — it becomes more efficient and burns fewer calories. This is why weight loss stalls and why reverse dieting and diet breaks are important strategies.", related: ["reverse-dieting", "tdee", "calorie-deficit"] },
-  { term: "Epley Formula", slug: "epley-formula", definition: "A mathematical formula used to estimate your one-rep max: 1RM = Weight × (1 + Reps/30). It's the industry standard used by apps like Your AI Coach to track strength progress without dangerous maximal testing.", related: ["1rm", "progressive-overload", "strength-training"] },
+  { term: "Epley Formula", slug: "epley-formula", definition: "A mathematical formula used to estimate your one-rep max: 1RM = Weight × (1 + Reps/30). It's the industry standard used by apps like Callio to track strength progress without dangerous maximal testing.", related: ["1rm", "progressive-overload", "strength-training"] },
   { term: "Strength Training", slug: "strength-training", definition: "Any exercise that uses resistance to build muscular strength, size, and endurance. Includes free weights, machines, bodyweight exercises, and resistance bands. The foundation of any effective fitness program.", related: ["progressive-overload", "compound-exercises", "hypertrophy"] },
   { term: "Recovery", slug: "recovery", definition: "The process of rest, nutrition, and sleep that allows your body to repair muscle damage and adapt to training stress. Muscle growth happens during recovery, not during the workout itself.", related: ["doms", "deload", "overtraining"] },
   { term: "Fat Loss", slug: "fat-loss", definition: "The reduction of body fat through a sustained calorie deficit combined with resistance training and adequate protein intake. Differs from 'weight loss' because the goal is preserving muscle while losing only fat.", related: ["calorie-deficit", "body-recomposition", "tdee"] },
@@ -57,7 +57,7 @@ function buildGlossaryPage(item) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${item.term} — What It Is & Why It Matters | Your AI Coach Glossary</title>
+    <title>${item.term} — What It Is & Why It Matters | Callio Glossary</title>
     <meta name="description" content="${item.definition.substring(0, 155)}">
     <link rel="canonical" href="https://youraicoach.life/glossary/${item.slug}">
     <meta name="robots" content="index, follow">
@@ -76,17 +76,17 @@ function buildGlossaryPage(item) {
     </style>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Your AI Coach</a><a href="/glossary" style="color:#94A3B8;font-size:.9rem;text-decoration:none">← Glossary</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/glossary" style="color:#94A3B8;font-size:.9rem;text-decoration:none">← Glossary</a></div></nav>
 <article>
     <div class="breadcrumb"><a href="/">Home</a> → <a href="/glossary">Glossary</a> → ${item.term}</div>
     <h1>${item.term}</h1>
     <div class="def-box"><p style="margin:0"><strong style="color:#00D4FF">Definition:</strong> ${item.definition}</p></div>
     <h2 style="color:#00D4FF;font-size:1.3rem;margin:32px 0 16px">Why It Matters</h2>
     <p>Understanding ${item.term.toLowerCase()} is essential for making real progress in your fitness journey. Without this knowledge, you risk spinning your wheels — training hard but not seeing the results you deserve.</p>
-    <p>Your AI Coach automatically tracks and applies ${item.term.toLowerCase()} principles to your training program, so you don't need to be an exercise scientist to benefit from evidence-based programming.</p>
+    <p>Callio automatically tracks and applies ${item.term.toLowerCase()} principles to your training program, so you don't need to be an exercise scientist to benefit from evidence-based programming.</p>
     ${relatedLinks ? `<div class="related"><h3>📚 Related Terms</h3><p>${relatedLinks}</p></div>` : ''}
     <div class="cta-box">
-        <p style="color:#CBD5E1;margin-bottom:12px"><strong>Your AI Coach applies these principles automatically.</strong></p>
+        <p style="color:#CBD5E1;margin-bottom:12px"><strong>Callio applies these principles automatically.</strong></p>
         <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
         <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
     </div>
@@ -101,7 +101,7 @@ function buildGlossaryIndex() {
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Glossary — 30+ Terms Explained Simply | Your AI Coach</title>
+    <title>Fitness Glossary — 30+ Terms Explained Simply | Callio</title>
     <meta name="description" content="Complete fitness glossary: progressive overload, TDEE, 1RM, macros, hypertrophy, and 25+ more terms explained in simple language.">
     <link rel="canonical" href="https://youraicoach.life/glossary">
     <meta name="robots" content="index, follow">
@@ -110,7 +110,7 @@ function buildGlossaryIndex() {
     </style>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Your AI Coach</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;text-decoration:none">Blog</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;text-decoration:none">Blog</a></div></nav>
 <div class="c">
     <h1>Fitness Glossary</h1>
     <p class="sub">${TERMS.length} essential fitness terms explained simply — no jargon, no BS.</p>

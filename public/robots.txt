@@ -1,4 +1,4 @@
-# Your AI Coach — robots.txt
+# Callio — robots.txt
 # Allow all AI crawlers and search engines full access
 
 # OpenAI / ChatGPT crawlers

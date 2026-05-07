@@ -25,12 +25,12 @@ const COMPETITORS = [
   "caliber"
 ];
 
-const SYSTEM_PROMPT = `You are an elite direct-response copywriter and technical SEO expert. Your job is to create high-converting, "David vs Goliath" comparison landing pages for 'Your AI Coach' against major fitness apps.
+const SYSTEM_PROMPT = `You are an elite direct-response copywriter and technical SEO expert. Your job is to create high-converting, "David vs Goliath" comparison landing pages for 'Callio' against major fitness apps.
 
-YOUR GOAL: Prove logically and emotionally why 'Your AI Coach' is superior, specifically highlighting its unique VoIP voice calls, AI intelligence, and personalized approach. 
+YOUR GOAL: Prove logically and emotionally why 'Callio' is superior, specifically highlighting its unique VoIP voice calls, AI intelligence, and personalized approach. 
 
 RULES:
-1. Do NOT mention specific pricing for Your AI Coach (we use a Freemium model). You can mention the competitor's high pricing if applicable (e.g., $150/mo for human coaches).
+1. Do NOT mention specific pricing for Callio (we use a Freemium model). You can mention the competitor's high pricing if applicable (e.g., $150/mo for human coaches).
 2. Write raw, styled HTML. Only return the inner contents of a <div class="container"> wrapper. Do NOT return <html>, <head>, or <body> tags.
 3. Use modern, highly-readable semantic HTML with <h2>, <h3>, <p>, <ul>, and <table> tags.
 4. Include a Comparison Table (<table>) as the very first section. It MUST include rows for: "Real-time VoIP Voice Coaching", "Camera Body Scanning", "Custom Region Meal Plans", "Intelligence Modules (13 vs 0)", and "Progressive Overload Tracking".
@@ -38,8 +38,8 @@ RULES:
 6. End with a strong Call to Action section directing them to the App Store and Google Play.
 7. Return ONLY valid JSON in this exact format:
 {
-  "title": "Your AI Coach vs [Competitor]: Which is Better in 2026?",
-  "metaDescription": "Detailed comparison between Your AI Coach and [Competitor]...",
+  "title": "Callio vs [Competitor]: Which is Better in 2026?",
+  "metaDescription": "Detailed comparison between Callio and [Competitor]...",
   "html": "raw html content here"
 }`;
 
@@ -83,7 +83,7 @@ async function generateComparisonPage() {
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite-preview' });
 
-  const prompt = `Create a high-converting comparison landing page for "Your AI Coach" vs "${nextCompetitor}". Make sure to highlight why our 13 AI intelligence modules and real voice calls make us the better choice.`;
+  const prompt = `Create a high-converting comparison landing page for "Callio" vs "${nextCompetitor}". Make sure to highlight why our 13 AI intelligence modules and real voice calls make us the better choice.`;
 
   const result = await model.generateContent({
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
@@ -113,7 +113,7 @@ async function generateComparisonPage() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${data.title} | Your AI Coach</title>
+    <title>${data.title} | Callio</title>
     <meta name="description" content="${data.metaDescription}">
     <link rel="canonical" href="https://youraicoach.life/${slug}/">
     <meta property="og:title" content="${data.title}">
@@ -146,13 +146,13 @@ async function generateComparisonPage() {
     </style>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Your AI Coach</a><a href="/" style="color:#94A3B8;font-size:.9rem;text-decoration:none">Back to Home</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/" style="color:#94A3B8;font-size:.9rem;text-decoration:none">Back to Home</a></div></nav>
 <div class="container">
     ${data.html}
     
     <div class="cta-box">
         <h3>Ready to upgrade your coaching?</h3>
-        <p style="margin-bottom:24px">Join thousands of users who switched to Your AI Coach and finally started seeing consistent results.</p>
+        <p style="margin-bottom:24px">Join thousands of users who switched to Callio and finally started seeing consistent results.</p>
         <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 Download on App Store</a>
         <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Get it on Google Play</a>
     </div>

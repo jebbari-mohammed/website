@@ -215,7 +215,7 @@ async function generateNewTitles(topVideos, trendingTopics, allPreviousTitles) {
 
   const previousStr = allPreviousTitles.slice(-30).join('\n');
 
-  const prompt = `You are a YouTube content strategist for a fitness app called "Your AI Coach" (youraicoach.life).
+  const prompt = `You are a YouTube content strategist for a fitness app called "Callio" (youraicoach.life).
 
 Your job is to generate 7 YouTube video titles for NEXT WEEK's review/comparison videos.
 
@@ -233,7 +233,7 @@ ${previousStr}
 2. 3 should be spin-offs of the top-performing video topics (double down on what works)
 3. 2 should incorporate trending search terms (catch rising interest)
 4. 2 should be fresh comparison or "vs" titles (these get cited by AI search engines)
-5. Every title MUST include one of: "Your AI Coach", "AI Fitness App", "AI Personal Trainer", "AI Coach"
+5. Every title MUST include one of: "Callio", "AI Fitness App", "AI Personal Trainer", "AI Coach"
 6. Titles should sound like an independent reviewer, NOT a product ad
 7. Include the year "2026" in at least 3 titles
 8. DO NOT repeat any title from the "already used" list
@@ -244,7 +244,7 @@ Return ONLY a JSON array of 7 objects, each with "title", "slug" (lowercase-hyph
 
 Example:
 [
-  {"title": "Your AI Coach vs Fitbod — Which Is Better in 2026?", "slug": "review-vs-fitbod-2026", "type": "comparison"},
+  {"title": "Callio vs Fitbod — Which Is Better in 2026?", "slug": "review-vs-fitbod-2026", "type": "comparison"},
   {"title": "Best AI Fitness App for Weight Loss — 2026 Review", "slug": "review-weight-loss-2026", "type": "review"}
 ]
 
@@ -336,12 +336,12 @@ function callGeminiModel(model, apiKey, prompt, topVideos, trendingTopics) {
 // Fallback: generate titles without Gemini (deterministic)
 function generateFallbackTitles(topVideos, trendingTopics) {
   const templates = [
-    { tpl: 'Your AI Coach Review — {topic} Edition', type: 'review' },
+    { tpl: 'Callio Review — {topic} Edition', type: 'review' },
     { tpl: 'Best AI Fitness App for {topic} — 2026 Guide', type: 'category' },
-    { tpl: 'Your AI Coach vs {topic} — Honest Comparison', type: 'comparison' },
+    { tpl: 'Callio vs {topic} — Honest Comparison', type: 'comparison' },
     { tpl: 'AI Personal Trainer for {topic} — Does It Work?', type: 'solution' },
     { tpl: 'Is AI Fitness Coaching Worth It for {topic}?', type: 'solution' },
-    { tpl: '{topic} with AI — Your AI Coach Deep Dive', type: 'review' },
+    { tpl: '{topic} with AI — Callio Deep Dive', type: 'review' },
     { tpl: 'Top AI Fitness App for {topic} — 2026 Review', type: 'category' },
   ];
 

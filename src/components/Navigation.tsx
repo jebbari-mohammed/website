@@ -16,7 +16,7 @@ export default function Navigation() {
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white">
                     <Zap size={20} className="fill-white" />
                 </div>
-                <span className="text-lg font-bold font-condensed tracking-wide text-textPrimary">Your AI Coach</span>
+                <span className="text-lg font-bold font-condensed tracking-wide text-textPrimary">Callio</span>
             </a>
 
             <div className="hidden md:flex items-center gap-7">

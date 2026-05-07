@@ -6,7 +6,7 @@ const features = [
     icon: Phone,
     title: "Proactive Voice Calls",
     subtitle: "Your coach calls YOU",
-    desc: "Not a chatbot. Not a notification. Your AI coach literally calls your phone via real VoIP voice calls. Before the gym to remind and motivate you. End of day to review your workouts and plan tomorrow. Two-way conversation — you talk, your coach listens and responds.",
+    desc: "Not a chatbot. Not a notification. Callio literally calls your phone via real VoIP voice calls. Before the gym to remind and motivate you. End of day to review your workouts and plan tomorrow. Two-way conversation — you talk, your coach listens and responds.",
     gradient: "from-primary to-blue-500",
     span: "md:col-span-2",
     image: "/images/hero-call.png",
