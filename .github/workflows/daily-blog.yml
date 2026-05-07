@@ -46,12 +46,14 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "AI Blog Bot"
+          git config user.name "AI Marketing Bot"
           git config user.email "bot@youraicoach.life"
+          git checkout main || git checkout -b main
           git add -A
           git diff --staged --quiet || git commit -m "📝 Daily blog post $(date +%Y-%m-%d)"
           # Pull latest changes (in case you pushed manually), then push
-          git pull --rebase origin main || true
+          git rebase --abort || true
+          git pull --rebase origin main
           git push || (sleep 5 && git pull --rebase origin main && git push)
 
       - name: Ping Google sitemap

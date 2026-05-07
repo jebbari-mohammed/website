@@ -49,7 +49,9 @@ jobs:
         run: |
           git config user.name "AI Marketing Bot"
           git config user.email "bot@youraicoach.life"
+          git checkout main || git checkout -b main
           git add -A
           git diff --staged --quiet || git commit -m "🎥 Auto-published TTS daily video $(date +%Y-%m-%d)"
-          git pull --rebase origin main || true
+          git rebase --abort || true
+          git pull --rebase origin main
           git push || (sleep 5 && git pull --rebase origin main && git push)
