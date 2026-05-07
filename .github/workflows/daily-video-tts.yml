@@ -1,0 +1,54 @@
+name: Daily YouTube Video (TTS Channel)
+
+on:
+  # Runs every day at 8:00 AM UTC (9:00 AM local time)
+  schedule:
+    - cron: '0 8 * * *'
+  # Also allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-video-tts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Random delay (0-120 min) for natural timing
+        if: github.event_name == 'schedule'
+        run: |
+          DELAY=$((RANDOM % 7200))
+          echo "⏳ Waiting ${DELAY} seconds before generating..."
+          sleep $DELAY
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install System Dependencies (FFmpeg)
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install dependencies
+        run: cd tools/ai-marketing && npm install
+
+      - name: Generate and publish TTS video
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          YOUTUBE_CLIENT_ID_2: ${{ secrets.YOUTUBE_CLIENT_ID_2 }}
+          YOUTUBE_CLIENT_SECRET_2: ${{ secrets.YOUTUBE_CLIENT_SECRET_2 }}
+          YOUTUBE_REFRESH_TOKEN_2: ${{ secrets.YOUTUBE_REFRESH_TOKEN_2 }}
+        run: node tools/ai-marketing/daily-podcast-tts.mjs
+
+      - name: Commit and push progress
+        run: |
+          git config user.name "AI Marketing Bot"
+          git config user.email "bot@youraicoach.life"
+          git add -A
+          git diff --staged --quiet || git commit -m "🎥 Auto-published TTS daily video $(date +%Y-%m-%d)"
+          git pull --rebase origin main || true
+          git push || (sleep 5 && git pull --rebase origin main && git push)
