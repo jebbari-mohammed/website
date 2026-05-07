@@ -28,7 +28,7 @@ if (fs.existsSync(envPath)) {
 
 // Ensure Google Cloud credentials exist (if GOOGLE_APPLICATION_CREDENTIALS path is not set but JSON is)
 if (process.env.GOOGLE_CLOUD_JSON) {
-  const tmpKey = path.join(__dirname, 'gcloud-key.json');
+  const tmpKey = '/tmp/gcloud-key.json';
   fs.writeFileSync(tmpKey, process.env.GOOGLE_CLOUD_JSON);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = tmpKey;
 }
