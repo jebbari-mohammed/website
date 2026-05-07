@@ -267,6 +267,7 @@ async function main() {
     }
   } catch (e) {
     console.error('\n❌ Fatal Error:', e.message);
+    process.exit(1);
   }
 }
 
