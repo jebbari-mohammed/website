@@ -35,16 +35,39 @@ jobs:
       - name: Install dependencies
         run: cd tools/ai-marketing && npm install
 
+      - name: Install Playwright browsers
+        run: cd tools/ai-marketing && npx patchright install chromium --with-deps
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CLOUD_JSON }}'
+          
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Restore NotebookLM Session State
+        run: |
+          mkdir -p ~/.local/share/notebooklm-mcp
+          gsutil cp gs://ai-gym-coach-notebooklm-state/chrome_profile.tar.gz /tmp/
+          tar -xzf /tmp/chrome_profile.tar.gz -C ~/.local/share/notebooklm-mcp/
+
       - name: Generate and publish video
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          GOOGLE_COOKIES: ${{ secrets.GOOGLE_COOKIES }}
           CI: true
           GITHUB_ACTIONS: true
-        run: node tools/ai-marketing/daily-review-video.mjs
+        run: cd tools/ai-marketing && node daily-review-video.mjs
+
+      - name: Save NotebookLM Session State
+        if: always()
+        run: |
+          cd ~/.local/share/notebooklm-mcp
+          tar -czf /tmp/chrome_profile.tar.gz chrome_profile
+          gsutil cp /tmp/chrome_profile.tar.gz gs://ai-gym-coach-notebooklm-state/
 
       - name: Commit and push
         run: |
