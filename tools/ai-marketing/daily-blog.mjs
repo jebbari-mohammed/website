@@ -640,6 +640,19 @@ function buildHTML(post) {
   const today = new Date().toISOString().split('T')[0];
   const readableDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
+  const langLinks = [
+    `<a href="/blog/${post.slug}">English</a>`,
+    `<a href="/blog/fr/${post.slug}">Français</a>`,
+    `<a href="/blog/es/${post.slug}">Español</a>`,
+    `<a href="/blog/ar/${post.slug}">العربية</a>`,
+    `<a href="/blog/pt/${post.slug}">Português</a>`,
+    `<a href="/blog/de/${post.slug}">Deutsch</a>`,
+    `<a href="/blog/hi/${post.slug}">हिन्दी</a>`,
+    `<a href="/blog/tr/${post.slug}">Türkçe</a>`,
+    `<a href="/blog/id/${post.slug}">Bahasa Indonesia</a>`,
+    `<a href="/blog/ja/${post.slug}">日本語</a>`
+  ].join(' | ');
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -719,9 +732,12 @@ function buildHTML(post) {
         .cta:hover{opacity:0.9}
         .breadcrumb{font-family:'Segoe UI',system-ui,sans-serif;font-size:0.85rem;color:#475569;margin-bottom:24px}
         .breadcrumb a{color:#475569;border:none}
+        .lang-switcher{font-family:'Segoe UI',system-ui,sans-serif;text-align:center;padding:8px;font-size:0.8rem;color:#64748B;overflow-x:auto;white-space:nowrap}
+        .lang-switcher a{color:#94A3B8;border:none;margin:0 4px}
     </style>
 </head>
 <body>
+<div class="lang-switcher">${langLinks}</div>
 <nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;border:none">← Blog</a></div></nav>
 <article>
     <div class="breadcrumb"><a href="/">Home</a> → <a href="/blog">Blog</a></div>
