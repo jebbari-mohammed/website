@@ -4,7 +4,7 @@ on:
   # Runs every day at 7:00 AM UTC (8:00 AM local time)
   # A random delay of 0-120 minutes is added to publish between 8am and 10am
   schedule:
-    - cron: '0 7 * * *'
+    - cron: '0 10 * * *'
   # Also allow manual trigger from GitHub UI
   workflow_dispatch:
 
@@ -26,6 +26,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -46,10 +47,8 @@ jobs:
         run: |
           git config user.name "AI Marketing Bot"
           git config user.email "bot@youraicoach.life"
-          git checkout main || git checkout -b main
           git add -A
           git diff --staged --quiet || git commit -m "🚀 Auto-generated competitor landing page $(date +%Y-%m-%d)"
           # Pull latest changes (in case you pushed manually), then push
-          git rebase --abort || true
-          git pull --rebase origin main
+          git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)

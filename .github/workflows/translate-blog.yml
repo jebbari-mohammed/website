@@ -3,7 +3,7 @@ name: Translate Blog Posts
 on:
   # Runs every day at 12:00 PM UTC (after daily blog at 7 AM + random delay)
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '0 16 * * *'
   workflow_dispatch:
 
 permissions:
@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -34,3 +35,12 @@ jobs:
           CI: true
           GITHUB_ACTIONS: true
         run: node tools/ai-marketing/translate-blog.mjs
+
+      - name: Commit and push
+        run: |
+          git config user.name "AI Marketing Bot"
+          git config user.email "bot@youraicoach.life"
+          git add -A
+          git diff --staged --quiet || git commit -m "🌍 Auto-translated blog posts $(date +%Y-%m-%d)"
+          git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
+          git push || (sleep 5 && git pull --rebase origin main && git push)

@@ -965,26 +965,17 @@ async function main() {
   updateNewsSitemap(post, slug);
   console.log('✅ Updated news sitemap');
 
-  // Git commit and push (only in CI/GitHub Actions)
+  // Ping IndexNow (push handled by GitHub Actions)
   if (process.env.CI || process.env.GITHUB_ACTIONS) {
     try {
-      const ROOT = path.resolve(__dirname, '../..');
-      execSync('git config user.name "AI Blog Bot"', { cwd: ROOT });
-      execSync('git config user.email "bot@youraicoach.life"', { cwd: ROOT });
-      execSync('git add -A', { cwd: ROOT });
-      execSync(`git commit -m "📝 Daily blog: ${post.title}"`, { cwd: ROOT });
-      execSync('git pull --rebase origin main || true', { cwd: ROOT });
-      execSync('git push || (sleep 5 && git pull --rebase origin main && git push)', { cwd: ROOT, shell: '/bin/bash' });
-      console.log('✅ Pushed to GitHub — will auto-deploy to youraicoach.life');
-
-      // Ping IndexNow after successful push
       await pingIndexNow([
         `https://youraicoach.life/blog/${slug}`,
         'https://youraicoach.life/blog',
         'https://youraicoach.life/sitemap.xml',
       ]);
+      console.log('✅ Pinged IndexNow for new blog post');
     } catch (err) {
-      console.error('⚠️ Git push failed:', err.message);
+      console.error('⚠️ IndexNow ping failed:', err.message);
     }
   } else {
     console.log('\n🚀 To deploy: git add -A && git commit -m "blog" && git push');

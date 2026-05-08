@@ -322,31 +322,17 @@ async function main() {
   }
   console.log('✅ Updated language sitemaps');
 
-  // Git push in CI
+  // Ping IndexNow (push handled by GitHub Actions)
   if (process.env.CI || process.env.GITHUB_ACTIONS) {
-    try {
-      const ROOT = path.resolve(__dirname, '../..');
-      execSync('git config user.name "AI Blog Bot"', { cwd: ROOT });
-      execSync('git config user.email "bot@youraicoach.life"', { cwd: ROOT });
-      execSync('git add -A', { cwd: ROOT });
-      execSync(`git commit -m "🌍 Translations: ${post.slug} (fr/es/ar)"`, { cwd: ROOT });
-      execSync('git pull --rebase origin main || true', { cwd: ROOT });
-      execSync('git push || (sleep 5 && git pull --rebase origin main && git push)', { cwd: ROOT, shell: '/bin/bash' });
-      console.log('✅ Pushed translations to GitHub');
-
-      // Ping IndexNow
-      if (indexNowUrls.length > 0) {
-        try {
-          await fetch('https://api.indexnow.org/indexnow', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: JSON.stringify({ host: 'youraicoach.life', key: 'a591ef961c787bfb23212d390a9d5a0c', urlList: indexNowUrls }),
-          });
-          console.log(`✅ IndexNow pinged ${indexNowUrls.length} translated URLs`);
-        } catch (e) { console.log('⚠️ IndexNow ping failed'); }
-      }
-    } catch (err) {
-      console.error('⚠️ Git push failed:', err.message);
+    if (indexNowUrls.length > 0) {
+      try {
+        await fetch('https://api.indexnow.org/indexnow', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: JSON.stringify({ host: 'youraicoach.life', key: 'a591ef961c787bfb23212d390a9d5a0c', urlList: indexNowUrls }),
+        });
+        console.log(`✅ IndexNow pinged ${indexNowUrls.length} translated URLs`);
+      } catch (e) { console.log('⚠️ IndexNow ping failed'); }
     }
   }
 

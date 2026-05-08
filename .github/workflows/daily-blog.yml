@@ -26,6 +26,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -48,12 +49,10 @@ jobs:
         run: |
           git config user.name "AI Marketing Bot"
           git config user.email "bot@youraicoach.life"
-          git checkout main || git checkout -b main
           git add -A
           git diff --staged --quiet || git commit -m "📝 Daily blog post $(date +%Y-%m-%d)"
           # Pull latest changes (in case you pushed manually), then push
-          git rebase --abort || true
-          git pull --rebase origin main
+          git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)
 
       - name: Ping Google sitemap
