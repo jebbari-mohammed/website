@@ -7,6 +7,45 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = path.resolve(__dirname, 'dist');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
+const GOOGLE_TAG_ID = 'G-ZXDRG5V07H';
+const GOOGLE_TAG = `<!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${GOOGLE_TAG_ID}');
+    </script>`;
+
+function findHtmlFiles(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  return entries.flatMap(entry => {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) return findHtmlFiles(fullPath);
+    return entry.isFile() && entry.name.endsWith('.html') ? [fullPath] : [];
+  });
+}
+
+function injectGoogleTag() {
+  const htmlFiles = findHtmlFiles(DIST_DIR);
+  let changed = 0;
+
+  for (const file of htmlFiles) {
+    const html = fs.readFileSync(file, 'utf-8');
+    if (html.includes(GOOGLE_TAG_ID)) continue;
+
+    const nextHtml = html.replace(/<head(\s[^>]*)?>/i, match => `${match}\n    ${GOOGLE_TAG}`);
+    if (nextHtml === html) {
+      console.warn(`⚠️ Could not find <head> in ${path.relative(DIST_DIR, file)}`);
+      continue;
+    }
+
+    fs.writeFileSync(file, nextHtml);
+    changed += 1;
+  }
+
+  console.log(`✅ Google tag present in ${htmlFiles.length} HTML files (${changed} updated).`);
+}
 
 async function preRender() {
   if (!fs.existsSync(HTML_FILE)) {
@@ -49,6 +88,8 @@ async function preRender() {
       // Overwrite the original index.html with the fully rendered static HTML
       fs.writeFileSync(HTML_FILE, html);
       console.log('✅ Pre-rendering complete! Overwrote dist/index.html with static content.');
+
+      injectGoogleTag();
       
       server.close();
       process.exit(0);
