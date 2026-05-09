@@ -1,10 +1,12 @@
 name: Translate Blog Posts
 
 on:
-  # Runs every day at 12:00 PM UTC (after daily blog at 7 AM + random delay)
+  workflow_run:
+    workflows: ["Daily Blog Post"]
+    types: [completed]
+  # Fallback daily run in case the blog workflow is skipped or manually edited.
   schedule:
-    # TEMP FIX: run at 21:10 UTC on May 9 to repair missing translated pages.
-    - cron: '10 21 9 5 *'
+    - cron: '0 16 * * *'
   workflow_dispatch:
 
 permissions:
@@ -12,6 +14,7 @@ permissions:
 
 jobs:
   translate:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

@@ -330,14 +330,11 @@ async function main() {
   }
   console.log(`🔑 ${apiKeys.length} API key(s) available for translations`);
 
-  const partiallyTranslated = blogProgress.generated.filter(post =>
-    existingLanguageCount(post.slug) > 0 && missingLanguages(post.slug).length > 0
-  );
-  const untranslated = blogProgress.generated.filter(post =>
-    existingLanguageCount(post.slug) === 0 && missingLanguages(post.slug).length > 0
+  const postsMissingTranslations = blogProgress.generated.filter(post =>
+    missingLanguages(post.slug).length > 0
   );
   
-  if (partiallyTranslated.length === 0 && untranslated.length === 0) {
+  if (postsMissingTranslations.length === 0) {
     console.log('✅ All posts already translated.');
     writeStepSummary([
       '## Translation summary',
@@ -348,10 +345,8 @@ async function main() {
     return;
   }
 
-  // Repair partially translated posts first because their language links may already be visible.
-  const post = partiallyTranslated.length > 0
-    ? partiallyTranslated[partiallyTranslated.length - 1]
-    : untranslated[untranslated.length - 1];
+  // Translate the newest post that is still missing any language files.
+  const post = postsMissingTranslations[postsMissingTranslations.length - 1];
   const languagesToTranslate = missingLanguages(post.slug);
   console.log(`\n🌍 Translating: "${post.title}" (${post.slug})`);
   writeStepSummary([
