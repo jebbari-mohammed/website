@@ -3,7 +3,8 @@ name: Translate Blog Posts
 on:
   # Runs every day at 12:00 PM UTC (after daily blog at 7 AM + random delay)
   schedule:
-    - cron: '0 16 * * *'
+    # TEMP TEST: run at 18:20 UTC on May 9 so GitHub can verify the publish chain.
+    - cron: '20 18 9 5 *'
   workflow_dispatch:
 
 permissions:
@@ -41,6 +42,10 @@ jobs:
           git config user.name "AI Marketing Bot"
           git config user.email "bot@youraicoach.life"
           git add -A
-          git diff --staged --quiet || git commit -m "🌍 Auto-translated blog posts $(date +%Y-%m-%d)"
+          if git diff --staged --quiet; then
+            echo "No translation file changes to commit. See the translation step summary for details."
+            exit 0
+          fi
+          git commit -m "🌍 Auto-translated blog posts $(date +%Y-%m-%d)"
           git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)

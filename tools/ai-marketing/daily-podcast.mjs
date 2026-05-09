@@ -1,28 +1,36 @@
 /**
- * NotebookLM Daily Podcast Generator
- * 
+ * NotebookLM Daily Podcast Generator — Fresh Notebook Edition
+ *
+ * Every run creates a BRAND NEW NotebookLM notebook so the content
+ * is 100% unique every day. No cached audio overviews.
+ *
  * Workflow:
- * 1. Reads today's blog post from .daily-progress.json
- * 2. Adds it as a source to your NotebookLM notebook
- * 3. Triggers Audio Overview generation (2-host podcast)
- * 4. Downloads the .m4a audio file
- * 5. Creates an MP4 video with branded thumbnail using FFmpeg
- * 6. Uploads to YouTube with SEO-optimized description
- * 
+ *   1. Read today's blog post from .daily-progress.json
+ *   2. Skip if already uploaded today
+ *   3. Launch browser with saved MCP auth
+ *   4. Create a FRESH notebook (no old sources)
+ *   5. Add ONLY today's blog post URL as source
+ *   6. Generate audio/video with topic-specific prompt
+ *   7. Download the real animated MP4
+ *   8. Upload to YouTube
+ *   9. Delete the notebook (keep account clean)
+ *
  * Required env vars:
  *   YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REFRESH_TOKEN
- * 
- * Runs LOCALLY on your Mac (not GitHub Actions) since it needs
- * the NotebookLM Chrome profile saved at:
- *   ~/Library/Application Support/notebooklm-mcp/chrome_profile/
  */
 
-import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
 import { fileURLToPath, URL } from 'url';
-import { execSync } from 'child_process';
+import {
+  launchBrowser,
+  createFreshNotebook,
+  addSource,
+  generateFreshVideo,
+  downloadVideo,
+  deleteNotebook,
+} from './notebooklm-fresh.mjs';
 
 // Load .env
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -30,114 +38,27 @@ const envPath = path.resolve(__dirname, '../../.env');
 if (fs.existsSync(envPath)) {
   fs.readFileSync(envPath, 'utf-8').split('\n').forEach(line => {
     const [k, ...v] = line.split('=');
-    if (k && !k.startsWith('#')) process.env[k.trim()] = v.join('=').trim().replace(/^"|"$/g, '');
+    if (k && !k.startsWith('#') && k.trim()) {
+      process.env[k.trim()] = v.join('=').trim().replace(/^"|"$/g, '');
+    }
   });
 }
 
 const PROGRESS_FILE = path.join(__dirname, '.daily-progress.json');
 const PUBLIC_DIR = path.resolve(__dirname, '../../public');
 const PODCAST_DIR = path.join(PUBLIC_DIR, 'podcasts');
-const NOTEBOOK_URL = 'https://notebooklm.google.com/notebook/5a953e96-18aa-4ec1-bd59-98a1611c4ddb';
-const NOTEBOOK_ID = 'your-ai-coach-daily-blog';
 const SITE_URL = 'https://youraicoach.life';
 
 if (!fs.existsSync(PODCAST_DIR)) fs.mkdirSync(PODCAST_DIR, { recursive: true });
 
 // ========================
-// MCP CLIENT
-// ========================
-class NotebookLMMCP {
-  constructor() {
-    this.process = null;
-    this.buffer = '';
-    this.pending = new Map();
-    this.msgId = 1;
-    this.ready = false;
-  }
-
-  start() {
-    return new Promise((resolve, reject) => {
-      this.process = spawn('npx', ['notebooklm-mcp@latest'], {
-        stdio: ['pipe', 'pipe', 'pipe'],
-      });
-
-      this.process.stdout.on('data', (data) => {
-        this.buffer += data.toString();
-        const lines = this.buffer.split('\n');
-        this.buffer = lines.pop();
-        for (const line of lines) {
-          if (!line.trim()) continue;
-          try {
-            const msg = JSON.parse(line);
-            if (msg.id && this.pending.has(msg.id)) {
-              const { resolve, reject } = this.pending.get(msg.id);
-              this.pending.delete(msg.id);
-              if (msg.error) reject(new Error(msg.error.message));
-              else resolve(msg.result);
-            }
-          } catch (e) {}
-        }
-      });
-
-      this.process.stderr.on('data', () => {});
-
-      // Initialize
-      setTimeout(async () => {
-        try {
-          await this.send('initialize', {
-            protocolVersion: '2024-11-05',
-            capabilities: {},
-            clientInfo: { name: 'daily-podcast', version: '1.0' },
-          });
-          this.ready = true;
-          resolve();
-        } catch (e) { reject(e); }
-      }, 3500);
-    });
-  }
-
-  send(method, params) {
-    return new Promise((resolve, reject) => {
-      const id = this.msgId++;
-      this.pending.set(id, { resolve, reject });
-      this.process.stdin.write(
-        JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n'
-      );
-      setTimeout(() => {
-        if (this.pending.has(id)) {
-          this.pending.delete(id);
-          reject(new Error(`Timeout: ${method}`));
-        }
-      }, 600000); // 10 min timeout for audio generation
-    });
-  }
-
-  async callTool(name, args) {
-    const result = await this.send('tools/call', { name, arguments: args });
-    const text = result?.content?.[0]?.text;
-    if (text) {
-      try { return JSON.parse(text); }
-      catch { return { data: { message: text } }; }
-    }
-    return result;
-  }
-
-  stop() {
-    if (this.process) this.process.kill();
-  }
-}
-
-// ========================
-// YOUTUBE UPLOAD
+// YOUTUBE HELPERS
 // ========================
 async function getYouTubeAccessToken() {
   const clientId = process.env.YOUTUBE_CLIENT_ID;
   const clientSecret = process.env.YOUTUBE_CLIENT_SECRET;
   const refreshToken = process.env.YOUTUBE_REFRESH_TOKEN;
-
-  if (!clientId || !clientSecret || !refreshToken) {
-    return null; // YouTube not configured yet
-  }
+  if (!clientId || !clientSecret || !refreshToken) return null;
 
   return new Promise((resolve, reject) => {
     const body = new URLSearchParams({
@@ -172,7 +93,7 @@ function buildYouTubeDescription(post) {
     'workout app with AI', 'personalized workout plan', 'AI nutrition coach',
     'fitness app with voice coaching', 'AI gym coach', 'smart fitness app',
   ];
-  
+
   return `🤖 AI-powered fitness coaching explained — from the blog at ${SITE_URL}/blog/${post.slug}
 
 In this podcast episode, two AI hosts break down everything you need to know about: ${post.title}
@@ -200,12 +121,9 @@ ${SITE_URL}/blog/${post.slug}
 #AIFitness #PersonalTrainer #FitnessApp #WorkoutMotivation #AICoach #FitnessGoals #GymLife #WorkoutPlan #NutritionCoaching #FitnessTech`;
 }
 
-// ========================
-// YOUTUBE UPLOAD
-// ========================
 async function uploadToYouTube(filePath, post, accessToken) {
   const fileSize = fs.statSync(filePath).size;
-  const mimeType = filePath.endsWith('.mp4') ? 'video/mp4' : 'audio/mp4';
+  const mimeType = 'video/mp4';
   const title = `${post.title} | AI Fitness Podcast 🎙️`;
   const description = buildYouTubeDescription(post);
   const tags = [
@@ -219,21 +137,17 @@ async function uploadToYouTube(filePath, post, accessToken) {
       title: title.slice(0, 100),
       description: description.slice(0, 5000),
       tags,
-      categoryId: '26', // How-to & Style — closest to fitness
+      categoryId: '26',
       defaultLanguage: 'en',
     },
-    status: {
-      privacyStatus: 'public',
-      selfDeclaredMadeForKids: false,
-    },
+    status: { privacyStatus: 'public', selfDeclaredMadeForKids: false },
   };
 
-  // Step 1: Initiate resumable upload
   const uploadUrl = await new Promise((resolve, reject) => {
     const metaBody = JSON.stringify(metadata);
     const req = https.request({
       hostname: 'www.googleapis.com',
-      path: `/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status`,
+      path: '/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status',
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -256,7 +170,6 @@ async function uploadToYouTube(filePath, post, accessToken) {
     req.end();
   });
 
-  // Step 2: Stream the file
   return new Promise((resolve, reject) => {
     const urlObj = new URL(uploadUrl);
     const fileStream = fs.createReadStream(filePath);
@@ -299,7 +212,7 @@ async function uploadToYouTube(filePath, post, accessToken) {
 // MAIN
 // ========================
 async function main() {
-  console.log('\n🎙️ NotebookLM Daily Podcast Generator\n');
+  console.log('\n🎙️ NotebookLM Daily Podcast Generator (Fresh Notebook Edition)\n');
 
   // Load today's post
   if (!fs.existsSync(PROGRESS_FILE)) {
@@ -315,117 +228,102 @@ async function main() {
     return;
   }
 
-  const audioOut = path.join(PODCAST_DIR, `${post.slug}.m4a`);
-  const videoOut = path.join(PODCAST_DIR, `${post.slug}.mp4`);
-
-  if (fs.existsSync(audioOut)) {
-    console.log(`✅ Audio already exists for "${post.title}" — skipping generation`);
-  } else {
-    console.log(`📝 Generating podcast for: "${post.title}"`);
-
-    // Start MCP
-    const mcp = new NotebookLMMCP();
-    await mcp.start();
-    console.log('✅ NotebookLM MCP connected');
-
-    try {
-      // Add blog post as source
-      const blogUrl = `${SITE_URL}/blog/${post.slug}`;
-      console.log(`📎 Adding source: ${blogUrl}`);
-
-      const addResult = await mcp.callTool('add_source', {
-        notebook_id: NOTEBOOK_ID,
-        notebook_url: NOTEBOOK_URL,
-        type: 'url',
-        content: blogUrl,
-      });
-      console.log('✅ Source added:', addResult?.data?.message || 'OK');
-
-      // Generate audio overview
-      console.log('🎙️ Generating Audio Overview (this takes 3-8 minutes)...');
-      const audioResult = await mcp.callTool('generate_audio', {
-        notebook_id: NOTEBOOK_ID,
-        notebook_url: NOTEBOOK_URL,
-        custom_prompt: `Create an engaging 2-host podcast about: ${post.title}. 
-The hosts should discuss practical fitness applications, cite specific data points, 
-mention "Callio" app naturally as the solution, and end with actionable tips.
-Make it feel like a real fitness podcast episode, not a product ad.`,
-        timeout_ms: 480000,
-      });
-      console.log('✅ Audio generated:', audioResult?.data?.message || 'OK');
-
-      // Download audio
-      console.log(`⬇️ Downloading audio to ${audioOut}...`);
-      const dlResult = await mcp.callTool('download_audio', {
-        notebook_id: NOTEBOOK_ID,
-        notebook_url: NOTEBOOK_URL,
-        destination_dir: PODCAST_DIR,
-      });
-      console.log('✅ Downloaded:', dlResult?.data?.file || audioOut);
-
-      // Rename to slug if needed
-      const latestM4a = fs.readdirSync(PODCAST_DIR)
-        .filter(f => f.endsWith('.m4a') && f !== `${post.slug}.m4a`)
-        .map(f => ({ f, t: fs.statSync(path.join(PODCAST_DIR, f)).mtimeMs }))
-        .sort((a, b) => b.t - a.t)[0]?.f;
-      if (latestM4a && !fs.existsSync(audioOut)) {
-        fs.renameSync(path.join(PODCAST_DIR, latestM4a), audioOut);
-      }
-
-    } finally {
-      mcp.stop();
-    }
+  if (post.youtubePodcastUploaded) {
+    console.log(`✅ Podcast already uploaded to YouTube for "${post.title}" — skipping.`);
+    return;
   }
 
-  // Convert to MP4 with branded thumbnail if FFmpeg available
-  if (!fs.existsSync(videoOut) && fs.existsSync(audioOut)) {
-    try {
-      execSync('which ffmpeg', { stdio: 'ignore' });
-      const thumbPath = path.join(PUBLIC_DIR, 'og', `${post.slug}.svg`);
-      const thumbPng = path.join(PODCAST_DIR, `${post.slug}-thumb.png`);
+  console.log(`📝 Today's post: "${post.title}"`);
+  console.log(`   Slug: ${post.slug}`);
 
-      // Convert SVG thumb to PNG if possible, otherwise use a color
-      let videoInput = '-f lavfi -i color=c=0x060B1D:size=1280x720:rate=1';
-      if (fs.existsSync(thumbPath)) {
-        try {
-          execSync(`rsvg-convert -w 1280 -h 720 "${thumbPath}" -o "${thumbPng}"`, { stdio: 'ignore' });
-          if (fs.existsSync(thumbPng)) videoInput = `-loop 1 -i "${thumbPng}"`;
-        } catch {}
+  const outputFile = path.join(PODCAST_DIR, `${post.slug}.mp4`);
+  const blogUrl = `${SITE_URL}/blog/${post.slug}`;
+
+  const customPrompt = `Create an engaging 2-host podcast episode specifically about: "${post.title}"
+
+The hosts are two enthusiastic fitness enthusiasts — one focused on the science, one focused on practical application.
+
+IMPORTANT RULES:
+- This episode MUST be specifically about the topic: "${post.title}"
+- Cite specific facts, data points, or advice from the source article
+- Mention "Callio" app (youraicoach dot life) naturally 2-3 times as the tool that helps with this
+- Sound like REAL independent fitness enthusiasts, NOT a product ad
+- Include 1-2 specific actionable tips listeners can try TODAY
+- End with a clear summary and next step
+- Keep it under 5 minutes, conversational and energetic`;
+
+  let context = null;
+  let notebookUrl = null;
+  let downloadedFile = null;
+
+  try {
+    // Launch browser
+    const browser = await launchBrowser(true);
+    const page = browser.page;
+    context = browser.context;
+
+    // Create fresh notebook
+    notebookUrl = await createFreshNotebook(page);
+
+    // Add ONLY today's blog post as source
+    await addSource(page, blogUrl);
+
+    // Generate unique video with custom prompt
+    await generateFreshVideo(page, customPrompt);
+
+    // Download the real MP4
+    downloadedFile = await downloadVideo(page, PODCAST_DIR);
+
+    // Rename to slug if different name
+    if (downloadedFile && path.basename(downloadedFile) !== `${post.slug}.mp4`) {
+      if (!fs.existsSync(outputFile)) {
+        fs.renameSync(downloadedFile, outputFile);
+        downloadedFile = outputFile;
       }
+    }
 
-      console.log('🎬 Creating MP4 video...');
-      execSync(
-        `ffmpeg -y ${videoInput} -i "${audioOut}" -c:v libx264 -tune stillimage -c:a aac -b:a 192k -pix_fmt yuv420p -shortest "${videoOut}"`,
-        { stdio: 'ignore' }
-      );
-      console.log(`✅ Video created: ${videoOut}`);
-    } catch (e) {
-      console.log('⚠️ FFmpeg not found — skipping video. Install with: brew install ffmpeg');
-      console.log('   Audio file saved at:', audioOut);
+    console.log(`✅ Video saved: ${outputFile}`);
+
+    // Delete the notebook (clean up)
+    await deleteNotebook(page, notebookUrl);
+
+  } catch (err) {
+    console.error(`❌ Generation failed: ${err.message}`);
+    throw err;
+  } finally {
+    if (context) {
+      try { await context.close(); } catch {}
     }
   }
 
   // Upload to YouTube
-  const videoFile = fs.existsSync(videoOut) ? videoOut : audioOut;
-  const accessToken = await getYouTubeAccessToken();
+  const videoFile = fs.existsSync(outputFile) ? outputFile : downloadedFile;
+  if (!videoFile || !fs.existsSync(videoFile)) {
+    console.log('\n⚠️  No video file found to upload');
+    return;
+  }
 
+  const accessToken = await getYouTubeAccessToken();
   if (!accessToken) {
     console.log('\n📺 YouTube upload skipped — credentials not configured');
-  } else if (!fs.existsSync(videoFile)) {
-    console.log('\n⚠️  No video/audio file found to upload');
   } else {
     console.log('\n📺 Uploading to YouTube...');
     try {
       const youtubeUrl = await uploadToYouTube(videoFile, post, accessToken);
       console.log(`✅ Live on YouTube: ${youtubeUrl}`);
+
+      // Mark as uploaded — prevents re-upload on next run
+      post.youtubePodcastUploaded = true;
+      post.youtubePodcastUrl = youtubeUrl;
+      fs.writeFileSync(PROGRESS_FILE, JSON.stringify(progress, null, 2));
     } catch (err) {
-      console.error('⚠️  YouTube upload failed:', err.message);
+      console.error(`⚠️  YouTube upload failed: ${err.message}`);
     }
   }
 
   console.log('\n📊 Summary:');
   console.log(`   Post: ${post.title}`);
-  if (fs.existsSync(videoFile)) console.log(`   File: ${videoFile}`);
+  console.log(`   File: ${videoFile}`);
   console.log(`   Blog: ${SITE_URL}/blog/${post.slug}`);
 }
 

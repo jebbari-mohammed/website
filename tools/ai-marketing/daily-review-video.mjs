@@ -16,11 +16,18 @@
  * Rate limits: uses 1 of 3 free NotebookLM audios, 1 of 6 YouTube uploads
  */
 
-import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
 import { fileURLToPath, URL } from 'url';
+import {
+  launchBrowser,
+  createFreshNotebook,
+  addSource,
+  generateFreshVideo,
+  downloadVideo,
+  deleteNotebook,
+} from './notebooklm-fresh.mjs';
 
 // Load .env
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -37,8 +44,6 @@ if (fs.existsSync(envPath)) {
 const REVIEW_PROGRESS = path.join(__dirname, '.review-progress.json');
 const PUBLIC_DIR = path.resolve(__dirname, '../../public');
 const PODCAST_DIR = path.join(PUBLIC_DIR, 'podcasts');
-const NOTEBOOK_URL = 'https://notebooklm.google.com/notebook/5a953e96-18aa-4ec1-bd59-98a1611c4ddb';
-const NOTEBOOK_ID = 'your-ai-coach-daily-blog';
 const SITE_URL = 'https://youraicoach.life';
 
 if (!fs.existsSync(PODCAST_DIR)) fs.mkdirSync(PODCAST_DIR, { recursive: true });
@@ -208,86 +213,7 @@ const REVIEW_QUEUE = [
   },
 ];
 
-// ========================
-// MCP CLIENT (shared with daily-podcast.mjs)
-// ========================
-class NotebookLMMCP {
-  constructor() {
-    this.process = null;
-    this.buffer = '';
-    this.pending = new Map();
-    this.msgId = 1;
-  }
 
-  start() {
-    return new Promise((resolve, reject) => {
-      this.process = spawn('node', [path.join(__dirname, 'node_modules/notebooklm-mcp/dist/index.js')], {
-        stdio: ['pipe', 'pipe', 'pipe'],
-      });
-
-      this.process.stdout.on('data', (data) => {
-        this.buffer += data.toString();
-        const lines = this.buffer.split('\n');
-        this.buffer = lines.pop();
-        for (const line of lines) {
-          if (!line.trim()) continue;
-          try {
-            const msg = JSON.parse(line);
-            if (msg.id && this.pending.has(msg.id)) {
-              const { resolve, reject } = this.pending.get(msg.id);
-              this.pending.delete(msg.id);
-              if (msg.error) reject(new Error(msg.error.message));
-              else resolve(msg.result);
-            }
-          } catch (e) {}
-        }
-      });
-
-      this.process.stderr.on('data', (data) => process.stderr.write(data));
-
-      // Wait longer for browser + NotebookLM page to load (CI runners are slow)
-      const startupDelay = process.env.CI ? 12000 : 5000;
-      setTimeout(async () => {
-        try {
-          await this.send('initialize', {
-            protocolVersion: '2024-11-05',
-            capabilities: {},
-            clientInfo: { name: 'daily-review', version: '1.0' },
-          });
-          resolve();
-        } catch (e) { reject(e); }
-      }, startupDelay);
-    });
-  }
-
-  send(method, params) {
-    return new Promise((resolve, reject) => {
-      const id = this.msgId++;
-      this.pending.set(id, { resolve, reject });
-      this.process.stdin.write(
-        JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n'
-      );
-      setTimeout(() => {
-        if (this.pending.has(id)) {
-          this.pending.delete(id);
-          reject(new Error(`Timeout: ${method}`));
-        }
-      }, 600000);
-    });
-  }
-
-  async callTool(name, args) {
-    const result = await this.send('tools/call', { name, arguments: args });
-    const text = result?.content?.[0]?.text;
-    if (text) {
-      try { return JSON.parse(text); }
-      catch { return { data: { message: text } }; }
-    }
-    return result;
-  }
-
-  stop() { if (this.process) this.process.kill(); }
-}
 
 // ========================
 // NOTEBOOKLM PROMPT BUILDER
@@ -606,100 +532,66 @@ async function main() {
   console.log(`   Source: ${source}`);
   console.log(`   Slug: ${review.slug}\n`);
 
-  // Start NotebookLM MCP with retry on auth failure
-  async function runWithMCP() {
-    const mcp = new NotebookLMMCP();
-    await mcp.start();
-    console.log('✅ NotebookLM MCP connected');
+  // ── Fresh notebook pipeline ──────────────────────────────────────────────
+  const prompt = buildReviewPrompt(review);
+  let context = null;
+  let notebookUrl = null;
+  let downloadedFile = null;
 
-    try {
-      // Add the app website as a source so NotebookLM has context
-      console.log(`📎 Adding source: ${SITE_URL}`);
-      const sourceResult = await mcp.callTool('add_source', {
-        session_id: 'default',
-        notebook_id: NOTEBOOK_ID,
-        notebook_url: NOTEBOOK_URL,
-        type: 'url',
-        content: SITE_URL,
-      });
-      console.log('✅ Source added result:', JSON.stringify(sourceResult, null, 2));
-      if (sourceResult && sourceResult.success === false) {
-        throw new Error(`Add source failed: ${sourceResult.error}`);
-      }
-
-    // Generate audio with review-specific prompt
-    const prompt = buildReviewPrompt(review);
-    console.log('🎙️ Generating review audio (3-8 minutes)...');
-    const genResult = await mcp.callTool('generate_audio', {
-      session_id: 'default',
-      notebook_id: NOTEBOOK_ID,
-      notebook_url: NOTEBOOK_URL,
-      custom_prompt: prompt,
-      timeout_ms: 480000,
-      wait_for_completion: true,
-    });
-    console.log('✅ Audio generated result:', JSON.stringify(genResult, null, 2));
-    if (genResult && genResult.success === false) {
-      throw new Error(`Audio generation failed: ${genResult.error}`);
-    }
-
-    // Download
-    console.log('⬇️  Downloading audio...');
-    const dlResult = await mcp.callTool('download_audio', {
-      session_id: 'default',
-      notebook_id: NOTEBOOK_ID,
-      notebook_url: NOTEBOOK_URL,
-      destination_dir: PODCAST_DIR,
-    });
-    console.log('✅ Downloaded result:', JSON.stringify(dlResult, null, 2));
-
-    // Find the downloaded file (NotebookLM names it its own way)
-    const allFilesDir = fs.readdirSync(PODCAST_DIR);
-    console.log('📁 Files in directory:', allFilesDir);
-    
-    const allFiles = allFilesDir
-      .filter(f => !f.startsWith('review-') && !f.startsWith('best-'))
-      .map(f => ({ name: f, time: fs.statSync(path.join(PODCAST_DIR, f)).mtimeMs }))
-      .sort((a, b) => b.time - a.time);
-
-    const downloadedFile = allFiles[0];
-    if (downloadedFile) {
-      const srcPath = path.join(PODCAST_DIR, downloadedFile.name);
-      fs.renameSync(srcPath, outputFile);
-      console.log(`✅ Saved as: ${review.slug}.mp4`);
-    } else {
-      console.log('❌ Could not find the downloaded file in the directory!');
-    }
-
-    } finally {
-      mcp.stop();
-    }
-  }
-
-  // Try MCP pipeline with one retry on auth/session failure
   try {
-    await runWithMCP();
+    const browser = await launchBrowser(true);
+    const page = browser.page;
+    context = browser.context;
+
+    console.log('✅ Browser launched');
+
+    // Create a fresh notebook for this review
+    notebookUrl = await createFreshNotebook(page);
+
+    // Add only the website as source (so NotebookLM learns about Callio)
+    console.log(`📎 Adding source: ${SITE_URL}`);
+    await addSource(page, SITE_URL);
+
+    // Generate unique audio/video with review-specific prompt
+    console.log('🎙️ Generating review audio (3-8 minutes)...');
+    await generateFreshVideo(page, prompt);
+
+    // Download the real animated MP4
+    downloadedFile = await downloadVideo(page, PODCAST_DIR);
+
+    // Rename to slug
+    if (downloadedFile && path.basename(downloadedFile) !== `${review.slug}.mp4`) {
+      if (!fs.existsSync(outputFile)) {
+        fs.renameSync(downloadedFile, outputFile);
+        downloadedFile = outputFile;
+      }
+    }
+
+    console.log(`✅ Saved as: ${outputFile}`);
+
+    // Delete the notebook to keep account clean
+    await deleteNotebook(page, notebookUrl);
+
   } catch (err) {
-    if (err.message.includes('chat input') || err.message.includes('authenticate') || err.message.includes('session')) {
-      console.log(`\n⚠️  First attempt failed (${err.message})`);
-      console.log('🔄 Retrying in 10 seconds...\n');
-      await new Promise(r => setTimeout(r, 10000));
-      await runWithMCP();
-    } else {
-      throw err;
+    console.error(`\n⚠️  Pipeline failed (${err.message})`);
+    throw err;
+  } finally {
+    if (context) {
+      try { await context.close(); } catch {}
     }
   }
 
   // Upload to YouTube
+  const videoFile = fs.existsSync(outputFile) ? outputFile : (downloadedFile && fs.existsSync(downloadedFile) ? downloadedFile : null);
   const accessToken = await getYouTubeAccessToken();
   if (!accessToken) {
     console.log('\n⚠️  YouTube credentials not configured — skipping upload');
-  } else if (!fs.existsSync(outputFile)) {
+  } else if (!videoFile) {
     console.log('\n⚠️  No output file found — skipping upload');
   } else {
     console.log('\n📺 Uploading review to YouTube...');
     try {
-      const youtubeUrl = await uploadToYouTube(outputFile, review, accessToken);
+      const youtubeUrl = await uploadToYouTube(videoFile, review, accessToken);
       console.log(`✅ Live on YouTube: ${youtubeUrl}`);
 
       // Save to progress

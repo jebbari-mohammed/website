@@ -38,6 +38,11 @@ const LANGUAGES = [
     locale: 'Japan', food: 'natto, edamame, tofu, grilled fish, brown rice', units: 'metric (kg, cm)', culture: 'Japan has the highest app spend per user globally. Reference Anytime Fitness Japan, RIZAP. Japanese value discipline, consistency, and kaizen (continuous improvement).' },
 ];
 
+function writeStepSummary(lines) {
+  if (!process.env.GITHUB_STEP_SUMMARY) return;
+  fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\n')}\n`);
+}
+
 function loadTranslationProgress() {
   if (fs.existsSync(TRANSLATION_FILE)) {
     return JSON.parse(fs.readFileSync(TRANSLATION_FILE, 'utf-8'));
@@ -247,18 +252,29 @@ async function main() {
   
   if (untranslated.length === 0) {
     console.log('✅ All posts already translated.');
+    writeStepSummary([
+      '## Translation summary',
+      '',
+      'No translation changes were needed.',
+      `All ${blogProgress.generated.length} blog post(s) are already marked translated.`,
+    ]);
     return;
   }
 
-  // Translate the oldest untranslated post (1 per run to stay within quotas)
-  const post = untranslated[0];
+  // Translate the newest untranslated post so today's generated article is prioritized.
+  const post = untranslated[untranslated.length - 1];
   console.log(`\n🌍 Translating: "${post.title}" (${post.slug})`);
+  writeStepSummary([
+    '## Translation summary',
+    '',
+    `Selected newest untranslated post: \`${post.slug}\``,
+  ]);
 
   // Read the English HTML to extract content
   const englishPath = path.join(BLOG_DIR, `${post.slug}.html`);
   if (!fs.existsSync(englishPath)) {
     console.error(`❌ English file not found: ${englishPath}`);
-    return;
+    process.exit(1);
   }
   const englishHTML = fs.readFileSync(englishPath, 'utf-8');
   
@@ -266,7 +282,7 @@ async function main() {
   const contentMatch = englishHTML.match(/<article>([\s\S]*?)<\/article>/);
   if (!contentMatch) {
     console.error('❌ Could not extract article content');
-    return;
+    process.exit(1);
   }
   // Get just the main content (skip h1, meta, cta-box)
   const articleContent = contentMatch[1]
@@ -311,6 +327,15 @@ async function main() {
     }
   }
 
+  if (indexNowUrls.length === 0) {
+    console.error('❌ No translations were generated. Failing instead of marking this post translated.');
+    writeStepSummary([
+      '',
+      'No translated files were generated, so the workflow failed before updating translation progress.',
+    ]);
+    process.exit(1);
+  }
+
   // Update translation progress
   translationProgress.translated.push({ slug: post.slug, date: new Date().toISOString().split('T')[0] });
   saveTranslationProgress(translationProgress);
@@ -338,8 +363,15 @@ async function main() {
 
   console.log(`\n📊 Translation Summary:`);
   console.log(`   Post: ${post.title}`);
-  console.log(`   Languages: FR, ES, AR`);
+  console.log(`   Languages attempted: ${LANGUAGES.map(l => l.code.toUpperCase()).join(', ')}`);
   console.log(`   Total translated: ${translationProgress.translated.length}/${blogProgress.generated.length}`);
+  writeStepSummary([
+    '',
+    `Translated slug: \`${post.slug}\``,
+    `Languages attempted: ${LANGUAGES.map(l => l.code.toUpperCase()).join(', ')}`,
+    `Generated translated URL count: ${indexNowUrls.length}`,
+    `Progress: ${translationProgress.translated.length}/${blogProgress.generated.length}`,
+  ]);
 }
 
 main().catch(err => {

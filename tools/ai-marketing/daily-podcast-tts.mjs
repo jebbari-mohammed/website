@@ -33,12 +33,27 @@ if (process.env.GOOGLE_CLOUD_JSON) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS = tmpKey;
 }
 
+function writeStepSummary(lines) {
+  if (!process.env.GITHUB_STEP_SUMMARY) return;
+  fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\n')}\n`);
+}
+
 const REVIEW_QUEUE = [
   { title: 'Callio Review 2026 — Is This AI Fitness App Worth It?', slug: 'review-your-ai-coach-2026' },
   { title: 'I Tested Callio for 30 Days — Here Is My Honest Review', slug: 'review-your-ai-coach-30-days' },
   { title: 'Callio vs Fitbod — Which AI Fitness App Is Better in 2026?', slug: 'review-vs-fitbod' },
   { title: 'Top 5 AI Fitness Apps Compared — Callio vs The Competition', slug: 'review-top-5-ai-fitness-apps' },
-  { title: 'Best App to Replace a Personal Trainer in 2026 — Save 300 Dollars a Month', slug: 'review-replace-personal-trainer' }
+  { title: 'Best App to Replace a Personal Trainer in 2026 — Save 300 Dollars a Month', slug: 'review-replace-personal-trainer' },
+  { title: 'Callio vs Future Fitness — Can AI Replace a 150 Dollar Coach?', slug: 'review-vs-future-fitness', type: 'comparison' },
+  { title: 'Callio vs Freeletics — Bodyweight Training or Full AI Coaching?', slug: 'review-vs-freeletics', type: 'comparison' },
+  { title: 'Callio vs Noom — Which App Actually Helps With Weight Loss?', slug: 'review-vs-noom', type: 'comparison' },
+  { title: 'Callio vs Nike Training Club — Free Workouts or Real Accountability?', slug: 'review-vs-nike-training-club', type: 'comparison' },
+  { title: 'Best AI Fitness App for Beginners in 2026 — What We Would Use First', slug: 'review-best-ai-fitness-app-beginners', type: 'category' },
+  { title: 'Fitness App With Voice Coaching — Why Phone Calls Beat Notifications', slug: 'review-voice-coaching-fitness-app', type: 'solution' },
+  { title: 'Best AI Meal Planner and Workout App Combo in 2026', slug: 'review-ai-meal-planner-workout-app', type: 'category' },
+  { title: 'Callio Body Scan Review — Can Your Phone Track Fitness Progress?', slug: 'review-callio-body-scan', type: 'review' },
+  { title: 'Best Fitness App for Gym Accountability — Stop Skipping Workouts', slug: 'review-gym-accountability-app', type: 'solution' },
+  { title: 'AI Personal Trainer vs YouTube Workouts — Which Gets Better Results?', slug: 'review-ai-trainer-vs-youtube-workouts', type: 'comparison' }
 ];
 
 function buildReviewPrompt(review) {
@@ -387,6 +402,12 @@ async function main() {
 
   if (!review) {
     console.log('✅ All reviews completed. Queue finished.');
+    writeStepSummary([
+      '## TTS video summary',
+      '',
+      'No TTS video was generated because every review in `REVIEW_QUEUE` is already marked completed.',
+      'Add more queue items before expecting another daily video.',
+    ]);
     return;
   }
 
@@ -398,12 +419,27 @@ async function main() {
     const accessToken = await getYouTubeAccessToken();
     if (!accessToken) {
       console.log('\n⚠️  YouTube (Channel 2) credentials not configured — skipping upload');
+      writeStepSummary([
+        '## TTS video summary',
+        '',
+        `Generated local video for \`${review.slug}\`, but YouTube credentials were missing so no public video was uploaded.`,
+      ]);
+      if (process.env.CI || process.env.GITHUB_ACTIONS) {
+        process.exit(1);
+      }
     } else {
       console.log('\n📺 Uploading review to YouTube...');
       const youtubeUrl = await uploadToYouTube(videoFile, review, accessToken);
       console.log(`✅ Live on YouTube: ${youtubeUrl}`);
       progress.completed.push({ slug: review.slug, title: review.title, youtube: youtubeUrl });
       fs.writeFileSync(PROGRESS_FILE, JSON.stringify(progress, null, 2));
+      writeStepSummary([
+        '## TTS video summary',
+        '',
+        `Published: \`${review.slug}\``,
+        `YouTube URL: ${youtubeUrl}`,
+        `Progress: ${progress.completed.length}/${REVIEW_QUEUE.length}`,
+      ]);
     }
   } catch (e) {
     console.error('\n❌ Fatal Error:', e.message);

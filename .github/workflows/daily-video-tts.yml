@@ -3,7 +3,8 @@ name: Daily YouTube Video (TTS Channel)
 on:
   # Runs every day at 8:00 AM UTC (9:00 AM local time)
   schedule:
-    - cron: '0 13 * * *'
+    # TEMP TEST: run at 18:20 UTC on May 9 so GitHub can verify the publish chain.
+    - cron: '20 18 9 5 *'
   # Also allow manual trigger from GitHub UI
   workflow_dispatch:
 
@@ -53,6 +54,10 @@ jobs:
           git config user.name "AI Marketing Bot"
           git config user.email "bot@youraicoach.life"
           git add -A
-          git diff --staged --quiet || git commit -m "🎥 Auto-published TTS daily video $(date +%Y-%m-%d)"
+          if git diff --staged --quiet; then
+            echo "No TTS video progress changes to commit. See the generation step summary for details."
+            exit 0
+          fi
+          git commit -m "🎥 Auto-published TTS daily video $(date +%Y-%m-%d)"
           git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)

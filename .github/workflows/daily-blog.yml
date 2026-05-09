@@ -4,7 +4,8 @@ on:
   # Runs every day at 7:00 AM UTC (8:00 AM Morocco time)
   # A random delay of 0-120 minutes is added before generating
   schedule:
-    - cron: '0 7 * * *'
+    # TEMP TEST: run at 18:20 UTC on May 9 so GitHub can verify the publish chain.
+    - cron: '20 18 9 5 *'
   # Also allow manual trigger from GitHub UI
   workflow_dispatch:
 
@@ -50,7 +51,11 @@ jobs:
           git config user.name "AI Marketing Bot"
           git config user.email "bot@youraicoach.life"
           git add -A
-          git diff --staged --quiet || git commit -m "📝 Daily blog post $(date +%Y-%m-%d)"
+          if git diff --staged --quiet; then
+            echo "::error::Daily Blog Post generated no file changes. Check the keyword queue, progress file, and Gemini output."
+            exit 1
+          fi
+          git commit -m "📝 Daily blog post $(date +%Y-%m-%d)"
           # Pull latest changes (in case you pushed manually), then push
           git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)
