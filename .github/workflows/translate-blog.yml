@@ -3,8 +3,8 @@ name: Translate Blog Posts
 on:
   # Runs every day at 12:00 PM UTC (after daily blog at 7 AM + random delay)
   schedule:
-    # TEMP TEST: run at 18:20 UTC on May 9 so GitHub can verify the publish chain.
-    - cron: '20 18 9 5 *'
+    # TEMP FIX: run at 21:10 UTC on May 9 to repair missing translated pages.
+    - cron: '10 21 9 5 *'
   workflow_dispatch:
 
 permissions:

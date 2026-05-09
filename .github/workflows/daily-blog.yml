@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Random delay (0-120 min) for natural timing
-        if: github.event_name == 'schedule'
+        if: false # TEMP TEST: skip random delay
         run: |
           DELAY=$((RANDOM % 7200))
           echo "⏳ Waiting ${DELAY} seconds ($(($DELAY / 60)) minutes) before publishing..."
