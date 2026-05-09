@@ -5,7 +5,6 @@
  * Safety: Uses proper hreflang, x-default, separate canonicals, and unique translations.
  */
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -16,6 +15,7 @@ const PUBLIC_DIR = path.resolve(__dirname, '../../public');
 const BLOG_DIR = path.join(PUBLIC_DIR, 'blog');
 const PROGRESS_FILE = path.join(__dirname, '.daily-progress.json');
 const TRANSLATION_FILE = path.join(__dirname, '.translation-progress.json');
+let GoogleGenerativeAI;
 
 const LANGUAGES = [
   { code: 'fr', name: 'French', dir: 'ltr', label: 'Français',
@@ -54,7 +54,78 @@ function saveTranslationProgress(progress) {
   fs.writeFileSync(TRANSLATION_FILE, JSON.stringify(progress, null, 2));
 }
 
+function translationPath(slug, langCode) {
+  return path.join(BLOG_DIR, langCode, `${slug}.html`);
+}
+
+function translationExists(slug, langCode) {
+  return fs.existsSync(translationPath(slug, langCode));
+}
+
+function missingLanguages(slug) {
+  return LANGUAGES.filter(lang => !translationExists(slug, lang.code));
+}
+
+function existingLanguageCount(slug) {
+  return LANGUAGES.filter(lang => translationExists(slug, lang.code)).length;
+}
+
+function completeTranslatedSlugs(posts) {
+  return posts
+    .map(post => post.slug)
+    .filter(slug => missingLanguages(slug).length === 0);
+}
+
+function buildHreflangTags(slug) {
+  const availableLanguages = LANGUAGES.filter(lang => translationExists(slug, lang.code));
+  return [
+    `    <link rel="alternate" hreflang="en" href="https://youraicoach.life/blog/${slug}" />`,
+    ...availableLanguages.map(lang => `    <link rel="alternate" hreflang="${lang.code}" href="https://youraicoach.life/blog/${lang.code}/${slug}" />`),
+    `    <link rel="alternate" hreflang="x-default" href="https://youraicoach.life/blog/${slug}" />`,
+  ].join('\n');
+}
+
+function buildLanguageLinks(slug) {
+  const availableLanguages = LANGUAGES.filter(lang => translationExists(slug, lang.code));
+  return [
+    `<a href="/blog/${slug}">English</a>`,
+    ...availableLanguages.map(lang => `<a href="/blog/${lang.code}/${slug}">${lang.label}</a>`),
+  ].join(' | ');
+}
+
+function syncLanguageLinks(slug) {
+  const hreflangTags = buildHreflangTags(slug);
+  const langSwitcher = `<div class="lang-switcher">${buildLanguageLinks(slug)}</div>`;
+  const files = [
+    path.join(BLOG_DIR, `${slug}.html`),
+    ...LANGUAGES
+      .map(lang => translationPath(slug, lang.code))
+      .filter(file => fs.existsSync(file)),
+  ];
+
+  for (const file of files) {
+    let html = fs.readFileSync(file, 'utf-8');
+    html = html.replace(
+      /    <link rel="alternate" hreflang="en" href="https:\/\/youraicoach\.life\/blog\/[^"]+" \/>\n(?:    <link rel="alternate" hreflang="[a-z-]+" href="https:\/\/youraicoach\.life\/blog\/[^"]+" \/>\n)*    <link rel="alternate" hreflang="x-default" href="https:\/\/youraicoach\.life\/blog\/[^"]+" \/>/,
+      hreflangTags,
+    );
+    html = html.replace(/<div class="lang-switcher">[\s\S]*?<\/div>/, langSwitcher);
+    fs.writeFileSync(file, html);
+  }
+}
+
+function syncAllLanguageLinks(posts) {
+  for (const post of posts) {
+    if (fs.existsSync(path.join(BLOG_DIR, `${post.slug}.html`))) {
+      syncLanguageLinks(post.slug);
+    }
+  }
+}
+
 async function translatePost(post, lang, apiKey) {
+  if (!GoogleGenerativeAI) {
+    ({ GoogleGenerativeAI } = await import('@google/generative-ai'));
+  }
   const genAI = new GoogleGenerativeAI(apiKey);
   const MODELS = ['gemini-3.1-flash-lite-preview', 'gemini-2.5-flash'];
   
@@ -123,19 +194,6 @@ function buildTranslatedHTML(original, translated, lang, slug) {
   const dirAttr = lang.dir === 'rtl' ? ' dir="rtl"' : '';
   const rtlStyles = lang.dir === 'rtl' ? 'text-align:right;' : '';
 
-  // Dynamic hreflang tags for all languages
-  const hreflangTags = [
-    `    <link rel="alternate" hreflang="en" href="https://youraicoach.life/blog/${slug}" />`,
-    ...LANGUAGES.map(l => `    <link rel="alternate" hreflang="${l.code}" href="https://youraicoach.life/blog/${l.code}/${slug}" />`),
-    `    <link rel="alternate" hreflang="x-default" href="https://youraicoach.life/blog/${slug}" />`,
-  ].join('\n');
-
-  // Dynamic language switcher
-  const langLinks = [
-    `<a href="/blog/${slug}">English</a>`,
-    ...LANGUAGES.map(l => `<a href="/blog/${l.code}/${slug}">${l.label}</a>`),
-  ].join(' | ');
-
   return `<!DOCTYPE html>
 <html lang="${lang.code}"${dirAttr}>
 <head>
@@ -144,7 +202,7 @@ function buildTranslatedHTML(original, translated, lang, slug) {
     <title>${translated.title} | Callio</title>
     <meta name="description" content="${translated.metaDescription}">
     <link rel="canonical" href="https://youraicoach.life/blog/${lang.code}/${slug}" />
-${hreflangTags}
+${buildHreflangTags(slug)}
     <meta property="og:title" content="${translated.title}">
     <meta property="og:url" content="https://youraicoach.life/blog/${lang.code}/${slug}">
     <meta property="og:type" content="article">
@@ -192,7 +250,7 @@ ${hreflangTags}
     </style>
 </head>
 <body>
-<div class="lang-switcher">${langLinks}</div>
+<div class="lang-switcher">${buildLanguageLinks(slug)}</div>
 <nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;border:none">← Blog</a></div></nav>
 <article>
     <h1>${translated.title}</h1>
@@ -224,7 +282,41 @@ ${urls}
   fs.writeFileSync(path.join(PUBLIC_DIR, `sitemap-${langCode}.xml`), xml);
 }
 
+function updateTranslationMetadata(blogProgress, translationProgress) {
+  syncAllLanguageLinks(blogProgress.generated);
+
+  const existingDates = new Map(translationProgress.translated.map(item => [item.slug, item.date]));
+  const allCompleteTranslatedSlugs = completeTranslatedSlugs(blogProgress.generated);
+  const today = new Date().toISOString().split('T')[0];
+  translationProgress.translated = allCompleteTranslatedSlugs.map(slug => ({
+    slug,
+    date: existingDates.get(slug) || today,
+  }));
+  saveTranslationProgress(translationProgress);
+
+  for (const lang of LANGUAGES) {
+    const slugsForLanguage = blogProgress.generated
+      .map(item => item.slug)
+      .filter(slug => translationExists(slug, lang.code));
+    updateLanguageSitemap(lang.code, slugsForLanguage);
+  }
+}
+
 async function main() {
+  // Load progress
+  if (!fs.existsSync(PROGRESS_FILE)) {
+    console.log('No blog posts to translate yet.');
+    return;
+  }
+  const blogProgress = JSON.parse(fs.readFileSync(PROGRESS_FILE, 'utf-8'));
+  const translationProgress = loadTranslationProgress();
+
+  updateTranslationMetadata(blogProgress, translationProgress);
+  if (process.env.SYNC_TRANSLATION_LINKS_ONLY === 'true') {
+    console.log('✅ Synced translation links, progress, and language sitemaps.');
+    return;
+  }
+
   // Multi-key support: each language can use a different key
   const apiKeys = [
     process.env.GEMINI_API_KEY,
@@ -238,36 +330,35 @@ async function main() {
   }
   console.log(`🔑 ${apiKeys.length} API key(s) available for translations`);
 
-  // Load progress
-  if (!fs.existsSync(PROGRESS_FILE)) {
-    console.log('No blog posts to translate yet.');
-    return;
-  }
-  const blogProgress = JSON.parse(fs.readFileSync(PROGRESS_FILE, 'utf-8'));
-  const translationProgress = loadTranslationProgress();
-  const alreadyTranslated = new Set(translationProgress.translated.map(t => t.slug));
-
-  // Find untranslated posts
-  const untranslated = blogProgress.generated.filter(p => !alreadyTranslated.has(p.slug));
+  const partiallyTranslated = blogProgress.generated.filter(post =>
+    existingLanguageCount(post.slug) > 0 && missingLanguages(post.slug).length > 0
+  );
+  const untranslated = blogProgress.generated.filter(post =>
+    existingLanguageCount(post.slug) === 0 && missingLanguages(post.slug).length > 0
+  );
   
-  if (untranslated.length === 0) {
+  if (partiallyTranslated.length === 0 && untranslated.length === 0) {
     console.log('✅ All posts already translated.');
     writeStepSummary([
       '## Translation summary',
       '',
       'No translation changes were needed.',
-      `All ${blogProgress.generated.length} blog post(s) are already marked translated.`,
+      `All ${blogProgress.generated.length} blog post(s) have every language file.`,
     ]);
     return;
   }
 
-  // Translate the newest untranslated post so today's generated article is prioritized.
-  const post = untranslated[untranslated.length - 1];
+  // Repair partially translated posts first because their language links may already be visible.
+  const post = partiallyTranslated.length > 0
+    ? partiallyTranslated[partiallyTranslated.length - 1]
+    : untranslated[untranslated.length - 1];
+  const languagesToTranslate = missingLanguages(post.slug);
   console.log(`\n🌍 Translating: "${post.title}" (${post.slug})`);
   writeStepSummary([
     '## Translation summary',
     '',
-    `Selected newest untranslated post: \`${post.slug}\``,
+    `Selected post: \`${post.slug}\``,
+    `Missing languages: ${languagesToTranslate.map(lang => lang.code.toUpperCase()).join(', ')}`,
   ]);
 
   // Read the English HTML to extract content
@@ -301,8 +392,8 @@ async function main() {
 
   const indexNowUrls = [];
 
-  for (let i = 0; i < LANGUAGES.length; i++) {
-    const lang = LANGUAGES[i];
+  for (let i = 0; i < languagesToTranslate.length; i++) {
+    const lang = languagesToTranslate[i];
     // Rotate keys: FR=key1, ES=key2, AR=key3 (cycles if fewer keys)
     const keyForLang = apiKeys[i % apiKeys.length];
     console.log(`  🔑 Using key #${(i % apiKeys.length) + 1} for ${lang.name}`);
@@ -336,15 +427,7 @@ async function main() {
     process.exit(1);
   }
 
-  // Update translation progress
-  translationProgress.translated.push({ slug: post.slug, date: new Date().toISOString().split('T')[0] });
-  saveTranslationProgress(translationProgress);
-
-  // Update language sitemaps
-  const allTranslatedSlugs = translationProgress.translated.map(t => t.slug);
-  for (const lang of LANGUAGES) {
-    updateLanguageSitemap(lang.code, allTranslatedSlugs);
-  }
+  updateTranslationMetadata(blogProgress, translationProgress);
   console.log('✅ Updated language sitemaps');
 
   // Ping IndexNow (push handled by GitHub Actions)
@@ -363,12 +446,12 @@ async function main() {
 
   console.log(`\n📊 Translation Summary:`);
   console.log(`   Post: ${post.title}`);
-  console.log(`   Languages attempted: ${LANGUAGES.map(l => l.code.toUpperCase()).join(', ')}`);
+  console.log(`   Languages attempted: ${languagesToTranslate.map(l => l.code.toUpperCase()).join(', ')}`);
   console.log(`   Total translated: ${translationProgress.translated.length}/${blogProgress.generated.length}`);
   writeStepSummary([
     '',
     `Translated slug: \`${post.slug}\``,
-    `Languages attempted: ${LANGUAGES.map(l => l.code.toUpperCase()).join(', ')}`,
+    `Languages attempted: ${languagesToTranslate.map(l => l.code.toUpperCase()).join(', ')}`,
     `Generated translated URL count: ${indexNowUrls.length}`,
     `Progress: ${translationProgress.translated.length}/${blogProgress.generated.length}`,
   ]);

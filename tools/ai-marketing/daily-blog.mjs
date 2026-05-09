@@ -642,15 +642,6 @@ function buildHTML(post) {
 
   const langLinks = [
     `<a href="/blog/${post.slug}">English</a>`,
-    `<a href="/blog/fr/${post.slug}">Français</a>`,
-    `<a href="/blog/es/${post.slug}">Español</a>`,
-    `<a href="/blog/ar/${post.slug}">العربية</a>`,
-    `<a href="/blog/pt/${post.slug}">Português</a>`,
-    `<a href="/blog/de/${post.slug}">Deutsch</a>`,
-    `<a href="/blog/hi/${post.slug}">हिन्दी</a>`,
-    `<a href="/blog/tr/${post.slug}">Türkçe</a>`,
-    `<a href="/blog/id/${post.slug}">Bahasa Indonesia</a>`,
-    `<a href="/blog/ja/${post.slug}">日本語</a>`
   ].join(' | ');
 
   return `<!DOCTYPE html>
@@ -671,15 +662,6 @@ function buildHTML(post) {
     <meta name="twitter:title" content="${post.title}">
     <meta name="robots" content="index, follow">
     <link rel="alternate" hreflang="en" href="https://youraicoach.life/blog/${post.slug}" />
-    <link rel="alternate" hreflang="fr" href="https://youraicoach.life/blog/fr/${post.slug}" />
-    <link rel="alternate" hreflang="es" href="https://youraicoach.life/blog/es/${post.slug}" />
-    <link rel="alternate" hreflang="ar" href="https://youraicoach.life/blog/ar/${post.slug}" />
-    <link rel="alternate" hreflang="pt" href="https://youraicoach.life/blog/pt/${post.slug}" />
-    <link rel="alternate" hreflang="de" href="https://youraicoach.life/blog/de/${post.slug}" />
-    <link rel="alternate" hreflang="hi" href="https://youraicoach.life/blog/hi/${post.slug}" />
-    <link rel="alternate" hreflang="tr" href="https://youraicoach.life/blog/tr/${post.slug}" />
-    <link rel="alternate" hreflang="id" href="https://youraicoach.life/blog/id/${post.slug}" />
-    <link rel="alternate" hreflang="ja" href="https://youraicoach.life/blog/ja/${post.slug}" />
     <link rel="alternate" hreflang="x-default" href="https://youraicoach.life/blog/${post.slug}" />
     <link rel="alternate" type="application/rss+xml" title="Callio Blog" href="https://youraicoach.life/blog/feed.xml" />
     <script type="application/ld+json">
