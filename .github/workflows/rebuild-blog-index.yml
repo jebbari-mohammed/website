@@ -1,4 +1,4 @@
-name: Rebuild Blog Index
+name: Rebuild Blog Index + Deploy
 
 on:
   push:
@@ -10,10 +10,19 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-  rebuild:
+  rebuild-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,19 +33,38 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
       - name: Rebuild blog index
         run: node tools/ai-marketing/rebuild-blog-index.mjs
 
-      - name: Commit and push
+      - name: Commit index rebuild
         run: |
           git config user.name "AI Bot"
           git config user.email "bot@youraicoach.life"
           git add public/blog/index.html
           if git diff --staged --quiet; then
             echo "No changes to index"
-            exit 0
+          else
+            git commit -m "🔄 Auto-rebuild blog index"
+            git pull --rebase origin main || true
+            git push
           fi
-          git commit -m "🔄 Auto-rebuild blog index"
-          git pull --rebase origin main || true
-          git push
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
