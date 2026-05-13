@@ -1,0 +1,42 @@
+name: Rebuild Blog Index
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/blog/**'
+      - '!public/blog/index.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Rebuild blog index
+        run: node tools/ai-marketing/rebuild-blog-index.mjs
+
+      - name: Commit and push
+        run: |
+          git config user.name "AI Bot"
+          git config user.email "bot@youraicoach.life"
+          git add public/blog/index.html
+          if git diff --staged --quiet; then
+            echo "No changes to index"
+            exit 0
+          fi
+          git commit -m "🔄 Auto-rebuild blog index"
+          git pull --rebase origin main || true
+          git push
