@@ -18,6 +18,10 @@ export default function Footer() {
                             <span className="text-[11px] opacity-70">
                                 <strong>Note:</strong> We are a consumer fitness application, not affiliated with the B2B consulting firm youraicoach.ai.
                             </span>
+                            <br />
+                            <span className="text-[11px] opacity-70 block mt-2">
+                                <strong>Location:</strong> Casablanca, Morocco
+                            </span>
                         </p>
                     </div>
 
@@ -30,8 +34,9 @@ export default function Footer() {
                     </div>
 
                     <div className="md:col-span-3">
-                        <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Legal</h4>
+                        <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Legal & Story</h4>
                         <div className="flex flex-col gap-2.5">
+                            <a href="/about.html" className="text-sm text-textSecondary hover:text-primary transition-colors font-medium text-primary">About Callio (Our Story)</a>
                             <a href="/privacy-policy.html" className="text-sm text-textSecondary hover:text-primary transition-colors">Privacy Policy</a>
                             <a href="/terms.html" className="text-sm text-textSecondary hover:text-primary transition-colors">Terms of Service</a>
                             <a href="#delete" className="text-sm text-textSecondary hover:text-primary transition-colors">Data Deletion</a>
@@ -51,6 +56,7 @@ export default function Footer() {
                 <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-[13px] text-textSecondary/70 font-sans">© 2026 Callio. All rights reserved.</p>
                     <div className="flex gap-4 flex-wrap">
+                        <a href="/about.html" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">About Us</a>
                         <a href="/privacy-policy.html" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">Privacy Policy</a>
                         <a href="/terms.html" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">Terms of Service</a>
                         <a href="mailto:support@youraicoach.life" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">support@youraicoach.life</a>

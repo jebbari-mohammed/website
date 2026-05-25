@@ -1,10 +1,15 @@
 import { motion } from 'framer-motion';
-import { Lock, Smartphone, Ban, Trash2, AlertTriangle } from 'lucide-react';
+import { Lock, Smartphone, Ban, Trash2, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 const trustItems = [
     { icon: Lock, title: "Data Encrypted", desc: "All data is stored with industry-standard encryption via Google Firebase." },
     { icon: Smartphone, title: "Images Not Stored", desc: "Body and food scan images are processed by AI instantly and immediately discarded." },
     { icon: Ban, title: "No Data Sales", desc: "We never sell, trade, or share your personal data with any third parties for advertising." },
+    {
+        icon: ShieldCheck,
+        title: "Payment Safety",
+        desc: "All transactions and premium upgrades are handled securely via Apple & Google. We never see or store your credit card details."
+    },
     { 
         icon: Trash2, 
         title: "Delete Anytime", 
@@ -39,7 +44,7 @@ export default function Trust() {
                     </h2>
                 </motion.div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mt-14">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mt-14">
                     {trustItems.map((item, idx) => {
                         const Icon = item.icon;
                         return (
@@ -49,13 +54,15 @@ export default function Trust() {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true, margin: "-50px" }}
                                 transition={{ duration: 0.4, delay: idx * 0.1 }}
-                                className="glass-card rounded-[24px] p-7 text-center hover:-translate-y-1 transition-transform"
+                                className="glass-card rounded-[24px] p-6 text-center hover:-translate-y-1 transition-transform flex flex-col justify-between"
                             >
-                                <div className="w-14 h-14 mx-auto rounded-full bg-white/5 flex items-center justify-center mb-4">
-                                    <Icon className="text-textPrimary" size={28} strokeWidth={1.5} />
+                                <div>
+                                    <div className="w-14 h-14 mx-auto rounded-full bg-white/5 flex items-center justify-center mb-4">
+                                        <Icon className="text-textPrimary" size={28} strokeWidth={1.5} />
+                                    </div>
+                                    <h4 className="text-[15px] font-bold mb-2 font-sans">{item.title}</h4>
                                 </div>
-                                <h4 className="text-[15px] font-bold mb-2 font-sans">{item.title}</h4>
-                                <p className="text-[13px] text-textSecondary leading-relaxed font-sans">{item.desc}</p>
+                                <p className="text-[13px] text-textSecondary leading-relaxed font-sans mt-2">{item.desc}</p>
                             </motion.div>
                         );
                     })}
