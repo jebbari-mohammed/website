@@ -6,7 +6,15 @@ const features = [
     icon: Phone,
     title: "Proactive Voice Calls",
     subtitle: "Your coach calls YOU",
-    desc: "Not a chatbot. Not a notification. Callio literally calls your phone via real VoIP voice calls. Before the gym to remind and motivate you. End of day to review your workouts and plan tomorrow. Two-way conversation — you talk, your coach listens and responds.",
+    desc: (
+      <>
+        Not a chatbot. Not a notification. Callio literally calls your phone via real{" "}
+        <a href="/features/ai-voice-calls" className="underline hover:text-primary transition-colors font-medium">
+          VoIP voice calls
+        </a>
+        . Before the gym to remind and motivate you. End of day to review your workouts and plan tomorrow. Two-way conversation — you talk, your coach listens and responds.
+      </>
+    ),
     gradient: "from-primary to-blue-500",
     span: "md:col-span-2",
     image: "/images/hero-call.png",
@@ -40,7 +48,15 @@ const features = [
     icon: Brain,
     title: "13 Intelligence Modules",
     subtitle: "A relationship engine",
-    desc: "Your coach runs 13 behavioral modules simultaneously. The Anti-Skip Detector actively notices if you haven't trained. The Dark Moment Protocol shifts to high empathy when motivation crashes. The Memory Manager recalls your past struggles. It's not a prompt; it's an engine.",
+    desc: (
+      <>
+        Your coach runs 13 behavioral modules simultaneously. The Anti-Skip Detector actively notices if you haven't trained. The Dark Moment Protocol shifts to high empathy when motivation crashes. Read more on our{" "}
+        <a href="/about" className="underline hover:text-primary transition-colors font-medium">
+          about page
+        </a>
+        . It's not a prompt; it's an engine.
+      </>
+    ),
     gradient: "from-primary to-secondary",
     span: "",
   },

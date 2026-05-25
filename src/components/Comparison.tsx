@@ -63,11 +63,15 @@ export default function Comparison() {
                   <CellValue value={feature.us} />
                 </div>
                 <div>
-                  <span className="text-[9px] text-textSecondary/50 font-medium block mb-1">Fitbod</span>
+                  <span className="text-[9px] text-textSecondary/50 font-medium block mb-1">
+                    <a href="/vs-fitbod" className="underline hover:text-primary transition-colors">Fitbod</a>
+                  </span>
                   <CellValue value={feature.fitbod} />
                 </div>
                 <div>
-                  <span className="text-[9px] text-textSecondary/50 font-medium block mb-1">Future</span>
+                  <span className="text-[9px] text-textSecondary/50 font-medium block mb-1">
+                    <a href="/vs-future" className="underline hover:text-primary transition-colors">Future</a>
+                  </span>
                   <CellValue value={feature.future} />
                 </div>
                 <div>
@@ -108,11 +112,15 @@ export default function Comparison() {
                 <span className="text-[11px] text-cta font-semibold">Freemium</span>
               </div>
               <div className="p-4 text-center">
-                <span className="text-sm font-medium text-textSecondary block">Fitbod</span>
+                <span className="text-sm font-medium text-textSecondary block">
+                  <a href="/vs-fitbod" className="underline hover:text-primary transition-colors">Fitbod</a>
+                </span>
                 <span className="text-[11px] text-textSecondary/50">$15/mo</span>
               </div>
               <div className="p-4 text-center">
-                <span className="text-sm font-medium text-textSecondary block">Future</span>
+                <span className="text-sm font-medium text-textSecondary block">
+                  <a href="/vs-future" className="underline hover:text-primary transition-colors">Future</a>
+                </span>
                 <span className="text-[11px] text-textSecondary/50">$150/mo</span>
               </div>
               <div className="p-4 text-center">

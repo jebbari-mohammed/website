@@ -5,7 +5,19 @@ const trustItems = [
     { icon: Lock, title: "Data Encrypted", desc: "All data is stored with industry-standard encryption via Google Firebase." },
     { icon: Smartphone, title: "Images Not Stored", desc: "Body and food scan images are processed by AI instantly and immediately discarded." },
     { icon: Ban, title: "No Data Sales", desc: "We never sell, trade, or share your personal data with any third parties for advertising." },
-    { icon: Trash2, title: "Delete Anytime", desc: "Request full account and data deletion directly inside the app in seconds." },
+    { 
+        icon: Trash2, 
+        title: "Delete Anytime", 
+        desc: (
+            <>
+                Request full account and data deletion directly inside the app in seconds. Read our{" "}
+                <a href="/privacy-policy.html" className="underline hover:text-primary transition-colors font-medium">
+                    Privacy Policy
+                </a>
+                .
+            </>
+        ) 
+    },
 ];
 
 export default function Trust() {
