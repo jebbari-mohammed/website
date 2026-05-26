@@ -22,6 +22,8 @@
     <meta name="apple-mobile-web-app-title" content="Callio">
     <link rel="canonical" href="https://youraicoach.life/landing-page">
     <link rel="alternate" href="https://youraicoach.life/landing-page" hreflang="en">
+    <link rel="preload" as="image" type="image/webp" href="/frames/desktop/frame_000.webp" media="(min-width: 768px)">
+    <link rel="preload" as="image" type="image/webp" href="/frames/mobile/frame_000.webp" media="(max-width: 767px)">
 
     <!-- Social Preview Meta Tags -->
     <meta property="og:type" content="website">
@@ -269,7 +271,6 @@
             align-items: center;
             z-index: 100;
             background: linear-gradient(to bottom, rgba(3, 7, 18, 0.86), rgba(3, 7, 18, 0.28), transparent);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .logo {
@@ -662,13 +663,15 @@
                 { el: document.getElementById('slide-4'), start: 0.66, end: 0.86 }
             ];
 
-            const priorityFrames = new Set([0, 30, 56, 85, totalFrames - 1]);
-            const starterFrames = new Set([0, 30, 56, 85]);
-
             const maxConcurrentLoads = isMobileDevice ? 2 : 3;
             const prefetchRadius = isMobileDevice ? 5 : 8;
-            const maxCachedFrames = isMobileDevice ? 22 : 34;
-            const initialWindow = isMobileDevice ? 5 : 7;
+            const openingWarmFrameCount = isMobileDevice ? 18 : 28;
+            const revealReadyFrameCount = isMobileDevice ? 10 : 16;
+            const maxRevealDelay = isMobileDevice ? 1400 : 1700;
+            const maxCachedFrames = isMobileDevice ? 28 : 44;
+            const initialWindow = openingWarmFrameCount;
+            const landmarkFrames = new Set([30, 56, 85, totalFrames - 1]);
+            const openingFrames = new Set(Array.from({ length: openingWarmFrameCount }, (_, index) => index));
 
             const frameCache = new Map();
             const inflightFrames = new Set();
@@ -742,7 +745,10 @@
                 for (let offset = -2; offset <= 2; offset++) {
                     protectedFrames.add(clampFrame(targetFrameIndex + offset));
                 }
-                priorityFrames.forEach((frameIndex) => protectedFrames.add(frameIndex));
+                landmarkFrames.forEach((frameIndex) => protectedFrames.add(frameIndex));
+                if (targetFrameIndex < openingWarmFrameCount) {
+                    openingFrames.forEach((frameIndex) => protectedFrames.add(frameIndex));
+                }
 
                 const evictionCandidates = Array.from(frameCache.entries())
                     .filter(([index]) => !protectedFrames.has(index))
@@ -816,9 +822,13 @@
                 });
             }
 
-            async function decodeFrame(index) {
+            async function decodeFrame(index, fetchPriority = 'auto') {
                 const url = framePattern(index);
-                const response = await fetch(url, { cache: 'force-cache' });
+                const fetchOptions = { cache: 'force-cache' };
+                if (fetchPriority !== 'auto') {
+                    fetchOptions.priority = fetchPriority;
+                }
+                const response = await fetch(url, fetchOptions);
                 if (!response.ok) {
                     throw new Error(`Frame ${index} failed with ${response.status}`);
                 }
@@ -854,10 +864,14 @@
                 preloader.style.visibility = 'hidden';
                 document.body.classList.remove('is-loading');
                 updateFromScroll();
+                warmLandmarkFrames();
             }
 
-            function starterFramesLoaded() {
-                return Array.from(starterFrames).every((frameIndex) => frameCache.has(frameIndex));
+            function openingFramesReady(requiredCount) {
+                for (let index = 0; index < requiredCount; index++) {
+                    if (!frameCache.has(index)) return false;
+                }
+                return true;
             }
 
             function maybeRevealExperience() {
@@ -865,11 +879,11 @@
 
                 if (!firstFrameReadyAt) {
                     firstFrameReadyAt = performance.now();
-                    window.setTimeout(maybeRevealExperience, 1200);
+                    window.setTimeout(maybeRevealExperience, maxRevealDelay + 100);
                 }
 
-                const waitedLongEnough = performance.now() - firstFrameReadyAt > 1100;
-                if (!starterFramesLoaded() && !waitedLongEnough) return;
+                const waitedLongEnough = performance.now() - firstFrameReadyAt > maxRevealDelay;
+                if (!openingFramesReady(revealReadyFrameCount) && !waitedLongEnough) return;
 
                 revealExperience();
             }
@@ -938,7 +952,8 @@
 
                     inflightFrames.add(next.index);
                     activeLoads++;
-                    decodeFrame(next.index)
+                    const fetchPriority = next.priority <= openingWarmFrameCount ? 'high' : 'low';
+                    decodeFrame(next.index, fetchPriority)
                         .then((bitmap) => finishLoad(next.index, bitmap))
                         .catch((error) => failLoad(next.index, error));
                 }
@@ -947,7 +962,9 @@
             function pruneQueue(centerIndex) {
                 const maxDistance = prefetchRadius + 4;
                 loadQueue = loadQueue.filter((frame) => (
-                    priorityFrames.has(frame.index) || Math.abs(frame.index - centerIndex) <= maxDistance
+                    landmarkFrames.has(frame.index) ||
+                    openingFrames.has(frame.index) ||
+                    Math.abs(frame.index - centerIndex) <= maxDistance
                 ));
                 queuedFrames.clear();
                 loadQueue.forEach((frame) => queuedFrames.add(frame.index));
@@ -957,9 +974,30 @@
                 pruneQueue(centerIndex);
                 queueFrame(centerIndex, 0);
 
-                for (let offset = 1; offset <= prefetchRadius; offset++) {
+                const forwardRadius = centerIndex < openingWarmFrameCount
+                    ? Math.max(prefetchRadius, openingWarmFrameCount - centerIndex)
+                    : prefetchRadius;
+
+                for (let offset = 1; offset <= forwardRadius; offset++) {
                     queueFrame(centerIndex + offset, offset * 2);
+                }
+
+                for (let offset = 1; offset <= prefetchRadius; offset++) {
                     queueFrame(centerIndex - offset, offset * 2 + 1);
+                }
+            }
+
+            function warmLandmarkFrames() {
+                const warm = () => {
+                    landmarkFrames.forEach((frameIndex, index) => {
+                        queueFrame(frameIndex, 220 + index);
+                    });
+                };
+
+                if ('requestIdleCallback' in window) {
+                    window.requestIdleCallback(warm, { timeout: 2200 });
+                } else {
+                    window.setTimeout(warm, 900);
                 }
             }
 
@@ -1000,7 +1038,6 @@
             window.addEventListener('resize', resizeCanvas, { passive: true });
             window.addEventListener('scroll', onScroll, { passive: true });
 
-            Array.from(priorityFrames).forEach((frame, index) => queueFrame(frame, -50 + index));
             for (let i = 0; i < initialWindow; i++) {
                 queueFrame(i, i);
             }
