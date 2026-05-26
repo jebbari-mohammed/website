@@ -1,0 +1,36 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Callio, the AI fitness coach that calls you</title>
+  <desc id="desc">Social preview graphic for Callio, an AI fitness coach app for workout plans, meal plans, scanning, and voice calls.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#030712"/>
+      <stop offset="0.55" stop-color="#071226"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="90" y1="82" x2="920" y2="82" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#A78BFA"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(890 110) rotate(122) scale(420 250)">
+      <stop stop-color="#60A5FA" stop-opacity="0.36"/>
+      <stop offset="1" stop-color="#60A5FA" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1010 460) rotate(155) scale(360 220)">
+      <stop stop-color="#A78BFA" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#A78BFA" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glowA)"/>
+  <rect width="1200" height="630" fill="url(#glowB)"/>
+  <path d="M0 102H1200M0 316H1200M0 530H1200M220 0V630M600 0V630M980 0V630" stroke="#FFFFFF" stroke-opacity="0.045"/>
+  <rect x="68" y="70" width="214" height="48" rx="24" fill="#FFFFFF" fill-opacity="0.06" stroke="#FFFFFF" stroke-opacity="0.12"/>
+  <text x="94" y="101" fill="#BFDBFE" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="700">AI fitness coach</text>
+  <text x="68" y="208" fill="#F8FAFC" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="76" font-weight="850" letter-spacing="0">Callio calls.</text>
+  <text x="68" y="296" fill="#F8FAFC" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="76" font-weight="850" letter-spacing="0">You keep moving.</text>
+  <text x="70" y="376" fill="#CBD5E1" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="500">Workout plans, meal plans, meal scans, body scans,</text>
+  <text x="70" y="421" fill="#CBD5E1" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="500">and AI voice check-ins in one fitness app.</text>
+  <rect x="72" y="492" width="256" height="6" rx="3" fill="url(#accent)"/>
+  <text x="68" y="570" fill="#FFFFFF" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="800">CALLIO</text>
+  <text x="1132" y="570" fill="#64748B" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="22" font-weight="600" text-anchor="end">youraicoach.life</text>
+</svg>

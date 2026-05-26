@@ -14,14 +14,139 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     
     <!-- Primary SEO Meta Tags -->
-    <title>Callio — AI Coach Transformation Landing Page</title>
-    <meta name="description" content="Experience the transformation with Callio, the AI personal trainer that calls your phone. Watch your coach keep you accountable as you scroll.">
+    <title>Callio | The AI Fitness Coach That Calls You</title>
+    <meta name="description" content="Callio plans your workouts and meals, scans food and body progress, and can call you for check-ins, reminders, and accountability.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="theme-color" content="#030712">
+    <meta name="application-name" content="Callio">
+    <meta name="apple-mobile-web-app-title" content="Callio">
     <link rel="canonical" href="https://youraicoach.life/landing-page">
+    <link rel="alternate" href="https://youraicoach.life/landing-page" hreflang="en">
+
+    <!-- Social Preview Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Callio">
+    <meta property="og:title" content="Callio | The AI Fitness Coach That Calls You">
+    <meta property="og:description" content="Weekly workout and meal plans, meal and body scanning, and AI voice calls for check-ins, reminders, and accountability.">
+    <meta property="og:url" content="https://youraicoach.life/landing-page">
+    <meta property="og:image" content="https://youraicoach.life/og/callio-landing-og.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Callio, an AI fitness coach app that calls you and helps plan workouts and meals.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Callio | The AI Fitness Coach That Calls You">
+    <meta name="twitter:description" content="Workout plans, meal plans, scanning, and AI voice calls for fitness accountability.">
+    <meta name="twitter:image" content="https://youraicoach.life/og/callio-landing-og.jpg">
+    <meta name="twitter:image:alt" content="Callio, an AI fitness coach app that calls you and helps plan workouts and meals.">
     
     <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://youraicoach.life/#organization",
+          "name": "Callio",
+          "url": "https://youraicoach.life/",
+          "logo": "https://youraicoach.life/favicon.svg"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://youraicoach.life/#website",
+          "name": "Callio",
+          "url": "https://youraicoach.life/",
+          "publisher": {
+            "@id": "https://youraicoach.life/#organization"
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://youraicoach.life/landing-page#webpage",
+          "url": "https://youraicoach.life/landing-page",
+          "name": "Callio | The AI Fitness Coach That Calls You",
+          "description": "Callio plans workouts and meals, scans food and body progress, and can call users for check-ins, reminders, and accountability.",
+          "isPartOf": {
+            "@id": "https://youraicoach.life/#website"
+          },
+          "about": {
+            "@id": "https://youraicoach.life/landing-page#app"
+          },
+          "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://youraicoach.life/og/callio-landing-og.jpg",
+            "width": 1200,
+            "height": 630
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://youraicoach.life/landing-page#app",
+          "name": "Callio",
+          "alternateName": "Your AI Coach",
+          "applicationCategory": "HealthApplication",
+          "operatingSystem": "iOS, Android",
+          "url": "https://youraicoach.life/landing-page",
+          "description": "Callio is an AI fitness coach app with weekly workout plans, weekly meal plans, meal scanning, body progress scanning, and optional AI voice calls for reminders and daily reviews.",
+          "featureList": [
+            "AI voice calls for check-ins and session reminders",
+            "Weekly workout planning",
+            "Weekly meal planning",
+            "Meal scanning",
+            "Body progress scanning",
+            "Adaptive coaching based on conversations"
+          ],
+          "publisher": {
+            "@id": "https://youraicoach.life/#organization"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://youraicoach.life/landing-page#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is Callio?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Callio is an AI fitness coach app that helps plan workouts and meals, scan meals and body progress, and follow up with AI voice calls for accountability."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can Callio call me?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Callio can call for check-ins, session reminders, and day reviews so users can talk through their progress instead of relying only on notifications."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does Callio create workout and meal plans?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Callio can create weekly workout plans and weekly meal plans, then adapt guidance as it learns from user conversations and progress signals."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can Callio scan meals and body progress?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Callio includes meal scanning and body progress scanning to give the coach more context about what users eat and how their body is changing."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
     
     <style>
         :root {
@@ -43,6 +168,22 @@
             font-family: var(--font-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+        }
+
+        body.is-loading {
+            overflow: hidden;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         /* Custom Scrollbar */
@@ -89,7 +230,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 24px;
-            letter-spacing: -0.03em;
+            letter-spacing: 0;
         }
 
         .loader-bar-bg {
@@ -127,8 +268,7 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.8), transparent);
-            backdrop-filter: blur(12px);
+            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.86), rgba(3, 7, 18, 0.28), transparent);
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
@@ -140,7 +280,7 @@
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.02em;
+            letter-spacing: 0;
         }
 
         .back-btn {
@@ -180,6 +320,7 @@
             justify-content: center;
             align-items: center;
             z-index: 1;
+            contain: layout paint;
         }
 
         #scroll-canvas {
@@ -212,6 +353,7 @@
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
         }
 
         /* Position the slides on the scroll timeline */
@@ -241,9 +383,10 @@
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 20px;
-            letter-spacing: -0.03em;
+            letter-spacing: 0;
             color: #ffffff;
             text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            text-wrap: balance;
         }
 
         .slide-description {
@@ -251,6 +394,7 @@
             color: #cbd5e1;
             line-height: 1.6;
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            text-wrap: pretty;
         }
 
         /* Active class applied by JavaScript */
@@ -283,7 +427,8 @@
             background: linear-gradient(135deg, #f8fafc, #94a3b8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.03em;
+            letter-spacing: 0;
+            text-wrap: balance;
         }
 
         .cta-description {
@@ -292,6 +437,7 @@
             max-width: 600px;
             margin-bottom: 40px;
             line-height: 1.6;
+            text-wrap: pretty;
         }
 
         .btn-group {
@@ -402,7 +548,7 @@
         }
     </style>
 </head>
-<body>
+<body class="is-loading">
 
     <!-- Premium Loading Screen -->
     <div id="preloader">
@@ -411,22 +557,23 @@
             <div class="loader-bar-bg">
                 <div class="loader-bar-fill" id="loader-bar"></div>
             </div>
-            <div class="loader-text" id="loader-status">Loading Experience... 0%</div>
+            <div class="loader-text" id="loader-status">Building your coach preview... 0%</div>
         </div>
     </div>
 
     <!-- Header Navigation -->
     <header>
         <a href="/" class="logo">⚡ Callio</a>
-        <a href="/" class="back-btn">Go to Main Website</a>
+        <a href="/" class="back-btn">Explore Callio</a>
     </header>
 
     <!-- Main Scrolling Layout -->
-    <div class="scroll-container" id="scroll-wrapper">
+    <main class="scroll-container" id="scroll-wrapper">
+        <h1 class="sr-only">Callio, the AI fitness coach that calls you</h1>
         
         <!-- Sticky Canvas Viewport -->
         <div class="canvas-sticky">
-            <canvas id="scroll-canvas"></canvas>
+            <canvas id="scroll-canvas" role="img" aria-label="Animated preview of Callio AI coaching, planning, scanning, and calling features."></canvas>
         </div>
 
         <!-- Floating Text Slides -->
@@ -434,33 +581,33 @@
             
             <div class="slide" id="slide-1">
                 <div class="slide-content">
-                    <span class="slide-tag">Meet your new coach</span>
-                    <h2 class="slide-title">Callio</h2>
-                    <p class="slide-description">The ultimate AI gym coach designed to transform your body, build consistency, and take your training to the absolute peak of elite performance.</p>
+                    <span class="slide-tag">The AI coach that calls</span>
+                    <h2 class="slide-title">The fitness app that follows up.</h2>
+                    <p class="slide-description">Callio plans your workouts and meals, scans food and body progress, and can call you for check-ins, reminders, and accountability.</p>
                 </div>
             </div>
 
             <div class="slide" id="slide-2">
                 <div class="slide-content">
-                    <span class="slide-tag">Real Accountability</span>
-                    <h2 class="slide-title">Your Coach Calls You</h2>
-                    <p class="slide-description">Unlike lazy chatbots, Callio proactively calls your phone via Twilio VoIP before gym sessions. No excuses, no missed reps.</p>
+                    <span class="slide-tag">Accountability with a voice</span>
+                    <h2 class="slide-title">A reminder you can talk to.</h2>
+                    <p class="slide-description">Before training or after a long day, Callio can call, review what happened, and help you choose the next move.</p>
                 </div>
             </div>
 
             <div class="slide" id="slide-3">
                 <div class="slide-content">
-                    <span class="slide-tag">Tailored Strategy</span>
-                    <h2 class="slide-title">Custom Workouts & Meals</h2>
-                    <p class="slide-description">Get elite, personalized training routines and region-aware, macro-aligned meal recommendations generated specifically for your goals and lifestyle.</p>
+                    <span class="slide-tag">Weekly structure</span>
+                    <h2 class="slide-title">Your week, built before you start.</h2>
+                    <p class="slide-description">Get workouts and meals for the week without piecing together random advice. Callio gives you structure, then adapts as it learns your routine.</p>
                 </div>
             </div>
 
             <div class="slide" id="slide-4">
                 <div class="slide-content">
-                    <span class="slide-tag">Advanced Vision AI</span>
-                    <h2 class="slide-title">Scanner & Voice Coaching</h2>
-                    <p class="slide-description">Point your camera to scan food instantly, analyze body composition metrics, and chat 24/7 with interactive voice protocols.</p>
+                    <span class="slide-tag">More context, better coaching</span>
+                    <h2 class="slide-title">Scan. Talk. Adjust.</h2>
+                    <p class="slide-description">Meal scans, body scans, and voice conversations give Callio a clearer picture of what you ate, how you are changing, and what to adjust next.</p>
                 </div>
             </div>
 
@@ -468,8 +615,8 @@
 
         <!-- Final CTA & Footer Section -->
         <div class="cta-section">
-            <h2 class="cta-title">Start Your Transformation</h2>
-            <p class="cta-description">Download Callio today and experience accountability that actually works. Join thousands of users achieving elite physical performance.</p>
+            <h2 class="cta-title">Start with a coach that follows up.</h2>
+            <p class="cta-description">Plan your week, scan what matters, and get AI calls that help keep momentum when life gets busy.</p>
             <div class="btn-group">
                 <a href="https://apps.apple.com/app/your-ai-coach" class="btn btn-primary" target="_blank" rel="noopener">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.22.67-2.94 1.5-.64.73-1.2 1.87-1.05 2.98 1.12.09 2.26-.58 3-1.42z"/></svg>
@@ -487,42 +634,27 @@
             </footer>
         </div>
 
-    </div>
+    </main>
 
     <script>
         (function() {
-            // Configuration
             const totalFrames = 120;
-            
-            // Responsive frame resolution to prevent Out-Of-Memory (OOM) lag on mobile and older devices
-            const isMobileDevice = window.innerWidth < 768 || (('ontouchstart' in window) && window.innerWidth < 1024);
+            const isMobileDevice = window.matchMedia('(max-width: 767px), (pointer: coarse) and (max-width: 1023px)').matches;
             const frameFolder = isMobileDevice ? 'mobile' : 'desktop';
+            const sourceSize = isMobileDevice ? { width: 960, height: 540 } : { width: 1920, height: 1080 };
             const framePattern = (idx) => `../frames/${frameFolder}/frame_${idx.toString().padStart(3, '0')}.webp`;
-            
-            // Elements
+
             const canvas = document.getElementById('scroll-canvas');
             const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
             const preloader = document.getElementById('preloader');
             const loaderBar = document.getElementById('loader-bar');
             const loaderStatus = document.getElementById('loader-status');
             const scrollWrapper = document.getElementById('scroll-wrapper');
-            
-            // Performance Optimizations
-            canvas.style.transform = 'translateZ(0)'; // Force hardware acceleration
-            
-            // Frame caching
-            const images = new Array(totalFrames);
-            let loadedCount = 0;
-            
-            // Lerped scrolling variables
-            let targetFrame = 0;
-            let currentFrame = 0;
-            const lerpFactor = 0.08; // Super smooth scroll physics
-            
-            let currentFrameIndex = -1;
-            let isFirstFrameDrawn = false;
-            
-            // Manage slide transitions
+
+            canvas.style.transform = 'translateZ(0)';
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+
             const slides = [
                 { el: document.getElementById('slide-1'), start: 0.0, end: 0.20 },
                 { el: document.getElementById('slide-2'), start: 0.22, end: 0.42 },
@@ -530,185 +662,349 @@
                 { el: document.getElementById('slide-4'), start: 0.66, end: 0.86 }
             ];
 
+            const priorityFrames = new Set([0, 30, 56, 85, totalFrames - 1]);
+            const starterFrames = new Set([0, 30, 56, 85]);
+
+            const maxConcurrentLoads = isMobileDevice ? 2 : 3;
+            const prefetchRadius = isMobileDevice ? 5 : 8;
+            const maxCachedFrames = isMobileDevice ? 22 : 34;
+            const initialWindow = isMobileDevice ? 5 : 7;
+
+            const frameCache = new Map();
+            const inflightFrames = new Set();
+            const queuedFrames = new Set();
+            let loadQueue = [];
+            let activeLoads = 0;
             let docHeight = 1;
             let drawMetrics = null;
+            let targetFrameIndex = 0;
+            let renderedFrameIndex = -1;
+            let rafScheduled = false;
+            let scrollTicking = false;
+            let hasRevealed = false;
+            let initialLoaded = 0;
+            let observedScrollY = -1;
+            let firstFrameReadyAt = 0;
 
-            // Handle Resize
-            function resizeCanvas() {
-                const dpr = window.devicePixelRatio || 1;
-                canvas.width = window.innerWidth * dpr;
-                canvas.height = window.innerHeight * dpr;
-                
-                // Cache layout dimensions to avoid layout thrashing on scroll
-                docHeight = Math.max(1, scrollWrapper.clientHeight - window.innerHeight);
-                
-                // Invalidate cached draw metrics
-                drawMetrics = null;
-                
-                if (images[currentFrameIndex]) {
-                    renderFrame(currentFrameIndex);
-                }
+            function clampFrame(index) {
+                return Math.max(0, Math.min(totalFrames - 1, index | 0));
             }
-            window.addEventListener('resize', resizeCanvas, { passive: true });
 
-            // Pre-calculate draw metrics to avoid math on every frame
+            function resizeCanvas() {
+                const rawDpr = window.devicePixelRatio || 1;
+                const sourceDprLimit = Math.max(
+                    1,
+                    Math.min(sourceSize.width / window.innerWidth, sourceSize.height / window.innerHeight)
+                );
+                const dpr = Math.min(rawDpr, 2, sourceDprLimit);
+
+                canvas.width = Math.max(1, Math.round(window.innerWidth * dpr));
+                canvas.height = Math.max(1, Math.round(window.innerHeight * dpr));
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                docHeight = Math.max(1, scrollWrapper.clientHeight - window.innerHeight);
+                drawMetrics = null;
+                scheduleRender();
+            }
+
             function calculateDrawMetrics(img) {
                 const w = canvas.width;
                 const h = canvas.height;
                 const iw = img.width;
                 const ih = img.height;
-                let r = Math.min(w / iw, h / ih);
-                let nw = iw * r;
-                let nh = ih * r;
-                
-                if (nw < w) { r = w / iw; }
-                if (nh < h) { r = h / ih; }
-                
-                nw = iw * r;
-                nh = ih * r;
-                
-                const cw = iw * (w / nw);
-                const ch = ih * (h / nh);
-                const cx = (iw - cw) * 0.5;
-                const cy = (ih - ch) * 0.5;
-                
+                const scale = Math.max(w / iw, h / ih);
+                const sourceWidth = Math.min(iw, w / scale);
+                const sourceHeight = Math.min(ih, h / scale);
+
                 return {
-                    cx: cx | 0, cy: cy | 0, cw: cw | 0, ch: ch | 0,
-                    x: 0, y: 0, w: w | 0, h: h | 0
+                    sx: Math.max(0, (iw - sourceWidth) * 0.5),
+                    sy: Math.max(0, (ih - sourceHeight) * 0.5),
+                    sw: sourceWidth,
+                    sh: sourceHeight,
+                    dx: 0,
+                    dy: 0,
+                    dw: w,
+                    dh: h
                 };
             }
 
-            // Draw a specific frame to canvas
-            function renderFrame(index) {
-                const img = images[index];
-                if (!img) return;
-                
-                if (!drawMetrics) {
-                    drawMetrics = calculateDrawMetrics(img);
-                }
-                
-                ctx.drawImage(
-                    img, 
-                    drawMetrics.cx, drawMetrics.cy, drawMetrics.cw, drawMetrics.ch, 
-                    drawMetrics.x, drawMetrics.y, drawMetrics.w, drawMetrics.h
-                );
+            function getFrame(index) {
+                const frame = frameCache.get(index);
+                if (!frame) return null;
+                frame.lastUsed = performance.now();
+                return frame.bitmap;
             }
 
-            // Fetch image, convert to ImageBitmap for GPU caching
-            async function preloadFrame(index) {
-                const url = framePattern(index);
-                try {
-                    const response = await fetch(url);
-                    const blob = await response.blob();
-                    // Optimize decoding by disabling premultiplyAlpha and colorSpaceConversion if possible
-                    const bitmap = await createImageBitmap(blob, { 
-                        premultiplyAlpha: 'none',
-                        colorSpaceConversion: 'none' 
-                    });
-                    images[index] = bitmap;
-                    
-                    // Draw first frame immediately
-                    if (index === 0 && !isFirstFrameDrawn) {
-                        isFirstFrameDrawn = true;
-                        currentFrameIndex = 0;
-                        renderFrame(0);
+            function evictOldFrames() {
+                if (frameCache.size <= maxCachedFrames) return;
+
+                const protectedFrames = new Set();
+                for (let offset = -2; offset <= 2; offset++) {
+                    protectedFrames.add(clampFrame(targetFrameIndex + offset));
+                }
+                priorityFrames.forEach((frameIndex) => protectedFrames.add(frameIndex));
+
+                const evictionCandidates = Array.from(frameCache.entries())
+                    .filter(([index]) => !protectedFrames.has(index))
+                    .sort((a, b) => a[1].lastUsed - b[1].lastUsed);
+
+                while (frameCache.size > maxCachedFrames && evictionCandidates.length) {
+                    const [index, frame] = evictionCandidates.shift();
+                    if (frame.bitmap && typeof frame.bitmap.close === 'function') {
+                        frame.bitmap.close();
                     }
-                    
-                    frameLoaded();
-                } catch (e) {
-                    console.error('Error preloading frame ' + index, e);
-                    // Fallback to normal Image load if ImageBitmap fails
+                    frameCache.delete(index);
+                }
+            }
+
+            function renderFrame(index) {
+                const bitmap = getFrame(index);
+                if (!bitmap) return false;
+
+                if (!drawMetrics) {
+                    drawMetrics = calculateDrawMetrics(bitmap);
+                }
+
+                ctx.drawImage(
+                    bitmap,
+                    drawMetrics.sx, drawMetrics.sy, drawMetrics.sw, drawMetrics.sh,
+                    drawMetrics.dx, drawMetrics.dy, drawMetrics.dw, drawMetrics.dh
+                );
+                renderedFrameIndex = index;
+                return true;
+            }
+
+            function scheduleRender() {
+                if (rafScheduled) return;
+                rafScheduled = true;
+                requestAnimationFrame(() => {
+                    rafScheduled = false;
+                    if (renderFrame(targetFrameIndex)) return;
+                    if (renderedFrameIndex === -1) renderFrame(0);
+                });
+            }
+
+            function decodeImageElementFromBlob(blob) {
+                return new Promise((resolve, reject) => {
                     const img = new Image();
+                    const objectUrl = URL.createObjectURL(blob);
+
+                    function cleanup() {
+                        URL.revokeObjectURL(objectUrl);
+                    }
+
+                    img.decoding = 'async';
                     img.onload = () => {
-                        images[index] = img;
-                        if (index === 0 && !isFirstFrameDrawn) {
-                            isFirstFrameDrawn = true;
-                            currentFrameIndex = 0;
-                            renderFrame(0);
-                        }
-                        frameLoaded();
+                        cleanup();
+                        resolve(img);
                     };
+                    img.onerror = () => {
+                        cleanup();
+                        reject(new Error('Image element decode failed'));
+                    };
+                    img.src = objectUrl;
+                });
+            }
+
+            function decodeImageElementFromUrl(url) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.decoding = 'async';
+                    img.onload = () => resolve(img);
+                    img.onerror = () => reject(new Error('Image element load failed'));
                     img.src = url;
-                }
+                });
             }
 
-            function frameLoaded() {
-                loadedCount++;
-                const progress = Math.round((loadedCount / totalFrames) * 100);
+            async function decodeFrame(index) {
+                const url = framePattern(index);
+                const response = await fetch(url, { cache: 'force-cache' });
+                if (!response.ok) {
+                    throw new Error(`Frame ${index} failed with ${response.status}`);
+                }
+
+                const blob = await response.blob();
+                if ('createImageBitmap' in window) {
+                    try {
+                        return await createImageBitmap(blob);
+                    } catch (error) {
+                        console.warn('Falling back to image decode for frame ' + index, error);
+                    }
+                }
+
+                return decodeImageElementFromBlob(blob);
+            }
+
+            function noteInitialProgress(index) {
+                if (index >= initialWindow) return;
+                initialLoaded++;
+                const progress = Math.min(100, Math.max(18, Math.round((initialLoaded / initialWindow) * 100)));
                 loaderBar.style.width = progress + '%';
-                loaderStatus.textContent = 'Loading Experience... ' + progress + '%';
-                
-                if (loadedCount === totalFrames) {
-                    setTimeout(initExperience, 500);
-                }
+                loaderStatus.textContent = 'Building your coach preview... ' + progress + '%';
             }
 
-            function initExperience() {
-                // Fade out preloader
+            function revealExperience() {
+                if (hasRevealed || !frameCache.has(0)) return;
+                hasRevealed = true;
+                targetFrameIndex = clampFrame(Math.round((window.scrollY / docHeight) * (totalFrames - 1)));
+                renderFrame(frameCache.has(targetFrameIndex) ? targetFrameIndex : 0);
+                loaderBar.style.width = '100%';
+                loaderStatus.textContent = 'Coach preview ready';
                 preloader.style.opacity = '0';
                 preloader.style.visibility = 'hidden';
-                
-                // Allow scrolling
-                document.body.style.overflowY = 'auto';
-                
-                // Set initial canvas sizing and doc height
-                resizeCanvas();
-                
-                // Start animation loop
-                requestAnimationFrame(animateLoop);
+                document.body.classList.remove('is-loading');
+                updateFromScroll();
             }
 
-            let ticking = false;
-            let currentScrollY = 0;
+            function starterFramesLoaded() {
+                return Array.from(starterFrames).every((frameIndex) => frameCache.has(frameIndex));
+            }
 
-            // Calculate Scroll Progress & update targets (optimized)
-            window.addEventListener('scroll', () => {
-                currentScrollY = window.scrollY;
-                if (!ticking) {
-                    requestAnimationFrame(() => {
-                        const scrollFraction = Math.max(0, Math.min(1, currentScrollY / docHeight));
-                        
-                        // Target frame mapping (smooth scrolling lerp target)
-                        targetFrame = scrollFraction * (totalFrames - 1);
-                        
-                        // Update active slides classes based on scroll fraction
-                        slides.forEach(slide => {
-                            if (scrollFraction >= slide.start && scrollFraction <= slide.end) {
-                                if (!slide.el.classList.contains('active')) slide.el.classList.add('active');
-                            } else {
-                                if (slide.el.classList.contains('active')) slide.el.classList.remove('active');
-                            }
-                        });
-                        ticking = false;
-                    });
-                    ticking = true;
+            function maybeRevealExperience() {
+                if (hasRevealed || !frameCache.has(0)) return;
+
+                if (!firstFrameReadyAt) {
+                    firstFrameReadyAt = performance.now();
+                    window.setTimeout(maybeRevealExperience, 1200);
                 }
-            }, { passive: true });
 
-            // Smooth animation physics loop
-            function animateLoop() {
-                const diff = targetFrame - currentFrame;
-                if (Math.abs(diff) > 0.001) {
-                    currentFrame += diff * lerpFactor;
-                    
-                    // Opaque canvas draw with integer frame matching
-                    const frameIndex = Math.max(0, Math.min(totalFrames - 1, (currentFrame + 0.5) | 0));
-                    if (frameIndex !== currentFrameIndex) {
-                        currentFrameIndex = frameIndex;
-                        renderFrame(currentFrameIndex);
+                const waitedLongEnough = performance.now() - firstFrameReadyAt > 1100;
+                if (!starterFramesLoaded() && !waitedLongEnough) return;
+
+                revealExperience();
+            }
+
+            function finishLoad(index, bitmap) {
+                frameCache.set(index, { bitmap, lastUsed: performance.now() });
+                queuedFrames.delete(index);
+                inflightFrames.delete(index);
+                activeLoads--;
+                noteInitialProgress(index);
+
+                if (index === targetFrameIndex || index === 0) {
+                    scheduleRender();
+                }
+
+                maybeRevealExperience();
+
+                evictOldFrames();
+                pumpQueue();
+            }
+
+            function failLoad(index, error) {
+                console.warn('Skipping frame ' + index, error);
+                queuedFrames.delete(index);
+                inflightFrames.delete(index);
+                activeLoads--;
+
+                if (index === 0 && !hasRevealed) {
+                    decodeImageElementFromUrl(framePattern(0))
+                        .then((img) => {
+                            frameCache.set(0, { bitmap: img, lastUsed: performance.now() });
+                            noteInitialProgress(0);
+                            scheduleRender();
+                            maybeRevealExperience();
+                        })
+                        .catch((fallbackError) => console.error('Unable to load the first frame', fallbackError));
+                }
+
+                pumpQueue();
+            }
+
+            function queueFrame(index, priority) {
+                const frameIndex = clampFrame(index);
+                if (frameCache.has(frameIndex) || inflightFrames.has(frameIndex)) return;
+
+                if (queuedFrames.has(frameIndex)) {
+                    const queuedFrame = loadQueue.find((frame) => frame.index === frameIndex);
+                    if (queuedFrame && priority < queuedFrame.priority) {
+                        queuedFrame.priority = priority;
+                        loadQueue.sort((a, b) => a.priority - b.priority);
                     }
+                    return;
                 }
-                requestAnimationFrame(animateLoop);
+
+                queuedFrames.add(frameIndex);
+                loadQueue.push({ index: frameIndex, priority });
+                loadQueue.sort((a, b) => a.priority - b.priority);
+                pumpQueue();
             }
 
-            // Lock scrolling during preloading phase
-            document.body.style.overflowY = 'hidden';
+            function pumpQueue() {
+                while (activeLoads < maxConcurrentLoads && loadQueue.length) {
+                    const next = loadQueue.shift();
+                    queuedFrames.delete(next.index);
+                    if (frameCache.has(next.index) || inflightFrames.has(next.index)) continue;
 
-            // Kick off preloading
-            for (let i = 0; i < totalFrames; i++) {
-                preloadFrame(i);
+                    inflightFrames.add(next.index);
+                    activeLoads++;
+                    decodeFrame(next.index)
+                        .then((bitmap) => finishLoad(next.index, bitmap))
+                        .catch((error) => failLoad(next.index, error));
+                }
             }
 
+            function pruneQueue(centerIndex) {
+                const maxDistance = prefetchRadius + 4;
+                loadQueue = loadQueue.filter((frame) => (
+                    priorityFrames.has(frame.index) || Math.abs(frame.index - centerIndex) <= maxDistance
+                ));
+                queuedFrames.clear();
+                loadQueue.forEach((frame) => queuedFrames.add(frame.index));
+            }
+
+            function prefetchAround(centerIndex) {
+                pruneQueue(centerIndex);
+                queueFrame(centerIndex, 0);
+
+                for (let offset = 1; offset <= prefetchRadius; offset++) {
+                    queueFrame(centerIndex + offset, offset * 2);
+                    queueFrame(centerIndex - offset, offset * 2 + 1);
+                }
+            }
+
+            function updateSlides(scrollFraction) {
+                slides.forEach((slide) => {
+                    const shouldBeActive = scrollFraction >= slide.start && scrollFraction <= slide.end;
+                    if (slide.el.classList.contains('active') !== shouldBeActive) {
+                        slide.el.classList.toggle('active', shouldBeActive);
+                    }
+                });
+            }
+
+            function updateFromScroll() {
+                const scrollFraction = Math.max(0, Math.min(1, window.scrollY / docHeight));
+                const nextFrame = clampFrame(Math.round(scrollFraction * (totalFrames - 1)));
+                observedScrollY = window.scrollY;
+                targetFrameIndex = nextFrame;
+                updateSlides(scrollFraction);
+                prefetchAround(nextFrame);
+                scheduleRender();
+            }
+
+            function syncScrollPosition() {
+                if (Math.abs(window.scrollY - observedScrollY) < 0.5) return;
+                updateFromScroll();
+            }
+
+            function onScroll() {
+                if (scrollTicking) return;
+                scrollTicking = true;
+                requestAnimationFrame(() => {
+                    scrollTicking = false;
+                    syncScrollPosition();
+                });
+            }
+
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas, { passive: true });
+            window.addEventListener('scroll', onScroll, { passive: true });
+
+            Array.from(priorityFrames).forEach((frame, index) => queueFrame(frame, -50 + index));
+            for (let i = 0; i < initialWindow; i++) {
+                queueFrame(i, i);
+            }
+            prefetchAround(0);
         })();
     </script>
 </body>
