@@ -638,6 +638,10 @@
     </main>
 
     <script>
+        if (location.pathname === '/landing-page/index.html' || location.pathname === '/landing-page/') {
+            history.replaceState(null, '', '/landing-page' + location.search + location.hash);
+        }
+
         (function() {
             const totalFrames = 120;
             const isMobileDevice = window.matchMedia('(max-width: 767px), (pointer: coarse) and (max-width: 1023px)').matches;

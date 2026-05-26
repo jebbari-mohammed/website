@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Page not found | Callio</title>
+    <script>
+        if (location.pathname === '/landing-page/index.html' || location.pathname === '/landing-page/') {
+            location.replace('/landing-page' + location.search + location.hash);
+        }
+    </script>
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            background: #030712;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        main {
+            max-width: 520px;
+            padding: 32px;
+            text-align: center;
+        }
+        a {
+            color: #93c5fd;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Page not found</h1>
+        <p>The page moved or does not exist.</p>
+        <a href="/">Go to Callio</a>
+    </main>
+</body>
+</html>
