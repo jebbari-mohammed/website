@@ -694,8 +694,11 @@
             let scrollTicking = false;
             let hasRevealed = false;
             let initialLoaded = 0;
-            let observedScrollY = -1;
             let lastScrollY = window.scrollY;
+            let observedScrollY = -1;
+            let maxScrollY = window.scrollY;
+            const initDocHeight = Math.max(1, scrollWrapper.clientHeight - window.innerHeight);
+            let maxTargetFrameIndex = clampFrame(Math.round((window.scrollY / initDocHeight) * (totalFrames - 1)));
             let scrollDirection = 1;
             let firstFrameReadyAt = 0;
             let settleTimeout = 0;
@@ -719,6 +722,7 @@
                 ctx.imageSmoothingEnabled = true;
                 ctx.imageSmoothingQuality = 'high';
                 docHeight = Math.max(1, scrollWrapper.clientHeight - window.innerHeight);
+                maxScrollY = (maxTargetFrameIndex / (totalFrames - 1)) * docHeight;
                 drawMetrics = null;
                 scheduleRender();
             }
@@ -804,12 +808,9 @@
             }
 
             function nearestCheckpoint(frameIndex) {
-                return checkpointFrames.reduce((best, frame) => {
-                    const distance = Math.abs(frame - frameIndex);
-                    const bestDistance = Math.abs(best - frameIndex);
-                    if (distance !== bestDistance) return distance < bestDistance ? frame : best;
-                    return scrollDirection >= 0 ? Math.max(best, frame) : Math.min(best, frame);
-                }, checkpointFrames[0]);
+                // Always go forward to the next checkpoint (smallest checkpoint >= frameIndex)
+                const next = checkpointFrames.find(frame => frame >= frameIndex);
+                return next !== undefined ? next : checkpointFrames[checkpointFrames.length - 1];
             }
 
             function cancelSettle() {
@@ -857,6 +858,9 @@
                     displayFrameIndex = checkpointFrame;
                     isSettling = false;
                     settleRaf = 0;
+                    maxTargetFrameIndex = checkpointFrame;
+                    maxScrollY = (checkpointFrame / (totalFrames - 1)) * docHeight;
+                    window.scrollTo(0, maxScrollY);
                     scheduleRender();
                 }
 
@@ -936,6 +940,8 @@
                 hasRevealed = true;
                 targetFrameIndex = clampFrame(Math.round((window.scrollY / docHeight) * (totalFrames - 1)));
                 displayFrameIndex = frameCache.has(targetFrameIndex) ? targetFrameIndex : 0;
+                maxTargetFrameIndex = displayFrameIndex;
+                maxScrollY = (maxTargetFrameIndex / (totalFrames - 1)) * docHeight;
                 renderFrame(displayFrameIndex);
                 loaderBar.style.width = '100%';
                 loaderStatus.textContent = 'Coach preview ready';
@@ -1093,6 +1099,15 @@
                 const scrollFraction = Math.max(0, Math.min(1, window.scrollY / docHeight));
                 const nextFrame = clampFrame(Math.round(scrollFraction * (totalFrames - 1)));
                 cancelSettle();
+
+                // Prevent going backward
+                if (nextFrame < maxTargetFrameIndex) {
+                    window.scrollTo(0, maxScrollY);
+                    return;
+                }
+                maxTargetFrameIndex = nextFrame;
+                maxScrollY = window.scrollY;
+
                 scrollDirection = window.scrollY >= lastScrollY ? 1 : -1;
                 lastScrollY = window.scrollY;
                 observedScrollY = window.scrollY;
