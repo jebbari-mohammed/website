@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXDRG5V07H"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZXDRG5V07H');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Callio — AI Coach Transformation Landing Page</title>
+    <meta name="description" content="Experience the transformation with Callio, the AI personal trainer that calls your phone. Watch your coach keep you accountable as you scroll.">
+    <link rel="canonical" href="https://youraicoach.life/landing-page">
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #030712;
+            --primary-glow: rgba(59, 130, 246, 0.5);
+            --accent-glow: rgba(147, 51, 234, 0.5);
+            --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #f3f4f6;
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #030712;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+        }
+
+        .loader-content {
+            text-align: center;
+            max-width: 320px;
+            width: 90%;
+        }
+
+        .loader-logo {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+        }
+
+        .loader-bar-bg {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .loader-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 2px;
+            transition: width 0.1s ease-out;
+        }
+
+        .loader-text {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Navigation Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.8), transparent);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: #fff;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .back-btn {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #9ca3af;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .back-btn:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-1px);
+        }
+
+        /* Scroll Layout Container */
+        .scroll-container {
+            position: relative;
+            height: 650vh; /* Adjust length of scroll experience */
+            width: 100%;
+        }
+
+        /* Sticky Canvas Viewport */
+        .canvas-sticky {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        #scroll-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Text Overlays Wrapper */
+        .text-overlays {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Slide Styles */
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 10%;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Position the slides on the scroll timeline */
+        #slide-1 { top: 0vh; }
+        #slide-2 { top: 130vh; }
+        #slide-3 { top: 260vh; }
+        #slide-4 { top: 390vh; }
+
+        .slide-content {
+            max-width: 600px;
+        }
+
+        .slide-tag {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .slide-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -0.03em;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .slide-description {
+            font-size: 1.15rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Active class applied by JavaScript */
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Final CTA Section */
+        .cta-section {
+            position: absolute;
+            top: 520vh; /* Pinned at the very end of scroll */
+            width: 100%;
+            height: 130vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to top, #030712 60%, rgba(3, 7, 18, 0.4));
+            z-index: 3;
+            padding: 0 24px;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #f8fafc, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.03em;
+        }
+
+        .cta-description {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            pointer-events: auto;
+        }
+
+        .btn {
+            padding: 16px 36px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: #ffffff;
+            color: #030712;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.25);
+            background: #f8fafc;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #030712;
+            z-index: 4;
+            pointer-events: auto;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            color: #4b5563;
+        }
+
+        /* Mobile Responsive adjustments */
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 20px;
+            }
+            .slide-title {
+                font-size: 2.2rem;
+            }
+            .slide-description {
+                font-size: 1rem;
+            }
+            .cta-title {
+                font-size: 2.5rem;
+            }
+            .cta-description {
+                font-size: 1.05rem;
+            }
+            .btn {
+                padding: 12px 28px;
+                width: 100%;
+                justify-content: center;
+            }
+            .btn-group {
+                width: 100%;
+                flex-direction: column;
+                gap: 12px;
+            }
+            footer {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Premium Loading Screen -->
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="loader-logo">⚡ CALLIO</div>
+            <div class="loader-bar-bg">
+                <div class="loader-bar-fill" id="loader-bar"></div>
+            </div>
+            <div class="loader-text" id="loader-status">Loading Experience... 0%</div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header>
+        <a href="/" class="logo">⚡ Callio</a>
+        <a href="/" class="back-btn">Go to Main Website</a>
+    </header>
+
+    <!-- Main Scrolling Layout -->
+    <div class="scroll-container" id="scroll-wrapper">
+        
+        <!-- Sticky Canvas Viewport -->
+        <div class="canvas-sticky">
+            <canvas id="scroll-canvas"></canvas>
+        </div>
+
+        <!-- Floating Text Slides -->
+        <div class="text-overlays">
+            
+            <div class="slide" id="slide-1">
+                <div class="slide-content">
+                    <span class="slide-tag">Meet your new coach</span>
+                    <h2 class="slide-title">Callio</h2>
+                    <p class="slide-description">The ultimate AI gym coach designed to transform your body, build consistency, and take your training to the absolute peak of elite performance.</p>
+                </div>
+            </div>
+
+            <div class="slide" id="slide-2">
+                <div class="slide-content">
+                    <span class="slide-tag">Real Accountability</span>
+                    <h2 class="slide-title">Your Coach Calls You</h2>
+                    <p class="slide-description">Unlike lazy chatbots, Callio proactively calls your phone via Twilio VoIP before gym sessions. No excuses, no missed reps.</p>
+                </div>
+            </div>
+
+            <div class="slide" id="slide-3">
+                <div class="slide-content">
+                    <span class="slide-tag">Tailored Strategy</span>
+                    <h2 class="slide-title">Custom Workouts & Meals</h2>
+                    <p class="slide-description">Get elite, personalized training routines and region-aware, macro-aligned meal recommendations generated specifically for your goals and lifestyle.</p>
+                </div>
+            </div>
+
+            <div class="slide" id="slide-4">
+                <div class="slide-content">
+                    <span class="slide-tag">Advanced Vision AI</span>
+                    <h2 class="slide-title">Scanner & Voice Coaching</h2>
+                    <p class="slide-description">Point your camera to scan food instantly, analyze body composition metrics, and chat 24/7 with interactive voice protocols.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Final CTA & Footer Section -->
+        <div class="cta-section">
+            <h2 class="cta-title">Start Your Transformation</h2>
+            <p class="cta-description">Download Callio today and experience accountability that actually works. Join thousands of users achieving elite physical performance.</p>
+            <div class="btn-group">
+                <a href="https://apps.apple.com/app/your-ai-coach" class="btn btn-primary" target="_blank" rel="noopener">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.22.67-2.94 1.5-.64.73-1.2 1.87-1.05 2.98 1.12.09 2.26-.58 3-1.42z"/></svg>
+                    Download on iOS
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="btn btn-secondary" target="_blank" rel="noopener">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5.25 3.26a1.5 1.5 0 0 0-1.06 1.46v14.56a1.5 1.5 0 0 0 1.06 1.46l8.86-8.86L5.25 3.26zM15.17 11.23l2.8-1.55c.67-.37.67-1.34 0-1.71l-2.8-1.55-2.07 2.07 2.07 1.74zM14.11 12.29L5.25 21.15l8.86-4.91L16.18 14.2l-2.07-1.91zM14.11 11.71l2.07-1.91-2.07-1.91-8.86-4.91 8.86 8.73z"/></svg>
+                    Get it on Android
+                </a>
+            </div>
+            
+            <footer>
+                <a href="/" class="footer-logo">⚡ Callio</a>
+                <div class="copyright">&copy; 2026 Callio. All rights reserved.</div>
+            </footer>
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            // Configuration
+            const totalFrames = 120;
+            const framePattern = (idx) => `../frames/frame_${idx.toString().padStart(3, '0')}.webp`;
+            
+            // Elements
+            const canvas = document.getElementById('scroll-canvas');
+            const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
+            const preloader = document.getElementById('preloader');
+            const loaderBar = document.getElementById('loader-bar');
+            const loaderStatus = document.getElementById('loader-status');
+            const scrollWrapper = document.getElementById('scroll-wrapper');
+            
+            // Performance Optimizations
+            canvas.style.transform = 'translateZ(0)'; // Force hardware acceleration
+            
+            // Frame caching
+            const images = new Array(totalFrames);
+            let loadedCount = 0;
+            
+            // Lerped scrolling variables
+            let targetFrame = 0;
+            let currentFrame = 0;
+            const lerpFactor = 0.08; // Super smooth scroll physics
+            
+            let currentFrameIndex = -1;
+            let isFirstFrameDrawn = false;
+            
+            // Manage slide transitions
+            const slides = [
+                { el: document.getElementById('slide-1'), start: 0.0, end: 0.20 },
+                { el: document.getElementById('slide-2'), start: 0.22, end: 0.42 },
+                { el: document.getElementById('slide-3'), start: 0.44, end: 0.64 },
+                { el: document.getElementById('slide-4'), start: 0.66, end: 0.86 }
+            ];
+
+            let docHeight = 1;
+            let drawMetrics = null;
+
+            // Handle Resize
+            function resizeCanvas() {
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = window.innerWidth * dpr;
+                canvas.height = window.innerHeight * dpr;
+                
+                // Cache layout dimensions to avoid layout thrashing on scroll
+                docHeight = Math.max(1, scrollWrapper.clientHeight - window.innerHeight);
+                
+                // Invalidate cached draw metrics
+                drawMetrics = null;
+                
+                if (images[currentFrameIndex]) {
+                    renderFrame(currentFrameIndex);
+                }
+            }
+            window.addEventListener('resize', resizeCanvas, { passive: true });
+
+            // Pre-calculate draw metrics to avoid math on every frame
+            function calculateDrawMetrics(img) {
+                const w = canvas.width;
+                const h = canvas.height;
+                const iw = img.width;
+                const ih = img.height;
+                let r = Math.min(w / iw, h / ih);
+                let nw = iw * r;
+                let nh = ih * r;
+                
+                if (nw < w) { r = w / iw; }
+                if (nh < h) { r = h / ih; }
+                
+                nw = iw * r;
+                nh = ih * r;
+                
+                const cw = iw * (w / nw);
+                const ch = ih * (h / nh);
+                const cx = (iw - cw) * 0.5;
+                const cy = (ih - ch) * 0.5;
+                
+                return {
+                    cx: cx | 0, cy: cy | 0, cw: cw | 0, ch: ch | 0,
+                    x: 0, y: 0, w: w | 0, h: h | 0
+                };
+            }
+
+            // Draw a specific frame to canvas
+            function renderFrame(index) {
+                const img = images[index];
+                if (!img) return;
+                
+                if (!drawMetrics) {
+                    drawMetrics = calculateDrawMetrics(img);
+                }
+                
+                ctx.drawImage(
+                    img, 
+                    drawMetrics.cx, drawMetrics.cy, drawMetrics.cw, drawMetrics.ch, 
+                    drawMetrics.x, drawMetrics.y, drawMetrics.w, drawMetrics.h
+                );
+            }
+
+            // Fetch image, convert to ImageBitmap for GPU caching
+            async function preloadFrame(index) {
+                const url = framePattern(index);
+                try {
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+                    // Optimize decoding by disabling premultiplyAlpha and colorSpaceConversion if possible
+                    const bitmap = await createImageBitmap(blob, { 
+                        premultiplyAlpha: 'none',
+                        colorSpaceConversion: 'none' 
+                    });
+                    images[index] = bitmap;
+                    
+                    // Draw first frame immediately
+                    if (index === 0 && !isFirstFrameDrawn) {
+                        isFirstFrameDrawn = true;
+                        currentFrameIndex = 0;
+                        renderFrame(0);
+                    }
+                    
+                    frameLoaded();
+                } catch (e) {
+                    console.error('Error preloading frame ' + index, e);
+                    // Fallback to normal Image load if ImageBitmap fails
+                    const img = new Image();
+                    img.onload = () => {
+                        images[index] = img;
+                        if (index === 0 && !isFirstFrameDrawn) {
+                            isFirstFrameDrawn = true;
+                            currentFrameIndex = 0;
+                            renderFrame(0);
+                        }
+                        frameLoaded();
+                    };
+                    img.src = url;
+                }
+            }
+
+            function frameLoaded() {
+                loadedCount++;
+                const progress = Math.round((loadedCount / totalFrames) * 100);
+                loaderBar.style.width = progress + '%';
+                loaderStatus.textContent = 'Loading Experience... ' + progress + '%';
+                
+                if (loadedCount === totalFrames) {
+                    setTimeout(initExperience, 500);
+                }
+            }
+
+            function initExperience() {
+                // Fade out preloader
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+                
+                // Allow scrolling
+                document.body.style.overflowY = 'auto';
+                
+                // Set initial canvas sizing and doc height
+                resizeCanvas();
+                
+                // Start animation loop
+                requestAnimationFrame(animateLoop);
+            }
+
+            let ticking = false;
+            let currentScrollY = 0;
+
+            // Calculate Scroll Progress & update targets (optimized)
+            window.addEventListener('scroll', () => {
+                currentScrollY = window.scrollY;
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        const scrollFraction = Math.max(0, Math.min(1, currentScrollY / docHeight));
+                        
+                        // Target frame mapping (smooth scrolling lerp target)
+                        targetFrame = scrollFraction * (totalFrames - 1);
+                        
+                        // Update active slides classes based on scroll fraction
+                        slides.forEach(slide => {
+                            if (scrollFraction >= slide.start && scrollFraction <= slide.end) {
+                                if (!slide.el.classList.contains('active')) slide.el.classList.add('active');
+                            } else {
+                                if (slide.el.classList.contains('active')) slide.el.classList.remove('active');
+                            }
+                        });
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            // Smooth animation physics loop
+            function animateLoop() {
+                const diff = targetFrame - currentFrame;
+                if (Math.abs(diff) > 0.001) {
+                    currentFrame += diff * lerpFactor;
+                    
+                    // Opaque canvas draw with integer frame matching
+                    const frameIndex = Math.max(0, Math.min(totalFrames - 1, (currentFrame + 0.5) | 0));
+                    if (frameIndex !== currentFrameIndex) {
+                        currentFrameIndex = frameIndex;
+                        renderFrame(currentFrameIndex);
+                    }
+                }
+                requestAnimationFrame(animateLoop);
+            }
+
+            // Lock scrolling during preloading phase
+            document.body.style.overflowY = 'hidden';
+
+            // Kick off preloading
+            for (let i = 0; i < totalFrames; i++) {
+                preloadFrame(i);
+            }
+
+        })();
+    </script>
+</body>
+</html>
