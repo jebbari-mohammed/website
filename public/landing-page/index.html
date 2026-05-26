@@ -493,7 +493,11 @@
         (function() {
             // Configuration
             const totalFrames = 120;
-            const framePattern = (idx) => `../frames/frame_${idx.toString().padStart(3, '0')}.webp`;
+            
+            // Responsive frame resolution to prevent Out-Of-Memory (OOM) lag on mobile and older devices
+            const isMobileDevice = window.innerWidth < 768 || (('ontouchstart' in window) && window.innerWidth < 1024);
+            const frameFolder = isMobileDevice ? 'mobile' : 'desktop';
+            const framePattern = (idx) => `../frames/${frameFolder}/frame_${idx.toString().padStart(3, '0')}.webp`;
             
             // Elements
             const canvas = document.getElementById('scroll-canvas');
