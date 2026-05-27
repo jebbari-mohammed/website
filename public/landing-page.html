@@ -691,9 +691,13 @@
             let docHeight = 1;
             let drawMetrics = null;
             let targetFrameIndex = 0;
+            let visualTargetFrameIndex = 0;
+            let displayFramePosition = 0;
             let displayFrameIndex = 0;
             let renderedFrameIndex = -1;
             let rafScheduled = false;
+            let magneticRaf = 0;
+            let lastMagneticTick = 0;
             let scrollTicking = false;
             let hasRevealed = false;
             let initialLoaded = 0;
@@ -701,9 +705,6 @@
             let observedScrollY = -1;
             let scrollDirection = 1;
             let firstFrameReadyAt = 0;
-            let settleTimeout = 0;
-            let settleRaf = 0;
-            let isSettling = false;
 
             function clampFrame(index) {
                 return Math.max(0, Math.min(totalFrames - 1, index | 0));
@@ -760,6 +761,7 @@
                 const protectedFrames = new Set();
                 for (let offset = -2; offset <= 2; offset++) {
                     protectedFrames.add(clampFrame(targetFrameIndex + offset));
+                    protectedFrames.add(clampFrame(visualTargetFrameIndex + offset));
                 }
                 landmarkFrames.forEach((frameIndex) => protectedFrames.add(frameIndex));
                 checkpointNeighbors(targetFrameIndex).forEach((frameIndex) => protectedFrames.add(frameIndex));
@@ -819,60 +821,64 @@
                 }
             }
 
-            function cancelSettle() {
-                window.clearTimeout(settleTimeout);
-                if (settleRaf) {
-                    window.cancelAnimationFrame(settleRaf);
-                    settleRaf = 0;
+            function closestLoadedFrame(index) {
+                if (frameCache.has(index)) return index;
+                const searchRadius = Math.max(prefetchRadius + 3, 10);
+
+                for (let offset = 1; offset <= searchRadius; offset++) {
+                    const towardTarget = clampFrame(index + Math.sign(visualTargetFrameIndex - index) * offset);
+                    if (frameCache.has(towardTarget)) return towardTarget;
+
+                    const before = clampFrame(index - offset);
+                    const after = clampFrame(index + offset);
+                    if (frameCache.has(before)) return before;
+                    if (frameCache.has(after)) return after;
                 }
-                isSettling = false;
+
+                return renderedFrameIndex >= 0 ? renderedFrameIndex : 0;
             }
 
-            function settleToCheckpoint() {
-                if (!hasRevealed) return;
-
-                const checkpointFrame = nearestCheckpoint(targetFrameIndex);
-                if (checkpointFrame === displayFrameIndex) return;
-
-                queueFrame(checkpointFrame, -120);
-                if (!frameCache.has(checkpointFrame)) {
-                    settleTimeout = window.setTimeout(settleToCheckpoint, 120);
-                    return;
-                }
-
-                isSettling = true;
-                const startFrame = renderedFrameIndex >= 0 ? renderedFrameIndex : displayFrameIndex;
-                const distance = checkpointFrame - startFrame;
-                const startedAt = performance.now();
-                const duration = Math.min(520, Math.max(260, Math.abs(distance) * 24));
-
-                function tick(now) {
-                    if (!isSettling) return;
-
-                    const progress = Math.min(1, (now - startedAt) / duration);
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    const nextFrame = clampFrame(Math.round(startFrame + distance * eased));
-                    displayFrameIndex = nextFrame;
-                    queueFrame(nextFrame, -80);
-                    scheduleRender();
-
-                    if (progress < 1) {
-                        settleRaf = window.requestAnimationFrame(tick);
-                        return;
-                    }
-
-                    displayFrameIndex = checkpointFrame;
-                    isSettling = false;
-                    settleRaf = 0;
-                    scheduleRender();
-                }
-
-                settleRaf = window.requestAnimationFrame(tick);
+            function setVisualTarget(frameIndex) {
+                visualTargetFrameIndex = nearestCheckpoint(frameIndex);
+                queueFrame(visualTargetFrameIndex, -120);
+                checkpointNeighbors(frameIndex).forEach((checkpointFrame, index) => {
+                    queueFrame(checkpointFrame, -110 + index);
+                });
+                startMagneticMotion();
             }
 
-            function scheduleSettle() {
-                window.clearTimeout(settleTimeout);
-                settleTimeout = window.setTimeout(settleToCheckpoint, 180);
+            function startMagneticMotion() {
+                if (magneticRaf) return;
+                lastMagneticTick = performance.now();
+                magneticRaf = window.requestAnimationFrame(updateMagneticMotion);
+            }
+
+            function updateMagneticMotion(now) {
+                magneticRaf = 0;
+                const elapsed = Math.min(40, Math.max(8, now - lastMagneticTick || 16));
+                lastMagneticTick = now;
+
+                const distance = visualTargetFrameIndex - displayFramePosition;
+                const ease = 1 - Math.pow(0.74, elapsed / 16.67);
+
+                if (Math.abs(distance) < 0.08 && frameCache.has(visualTargetFrameIndex)) {
+                    displayFramePosition = visualTargetFrameIndex;
+                } else {
+                    displayFramePosition += distance * ease;
+                }
+
+                const desiredFrame = clampFrame(Math.round(displayFramePosition));
+                queueFrame(desiredFrame, -90);
+                const renderableFrame = closestLoadedFrame(desiredFrame);
+
+                if (renderableFrame !== displayFrameIndex) {
+                    displayFrameIndex = renderableFrame;
+                    scheduleRender();
+                }
+
+                if (Math.abs(visualTargetFrameIndex - displayFramePosition) >= 0.08 || !frameCache.has(visualTargetFrameIndex)) {
+                    magneticRaf = window.requestAnimationFrame(updateMagneticMotion);
+                }
             }
 
             function decodeImageElementFromBlob(blob) {
@@ -943,6 +949,8 @@
                 hasRevealed = true;
                 targetFrameIndex = clampFrame(Math.round((window.scrollY / docHeight) * (totalFrames - 1)));
                 displayFrameIndex = frameCache.has(targetFrameIndex) ? targetFrameIndex : 0;
+                displayFramePosition = displayFrameIndex;
+                visualTargetFrameIndex = nearestCheckpoint(targetFrameIndex);
                 renderFrame(displayFrameIndex);
                 loaderBar.style.width = '100%';
                 loaderStatus.textContent = 'Coach preview ready';
@@ -981,8 +989,9 @@
                 activeLoads--;
                 noteInitialProgress(index);
 
-                if (index === displayFrameIndex || index === targetFrameIndex || checkpointFrameSet.has(index) || index === 0) {
+                if (index === displayFrameIndex || index === targetFrameIndex || index === visualTargetFrameIndex || checkpointFrameSet.has(index) || index === 0) {
                     scheduleRender();
+                    startMagneticMotion();
                 }
 
                 maybeRevealExperience();
@@ -1118,17 +1127,14 @@
             function updateFromScroll() {
                 const scrollFraction = Math.max(0, Math.min(1, window.scrollY / docHeight));
                 const nextFrame = clampFrame(Math.round(scrollFraction * (totalFrames - 1)));
-                cancelSettle();
 
                 scrollDirection = window.scrollY >= lastScrollY ? 1 : -1;
                 lastScrollY = window.scrollY;
                 observedScrollY = window.scrollY;
                 targetFrameIndex = nextFrame;
-                displayFrameIndex = nextFrame;
                 updateSlides(scrollFraction);
                 prefetchAround(nextFrame);
-                scheduleRender();
-                scheduleSettle();
+                setVisualTarget(nextFrame);
             }
 
             function syncScrollPosition() {
