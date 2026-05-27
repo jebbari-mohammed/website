@@ -332,11 +332,10 @@
 
         /* Text Overlays Wrapper */
         .text-overlays {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: fixed;
+            inset: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             pointer-events: none;
             z-index: 2;
         }
@@ -357,11 +356,11 @@
             will-change: opacity, transform;
         }
 
-        /* Position the slides on the scroll timeline */
-        #slide-1 { top: 0vh; }
-        #slide-2 { top: 130vh; }
-        #slide-3 { top: 260vh; }
-        #slide-4 { top: 390vh; }
+        /* Keep each active message centered while the canvas timeline scrolls */
+        #slide-1,
+        #slide-2,
+        #slide-3,
+        #slide-4 { top: 0; }
 
         .slide-content {
             max-width: 600px;
@@ -698,6 +697,13 @@
             let rafScheduled = false;
             let magneticRaf = 0;
             let lastMagneticTick = 0;
+            let snapRaf = 0;
+            let snapVelocity = 0;
+            let snapTargetFrameIndex = 0;
+            let snapTargetY = 0;
+            let autoScrollActive = false;
+            let userScrollPending = false;
+            let lastTouchY = 0;
             let scrollTicking = false;
             let hasRevealed = false;
             let initialLoaded = 0;
@@ -809,16 +815,63 @@
                 });
             }
 
-            function nearestCheckpoint(frameIndex) {
+            function checkpointScrollY(frameIndex) {
+                return Math.max(0, Math.min(docHeight, (frameIndex / (totalFrames - 1)) * docHeight));
+            }
+
+            function directionalCheckpoint(currentY) {
+                const tolerance = 0.75;
+
                 if (scrollDirection >= 0) {
-                    // Moving forward: find the smallest checkpoint >= frameIndex
-                    const next = checkpointFrames.find(frame => frame >= frameIndex);
+                    const next = checkpointFrames.find((frame) => checkpointScrollY(frame) >= currentY - tolerance);
                     return next !== undefined ? next : checkpointFrames[checkpointFrames.length - 1];
-                } else {
-                    // Moving backward: find the largest checkpoint <= frameIndex
-                    const prev = [...checkpointFrames].reverse().find(frame => frame <= frameIndex);
-                    return prev !== undefined ? prev : checkpointFrames[0];
                 }
+
+                const previous = [...checkpointFrames].reverse().find((frame) => checkpointScrollY(frame) <= currentY + tolerance);
+                return previous !== undefined ? previous : checkpointFrames[0];
+            }
+
+            function startScrollSnap() {
+                if (snapRaf || !hasRevealed) return;
+                autoScrollActive = true;
+                snapRaf = window.requestAnimationFrame(updateScrollSnap);
+            }
+
+            function updateScrollSnap() {
+                snapRaf = 0;
+                if (!hasRevealed) {
+                    autoScrollActive = false;
+                    return;
+                }
+
+                const targetY = snapTargetY;
+                const currentY = window.scrollY;
+                const distance = targetY - currentY;
+                const maxStep = isMobileDevice ? 7 : 10;
+
+                snapVelocity = (snapVelocity + distance * 0.1) * 0.64;
+                let step = Math.max(-maxStep, Math.min(maxStep, snapVelocity));
+
+                if (Math.abs(distance) <= 0.5) {
+                    snapVelocity = 0;
+                    if (Math.abs(distance) > 0.05) {
+                        window.scrollTo(0, targetY);
+                    }
+                    autoScrollActive = false;
+                    return;
+                }
+
+                if (Math.abs(step) < 0.45) {
+                    step = distance > 0 ? 0.45 : -0.45;
+                }
+
+                let nextY = currentY + step;
+                if ((distance > 0 && nextY > targetY) || (distance < 0 && nextY < targetY)) {
+                    nextY = targetY;
+                }
+
+                window.scrollTo(0, nextY);
+                snapRaf = window.requestAnimationFrame(updateScrollSnap);
             }
 
             function closestLoadedFrame(index) {
@@ -838,13 +891,22 @@
                 return renderedFrameIndex >= 0 ? renderedFrameIndex : 0;
             }
 
-            function setVisualTarget(frameIndex) {
-                visualTargetFrameIndex = nearestCheckpoint(frameIndex);
+            function setVisualTarget(frameIndex, currentY) {
+                const checkpointFrame = directionalCheckpoint(currentY);
+
+                if (snapTargetFrameIndex !== checkpointFrame) {
+                    snapVelocity = 0;
+                }
+
+                visualTargetFrameIndex = checkpointFrame;
+                snapTargetFrameIndex = checkpointFrame;
+                snapTargetY = checkpointScrollY(checkpointFrame);
                 queueFrame(visualTargetFrameIndex, -120);
                 checkpointNeighbors(frameIndex).forEach((checkpointFrame, index) => {
                     queueFrame(checkpointFrame, -110 + index);
                 });
                 startMagneticMotion();
+                startScrollSnap();
             }
 
             function startMagneticMotion() {
@@ -950,7 +1012,9 @@
                 targetFrameIndex = clampFrame(Math.round((window.scrollY / docHeight) * (totalFrames - 1)));
                 displayFrameIndex = frameCache.has(targetFrameIndex) ? targetFrameIndex : 0;
                 displayFramePosition = displayFrameIndex;
-                visualTargetFrameIndex = nearestCheckpoint(targetFrameIndex);
+                visualTargetFrameIndex = directionalCheckpoint(window.scrollY);
+                snapTargetFrameIndex = visualTargetFrameIndex;
+                snapTargetY = checkpointScrollY(visualTargetFrameIndex);
                 renderFrame(displayFrameIndex);
                 loaderBar.style.width = '100%';
                 loaderStatus.textContent = 'Coach preview ready';
@@ -1125,16 +1189,21 @@
             }
 
             function updateFromScroll() {
-                const scrollFraction = Math.max(0, Math.min(1, window.scrollY / docHeight));
+                const currentY = window.scrollY;
+                const scrollFraction = Math.max(0, Math.min(1, currentY / docHeight));
                 const nextFrame = clampFrame(Math.round(scrollFraction * (totalFrames - 1)));
+                const isUserDrivenScroll = !autoScrollActive || userScrollPending;
 
-                scrollDirection = window.scrollY >= lastScrollY ? 1 : -1;
-                lastScrollY = window.scrollY;
-                observedScrollY = window.scrollY;
+                scrollDirection = currentY >= lastScrollY ? 1 : -1;
+                lastScrollY = currentY;
+                observedScrollY = currentY;
                 targetFrameIndex = nextFrame;
                 updateSlides(scrollFraction);
                 prefetchAround(nextFrame);
-                setVisualTarget(nextFrame);
+                if (isUserDrivenScroll) {
+                    setVisualTarget(nextFrame, currentY);
+                }
+                userScrollPending = false;
             }
 
             function syncScrollPosition() {
@@ -1151,9 +1220,33 @@
                 });
             }
 
+            function noteUserScrollIntent(delta) {
+                if (Math.abs(delta) < 1) return;
+                scrollDirection = delta > 0 ? 1 : -1;
+                userScrollPending = true;
+                autoScrollActive = false;
+                snapVelocity = 0;
+            }
+
             resizeCanvas();
             window.addEventListener('resize', resizeCanvas, { passive: true });
             window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('wheel', (event) => noteUserScrollIntent(event.deltaY), { passive: true });
+            window.addEventListener('touchstart', (event) => {
+                lastTouchY = event.touches.length ? event.touches[0].clientY : 0;
+            }, { passive: true });
+            window.addEventListener('touchmove', (event) => {
+                if (!event.touches.length) return;
+                const nextTouchY = event.touches[0].clientY;
+                noteUserScrollIntent(lastTouchY - nextTouchY);
+                lastTouchY = nextTouchY;
+            }, { passive: true });
+            window.addEventListener('keydown', (event) => {
+                const forwardKeys = ['ArrowDown', 'PageDown', ' ', 'End'];
+                const backwardKeys = ['ArrowUp', 'PageUp', 'Home'];
+                if (forwardKeys.includes(event.key)) noteUserScrollIntent(1);
+                if (backwardKeys.includes(event.key)) noteUserScrollIntent(-1);
+            });
 
             for (let i = 0; i < initialWindow; i++) {
                 queueFrame(i, i);
