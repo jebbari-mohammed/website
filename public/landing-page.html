@@ -644,9 +644,6 @@
         (function() {
             const totalFrames = 120;
             const isMobileDevice = window.matchMedia('(max-width: 767px), (pointer: coarse) and (max-width: 1023px)').matches;
-            const frameFolder = isMobileDevice ? 'mobile' : 'desktop';
-            const sourceSize = isMobileDevice ? { width: 960, height: 540 } : { width: 1920, height: 1080 };
-            const framePattern = (idx) => `../frames/${frameFolder}/frame_${idx.toString().padStart(3, '0')}.webp`;
 
             const canvas = document.getElementById('scroll-canvas');
             const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
@@ -654,6 +651,58 @@
             const loaderBar = document.getElementById('loader-bar');
             const loaderStatus = document.getElementById('loader-status');
             const scrollWrapper = document.getElementById('scroll-wrapper');
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const saveData = Boolean(connection && connection.saveData);
+            const effectiveType = connection && connection.effectiveType ? connection.effectiveType : '4g';
+            const cpuCores = navigator.hardwareConcurrency;
+            const deviceMemory = navigator.deviceMemory;
+            const hasCoreEstimate = typeof cpuCores === 'number';
+            const hasMemoryEstimate = typeof deviceMemory === 'number';
+            const isSlowConnection = /(^slow-2g$|^2g$)/.test(effectiveType);
+            const lowCoreDevice = hasCoreEstimate && cpuCores <= 4;
+            const lowMemoryDevice = hasMemoryEstimate && deviceMemory <= 4;
+            const isConstrainedDevice = saveData || prefersReducedMotion || isSlowConnection || lowCoreDevice || lowMemoryDevice;
+            const isHighEndDevice = !isConstrainedDevice && !isMobileDevice && hasCoreEstimate && hasMemoryEstimate && cpuCores >= 8 && deviceMemory >= 8;
+            const qualityTier = isHighEndDevice ? 'high' : (isConstrainedDevice ? 'efficient' : 'balanced');
+            const qualityProfiles = {
+                high: {
+                    dprCap: 2,
+                    concurrentLoads: 4,
+                    prefetchRadius: 10,
+                    openingWarmFrameCount: 30,
+                    revealReadyFrameCount: 18,
+                    maxRevealDelay: 1500,
+                    maxCachedFrames: 56,
+                    follow: 0.64
+                },
+                balanced: {
+                    dprCap: 1.5,
+                    concurrentLoads: 3,
+                    prefetchRadius: 7,
+                    openingWarmFrameCount: 22,
+                    revealReadyFrameCount: 13,
+                    maxRevealDelay: 1500,
+                    maxCachedFrames: 38,
+                    follow: 0.58
+                },
+                efficient: {
+                    dprCap: 1,
+                    concurrentLoads: 2,
+                    prefetchRadius: 4,
+                    openingWarmFrameCount: 12,
+                    revealReadyFrameCount: 7,
+                    maxRevealDelay: 1100,
+                    maxCachedFrames: 22,
+                    follow: 0.5
+                }
+            };
+            const qualityProfile = qualityProfiles[qualityTier];
+            const frameFolder = isMobileDevice || qualityTier === 'efficient' ? 'mobile' : 'desktop';
+            const sourceSize = frameFolder === 'mobile' ? { width: 960, height: 540 } : { width: 1920, height: 1080 };
+            const framePattern = (idx) => `../frames/${frameFolder}/frame_${idx.toString().padStart(3, '0')}.webp`;
+            document.documentElement.dataset.motionQuality = qualityTier;
+            document.documentElement.dataset.frameSet = frameFolder;
 
             canvas.style.transform = 'translateZ(0)';
             ctx.imageSmoothingEnabled = true;
@@ -666,19 +715,15 @@
                 { el: document.getElementById('slide-4'), start: 0.66, end: 0.86 }
             ];
 
-            const maxConcurrentLoads = isMobileDevice ? 2 : 3;
-            const prefetchRadius = isMobileDevice ? 5 : 8;
-            const openingWarmFrameCount = isMobileDevice ? 18 : 28;
-            const revealReadyFrameCount = isMobileDevice ? 10 : 16;
-            const maxRevealDelay = isMobileDevice ? 1400 : 1700;
-            const maxCachedFrames = isMobileDevice ? 28 : 44;
+            let maxConcurrentLoads = qualityProfile.concurrentLoads;
+            let prefetchRadius = qualityProfile.prefetchRadius;
+            let maxCachedFrames = qualityProfile.maxCachedFrames;
+            let canvasDprCap = qualityProfile.dprCap;
+            let frameFollow = qualityProfile.follow;
+            const openingWarmFrameCount = qualityProfile.openingWarmFrameCount;
+            const revealReadyFrameCount = qualityProfile.revealReadyFrameCount;
+            const maxRevealDelay = qualityProfile.maxRevealDelay;
             const initialWindow = openingWarmFrameCount;
-            // Curated sharp frames used only for visual resting states; scroll position stays natural.
-            const checkpointFrames = [
-                0, 5, 10, 15, 17, 20, 25, 30, 33, 40, 44, 50, 54,
-                60, 69, 74, 79, 82, 85, 89, 94, 99, 104, 109, 114, totalFrames - 1
-            ];
-            const checkpointFrameSet = new Set(checkpointFrames);
             const landmarkFrames = new Set([0, 17, 33, 54, 82, 104, totalFrames - 1]);
             const openingFrames = new Set(Array.from({ length: openingWarmFrameCount }, (_, index) => index));
 
@@ -689,6 +734,7 @@
             let activeLoads = 0;
             let docHeight = 1;
             let drawMetrics = null;
+            let targetFramePosition = 0;
             let targetFrameIndex = 0;
             let visualTargetFrameIndex = 0;
             let displayFramePosition = 0;
@@ -697,13 +743,8 @@
             let rafScheduled = false;
             let magneticRaf = 0;
             let lastMagneticTick = 0;
-            let snapRaf = 0;
-            let snapVelocity = 0;
-            let snapTargetFrameIndex = 0;
-            let snapTargetY = 0;
-            let autoScrollActive = false;
-            let userScrollPending = false;
-            let lastTouchY = 0;
+            let longFrameCount = 0;
+            let qualityDowngraded = false;
             let scrollTicking = false;
             let hasRevealed = false;
             let initialLoaded = 0;
@@ -722,7 +763,7 @@
                     1,
                     Math.min(sourceSize.width / window.innerWidth, sourceSize.height / window.innerHeight)
                 );
-                const dpr = Math.min(rawDpr, 2, sourceDprLimit);
+                const dpr = Math.min(rawDpr, canvasDprCap, sourceDprLimit);
 
                 canvas.width = Math.max(1, Math.round(window.innerWidth * dpr));
                 canvas.height = Math.max(1, Math.round(window.innerHeight * dpr));
@@ -770,7 +811,6 @@
                     protectedFrames.add(clampFrame(visualTargetFrameIndex + offset));
                 }
                 landmarkFrames.forEach((frameIndex) => protectedFrames.add(frameIndex));
-                checkpointNeighbors(targetFrameIndex).forEach((frameIndex) => protectedFrames.add(frameIndex));
                 if (targetFrameIndex < openingWarmFrameCount) {
                     openingFrames.forEach((frameIndex) => protectedFrames.add(frameIndex));
                 }
@@ -815,94 +855,18 @@
                 });
             }
 
-            function checkpointScrollY(frameIndex) {
-                return Math.max(0, Math.min(docHeight, (frameIndex / (totalFrames - 1)) * docHeight));
-            }
-
-            function directionalCheckpoint(currentY) {
-                const tolerance = 0.75;
-
-                if (scrollDirection >= 0) {
-                    const next = checkpointFrames.find((frame) => checkpointScrollY(frame) >= currentY - tolerance);
-                    return next !== undefined ? next : checkpointFrames[checkpointFrames.length - 1];
-                }
-
-                const previous = [...checkpointFrames].reverse().find((frame) => checkpointScrollY(frame) <= currentY + tolerance);
-                return previous !== undefined ? previous : checkpointFrames[0];
-            }
-
-            function snapStepLimit() {
-                return isMobileDevice ? 8 : 12;
-            }
-
-            function snapMinStep() {
-                return isMobileDevice ? 1.4 : 1.8;
-            }
-
-            function seedSnapVelocity(delta) {
-                const direction = delta >= 0 ? 1 : -1;
-                const seededStep = Math.min(snapStepLimit(), Math.max(snapMinStep(), Math.abs(delta) * 0.08));
-                snapVelocity = direction * seededStep;
-            }
-
-            function updateSnapTarget(checkpointFrame, currentY) {
-                const nextTargetY = checkpointScrollY(checkpointFrame);
-                const targetChanged = snapTargetFrameIndex !== checkpointFrame;
-
-                if (targetChanged) {
-                    const direction = Math.sign(nextTargetY - currentY) || scrollDirection || 1;
-                    const carriedStep = Math.max(Math.abs(snapVelocity), snapMinStep());
-                    snapVelocity = direction * Math.min(snapStepLimit(), carriedStep);
-                }
-
-                visualTargetFrameIndex = checkpointFrame;
-                snapTargetFrameIndex = checkpointFrame;
-                snapTargetY = nextTargetY;
-            }
-
-            function startScrollSnap() {
-                if (snapRaf || !hasRevealed) return;
-                autoScrollActive = true;
-                snapRaf = window.requestAnimationFrame(updateScrollSnap);
-            }
-
-            function updateScrollSnap() {
-                snapRaf = 0;
-                if (!hasRevealed) {
-                    autoScrollActive = false;
-                    return;
-                }
-
-                const targetY = snapTargetY;
-                const currentY = window.scrollY;
-                const distance = targetY - currentY;
-
-                if (Math.abs(distance) <= 0.5) {
-                    snapVelocity = 0;
-                    if (Math.abs(distance) > 0.05) {
-                        window.scrollTo(0, targetY);
-                    }
-                    autoScrollActive = false;
-                    return;
-                }
-
-                const direction = Math.sign(distance);
-                const distanceAbs = Math.abs(distance);
-                const carriedStep = Math.abs(snapVelocity);
-                const stepSize = Math.min(
-                    distanceAbs,
-                    Math.max(
-                        snapMinStep(),
-                        Math.min(snapStepLimit(), distanceAbs * 0.18),
-                        Math.min(snapStepLimit(), carriedStep * 0.92)
-                    )
-                );
-                const step = direction * stepSize;
-                const nextY = currentY + step;
-
-                window.scrollTo(0, nextY);
-                snapVelocity = step;
-                snapRaf = window.requestAnimationFrame(updateScrollSnap);
+            function downgradeRuntimeQuality() {
+                if (qualityDowngraded || qualityTier === 'efficient') return;
+                qualityDowngraded = true;
+                canvasDprCap = Math.min(canvasDprCap, 1);
+                maxConcurrentLoads = Math.min(maxConcurrentLoads, 2);
+                prefetchRadius = Math.min(prefetchRadius, 4);
+                maxCachedFrames = Math.min(maxCachedFrames, 24);
+                frameFollow = Math.min(frameFollow, qualityProfiles.efficient.follow);
+                resizeCanvas();
+                pruneQueue(targetFrameIndex);
+                evictOldFrames();
+                pumpQueue();
             }
 
             function closestLoadedFrame(index) {
@@ -922,16 +886,10 @@
                 return renderedFrameIndex >= 0 ? renderedFrameIndex : 0;
             }
 
-            function setVisualTarget(frameIndex, currentY) {
-                const checkpointFrame = directionalCheckpoint(currentY);
-
-                updateSnapTarget(checkpointFrame, currentY);
-                queueFrame(visualTargetFrameIndex, -120);
-                checkpointNeighbors(frameIndex).forEach((checkpointFrame, index) => {
-                    queueFrame(checkpointFrame, -110 + index);
-                });
+            function setVisualTarget(framePosition) {
+                visualTargetFrameIndex = Math.max(0, Math.min(totalFrames - 1, framePosition));
+                queueFrame(Math.round(visualTargetFrameIndex), -120);
                 startMagneticMotion();
-                startScrollSnap();
             }
 
             function startMagneticMotion() {
@@ -946,9 +904,15 @@
                 lastMagneticTick = now;
 
                 const distance = visualTargetFrameIndex - displayFramePosition;
-                const ease = 1 - Math.pow(0.74, elapsed / 16.67);
+                const ease = 1 - Math.pow(frameFollow, elapsed / 16.67);
+                if (elapsed > 24 && Math.abs(distance) > 0.5) {
+                    longFrameCount++;
+                    if (longFrameCount >= 8) downgradeRuntimeQuality();
+                } else {
+                    longFrameCount = Math.max(0, longFrameCount - 1);
+                }
 
-                if (Math.abs(distance) < 0.08 && frameCache.has(visualTargetFrameIndex)) {
+                if (Math.abs(distance) < 0.04 && frameCache.has(Math.round(visualTargetFrameIndex))) {
                     displayFramePosition = visualTargetFrameIndex;
                 } else {
                     displayFramePosition += distance * ease;
@@ -963,7 +927,7 @@
                     scheduleRender();
                 }
 
-                if (Math.abs(visualTargetFrameIndex - displayFramePosition) >= 0.08 || !frameCache.has(visualTargetFrameIndex)) {
+                if (Math.abs(visualTargetFrameIndex - displayFramePosition) >= 0.04 || !frameCache.has(Math.round(visualTargetFrameIndex))) {
                     magneticRaf = window.requestAnimationFrame(updateMagneticMotion);
                 }
             }
@@ -1034,10 +998,11 @@
             function revealExperience() {
                 if (hasRevealed || !frameCache.has(0)) return;
                 hasRevealed = true;
-                targetFrameIndex = clampFrame(Math.round((window.scrollY / docHeight) * (totalFrames - 1)));
+                targetFramePosition = Math.max(0, Math.min(totalFrames - 1, (window.scrollY / docHeight) * (totalFrames - 1)));
+                targetFrameIndex = clampFrame(Math.round(targetFramePosition));
                 displayFrameIndex = frameCache.has(targetFrameIndex) ? targetFrameIndex : 0;
                 displayFramePosition = displayFrameIndex;
-                updateSnapTarget(directionalCheckpoint(window.scrollY), window.scrollY);
+                visualTargetFrameIndex = targetFramePosition;
                 renderFrame(displayFrameIndex);
                 loaderBar.style.width = '100%';
                 loaderStatus.textContent = 'Coach preview ready';
@@ -1076,7 +1041,7 @@
                 activeLoads--;
                 noteInitialProgress(index);
 
-                if (index === displayFrameIndex || index === targetFrameIndex || index === visualTargetFrameIndex || checkpointFrameSet.has(index) || index === 0) {
+                if (index === displayFrameIndex || index === targetFrameIndex || index === Math.round(visualTargetFrameIndex) || landmarkFrames.has(index) || index === 0) {
                     scheduleRender();
                     startMagneticMotion();
                 }
@@ -1155,9 +1120,6 @@
             function prefetchAround(centerIndex) {
                 pruneQueue(centerIndex);
                 queueFrame(centerIndex, 0);
-                checkpointNeighbors(centerIndex).forEach((frameIndex, index) => {
-                    queueFrame(frameIndex, -30 + index);
-                });
 
                 const forwardRadius = centerIndex < openingWarmFrameCount
                     ? Math.max(prefetchRadius, openingWarmFrameCount - centerIndex)
@@ -1170,22 +1132,6 @@
                 for (let offset = 1; offset <= prefetchRadius; offset++) {
                     queueFrame(centerIndex - offset, offset * 2 + 1);
                 }
-            }
-
-            function checkpointNeighbors(frameIndex) {
-                let previous = checkpointFrames[0];
-                let next = checkpointFrames[checkpointFrames.length - 1];
-
-                for (let i = 0; i < checkpointFrames.length; i++) {
-                    const frame = checkpointFrames[i];
-                    if (frame <= frameIndex) previous = frame;
-                    if (frame >= frameIndex) {
-                        next = frame;
-                        break;
-                    }
-                }
-
-                return previous === next ? [previous] : [previous, next];
             }
 
             function warmLandmarkFrames() {
@@ -1214,19 +1160,17 @@
             function updateFromScroll() {
                 const currentY = window.scrollY;
                 const scrollFraction = Math.max(0, Math.min(1, currentY / docHeight));
-                const nextFrame = clampFrame(Math.round(scrollFraction * (totalFrames - 1)));
-                const isUserDrivenScroll = !autoScrollActive || userScrollPending;
+                const nextFramePosition = scrollFraction * (totalFrames - 1);
+                const nextFrame = clampFrame(Math.round(nextFramePosition));
 
                 scrollDirection = currentY >= lastScrollY ? 1 : -1;
                 lastScrollY = currentY;
                 observedScrollY = currentY;
+                targetFramePosition = nextFramePosition;
                 targetFrameIndex = nextFrame;
                 updateSlides(scrollFraction);
                 prefetchAround(nextFrame);
-                if (isUserDrivenScroll) {
-                    setVisualTarget(nextFrame, currentY);
-                }
-                userScrollPending = false;
+                setVisualTarget(nextFramePosition);
             }
 
             function syncScrollPosition() {
@@ -1243,57 +1187,9 @@
                 });
             }
 
-            function noteUserScrollIntent(delta) {
-                if (Math.abs(delta) < 1) return;
-                scrollDirection = delta > 0 ? 1 : -1;
-                userScrollPending = true;
-                autoScrollActive = false;
-                seedSnapVelocity(delta);
-
-                if (hasRevealed) {
-                    const projectedY = Math.max(0, Math.min(docHeight, window.scrollY + delta));
-                    const projectedFrame = clampFrame(Math.round((projectedY / docHeight) * (totalFrames - 1)));
-                    const checkpointFrame = directionalCheckpoint(projectedY);
-
-                    targetFrameIndex = projectedFrame;
-                    updateSnapTarget(checkpointFrame, projectedY);
-                    queueFrame(visualTargetFrameIndex, -120);
-                    checkpointNeighbors(projectedFrame).forEach((checkpointFrame, index) => {
-                        queueFrame(checkpointFrame, -110 + index);
-                    });
-                    startMagneticMotion();
-                    startScrollSnap();
-                }
-            }
-
             resizeCanvas();
             window.addEventListener('resize', resizeCanvas, { passive: true });
             window.addEventListener('scroll', onScroll, { passive: true });
-            window.addEventListener('wheel', (event) => noteUserScrollIntent(event.deltaY), { passive: true });
-            window.addEventListener('touchstart', (event) => {
-                lastTouchY = event.touches.length ? event.touches[0].clientY : 0;
-            }, { passive: true });
-            window.addEventListener('touchmove', (event) => {
-                if (!event.touches.length) return;
-                const nextTouchY = event.touches[0].clientY;
-                noteUserScrollIntent(lastTouchY - nextTouchY);
-                lastTouchY = nextTouchY;
-            }, { passive: true });
-            window.addEventListener('keydown', (event) => {
-                const keyDelta = {
-                    ArrowDown: 80,
-                    PageDown: window.innerHeight * 0.85,
-                    ' ': window.innerHeight * 0.85,
-                    End: docHeight,
-                    ArrowUp: -80,
-                    PageUp: -window.innerHeight * 0.85,
-                    Home: -docHeight
-                };
-
-                if (event.key in keyDelta) {
-                    noteUserScrollIntent(keyDelta[event.key]);
-                }
-            });
 
             for (let i = 0; i < initialWindow; i++) {
                 queueFrame(i, i);
