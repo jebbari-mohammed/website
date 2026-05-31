@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '../lib/motion';
 import { PhoneOff, Phone, Brain, Utensils, MessageSquare, ScanFace, BarChart3 } from 'lucide-react';
 
 const comparisons = [

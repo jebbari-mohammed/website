@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '../lib/motion';
 import { Phone, Dumbbell, Utensils, Camera, Brain, ShieldCheck } from 'lucide-react';
 
 const features = [
@@ -17,7 +17,7 @@ const features = [
     ),
     gradient: "from-primary to-blue-500",
     span: "md:col-span-2",
-    image: "/images/hero-call.png",
+    image: "/images/hero-call-card.webp",
   },
   {
     icon: Dumbbell,
@@ -42,7 +42,7 @@ const features = [
     desc: "Take a photo of your meal — instant calorie and protein analysis. Scan your body anytime for composition tracking with progress deltas over time. No manual logging ever.",
     gradient: "from-amber-500 to-orange-500",
     span: "md:col-span-2",
-    image: "/images/food-scan.png",
+    image: "/images/food-scan-card.webp",
   },
   {
     icon: Brain,

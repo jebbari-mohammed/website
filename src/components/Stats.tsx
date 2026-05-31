@@ -1,31 +1,4 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
-
-function AnimatedCounter({ target, duration = 2000 }: { target: number; duration?: number }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  useEffect(() => {
-    if (!isInView) return;
-
-    let start = 0;
-    const increment = target / (duration / 16);
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-
-    return () => clearInterval(timer);
-  }, [isInView, target, duration]);
-
-  return <span ref={ref}>{count.toLocaleString()}</span>;
-}
+import { motion } from '../lib/motion';
 
 interface StatItemProps {
   value: string;
@@ -46,7 +19,7 @@ function StatItem({ value, suffix, label, sublabel, delay }: StatItemProps) {
       className="text-center group"
     >
       <div className="text-4xl sm:text-5xl md:text-7xl font-black font-condensed tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2">
-        {isAnimatable ? <AnimatedCounter target={Number(value)} /> : value}
+        {isAnimatable ? Number(value).toLocaleString() : value}
         {suffix && <span className="text-2xl sm:text-3xl md:text-5xl">{suffix}</span>}
       </div>
       <p className="text-sm sm:text-lg font-bold text-textPrimary mb-1 font-sans">{label}</p>

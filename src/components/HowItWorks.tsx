@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '../lib/motion';
 import { ScanFace, Brain, Phone, Sparkles } from 'lucide-react';
 
 const steps = [

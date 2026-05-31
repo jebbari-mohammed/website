@@ -1,33 +1,10 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { motion } from '../lib/motion';
 import { Phone, Star, Flame, Dumbbell } from 'lucide-react';
 
 export default function Hero() {
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 1000], [0, 150]);
-  const y2 = useTransform(scrollY, [0, 1000], [0, -150]);
-
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
   return (
     <section id="download" className="relative min-h-screen flex items-center pt-[120px] pb-[80px] px-6 overflow-hidden">
-      {/* Interactive Background Glow */}
-      <motion.div
-        animate={{
-          x: mousePosition.x - 400,
-          y: mousePosition.y - 400,
-        }}
-        transition={{ type: "tween", ease: "backOut", duration: 2 }}
-        className="absolute w-[800px] h-[800px] rounded-full bg-primary/20 blur-[150px] pointer-events-none z-0 hidden lg:block"
-      />
+      <div className="absolute left-1/2 top-1/2 hidden h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/15 blur-[150px] pointer-events-none z-0 lg:block" />
 
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvc3ZnPg==')] opacity-70 z-0 pointer-events-none" />
 
@@ -138,7 +115,6 @@ export default function Hero() {
         <div className="hidden lg:block relative h-[600px] w-full" style={{ perspective: "1000px" }}>
           {/* Main Primary Phone */}
           <motion.div
-            style={{ y: y1 }}
             animate={{ y: [0, -15, 0] }}
             transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
             className="absolute top-10 right-10 w-[280px] h-[580px] rounded-[48px] bg-bgPrimary border-[2px] border-white/20 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.8),_inset_0_0_20px_rgba(255,255,255,0.05)] z-20"
@@ -147,19 +123,26 @@ export default function Hero() {
             {/* Ringing pulse effect */}
             <div className="absolute -inset-3 rounded-[56px] bg-gradient-to-r from-primary/30 to-secondary/30 blur-xl animate-pulse opacity-60 pointer-events-none" />
             <div className="w-full h-full rounded-[38px] border border-white/5 overflow-hidden bg-black relative">
-              <img src="/images/hero1.png" alt="Callio interface" className="w-full h-full object-cover" loading="eager" fetchPriority="high" decoding="async" />
+              <div
+                role="img"
+                aria-label="Callio interface"
+                className="w-full h-full bg-[url('/images/hero1-desktop.webp')] bg-cover bg-center"
+              />
             </div>
           </motion.div>
 
           {/* Secondary Phone Float */}
           <motion.div
-            style={{ y: y2 }}
             animate={{ y: [0, 20, 0] }}
             transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 0.5 }}
             className="absolute top-[80px] -left-10 w-[240px] h-[500px] rounded-[40px] bg-bgPrimary border-[2px] border-white/10 p-2 shadow-[0_30px_80px_rgba(0,0,0,0.9)] z-10 opacity-60"
           >
             <div className="w-full h-full rounded-[30px] border border-white/5 overflow-hidden bg-black relative">
-              <img src="/images/hero2.png" alt="Streak tracking in AI Coach app" className="w-full h-full object-cover" loading="lazy" decoding="async" />
+              <div
+                role="img"
+                aria-label="Streak tracking in AI Coach app"
+                className="w-full h-full bg-[url('/images/hero2-desktop.webp')] bg-cover bg-center"
+              />
             </div>
           </motion.div>
         </div>

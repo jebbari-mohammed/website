@@ -17,8 +17,8 @@ export default {
                 glassBorder: "rgba(255, 255, 255, 0.08)",
             },
             fontFamily: {
-                sans: ['Barlow', 'sans-serif'],
-                condensed: ['Barlow Condensed', 'sans-serif'],
+                sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                condensed: ['Arial Narrow', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             }
         },
     },

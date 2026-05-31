@@ -1,13 +1,34 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXDRG5V07H"></script>
+    <!-- Google tag (gtag.js), delayed until after first paint -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-ZXDRG5V07H');
+      (function(){
+        var tagLoaded = false;
+        function loadGoogleTag(){
+          if (tagLoaded) return;
+          tagLoaded = true;
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-ZXDRG5V07H';
+          document.head.appendChild(script);
+          gtag('js', new Date());
+          gtag('config', 'G-ZXDRG5V07H');
+        }
+        function scheduleGoogleTag(){
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(loadGoogleTag, { timeout: 2000 });
+          } else {
+            window.setTimeout(loadGoogleTag, 1);
+          }
+        }
+        window.addEventListener('load', function(){ window.setTimeout(scheduleGoogleTag, 6000); }, { once: true });
+        window.addEventListener('pointerdown', scheduleGoogleTag, { once: true, passive: true });
+        window.addEventListener('keydown', scheduleGoogleTag, { once: true });
+        window.addEventListener('scroll', scheduleGoogleTag, { once: true, passive: true });
+      })();
     </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -35,7 +56,7 @@
     <meta name="twitter:description" content="The only fitness app where Callio calls your phone with real voice calls. Personalized workouts, region-aware meals, body scanning, food analysis, and 24/7 voice coaching." />
 
     <!-- Preload -->
-    <link rel="preload" href="/images/hero1.png" as="image" />
+    <link rel="preload" href="/images/hero1-desktop.webp" as="image" type="image/webp" media="(min-width: 1024px)" fetchpriority="high" />
 
     <!-- JSON-LD: MobileApplication Schema -->
     <script type="application/ld+json">

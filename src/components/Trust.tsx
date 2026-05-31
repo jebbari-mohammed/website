@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '../lib/motion';
 import { Lock, Smartphone, Ban, Trash2, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 const trustItems = [

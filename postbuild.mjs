@@ -8,13 +8,34 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = path.resolve(__dirname, 'dist');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
 const GOOGLE_TAG_ID = 'G-ZXDRG5V07H';
-const GOOGLE_TAG = `<!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}"></script>
+const GOOGLE_TAG = `<!-- Google tag (gtag.js), delayed until after first paint -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${GOOGLE_TAG_ID}');
+      (function(){
+        var tagLoaded = false;
+        function loadGoogleTag(){
+          if (tagLoaded) return;
+          tagLoaded = true;
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}';
+          document.head.appendChild(script);
+          gtag('js', new Date());
+          gtag('config', '${GOOGLE_TAG_ID}');
+        }
+        function scheduleGoogleTag(){
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(loadGoogleTag, { timeout: 2000 });
+          } else {
+            window.setTimeout(loadGoogleTag, 1);
+          }
+        }
+        window.addEventListener('load', function(){ window.setTimeout(scheduleGoogleTag, 6000); }, { once: true });
+        window.addEventListener('pointerdown', scheduleGoogleTag, { once: true, passive: true });
+        window.addEventListener('keydown', scheduleGoogleTag, { once: true });
+        window.addEventListener('scroll', scheduleGoogleTag, { once: true, passive: true });
+      })();
     </script>`;
 
 function findHtmlFiles(dir) {
