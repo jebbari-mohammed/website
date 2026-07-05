@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "postbuild": "node postbuild.mjs",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "gsc": "node tools/ai-marketing/search-console.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
