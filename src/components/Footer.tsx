@@ -33,7 +33,18 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    <div className="md:col-span-3">
+                    <div className="md:col-span-2">
+                        <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Guides</h4>
+                        <div className="flex flex-col gap-2.5">
+                            <a href="/fitness-app-that-calls-you/" className="text-sm text-textSecondary hover:text-primary transition-colors font-medium text-primary">Fitness App That Calls You</a>
+                            <a href="/features/ai-voice-calls" className="text-sm text-textSecondary hover:text-primary transition-colors">AI Voice Calls</a>
+                            <a href="/best-ai-fitness-app" className="text-sm text-textSecondary hover:text-primary transition-colors">Best AI Fitness App</a>
+                            <a href="/tools/" className="text-sm text-textSecondary hover:text-primary transition-colors">Free Fitness Calculators</a>
+                            <a href="/blog/" className="text-sm text-textSecondary hover:text-primary transition-colors">Blog</a>
+                        </div>
+                    </div>
+
+                    <div className="md:col-span-2">
                         <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Legal & Story</h4>
                         <div className="flex flex-col gap-2.5">
                             <a href="/about.html" className="text-sm text-textSecondary hover:text-primary transition-colors font-medium text-primary">About Callio (Our Story)</a>
@@ -43,7 +54,7 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    <div className="md:col-span-2">
+                    <div className="md:col-span-1">
                         <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Support</h4>
                         <div className="flex flex-col gap-2.5">
                             <a href="mailto:support@youraicoach.life" className="text-sm text-textSecondary hover:text-primary transition-colors">Contact Us</a>

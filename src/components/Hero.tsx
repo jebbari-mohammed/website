@@ -38,7 +38,7 @@ export default function Hero() {
           <p className="text-lg md:text-[20px] text-textSecondary mb-8 max-w-[540px] leading-relaxed font-sans font-light">
             The only fitness app where your coach <strong className="text-textPrimary font-semibold">literally calls your phone</strong>. 
             Before your workout to fire you up. After your day to review your progress. 
-            <span className="text-primary font-medium"> 24/7 personal coaching at a fraction of the cost. Learn why we're rated the <a href="/best-ai-fitness-app" className="underline hover:text-secondary transition-colors">best AI fitness app</a>.</span>
+            <span className="text-primary font-medium"> 24/7 personal coaching at a fraction of the cost. See the guide to the <a href="/fitness-app-that-calls-you/" className="underline hover:text-secondary transition-colors">fitness app that calls you</a>.</span>
           </p>
 
           {/* Key highlights */}
