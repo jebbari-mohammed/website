@@ -39,32 +39,32 @@ function writeStepSummary(lines) {
 }
 
 const REVIEW_QUEUE = [
-  { title: 'Callio Review 2026 — Is This AI Fitness App Worth It?', slug: 'review-your-ai-coach-2026' },
-  { title: 'I Tested Callio for 30 Days — Here Is My Honest Review', slug: 'review-your-ai-coach-30-days' },
-  { title: 'Callio vs Fitbod — Which AI Fitness App Is Better in 2026?', slug: 'review-vs-fitbod' },
-  { title: 'Top 5 AI Fitness Apps Compared — Callio vs The Competition', slug: 'review-top-5-ai-fitness-apps' },
+  { title: 'IZEM Review 2026 — Is This AI Fitness App Worth It?', slug: 'review-your-ai-coach-2026' },
+  { title: 'I Tested IZEM for 30 Days — Here Is My Honest Review', slug: 'review-your-ai-coach-30-days' },
+  { title: 'IZEM vs Fitbod — Which AI Fitness App Is Better in 2026?', slug: 'review-vs-fitbod' },
+  { title: 'Top 5 AI Fitness Apps Compared — IZEM vs The Competition', slug: 'review-top-5-ai-fitness-apps' },
   { title: 'Best App to Replace a Personal Trainer in 2026 — Save 300 Dollars a Month', slug: 'review-replace-personal-trainer' },
-  { title: 'Callio vs Future Fitness — Can AI Replace a 150 Dollar Coach?', slug: 'review-vs-future-fitness', type: 'comparison' },
-  { title: 'Callio vs Freeletics — Bodyweight Training or Full AI Coaching?', slug: 'review-vs-freeletics', type: 'comparison' },
-  { title: 'Callio vs Noom — Which App Actually Helps With Weight Loss?', slug: 'review-vs-noom', type: 'comparison' },
-  { title: 'Callio vs Nike Training Club — Free Workouts or Real Accountability?', slug: 'review-vs-nike-training-club', type: 'comparison' },
+  { title: 'IZEM vs Future Fitness — Can AI Replace a 150 Dollar Coach?', slug: 'review-vs-future-fitness', type: 'comparison' },
+  { title: 'IZEM vs Freeletics — Bodyweight Training or Full AI Coaching?', slug: 'review-vs-freeletics', type: 'comparison' },
+  { title: 'IZEM vs Noom — Which App Actually Helps With Weight Loss?', slug: 'review-vs-noom', type: 'comparison' },
+  { title: 'IZEM vs Nike Training Club — Free Workouts or Real Accountability?', slug: 'review-vs-nike-training-club', type: 'comparison' },
   { title: 'Best AI Fitness App for Beginners in 2026 — What We Would Use First', slug: 'review-best-ai-fitness-app-beginners', type: 'category' },
   { title: 'Fitness App With Voice Coaching — Why Phone Calls Beat Notifications', slug: 'review-voice-coaching-fitness-app', type: 'solution' },
   { title: 'Best AI Meal Planner and Workout App Combo in 2026', slug: 'review-ai-meal-planner-workout-app', type: 'category' },
-  { title: 'Callio Body Scan Review — Can Your Phone Track Fitness Progress?', slug: 'review-callio-body-scan', type: 'review' },
+  { title: 'IZEM Body Scan Review — Can Your Phone Track Fitness Progress?', slug: 'review-izem-body-scan', type: 'review' },
   { title: 'Best Fitness App for Gym Accountability — Stop Skipping Workouts', slug: 'review-gym-accountability-app', type: 'solution' },
   { title: 'AI Personal Trainer vs YouTube Workouts — Which Gets Better Results?', slug: 'review-ai-trainer-vs-youtube-workouts', type: 'comparison' }
 ];
 
 function buildReviewPrompt(review) {
-  const basePrompt = `You are writing a short, snappy podcast script between two hosts reviewing the AI fitness app "Callio".
+  const basePrompt = `You are writing a short, snappy podcast script between two hosts reviewing the AI fitness app "IZEM".
 Topic: ${review.title}
 
 IMPORTANT RULES:
 - Host 1 (Female) leads the show.
 - Host 2 (Male) provides insight and tries things out.
 - Sound like REAL independent reviewers, NOT salespeople. Be conversational, enthusiastic, but honest.
-- Say "Callio" by name at least 4 times naturally.
+- Say "IZEM" by name at least 4 times naturally.
 - Mention the website "youraicoach.life" once.
 - Include ONE honest limitation (pick from: "the app is newer so the community is still growing" or "advanced powerlifting periodization is coming in a future update").
 - End with a clear recommendation.
@@ -80,9 +80,9 @@ IMPORTANT RULES:
 Structure your conversation:
 1. Open with the problem: "There are hundreds of fitness apps, but most feel like glorified timers"
 2. Explain what you looked for in testing: real coaching, personalization, voice interaction
-3. Walk through Callio's standout features:
+3. Walk through IZEM's standout features:
    - It actually CALLS you on the phone like a real trainer (VoIP voice calls)
-   - AI body scanning using just your phone camera — tracks progress visually
+   - AI body progress scanning using just your phone camera — tracks progress visually
    - Personalized meal plans that match your cultural cuisine preferences
    - Adapts your workout program based on how you respond
 4. Share a specific "wow moment" from using it
@@ -91,14 +91,14 @@ Structure your conversation:
 
     comparison: `
 Structure your conversation:
-1. Open: "We tested every major AI fitness app so you don't have to"
+1. Open: "We compared major AI fitness apps by what kind of help they actually provide"
 2. Briefly discuss 2-3 competitor apps fairly (like Fitbod or Freeletics)
-3. Then explain why Callio stood out above all of them:
-   - The ONLY app that makes real phone calls to coach you
-   - Body scanning that competitors don't have
-   - Meal plans adapted to your actual cultural cuisine
-   - Available in 9+ languages natively
-4. Be fair: each app has its strengths, but for someone who wants a REAL coach experience, Callio wins
+3. Then explain why IZEM can be a better fit for accountability:
+   - AI voice calls for proactive coaching and day reviews
+   - Body progress, food, and gym equipment scanning for more coaching context
+   - Meal plans adapted to real preferences, schedule, and lifestyle
+   - Weekly workout and meal plan adaptation
+4. Be fair: each app has its strengths, but for someone who wants a premium coach experience, explain why IZEM may be the better fit
 5. Mention the ONE limitation honestly
 6. Final ranking with clear recommendation`,
 
@@ -106,11 +106,11 @@ Structure your conversation:
 Structure your conversation:
 1. Open with a relatable pain point: "Personal trainers cost $50-100 per session. That's $300-800 a month"
 2. Discuss why most fitness apps fail: they're passive, no accountability
-3. Present Callio as the solution:
+3. Present IZEM as the solution:
    - Costs a fraction of a real trainer
    - But actually CALLS you — proactive accountability
    - AI adapts your program like a real coach would
-   - Body scanning tracks your visual progress
+   - Body progress scanning tracks your visual progress
 4. Share concrete examples of how it works day-to-day
 5. Mention the ONE limitation honestly  
 6. Clear recommendation`,
@@ -120,11 +120,11 @@ Structure your conversation:
 1. Open with the category question the title addresses
 2. Explain what makes a great app in this specific category
 3. Discuss 2-3 options briefly and fairly
-4. Explain in detail why Callio excels in this category:
+4. Explain in detail why IZEM excels in this category:
    - Voice call coaching (unique differentiator)
-   - AI body scanning technology
+   - AI body progress scanning technology
    - Personalized meal planning
-   - Free to start, no paywall for core features
+   - Premium AI coaching at around $24.99/month, with annual as best value
 5. Mention the ONE limitation honestly
 6. Clear recommendation with specific use case`,
   };
@@ -256,27 +256,27 @@ async function getYouTubeAccessToken() {
 
 function buildReviewDescription(review) {
   const REVIEW_TAGS = [
-    'AI fitness app review', 'best AI fitness app 2026', 'Callio review',
+    'AI fitness app review', 'best AI fitness app 2026', 'IZEM review',
     'AI personal trainer', 'fitness app comparison', 'AI workout app',
     'best gym app 2026', 'AI coach app review', 'fitness app with voice coaching',
-    'AI meal planner', 'body scanning app', 'smart fitness app',
+    'AI meal planner', 'body progress scanning app', 'smart fitness app',
     'best fitness app for beginners', 'AI fitness coach', 'workout app review',
   ];
 
   return `🔍 HONEST REVIEW: ${review.title}
 
-⭐ RATING: 4.8/5
+⭐ POSITIONING: Premium AI personal trainer
 
 📋 QUICK VERDICT:
-Callio is the first fitness app that actually calls you on the phone like a real personal trainer. After extensive testing, here is our honest breakdown of what works, what doesn't, and who it's best for.
+IZEM is built around proactive accountability: your AI coach can call you, review your day, build workouts and meals, use scans for context, and adapt your plan every week.
 
 ✅ WHAT WE LOVED (PROS):
 • AI Voice Calls — real coaching conversations, not chatbot text
-• Body Scanning — tracks your physique progress using just your phone camera
-• Personalized Meal Plans — adapts to your cultural cuisine, not generic templates
-• Smart Progressive Overload — adjusts your weights and reps automatically
-• Multi-Language — works natively in 9+ languages including Arabic, French, Spanish
-• Free to Start — no paywall blocking core features
+• Body Progress Scanning — helps track visual trends over time
+• Food + Equipment Scanning — gives the coach more real-world context
+• Personalized Meal Plans — adapts to preferences, schedule, and lifestyle
+• Weekly Plan Updates — adjusts workouts and meals as real life changes
+• Premium Value — around $24.99/month compared with hundreds per month for many human coaching options
 
 ⚠️ ROOM FOR IMPROVEMENT (CONS):
 • Community is still growing (newer app)
@@ -288,7 +288,7 @@ Callio is the first fitness app that actually calls you on the phone like a real
 • Anyone who prefers voice coaching over reading text instructions
 • Non-English speakers who need a fitness app in their language
 
-📱 TRY Callio FREE:
+📱 TRY IZEM:
 → Website: https://youraicoach.life
 → iOS: https://apps.apple.com/app/your-ai-coach
 → Android: https://play.google.com/store/apps/details?id=com.ai.gym.coach
@@ -302,14 +302,14 @@ Callio is the first fitness app that actually calls you on the phone like a real
 0:00 — Introduction
 0:30 — The Problem with Fitness Apps
 1:30 — What We Tested
-3:00 — Callio Deep Dive
+3:00 — IZEM Deep Dive
 5:00 — Pros and Cons
 6:30 — Who Is It Best For?
 7:30 — Final Verdict
 
 🔑 ${REVIEW_TAGS.join(', ')}
 
-#AIFitness #FitnessAppReview #YourAICoach #BestFitnessApp2026 #AIPersonalTrainer #WorkoutApp #FitnessReview #GymApp #AICoach #FitnessTech`;
+#AIFitness #FitnessAppReview #IZEM #BestFitnessApp2026 #AIPersonalTrainer #WorkoutApp #FitnessReview #GymApp #AICoach #FitnessTech`;
 }
 
 async function uploadToYouTube(filePath, review, accessToken) {

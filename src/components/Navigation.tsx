@@ -16,7 +16,7 @@ export default function Navigation() {
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white">
                     <Zap size={20} className="fill-white" />
                 </div>
-                <span className="text-lg font-bold font-condensed tracking-wide text-textPrimary">Callio</span>
+                <span className="text-lg font-bold font-condensed tracking-wide text-textPrimary">IZEM</span>
             </a>
 
             <div className="hidden md:flex items-center gap-4 lg:gap-7">
@@ -29,7 +29,7 @@ export default function Navigation() {
             </div>
 
             <a href="#download" className="hidden md:flex bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-85 transition-opacity">
-                Start for Free
+                Get IZEM
             </a>
 
             <button className="md:hidden p-1" onClick={() => setIsOpen(!isOpen)}>
@@ -51,7 +51,7 @@ export default function Navigation() {
                     <a href="#data" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Privacy</a>
                     <a href="#delete" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Data Deletion</a>
                     <a href="#download" onClick={() => setIsOpen(false)} className="mt-2 text-center bg-gradient-to-r from-primary to-secondary text-white px-5 py-3 rounded-full text-sm font-semibold">
-                        Start for Free
+                        Get IZEM
                     </a>
                 </motion.div>
             )}

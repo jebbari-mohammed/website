@@ -95,7 +95,7 @@ function buildOGImage({ title, category = 'AI Fitness', emoji = '⚡' }) {
   <rect x="0" y="560" width="1200" height="70" fill="rgba(0,0,0,0.3)"/>
 
   <!-- Logo -->
-  <text x="60" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="800" fill="#F8FAFC">⚡ Callio</text>
+  <text x="60" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="800" fill="#F8FAFC">⚡ IZEM</text>
 
   <!-- Domain -->
   <text x="1140" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#475569" text-anchor="end">youraicoach.life</text>

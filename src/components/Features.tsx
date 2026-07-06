@@ -8,11 +8,11 @@ const features = [
     subtitle: "Your coach calls YOU",
     desc: (
       <>
-        Not a chatbot. Not a notification. Callio literally calls your phone via real{" "}
+        Not a chatbot. Not a notification. IZEM can call your phone via real{" "}
         <a href="/features/ai-voice-calls" className="underline hover:text-primary transition-colors font-medium">
           VoIP voice calls
         </a>
-        . Before the gym to remind and motivate you. End of day to review your workouts and plan tomorrow. Two-way conversation — you talk, your coach listens and responds.
+        . Before training, at daily review time, and when accountability matters. Two-way conversation: you talk, your coach listens, follows up, and helps you decide what to do next.
       </>
     ),
     gradient: "from-primary to-blue-500",
@@ -21,40 +21,40 @@ const features = [
   },
   {
     icon: Dumbbell,
-    title: "AI Workout Generator",
-    subtitle: "Built for YOUR body",
-    desc: "After scanning your body and learning your goals, AI generates a complete personalized program. Progressive overload with Epley 1RM tracking and plateau detection.",
+    title: "Adaptive Workout Plans",
+    subtitle: "Updated every week",
+    desc: "IZEM builds training around your goal, body, schedule, equipment, level, recovery, and weekly progress instead of making you browse a generic exercise library.",
     gradient: "from-secondary to-purple-500",
     span: "",
   },
   {
     icon: Utensils,
-    title: "Region-Aware Meals",
-    subtitle: "Your culture, your macros",
-    desc: "Moroccan? Get tagine with the right protein. Japanese? Get donburi. High protein, easy to make, absolutely delicious — not generic \"chicken and rice\" templates.",
+    title: "Practical Meal Planning",
+    subtitle: "Your life, your macros",
+    desc: "Meals are built around macros, preferences, schedule, lifestyle, and consistency. The goal is not perfect eating; it is a nutrition plan your coach can adjust.",
     gradient: "from-cta to-emerald-500",
     span: "",
   },
   {
     icon: Camera,
-    title: "Food & Body Scanning",
-    subtitle: "Point your camera, get answers",
-    desc: "Take a photo of your meal — instant calorie and protein analysis. Scan your body anytime for composition tracking with progress deltas over time. No manual logging ever.",
+    title: "Food, Body & Equipment Scans",
+    subtitle: "Your coach sees more",
+    desc: "Scan food, body progress, and gym equipment so IZEM has more context. Your coach sees more, so your plan gets smarter.",
     gradient: "from-amber-500 to-orange-500",
     span: "md:col-span-2",
     image: "/images/food-scan-card.webp",
   },
   {
     icon: Brain,
-    title: "13 Intelligence Modules",
-    subtitle: "A relationship engine",
+    title: "Weekly Adaptation",
+    subtitle: "The plan changes with life",
     desc: (
       <>
-        Your coach runs 13 behavioral modules simultaneously. The Anti-Skip Detector actively notices if you haven't trained. The Dark Moment Protocol shifts to high empathy when motivation crashes. Read more on our{" "}
+        IZEM reviews consistency, workouts, meals, recovery, and real-life constraints before updating the next week. Read more on our{" "}
         <a href="/about" className="underline hover:text-primary transition-colors font-medium">
           about page
         </a>
-        . It's not a prompt; it's an engine.
+        . It is not a dashboard; it is a coach that keeps track.
       </>
     ),
     gradient: "from-primary to-secondary",
@@ -62,9 +62,9 @@ const features = [
   },
   {
     icon: ShieldCheck,
-    title: "Safety-First Design",
-    subtitle: "Built with responsibility",
-    desc: "Eating disorder detection. Never uses toxic language like \"cheat meal\" or \"earn your food.\" Calorie floors prevent dangerous prescriptions. Your mental health matters.",
+    title: "Premium Accountability",
+    subtitle: "A coach, not a tracker",
+    desc: "Users are buying fewer excuses, less confusion, and the feeling that something is keeping track of them. IZEM focuses on follow-up, structure, and practical next steps.",
     gradient: "from-rose-500 to-pink-500",
     span: "",
   },

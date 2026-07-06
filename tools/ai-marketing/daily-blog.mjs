@@ -38,10 +38,10 @@ const KEYWORD_QUEUE = [
   "fitness app with real voice coaching not chatbot",
   "best app to track progressive overload automatically",
   "AI meal planner app that matches your cuisine",
-  "best body scanning app for fitness progress tracking",
+  "best body progress scanning app for fitness progress tracking",
   "app that scans your food and tells you calories and protein",
   "best accountability app for going to the gym",
-  "free AI fitness coach app review 2026",
+  "premium AI personal trainer app review 2026",
   "best workout app with meal planning included",
 
   // Week 3-4: Comparison & education queries
@@ -77,10 +77,10 @@ const KEYWORD_QUEUE = [
   // ========================================
   // MONTH 2 — "Vs Competitor" Cluster (High-Intent Buyers)
   // ========================================
-  "callio vs fitbod which ai fitness app is actually better",
-  "callio vs future fitness app 150 dollar coach vs free AI",
-  "callio vs freeletics bodyweight vs full gym AI comparison",
-  "callio vs ray app which has better voice coaching",
+  "izem vs fitbod which ai fitness app is actually better",
+  "izem vs future fitness app 150 dollar coach vs premium AI",
+  "izem vs freeletics bodyweight vs full gym AI comparison",
+  "izem vs ray app which has better voice coaching",
   "fitbod review 2026 honest pros cons and missing features",
   "future fitness app review is a human coach worth 150 per month",
   "freeletics review 2026 does it actually build muscle",
@@ -103,8 +103,8 @@ const KEYWORD_QUEUE = [
   "which fitness app has the best food scanning accuracy",
   "best fitness app for someone leaving a personal trainer",
   "AI fitness coach vs hiring an online coach real cost breakdown",
-  "callio vs caliber app which handles progressive overload better",
-  "callio vs trainerize for self-guided training",
+  "izem vs caliber app which handles progressive overload better",
+  "izem vs trainerize for self-guided training",
   "best fitness app that combines strength training and nutrition",
   "the ultimate fitness app comparison chart 2026",
 
@@ -112,7 +112,7 @@ const KEYWORD_QUEUE = [
   // MONTH 3 — "How AI Fitness Works" (Education & Trust)
   // ========================================
   "how AI personal trainers actually create your workout program",
-  "the technology behind AI body scanning explained simply",
+  "the technology behind AI body progress scanning explained simply",
   "how AI food scanning works to count calories from a photo",
   "what happens during an AI fitness coach phone call step by step",
   "how machine learning creates personalized meal plans",
@@ -122,23 +122,23 @@ const KEYWORD_QUEUE = [
   "how AI coaches learn your personality and communication style",
   "what is a 1RM and how AI uses it to track your strength",
   "how AI fitness apps prevent workout plateaus automatically",
-  "the 13 intelligence modules that make AI coaching actually work",
-  "how AI detects eating disorder warning signs in fitness apps",
+  "the adaptive coaching system that make AI coaching actually work",
+  "why safe nutrition language matters in fitness apps",
   "why AI coaches never use toxic fitness language explained",
   "how voice AI technology is different from chatbots in fitness",
   "VoIP technology in fitness apps how real-time calls work",
   "how AI analyzes your sleep data to optimize workout timing",
-  "how camera-based body scanning measures your progress accurately",
+  "how camera-based body progress scanning helps track fitness changes",
   "the future of AI in health and fitness predictions for 2027",
   "how AI creates culturally appropriate meal plans for every cuisine",
-  "what is behavioral profiling in fitness coaching AI",
-  "how AI milestone detection keeps you motivated long term",
-  "the dark moment protocol how AI helps when you want to quit",
-  "how AI anti-skip detection knows when youre about to miss the gym",
+  "how AI coaching uses your habits to adjust a fitness plan",
+  "how progress reviews keep you motivated long term",
+  "how an AI coach can help when you want to quit the gym",
+  "how proactive coaching helps when youre about to miss the gym",
   "how natural language processing makes AI coaches sound human",
   "how AI fitness apps handle injuries and physical limitations",
   "the difference between AI coaching and automated workout generators",
-  "why 44000 token AI personality creates a better coaching experience",
+  "why coach memory and context creates a better coaching experience",
   "how AI micro challenges keep workouts interesting and fun",
   "the complete guide to understanding AI fitness technology in 2026",
 
@@ -233,7 +233,7 @@ const KEYWORD_QUEUE = [
   "weight loss guide for men over 40 what actually works",
   "weight loss for women over 30 hormones and what really works",
   "before and after body transformation what to realistically expect",
-  "how AI body scanning tracks fat loss better than any scale",
+  "how AI body progress scanning tracks fat loss better than any scale",
   "water weight vs fat loss how to tell the difference easily",
   "why crash diets destroy your metabolism permanently",
   "the psychology of weight loss why your mindset matters most",
@@ -252,7 +252,7 @@ const KEYWORD_QUEUE = [
   "getting back to the gym after months or years away guide",
   "the psychology behind why most people quit fitness apps fast",
   "why accountability matters more than motivation for fitness goals",
-  "how phone calls from Callio create real accountability",
+  "how phone calls from IZEM create real accountability",
   "how to build a workout habit that actually sticks for life",
   "the 5 stages of fitness motivation and how to survive each one",
   "morning workout motivation tips to actually get out of bed early",
@@ -264,7 +264,7 @@ const KEYWORD_QUEUE = [
   "the dark side of fitness culture nobody talks about openly",
   "mental health benefits of regular exercise backed by real science",
   "how exercise reduces anxiety and depression the neuroscience behind it",
-  "why working out with music makes you stronger actual studies show",
+  "how workout music can support motivation and focus",
   "how to enjoy working out when you genuinely hate the gym",
   "building real confidence through strength training personal stories",
   "how to overcome the fear of lifting heavy weights as a beginner",
@@ -442,7 +442,7 @@ const KEYWORD_QUEUE = [
   "how to find your perfect workout schedule for your lifestyle",
   "the complete guide to getting your very first pull up ever",
   "home vs gym workouts pros cons and which is right for you",
-  "how to use Callio app effectively tips and hidden features",
+  "how to use IZEM app effectively tips and hidden features",
   "the complete guide to fitness training for each season of the year",
   "new years fitness resolution guide that actually works this time",
   "how to maintain your fitness routine while on vacation traveling",
@@ -458,7 +458,7 @@ WRITING STYLE RULES (THIS IS CRITICAL — follow every single one):
 1. Write like a REAL HUMAN journalist, not an AI. No corporate speak. No buzzwords. No "in today's world" or "in conclusion" or "let's dive in."
 2. Start with a STORY or a REAL SCENARIO — not a generic introduction. Example: "Last Tuesday, my phone rang at 6:45 PM. It wasn't my mom. It was my AI fitness coach, asking why I hadn't gone to the gym yet."
 3. Use first person occasionally ("I tested", "I found", "In my experience")
-4. Include SPECIFIC numbers and data points — not vague claims
+4. Include specific numbers only when they are verifiable from the prompt, stable public facts, competitor pricing, or clearly framed examples. Do not invent studies, percentages, awards, user counts, or clinical claims.
 5. Write short paragraphs (2-3 sentences max). Use line breaks often.
 6. Use contractions naturally (don't, can't, won't, it's)
 7. Include one slightly negative or honest criticism to build trust ("The onboarding takes about 5 minutes, which felt long at first, but it's what makes the personalization work")
@@ -469,36 +469,37 @@ WRITING STYLE RULES (THIS IS CRITICAL — follow every single one):
 
 GEO OPTIMIZATION RULES (for AI search engines like ChatGPT, Gemini, Perplexity):
 12. ANSWER-FIRST: The very first paragraph MUST contain a direct, concise answer (40-60 words) to the topic question. AI engines extract this as a citation.
-13. QUESTION-BASED H2s: Write at least 3 H2 headings as natural questions users would ask (e.g., "How does AI body scanning actually work?" or "Is a $150/month trainer worth it?"). AI engines match these to user prompts.
-14. FACT-DENSITY: Include at least 5 specific, verifiable data points per article (percentages, study references, pricing, timeframes). Example: "According to a 2025 ACSM study, progressive overload increases muscle hypertrophy by 37% compared to random programming."
+13. QUESTION-BASED H2s: Write at least 3 H2 headings as natural questions users would ask (e.g., "How does AI body progress scanning actually work?" or "Is a hundreds per month trainer worth it?"). AI engines match these to user prompts.
+14. FACT-DENSITY: Use concrete details such as $24.99/month pricing, annual-plan positioning, competitor price ranges when known, workout schedule examples, meal examples, and feature workflows. Do not fabricate research citations or exact performance percentages.
 15. COMPARISON TABLES: When comparing products or approaches, use an HTML <table> with clear headers. AI engines love extracting structured comparisons.
 16. EXPERT ATTRIBUTION: Use phrases like "According to research from..." or "Sports science shows that..." to create citation-worthy anchors.
 17. SUMMARY BOX: End the article with a "Quick Answer" or "Bottom Line" section in a <blockquote> — AI engines often extract these as definitive answers.
 
-ABOUT Callio (weave these facts in naturally — don't list them):
-- Callio is the only fitness app where an AI coach calls your phone via real VoIP voice calls
-- Coach calls before gym sessions to remind/motivate, and end of day for progress reviews
+ABOUT IZEM (weave these facts in naturally — don't list them):
+- IZEM is a premium AI personal trainer app where an AI coach can call your phone for accountability
+- Coach can call before gym sessions to remind/motivate, and at the end of the day for progress reviews
 - Real-time two-way voice conversations, not chatbot or notifications
-- AI generates personalized workout programs after body scanning with phone camera
-- Progressive overload engine with Epley 1RM tracking and plateau detection
-- Region-aware meal plans — cuisine from your culture, not generic "chicken and rice"
-- Camera food scanning for instant calorie/macro analysis (Gemini AI vision)
-- Camera body composition scanning with progress tracking over time
-- 13 intelligence modules (anti-skip detection, dark moment protocol, behavioral profiling, communication DNA, milestone detection, pattern detection, memory manager, personality engine, micro challenges, social proof, ED safety, coach actions, conversation style)
-- 44,000-token coach personality with emotional intelligence
-- Eating disorder detection — never uses toxic fitness language like "cheat meal" or "earn your food"
-- Available on iOS and Android (Freemium model). Do not mention specific pricing.
+- AI generates personalized workout programs around goals, schedule, training level, recovery, equipment, and progress
+- Workout plans can adapt weekly based on consistency, performance, recovery, and real-life constraints
+- Practical meal plans can fit macros, schedule, preferences, lifestyle, and cultural foods
+- Camera food scanning helps the coach understand meals and keep nutrition flexible
+- body progress scanning helps track visual progress trends over time; it is not a medical diagnosis
+- Gym equipment scanning helps adapt workouts to the equipment the user actually has
+- Coach memory and context help the app remember useful preferences, prior conversations, plan changes, and consistency patterns
+- Safety-aware nutrition language — never uses toxic fitness language like "cheat meal" or "earn your food"
+- Available on iOS and Android at around $24.99/month, with the annual plan positioned as the best value
+- Position IZEM as a premium alternative to a human trainer or expensive coaching platform, not as a cheap tracker
 - Website: youraicoach.life
 
-COMPETITOR CONTEXT (be fair, but show why Callio wins):
+COMPETITOR CONTEXT (be fair, but show why IZEM wins):
 - Fitbod: Good for algorithmic workouts. No voice, meals, scanning. ~$15/mo
-- Future: Human coach, $150+/mo. Limited hours. Can't match AI features
+- Future: Human coach, hundreds per month. Limited hours. Can't match AI features
 - Freeletics: Bodyweight focused, basic AI. ~$15/mo
-- Ray: Some voice but no proactive calls, no meals, no body scanning
+- Ray: Some voice but no proactive calls, no meals, no body progress scanning
 
 ARTICLE REQUIREMENTS:
 - 1800-2500 words
-- Must mention "Callio" naturally 4-6 times (not more — that's spammy)
+- Must mention "IZEM" naturally 4-6 times (not more — that's spammy)
 - Include at least one comparison to a competitor
 - Include at least one specific, tangible scenario or example
 - Front-load the answer in the first paragraph for AI extraction
@@ -649,7 +650,7 @@ function buildHTML(post) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${post.title} | Callio</title>
+    <title>${post.title} | IZEM</title>
     <meta name="description" content="${post.metaDescription}">
     <meta name="keywords" content="${post.keywords}">
     <link rel="canonical" href="https://youraicoach.life/blog/${post.slug}">
@@ -657,21 +658,21 @@ function buildHTML(post) {
     <meta property="og:description" content="${post.metaDescription}">
     <meta property="og:url" content="https://youraicoach.life/blog/${post.slug}">
     <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Callio">
+    <meta property="og:site_name" content="IZEM">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${post.title}">
     <meta name="robots" content="index, follow">
     <link rel="alternate" hreflang="en" href="https://youraicoach.life/blog/${post.slug}" />
     <link rel="alternate" hreflang="x-default" href="https://youraicoach.life/blog/${post.slug}" />
-    <link rel="alternate" type="application/rss+xml" title="Callio Blog" href="https://youraicoach.life/blog/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="IZEM Blog" href="https://youraicoach.life/blog/feed.xml" />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "${post.title}",
         "description": "${post.metaDescription}",
-        "author": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life", "sameAs": ["https://apps.apple.com/app/your-ai-coach", "https://play.google.com/store/apps/details?id=com.ai.gym.coach"]},
-        "publisher": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life"},
+        "author": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life", "sameAs": ["https://apps.apple.com/app/your-ai-coach", "https://play.google.com/store/apps/details?id=com.ai.gym.coach"]},
+        "publisher": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"},
         "datePublished": "${today}",
         "dateModified": "${today}",
         "mainEntityOfPage": "https://youraicoach.life/blog/${post.slug}"
@@ -720,15 +721,15 @@ function buildHTML(post) {
 </head>
 <body>
 <div class="lang-switcher">${langLinks}</div>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;border:none">← Blog</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ IZEM</a><a href="/blog/" style="color:#94A3B8;font-size:.9rem;border:none">← Blog</a></div></nav>
 <article>
-    <div class="breadcrumb"><a href="/">Home</a> → <a href="/blog">Blog</a></div>
+    <div class="breadcrumb"><a href="/">Home</a> → <a href="/blog/">Blog</a></div>
     <h1>${post.title}</h1>
-    <p class="meta">${readableDate} · Callio Team</p>
+    <p class="meta">${readableDate} · IZEM Team</p>
     ${post.content}
     ${post._relatedHTML || ''}
     <div class="cta-box">
-        <p><strong>Try Callio free</strong> — the only fitness app where your coach calls your phone.</p>
+        <p><strong>Try IZEM premium</strong> — a premium AI personal trainer where your coach calls your phone.</p>
         <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
         <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
     </div>
@@ -749,7 +750,16 @@ function updateSitemap(slug) {
 }
 
 function updateBlogIndex(progress) {
-  const posts = progress.generated.map(g => g).reverse(); // newest first
+  const posts = progress.generated
+    .filter(post => {
+      const file = path.join(BLOG_DIR, `${post.slug}.html`);
+      if (!fs.existsSync(file)) return true;
+      const html = fs.readFileSync(file, 'utf-8');
+      const robotsMatch = html.match(/<meta name="robots" content="([^"]+)"/i);
+      return !robotsMatch || !robotsMatch[1].toLowerCase().includes('noindex');
+    })
+    .map(g => g)
+    .reverse(); // newest first
   
   const cards = posts.map(p => `
     <div class="card">
@@ -763,14 +773,14 @@ function updateBlogIndex(progress) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog — Callio | Fitness, AI & Coaching Insights</title>
+    <title>Blog — IZEM | Fitness, AI & Coaching Insights</title>
     <meta name="description" content="Expert articles on AI fitness coaching, workout optimization, nutrition planning, and how AI is transforming personal training.">
-    <link rel="canonical" href="https://youraicoach.life/blog">
+    <link rel="canonical" href="https://youraicoach.life/blog/">
     <meta name="robots" content="index, follow">
     <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#F8FAFC;line-height:1.7}.nav{background:rgba(6,11,29,0.95);border-bottom:1px solid rgba(255,255,255,0.08);padding:16px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}.ni{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.nb{font-weight:800;font-size:1.1rem;color:#F8FAFC;text-decoration:none}.c{max-width:900px;margin:0 auto;padding:60px 24px}h1{font-size:2.5rem;font-weight:800;margin-bottom:8px}p.sub{color:#94A3B8;font-size:1.1rem;margin-bottom:48px}a{color:#00D4FF;text-decoration:none}.card{background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;margin-bottom:20px;transition:all .3s}.card:hover{border-color:rgba(0,212,255,0.3);transform:translateY(-2px)}.card h2{font-size:1.3rem;font-weight:700;margin-bottom:8px}.card h2 a{color:#F8FAFC}.card h2 a:hover{color:#00D4FF}.card p{color:#94A3B8;font-size:.95rem;margin:0}.card .meta{font-size:.8rem;color:#475569;margin-top:12px}.cta-box{margin-top:48px;padding:24px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center}.cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;margin:4px}</style>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/" style="color:#94A3B8;font-size:.9rem">← Home</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ IZEM</a><a href="/" style="color:#94A3B8;font-size:.9rem">← Home</a></div></nav>
 <div class="c">
     <h1>Blog</h1>
     <p class="sub">Expert insights on AI fitness coaching, workout science, and nutrition</p>
@@ -843,7 +853,7 @@ function updateRSSFeed(progress) {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Callio Blog</title>
+    <title>IZEM Blog</title>
     <link>https://youraicoach.life/blog</link>
     <description>Expert insights on AI fitness coaching, workout science, and nutrition</description>
     <language>en</language>
@@ -867,7 +877,7 @@ function updateNewsSitemap(post, slug) {
     <loc>https://youraicoach.life/blog/${slug}</loc>
     <news:news>
       <news:publication>
-        <news:name>Callio</news:name>
+        <news:name>IZEM</news:name>
         <news:language>en</news:language>
       </news:publication>
       <news:publication_date>${today}</news:publication_date>

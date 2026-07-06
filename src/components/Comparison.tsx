@@ -3,13 +3,13 @@ import { Check, X, Minus } from 'lucide-react';
 
 const features = [
   { name: "AI Voice Coaching Calls", us: true, fitbod: false, future: false, freeletics: false },
+  { name: "Weekly Adaptive Plan Updates", us: true, fitbod: "partial" as const, future: true, freeletics: "partial" as const },
   { name: "Personalized Workouts", us: true, fitbod: true, future: true, freeletics: "partial" as const },
-  { name: "AI Meal Plans (Your Cuisine)", us: true, fitbod: false, future: false, freeletics: false },
-  { name: "Camera Body Scanning", us: true, fitbod: false, future: false, freeletics: false },
+  { name: "Personalized Meal Plans", us: true, fitbod: false, future: "partial" as const, freeletics: false },
+  { name: "Body Progress Scanning", us: true, fitbod: false, future: false, freeletics: false },
   { name: "Camera Food Scanning", us: true, fitbod: false, future: false, freeletics: false },
-  { name: "Progressive Overload Engine", us: true, fitbod: true, future: "partial" as const, freeletics: false },
-  { name: "Intelligence Modules", us: "13", fitbod: "0", future: "0", freeletics: "1" },
-  { name: "ED Safety Detection", us: true, fitbod: false, future: false, freeletics: false },
+  { name: "Gym Equipment Scanning", us: true, fitbod: false, future: false, freeletics: false },
+  { name: "Progress Review Calls", us: true, fitbod: false, future: "partial" as const, freeletics: false },
   { name: "iOS + Android", us: true, fitbod: true, future: "partial" as const, freeletics: true },
 ];
 
@@ -41,7 +41,7 @@ export default function Comparison() {
             <span className="text-textSecondary">EVERYONE ELSE.</span>
           </h2>
           <p className="text-base sm:text-lg text-textSecondary max-w-[500px] mx-auto leading-relaxed font-light px-2">
-            We're not afraid of a fair comparison. Here's exactly how we stack up.
+            IZEM is priced like a premium AI coach, not a cheap tracker. The value is active follow-up, planning, meals, scans, and weekly adaptation.
           </p>
         </motion.div>
 
@@ -86,10 +86,10 @@ export default function Comparison() {
             <p className="text-sm font-bold text-textPrimary mb-3">Monthly Price</p>
             <div className="grid grid-cols-4 gap-2 text-center">
               <div>
-                <span className="text-sm font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Freemium</span>
+                <span className="text-sm font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">$24.99/mo</span>
               </div>
               <div><span className="text-xs text-textSecondary/50">$15/mo</span></div>
-              <div><span className="text-xs text-textSecondary/50">$150/mo</span></div>
+              <div><span className="text-xs text-textSecondary/50">$150+/mo</span></div>
               <div><span className="text-xs text-textSecondary/50">$15/mo</span></div>
             </div>
           </div>
@@ -108,8 +108,8 @@ export default function Comparison() {
             <div className="grid grid-cols-5 gap-0 mb-2">
               <div className="p-4"></div>
               <div className="p-4 text-center">
-                <span className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary block">Callio</span>
-                <span className="text-[11px] text-cta font-semibold">Freemium</span>
+                <span className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary block">IZEM</span>
+                <span className="text-[11px] text-cta font-semibold">$24.99/mo</span>
               </div>
               <div className="p-4 text-center">
                 <span className="text-sm font-medium text-textSecondary block">
@@ -121,7 +121,7 @@ export default function Comparison() {
                 <span className="text-sm font-medium text-textSecondary block">
                   <a href="/vs-future" className="underline hover:text-primary transition-colors">Future</a>
                 </span>
-                <span className="text-[11px] text-textSecondary/50">$150/mo</span>
+                <span className="text-[11px] text-textSecondary/50">$150+/mo</span>
               </div>
               <div className="p-4 text-center">
                 <span className="text-sm font-medium text-textSecondary block">Freeletics</span>
@@ -155,10 +155,10 @@ export default function Comparison() {
             <div className="grid grid-cols-5 gap-0 mt-4 pt-4 border-t border-white/10">
               <div className="p-4"><span className="text-sm font-bold text-textPrimary">Monthly Price</span></div>
               <div className="p-4 flex items-center justify-center bg-primary/[0.03] border-x border-primary/10">
-                <span className="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Freemium</span>
+                <span className="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">$24.99/mo</span>
               </div>
               <div className="p-4 text-center"><span className="text-sm text-textSecondary/60">$15/mo</span></div>
-              <div className="p-4 text-center"><span className="text-sm text-textSecondary/60">$150/mo</span></div>
+              <div className="p-4 text-center"><span className="text-sm text-textSecondary/60">$150+/mo</span></div>
               <div className="p-4 text-center"><span className="text-sm text-textSecondary/60">$15/mo</span></div>
             </div>
           </div>

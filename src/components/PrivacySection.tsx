@@ -75,7 +75,7 @@ export default function PrivacySection() {
                             <div className="inline-block bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-4">Option 1 — Instant</div>
                             <h3 className="text-base font-bold mb-3 font-sans">Delete from the App</h3>
                             <ol className="flex flex-col gap-1.5 text-sm text-textSecondary pl-4 list-decimal marker:text-primary marker:font-bold font-sans">
-                                <li>Open <strong className="text-textPrimary">Callio</strong> app</li>
+                                <li>Open <strong className="text-textPrimary">IZEM</strong> app</li>
                                 <li>Go to <strong className="text-textPrimary">Profile</strong> (bottom navigation)</li>
                                 <li>Scroll to the bottom</li>
                                 <li>Tap <strong className="text-textPrimary">"Delete Account"</strong></li>

@@ -13,7 +13,13 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://youraicoach.life/blog/workout-reminder-app-that-calls-you</loc>
+    <loc>https://youraicoach.life/blog/fitness-app-that-reviews-your-day</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/blog/workout-accountability-app-without-social-media</loc>
     <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
@@ -25,217 +31,483 @@
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://youraicoach.life/blog/workout-accountability-app-without-social-media</loc>
-    <lastmod>2026-07-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://youraicoach.life/blog/fitness-app-that-reviews-your-day</loc>
-    <lastmod>2026-07-06</lastmod>
+    <loc>https://youraicoach.life/blog/workout-reminder-app-that-calls-you</loc>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/landing-page</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/best-ai-fitness-app</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/ai-fitness-coach</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/features/ai-voice-calls</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/features/ai-workout-generator</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/features/ai-meal-planner</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/features/body-scanning</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/vs-fitbod</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/vs-future</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://youraicoach.life/vs-freeletics</loc>
-    <lastmod>2026-05-05</lastmod>
+    <loc>https://youraicoach.life/vs-freeletics/</loc>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://youraicoach.life/about</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://youraicoach.life/privacy-policy.html</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://youraicoach.life/terms.html</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://youraicoach.life/blog/best-ai-fitness-app-2026-guide</loc>
-    <lastmod>2026-05-05</lastmod>
+    <loc>https://youraicoach.life/vs-apple-fitness-plus/</loc>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><loc>https://youraicoach.life/glossary</loc><lastmod>2026-05-06</lastmod><priority>0.8</priority></url>
-  <url><loc>https://youraicoach.life/tools</loc><lastmod>2026-07-06</lastmod><priority>0.8</priority></url>
-  <url><loc>https://youraicoach.life/workout-consistency-calculator/</loc><lastmod>2026-07-06</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://youraicoach.life/tdee-calculator</loc><lastmod>2026-05-06</lastmod><priority>0.9</priority></url>
-  <url><loc>https://youraicoach.life/macro-calculator</loc><lastmod>2026-05-06</lastmod><priority>0.9</priority></url>
-  <url><loc>https://youraicoach.life/1rm-calculator</loc><lastmod>2026-05-06</lastmod><priority>0.9</priority></url>
-  <url><loc>https://youraicoach.life/protein-calculator</loc><lastmod>2026-05-06</lastmod><priority>0.9</priority></url>
-  <url><loc>https://youraicoach.life/glossary/progressive-overload</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/1rm</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/tdee</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/bmr</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/hypertrophy</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/calorie-deficit</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/macros</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/muscle-protein-synthesis</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/compound-exercises</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/isolation-exercises</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/rep-ranges</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/deload</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/periodization</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/training-volume</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/mind-muscle-connection</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/doms</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/overtraining</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/body-recomposition</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/reverse-dieting</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/metabolism</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/epley-formula</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/strength-training</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/recovery</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/fat-loss</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/protein</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/superset</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/drop-set</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/rpe</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/time-under-tension</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/glossary/intermittent-fasting</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app</loc><lastmod>2026-05-06</lastmod><priority>0.8</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/new-york</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/los-angeles</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/london</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/dubai</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/tokyo</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/sydney</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/toronto</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/so-paulo</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/mumbai</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/berlin</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/paris</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/singapore</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/mexico-city</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/istanbul</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/jakarta</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/seoul</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/bangkok</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/casablanca</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/cairo</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
-  <url><loc>https://youraicoach.life/best-ai-fitness-app/riyadh</loc><lastmod>2026-05-06</lastmod><priority>0.7</priority></url>
   <url>
-    <loc>https://youraicoach.life/vs-myfitnesspal/</loc>
-    <lastmod>2026-05-06</lastmod>
+    <loc>https://youraicoach.life/vs-habitcall/</loc>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://youraicoach.life/vs-strong/</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/vs-hevy/</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://youraicoach.life/blog/cheapest-alternative-to-personal-trainer</loc>
-    <lastmod>2026-05-07</lastmod>
+    <loc>https://youraicoach.life/vs-myfitnesspal/</loc>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/vs-noom/</loc>
-    <lastmod>2026-05-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://youraicoach.life/blog/best-app-personalized-workout-meal-plans</loc>
-    <lastmod>2026-05-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://youraicoach.life/blog/ai-personal-trainer-that-actually-works</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/vs-peloton/</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://youraicoach.life/vs-apple-fitness-plus/</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://youraicoach.life/blog/best-fitness-app-for-beginners</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/vs-strong/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/about</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/privacy-policy.html</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/terms.html</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/blog/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/tools/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/workout-consistency-calculator/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/tdee-calculator/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/macro-calculator/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/1rm-calculator/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/protein-calculator/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/1rm</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/bmr</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/body-recomposition</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/calorie-deficit</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/compound-exercises</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/deload</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/doms</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/drop-set</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/epley-formula</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/fat-loss</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/hypertrophy</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/intermittent-fasting</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/isolation-exercises</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/macros</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/metabolism</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/mind-muscle-connection</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/muscle-protein-synthesis</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/overtraining</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/periodization</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/progressive-overload</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/protein</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/recovery</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/rep-ranges</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/reverse-dieting</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/rpe</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/strength-training</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/superset</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/tdee</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/time-under-tension</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/glossary/training-volume</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/bangkok</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/berlin</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/cairo</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/casablanca</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/dubai</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/istanbul</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/jakarta</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/london</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/los-angeles</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/mexico-city</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/mumbai</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/new-york</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/paris</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/riyadh</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/seoul</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/singapore</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/so-paulo</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/sydney</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/tokyo</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/best-ai-fitness-app/toronto</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/youtube/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

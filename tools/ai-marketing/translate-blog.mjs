@@ -140,7 +140,7 @@ LOCALIZATION RULES:
 4. Reference local fitness culture: ${lang.culture}
 5. Keep the same structure (H2, H3, paragraphs, lists, blockquotes, tables) and similar length
 6. Keep HTML tags intact. Keep all URLs/links unchanged
-7. Keep brand names unchanged: "Callio", "Fitbod", "Future", "Freeletics"
+7. Keep brand names unchanged: "IZEM", "Fitbod", "Future", "Freeletics"
 8. The tone should feel like a local expert talking to a friend — warm, knowledgeable, culturally aware
 9. Include at least one local cultural reference that a translator would NEVER include
 10. If mentioning meals or recipes, use meals that people in ${lang.locale} actually eat daily
@@ -199,14 +199,14 @@ function buildTranslatedHTML(original, translated, lang, slug) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${translated.title} | Callio</title>
+    <title>${translated.title} | IZEM</title>
     <meta name="description" content="${translated.metaDescription}">
     <link rel="canonical" href="https://youraicoach.life/blog/${lang.code}/${slug}" />
 ${buildHreflangTags(slug)}
     <meta property="og:title" content="${translated.title}">
     <meta property="og:url" content="https://youraicoach.life/blog/${lang.code}/${slug}">
     <meta property="og:type" content="article">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="noindex, follow">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -214,8 +214,8 @@ ${buildHreflangTags(slug)}
         "headline": "${translated.title}",
         "description": "${translated.metaDescription}",
         "inLanguage": "${lang.code}",
-        "author": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life"},
-        "publisher": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life"},
+        "author": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"},
+        "publisher": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"},
         "datePublished": "${today}",
         "dateModified": "${today}",
         "mainEntityOfPage": "https://youraicoach.life/blog/${lang.code}/${slug}"
@@ -251,13 +251,13 @@ ${buildHreflangTags(slug)}
 </head>
 <body>
 <div class="lang-switcher">${buildLanguageLinks(slug)}</div>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/blog" style="color:#94A3B8;font-size:.9rem;border:none">← Blog</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ IZEM</a><a href="/blog/" style="color:#94A3B8;font-size:.9rem;border:none">← Blog</a></div></nav>
 <article>
     <h1>${translated.title}</h1>
-    <p class="meta">${readableDate} · Callio Team</p>
+    <p class="meta">${readableDate} · IZEM Team</p>
     ${translated.content}
     <div class="cta-box">
-        <p style="color:#CBD5E1;margin-bottom:16px"><strong>Try Callio free</strong></p>
+        <p style="color:#CBD5E1;margin-bottom:16px"><strong>Try IZEM premium</strong></p>
         <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
         <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
     </div>
@@ -267,17 +267,9 @@ ${buildHreflangTags(slug)}
 }
 
 function updateLanguageSitemap(langCode, translatedSlugs) {
-  const today = new Date().toISOString().split('T')[0];
-  const urls = translatedSlugs.map(slug => `  <url>
-    <loc>https://youraicoach.life/blog/${langCode}/${slug}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>`).join('\n');
-
+  void translatedSlugs;
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
 </urlset>`;
   fs.writeFileSync(path.join(PUBLIC_DIR, `sitemap-${langCode}.xml`), xml);
 }

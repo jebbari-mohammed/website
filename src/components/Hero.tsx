@@ -24,29 +24,29 @@ export default function Hero() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            THE ONLY APP THAT CALLS YOU
+            PREMIUM AI PERSONAL TRAINER
           </motion.div>
 
           <h1 className="text-5xl md:text-[72px] lg:text-[84px] font-black font-condensed leading-[0.9] tracking-normal mb-6 relative z-10">
             <span className="absolute -inset-4 bg-gradient-to-r from-primary/30 to-secondary/30 blur-3xl -z-10 opacity-50 rounded-[40px]"></span>
-            Callio<br />
+            IZEM<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
               CALLS YOU.
             </span>
           </h1>
 
           <p className="text-lg md:text-[20px] text-textSecondary mb-8 max-w-[540px] leading-relaxed font-sans font-light">
-            The only fitness app where your coach <strong className="text-textPrimary font-semibold">literally calls your phone</strong>. 
-            Before your workout to fire you up. After your day to review your progress. 
-            <span className="text-primary font-medium"> 24/7 personal coaching at a fraction of the cost. See the guide to the <a href="/fitness-app-that-calls-you/" className="underline hover:text-secondary transition-colors">fitness app that calls you</a>.</span>
+            The premium AI personal trainer that <strong className="text-textPrimary font-semibold">calls you, reviews your day, and adapts your workout and meal plan every week</strong>.
+            Built for people who want a coach, not another passive tracker.
+            <span className="text-primary font-medium"> Personal-trainer-level accountability at a fraction of human coaching. See the guide to the <a href="/fitness-app-that-calls-you/" className="underline hover:text-secondary transition-colors">fitness app that calls you</a>.</span>
           </p>
 
           {/* Key highlights */}
           <div className="flex flex-wrap gap-3 mb-8">
             {[
-              { icon: Phone, text: "Real voice calls" },
-              { icon: Dumbbell, text: "Custom programs" },
-              { icon: Star, text: "AI meal plans" },
+              { icon: Phone, text: "Coach calls you" },
+              { icon: Dumbbell, text: "Weekly plan updates" },
+              { icon: Star, text: "Meals that fit real life" },
             ].map((item, idx) => (
               <motion.div
                 key={idx}
@@ -96,7 +96,7 @@ export default function Hero() {
 
           <div className="flex flex-col gap-3">
             <p className="text-[13px] text-textSecondary font-sans opacity-80 pl-2">
-              <strong>Free base app</strong> • Optional premium voice upgrades
+              <strong>$24.99/month premium coaching</strong> • Annual plan best value
             </p>
             {/* Social proof bar */}
             <motion.div
@@ -105,8 +105,8 @@ export default function Hero() {
               transition={{ delay: 1, duration: 0.6 }}
               className="flex flex-wrap gap-6 text-sm text-textSecondary/70"
             >
-              <span className="flex items-center gap-1.5"><Flame size={14} className="text-cta" /> Top Early Access AI App</span>
-              <span className="flex items-center gap-1.5"><Star size={14} className="text-yellow-400" /> 13 intelligence modules</span>
+              <span className="flex items-center gap-1.5"><Flame size={14} className="text-cta" /> Premium coach positioning</span>
+              <span className="flex items-center gap-1.5"><Star size={14} className="text-yellow-400" /> Food, body, equipment scans</span>
               <span className="flex items-center gap-1.5"><Phone size={14} className="text-primary" /> Real phone calls</span>
             </motion.div>
           </div>
@@ -125,7 +125,7 @@ export default function Hero() {
             <div className="w-full h-full rounded-[38px] border border-white/5 overflow-hidden bg-black relative">
               <div
                 role="img"
-                aria-label="Callio interface"
+                aria-label="IZEM interface"
                 className="w-full h-full bg-[url('/images/hero1-desktop.webp')] bg-cover bg-center"
               />
             </div>

@@ -7,7 +7,7 @@ const steps = [
     icon: ScanFace,
     title: "Tell Us Everything",
     desc: "Answer a few questions about your goals, injuries, and preferences. Then scan your body with your phone camera — our AI learns everything about you in 60 seconds.",
-    highlight: "Body scanning + smart profiling",
+    highlight: "Body progress scanning + smart profiling",
   },
   {
     num: "2",

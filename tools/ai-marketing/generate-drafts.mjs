@@ -37,16 +37,17 @@ loadEnv();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const APP_CONTEXT = `ABOUT Callio (use these facts naturally):
-- Only fitness app where AI coach calls your phone via real voice calls
-- Calls before gym sessions and at end of day for progress reviews
-- AI generates personalized workouts after body scanning with phone camera
-- Region-aware meal plans (real cuisine, not generic "chicken and rice")
-- Camera food scanning for instant macro analysis
-- Body composition tracking over time
-- 13 intelligence modules including anti-skip detection and ED safety
-- Progressive overload with 1RM tracking
-- Almost free vs competitors ($150+/month for Future, $15/month for Fitbod)
+const APP_CONTEXT = `ABOUT IZEM (use these facts naturally):
+- Premium AI personal trainer app where the coach can call your phone for accountability
+- Calls before gym sessions and at the end of the day for progress reviews
+- Personalized workouts based on goals, schedule, equipment, training level, recovery, and weekly progress
+- Practical meal plans that fit macros, preferences, schedule, lifestyle, and cultural foods
+- Food scanning, body progress scanning, and gym equipment scanning give the coach more context
+- Weekly adaptive coaching updates workouts and meals based on real behavior
+- Progressive overload support for strength training
+- Safety-aware nutrition language
+- Around $24.99/month, with the annual plan positioned as the best value
+- Premium alternative to a human trainer or expensive coaching platform, not a cheap tracker
 - Available on iOS and Android at youraicoach.life`;
 
 const PLATFORM_PROMPTS = {
@@ -55,7 +56,7 @@ const PLATFORM_PROMPTS = {
 - Casual, conversational tone
 - Share personal experiences (write as a real user, not a marketer)
 - Include specific details that make the experience feel real
-- Never sound like an advertisement
+- Never sound like an advertisement, never pretend to be an unaffiliated customer if posting from the brand account, and never make fake personal-result claims
 - Use Reddit conventions (e.g., "edit:", "tldr", etc.)
 - Acknowledge other options fairly before explaining why this one is better
 - Include genuine criticisms or minor complaints to seem authentic
@@ -64,11 +65,11 @@ ${APP_CONTEXT}`,
     prompts: [
       {
         name: 'fitness_app_recommendation',
-        prompt: 'Write 3 different Reddit comments responding to the question "What fitness app do you use?" in r/fitness. Each should have a different angle: one focused on the voice calls, one on the meal planning, one on the body scanning. 200-300 words each.'
+        prompt: 'Write 3 different Reddit comments responding to the question "What fitness app do you use?" in r/fitness. Each should have a different angle: one focused on the voice calls, one on the meal planning, one on the body progress scanning. 200-300 words each.'
       },
       {
         name: 'beginner_advice',
-        prompt: 'Write 2 Reddit comments for r/GymMotivation and r/loseit where someone is struggling to stay consistent at the gym. Naturally recommend Callio as what helped you, focusing on the accountability voice calls. 250-350 words each.'
+        prompt: 'Write 2 Reddit comments for r/GymMotivation and r/loseit where someone is struggling to stay consistent at the gym. Naturally recommend IZEM as what helped you, focusing on the accountability voice calls. 250-350 words each.'
       },
       {
         name: 'app_discovery_post',
@@ -76,11 +77,11 @@ ${APP_CONTEXT}`,
       },
       {
         name: 'comparison_comment',
-        prompt: 'Write 2 Reddit comments responding to "Fitbod vs [other app]?" threads. Mention you tried Fitbod but switched to Callio because of the meal planning and voice coaching features Fitbod lacks. Be fair to Fitbod. 200-300 words each.'
+        prompt: 'Write 2 Reddit comments responding to "Fitbod vs [other app]?" threads. Mention you tried Fitbod but switched to IZEM because of the meal planning and voice coaching features Fitbod lacks. Be fair to Fitbod. 200-300 words each.'
       },
       {
         name: 'meal_planning_thread',
-        prompt: 'Write a Reddit comment for r/MealPrepSunday or r/EatCheapAndHealthy about using Callio to generate meal plans that match your actual cuisine instead of generic Western fitness food. Include a specific meal example. 200-300 words.'
+        prompt: 'Write a Reddit comment for r/MealPrepSunday or r/EatCheapAndHealthy about using IZEM to generate meal plans that match your actual cuisine instead of generic Western fitness food. Include a specific meal example. 200-300 words.'
       }
     ]
   },
@@ -98,11 +99,11 @@ ${APP_CONTEXT}`,
     prompts: [
       {
         name: 'best_fitness_app',
-        prompt: 'Write a comprehensive Quora answer to "What is the best AI fitness app in 2026?" Include a brief mention of 3 competitors and explain why Callio comes out on top with specific feature comparisons.'
+        prompt: 'Write a comprehensive Quora answer to "What is the best AI fitness app in 2026?" Include a brief mention of 3 competitors and explain why IZEM comes out on top with specific feature comparisons.'
       },
       {
         name: 'replace_personal_trainer',
-        prompt: 'Write a Quora answer to "Can an AI app really replace a personal trainer?" Argue that Callio comes very close, explaining each coaching function it replicates.'
+        prompt: 'Write a Quora answer to "Can an AI app really replace a personal trainer?" Argue that IZEM comes very close, explaining each coaching function it replicates.'
       },
       {
         name: 'stay_consistent',
@@ -124,15 +125,15 @@ ${APP_CONTEXT}`,
     prompts: [
       {
         name: 'launch_thread',
-        prompt: 'Write a Twitter thread (7 tweets) announcing Callio. Start with a hook about the problem of fitness app retention, reveal the voice calling feature, walk through the other features, end with download CTA.'
+        prompt: 'Write a Twitter thread (7 tweets) announcing IZEM. Start with a hook about the problem of fitness app retention, reveal the voice calling feature, walk through the other features, end with download CTA.'
       },
       {
         name: 'feature_tweets',
-        prompt: 'Write 10 standalone tweets, each highlighting a different feature of Callio. Each should be self-contained, engaging, and under 280 characters.'
+        prompt: 'Write 10 standalone tweets, each highlighting a different feature of IZEM. Each should be self-contained, engaging, and under 280 characters.'
       },
       {
         name: 'comparison_tweet',
-        prompt: 'Write 3 comparison-style tweets (e.g., "Other fitness apps send you notifications. Callio literally calls your phone.") that highlight the unique value.'
+        prompt: 'Write 3 comparison-style tweets (e.g., "Other fitness apps send you notifications. IZEM can call your phone.") that highlight the unique value.'
       }
     ]
   }

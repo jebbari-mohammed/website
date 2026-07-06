@@ -5,32 +5,32 @@ const comparisons = [
   {
     iconOther: PhoneOff,
     iconOurs: Phone,
-    others: "Send you a push notification you'll ignore",
-    ours: "Calls your phone with a real AI voice conversation",
+    others: "Wait for you to open the app",
+    ours: "Calls, follows up, and creates a real accountability moment",
   },
   {
     iconOther: MessageSquare,
     iconOurs: Brain,
-    others: "Basic chatbot with a generic system prompt",
-    ours: "13 intelligence modules analyzing your behavior 24/7",
+    others: "Show a dashboard and leave you to interpret it",
+    ours: "Reviews your day and tells you what to do next",
   },
   {
     iconOther: Utensils,
     iconOurs: Utensils,
-    others: "Generic \"chicken and rice\" meal templates",
-    ours: "Your culture's cuisine — tagine, donburi, biryani — with your macros",
+    others: "Generic meal templates that break when life changes",
+    ours: "Meals adapted around macros, schedule, preferences, and consistency",
   },
   {
     iconOther: ScanFace,
     iconOurs: ScanFace,
-    others: "Manual body measurement logging",
-    ours: "Camera body scanning with AI-tracked progress over time",
+    others: "Manual logging with limited context",
+    ours: "Food, body, and equipment scans so the coach sees more",
   },
   {
     iconOther: BarChart3,
     iconOurs: BarChart3,
     others: "\"Add 5 lbs next week\" simple progression",
-    ours: "Epley 1RM tracking, plateau detection, auto-program triage",
+    ours: "Weekly workout and meal plan adaptation based on real progress",
   },
 ];
 
@@ -52,11 +52,11 @@ export default function WhyDifferent() {
             ✦ Not Another Fitness App
           </div>
           <h2 className="text-4xl sm:text-5xl md:text-7xl font-extrabold font-condensed leading-[1.05] tracking-tighter mb-4">
-            OTHER APPS NOTIFY.<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">WE CALL.</span>
+            TRACKERS WAIT.<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">IZEM COACHES.</span>
           </h2>
           <p className="text-base sm:text-lg text-textSecondary max-w-[600px] mx-auto leading-relaxed font-light px-2">
-            Every fitness app claims to be "AI-powered." Here's what that actually looks like when you compare them to us.
+            Most fitness apps track what you did. IZEM helps you decide what to do next.
           </p>
         </motion.div>
 
@@ -84,13 +84,13 @@ export default function WhyDifferent() {
                       <p className="text-xs sm:text-sm text-textSecondary/70 font-light">{item.others}</p>
                     </div>
                   </div>
-                  {/* Callio */}
+                  {/* IZEM */}
                   <div className="bg-[#0C1232]/80 p-4 sm:p-6 flex items-center gap-3 sm:gap-4 group-hover:bg-primary/5 transition-colors duration-300">
                     <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/15 flex items-center justify-center shrink-0">
                       <IconOurs size={18} className="text-primary" />
                     </div>
                     <div>
-                      <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-primary block mb-0.5">Callio</span>
+                      <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-primary block mb-0.5">IZEM</span>
                       <p className="text-xs sm:text-sm text-textPrimary font-medium">{item.ours}</p>
                     </div>
                   </div>

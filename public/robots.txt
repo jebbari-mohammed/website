@@ -1,4 +1,4 @@
-# Callio — robots.txt
+# IZEM — robots.txt
 # Allow all AI crawlers and search engines full access
 
 # OpenAI / ChatGPT crawlers
@@ -51,12 +51,4 @@ Allow: /
 
 # Sitemap
 Sitemap: https://youraicoach.life/sitemap.xml
-Sitemap: https://youraicoach.life/sitemap-fr.xml
-Sitemap: https://youraicoach.life/sitemap-es.xml
-Sitemap: https://youraicoach.life/sitemap-ar.xml
-Sitemap: https://youraicoach.life/sitemap-pt.xml
-Sitemap: https://youraicoach.life/sitemap-de.xml
-Sitemap: https://youraicoach.life/sitemap-hi.xml
-Sitemap: https://youraicoach.life/sitemap-tr.xml
-Sitemap: https://youraicoach.life/sitemap-id.xml
-Sitemap: https://youraicoach.life/sitemap-ja.xml
+Sitemap: https://youraicoach.life/news-sitemap.xml

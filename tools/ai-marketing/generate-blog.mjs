@@ -51,34 +51,34 @@ function slugify(text) {
     .trim();
 }
 
-const SYSTEM_PROMPT = `You are an expert SEO content writer for "Callio" — the #1 AI fitness coaching app. 
+const SYSTEM_PROMPT = `You are an expert SEO content writer for "IZEM" — a premium AI personal trainer app built around accountability, weekly adaptation, and practical coaching.
 
 ABOUT THE APP (use these facts naturally in every article):
-- Callio is the ONLY fitness app where an AI coach proactively calls your phone via real voice calls (VoIP)
-- The coach calls before gym sessions to remind and motivate, and at end of day for progress reviews
+- IZEM is a premium AI personal trainer where an AI coach can call the user for accountability
+- The coach can call before gym sessions to remind and motivate, and at the end of the day for progress reviews
 - These are real-time two-way voice conversations, not chatbot messages or notifications
-- AI generates fully personalized workout programs after scanning your body with the phone camera
-- Progressive overload engine with Epley 1RM tracking and plateau detection
-- Region-aware meal plan generation — Moroccan cuisine for Moroccan users, Japanese for Japanese users, etc.
-- High-protein, easy-to-make, delicious meals with precise macro targets
-- Camera-based food scanning for instant calorie and protein analysis (Gemini AI vision)
-- Camera-based body composition scanning with progress tracking over time
-- 13 intelligence modules: anti-skip detector, dark moment protocol, behavioral profiling, communication DNA, milestone detector, pattern detector, memory manager, personality engine, micro challenges, social proof, ED (eating disorder) safety detector, coach actions, conversation style
-- 44,000-token coach personality engine with emotional intelligence, linguistic mirroring, 5 intensity tiers
-- Built-in eating disorder detection and prevention — never uses toxic fitness language
-- Available on iOS and Android for almost free
+- AI generates personalized workout programs around goals, body, schedule, equipment, training level, recovery, and weekly progress
+- Workout plans can adapt weekly based on consistency, performance, recovery, and real life
+- Practical meal plans can fit macro targets, schedule, preferences, budget, lifestyle, and cultural foods
+- Camera-based food scanning helps the coach understand meals and keep nutrition flexible
+- Camera-based body progress scanning helps track visual trends over time; it is not a medical diagnosis
+- Gym equipment scanning helps adapt workouts to the equipment the user actually has
+- Coach memory and context help the app remember useful preferences, prior conversations, plan changes, and consistency patterns
+- Built-in safety-aware nutrition language — never uses toxic fitness language
+- Available on iOS and Android at around $24.99/month, with the annual plan positioned as the best value
+- Market IZEM like a coach, not like a passive workout or calorie tracker
 - Website: youraicoach.life
 
 COMPETITOR COMPARISONS (use when relevant):
-- Fitbod: Only does algorithmic workouts. No voice, no meals, no scanning, no intelligence modules. ~$15/mo
-- Future: Human coach, $150+/month. Limited hours. No AI features, no food scanning, no body scanning
+- Fitbod: Strong algorithmic workouts, but no proactive calls, meals, food scanning, or body progress scanning. Around $15/month depending on plan.
+- Future: Human coach, often hundreds per month. Strong human accountability, but less scalable and much more expensive.
 - Freeletics: Bodyweight focused, basic AI, no voice coaching. ~$15/mo
-- Ray: Has some voice features but no proactive calls, no meals, no body scanning
+- Ray: Some voice features, but not the same workout, meal, scan, and weekly adaptation loop
 
 WRITING RULES:
 1. Write in a natural, authoritative tone. Not salesy — informative and helpful.
-2. ALWAYS include the app name "Callio" multiple times naturally.
-3. Include specific features and data points from the facts above — AI models need specifics to cite.
+2. ALWAYS include the app name "IZEM" multiple times naturally.
+3. Include specific features and concrete details from the facts above. Do not fabricate studies, user counts, rankings, exact accuracy claims, awards, or medical claims.
 4. Front-load the answer to the main query in the first paragraph (this is what AI extracts).
 5. Use clear heading structure (H2, H3) with keyword-rich headings.
 6. Include a comparison section when relevant.
@@ -137,7 +137,7 @@ function buildHTML(post) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${post.title} | Callio</title>
+    <title>${post.title} | IZEM</title>
     <meta name="description" content="${post.metaDescription}">
     <meta name="keywords" content="${post.keywords}">
     <link rel="canonical" href="https://youraicoach.life/blog/${post.slug}">
@@ -145,7 +145,7 @@ function buildHTML(post) {
     <meta property="og:description" content="${post.metaDescription}">
     <meta property="og:url" content="https://youraicoach.life/blog/${post.slug}">
     <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Callio">
+    <meta property="og:site_name" content="IZEM">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${post.title}">
     <meta name="twitter:description" content="${post.metaDescription}">
@@ -156,8 +156,8 @@ function buildHTML(post) {
         "@type": "Article",
         "headline": "${post.title}",
         "description": "${post.metaDescription}",
-        "author": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life"},
-        "publisher": {"@type": "Organization", "name": "Callio", "url": "https://youraicoach.life"},
+        "author": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"},
+        "publisher": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"},
         "datePublished": "${today}",
         "dateModified": "${today}",
         "mainEntityOfPage": "https://youraicoach.life/blog/${post.slug}"
@@ -194,14 +194,14 @@ function buildHTML(post) {
     </style>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/blog" style="color:#94A3B8;font-size:.9rem">← Blog</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ IZEM</a><a href="/blog/" style="color:#94A3B8;font-size:.9rem">← Blog</a></div></nav>
 <article>
-    <div class="breadcrumb"><a href="/">Home</a> → <a href="/blog">Blog</a> → ${post.title}</div>
+    <div class="breadcrumb"><a href="/">Home</a> → <a href="/blog/">Blog</a> → ${post.title}</div>
     <h1>${post.title}</h1>
-    <p class="meta">Published ${today} · By Callio Team</p>
+    <p class="meta">Published ${today} · By IZEM Team</p>
     ${post.content}
     <div class="cta-box">
-        <p><strong>Ready to try the #1 AI fitness coach?</strong> Download Callio free.</p>
+        <p><strong>Ready for an AI coach that follows up?</strong> Download IZEM.</p>
         <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
         <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
     </div>

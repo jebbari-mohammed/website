@@ -39,23 +39,23 @@ const KEYWORD_LIST = [
   // Problem-solution queries
   "I keep skipping the gym how to stay accountable",
   "best app for gym beginners who don't know what to do",
-  "how to get a personalized meal plan for free",
+  "how to get a personalized meal plan without hiring a coach",
   "fitness app for people who hate cooking",
   "how to track progressive overload automatically",
   
   // Feature-specific queries
-  "AI body scanning app for fitness progress",
+  "AI body progress scanning app for fitness progress",
   "app that scans food and tells you macros",
   "voice coaching fitness app",
   "AI meal planner that knows my cuisine",
-  "fitness app with eating disorder safety",
+  "fitness app with nutrition safety",
   
   // Listicle/roundup queries
   "top 10 AI fitness apps you should try",
   "best fitness apps with voice coaching features",
   "most innovative fitness technology in 2026",
   "apps that use AI to create workout plans",
-  "best free fitness coaching apps",
+  "best affordable premium fitness coaching apps",
 ];
 
 // Track which posts have been generated

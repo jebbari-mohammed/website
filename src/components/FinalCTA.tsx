@@ -15,10 +15,10 @@ export default function FinalCTA() {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black font-condensed leading-[0.95] tracking-normal mb-6 sm:mb-8">
-            STOP PAYING<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-500">$150/MONTH</span><br />
-            <span className="text-textSecondary text-2xl sm:text-4xl md:text-5xl lg:text-6xl">FOR A COACH AVAILABLE</span><br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-500 text-2xl sm:text-4xl md:text-5xl lg:text-6xl">2 HOURS A WEEK.</span>
+            STOP FIGURING<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-500">FITNESS OUT ALONE.</span><br />
+            <span className="text-textSecondary text-2xl sm:text-4xl md:text-5xl lg:text-6xl">GET AN AI COACH THAT</span><br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary text-2xl sm:text-4xl md:text-5xl lg:text-6xl">CALLS, REVIEWS, ADAPTS.</span>
           </h2>
 
           <motion.p
@@ -29,7 +29,7 @@ export default function FinalCTA() {
             className="text-base sm:text-xl md:text-2xl text-textSecondary max-w-[700px] mx-auto leading-relaxed font-light mb-8 sm:mb-12 px-2"
           >
             Get a coach who <strong className="text-textPrimary font-semibold">knows you</strong>, <strong className="text-textPrimary font-semibold">calls you</strong>, 
-            builds your workouts, plans your meals, and <strong className="text-primary font-semibold">never gives up on you</strong> — for a fraction of the cost of a human trainer.
+            builds your workouts, plans your meals, scans your context, and <strong className="text-primary font-semibold">updates the plan every week</strong> — about $24.99/month, with the annual plan as the best value.
           </motion.p>
 
           <motion.div
@@ -79,8 +79,8 @@ export default function FinalCTA() {
             transition={{ delay: 0.7, duration: 0.6 }}
             className="flex flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-textSecondary/50"
           >
-            <span>✓ Free base app</span>
-            <span>✓ Optional voice upgrades</span>
+            <span>✓ $24.99/month premium plan</span>
+            <span>✓ Annual plan best value</span>
             <span>✓ iOS & Android</span>
             <span>✓ Cancel anytime</span>
           </motion.div>

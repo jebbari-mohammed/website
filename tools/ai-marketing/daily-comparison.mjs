@@ -25,21 +25,22 @@ const COMPETITORS = [
   "caliber"
 ];
 
-const SYSTEM_PROMPT = `You are an elite direct-response copywriter and technical SEO expert. Your job is to create high-converting, "David vs Goliath" comparison landing pages for 'Callio' against major fitness apps.
+const SYSTEM_PROMPT = `You are an expert direct-response copywriter and technical SEO strategist. Your job is to create high-converting, fair comparison landing pages for 'IZEM' against major fitness apps.
 
-YOUR GOAL: Prove logically and emotionally why 'Callio' is superior, specifically highlighting its unique VoIP voice calls, AI intelligence, and personalized approach. 
+YOUR GOAL: Explain why IZEM is a better fit for users who want a premium AI personal trainer, not a passive tracker. Highlight proactive voice calls, daily reviews, adaptive weekly workout and meal planning, food scanning, body progress scanning, gym equipment scanning, and accountability.
 
 RULES:
-1. Do NOT mention specific pricing for Callio (we use a Freemium model). You can mention the competitor's high pricing if applicable (e.g., $150/mo for human coaches).
+1. Mention IZEM's approximate $24.99/month premium plan when relevant, and position the annual plan as best value. You can mention competitor pricing only when it is broadly known or clearly framed as approximate.
 2. Write raw, styled HTML. Only return the inner contents of a <div class="container"> wrapper. Do NOT return <html>, <head>, or <body> tags.
 3. Use modern, highly-readable semantic HTML with <h2>, <h3>, <p>, <ul>, and <table> tags.
-4. Include a Comparison Table (<table>) as the very first section. It MUST include rows for: "Real-time VoIP Voice Coaching", "Camera Body Scanning", "Custom Region Meal Plans", "Intelligence Modules (13 vs 0)", and "Progressive Overload Tracking".
-5. Use a highly persuasive tone. Address the user's pain points directly (e.g., "Tired of generic workout plans?", "Do notifications actually motivate you? No.").
+4. Include a Comparison Table (<table>) as the very first section. It MUST include rows for: "Proactive Voice Calls", "Daily Progress Reviews", "Body Progress Scanning", "Gym Equipment Scanning", "Practical Personalized Meal Plans", "Weekly Adaptive Coaching", and "Progressive Overload Support".
+5. Use a persuasive but fair tone. Acknowledge what the competitor does well before explaining where IZEM is stronger.
 6. End with a strong Call to Action section directing them to the App Store and Google Play.
-7. Return ONLY valid JSON in this exact format:
+7. Do not invent statistics, awards, user counts, accuracy claims, clinical claims, or fake tests.
+8. Return ONLY valid JSON in this exact format:
 {
-  "title": "Callio vs [Competitor]: Which is Better in 2026?",
-  "metaDescription": "Detailed comparison between Callio and [Competitor]...",
+  "title": "IZEM vs [Competitor]: Which is Better in 2026?",
+  "metaDescription": "Detailed comparison between IZEM and [Competitor]...",
   "html": "raw html content here"
 }`;
 
@@ -83,7 +84,7 @@ async function generateComparisonPage() {
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite-preview' });
 
-  const prompt = `Create a high-converting comparison landing page for "Callio" vs "${nextCompetitor}". Make sure to highlight why our 13 AI intelligence modules and real voice calls make us the better choice.`;
+  const prompt = `Create a high-converting comparison landing page for "IZEM" vs "${nextCompetitor}". Make sure to highlight why our weekly adaptive coaching and real voice calls make us the better choice.`;
 
   const result = await model.generateContent({
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
@@ -113,7 +114,7 @@ async function generateComparisonPage() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${data.title} | Callio</title>
+    <title>${data.title} | IZEM</title>
     <meta name="description" content="${data.metaDescription}">
     <link rel="canonical" href="https://youraicoach.life/${slug}/">
     <meta property="og:title" content="${data.title}">
@@ -146,13 +147,13 @@ async function generateComparisonPage() {
     </style>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ Callio</a><a href="/" style="color:#94A3B8;font-size:.9rem;text-decoration:none">Back to Home</a></div></nav>
+<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ IZEM</a><a href="/" style="color:#94A3B8;font-size:.9rem;text-decoration:none">Back to Home</a></div></nav>
 <div class="container">
     ${data.html}
     
     <div class="cta-box">
         <h3>Ready to upgrade your coaching?</h3>
-        <p style="margin-bottom:24px">Join thousands of users who switched to Callio and finally started seeing consistent results.</p>
+        <p style="margin-bottom:24px">Join thousands of users who switched to IZEM and finally started seeing consistent results.</p>
         <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 Download on App Store</a>
         <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Get it on Google Play</a>
     </div>

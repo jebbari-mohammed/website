@@ -1,6 +1,6 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Callio, the AI fitness coach that calls you</title>
-  <desc id="desc">Social preview graphic for Callio, an AI fitness coach app for workout plans, meal plans, scanning, and voice calls.</desc>
+  <title id="title">IZEM, the AI fitness coach that calls you</title>
+  <desc id="desc">Social preview graphic for IZEM, an AI fitness coach app for workout plans, meal plans, scanning, and voice calls.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#030712"/>
@@ -26,7 +26,7 @@
   <path d="M0 102H1200M0 316H1200M0 530H1200M220 0V630M600 0V630M980 0V630" stroke="#FFFFFF" stroke-opacity="0.045"/>
   <rect x="68" y="70" width="214" height="48" rx="24" fill="#FFFFFF" fill-opacity="0.06" stroke="#FFFFFF" stroke-opacity="0.12"/>
   <text x="94" y="101" fill="#BFDBFE" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="700">AI fitness coach</text>
-  <text x="68" y="208" fill="#F8FAFC" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="76" font-weight="850" letter-spacing="0">Callio calls.</text>
+  <text x="68" y="208" fill="#F8FAFC" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="76" font-weight="850" letter-spacing="0">IZEM calls.</text>
   <text x="68" y="296" fill="#F8FAFC" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="76" font-weight="850" letter-spacing="0">You keep moving.</text>
   <text x="70" y="376" fill="#CBD5E1" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="500">Workout plans, meal plans, meal scans, body scans,</text>
   <text x="70" y="421" fill="#CBD5E1" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="500">and AI voice check-ins in one fitness app.</text>

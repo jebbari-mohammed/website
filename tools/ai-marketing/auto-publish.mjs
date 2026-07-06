@@ -71,8 +71,8 @@ function parseHTMLPost(filePath) {
 
   // Add canonical link and CTA at bottom
   const canonical = canonicalMatch ? canonicalMatch[1] : '';
-  markdown += `\n\n---\n\n*Originally published at [Callio](${canonical})*\n\n`;
-  markdown += `**Download Callio free:**\n`;
+  markdown += `\n\n---\n\n*Originally published at [IZEM](${canonical})*\n\n`;
+  markdown += `**Download IZEM:**\n`;
   markdown += `- [iOS App Store](https://apps.apple.com/app/your-ai-coach)\n`;
   markdown += `- [Google Play](https://play.google.com/store/apps/details?id=com.ai.gym.coach)\n`;
 

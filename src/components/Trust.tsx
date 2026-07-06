@@ -81,7 +81,7 @@ export default function Trust() {
                     <div>
                         <h4 className="text-base font-bold text-white mb-1">Important Medical Disclaimer</h4>
                         <p className="text-sm text-textSecondary leading-relaxed">
-                            Callio provides general fitness and nutritional guidance based on user inputs and AI analysis. It is <strong>NOT</strong> a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before beginning any new exercise or diet programme, especially if you have a medical condition or injury.
+                            IZEM provides general fitness and nutritional guidance based on user inputs and AI analysis. It is <strong>NOT</strong> a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before beginning any new exercise or diet programme, especially if you have a medical condition or injury.
                         </p>
                     </div>
                 </motion.div>
