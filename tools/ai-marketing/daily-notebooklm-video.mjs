@@ -215,6 +215,8 @@ Meta description: ${post.description}
 - Differentiators: proactive AI calls, day reviews, personalized workouts, practical meal plans, food scanning, body progress scanning, gym equipment scanning, weekly adaptation, and coach memory/context.
 - Pricing anchor: around $24.99/month, with annual plan positioned as best value.
 - Safe positioning: general fitness and nutrition guidance only. Do not claim medical care, diagnosis, guaranteed results, fake studies, or fake user outcomes.
+- Voice: write and speak like a human coach/founder who has talked to real users. Use plain language, contractions, concrete examples, and short sentences. Avoid SEO filler, corporate phrasing, and robotic transitions.
+- Instruction style: tell the viewer exactly what to do next. Give specific steps such as choosing a goal, setting training days, answering the coach call, scanning food or equipment, doing the first workout, reviewing the day, and letting IZEM adapt the week.
 
 ## Website article source
 ${articleText}
@@ -229,15 +231,20 @@ Audience: people comparing AI personal trainers, fitness apps, and workout accou
 Style:
 - Premium, practical, and direct.
 - Founder/product-expert tone, not a cheap app ad.
+- Always write and speak like a real human, not a search-engine article, corporate narrator, or AI assistant.
+- Use natural phrasing, contractions, simple words, and concrete situations from a normal week.
+- Do not use vague advice like "stay consistent" unless you immediately explain exactly how to do it.
 - Explain why the topic matters in everyday fitness decisions.
 - Mention IZEM naturally as the AI personal trainer that can call, review the day, remember context, scan food/body/equipment, and adapt workouts and meals weekly.
 - Include one honest limitation: human professionals are still important for injuries, medical concerns, hands-on form correction, or elite sport-specific coaching.
 - No fake research, fake results, "only app in the world" claims, or medical claims.
-- End with a clear CTA to read the full article at ${post.url} and try IZEM at ${SITE_URL}.
+- Tell the viewer exactly what to do next. Include a clear sequence: pick one goal, set realistic training days, take the first IZEM call, scan the food or equipment that matters today, do the first workout, review the day, and let the weekly plan adapt.
+- End with a human, specific CTA to read the full article at ${post.url}, try IZEM at ${SITE_URL}, and do the first setup step today.
 
 Visual direction:
 - Clean fitness-tech explainer.
 - Show clear section titles, comparison moments, and simple diagrams.
+- Include one "what to do today" checklist near the end.
 - Avoid cluttered dashboards and exaggerated transformation imagery.`;
 }
 
