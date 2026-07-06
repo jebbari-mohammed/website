@@ -1,10 +1,8 @@
 name: Daily NotebookLM YouTube Video
 
 on:
-  # Runs every day after the morning blog/content job.
-  schedule:
-    - cron: '30 10 * * *'
-  # Also allow manual trigger from GitHub UI
+  # Triggered by the daily blog workflow after a new post is published.
+  # Also allows manual trigger from GitHub UI.
   workflow_dispatch:
     inputs:
       post_slug:
@@ -19,13 +17,6 @@ jobs:
   generate-notebooklm-video:
     runs-on: ubuntu-latest
     steps:
-      - name: Random delay (0-120 min) for natural timing
-        if: github.event_name == 'schedule'
-        run: |
-          DELAY=$((RANDOM % 7200))
-          echo "Waiting ${DELAY} seconds before generating..."
-          sleep $DELAY
-
       - name: Checkout
         uses: actions/checkout@v4
         with:

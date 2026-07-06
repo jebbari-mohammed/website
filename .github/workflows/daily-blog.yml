@@ -4,23 +4,23 @@ on:
   # Runs every day at 7:00 AM UTC (8:00 AM Morocco time)
   # A random delay of 0-120 minutes is added before generating
   schedule:
-    # TEMP TEST: run at 18:20 UTC on May 9 so GitHub can verify the publish chain.
-    - cron: '20 18 9 5 *'
+    - cron: '0 7 * * *'
   # Also allow manual trigger from GitHub UI
   workflow_dispatch:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   generate-blog:
     runs-on: ubuntu-latest
     steps:
       - name: Random delay (0-120 min) for natural timing
-        if: false # TEMP TEST: skip random delay
+        if: github.event_name == 'schedule'
         run: |
           DELAY=$((RANDOM % 7200))
-          echo "⏳ Waiting ${DELAY} seconds ($(($DELAY / 60)) minutes) before publishing..."
+          echo "Waiting ${DELAY} seconds ($(($DELAY / 60)) minutes) before publishing..."
           sleep $DELAY
 
       - name: Checkout
@@ -55,10 +55,19 @@ jobs:
             echo "::error::Daily Blog Post generated no file changes. Check the keyword queue, progress file, and Gemini output."
             exit 1
           fi
-          git commit -m "📝 Daily blog post $(date +%Y-%m-%d)"
+          git commit -m "Daily blog post $(date +%Y-%m-%d)"
           # Pull latest changes (in case you pushed manually), then push
           git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)
+
+      - name: Trigger NotebookLM video for new post
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          POST_SLUG=$(node -e "const fs = require('fs'); const progress = JSON.parse(fs.readFileSync('tools/ai-marketing/.daily-progress.json', 'utf8')); const post = progress.generated && progress.generated[progress.generated.length - 1]; if (!post || !post.slug) { console.error('No generated post slug found in daily progress file.'); process.exit(1); } process.stdout.write(post.slug);")
+          echo "Triggering NotebookLM video for ${POST_SLUG}"
+          gh workflow run "Daily NotebookLM YouTube Video" --ref main -f post_slug="${POST_SLUG}"
 
       - name: Ping Google sitemap
         if: success()
