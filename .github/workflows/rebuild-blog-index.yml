@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: "blog-index-${{ github.ref }}"
@@ -45,3 +46,9 @@ jobs:
             git pull --rebase origin main || true
             git push
           fi
+
+      - name: Trigger Pages deploy
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run "Deploy static content to Pages" --ref main

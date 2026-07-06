@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   translate:
@@ -52,3 +53,9 @@ jobs:
           git commit -m "🌍 Auto-translated blog posts $(date +%Y-%m-%d)"
           git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)
+
+      - name: Trigger Pages deploy
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run "Deploy static content to Pages" --ref main

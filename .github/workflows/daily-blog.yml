@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   generate-blog:
@@ -58,6 +59,19 @@ jobs:
           # Pull latest changes (in case you pushed manually), then push
           git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)
+
+      - name: Trigger Pages deploy for new post
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run "Deploy static content to Pages" --ref main
+
+      - name: Trigger NotebookLM video for new post
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          POST_SLUG=$(node -e "const fs = require('fs'); const progress = JSON.parse(fs.readFileSync('tools/ai-marketing/.daily-progress.json', 'utf8')); const post = progress.generated && progress.generated[progress.generated.length - 1]; if (!post || !post.slug) { console.error('No generated post slug found in daily progress file.'); process.exit(1); } process.stdout.write(post.slug);")
+          echo "Triggering NotebookLM video for ${POST_SLUG}"
+          gh workflow run "Daily NotebookLM YouTube Video" --ref main -f post_slug="${POST_SLUG}"
 
       - name: Ping Google sitemap
         if: success()

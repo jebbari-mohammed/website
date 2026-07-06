@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   generate-notebooklm-video:
@@ -111,3 +112,9 @@ jobs:
           git commit -m "Auto-publish NotebookLM video $(date +%Y-%m-%d)"
           git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)
+
+      - name: Trigger Pages deploy for video embed
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run "Deploy static content to Pages" --ref main

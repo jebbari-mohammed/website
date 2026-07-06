@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   generate-comparison:
@@ -57,3 +58,9 @@ jobs:
           # Pull latest changes (in case you pushed manually), then push
           git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)
+
+      - name: Trigger Pages deploy
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run "Deploy static content to Pages" --ref main
