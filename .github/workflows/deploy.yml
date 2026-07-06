@@ -9,7 +9,7 @@ on:
       - Daily Blog Post
       - Translate Blog Posts
       - Daily Competitor Landing Page
-      - Daily YouTube Video (TTS Channel)
+      - Daily NotebookLM YouTube Video
     types:
       - completed
 

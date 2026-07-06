@@ -1,25 +1,29 @@
-name: Daily YouTube Video (TTS Channel)
+name: Daily NotebookLM YouTube Video
 
 on:
-  # Runs every day at 8:00 AM UTC (9:00 AM local time)
+  # Runs every day after the morning blog/content job.
   schedule:
-    # TEMP TEST: run at 18:20 UTC on May 9 so GitHub can verify the publish chain.
-    - cron: '20 18 9 5 *'
+    - cron: '30 10 * * *'
   # Also allow manual trigger from GitHub UI
   workflow_dispatch:
+    inputs:
+      post_slug:
+        description: "Optional blog slug to process, for example ai-coach-better-than-human-personal-trainer"
+        required: false
+        type: string
 
 permissions:
   contents: write
 
 jobs:
-  generate-video-tts:
+  generate-notebooklm-video:
     runs-on: ubuntu-latest
     steps:
       - name: Random delay (0-120 min) for natural timing
-        if: false # TEMP TEST: skip random delay
+        if: github.event_name == 'schedule'
         run: |
           DELAY=$((RANDOM % 7200))
-          echo "⏳ Waiting ${DELAY} seconds before generating..."
+          echo "Waiting ${DELAY} seconds before generating..."
           sleep $DELAY
 
       - name: Checkout
@@ -33,31 +37,39 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install System Dependencies (FFmpeg)
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-      - name: Install dependencies
-        run: cd tools/ai-marketing && npm install
+      - name: Install NotebookLM CLI
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "notebooklm-py"
 
-      - name: Generate and publish TTS video
+      - name: Generate NotebookLM video, publish to YouTube, and embed on site
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          NOTEBOOKLM_AUTH_JSON: ${{ secrets.NOTEBOOKLM_AUTH_JSON }}
+          NOTEBOOKLM_HOME: ${{ runner.temp }}/notebooklm
+          NOTEBOOKLM_PROFILE: github-actions
+          NOTEBOOKLM_POST_SLUG: ${{ github.event.inputs.post_slug }}
           YOUTUBE_CLIENT_ID_2: ${{ secrets.YOUTUBE_CLIENT_ID_2 }}
           YOUTUBE_CLIENT_SECRET_2: ${{ secrets.YOUTUBE_CLIENT_SECRET_2 }}
           YOUTUBE_REFRESH_TOKEN_2: ${{ secrets.YOUTUBE_REFRESH_TOKEN_2 }}
-        # Run from the tools dir so Node resolves local node_modules
-        run: cd tools/ai-marketing && node daily-podcast-tts.mjs
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: node tools/ai-marketing/daily-notebooklm-video.mjs
 
-      - name: Commit and push progress
+      - name: Commit and push website video embed
         run: |
           git config user.name "AI Marketing Bot"
           git config user.email "bot@youraicoach.life"
-          git add -A
+          git add public tools/ai-marketing/.notebooklm-video-progress.json
           if git diff --staged --quiet; then
-            echo "No TTS video progress changes to commit. See the generation step summary for details."
+            echo "No NotebookLM video website changes to commit."
             exit 0
           fi
-          git commit -m "🎥 Auto-published TTS daily video $(date +%Y-%m-%d)"
+          git commit -m "Auto-publish NotebookLM video $(date +%Y-%m-%d)"
           git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)
