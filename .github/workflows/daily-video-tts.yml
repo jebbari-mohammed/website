@@ -1,8 +1,13 @@
 name: Daily NotebookLM YouTube Video
 
 on:
-  # Triggered by the daily blog workflow after a new post is published.
+  # Triggered whenever a new English blog post is pushed to main.
   # Also allows manual trigger from GitHub UI.
+  push:
+    branches: [main]
+    paths:
+      - 'public/blog/*.html'
+      - '!public/blog/index.html'
   workflow_dispatch:
     inputs:
       post_slug:
@@ -22,28 +27,69 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
+          fetch-depth: 0
+
+      - name: Detect new blog post from push
+        id: detect-post
+        if: github.event_name == 'push'
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [ -z "${BEFORE_SHA}" ] || [ "${BEFORE_SHA}" = "0000000000000000000000000000000000000000" ]; then
+            echo "slug=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          ADDED_POSTS=$(git diff --name-status "$BEFORE_SHA" "$AFTER_SHA" \
+            | awk '$1 == "A" && $2 ~ /^public\/blog\/[^/]+\.html$/ && $2 != "public/blog/index.html" {print $2}')
+
+          COUNT=$(printf '%s\n' "$ADDED_POSTS" | sed '/^$/d' | wc -l | tr -d ' ')
+          if [ "$COUNT" -eq 0 ]; then
+            echo "No newly added top-level English blog post in this push."
+            echo "slug=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ "$COUNT" -gt 1 ]; then
+            echo "::error::Expected one new blog post, found $COUNT: $ADDED_POSTS"
+            exit 1
+          fi
+
+          POST_FILE=$(printf '%s\n' "$ADDED_POSTS" | sed -n '1p')
+          POST_SLUG=$(basename "$POST_FILE" .html)
+          echo "Detected new blog post: $POST_SLUG"
+          echo "slug=$POST_SLUG" >> "$GITHUB_OUTPUT"
+
+      - name: Stop when push has no new blog post
+        if: github.event_name == 'push' && steps.detect-post.outputs.slug == ''
+        run: echo "Skipping video generation because this push did not add a new top-level English blog post."
 
       - name: Set up Node
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Set up Python
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install NotebookLM CLI
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         run: |
           python -m pip install --upgrade pip
           python -m pip install "notebooklm-py"
 
       - name: Generate NotebookLM video, publish to YouTube, and embed on site
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         env:
           NOTEBOOKLM_AUTH_JSON: ${{ secrets.NOTEBOOKLM_AUTH_JSON }}
           NOTEBOOKLM_HOME: ${{ runner.temp }}/notebooklm
           NOTEBOOKLM_PROFILE: github-actions
-          NOTEBOOKLM_POST_SLUG: ${{ github.event.inputs.post_slug }}
+          NOTEBOOKLM_POST_SLUG: ${{ github.event_name == 'push' && steps.detect-post.outputs.slug || github.event.inputs.post_slug }}
           YOUTUBE_CLIENT_ID_2: ${{ secrets.YOUTUBE_CLIENT_ID_2 }}
           YOUTUBE_CLIENT_SECRET_2: ${{ secrets.YOUTUBE_CLIENT_SECRET_2 }}
           YOUTUBE_REFRESH_TOKEN_2: ${{ secrets.YOUTUBE_REFRESH_TOKEN_2 }}
@@ -53,6 +99,7 @@ jobs:
         run: node tools/ai-marketing/daily-notebooklm-video.mjs
 
       - name: Commit and push website video embed
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         run: |
           git config user.name "AI Marketing Bot"
           git config user.email "bot@youraicoach.life"

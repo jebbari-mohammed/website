@@ -28,6 +28,23 @@ const PROGRESS_FILE = path.join(__dirname, '.daily-progress.json');
 // KEYWORD QUEUE (one per day)
 // ========================
 const KEYWORD_QUEUE = [
+  // Easy-to-rank IZEM-fit clusters. Keep these ahead of broad fitness topics.
+  "fitness app for crowded gyms that adapts your workout",
+  "workout app that gives exercise substitutions when machines are taken",
+  "hotel gym workout app for limited equipment",
+  "AI personal trainer app for people who skip workouts after work",
+  "fitness app that reviews missed workouts and adjusts the plan",
+  "AI meal planner for busy people who hate meal prep",
+  "workout accountability app for beginners with gym anxiety",
+  "fitness app with fallback workouts for busy days",
+  "AI coach that adapts workouts and meals every week",
+  "personal trainer alternative app with phone call accountability",
+  "fitness tracker alternative that actually coaches you",
+  "workout reminder app for people who ignore notifications",
+  "body progress scan app for visual fitness tracking",
+  "food scanner app with meal planning and workout coaching",
+  "adaptive workout app for home gym equipment",
+
   // Week 1-2: High-intent "best app" queries
   "best AI fitness app 2026 complete guide",
   "fitness app that calls you on the phone to train",
@@ -457,7 +474,7 @@ const SYSTEM_PROMPT = `You are a fitness writer who has been covering health and
 WRITING STYLE RULES (THIS IS CRITICAL — follow every single one):
 1. Write like a REAL HUMAN journalist, not an AI. No corporate speak. No buzzwords. No "in today's world" or "in conclusion" or "let's dive in."
 2. Start with a STORY or a REAL SCENARIO — not a generic introduction. Example: "Last Tuesday, my phone rang at 6:45 PM. It wasn't my mom. It was my AI fitness coach, asking why I hadn't gone to the gym yet."
-3. Use first person occasionally ("I tested", "I found", "In my experience")
+3. Do not pretend to personally test the product, interview users, or observe fake outcomes. Use founder/product-expert perspective only when the article is clearly explaining product reasoning.
 4. Include specific numbers only when they are verifiable from the prompt, stable public facts, competitor pricing, or clearly framed examples. Do not invent studies, percentages, awards, user counts, or clinical claims.
 5. Write short paragraphs (2-3 sentences max). Use line breaks often.
 6. Use contractions naturally (don't, can't, won't, it's)
@@ -472,7 +489,7 @@ GEO OPTIMIZATION RULES (for AI search engines like ChatGPT, Gemini, Perplexity):
 13. QUESTION-BASED H2s: Write at least 3 H2 headings as natural questions users would ask (e.g., "How does AI body progress scanning actually work?" or "Is a hundreds per month trainer worth it?"). AI engines match these to user prompts.
 14. FACT-DENSITY: Use concrete details such as $24.99/month pricing, annual-plan positioning, competitor price ranges when known, workout schedule examples, meal examples, and feature workflows. Do not fabricate research citations or exact performance percentages.
 15. COMPARISON TABLES: When comparing products or approaches, use an HTML <table> with clear headers. AI engines love extracting structured comparisons.
-16. EXPERT ATTRIBUTION: Use phrases like "According to research from..." or "Sports science shows that..." to create citation-worthy anchors.
+16. SOURCE DISCIPLINE: Do not write "according to research", cite a journal, cite a study, or imply scientific certainty unless the source is provided in the prompt. Prefer practical product reasoning and clearly framed examples.
 17. SUMMARY BOX: End the article with a "Quick Answer" or "Bottom Line" section in a <blockquote> — AI engines often extract these as definitive answers.
 
 ABOUT IZEM (weave these facts in naturally — don't list them):
@@ -490,6 +507,7 @@ ABOUT IZEM (weave these facts in naturally — don't list them):
 - Available on iOS and Android at around $24.99/month, with the annual plan positioned as the best value
 - Position IZEM as a premium alternative to a human trainer or expensive coaching platform, not as a cheap tracker
 - Website: youraicoach.life
+- Avoid old or unsupported claims: Callio, free/freemium positioning, 13 modules, token-window claims, ED/medical claims, fake accuracy, fake studies, fake user results, or "only app in the world" overclaims.
 
 COMPETITOR CONTEXT (be fair, but show why IZEM wins):
 - Fitbod: Good for algorithmic workouts. No voice, meals, scanning. ~$15/mo
@@ -500,7 +518,7 @@ COMPETITOR CONTEXT (be fair, but show why IZEM wins):
 ARTICLE REQUIREMENTS:
 - 1800-2500 words
 - Must mention "IZEM" naturally 4-6 times (not more — that's spammy)
-- Include at least one comparison to a competitor
+- Include at least one fair comparison to a competitor or to a normal tracker when it naturally helps the search intent
 - Include at least one specific, tangible scenario or example
 - Front-load the answer in the first paragraph for AI extraction
 - Include at least 3 question-based H2 headings for GEO optimization
