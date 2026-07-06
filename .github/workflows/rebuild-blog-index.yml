@@ -1,4 +1,4 @@
-name: Rebuild Blog Index + Deploy
+name: Rebuild Blog Index
 
 on:
   push:
@@ -10,19 +10,14 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
-  group: "pages"
+  group: "blog-index-${{ github.ref }}"
   cancel-in-progress: true
 
 jobs:
-  rebuild-and-deploy:
+  rebuild:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,21 +45,3 @@ jobs:
             git pull --rebase origin main || true
             git push
           fi
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './dist'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

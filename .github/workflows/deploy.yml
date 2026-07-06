@@ -4,14 +4,6 @@ on:
   push:
     branches: ["main", "master"]
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - Daily Blog Post
-      - Translate Blog Posts
-      - Daily Competitor Landing Page
-      - Daily NotebookLM YouTube Video
-    types:
-      - completed
 
 permissions:
   contents: read
@@ -24,7 +16,7 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -38,7 +30,7 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Build
         run: npm run build
       - name: Setup Pages
