@@ -29,14 +29,14 @@ export default function Hero() {
 
           <h1 className="text-5xl md:text-[72px] lg:text-[84px] font-black font-condensed leading-[0.9] tracking-normal mb-6 relative z-10">
             <span className="absolute -inset-4 bg-gradient-to-r from-primary/30 to-secondary/30 blur-3xl -z-10 opacity-50 rounded-[40px]"></span>
-            IZEM<br />
+            THE FITNESS APP<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-              CALLS YOU.
+              THAT CALLS YOU.
             </span>
           </h1>
 
           <p className="text-lg md:text-[20px] text-textSecondary mb-8 max-w-[540px] leading-relaxed font-sans font-light">
-            The premium AI personal trainer that <strong className="text-textPrimary font-semibold">calls you, reviews your day, and adapts your workout and meal plan every week</strong>.
+            IZEM is the premium AI personal trainer that <strong className="text-textPrimary font-semibold">calls you, reviews your day, and adapts your workout and meal plan every week</strong>.
             Built for people who want a coach, not another passive tracker.
             <span className="text-primary font-medium"> Personal-trainer-level accountability at a fraction of human coaching. See the guide to the <a href="/fitness-app-that-calls-you/" className="underline hover:text-secondary transition-colors">fitness app that calls you</a>.</span>
           </p>
