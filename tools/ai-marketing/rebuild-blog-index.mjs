@@ -13,12 +13,13 @@ const PUBLIC_DIR = path.resolve(__dirname, '../../public');
 const BLOG_DIR = path.join(PUBLIC_DIR, 'blog');
 const INDEX_PATH = path.join(BLOG_DIR, 'index.html');
 
-function slugify(text) {
-  return text.toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim();
+function stripHtmlEntities(text) {
+  return text
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
 }
 
 function loadPosts() {
@@ -33,8 +34,8 @@ function loadPosts() {
       const filePath = path.join(BLOG_DIR, f);
       const html = fs.readFileSync(filePath, 'utf-8');
       
-      const titleMatch = html.match(/<title>([^|]+)\|/);
-      const descMatch = html.match(/<meta name="description" content="([^"]+)"/);
+      const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
+      const descMatch = html.match(/<meta name="description" content="([^"]+)"/i);
       const dateMatch = html.match(/"datePublished":\s*"([^"]+)"/);
       const robotsMatch = html.match(/<meta name="robots" content="([^"]+)"/i);
       const slug = f.replace('.html', '');
@@ -45,8 +46,10 @@ function loadPosts() {
       
       return {
         slug,
-        title: titleMatch ? titleMatch[1].trim() : slug,
-        description: descMatch ? descMatch[1] : '',
+        title: titleMatch
+          ? stripHtmlEntities(titleMatch[1].replace(/\s+[|—-]\s+IZEM.*$/i, '').trim())
+          : slug.replace(/-/g, ' '),
+        description: descMatch ? stripHtmlEntities(descMatch[1]) : '',
         date: dateMatch ? dateMatch[1] : new Date().toISOString().split('T')[0],
       };
     })

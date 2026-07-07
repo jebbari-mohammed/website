@@ -767,17 +767,55 @@ function updateSitemap(slug) {
   fs.writeFileSync(SITEMAP_PATH, sitemap);
 }
 
+function stripHtmlEntities(text) {
+  return text
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+}
+
+function loadIndexPosts(progress) {
+  const bySlug = new Map();
+
+  for (const post of progress.generated) {
+    bySlug.set(post.slug, post);
+  }
+
+  if (!fs.existsSync(BLOG_DIR)) {
+    return Array.from(bySlug.values()).reverse();
+  }
+
+  const files = fs.readdirSync(BLOG_DIR)
+    .filter(file => file.endsWith('.html') && file !== 'index.html');
+
+  for (const file of files) {
+    const slug = file.replace(/\.html$/, '');
+    const html = fs.readFileSync(path.join(BLOG_DIR, file), 'utf-8');
+    const robotsMatch = html.match(/<meta name="robots" content="([^"]+)"/i);
+    if (robotsMatch && robotsMatch[1].toLowerCase().includes('noindex')) continue;
+
+    const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
+    const descMatch = html.match(/<meta name="description" content="([^"]+)"/i);
+    const dateMatch = html.match(/"datePublished":\s*"([^"]+)"/);
+    const title = titleMatch
+      ? stripHtmlEntities(titleMatch[1].replace(/\s+[|—-]\s+IZEM.*$/i, '').trim())
+      : slug.replace(/-/g, ' ');
+
+    bySlug.set(slug, {
+      slug,
+      title,
+      description: descMatch ? stripHtmlEntities(descMatch[1]) : bySlug.get(slug)?.description || '',
+      date: dateMatch ? dateMatch[1] : bySlug.get(slug)?.date || '2026-05-01',
+    });
+  }
+
+  return Array.from(bySlug.values()).sort((a, b) => b.date.localeCompare(a.date));
+}
+
 function updateBlogIndex(progress) {
-  const posts = progress.generated
-    .filter(post => {
-      const file = path.join(BLOG_DIR, `${post.slug}.html`);
-      if (!fs.existsSync(file)) return true;
-      const html = fs.readFileSync(file, 'utf-8');
-      const robotsMatch = html.match(/<meta name="robots" content="([^"]+)"/i);
-      return !robotsMatch || !robotsMatch[1].toLowerCase().includes('noindex');
-    })
-    .map(g => g)
-    .reverse(); // newest first
+  const posts = loadIndexPosts(progress);
   
   const cards = posts.map(p => `
     <div class="card">
