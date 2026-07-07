@@ -625,13 +625,10 @@ function mergeProgressWithPublishedPosts(progress) {
   };
 }
 
-async function generatePost(topic, apiKey) {
-  const genAI = new GoogleGenerativeAI(apiKey);
-
-  // Models ordered by daily quota: 3.1-flash-lite=500/day, 2.5-flash=20/day, 2.5-flash-lite=20/day
-  // See https://ai.google.dev/gemini-api/docs/models for valid names
-  const MODELS = ['gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'];
-  const MAX_RETRIES = 3;
+async function generatePost(topic, apiKeys) {
+  // Support models with quota
+  const MODELS = ['gemini-3.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash'];
+  const MAX_RETRIES = 2;
 
   const prompt = `Write a comprehensive, human-sounding blog article about: "${topic}"
 
@@ -647,64 +644,69 @@ Return ONLY valid JSON (no markdown fences) in this exact format:
   "faq": [{"q": "Exact question users ask", "a": "Direct 2-3 sentence answer"}, {"q": "Second question", "a": "Direct answer"}, {"q": "Third question", "a": "Direct answer"}]
 }`;
 
+  let lastError;
   for (const modelName of MODELS) {
-    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-      try {
-        console.log(`  → Trying ${modelName} (attempt ${attempt}/${MAX_RETRIES})...`);
-        const model = genAI.getGenerativeModel({ model: modelName });
-
-        const result = await model.generateContent({
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-          generationConfig: {
-            temperature: 0.95,
-            maxOutputTokens: 8192,
-            responseMimeType: 'application/json',
-          },
-        });
-
-        const text = result.response.text();
+    for (let i = 0; i < apiKeys.length; i++) {
+      const apiKey = apiKeys[i];
+      const genAI = new GoogleGenerativeAI(apiKey);
+      
+      for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
         try {
-          return JSON.parse(text);
-        } catch {
-          const firstBrace = text.indexOf('{');
-          const lastBrace = text.lastIndexOf('}');
-          if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-            return JSON.parse(text.substring(firstBrace, lastBrace + 1));
-          }
-          throw new Error('Failed to parse response');
-        }
-      } catch (err) {
-        const isRetryable = err instanceof SyntaxError ||
-                           err.message?.includes('JSON') ||
-                           err.message?.includes('parse') ||
-                           err.status === 429 || err.status === 503 || 
-                           err.message?.includes('429') || err.message?.includes('503') ||
-                           err.message?.includes('Service Unavailable') ||
-                           err.message?.includes('overloaded') ||
-                           err.message?.includes('high demand');
-        const isModelError = err.status === 404 || err.status === 400;
-        const isLastAttempt = attempt === MAX_RETRIES;
+          console.log(`  → Trying ${modelName} with key index ${i} (attempt ${attempt}/${MAX_RETRIES})...`);
+          const model = genAI.getGenerativeModel({ model: modelName });
 
-        if (isModelError) {
-          // Model doesn't exist or doesn't support this method — skip immediately
-          console.log(`  ⚠️ ${modelName} not available (${err.status}). Trying next model...`);
-          break;
-        } else if (isRetryable && !isLastAttempt) {
-          const waitSec = Math.pow(2, attempt) * 5; // 10s, 20s, 40s
-          console.log(`  ⏳ Error ${err.status}. Waiting ${waitSec}s before retry...`);
-          await new Promise(r => setTimeout(r, waitSec * 1000));
-        } else if (isRetryable && isLastAttempt) {
-          console.log(`  ⚠️ ${modelName} failed after ${MAX_RETRIES} attempts (${err.status}). Trying next model...`);
-          break; // Try next model
-        } else {
-          throw err; // Unknown error, fail immediately
+          const result = await model.generateContent({
+            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+            generationConfig: {
+              temperature: 0.95,
+              maxOutputTokens: 8192,
+              responseMimeType: 'application/json',
+            },
+          });
+
+          const text = result.response.text();
+          try {
+            return JSON.parse(text);
+          } catch {
+            const firstBrace = text.indexOf('{');
+            const lastBrace = text.lastIndexOf('}');
+            if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+              return JSON.parse(text.substring(firstBrace, lastBrace + 1));
+            }
+            throw new Error('Failed to parse response');
+          }
+        } catch (err) {
+          lastError = err;
+          const status = err.status || (err.message && err.message.match(/status (\d+)/)?.[1]);
+          const isRetryable = err instanceof SyntaxError ||
+                             err.message?.includes('JSON') ||
+                             err.message?.includes('parse') ||
+                             status === 429 || status === 503 || 
+                             err.message?.includes('429') || err.message?.includes('503') ||
+                             err.message?.includes('Service Unavailable') ||
+                             err.message?.includes('overloaded') ||
+                             err.message?.includes('high demand');
+          const isModelError = status === 404 || status === 400 || err.message?.includes('404') || err.message?.includes('400');
+          const isLastAttempt = attempt === MAX_RETRIES;
+
+          if (isModelError) {
+            console.log(`  ⚠️ ${modelName} not available with key index ${i} (status ${status}). Trying next key/model...`);
+            break; // Try next key
+          } else if (isRetryable && !isLastAttempt) {
+            const waitSec = Math.pow(2, attempt) * 3; // 6s, 12s
+            console.log(`  ⏳ Error status ${status}. Waiting ${waitSec}s before retry...`);
+            await new Promise(r => setTimeout(r, waitSec * 1000));
+          } else {
+            console.log(`  ⚠️ Failed with key index ${i} on attempt ${attempt}. Error: ${err.message}`);
+            break; // Try next key
+          }
         }
       }
     }
   }
 
-  throw new Error('All models exhausted. Check your API key billing at https://aistudio.google.com/apikey');
+  throw new Error(`All models and keys exhausted. Last error: ${lastError ? lastError.message : 'Unknown'}`);
 }
 
 function buildHTML(post) {
@@ -966,18 +968,20 @@ function updateNewsSitemap(post, slug) {
 // ========================
 async function main() {
   // Multi-key support: GEMINI_API_KEY, GEMINI_API_KEY_2, GEMINI_API_KEY_3
-  const apiKeys = [
+  let apiKeys = [
     process.env.GEMINI_API_KEY,
     process.env.GEMINI_API_KEY_2,
     process.env.GEMINI_API_KEY_3,
   ].filter(Boolean);
+
+  // Split any comma-separated keys
+  apiKeys = apiKeys.flatMap(key => key.split(',')).map(k => k.trim()).filter(Boolean);
 
   if (apiKeys.length === 0) {
     console.error('❌ No GEMINI_API_KEY environment variables set');
     process.exit(1);
   }
   console.log(`🔑 ${apiKeys.length} API key(s) available`);
-  const apiKey = apiKeys[0]; // Primary key for blog generation
 
   if (!fs.existsSync(BLOG_DIR)) fs.mkdirSync(BLOG_DIR, { recursive: true });
 
@@ -995,7 +999,7 @@ async function main() {
   console.log(`   Progress: ${generatedKeywords.length}/${KEYWORD_QUEUE.length} published\n`);
 
   // Generate the post
-  const post = await generatePost(todayKeyword, apiKey);
+  const post = await generatePost(todayKeyword, apiKeys);
   const slug = post.slug || slugify(todayKeyword);
   post.slug = slug;
 
