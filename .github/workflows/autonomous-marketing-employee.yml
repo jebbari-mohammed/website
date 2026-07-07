@@ -45,7 +45,7 @@ jobs:
           
           # Configurations
           MARKETING_LLM_PROVIDER: gemini
-          GEMINI_MODEL: gemini-2.0-flash
+          GEMINI_MODEL: gemini-3.5-flash
           CI: true
         run: |
           echo "🔍 Running Site Audit..."
