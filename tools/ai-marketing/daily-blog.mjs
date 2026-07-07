@@ -529,35 +529,20 @@ ARTICLE REQUIREMENTS:
 // ========================
 
 function loadProgress() {
+  let progress = { generated: [], lastRun: null };
+
   if (fs.existsSync(PROGRESS_FILE)) {
-    return JSON.parse(fs.readFileSync(PROGRESS_FILE, 'utf-8'));
+    progress = JSON.parse(fs.readFileSync(PROGRESS_FILE, 'utf-8'));
+    if (!Array.isArray(progress.generated)) progress.generated = [];
   }
-  // Fallback: rebuild progress from existing blog HTML files
-  const progress = { generated: [], lastRun: null };
-  if (fs.existsSync(BLOG_DIR)) {
-    const files = fs.readdirSync(BLOG_DIR).filter(f => f.endsWith('.html') && f !== 'index.html');
-    for (const file of files) {
-      const slug = file.replace('.html', '');
-      const html = fs.readFileSync(path.join(BLOG_DIR, file), 'utf-8');
-      const titleMatch = html.match(/<title>([^|]+)\|/);
-      const descMatch = html.match(/<meta name="description" content="([^"]+)"/);
-      const dateMatch = html.match(/"datePublished":\s*"([^"]+)"/);
-      // Try to find the matching keyword
-      const keyword = KEYWORD_QUEUE.find(k => slug.includes(slugify(k).substring(0, 20))) || slug;
-      progress.generated.push({
-        keyword,
-        slug,
-        title: titleMatch ? titleMatch[1].trim() : slug,
-        description: descMatch ? descMatch[1] : '',
-        date: dateMatch ? dateMatch[1] : new Date().toISOString().split('T')[0],
-      });
-    }
-    if (progress.generated.length > 0) {
-      console.log(`  ℹ️ Rebuilt progress from ${progress.generated.length} existing blog files`);
-      saveProgress(progress);
-    }
+
+  const merged = mergeProgressWithPublishedPosts(progress);
+  if (JSON.stringify(merged.generated) !== JSON.stringify(progress.generated)) {
+    console.log(`  ℹ️ Synced progress with ${merged.generated.length} known blog posts`);
+    saveProgress(merged);
   }
-  return progress;
+
+  return merged;
 }
 
 function saveProgress(progress) {
@@ -571,6 +556,73 @@ function slugify(text) {
     .replace(/-+/g, '-')
     .substring(0, 80)
     .trim();
+}
+
+function cleanTitle(title, slug) {
+  return (title || slug)
+    .replace(/\s*\|\s*IZEM\s*$/i, '')
+    .replace(/\s+/g, ' ')
+    .trim() || slug;
+}
+
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function readPostMetadata(file) {
+  const slug = file.replace('.html', '');
+  const html = fs.readFileSync(path.join(BLOG_DIR, file), 'utf-8');
+  const robotsMatch = html.match(/<meta name="robots" content="([^"]+)"/i);
+  const noindex = Boolean(robotsMatch && robotsMatch[1].toLowerCase().includes('noindex'));
+
+  const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
+  const descMatch = html.match(/<meta name="description" content="([^"]+)"/i);
+  const dateMatch = html.match(/"datePublished":\s*"([^"]+)"/);
+  const keyword = KEYWORD_QUEUE.find(k => slug.includes(slugify(k).substring(0, 20))) || slug;
+
+  return {
+    keyword,
+    slug,
+    title: cleanTitle(titleMatch ? titleMatch[1] : slug, slug),
+    description: descMatch ? descMatch[1] : '',
+    date: dateMatch ? dateMatch[1] : new Date().toISOString().split('T')[0],
+    noindex,
+  };
+}
+
+function loadPublishedPostsFromDisk() {
+  if (fs.existsSync(BLOG_DIR)) {
+    return fs.readdirSync(BLOG_DIR)
+      .filter(f => f.endsWith('.html') && f !== 'index.html')
+      .map(readPostMetadata)
+      .sort((a, b) => a.date.localeCompare(b.date) || a.slug.localeCompare(b.slug));
+  }
+
+  return [];
+}
+
+function mergeProgressWithPublishedPosts(progress) {
+  const bySlug = new Map(progress.generated.map(post => [post.slug, post]));
+
+  for (const post of loadPublishedPostsFromDisk()) {
+    const existing = bySlug.get(post.slug);
+    bySlug.set(post.slug, {
+      ...existing,
+      ...post,
+      keyword: existing?.keyword || post.keyword,
+    });
+  }
+
+  return {
+    ...progress,
+    generated: Array.from(bySlug.values())
+      .sort((a, b) => a.date.localeCompare(b.date) || a.slug.localeCompare(b.slug)),
+  };
 }
 
 async function generatePost(topic, apiKey) {
@@ -767,90 +819,55 @@ function updateSitemap(slug) {
   fs.writeFileSync(SITEMAP_PATH, sitemap);
 }
 
-function stripHtmlEntities(text) {
-  return text
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>');
+function buildArchiveSection(posts) {
+  const cards = posts.map(post => {
+    const label = post.noindex ? 'Legacy noindex' : post.date;
+    return `            <a href="/blog/${post.slug}">${escapeHtml(post.title)} <span>${escapeHtml(label)}</span></a>`;
+  }).join('\n');
+
+  return `<!-- BLOG_ARCHIVE_START -->
+    <section>
+        <h2>All blog posts</h2>
+        <p class="cluster-intro">The full archive is generated from the files in <code>public/blog</code>. Older legacy posts are still linked here even when they are marked noindex for SEO cleanup.</p>
+        <div class="older">
+${cards}
+        </div>
+    </section>
+<!-- BLOG_ARCHIVE_END -->`;
 }
 
-function loadIndexPosts(progress) {
-  const bySlug = new Map();
-
-  for (const post of progress.generated) {
-    bySlug.set(post.slug, post);
-  }
-
-  if (!fs.existsSync(BLOG_DIR)) {
-    return Array.from(bySlug.values()).reverse();
-  }
-
-  const files = fs.readdirSync(BLOG_DIR)
-    .filter(file => file.endsWith('.html') && file !== 'index.html');
-
-  for (const file of files) {
-    const slug = file.replace(/\.html$/, '');
-    const html = fs.readFileSync(path.join(BLOG_DIR, file), 'utf-8');
-    const robotsMatch = html.match(/<meta name="robots" content="([^"]+)"/i);
-    if (robotsMatch && robotsMatch[1].toLowerCase().includes('noindex')) continue;
-
-    const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
-    const descMatch = html.match(/<meta name="description" content="([^"]+)"/i);
-    const dateMatch = html.match(/"datePublished":\s*"([^"]+)"/);
-    const title = titleMatch
-      ? stripHtmlEntities(titleMatch[1].replace(/\s+[|—-]\s+IZEM.*$/i, '').trim())
-      : slug.replace(/-/g, ' ');
-
-    bySlug.set(slug, {
-      slug,
-      title,
-      description: descMatch ? stripHtmlEntities(descMatch[1]) : bySlug.get(slug)?.description || '',
-      date: dateMatch ? dateMatch[1] : bySlug.get(slug)?.date || '2026-05-01',
-    });
-  }
-
-  return Array.from(bySlug.values()).sort((a, b) => b.date.localeCompare(a.date));
-}
-
-function updateBlogIndex(progress) {
-  const posts = loadIndexPosts(progress);
-  
-  const cards = posts.map(p => `
-    <div class="card">
-        <h2><a href="/blog/${p.slug}">${p.title}</a></h2>
-        <p>${p.description}</p>
-        <p class="meta">${p.date}</p>
-    </div>`).join('\n');
-
-  const html = `<!DOCTYPE html>
+function buildFallbackBlogIndex(posts) {
+  return `<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog — IZEM | Fitness, AI & Coaching Insights</title>
-    <meta name="description" content="Expert articles on AI fitness coaching, workout optimization, nutrition planning, and how AI is transforming personal training.">
-    <link rel="canonical" href="https://youraicoach.life/blog/">
-    <meta name="robots" content="index, follow">
-    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#F8FAFC;line-height:1.7}.nav{background:rgba(6,11,29,0.95);border-bottom:1px solid rgba(255,255,255,0.08);padding:16px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}.ni{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.nb{font-weight:800;font-size:1.1rem;color:#F8FAFC;text-decoration:none}.c{max-width:900px;margin:0 auto;padding:60px 24px}h1{font-size:2.5rem;font-weight:800;margin-bottom:8px}p.sub{color:#94A3B8;font-size:1.1rem;margin-bottom:48px}a{color:#00D4FF;text-decoration:none}.card{background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;margin-bottom:20px;transition:all .3s}.card:hover{border-color:rgba(0,212,255,0.3);transform:translateY(-2px)}.card h2{font-size:1.3rem;font-weight:700;margin-bottom:8px}.card h2 a{color:#F8FAFC}.card h2 a:hover{color:#00D4FF}.card p{color:#94A3B8;font-size:.95rem;margin:0}.card .meta{font-size:.8rem;color:#475569;margin-top:12px}.cta-box{margin-top:48px;padding:24px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center}.cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;margin:4px}</style>
-</head>
-<body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ IZEM</a><a href="/" style="color:#94A3B8;font-size:.9rem">← Home</a></div></nav>
-<div class="c">
-    <h1>Blog</h1>
-    <p class="sub">Expert insights on AI fitness coaching, workout science, and nutrition</p>
-    ${cards || '<p style="color:#64748B;text-align:center;padding:40px">Coming soon!</p>'}
-    <div class="cta-box">
-        <p style="color:#CBD5E1;margin-bottom:12px"><strong>Want AI-powered fitness coaching?</strong></p>
-        <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
-        <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
-    </div>
-</div>
-</body>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>IZEM Blog Archive</title><meta name="robots" content="index, follow"></head>
+<body>${buildArchiveSection(posts)}</body>
 </html>`;
+}
 
-  fs.writeFileSync(path.join(BLOG_DIR, 'index.html'), html);
+function updateBlogIndex() {
+  const posts = loadPublishedPostsFromDisk().reverse(); // newest first
+  const indexPath = path.join(BLOG_DIR, 'index.html');
+  const archive = buildArchiveSection(posts);
+
+  if (!fs.existsSync(indexPath)) {
+    fs.writeFileSync(indexPath, buildFallbackBlogIndex(posts));
+    return;
+  }
+
+  const html = fs.readFileSync(indexPath, 'utf-8');
+  const markerPattern = /<!-- BLOG_ARCHIVE_START -->[\s\S]*?<!-- BLOG_ARCHIVE_END -->/;
+
+  if (markerPattern.test(html)) {
+    fs.writeFileSync(indexPath, html.replace(markerPattern, archive));
+    return;
+  }
+
+  if (html.includes('</main>')) {
+    fs.writeFileSync(indexPath, html.replace('</main>', `${archive}\n</main>`));
+    return;
+  }
+
+  fs.writeFileSync(indexPath, buildFallbackBlogIndex(posts));
 }
 
 // ========================
@@ -879,8 +896,8 @@ async function pingIndexNow(urls) {
 // ========================
 // RELATED POSTS
 // ========================
-function buildRelatedPosts(currentSlug, progress) {
-  const others = progress.generated.filter(p => p.slug !== currentSlug).slice(-3).reverse();
+function buildRelatedPosts(currentSlug) {
+  const others = loadPublishedPostsFromDisk().filter(p => p.slug !== currentSlug && !p.noindex).slice(-3).reverse();
   if (others.length === 0) return '';
   const links = others.map(p =>
     `<li><a href="/blog/${p.slug}" style="color:#00D4FF;border:none">${p.title}</a></li>`
@@ -895,8 +912,8 @@ function buildRelatedPosts(currentSlug, progress) {
 // ========================
 // RSS FEED
 // ========================
-function updateRSSFeed(progress) {
-  const posts = progress.generated.slice().reverse();
+function updateRSSFeed() {
+  const posts = loadPublishedPostsFromDisk().filter(post => !post.noindex).reverse();
   const items = posts.map(p => `
     <item>
       <title>${p.title}</title>
@@ -983,7 +1000,7 @@ async function main() {
   post.slug = slug;
 
   // Build and save HTML
-  post._relatedHTML = buildRelatedPosts(slug, progress);
+  post._relatedHTML = buildRelatedPosts(slug);
   let html = buildHTML(post);
 
   // Generate OG image SVG and patch into HTML
@@ -1018,11 +1035,11 @@ async function main() {
   saveProgress(progress);
 
   // Update blog index page
-  updateBlogIndex(progress);
+  updateBlogIndex();
   console.log('✅ Updated blog index');
 
   // Update RSS feed
-  updateRSSFeed(progress);
+  updateRSSFeed();
   console.log('✅ Updated RSS feed');
 
   // Update news sitemap

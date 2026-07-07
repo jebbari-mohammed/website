@@ -6,6 +6,7 @@ on:
     paths:
       - 'public/blog/**'
       - '!public/blog/index.html'
+      - '!public/blog/feed.xml'
   workflow_dispatch:
 
 permissions:
@@ -38,7 +39,7 @@ jobs:
         run: |
           git config user.name "IZEM Editorial"
           git config user.email "editorial@youraicoach.life"
-          git add public/blog/index.html
+          git add public/blog/index.html public/blog/feed.xml
           if git diff --staged --quiet; then
             echo "No changes to index"
           else
