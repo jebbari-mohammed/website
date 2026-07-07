@@ -1,0 +1,82 @@
+{
+  "mode": "manual",
+  "emergencyStop": false,
+  "allowedActions": [
+    "crawl_site",
+    "generate_keyword_roadmap",
+    "generate_blog_draft",
+    "repurpose_social_posts",
+    "schedule_social_draft",
+    "generate_weekly_report",
+    "postiz_push_draft"
+  ],
+  "blockedActions": [
+    "publish_social_post",
+    "delete_content",
+    "write_website_patch"
+  ],
+  "approvalThresholds": [
+    { "action": "crawl_site", "requiresApprovalAt": "high" },
+    { "action": "generate_keyword_roadmap", "requiresApprovalAt": "medium" },
+    { "action": "generate_blog_draft", "requiresApprovalAt": "medium" },
+    { "action": "repurpose_social_posts", "requiresApprovalAt": "medium" },
+    { "action": "schedule_social_draft", "requiresApprovalAt": "medium" },
+    { "action": "postiz_push_draft", "requiresApprovalAt": "medium" },
+    { "action": "generate_weekly_report", "requiresApprovalAt": "high" },
+    { "action": "publish_social_post", "requiresApprovalAt": "low" },
+    { "action": "write_website_patch", "requiresApprovalAt": "low" },
+    { "action": "delete_content", "requiresApprovalAt": "low" }
+  ],
+  "maxPostsPerDay": 3,
+  "maxBlogPostsPerWeek": 2,
+  "platformsEnabled": [
+    "facebook",
+    "instagram",
+    "tiktok",
+    "youtube_shorts",
+    "linkedin",
+    "x",
+    "threads"
+  ],
+  "brandVoice": {
+    "brandName": "IZEM",
+    "positioning": "Premium AI personal trainer that calls you, reviews your day, and adapts workout and meal plans every week.",
+    "voice": "Clear, premium, direct, supportive, evidence-aware, and never hype-driven.",
+    "bannedClaims": [
+      "guaranteed weight loss",
+      "medical treatment",
+      "doctor-approved",
+      "cure",
+      "free forever",
+      "best in the world",
+      "clinically proven without a source"
+    ],
+    "preferredPhrases": [
+      "AI personal trainer",
+      "accountability calls",
+      "reviews your day",
+      "adapts weekly",
+      "workout and meal plan"
+    ],
+    "avoidedPhrases": [
+      "Callio",
+      "freemium",
+      "cheap fitness app",
+      "magic",
+      "hack your body"
+    ]
+  },
+  "targetAudience": [
+    "busy adults who want fitness accountability",
+    "people who miss workouts without coaching",
+    "US-based consumers looking for an AI fitness coach"
+  ],
+  "targetCountries": ["US"],
+  "websiteUrl": "https://youraicoach.life",
+  "competitorUrls": [
+    "https://www.myfitnesspal.com",
+    "https://www.freeletics.com",
+    "https://www.apple.com/apple-fitness-plus",
+    "https://www.noom.com"
+  ]
+}

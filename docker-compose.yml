@@ -1,0 +1,23 @@
+services:
+  dashboard:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "corepack enable && pnpm install --ignore-scripts && pnpm dev --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+    environment:
+      NODE_ENV: development
+
+  worker:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "corepack enable && pnpm install --ignore-scripts && pnpm worker:dev"
+    ports:
+      - "4317:4317"
+    environment:
+      NODE_ENV: development
+      MARKETING_WORKER_PORT: 4317

@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+research/
+data/marketing-employee/
+public/marketing-data/
 
 # Editor directories and files
 .vscode/*

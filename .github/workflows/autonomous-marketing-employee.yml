@@ -1,0 +1,89 @@
+name: Autonomous Marketing Employee Daily Run
+
+on:
+  # Runs every day at 6:00 AM UTC (7:00 AM Morocco/West Europe time)
+  schedule:
+    - cron: '0 6 * * *'
+  # Allows manual triggering from the GitHub Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  run-marketing-employee:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run Marketing Tasks
+        env:
+          # API Keys from GitHub Secrets
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          POSTIZ_API_KEY: ${{ secrets.POSTIZ_API_KEY }}
+          
+          # Configurations
+          MARKETING_LLM_PROVIDER: gemini
+          GEMINI_MODEL: gemini-3.5-flash
+          CI: true
+        run: |
+          echo "🔍 Running Site Audit..."
+          pnpm audit:site
+          
+          echo "📈 Generating Keyword Roadmap..."
+          pnpm keywords:generate
+          
+          echo "✍️ Creating Blog Draft..."
+          pnpm blog:create
+          
+          echo "📱 Repurposing Content for Socials..."
+          pnpm social:repurpose -- --postiz=true
+          
+          echo "📊 Generating Weekly Summary..."
+          pnpm report:weekly
+
+      - name: Commit and Push Generated Data (Force-Adding Ignored Artifacts)
+        run: |
+          git config user.name "IZEM Marketing Agent"
+          git config user.email "marketing-agent@youraicoach.life"
+          
+          # Force add the generated files because data/ and public/marketing-data/ are gitignored locally
+          git add -f data/marketing-employee/
+          git add -f public/marketing-data/
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit today."
+          else
+            git commit -m "🤖 Auto-run: Generated marketing drafts & dashboard snapshot [skip ci]"
+            
+            # Pull latest remote changes to prevent conflicts, then push
+            git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
+            git push || (sleep 5 && git pull --rebase origin main && git push)
+          fi
+
+      - name: Trigger static Pages Deployment
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run "Deploy static content to Pages" --ref main
