@@ -48,8 +48,8 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "AI Marketing Bot"
-          git config user.email "bot@youraicoach.life"
+          git config user.name "IZEM Editorial"
+          git config user.email "editorial@youraicoach.life"
           git add -A
           if git diff --staged --quiet; then
             echo "::error::Daily Blog Post generated no file changes. Check the keyword queue, progress file, and Gemini output."
@@ -65,13 +65,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh workflow run "Deploy static content to Pages" --ref main
 
-      - name: Trigger NotebookLM video for new post
+      - name: Trigger IZEM video for new post
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           POST_SLUG=$(node -e "const fs = require('fs'); const progress = JSON.parse(fs.readFileSync('tools/ai-marketing/.daily-progress.json', 'utf8')); const post = progress.generated && progress.generated[progress.generated.length - 1]; if (!post || !post.slug) { console.error('No generated post slug found in daily progress file.'); process.exit(1); } process.stdout.write(post.slug);")
-          echo "Triggering NotebookLM video for ${POST_SLUG}"
-          gh workflow run "Daily NotebookLM YouTube Video" --ref main -f post_slug="${POST_SLUG}"
+          echo "Triggering IZEM video for ${POST_SLUG}"
+          gh workflow run "Daily IZEM YouTube Video" --ref main -f post_slug="${POST_SLUG}"
 
       - name: Ping Google sitemap
         if: success()

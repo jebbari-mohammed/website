@@ -47,8 +47,8 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "AI Marketing Bot"
-          git config user.email "bot@youraicoach.life"
+          git config user.name "IZEM Editorial"
+          git config user.email "editorial@youraicoach.life"
           git add -A
           if git diff --staged --quiet; then
             echo "::error::Daily Competitor Landing Page generated no file changes. Check the competitor queue, progress file, and Gemini output."

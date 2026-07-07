@@ -352,8 +352,25 @@ async function getYouTubeAccessToken() {
   });
 }
 
+function buildYouTubeSnippet(post) {
+  return {
+    title: `${post.title} | IZEM AI Fitness Coach`.slice(0, 100),
+    description: buildYouTubeDescription(post).slice(0, 5000),
+    tags: [
+      'IZEM',
+      'AI fitness app',
+      'AI personal trainer',
+      'fitness app',
+      'workout accountability',
+      'AI coach',
+    ],
+    categoryId: '26',
+    defaultLanguage: 'en',
+  };
+}
+
 function buildYouTubeDescription(post) {
-  return `NotebookLM video overview for: ${post.title}
+  return `Video guide for: ${post.title}
 
 Read the full article:
 ${post.url}
@@ -373,27 +390,13 @@ Download IZEM:
 iOS: https://apps.apple.com/app/your-ai-coach
 Android: https://play.google.com/store/apps/details?id=com.ai.gym.coach
 
-#IZEM #AIFitness #AIPersonalTrainer #FitnessApp #WorkoutAccountability #NotebookLM`;
+#IZEM #AIFitness #AIPersonalTrainer #FitnessApp #WorkoutAccountability`;
 }
 
 async function uploadToYouTube(filePath, post, accessToken) {
   const fileSize = fs.statSync(filePath).size;
   const metadata = {
-    snippet: {
-      title: `${post.title} | IZEM AI Fitness Coach`.slice(0, 100),
-      description: buildYouTubeDescription(post).slice(0, 5000),
-      tags: [
-        'IZEM',
-        'AI fitness app',
-        'AI personal trainer',
-        'fitness app',
-        'workout accountability',
-        'AI coach',
-        'NotebookLM',
-      ],
-      categoryId: '26',
-      defaultLanguage: 'en',
-    },
+    snippet: buildYouTubeSnippet(post),
     status: {
       privacyStatus: process.env.YOUTUBE_PRIVACY_STATUS || 'public',
       selfDeclaredMadeForKids: false,
@@ -465,6 +468,39 @@ async function uploadToYouTube(filePath, post, accessToken) {
   });
 }
 
+async function updateYouTubeMetadata(videoId, post, accessToken) {
+  const body = JSON.stringify({
+    id: videoId,
+    snippet: buildYouTubeSnippet(post),
+  });
+
+  return new Promise((resolve, reject) => {
+    const req = https.request({
+      hostname: 'www.googleapis.com',
+      path: '/youtube/v3/videos?part=snippet',
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(body),
+      },
+    }, (res) => {
+      let data = '';
+      res.on('data', chunk => { data += chunk; });
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          resolve(JSON.parse(data || '{}'));
+        } else {
+          reject(new Error(`YouTube metadata update failed ${res.statusCode}: ${data}`));
+        }
+      });
+    });
+    req.on('error', reject);
+    req.write(body);
+    req.end();
+  });
+}
+
 function extractYouTubeId(url) {
   const parsed = new URL(url);
   if (parsed.hostname.includes('youtu.be')) return parsed.pathname.slice(1);
@@ -475,25 +511,23 @@ function buildEmbedBlock(post, youtubeUrl, notebookId) {
   const videoId = extractYouTubeId(youtubeUrl);
   if (!videoId) throw new Error(`Could not extract YouTube video id from ${youtubeUrl}`);
   const title = escapeHtml(post.title);
-  const escapedNotebookId = escapeHtml(notebookId);
-  return `<!-- NOTEBOOKLM_VIDEO_START -->
-<section class="notebooklm-video" style="margin:32px 0;padding:24px;border:1px solid rgba(55,199,201,.25);border-radius:8px;background:rgba(55,199,201,.08)">
-  <h2 style="margin-top:0">Watch the NotebookLM video overview</h2>
+  return `<!-- IZEM_VIDEO_START -->
+<section class="izem-video" style="margin:32px 0;padding:24px;border:1px solid rgba(55,199,201,.25);border-radius:8px;background:rgba(55,199,201,.08)">
+  <h2 style="margin-top:0">Watch the video guide</h2>
   <div style="position:relative;aspect-ratio:16/9;background:#02070D;border-radius:8px;overflow:hidden">
-    <iframe src="https://www.youtube.com/embed/${videoId}" title="${title} video overview" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+    <iframe src="https://www.youtube.com/embed/${videoId}" title="${title} video guide" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
   </div>
-  <p style="margin:14px 0 0;color:#AEBBCC">This video was generated from the article with a fresh NotebookLM project and published on the IZEM YouTube channel.</p>
-  <p style="margin:8px 0 0;color:#7C8A9B;font-size:.9rem">NotebookLM project: ${escapedNotebookId}</p>
+  <p style="margin:14px 0 0;color:#AEBBCC">A short IZEM video guide for the decisions in this article.</p>
 </section>
-<!-- NOTEBOOKLM_VIDEO_END -->`;
+<!-- IZEM_VIDEO_END -->`;
 }
 
 function embedVideoInPost(post, youtubeUrl, notebookId) {
   const block = buildEmbedBlock(post, youtubeUrl, notebookId);
   let html = fs.readFileSync(post.file, 'utf8');
 
-  if (html.includes('<!-- NOTEBOOKLM_VIDEO_START -->')) {
-    html = html.replace(/<!-- NOTEBOOKLM_VIDEO_START -->[\s\S]*?<!-- NOTEBOOKLM_VIDEO_END -->/, block);
+  if (/<!-- (NOTEBOOKLM|IZEM)_VIDEO_START -->/.test(html)) {
+    html = html.replace(/<!-- (NOTEBOOKLM|IZEM)_VIDEO_START -->[\s\S]*?<!-- (NOTEBOOKLM|IZEM)_VIDEO_END -->/, block);
   } else if (/<article[^>]*>/i.test(html)) {
     html = html.replace(/<article[^>]*>/i, match => `${match}\n${block}`);
   } else if (/<main[^>]*>/i.test(html)) {
@@ -513,7 +547,7 @@ function buildYoutubeCard(post, youtubeUrl) {
   return `<a data-video-id="${videoId}" href="${youtubeUrl}" target="_blank" rel="noopener" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
   <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="${title}" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
   <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">${title}</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Generated with a fresh NotebookLM project from the website article.</span>
+  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">A short IZEM video guide based on the full article.</span>
 </a>`;
 }
 
@@ -521,15 +555,21 @@ function updateYoutubePage(post, youtubeUrl) {
   if (!fs.existsSync(YOUTUBE_PAGE)) return;
   const card = buildYoutubeCard(post, youtubeUrl);
   let html = fs.readFileSync(YOUTUBE_PAGE, 'utf8');
-  const markerStart = '<!-- NOTEBOOKLM_VIDEO_FEED_START -->';
-  const markerEnd = '<!-- NOTEBOOKLM_VIDEO_FEED_END -->';
+  const markerStart = '<!-- IZEM_VIDEO_FEED_START -->';
+  const markerEnd = '<!-- IZEM_VIDEO_FEED_END -->';
+  const oldMarkerStart = '<!-- NOTEBOOKLM_VIDEO_FEED_START -->';
+  const oldMarkerEnd = '<!-- NOTEBOOKLM_VIDEO_FEED_END -->';
   const videoId = extractYouTubeId(youtubeUrl);
+
+  if (html.includes(oldMarkerStart)) {
+    html = html.replace(oldMarkerStart, markerStart).replace(oldMarkerEnd, markerEnd);
+  }
 
   if (!html.includes(markerStart)) {
     const section = `${markerStart}
     <section style="margin:24px 0 44px">
-        <h2>Latest NotebookLM Videos</h2>
-        <div class="notebooklm-video-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+        <h2>Latest IZEM Videos</h2>
+        <div class="izem-video-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
             ${card}
         </div>
     </section>
@@ -543,8 +583,8 @@ function updateYoutubePage(post, youtubeUrl) {
       const cards = [card, ...existingCards].slice(0, 6).join('\n');
       return `${markerStart}
     <section style="margin:24px 0 44px">
-        <h2>Latest NotebookLM Videos</h2>
-        <div class="notebooklm-video-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+        <h2>Latest IZEM Videos</h2>
+        <div class="izem-video-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
             ${cards}
         </div>
     </section>
@@ -572,6 +612,14 @@ async function main() {
 
   console.log(`Target post: ${post.title}`);
   console.log(`URL: ${post.url}`);
+
+  if (process.env.YOUTUBE_UPDATE_VIDEO_ID) {
+    const videoId = process.env.YOUTUBE_UPDATE_VIDEO_ID.trim();
+    const accessToken = await getYouTubeAccessToken();
+    await updateYouTubeMetadata(videoId, post, accessToken);
+    console.log(`Updated YouTube metadata for: https://youtube.com/watch?v=${videoId}`);
+    return;
+  }
 
   const { notebookId, outputFile } = await createNotebookVideo(post);
   const accessToken = await getYouTubeAccessToken();
