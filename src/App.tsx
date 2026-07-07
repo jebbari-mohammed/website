@@ -1,5 +1,6 @@
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
+import CallLoop from './components/CallLoop';
 import WhyDifferent from './components/WhyDifferent';
 import HowItWorks from './components/HowItWorks';
 import Features from './components/Features';
@@ -16,6 +17,7 @@ function App() {
       <Navigation />
       <main>
         <Hero />
+        <CallLoop />
         <WhyDifferent />
         <HowItWorks />
         <Features />
