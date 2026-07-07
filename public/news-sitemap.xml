@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://youraicoach.life/blog/fitness-app-crowded-gyms-adapts-workout</loc>
+    <news:news>
+      <news:publication>
+        <news:name>IZEM</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-07</news:publication_date>
+      <news:title>Stop Wasting Time at the Gym: Why AI Coaching is the New Gold Standard</news:title>
+    </news:news>
+  </url>
 </urlset>
