@@ -6,7 +6,14 @@
     <description>Expert insights on AI fitness coaching, workout science, and nutrition</description>
     <language>en</language>
     <atom:link href="https://youraicoach.life/blog/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Mon, 06 Jul 2026 04:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2026 00:02:00 GMT</lastBuildDate>
+    <item>
+      <title>Adaptive Workout and Meal Plan App</title>
+      <link>https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app</link>
+      <guid>https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app</guid>
+      <description>How IZEM adapts workouts and meals around missed sessions, busy gyms, scanned meals, day reviews, and weekly coaching context.</description>
+      <pubDate>Tue, 07 Jul 2026 00:02:00 GMT</pubDate>
+    </item>
     <item>
       <title>Gym Equipment Scanner Workout App</title>
       <link>https://youraicoach.life/blog/gym-equipment-scanner-workout-app</link>
