@@ -136,30 +136,37 @@ export function createLlmClient(): LlmClient {
       provider: 'gemini',
       async generate(messages, options) {
         const prompt = messages.map((message) => `${message.role.toUpperCase()}: ${message.content}`).join('\n\n');
-        const model = (process.env.GEMINI_MODEL || 'gemini-3.5-flash').toLowerCase();
+        const primaryModel = (process.env.GEMINI_MODEL || 'gemini-3.5-flash').toLowerCase();
+        
+        const models = [primaryModel];
+        if (primaryModel !== 'gemini-1.5-flash') models.push('gemini-1.5-flash');
+        if (primaryModel !== 'gemini-2.0-flash') models.push('gemini-2.0-flash');
+        
         let lastError: unknown;
-        for (let i = 0; i < keys.length; i++) {
-          const apiKey = keys[i];
-          try {
-            const json = await postJson(
-              `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-              {},
-              {
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: {
-                  temperature: options?.temperature ?? 0.4,
-                  maxOutputTokens: options?.maxTokens ?? 2200,
-                },
-              }
-            );
-            const candidates = json.candidates as Array<{ content?: { parts?: Array<{ text?: string }> } }> | undefined;
-            return candidates?.[0]?.content?.parts?.map((part) => part.text || '').join('\n').trim() || fallbackText(messages);
-          } catch (error) {
-            console.warn(`Gemini API key (index ${i}) failed, trying next key. Error:`, error instanceof Error ? error.message : error);
-            lastError = error;
+        for (const model of models) {
+          for (let i = 0; i < keys.length; i++) {
+            const apiKey = keys[i];
+            try {
+              const json = await postJson(
+                `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+                {},
+                {
+                  contents: [{ parts: [{ text: prompt }] }],
+                  generationConfig: {
+                    temperature: options?.temperature ?? 0.4,
+                    maxOutputTokens: options?.maxTokens ?? 2200,
+                  },
+                }
+              );
+              const candidates = json.candidates as Array<{ content?: { parts?: Array<{ text?: string }> } }> | undefined;
+              return candidates?.[0]?.content?.parts?.map((part) => part.text || '').join('\n').trim() || fallbackText(messages);
+            } catch (error) {
+              console.warn(`Gemini model ${model} with API key (index ${i}) failed, trying next key/model. Error:`, error instanceof Error ? error.message : error);
+              lastError = error;
+            }
           }
         }
-        console.error('All Gemini API keys failed.');
+        console.error('All Gemini API keys and fallback models failed.');
         if (lastError) throw lastError;
         return fallbackText(messages);
       },
