@@ -6,7 +6,7 @@
     <description>Expert insights on AI fitness coaching, workout science, and nutrition</description>
     <language>en</language>
     <atom:link href="https://youraicoach.life/blog/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Wed, 08 Jul 2026 10:08:40 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jul 2026 15:49:50 GMT</lastBuildDate>
     <item>
       <title>How to Save Your Workout Routine in a Sad Hotel Gym</title>
       <link>https://youraicoach.life/blog/hotel-gym-workout-app-limited-equipment</link>
@@ -15,17 +15,10 @@
       <pubDate>Wed, 08 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>Beginner Fitness App for People Who Need Structure</title>
-      <link>https://youraicoach.life/blog/best-fitness-app-for-beginners</link>
-      <guid>https://youraicoach.life/blog/best-fitness-app-for-beginners</guid>
-      <description>A practical guide to choosing a beginner fitness app when you need clear starts, fallback workouts, accountability calls, realistic meals, and weekly adaptation.</description>
-      <pubDate>Tue, 07 Jul 2026 00:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>Stop Waiting for the Lat Pulldown: Best Apps for On-the-Fly Swaps</title>
-      <link>https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines</link>
-      <guid>https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines</guid>
-      <description>Tired of hovering around busy gym machines? Discover how smart workout apps like IZEM provide instant exercise substitutions to keep your momentum going.</description>
+      <title>Stop Wasting Time at the Gym: Why AI Coaching is the New Gold Standard</title>
+      <link>https://youraicoach.life/blog/fitness-app-crowded-gyms-adapts-workout</link>
+      <guid>https://youraicoach.life/blog/fitness-app-crowded-gyms-adapts-workout</guid>
+      <description>Tired of crowded gyms ruining your workout? Discover how AI coaching apps like IZEM adapt your routine in real-time to save your session and your progress.</description>
       <pubDate>Tue, 07 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
@@ -36,31 +29,17 @@
       <pubDate>Tue, 07 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>Stop Wasting Time at the Gym: Why AI Coaching is the New Gold Standard</title>
-      <link>https://youraicoach.life/blog/fitness-app-crowded-gyms-adapts-workout</link>
-      <guid>https://youraicoach.life/blog/fitness-app-crowded-gyms-adapts-workout</guid>
-      <description>Tired of crowded gyms ruining your workout? Discover how AI coaching apps like IZEM adapt your routine in real-time to save your session and your progress.</description>
+      <title>Stop Waiting for the Lat Pulldown: Best Apps for On-the-Fly Swaps</title>
+      <link>https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines</link>
+      <guid>https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines</guid>
+      <description>Tired of hovering around busy gym machines? Discover how smart workout apps like IZEM provide instant exercise substitutions to keep your momentum going.</description>
       <pubDate>Tue, 07 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>Workout Accountability App Without Social Media</title>
-      <link>https://youraicoach.life/blog/workout-accountability-app-without-social-media</link>
-      <guid>https://youraicoach.life/blog/workout-accountability-app-without-social-media</guid>
-      <description>Need workout accountability without public feeds, friend challenges, or social pressure? Here is a private phone-call accountability system for staying consistent with IZEM.</description>
-      <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>Gym Equipment Scanner Workout App</title>
-      <link>https://youraicoach.life/blog/gym-equipment-scanner-workout-app</link>
-      <guid>https://youraicoach.life/blog/gym-equipment-scanner-workout-app</guid>
-      <description>Looking for a gym equipment scanner workout app? IZEM uses equipment context, AI calls, and weekly adaptation to turn crowded gyms into realistic workouts.</description>
-      <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>Fitness App That Reviews Your Day</title>
-      <link>https://youraicoach.life/blog/fitness-app-that-reviews-your-day</link>
-      <guid>https://youraicoach.life/blog/fitness-app-that-reviews-your-day</guid>
-      <description>Looking for a fitness app that reviews your day? IZEM uses AI calls, evening check-ins, and weekly adaptation to turn missed workouts and messy meals into a better plan.</description>
+      <title>Adaptive Workout and Meal Plan App</title>
+      <link>https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app</link>
+      <guid>https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app</guid>
+      <description>Looking for an adaptive workout and meal plan app? IZEM uses AI calls, day reviews, food scans, equipment context, and weekly adaptation to keep plans realistic.</description>
       <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
@@ -71,11 +50,32 @@
       <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>Adaptive Workout and Meal Plan App</title>
-      <link>https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app</link>
-      <guid>https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app</guid>
-      <description>Looking for an adaptive workout and meal plan app? IZEM uses AI calls, day reviews, food scans, equipment context, and weekly adaptation to keep plans realistic.</description>
+      <title>Fitness App That Reviews Your Day</title>
+      <link>https://youraicoach.life/blog/fitness-app-that-reviews-your-day</link>
+      <guid>https://youraicoach.life/blog/fitness-app-that-reviews-your-day</guid>
+      <description>Looking for a fitness app that reviews your day? IZEM uses AI calls, evening check-ins, and weekly adaptation to turn missed workouts and messy meals into a better plan.</description>
       <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Gym Equipment Scanner Workout App</title>
+      <link>https://youraicoach.life/blog/gym-equipment-scanner-workout-app</link>
+      <guid>https://youraicoach.life/blog/gym-equipment-scanner-workout-app</guid>
+      <description>Looking for a gym equipment scanner workout app? IZEM uses equipment context, AI calls, and weekly adaptation to turn crowded gyms into realistic workouts.</description>
+      <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Workout Accountability App Without Social Media</title>
+      <link>https://youraicoach.life/blog/workout-accountability-app-without-social-media</link>
+      <guid>https://youraicoach.life/blog/workout-accountability-app-without-social-media</guid>
+      <description>Need workout accountability without public feeds, friend challenges, or social pressure? Here is a private phone-call accountability system for staying consistent with IZEM.</description>
+      <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>ADHD Workout Accountability App: Calls, Fallbacks, and Less Friction</title>
+      <link>https://youraicoach.life/blog/adhd-workout-accountability-app</link>
+      <guid>https://youraicoach.life/blog/adhd-workout-accountability-app</guid>
+      <description>A practical ADHD-friendly workout accountability system for people who plan to train, then lose the moment. Includes a two-minute handoff checklist and how IZEM phone calls help.</description>
+      <pubDate>Sun, 05 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Workout Reminder App That Calls You Before You Skip</title>
@@ -85,11 +85,11 @@
       <pubDate>Sun, 05 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>ADHD Workout Accountability App: Calls, Fallbacks, and Less Friction</title>
-      <link>https://youraicoach.life/blog/adhd-workout-accountability-app</link>
-      <guid>https://youraicoach.life/blog/adhd-workout-accountability-app</guid>
-      <description>A practical ADHD-friendly workout accountability system for people who plan to train, then lose the moment. Includes a two-minute handoff checklist and how IZEM phone calls help.</description>
-      <pubDate>Sun, 05 Jul 2026 00:00:00 GMT</pubDate>
+      <title>Beginner Fitness App for Structure, Calls, and Weekly Adaptation</title>
+      <link>https://youraicoach.life/blog/best-fitness-app-for-beginners</link>
+      <guid>https://youraicoach.life/blog/best-fitness-app-for-beginners</guid>
+      <description>A practical guide to choosing a beginner fitness app when you need structure, accountability calls, realistic meals, fallback workouts, and weekly adaptation.</description>
+      <pubDate>Sat, 09 May 2026 00:00:00 GMT</pubDate>
     </item>
   </channel>
 </rss>
