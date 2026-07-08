@@ -1,0 +1,61 @@
+{
+  "id": "2026-07-08T08-06-35-034Z-site-audit",
+  "createdAt": "2026-07-08T08:06:35.034Z",
+  "websiteUrl": "https://youraicoach.life",
+  "pages": [
+    {
+      "url": "https://youraicoach.life/",
+      "status": 200,
+      "title": "Fitness App That Calls You | IZEM Premium AI Personal Trainer",
+      "metaDescription": "IZEM is the premium AI personal trainer that calls you before workouts, reviews your day, and adapts your workout and meal plan every week.",
+      "canonical": "https://youraicoach.life/",
+      "h1": [],
+      "h2": [],
+      "wordCount": 0,
+      "images": [],
+      "links": [],
+      "schemaTypes": [
+        "MobileApplication",
+        "Organization",
+        "FAQPage"
+      ],
+      "loadMs": 117
+    }
+  ],
+  "issues": [
+    {
+      "id": "b3dffd2e-6536-490a-9cae-33dbba32db67",
+      "url": "https://youraicoach.life/",
+      "category": "content",
+      "severity": "high",
+      "title": "Missing H1",
+      "detail": "Found 0 H1 headings.",
+      "recommendation": "Use exactly one clear H1 that matches the page intent."
+    },
+    {
+      "id": "75c69c50-476c-4f4e-9d96-239487e3fe10",
+      "url": "https://youraicoach.life/",
+      "category": "content",
+      "severity": "medium",
+      "title": "Thin page",
+      "detail": "The page has about 0 words.",
+      "recommendation": "Add useful, specific content or consolidate this page if it does not deserve its own URL."
+    },
+    {
+      "id": "310c1600-b0e9-4b33-aca6-ecfd37ddef26",
+      "url": "https://youraicoach.life/",
+      "category": "links",
+      "severity": "medium",
+      "title": "Weak internal linking",
+      "detail": "Found 0 internal links.",
+      "recommendation": "Add contextual links to nearby accountability, calls, workout, meal plan, and comparison pages."
+    }
+  ],
+  "summary": {
+    "pagesCrawled": 1,
+    "high": 1,
+    "medium": 2,
+    "low": 0,
+    "score": 76
+  }
+}
