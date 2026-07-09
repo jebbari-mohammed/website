@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-07-08T08:06:48.052Z",
+  "updatedAt": "2026-07-09T07:06:29.988Z",
   "latestAudit": {
-    "id": "2026-07-08T08-06-35-034Z-site-audit",
-    "createdAt": "2026-07-08T08:06:35.034Z",
+    "id": "2026-07-09T07-06-29-980Z-site-audit",
+    "createdAt": "2026-07-09T07:06:29.981Z",
     "websiteUrl": "https://youraicoach.life",
     "pages": [
       {
@@ -21,12 +21,12 @@
           "Organization",
           "FAQPage"
         ],
-        "loadMs": 117
+        "loadMs": 403
       }
     ],
     "issues": [
       {
-        "id": "b3dffd2e-6536-490a-9cae-33dbba32db67",
+        "id": "050fc6ef-82e9-42c1-98c7-9f9a55b94661",
         "url": "https://youraicoach.life/",
         "category": "content",
         "severity": "high",
@@ -35,7 +35,7 @@
         "recommendation": "Use exactly one clear H1 that matches the page intent."
       },
       {
-        "id": "75c69c50-476c-4f4e-9d96-239487e3fe10",
+        "id": "cae30542-a339-4907-b9f0-86cb26cb9b9e",
         "url": "https://youraicoach.life/",
         "category": "content",
         "severity": "medium",
@@ -44,7 +44,7 @@
         "recommendation": "Add useful, specific content or consolidate this page if it does not deserve its own URL."
       },
       {
-        "id": "310c1600-b0e9-4b33-aca6-ecfd37ddef26",
+        "id": "9eb60e92-bc1f-4e5c-bdd4-b62739027c20",
         "url": "https://youraicoach.life/",
         "category": "links",
         "severity": "medium",
@@ -883,6 +883,17 @@
     ]
   },
   "recentLogs": [
+    {
+      "id": "78aebd2b-3de3-4482-851d-ffa879c55561",
+      "timestamp": "2026-07-09T07:06:29.987Z",
+      "agent": "seo_strategist",
+      "action": "crawl_site",
+      "inputSummary": "Audited https://youraicoach.life",
+      "outputSummary": "1 pages, score 76/100. JSON: /Users/Apple/Documents/website/data/marketing-employee/audits/2026-07-09T07-06-29-980Z-site-audit.json",
+      "riskLevel": "low",
+      "approvalRequired": true,
+      "status": "success"
+    },
     {
       "id": "aa07ecc2-ea75-46b3-acef-299b39c5acaa",
       "timestamp": "2026-07-08T08:06:48.051Z",

@@ -32,7 +32,7 @@ export default function PrivacySection() {
                                 <li className="flex gap-2.5 items-start"><Activity size={18} className="shrink-0 text-textPrimary mt-0.5" /> Fitness profile: age, gender, height, weight, goals</li>
                                 <li className="flex gap-2.5 items-start"><Utensils size={18} className="shrink-0 text-textPrimary mt-0.5" /> Dietary preferences and restrictions</li>
                                 <li className="flex gap-2.5 items-start"><Smartphone size={18} className="shrink-0 text-textPrimary mt-0.5" /> App usage data (streaks, workout completions)</li>
-                                <li className="flex gap-2.5 items-start"><Camera size={18} className="shrink-0 text-textPrimary mt-0.5" /> <span>Optional camera images — processed immediately and <strong className="text-textPrimary">never stored</strong></span></li>
+                                <li className="flex gap-2.5 items-start"><Camera size={18} className="shrink-0 text-textPrimary mt-0.5" /> <span>Optional camera images - processed for analysis and <strong className="text-textPrimary">not retained as stored photos</strong></span></li>
                             </ul>
                         </motion.div>
 
@@ -66,13 +66,13 @@ export default function PrivacySection() {
                             How to Delete Your Data
                         </h2>
                         <p className="text-[17px] text-textSecondary max-w-[560px] leading-relaxed font-sans">
-                            You have full control. Delete your account and all associated data at any time — instantly.
+                            You have full control. Delete your account and associated app data from inside the app at any time.
                         </p>
                     </motion.div>
 
                     <div className="grid md:grid-cols-2 gap-6 mt-14">
                         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="glass-card rounded-[24px] p-8">
-                            <div className="inline-block bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-4">Option 1 — Instant</div>
+                            <div className="inline-block bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-4">Option 1 - In App</div>
                             <h3 className="text-base font-bold mb-3 font-sans">Delete from the App</h3>
                             <ol className="flex flex-col gap-1.5 text-sm text-textSecondary pl-4 list-decimal marker:text-primary marker:font-bold font-sans">
                                 <li>Open <strong className="text-textPrimary">IZEM</strong> app</li>
@@ -81,11 +81,11 @@ export default function PrivacySection() {
                                 <li>Tap <strong className="text-textPrimary">"Delete Account"</strong></li>
                                 <li>Confirm deletion</li>
                             </ol>
-                            <p className="mt-4 text-[13px] text-textSecondary leading-relaxed font-sans">This permanently and instantly deletes your account, all plans, fitness data, and personal information.</p>
+                            <p className="mt-4 text-[13px] text-textSecondary leading-relaxed font-sans">This permanently deletes your account, plans, fitness data, and personal information from the app account.</p>
                         </motion.div>
 
                         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="glass-card rounded-[24px] p-8">
-                            <div className="inline-block bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-4">Option 2 — Email</div>
+                            <div className="inline-block bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-4">Option 2 - Email</div>
                             <h3 className="text-base font-bold mb-3 font-sans">Contact Support</h3>
                             <p className="text-sm text-textSecondary mb-3 font-sans">If you cannot access the app, email us at:</p>
                             <p className="text-[15px] font-semibold text-primary mb-3">support@youraicoach.life</p>

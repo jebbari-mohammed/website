@@ -13,7 +13,7 @@ export default function Footer() {
                             <span className="text-base font-bold font-condensed tracking-wide text-textPrimary">IZEM</span>
                         </div>
                         <p className="text-sm text-textSecondary leading-[1.7] max-w-[300px]">
-                            Premium AI personal training with proactive calls, daily review, personalized workouts, practical meals, scans, and weekly plan adaptation.
+                            Premium AI personal training with weekly workouts, practical meals, food/body/equipment scans, daily reviews, coach memory, optional calls, and weekly plan adaptation.
                             <br /><br />
                             <span className="text-[11px] opacity-70">
                                 <strong>Note:</strong> We are a consumer fitness application, not affiliated with the B2B consulting firm youraicoach.ai.
@@ -26,16 +26,19 @@ export default function Footer() {
                     </div>
 
                     <div className="md:col-span-2">
-                        <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">App</h4>
+                        <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Product</h4>
                         <div className="flex flex-col gap-2.5">
-                            <a href="https://apps.apple.com/app/your-ai-coach" className="text-sm text-textSecondary hover:text-primary transition-colors">App Store</a>
-                            <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" className="text-sm text-textSecondary hover:text-primary transition-colors">Google Play</a>
+                            <a href="/izem-ai-fitness-coach/" className="text-sm text-textSecondary hover:text-primary transition-colors">IZEM AI Fitness Coach</a>
+                            <a href="/features/ai-workout-generator" className="text-sm text-textSecondary hover:text-primary transition-colors">Workout Plans</a>
+                            <a href="/features/ai-meal-planner" className="text-sm text-textSecondary hover:text-primary transition-colors">Meal Plans</a>
+                            <a href="/features/body-scanning" className="text-sm text-textSecondary hover:text-primary transition-colors">Body Scanning</a>
                         </div>
                     </div>
 
                     <div className="md:col-span-2">
                         <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Guides</h4>
                         <div className="flex flex-col gap-2.5">
+                            <a href="/izem-ai-fitness-coach/" className="text-sm text-textSecondary hover:text-primary transition-colors font-medium text-primary">IZEM AI Fitness Coach</a>
                             <a href="/fitness-app-that-calls-you/" className="text-sm text-textSecondary hover:text-primary transition-colors font-medium text-primary">Fitness App That Calls You</a>
                             <a href="/features/ai-voice-calls" className="text-sm text-textSecondary hover:text-primary transition-colors">AI Voice Calls</a>
                             <a href="/best-ai-fitness-app" className="text-sm text-textSecondary hover:text-primary transition-colors">Best AI Fitness App</a>

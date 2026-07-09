@@ -3,7 +3,7 @@ import { Lock, Smartphone, Ban, Trash2, AlertTriangle, ShieldCheck } from 'lucid
 
 const trustItems = [
     { icon: Lock, title: "Data Encrypted", desc: "All data is stored with industry-standard encryption via Google Firebase." },
-    { icon: Smartphone, title: "Images Not Stored", desc: "Body and food scan images are processed by AI instantly and immediately discarded." },
+    { icon: Smartphone, title: "Images Not Stored", desc: "Body and food scan images are processed for the requested analysis and are not retained as stored photos." },
     { icon: Ban, title: "No Data Sales", desc: "We never sell, trade, or share your personal data with any third parties for advertising." },
     {
         icon: ShieldCheck,

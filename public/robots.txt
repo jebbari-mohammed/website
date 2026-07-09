@@ -1,4 +1,4 @@
-# IZEM — robots.txt
+# IZEM robots.txt
 # Allow all AI crawlers and search engines full access
 
 # OpenAI / ChatGPT crawlers

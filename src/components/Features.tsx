@@ -3,56 +3,56 @@ import { Phone, Dumbbell, Utensils, Camera, Brain, ShieldCheck } from 'lucide-re
 
 const features = [
   {
-    icon: Phone,
-    title: "Proactive Voice Calls",
-    subtitle: "Your coach calls YOU",
+    icon: Dumbbell,
+    title: "Full Workout Plans",
+    subtitle: "Built around your real week",
     desc: (
       <>
-        Not a chatbot. Not a notification. IZEM can call your phone via real{" "}
-        <a href="/features/ai-voice-calls" className="underline hover:text-primary transition-colors font-medium">
-          VoIP voice calls
+        IZEM builds training around your goal, body, schedule, equipment, level, recovery, and progress instead of making you browse a generic exercise library. Read the{" "}
+        <a href="/features/ai-workout-generator" className="underline hover:text-primary transition-colors font-medium">
+          AI workout generator guide
         </a>
-        . Before training, at daily review time, and when accountability matters. Two-way conversation: you talk, your coach listens, follows up, and helps you decide what to do next.
+        .
       </>
     ),
-    gradient: "from-primary to-blue-500",
+    gradient: "from-secondary to-purple-500",
     span: "md:col-span-2",
     image: "/images/hero-call-card.webp",
   },
   {
-    icon: Dumbbell,
-    title: "Adaptive Workout Plans",
-    subtitle: "Updated every week",
-    desc: "IZEM builds training around your goal, body, schedule, equipment, level, recovery, and weekly progress instead of making you browse a generic exercise library.",
-    gradient: "from-secondary to-purple-500",
-    span: "",
-  },
-  {
     icon: Utensils,
-    title: "Practical Meal Planning",
-    subtitle: "Your life, your macros",
-    desc: "Meals are built around macros, preferences, schedule, lifestyle, and consistency. The goal is not perfect eating; it is a nutrition plan your coach can adjust.",
+    title: "Weekly Meal Plans",
+    subtitle: "Your food, your macros",
+    desc: (
+      <>
+        Meals are built around macros, preferences, budget, schedule, culture, lifestyle, and consistency. See how the{" "}
+        <a href="/features/ai-meal-planner" className="underline hover:text-primary transition-colors font-medium">
+          AI meal planner
+        </a>
+        {" "}keeps nutrition practical.
+      </>
+    ),
     gradient: "from-cta to-emerald-500",
     span: "",
   },
   {
     icon: Camera,
     title: "Food, Body & Equipment Scans",
-    subtitle: "Your coach sees more",
-    desc: "Scan food, body progress, and gym equipment so IZEM has more context. Your coach sees more, so your plan gets smarter.",
+    subtitle: "More context, better coaching",
+    desc: "Scan meals, body progress, and gym equipment so the coach understands what you ate, how progress is trending, and what machines are available in the gym.",
     gradient: "from-amber-500 to-orange-500",
     span: "md:col-span-2",
     image: "/images/food-scan-card.webp",
   },
   {
     icon: Brain,
-    title: "Weekly Adaptation",
-    subtitle: "The plan changes with life",
+    title: "Daily Reviews & Weekly Adaptation",
+    subtitle: "Review what happened",
     desc: (
       <>
-        IZEM reviews consistency, workouts, meals, recovery, and real-life constraints before updating the next week. Read more on our{" "}
-        <a href="/about" className="underline hover:text-primary transition-colors font-medium">
-          about page
+        IZEM reviews workouts, meals, recovery, consistency, scans, and real-life constraints before updating the next week. The complete loop is explained on the{" "}
+        <a href="/izem-ai-fitness-coach/" className="underline hover:text-primary transition-colors font-medium">
+          IZEM AI Fitness Coach page
         </a>
         . It is not a dashboard; it is a coach that keeps track.
       </>
@@ -61,10 +61,26 @@ const features = [
     span: "",
   },
   {
+    icon: Phone,
+    title: "Optional Voice Calls",
+    subtitle: "Your coach can call you",
+    desc: (
+      <>
+        Not a chatbot. Not just a notification. IZEM can call your phone before training, at review time, and when accountability matters. Learn more about{" "}
+        <a href="/features/ai-voice-calls" className="underline hover:text-primary transition-colors font-medium">
+          AI voice calls
+        </a>
+        .
+      </>
+    ),
+    gradient: "from-primary to-blue-500",
+    span: "",
+  },
+  {
     icon: ShieldCheck,
-    title: "Premium Accountability",
+    title: "Coach Memory & Context",
     subtitle: "A coach, not a tracker",
-    desc: "Users are buying fewer excuses, less confusion, and the feeling that something is keeping track of them. IZEM focuses on follow-up, structure, and practical next steps.",
+    desc: "IZEM can use prior workouts, meals, preferences, scan context, and check-ins so the same problem does not need to be explained every week.",
     gradient: "from-rose-500 to-pink-500",
     span: "",
   },
@@ -89,8 +105,8 @@ export default function Features() {
             ✦ Everything You Need
           </div>
           <h2 className="text-4xl sm:text-5xl md:text-7xl font-extrabold font-condensed leading-[1.05] tracking-tighter">
-            NOT JUST AN APP.<br />
-            <span className="text-textSecondary">A REAL COACH.</span>
+            NOT JUST CALLS.<br />
+            <span className="text-textSecondary">THE FULL COACHING LOOP.</span>
           </h2>
         </motion.div>
 

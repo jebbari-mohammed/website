@@ -20,6 +20,7 @@ export default function Navigation() {
             </a>
 
             <div className="hidden md:flex items-center gap-4 lg:gap-7">
+                <a href="/izem-ai-fitness-coach/" className="text-sm font-medium text-textSecondary hover:text-primary transition-colors duration-200">AI Coach</a>
                 <a href="/fitness-app-that-calls-you/" className="text-sm font-medium text-textSecondary hover:text-primary transition-colors duration-200">Voice Calls</a>
                 <a href="/tools/" className="text-sm font-medium text-textSecondary hover:text-primary transition-colors duration-200">Tools</a>
                 <a href="/blog/" className="text-sm font-medium text-textSecondary hover:text-primary transition-colors duration-200">Blog</a>
@@ -28,8 +29,8 @@ export default function Navigation() {
                 <a href="#data" className="text-sm font-medium text-textSecondary hover:text-primary transition-colors duration-200">Privacy</a>
             </div>
 
-            <a href="#download" className="hidden md:flex bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-85 transition-opacity">
-                Get IZEM
+            <a href="/izem-ai-fitness-coach/" className="hidden md:flex bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-85 transition-opacity">
+                See Full Coach
             </a>
 
             <button className="md:hidden p-1" onClick={() => setIsOpen(!isOpen)}>
@@ -43,6 +44,7 @@ export default function Navigation() {
                     animate={{ opacity: 1, y: 0 }}
                     className="absolute top-full left-0 right-0 bg-bgPrimary border-b border-white/10 p-6 flex flex-col gap-4 shadow-2xl"
                 >
+                    <a href="/izem-ai-fitness-coach/" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">IZEM AI Fitness Coach</a>
                     <a href="/fitness-app-that-calls-you/" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Voice Calls Guide</a>
                     <a href="/tools/" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Free Calculators</a>
                     <a href="/blog/" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Blog</a>
@@ -50,8 +52,8 @@ export default function Navigation() {
                     <a href="#how" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">How it Works</a>
                     <a href="#data" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Privacy</a>
                     <a href="#delete" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Data Deletion</a>
-                    <a href="#download" onClick={() => setIsOpen(false)} className="mt-2 text-center bg-gradient-to-r from-primary to-secondary text-white px-5 py-3 rounded-full text-sm font-semibold">
-                        Get IZEM
+                    <a href="/izem-ai-fitness-coach/" onClick={() => setIsOpen(false)} className="mt-2 text-center bg-gradient-to-r from-primary to-secondary text-white px-5 py-3 rounded-full text-sm font-semibold">
+                        See Full Coach
                     </a>
                 </motion.div>
             )}

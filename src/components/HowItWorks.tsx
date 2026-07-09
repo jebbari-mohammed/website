@@ -5,15 +5,15 @@ const steps = [
   {
     num: "1",
     icon: ScanFace,
-    title: "Tell Us Everything",
-    desc: "Answer a few questions about your goals, injuries, and preferences. Then scan your body with your phone camera — our AI learns everything about you in 60 seconds.",
+    title: "Build Your Profile",
+    desc: "Answer a few questions about your goals, constraints, schedule, equipment, and preferences. Body progress scans can add useful visual context for the coach.",
     highlight: "Body progress scanning + smart profiling",
   },
   {
     num: "2",
     icon: Brain,
     title: "Get Your Custom Plan",
-    desc: "AI builds your complete workout program AND meal plan. Not a template — built for YOUR body, your cuisine, your schedule. Progressive overload, macro targets, the works.",
+    desc: "IZEM builds a workout program and meal plan around your body, cuisine, schedule, equipment, macro targets, and training level. It is structured, not a generic template.",
     highlight: "Workouts + meals + macros",
   },
   {
@@ -27,7 +27,7 @@ const steps = [
     num: "4",
     icon: Sparkles,
     title: "Watch Yourself Transform",
-    desc: "Scan your body anytime to see real progress. Your coach detects plateaus, adjusts your program, celebrates milestones, and never lets you quit.",
+    desc: "Use check-ins and body progress scans to spot trends over time. Your coach can adjust the plan when progress stalls and keep the next step realistic.",
     highlight: "AI-tracked transformation",
   },
 ];
@@ -50,7 +50,7 @@ export default function HowItWorks() {
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">TRANSFORMATION.</span>
           </h2>
           <p className="text-sm sm:text-[17px] text-textSecondary max-w-[560px] leading-relaxed font-sans font-light">
-            No guesswork. No generic plans. A real coaching relationship — powered by AI that knows you better than any human trainer could.
+            No guesswork. No generic plans. A coaching loop powered by AI that uses your workouts, meals, scans, preferences, and check-ins to keep the plan practical.
           </p>
         </motion.div>
 

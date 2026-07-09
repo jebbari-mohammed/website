@@ -37,11 +37,11 @@ export default function Comparison() {
             ✦ The Honest Comparison
           </div>
           <h2 className="text-4xl sm:text-5xl md:text-7xl font-extrabold font-condensed leading-[1.05] tracking-tighter mb-4">
-            US VS.<br />
-            <span className="text-textSecondary">EVERYONE ELSE.</span>
+            FULL COACHING.<br />
+            <span className="text-textSecondary">NOT JUST TRACKING.</span>
           </h2>
           <p className="text-base sm:text-lg text-textSecondary max-w-[500px] mx-auto leading-relaxed font-light px-2">
-            IZEM is priced like a premium AI coach, not a cheap tracker. The value is active follow-up, planning, meals, scans, and weekly adaptation.
+            IZEM is priced like a premium AI coach, not a cheap tracker. The value is one connected system for workout plans, meal plans, scans, reviews, calls, memory, and weekly adaptation.
           </p>
         </motion.div>
 
