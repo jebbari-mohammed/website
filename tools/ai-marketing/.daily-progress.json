@@ -43,10 +43,10 @@
     {
       "keyword": "best fitness app for beginners who dont know what to do",
       "slug": "best-fitness-app-for-beginners",
-      "title": "Lost at the Gym? Why a Proactive AI Coach Might Be Your Secret Weapon",
-      "description": "Struggling to find your footing in the gym? Discover why AI-driven voice coaching, personalized nutrition, and body progress scanning are changing the fitness game.",
+      "title": "Beginner Fitness App for Structure, Calls, and Weekly Adaptation",
+      "description": "A practical guide to choosing a beginner fitness app when you need structure, accountability calls, realistic meals, fallback workouts, and weekly adaptation.",
       "date": "2026-05-09",
-      "noindex": true
+      "noindex": false
     },
     {
       "keyword": "2026-05-13-best-ai-fitness-apps-2026-future-revealed",
@@ -205,8 +205,16 @@
       "slug": "hotel-gym-workout-app-limited-equipment",
       "title": "How to Save Your Workout Routine in a Sad Hotel Gym",
       "description": "Stop letting tiny hotel gyms ruin your fitness goals. Discover how smart AI workout apps adapt your routine to whatever limited equipment you have.",
-      "date": "2026-07-08"
+      "date": "2026-07-08",
+      "noindex": false
+    },
+    {
+      "keyword": "AI personal trainer app for people who skip workouts after work",
+      "slug": "ai-personal-trainer-app-after-work-workouts",
+      "title": "Beat the 5 PM Slump: How an AI Coach Stops You From Skipping Gym",
+      "description": "Tired of skipping workouts after a long workday? Learn how a premium AI personal trainer app uses proactive voice calls to help you beat decision fatigue.",
+      "date": "2026-07-09"
     }
   ],
-  "lastRun": "2026-07-08T10:08:40.851Z"
+  "lastRun": "2026-07-09T12:18:37.873Z"
 }
