@@ -1,15 +1,15 @@
 {
-  "updatedAt": "2026-07-09T07:06:29.988Z",
+  "updatedAt": "2026-07-09T09:29:39.736Z",
   "latestAudit": {
-    "id": "2026-07-09T07-06-29-980Z-site-audit",
-    "createdAt": "2026-07-09T07:06:29.981Z",
+    "id": "2026-07-09T09-29-24-824Z-site-audit",
+    "createdAt": "2026-07-09T09:29:24.824Z",
     "websiteUrl": "https://youraicoach.life",
     "pages": [
       {
         "url": "https://youraicoach.life/",
         "status": 200,
-        "title": "Fitness App That Calls You | IZEM Premium AI Personal Trainer",
-        "metaDescription": "IZEM is the premium AI personal trainer that calls you before workouts, reviews your day, and adapts your workout and meal plan every week.",
+        "title": "IZEM AI Fitness Coach | Workout Plans, Meal Plans, Scans & Calls",
+        "metaDescription": "IZEM AI Fitness Coach is a premium AI personal trainer for weekly workout plans, meal plans, food/body/equipment scans, day reviews, adaptive coaching, and accountability calls.",
         "canonical": "https://youraicoach.life/",
         "h1": [],
         "h2": [],
@@ -21,12 +21,21 @@
           "Organization",
           "FAQPage"
         ],
-        "loadMs": 403
+        "loadMs": 502
       }
     ],
     "issues": [
       {
-        "id": "050fc6ef-82e9-42c1-98c7-9f9a55b94661",
+        "id": "af313b5a-6d88-4b8f-91f4-3dfcdde69a64",
+        "url": "https://youraicoach.life/",
+        "category": "metadata",
+        "severity": "low",
+        "title": "Meta description length is suboptimal",
+        "detail": "Meta description length is 177 characters.",
+        "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
+      },
+      {
+        "id": "c462e6f9-b71d-42d9-91b3-8695e2027e97",
         "url": "https://youraicoach.life/",
         "category": "content",
         "severity": "high",
@@ -35,7 +44,7 @@
         "recommendation": "Use exactly one clear H1 that matches the page intent."
       },
       {
-        "id": "cae30542-a339-4907-b9f0-86cb26cb9b9e",
+        "id": "21a06649-4a75-42f5-8fd0-94057b8f320d",
         "url": "https://youraicoach.life/",
         "category": "content",
         "severity": "medium",
@@ -44,7 +53,7 @@
         "recommendation": "Add useful, specific content or consolidate this page if it does not deserve its own URL."
       },
       {
-        "id": "9eb60e92-bc1f-4e5c-bdd4-b62739027c20",
+        "id": "239abcec-3177-450e-894a-587e7309894a",
         "url": "https://youraicoach.life/",
         "category": "links",
         "severity": "medium",
@@ -57,13 +66,13 @@
       "pagesCrawled": 1,
       "high": 1,
       "medium": 2,
-      "low": 0,
-      "score": 76
+      "low": 1,
+      "score": 74
     }
   },
   "latestRoadmap": {
-    "id": "2026-07-08T08-06-35-993Z-keyword-roadmap",
-    "createdAt": "2026-07-08T08:06:35.993Z",
+    "id": "2026-07-09T09-29-25-773Z-keyword-roadmap",
+    "createdAt": "2026-07-09T09:29:25.773Z",
     "seed": "AI personal trainer accountability",
     "clusters": [
       {
@@ -638,8 +647,8 @@
     ]
   },
   "latestDraft": {
-    "id": "2026-07-08T08-06-46-060Z-41478b2b-blog-draft",
-    "createdAt": "2026-07-08T08:06:46.061Z",
+    "id": "2026-07-09T09-29-37-831Z-7527fba4-blog-draft",
+    "createdAt": "2026-07-09T09:29:37.832Z",
     "targetKeyword": "fitness app that reviews your day",
     "searchIntent": "transactional",
     "title": "Fitness App That Reviews Your Day: What To Look For Before You Choose",
@@ -658,7 +667,7 @@
     "sections": [
       {
         "heading": "LLM-Assisted Draft Body",
-        "body": "# The Fitness App That Reviews Your Day: Meet IZEM\n\nMost fitness applications function as passive digital logs. They require you to manually input data, yet they offer little to no guidance when your schedule changes, your energy levels drop, or your nutrition goes off track. \n\nIZEM is different. Designed for individuals who value precision, accountability, and efficiency, IZEM is a premium AI personal trainer. It is a fitness app that reviews your day through direct voice communication, dynamically adapting your workout and meal plans every week to match your actual lifestyle.\n\n---\n\n## Why You Need a Fitness App That Reviews Your Day\n\nAchieving long-term fitness goals requires consistency, but rigid plans rarely survive the realities of daily life. A late meeting, travel, or unexpected fatigue can easily disrupt a structured routine. \n\nWhen you use a fitness app that reviews your day, you bridge the gap between planning and execution:\n\n* **Real-Time Accountability:** Knowing that your day will be reviewed helps you stay mindful of your nutrition and activity choices.\n* **Contextual Adjustments:** Instead of feeling like you failed a rigid program, your plan adapts to your daily reality.\n* **Reduced Cognitive Load:** You no longer have to decide how to compensate for a missed workout or an altered meal; the system recalculates the optimal path forward for you.\n\n---\n\n## How IZEM Works: Premium AI Coaching via Voice\n\nIZEM replaces tedious manual tracking with a streamlined, premium coaching experience. \n\n### 1. The Daily Check-In Call\nIZEM does not rely on passive push notifications. Instead, your AI personal trainer calls you at a designated time to review your day. During this brief conversation, you discuss:\n* Your completed physical activity and exertion levels.\n* Your nutrition and hydration.\n* Your sleep quality, stress levels, and overall recovery.\n\n### 2. Weekly Plan Adaptation\nA workout or meal plan is only effective if it remains relevant. Every week, IZEM synthesizes the data from your daily voice reviews to completely update your strategy. \n* **Tailored Workouts:** If your daily reviews indicate joint discomfort or scheduling constraints, your upcoming weekly workouts are modified to accommodate these factors.\n* **Responsive Meal Plans:** Your nutritional targets and meal suggestions are updated weekly based on your actual energy expenditure and dietary compliance.\n\n---\n\n## Structured Support Without the Guesswork\n\nGeneric fitness templates assume every week is identical. IZEM acknowledges that your energy, time, and recovery capacity fluctuate. By analyzing your daily feedback, the AI personal trainer ensures that your training volume and caloric intake remain aligned with your physiological state.\n\nThis evidence-aware approach to training prevents overtraining, optimizes recovery, and ensures steady, structured progress toward your strength and conditioning goals.\n\n---\n\n## Experience the Next Level of Personal Training\n\nIf you are ready to move past static PDF plans and passive tracking apps, step up to a responsive, premium coaching experience. \n\nStart training with IZEM today and experience a fitness app that reviews your day, listens to your feedback, and builds a customized path to your goals every single week."
+        "body": "# Looking for a Fitness App That Reviews Your Day? Meet IZEM\n\nMost fitness applications are passive databases. They require you to manually log your meals, track your workouts, and interpret your own data, only to offer static templates in return. \n\nIf you want to reach your health and conditioning goals, passive tracking is rarely enough. True progress requires active accountability and consistent adaptation. \n\nIZEM is a premium AI personal trainer designed for those who value high-touch support, structured accountability, and plans that evolve with their lives. If you are searching for a **fitness app that reviews your day**, adapts to your schedule, and refines your strategy weekly, IZEM offers a sophisticated, interactive solution.\n\n---\n\n## The Power of Daily Accountability\n\nA static workout plan cannot account for the unpredictable nature of daily life. Late meetings, disrupted sleep, and fluctuating energy levels all impact your physical capacity. \n\nIZEM changes the paradigm of digital fitness by actively reviewing your day. Instead of leaving you to analyze your own progress, IZEM acts as an attentive partner. By evaluating your daily activity, nutrition, and lifestyle factors, it ensures your fitness strategy remains aligned with your actual lifestyle, helping you maintain consistency over the long term.\n\n---\n\n## How IZEM Works: A Premium Coaching Experience\n\nIZEM functions as a dedicated personal trainer, utilizing advanced conversational AI to deliver a structured, premium coaching experience through three core pillars:\n\n### 1. The Daily Review Call\nRather than forcing you to navigate complex menus or type out long logs, IZEM calls you directly. During this brief, daily conversation, the AI reviews your day, discusses your nutrition and activity, and notes any challenges you encountered. This natural voice interaction provides the high-touch accountability of a traditional personal trainer.\n\n### 2. Weekly Workout Adaptations\nYour body and schedule are constantly changing. Every week, IZEM analyzes the data collected from your daily reviews to adapt your workout plan. If a specific exercise is causing discomfort, or if your schedule changes, your routine is adjusted to keep you moving forward safely and efficiently.\n\n### 3. Tailored Meal Plans\nNutrition is highly individual. IZEM designs and refines your meal plans on a weekly basis, ensuring your nutrition supports your energy demands and fitness goals. The plans adapt to your preferences and real-world feedback, making balanced nutrition sustainable.\n\n---\n\n## Why Choose a Premium AI Personal Trainer?\n\nStandard fitness applications often fail because they lack context. They record your metrics but do not understand the daily variables that influence those numbers. \n\nIZEM bridges the gap between technology and human-centric coaching. By combining the analytical precision of AI with the proactive communication of a personal trainer, IZEM provides a supportive environment tailored to your specific life demands. It is built for individuals who want to invest in their health with a structured, premium service that respects their time.\n\n---\n\n## Elevate Your Fitness Journey with IZEM\n\nStop managing your fitness journey alone with passive trackers. Experience the difference of a premium AI personal trainer that keeps you accountable, adapts to your feedback, and actively supports your daily progress.\n\n**[Explore IZEM Plans and Start Your Personalized Program Today]**"
       },
       {
         "heading": "What \"fitness app that reviews your day\" Should Solve",
@@ -723,14 +732,14 @@
     }
   },
   "latestCalendar": {
-    "id": "2026-07-08T08-06-47-090Z-social-calendar",
-    "createdAt": "2026-07-08T08:06:47.090Z",
-    "sourceDraftId": "2026-07-08T08-06-46-060Z-41478b2b-blog-draft",
+    "id": "2026-07-09T09-29-38-792Z-social-calendar",
+    "createdAt": "2026-07-09T09:29:38.792Z",
+    "sourceDraftId": "2026-07-09T09-29-37-831Z-7527fba4-blog-draft",
     "posts": [
       {
-        "id": "40de075b-d7f0-479e-b9aa-e1f18401b274-facebook",
+        "id": "d1fb8eb0-c146-4350-870d-efe0a883aa14-facebook",
         "platform": "facebook",
-        "draftId": "2026-07-08T08-06-46-060Z-41478b2b-blog-draft",
+        "draftId": "2026-07-09T09-29-37-831Z-7527fba4-blog-draft",
         "content": "If you searched for \"fitness app that reviews your day\", this is the part most apps miss.\n\nThe real value is a feedback loop: plan the workout, review what happened, and adapt the next step. IZEM is built around accountability calls, day review, and weekly workout plus meal plan updates.\n\nRead the draft: /blog/fitness-app-that-reviews-your-day\n\n#AIFitness #PersonalTrainer #WorkoutAccountability",
         "hook": "If you searched for \"fitness app that reviews your day\", this is the part most apps miss.",
         "hashtags": [
@@ -743,9 +752,9 @@
         "characterCount": 397
       },
       {
-        "id": "d2619122-dd96-4a1e-a906-6ffa31c64790-instagram",
+        "id": "a89265b2-2552-41a7-820a-29e00f03856a-instagram",
         "platform": "instagram",
-        "draftId": "2026-07-08T08-06-46-060Z-41478b2b-blog-draft",
+        "draftId": "2026-07-09T09-29-37-831Z-7527fba4-blog-draft",
         "content": "If you searched for \"fitness app that reviews your day\", this is the part most apps miss.\n\nStatic plans do not know when your day fell apart. A better coaching loop checks in, learns what happened, and adjusts the next move.\n\nSave this if consistency is your main fitness problem.\n\n#AIFitness #PersonalTrainer #WorkoutAccountability #FitnessJourney #WorkoutPlan",
         "hook": "If you searched for \"fitness app that reviews your day\", this is the part most apps miss.",
         "hashtags": [
@@ -760,9 +769,9 @@
         "characterCount": 361
       },
       {
-        "id": "c5e0d09a-de53-4454-a205-e12f808b1934-tiktok",
+        "id": "efac3040-2ce3-45ce-85f7-9163c7bba0ad-tiktok",
         "platform": "tiktok",
-        "draftId": "2026-07-08T08-06-46-060Z-41478b2b-blog-draft",
+        "draftId": "2026-07-09T09-29-37-831Z-7527fba4-blog-draft",
         "content": "POV: your fitness app actually checks in.\n\nScene 1: You missed yesterday's workout.\nScene 2: Instead of guilt, your AI coach asks what happened.\nScene 3: Your week adjusts around real life.\n\nCTA on screen: Stop relying on reminders.\n\n#AIFitness #PersonalTrainer #WorkoutAccountability #FitnessJourney #WorkoutPlan",
         "hook": "POV: your fitness app actually checks in.",
         "hashtags": [
@@ -777,9 +786,9 @@
         "characterCount": 313
       },
       {
-        "id": "41b06873-5f98-4a8f-972e-f4107b123dbd-youtube_shorts",
+        "id": "1bf979ba-145b-47e6-bdc5-747916482dee-youtube_shorts",
         "platform": "youtube_shorts",
-        "draftId": "2026-07-08T08-06-46-060Z-41478b2b-blog-draft",
+        "draftId": "2026-07-09T09-29-37-831Z-7527fba4-blog-draft",
         "content": "POV: your fitness app actually checks in.\n\nShort script:\n1. Open with the missed-workout problem.\n2. Show how reminders fail when the plan no longer fits.\n3. Explain the IZEM loop: call, review the day, adapt the week.\n4. End with: \"Fitness plans should change when life changes.\"\n\n#AIFitness #PersonalTrainer #WorkoutAccountability",
         "hook": "POV: your fitness app actually checks in.",
         "hashtags": [
@@ -792,9 +801,9 @@
         "characterCount": 332
       },
       {
-        "id": "55ed5d43-8a4b-4b9c-b657-3c2eb38fe4df-linkedin",
+        "id": "5ccd337e-6246-49a3-943a-1f9e96eadb96-linkedin",
         "platform": "linkedin",
-        "draftId": "2026-07-08T08-06-46-060Z-41478b2b-blog-draft",
+        "draftId": "2026-07-09T09-29-37-831Z-7527fba4-blog-draft",
         "content": "Most fitness apps stop at reminders. Fitness App That Reviews Your Day: What To Look For Before You Choose looks at what comes next.\n\nA useful AI fitness product should do more than generate a plan. It should close the loop between intention and behavior:\n\n- What was planned?\n- What actually happened?\n- What got in the way?\n- What should change next week?\n\nThat is the product direction behind IZEM: accountability calls, day review, and adaptive workout plus meal planning.\n\n#FitnessTech #AI #BehaviorChange",
         "hook": "Most fitness apps stop at reminders. Fitness App That Reviews Your Day: What To Look For Before You Choose looks at what comes next.",
         "hashtags": [
@@ -807,9 +816,9 @@
         "characterCount": 510
       },
       {
-        "id": "b164f8ca-a642-479e-bbf6-a51a61a5348f-x",
+        "id": "13586705-34a8-4649-ad62-2ab8edb940cd-x",
         "platform": "x",
-        "draftId": "2026-07-08T08-06-46-060Z-41478b2b-blog-draft",
+        "draftId": "2026-07-09T09-29-37-831Z-7527fba4-blog-draft",
         "content": "A fitness reminder is easy to ignore.\n\nBetter loop:\nplan workout -> call/check-in -> review the day -> adapt next week.\n\nThat is the difference between reminders and coaching.\n\n#AIFitness #FitnessApp",
         "hook": "A fitness reminder is easy to ignore.",
         "hashtags": [
@@ -821,9 +830,9 @@
         "characterCount": 199
       },
       {
-        "id": "052300be-419d-4e3c-8372-2258a1fdad87-threads",
+        "id": "3fb48a5e-4213-487c-a771-3af5c7a0234b-threads",
         "platform": "threads",
-        "draftId": "2026-07-08T08-06-46-060Z-41478b2b-blog-draft",
+        "draftId": "2026-07-09T09-29-37-831Z-7527fba4-blog-draft",
         "content": "If you searched for \"fitness app that reviews your day\", this is the part most apps miss.\n\nMost people do not need more exercises. They need a plan that notices when real life changes and adjusts without turning fitness into guilt.\n\n#AIFitness #PersonalTrainer #WorkoutAccountability",
         "hook": "If you searched for \"fitness app that reviews your day\", this is the part most apps miss.",
         "hashtags": [
@@ -838,11 +847,11 @@
     ]
   },
   "latestReport": {
-    "id": "2026-07-08T08-06-48-042Z-weekly-report",
-    "createdAt": "2026-07-08T08:06:48.042Z",
+    "id": "2026-07-09T09-29-39-726Z-weekly-report",
+    "createdAt": "2026-07-09T09:29:39.726Z",
     "publishedSummary": "7 social drafts prepared from the latest blog draft. Publishing remains draft-only unless Postiz and approvals are configured.",
     "wins": [
-      "Latest crawl covered 1 pages with a score of 76/100.",
+      "Latest crawl covered 1 pages with a score of 74/100.",
       "Keyword roadmap contains 11 clusters."
     ],
     "misses": [
@@ -867,7 +876,7 @@
     ],
     "seoIssues": [
       {
-        "id": "b3dffd2e-6536-490a-9cae-33dbba32db67",
+        "id": "c462e6f9-b71d-42d9-91b3-8695e2027e97",
         "url": "https://youraicoach.life/",
         "category": "content",
         "severity": "high",
@@ -883,6 +892,61 @@
     ]
   },
   "recentLogs": [
+    {
+      "id": "1ea93edb-32ae-4240-8e86-06aed007ab16",
+      "timestamp": "2026-07-09T09:29:39.734Z",
+      "agent": "analytics_agent",
+      "action": "generate_weekly_report",
+      "inputSummary": "Latest local marketing data",
+      "outputSummary": "Weekly report generated. JSON: /home/runner/work/website/website/data/marketing-employee/reports/2026-07-09T09-29-39-726Z-weekly-report.json",
+      "riskLevel": "low",
+      "approvalRequired": true,
+      "status": "success"
+    },
+    {
+      "id": "0b6f3e8c-ad66-45e1-90a3-220c080b2198",
+      "timestamp": "2026-07-09T09:29:38.802Z",
+      "agent": "social_media_manager",
+      "action": "repurpose_social_posts",
+      "inputSummary": "Draft: 2026-07-09T09-29-37-831Z-7527fba4-blog-draft",
+      "outputSummary": "7 platform drafts. POSTIZ_API_KEY is not configured. Posts were kept as local drafts. JSON: /home/runner/work/website/website/data/marketing-employee/calendars/2026-07-09T09-29-38-792Z-social-calendar.json",
+      "riskLevel": "medium",
+      "approvalRequired": true,
+      "status": "success"
+    },
+    {
+      "id": "7cce6eae-b5db-40ed-ad64-0ba079c6c0bd",
+      "timestamp": "2026-07-09T09:29:37.844Z",
+      "agent": "content_writer",
+      "action": "generate_blog_draft",
+      "inputSummary": "Keyword: fitness app that reviews your day",
+      "outputSummary": "Draft Fitness App That Reviews Your Day: What To Look For Before You Choose. JSON: /home/runner/work/website/website/data/marketing-employee/drafts/2026-07-09T09-29-37-831Z-7527fba4-blog-draft.json",
+      "riskLevel": "high",
+      "approvalRequired": true,
+      "status": "success"
+    },
+    {
+      "id": "0c611e68-8338-4474-9f8f-18d685409bca",
+      "timestamp": "2026-07-09T09:29:25.784Z",
+      "agent": "seo_strategist",
+      "action": "generate_keyword_roadmap",
+      "inputSummary": "Seed: AI personal trainer accountability",
+      "outputSummary": "11 clusters, 16 calendar items. JSON: /home/runner/work/website/website/data/marketing-employee/roadmaps/2026-07-09T09-29-25-773Z-keyword-roadmap.json",
+      "riskLevel": "low",
+      "approvalRequired": true,
+      "status": "success"
+    },
+    {
+      "id": "6ac93ae4-9ede-4480-9d49-9df7fb4309b0",
+      "timestamp": "2026-07-09T09:29:24.836Z",
+      "agent": "seo_strategist",
+      "action": "crawl_site",
+      "inputSummary": "Audited https://youraicoach.life",
+      "outputSummary": "1 pages, score 74/100. JSON: /home/runner/work/website/website/data/marketing-employee/audits/2026-07-09T09-29-24-824Z-site-audit.json",
+      "riskLevel": "low",
+      "approvalRequired": true,
+      "status": "success"
+    },
     {
       "id": "78aebd2b-3de3-4482-851d-ffa879c55561",
       "timestamp": "2026-07-09T07:06:29.987Z",
@@ -1044,17 +1108,6 @@
       "action": "generate_keyword_roadmap",
       "inputSummary": "Seed: AI personal trainer accountability",
       "outputSummary": "11 clusters, 16 calendar items. JSON: /home/runner/work/website/website/data/marketing-employee/roadmaps/2026-07-07T20-40-47-720Z-keyword-roadmap.json",
-      "riskLevel": "low",
-      "approvalRequired": true,
-      "status": "success"
-    },
-    {
-      "id": "72a6f3f8-8fa5-4cd1-8a8a-ce642e7f770c",
-      "timestamp": "2026-07-07T20:40:46.829Z",
-      "agent": "seo_strategist",
-      "action": "crawl_site",
-      "inputSummary": "Audited https://youraicoach.life",
-      "outputSummary": "22 pages, score 0/100. JSON: /home/runner/work/website/website/data/marketing-employee/audits/2026-07-07T20-40-46-820Z-site-audit.json",
       "riskLevel": "low",
       "approvalRequired": true,
       "status": "success"
