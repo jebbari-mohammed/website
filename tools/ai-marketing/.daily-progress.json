@@ -221,8 +221,16 @@
       "slug": "ai-meal-planner-busy-people-no-prep",
       "title": "Ditch the Tupperware: The Busy Person Guide to AI Meal Planning",
       "description": "Discover how a premium AI meal planner helps busy professionals hit their macros and stay healthy without spending Sundays prepping dry chicken breast.",
+      "date": "2026-07-10",
+      "noindex": false
+    },
+    {
+      "keyword": "fitness app with fallback workouts for busy days",
+      "slug": "fitness-app-with-fallback-workouts-busy-days",
+      "title": "Why Static Workout Plans Fail Busy People (And How to Fix It)",
+      "description": "Discover how a premium AI fitness coach with dynamic fallback workouts saves your consistency on hectic days when traditional rigid gym apps fail.",
       "date": "2026-07-10"
     }
   ],
-  "lastRun": "2026-07-10T10:31:40.455Z"
+  "lastRun": "2026-07-10T10:59:39.867Z"
 }
