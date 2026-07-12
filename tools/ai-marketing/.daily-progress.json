@@ -237,8 +237,16 @@
       "slug": "ai-coach-adapts-workouts-meals-weekly",
       "title": "This AI Coach Rewrites Your Workouts and Meals Every Week",
       "description": "Looking for a fitness routine that actually adapts to your busy life? Here is how adaptive AI coaching is replacing static PDF workout and meal plans.",
-      "date": "2026-07-11"
+      "date": "2026-07-11",
+      "noindex": false
+    },
+    {
+      "keyword": "personal trainer alternative app with phone call accountability",
+      "slug": "personal-trainer-alternative-phone-call-accountability",
+      "title": "Can't Stick to Your Gym Routine? This AI Coach Calls Your Phone",
+      "description": "Ditch expensive personal trainers. Discover how a premium AI fitness app with real-time phone call accountability keeps your workouts on track daily.",
+      "date": "2026-07-12"
     }
   ],
-  "lastRun": "2026-07-11T09:29:36.766Z"
+  "lastRun": "2026-07-12T09:16:42.285Z"
 }
