@@ -73,13 +73,13 @@
   ],
   "schemaRecommendation": "Article schema with Organization publisher. Add BreadcrumbList on the page and FAQ content only where it is genuinely visible and helpful.",
   "cta": "Try IZEM if you want an AI personal trainer that calls you, reviews your day, and adapts your workout and meal plan every week.",
-  "reviewStatus": "needs_review",
+  "reviewStatus": "approved",
   "validation": {
     "riskLevel": "high",
     "issues": [
       "Potential regulated medical/legal/financial wording detected."
     ],
     "claimsToVerify": [],
-    "approvalRequired": true
+    "approvalRequired": false
   }
 }
