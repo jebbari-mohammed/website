@@ -627,7 +627,15 @@ function mergeProgressWithPublishedPosts(progress) {
 
 async function generatePost(topic, apiKeys) {
   // Support models with quota
-  const MODELS = ['gemini-3.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash'];
+  const MODELS = [
+    'gemini-3.5-flash',
+    'gemini-3.1-flash-lite',
+    'gemini-3.1-flash-lite-preview',
+    'gemini-3-flash',
+    'gemini-3-flash-preview',
+    'gemini-2.5-flash',
+    'gemini-2.5-flash-lite'
+  ];
   const MAX_RETRIES = 2;
 
   const prompt = `Write a comprehensive, human-sounding blog article about: "${topic}"

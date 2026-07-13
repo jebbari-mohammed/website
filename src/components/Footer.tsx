@@ -44,6 +44,7 @@ export default function Footer() {
                             <a href="/best-ai-fitness-app" className="text-sm text-textSecondary hover:text-primary transition-colors">Best AI Fitness App</a>
                             <a href="/tools/" className="text-sm text-textSecondary hover:text-primary transition-colors">Free Fitness Calculators</a>
                             <a href="/blog/" className="text-sm text-textSecondary hover:text-primary transition-colors">Blog</a>
+                            <a href="/glossary/" className="text-sm text-textSecondary hover:text-primary transition-colors">Glossary</a>
                         </div>
                     </div>
 

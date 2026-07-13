@@ -52,13 +52,16 @@ async function main() {
   ];
 
   for (const sitemap of sitemaps) {
-    await pingSitemap(sitemap);
+    const status = await pingSitemap(sitemap);
+    if (status === 404) {
+      console.warn(`  ⚠️  Google returned HTTP 404. Google deprecated and deactivated the public sitemap ping endpoint in late 2023.`);
+    }
     await new Promise(r => setTimeout(r, 1000));
   }
 
-  console.log('✅ Google sitemap pings complete');
-  console.log('   Note: Google will crawl new posts when it re-processes the sitemap.');
-  console.log('   For fastest indexing: also submit URLs manually in Google Search Console.');
+  console.log('⚠️ Google sitemap pings finished (Warning: Pings are deprecated and may be ignored by Google).');
+  console.log('   IMPORTANT: You must manually submit/refresh your sitemap inside Google Search Console (GSC).');
+  console.log('   Go to: https://search.google.com/search-console -> Sitemaps');
 }
 
 main().catch(err => {
