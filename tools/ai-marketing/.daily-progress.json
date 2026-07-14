@@ -253,8 +253,16 @@
       "slug": "fitness-tracker-alternative-that-coaches",
       "title": "Stop Tracking Your Workouts—Start Getting Coached Instead",
       "description": "Tired of fitness apps that just track numbers? Discover how IZEM uses real-time AI voice coaching to hold you accountable and build a program that actually works.",
-      "date": "2026-07-13"
+      "date": "2026-07-13",
+      "noindex": false
+    },
+    {
+      "keyword": "body progress scan app for visual fitness tracking",
+      "slug": "body-progress-scan-app-visual-tracking",
+      "title": "Why Scales Lie and How Body Progress Scan Apps Reveal Truth",
+      "description": "Discover how a body progress scan app captures real muscle and fat changes that your scale misses. Transform your fitness tracking journey today.",
+      "date": "2026-07-14"
     }
   ],
-  "lastRun": "2026-07-13T15:41:54.351Z"
+  "lastRun": "2026-07-14T11:26:01.200Z"
 }
