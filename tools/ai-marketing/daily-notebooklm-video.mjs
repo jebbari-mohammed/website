@@ -522,8 +522,60 @@ function buildEmbedBlock(post, youtubeUrl, notebookId) {
 <!-- IZEM_VIDEO_END -->`;
 }
 
+function injectVideoSchema(html, post, videoId) {
+  const jsonLdRegex = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/i;
+  const match = html.match(jsonLdRegex);
+  if (!match) return html;
+
+  try {
+    const jsonText = match[1].trim();
+    let data = JSON.parse(jsonText);
+    
+    if (data) {
+      const title = post.title || "Video Guide";
+      const desc = post.description || post.metaDescription || `${title} video guide`;
+      
+      const newVideoObj = {
+        "@type": "VideoObject",
+        "name": `${title} - Video Guide`,
+        "description": desc,
+        "thumbnailUrl": `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+        "uploadDate": post.date || new Date().toISOString().split('T')[0],
+        "embedUrl": `https://www.youtube.com/embed/${videoId}`
+      };
+
+      if (data["@graph"]) {
+        let videoObj = data["@graph"].find(item => item["@type"] === "VideoObject");
+        if (videoObj) {
+          Object.assign(videoObj, newVideoObj);
+        } else {
+          data["@graph"].push(newVideoObj);
+        }
+      } else {
+        const context = data["@context"] || "https://schema.org";
+        delete data["@context"];
+        data = {
+          "@context": context,
+          "@graph": [
+            data,
+            newVideoObj
+          ]
+        };
+      }
+
+      const updatedJsonText = JSON.stringify(data, null, 2);
+      const indentedJsonText = updatedJsonText.split('\n').map(line => '    ' + line).join('\n').trim();
+      return html.replace(jsonLdRegex, `<script type="application/ld+json">\n    ${indentedJsonText}\n    </script>`);
+    }
+  } catch (err) {
+    console.warn('⚠️ Failed to inject VideoObject JSON-LD schema:', err.message);
+  }
+  return html;
+}
+
 function embedVideoInPost(post, youtubeUrl, notebookId) {
   const block = buildEmbedBlock(post, youtubeUrl, notebookId);
+  const videoId = extractYouTubeId(youtubeUrl);
   let html = fs.readFileSync(post.file, 'utf8');
 
   if (/<!-- (NOTEBOOKLM|IZEM)_VIDEO_START -->/.test(html)) {
@@ -537,6 +589,8 @@ function embedVideoInPost(post, youtubeUrl, notebookId) {
   } else {
     html = html.replace(/<body[^>]*>/i, match => `${match}\n${block}`);
   }
+
+  html = injectVideoSchema(html, post, videoId);
 
   fs.writeFileSync(post.file, html);
 }
