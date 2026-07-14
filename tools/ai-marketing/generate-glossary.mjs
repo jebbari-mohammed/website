@@ -46,8 +46,166 @@ const TERMS = [
   { term: "Intermittent Fasting", slug: "intermittent-fasting", definition: "An eating pattern that cycles between periods of eating and fasting. The most popular protocol is 16:8 (16 hours fasting, 8 hours eating). It's a tool for calorie control, not magic — the deficit still matters.", related: ["calorie-deficit", "fat-loss", "tdee"] },
 ];
 
+const GLOSSARY_DETAILS = {
+  "progressive-overload": {
+    explanation: "Progressive overload is the foundation of physical training. By systematically increasing the stress placed on your body during exercise over time, you force your musculoskeletal and nervous systems to adapt, repair, and grow stronger. Without progressive overload, the body has no physiological reason to build and maintain energy-expensive muscle tissue.",
+    practical: "To apply progressive overload, focus on small weekly progressions. This could mean adding 1kg to your lift, performing one additional repetition with the same weight, or completing your sets with better control and range of motion. Track sets, reps, and load closely.",
+    mistakes: "The most common mistake is ego lifting—adding weight too quickly at the expense of strict form. This shifts tension off the target muscles and onto joints, leading to injury and training plateaus."
+  },
+  "1rm": {
+    explanation: "One Rep Max (1RM) is the maximum weight you can lift for a single repetition with proper form. It is the gold-standard metric for measuring absolute strength and serves as the baseline for structural percentage-based strength training programs.",
+    practical: "Instead of testing your max to failure (which is high risk), calculate it safely. A common rule is that a weight you can lift for 5 clean reps is roughly 85% of your 1RM. You can calculate the estimate using equations like the Epley formula.",
+    mistakes: "Frequently testing your true 1RM is dangerous and highly fatiguing for your central nervous system, which can stall your regular training progress for days."
+  },
+  "tdee": {
+    explanation: "Total Daily Energy Expenditure (TDEE) is the total number of calories your body burns in a 24-hour period. It is composed of your BMR (Basal Metabolic Rate), exercise activity, non-exercise movement (NEAT), and the thermic effect of food digestion.",
+    practical: "Your TDEE is the target you must compare your daily intake against. Eat below your TDEE to lose fat (deficit), eat above it to gain muscle (surplus), or eat at your TDEE to maintain weight.",
+    mistakes: "Using generic online calculators without adjusting for actual daily step count and workout consistency, which often leads to overestimating your actual energy expenditure."
+  },
+  "bmr": {
+    explanation: "Basal Metabolic Rate (BMR) is the caloric cost of keeping your body alive at complete rest. It covers involuntary functions like breathing, circulating blood, cellular repair, temperature regulation, and brain activity.",
+    practical: "Your BMR represents the floor of your energy needs. Aggressive diets should rarely drop below your BMR, as doing so can trigger severe metabolic downregulation, muscle loss, and chronic fatigue.",
+    mistakes: "Confusing BMR with TDEE. BMR does not include any movement, walking, or digestion; it is purely the cost of staying alive in a resting state."
+  },
+  "hypertrophy": {
+    explanation: "Hypertrophy is the enlargement of muscle fibers, typically stimulated by resistance training. It is driven by mechanical tension, muscle damage, and metabolic stress, leading to protein deposition in the muscle cells.",
+    practical: "Stimulate hypertrophy by training near muscular failure (1-3 reps in reserve), utilizing a variety of rep ranges (typically 6-12), and ensuring you consume adequate daily protein for repair.",
+    mistakes: "Believing hypertrophy only happens in the 8-12 rep range. Research shows similar muscle growth can be achieved in lower or higher rep ranges, provided sets are taken close to failure."
+  },
+  "calorie-deficit": {
+    explanation: "A calorie deficit occurs when your energy intake is lower than your energy expenditure, forcing your body to draw upon stored energy reserves (predominantly body fat) to meet its metabolic demands.",
+    practical: "Aim for a moderate, sustainable deficit of 300 to 500 calories below your TDEE. This supports gradual fat loss of 0.25kg to 0.5kg per week while preserving valuable muscle mass.",
+    mistakes: "Creating a deficit that is too aggressive, which triggers muscle loss, extreme hunger, hormone disruption, and eventual diet abandonment."
+  },
+  "macros": {
+    explanation: "Macronutrients—protein, carbohydrates, and fats—are the primary structural and energy components of your diet. Each plays a distinct role in fuel delivery, tissue repair, and hormonal health.",
+    practical: "Determine your macro targets by prioritizing protein first (for muscle repair), then distributing fats and carbs based on your energy levels and personal preferences.",
+    mistakes: "Focusing solely on total calories while ignoring macro ratios, which can lead to inadequate protein intake and subsequent muscle loss during weight loss."
+  },
+  "muscle-protein-synthesis": {
+    explanation: "Muscle Protein Synthesis (MPS) is the biological process where your body utilizes amino acids to rebuild and repair muscle tissue damaged during training. It is the primary mechanism of muscle growth.",
+    practical: "Trigger MPS effectively by eating 20-40g of high-quality protein every 3 to 4 hours, and ensuring you hit your total daily protein goal consistently.",
+    mistakes: "Obsessing over the 'anabolic window' immediately post-workout while failing to hit your total daily protein target by the end of the day."
+  },
+  "compound-exercises": {
+    explanation: "Compound exercises are multi-joint movements that engage multiple major muscle groups simultaneously. Examples include squats, deadlifts, chest presses, and overhead presses.",
+    practical: "Structure your workouts by placing heavy compound movements at the beginning when your energy levels and neurological focus are highest.",
+    mistakes: "Skipping compound movements in favor of easier isolation exercises, which reduces the overall efficiency and systemic strength stimulus of your routine."
+  },
+  "isolation-exercises": {
+    explanation: "Isolation exercises target a single muscle group across a single joint. Classic examples include bicep curls, tricep extensions, and lateral raises.",
+    practical: "Use isolation exercises at the end of your sessions to target specific muscles, address symmetry issues, or accumulate volume without systemic fatigue.",
+    mistakes: "Relying on isolation movements for your entire workout instead of using them as accessory movements to complement core compound lifts."
+  },
+  "rep-ranges": {
+    explanation: "Rep ranges define the number of repetitions performed in a single set. Different rep ranges stress the body in unique ways, developing strength, hypertrophy, or endurance.",
+    practical: "Incorporate multiple rep ranges: 1-5 reps for strength, 6-12 reps for muscle size (hypertrophy), and 12-20+ reps for cardiovascular and local muscular endurance.",
+    mistakes: "Sticking strictly to one rep range indefinitely, which limits your overall athletic development and adaptive response."
+  },
+  "deload": {
+    explanation: "A deload is a planned, temporary reduction in training volume and intensity. It allows the body, joints, and central nervous system to fully recover from accumulated stress.",
+    practical: "Schedule a deload week every 6-12 weeks. Reduce your working weights by 10-20% and cut your total sets in half to facilitate systemic recovery.",
+    mistakes: "Viewing a deload as a sign of weakness or skipping it, which inevitably leads to overuse injuries, chronic fatigue, or training plateaus."
+  },
+  "periodization": {
+    explanation: "Periodization is the systematic planning of training phases over time. It divides your fitness journey into cycles (strength, hypertrophy, recovery) to maximize long-term adaptations.",
+    practical: "Structure your training into 4-8 week blocks, focusing on progressive overload within each block before transitioning to a different training stimulus or deload.",
+    mistakes: "Training with the exact same exercises, weights, and intensity all year round without structured phases, causing your body to fully adapt and stall."
+  },
+  "training-volume": {
+    explanation: "Training volume is a measure of the total work performed, calculated as Sets × Reps × Weight. It is one of the most reliable predictors of muscular hypertrophy.",
+    practical: "Aim for 10 to 20 working sets per muscle group per week, split across multiple sessions, ensuring that each set is performed close to muscular failure.",
+    mistakes: "Doing excessive 'junk volume'—low-effort sets that accumulate fatigue without providing a strong adaptive stimulus for muscle growth."
+  },
+  "mind-muscle-connection": {
+    explanation: "The mind-muscle connection is the conscious visualization and focus on the target muscle during a movement. It increases motor unit recruitment and muscle activation.",
+    practical: "Slow down your repetitions, focus on the squeeze at the peak of the contraction, and mentally direct the tension into the target muscle rather than just moving the weight.",
+    mistakes: "Rushing through exercises and throwing weights around with momentum, which reduces targeted muscle activation and increases joint strain."
+  },
+  "doms": {
+    explanation: "Delayed Onset Muscle Soreness (DOMS) is the pain and stiffness felt in muscles 24 to 72 hours after intense or novel physical activity, caused by microscopic muscle fiber tears.",
+    practical: "Manage DOMS with light movement (active recovery), hydration, adequate sleep, and targeted protein intake. Do not let mild soreness deter you from light exercise.",
+    mistakes: "Using DOMS as the primary gauge of a successful workout. Extreme soreness often indicates excessive muscle damage rather than effective stimulation."
+  },
+  "overtraining": {
+    explanation: "Overtraining syndrome occurs when the volume and intensity of training exceed your recovery capacity over a prolonged period, leading to physical and mental stagnation.",
+    practical: "Monitor warning signs like chronic fatigue, decreased performance, persistent joint pain, disrupted sleep, and irritability, and respond with rest or a deload.",
+    mistakes: "Trying to push through overtraining symptoms by working out even harder, which increases injury risk and prolongs systemic fatigue."
+  },
+  "body-recomposition": {
+    explanation: "Body recomposition is the process of simultaneously building muscle and losing fat. It challenges the traditional belief that you must bulk or cut exclusively.",
+    practical: "To achieve it, eat at maintenance calories or a very slight deficit, maintain high protein intake (1.6-2.2g/kg), and follow a structured resistance training plan.",
+    mistakes: "Expecting rapid weight changes on the scale. Recomposition shifts your body fat percentage and muscle mass, meaning your weight may stay stable while your measurements improve."
+  },
+  "reverse-dieting": {
+    explanation: "Reverse dieting is the process of slowly increasing your calorie intake (usually 50-100 kcal per week) after a diet phase to rebuild your metabolic rate while minimizing fat gain.",
+    practical: "Use it when transitioning out of a fat loss phase. Gradually introduce carbs and fats over several weeks until you reach your new maintenance level.",
+    mistakes: "Immediately returning to pre-diet eating habits, which overwhelms your downregulated metabolism and results in rapid, excessive fat regain."
+  },
+  "metabolism": {
+    explanation: "Metabolic adaptation is your body's defensive response to caloric restriction. To conserve energy, it reduces calorie burn through changes in hormones, digestion, and spontaneous movement (NEAT).",
+    practical: "Recognize that weight loss will slow down over time. Combat adaptation by utilizing diet breaks, refeeds, and a structured reverse diet after your cutting phase.",
+    mistakes: "Believing your metabolism is permanently 'broken' when weight loss stalls, rather than realizing it has adapted and requires a temporary calorie increase to reset."
+  },
+  "epley-formula": {
+    explanation: "The Epley formula is a mathematical equation used to estimate your 1RM: 1RM = Weight × (1 + Reps/30). It is the industry standard for submaximal strength tracking.",
+    practical: "Use this formula to track your strength progression across workouts without having to lift extremely heavy weights to failure, keeping your joints safe.",
+    mistakes: "Applying the formula to very high rep ranges (e.g. 15-20 reps), where muscular endurance factors skew the accuracy of the estimated max."
+  },
+  "strength-training": {
+    explanation: "Strength training involves performing physical exercises designed to improve strength, power, and muscle mass, using weights, resistance bands, or body weight.",
+    practical: "Build your program around fundamental movement patterns: squat, hinge, push, pull, and carry, progressive overloading them consistently.",
+    mistakes: "Constantly changing exercises every workout for 'muscle confusion' instead of sticking to core lifts and getting progressively stronger at them."
+  },
+  "recovery": {
+    explanation: "Recovery is the active process through which your body repairs training damage, replenishes fuel stores, and adapts to training, making you stronger and fitter.",
+    practical: "Prioritize the fundamentals of recovery: get 7-9 hours of quality sleep, hydrate adequately, eat sufficient protein, and manage psychological stress.",
+    mistakes: "Obsessing over expensive recovery gadgets (ice baths, massage guns) while ignoring poor sleep quality and inadequate nutrition."
+  },
+  "fat-loss": {
+    explanation: "Fat loss is the reduction of body fat while preserving muscle mass. This is different from general weight loss, which can include the loss of valuable muscle and water.",
+    practical: "Combine a moderate calorie deficit with structured resistance training and high protein intake to ensure the weight you lose comes from fat, not muscle.",
+    mistakes: "Doing excessive cardio and starving yourself to drop weight quickly, which strips away muscle and lowers your metabolic rate."
+  },
+  "protein": {
+    explanation: "Protein is an essential macronutrient comprised of amino acids, which serve as the building blocks for muscle repair, hormone production, and immune function.",
+    practical: "Aim for 1.6 to 2.2 grams of protein per kilogram of body weight daily, distributing it evenly across 3 to 5 protein-rich meals.",
+    mistakes: "Failing to hit your total daily protein goal and only consuming protein post-workout, which limits your body's recovery potential."
+  },
+  "superset": {
+    explanation: "A superset involves performing two exercises back-to-back with minimal rest. This increases workout density, saves time, and boosts cardiovascular demand.",
+    practical: "Pair non-competing muscle groups (e.g. chest press followed by a row) to save time in the gym without sacrificing the performance of either lift.",
+    mistakes: "Supersetting heavy, systemically demanding compound lifts (like squats and deadlifts), which severely impairs performance and form."
+  },
+  "drop-set": {
+    explanation: "A drop set is a training technique where you perform an exercise to failure, immediately reduce the weight, and continue reps to target deeper muscle fibers.",
+    practical: "Use drop sets sparingly on the final set of isolation exercises (like lateral raises or bicep curls) to maximize metabolic stress and muscle pump.",
+    mistakes: "Performing drop sets on every single set of an exercise, which accumulates massive fatigue and compromises recovery."
+  },
+  "rpe": {
+    explanation: "Rate of Perceived Exertion (RPE) is a subjective scale from 1 to 10 used to measure workout intensity. RPE 10 represents absolute failure, while RPE 8 means you have 2 reps in reserve.",
+    practical: "Use RPE to auto-regulate your training. If you feel exhausted, adjust the weight down to hit the prescribed RPE target instead of forcing a predetermined number.",
+    mistakes: "Misjudging your proximity to failure. Most beginners underestimate their capacity, rating a set as RPE 9 when it was actually RPE 7."
+  },
+  "time-under-tension": {
+    explanation: "Time Under Tension (TUT) refers to the total duration a muscle is held under load during a set. Controlling the tempo increases mechanical tension.",
+    practical: "Focus on the eccentric (lowering) phase of your lifts. Control the weight down for 2-3 seconds to maximize the hypertrophic stimulus.",
+    mistakes: "Slowing down the concentric (lifting) phase excessively, which decreases power output and overall force production."
+  },
+  "intermittent-fasting": {
+    explanation: "Intermittent fasting is an eating pattern that cycles between periods of eating and fasting, often used as a tool for caloric control.",
+    practical: "Use fasting protocols (like 16:8) if they help you manage hunger and stay within your calorie targets. Ensure you still hit your protein needs.",
+    mistakes: "Treating fasting as a magic fat-loss trick. If you eat in a calorie surplus during your eating window, you will still gain weight."
+  }
+};
+
 function buildGlossaryPage(item) {
-  const today = new Date().toISOString().split('T')[0];
+  const details = GLOSSARY_DETAILS[item.slug] || {
+    explanation: `Understanding ${item.term.toLowerCase()} is critical for structuring your workouts and nutrition plans. It forms a key pillar of evidence-based training principles, ensuring that your efforts in the gym translate to measurable body recomposition and strength adaptations.`,
+    practical: `To leverage ${item.term.toLowerCase()} effectively, keep consistent logs of your training variables (sets, reps, weights, and rest periods). Make small, measured adjustments to your schedule and diet based on how your body is recovering and responding weekly.`,
+    mistakes: `A major mistake is changing too many variables at once. For example, altering your training volume, exercise selection, and calorie targets simultaneously makes it impossible to pinpoint what is working and what is causing stagnation or fatigue.`
+  };
+
   const relatedLinks = item.related
     .map(r => { const found = TERMS.find(t => t.slug === r); return found ? `<a href="/glossary/${r}">${found.term}</a>` : null; })
     .filter(Boolean).join(' · ');
@@ -57,7 +215,7 @@ function buildGlossaryPage(item) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${item.term} — What It Is & Why It Matters | IZEM Glossary</title>
+    <title>${item.term} — What It Is, Why It Matters & Practical Guide | IZEM Glossary</title>
     <meta name="description" content="${item.definition.substring(0, 155)}">
     <link rel="canonical" href="https://youraicoach.life/glossary/${item.slug}">
     <meta name="robots" content="index, follow">
@@ -72,7 +230,7 @@ function buildGlossaryPage(item) {
     }
     </script>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#E2E8F0;line-height:1.8}.nav{background:rgba(6,11,29,0.95);border-bottom:1px solid rgba(255,255,255,0.08);padding:16px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}.ni{max-width:700px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.nb{font-weight:800;font-size:1.1rem;color:#F8FAFC;text-decoration:none}article{max-width:700px;margin:0 auto;padding:60px 24px 80px}.breadcrumb{font-size:.85rem;color:#475569;margin-bottom:24px}.breadcrumb a{color:#475569;text-decoration:none}h1{font-size:2.2rem;font-weight:800;margin-bottom:24px;color:#F8FAFC}p{margin-bottom:20px;color:#CBD5E1;font-size:1.1rem}.def-box{padding:24px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.2);border-radius:16px;margin:24px 0;font-size:1.15rem;line-height:1.9}.related{margin-top:40px;padding:20px;background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:12px}.related h3{color:#00D4FF;margin-bottom:12px;font-size:1rem}.related a{color:#00D4FF;text-decoration:none;border-bottom:1px solid rgba(0,212,255,0.3)}.cta-box{margin-top:40px;padding:24px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center}.cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;text-decoration:none;margin:4px}
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#E2E8F0;line-height:1.8}.nav{background:rgba(6,11,29,0.95);border-bottom:1px solid rgba(255,255,255,0.08);padding:16px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}.ni{max-width:700px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.nb{font-weight:800;font-size:1.1rem;color:#F8FAFC;text-decoration:none}article{max-width:700px;margin:0 auto;padding:60px 24px 80px}h1{font-size:2.4rem;font-weight:800;margin-bottom:24px;color:#F8FAFC}h2{font-size:1.5rem;font-weight:700;margin:36px 0 16px;color:#00D4FF}.breadcrumb{font-size:.85rem;color:#475569;margin-bottom:24px}.breadcrumb a{color:#475569;text-decoration:none}p{margin-bottom:20px;color:#CBD5E1;font-size:1.05rem}.def-box{padding:24px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.2);border-radius:16px;margin:24px 0;font-size:1.15rem;line-height:1.9}.related{margin-top:40px;padding:20px;background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:12px}.related h3{color:#00D4FF;margin-bottom:12px;font-size:1rem}.related a{color:#00D4FF;text-decoration:none;border-bottom:1px solid rgba(0,212,255,0.3)}.cta-box{margin-top:40px;padding:24px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center}.cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;text-decoration:none;margin:4px}
     </style>
 </head>
 <body>
@@ -81,9 +239,19 @@ function buildGlossaryPage(item) {
     <div class="breadcrumb"><a href="/">Home</a> → <a href="/glossary/">Glossary</a> → ${item.term}</div>
     <h1>${item.term}</h1>
     <div class="def-box"><p style="margin:0"><strong style="color:#00D4FF">Definition:</strong> ${item.definition}</p></div>
-    <h2 style="color:#00D4FF;font-size:1.3rem;margin:32px 0 16px">Why It Matters</h2>
-    <p>Understanding ${item.term.toLowerCase()} is essential for making real progress in your fitness journey. Without this knowledge, you risk spinning your wheels — training hard but not seeing the results you deserve.</p>
-    <p>IZEM automatically tracks and applies ${item.term.toLowerCase()} principles to your training program, so you don't need to be an exercise scientist to benefit from evidence-based programming.</p>
+    
+    <h2>Detailed Explanation</h2>
+    <p>${details.explanation}</p>
+    
+    <h2>Practical Application & Guide</h2>
+    <p>${details.practical}</p>
+    
+    <h2>Common Pitfalls & Mistakes</h2>
+    <p>${details.mistakes}</p>
+    
+    <h2>How IZEM Automates It</h2>
+    <p>Rather than managing these variables manually, the IZEM AI Coach handles the calculations and progression cycles for you. IZEM dynamically monitors your performance, applies evidence-based training principles, tracks metrics like 1RM and volume, and proactively adjusts your workout and meal plans every week to prevent plateaus and optimize recovery.</p>
+
     ${relatedLinks ? `<div class="related"><h3>📚 Related Terms</h3><p>${relatedLinks}</p></div>` : ''}
     <div class="cta-box">
         <p style="color:#CBD5E1;margin-bottom:12px"><strong>IZEM applies these principles automatically.</strong></p>
@@ -112,9 +280,9 @@ function buildGlossaryIndex() {
 <body>
 <nav class="nav"><div class="ni"><a href="/" class="nb">⚡ IZEM</a><a href="/blog/" style="color:#94A3B8;font-size:.9rem;text-decoration:none">Blog</a></div></nav>
 <div class="c">
-    <h1>Fitness Glossary</h1>
-    <p class="sub">${TERMS.length} essential fitness terms explained simply — no jargon, no BS.</p>
-    <div class="grid">${cards}</div>
+     <h1>Fitness Glossary</h1>
+     <p class="sub">${TERMS.length} essential fitness terms explained simply — no jargon, no BS.</p>
+     <div class="grid">${cards}</div>
 </div>
 </body>
 </html>`;

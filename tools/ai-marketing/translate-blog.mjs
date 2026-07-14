@@ -206,7 +206,7 @@ ${buildHreflangTags(slug)}
     <meta property="og:title" content="${translated.title}">
     <meta property="og:url" content="https://youraicoach.life/blog/${lang.code}/${slug}">
     <meta property="og:type" content="article">
-    <meta name="robots" content="noindex, follow">
+    <meta name="robots" content="index, follow">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -267,9 +267,16 @@ ${buildHreflangTags(slug)}
 }
 
 function updateLanguageSitemap(langCode, translatedSlugs) {
-  void translatedSlugs;
+  const today = new Date().toISOString().split('T')[0];
+  const urls = translatedSlugs.map(slug => `  <url>
+    <loc>https://youraicoach.life/blog/${langCode}/${slug}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`).join('\n');
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
 </urlset>`;
   fs.writeFileSync(path.join(PUBLIC_DIR, `sitemap-${langCode}.xml`), xml);
 }
