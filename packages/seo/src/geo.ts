@@ -318,23 +318,38 @@ export async function runGeoAuditAndOptimization(options: { apply?: boolean; bra
   ].filter(fsSync.existsSync);
 
   const pages: GeoPageScore[] = [];
-  let appliedOptimizationsCount = 0;
-
+  
+  // 1. Audit all files first (very fast, no LLM calls)
   for (const file of files) {
     try {
       const pageScore = await auditGeoPage(file, robots.score);
-      
-      // If score is suboptimal and LLM is enabled, generate improvements
-      if (pageScore.score < 85 && options.brandVoice) {
+      pages.push(pageScore);
+    } catch (e) {
+      console.warn(`Failed to process GEO score for file ${file}:`, e);
+    }
+  }
+
+  // 2. Select the top 3 worst-performing pages to optimize (prevents 429 Rate Limits)
+  let appliedOptimizationsCount = 0;
+  if (options.brandVoice) {
+    const suboptimalPages = pages
+      .filter((p) => p.score < 85)
+      .sort((a, b) => a.score - b.score);
+
+    const batchToOptimize = suboptimalPages.slice(0, 3); // Optimize max 3 pages per run
+    
+    for (const pageScore of batchToOptimize) {
+      try {
+        console.log(`[GEO] Generating optimizations for page: ${pageScore.url} (Current score: ${pageScore.score}/100)`);
         const patches = await generateGeoOptimizations(pageScore, options.brandVoice);
         if (patches.schema || patches.answerFirstPara) {
           pageScore.suggestedPatch = patches;
           if (options.apply) {
-            const applied = await applyGeoOptimizations(file, patches);
+            const applied = await applyGeoOptimizations(pageScore.filePath, patches);
             if (applied) {
               appliedOptimizationsCount++;
               // Recalculate score after patch application
-              const updatedScore = await auditGeoPage(file, robots.score);
+              const updatedScore = await auditGeoPage(pageScore.filePath, robots.score);
               pageScore.score = updatedScore.score;
               pageScore.breakdown = updatedScore.breakdown;
               pageScore.details = updatedScore.details;
@@ -342,11 +357,9 @@ export async function runGeoAuditAndOptimization(options: { apply?: boolean; bra
             }
           }
         }
+      } catch (err) {
+        console.error(`Failed to optimize page ${pageScore.url}:`, err);
       }
-      
-      pages.push(pageScore);
-    } catch (e) {
-      console.warn(`Failed to process GEO score for file ${file}:`, e);
     }
   }
 
