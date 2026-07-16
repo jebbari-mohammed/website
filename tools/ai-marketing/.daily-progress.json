@@ -277,8 +277,16 @@
       "slug": "food-scanner-app-with-meal-planning-and-workout-coaching",
       "title": "Why You Should Stop Juggling Three Different Fitness Apps",
       "description": "Tired of switching between calorie trackers and workout planners? Discover how an integrated AI platform streamlines your nutrition and training.",
-      "date": "2026-07-15"
+      "date": "2026-07-15",
+      "noindex": false
+    },
+    {
+      "keyword": "adaptive workout app for home gym equipment",
+      "slug": "adaptive-workout-app-home-gym",
+      "title": "How to Turn Your Random Home Gym Gear Into a Smart Workout Plan",
+      "description": "Frustrated by dusty dumbbells? Learn how adaptive workout apps scan your home gym equipment to build highly personalized, evolving workout routines today.",
+      "date": "2026-07-16"
     }
   ],
-  "lastRun": "2026-07-15T11:28:07.977Z"
+  "lastRun": "2026-07-16T11:37:16.207Z"
 }
