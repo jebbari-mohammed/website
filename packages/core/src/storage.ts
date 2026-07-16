@@ -11,12 +11,12 @@ import type {
 } from './types.js';
 import { paths } from './paths.js';
 
-type Collection = 'audits' | 'roadmaps' | 'drafts' | 'calendars' | 'reports';
+type Collection = 'audits' | 'roadmaps' | 'drafts' | 'calendars' | 'reports' | 'geoReports';
 
 async function ensureDirs() {
   await fs.mkdir(paths.dataDir, { recursive: true });
   await fs.mkdir(paths.publicDataDir, { recursive: true });
-  for (const collection of ['audits', 'roadmaps', 'drafts', 'calendars', 'reports', 'logs'] satisfies Array<Collection | 'logs'>) {
+  for (const collection of ['audits', 'roadmaps', 'drafts', 'calendars', 'reports', 'geoReports', 'logs'] satisfies Array<Collection | 'logs'>) {
     await fs.mkdir(path.join(paths.dataDir, collection), { recursive: true });
   }
 }
@@ -86,6 +86,7 @@ export async function refreshDashboardIndex(): Promise<DashboardIndex> {
     latestDraft: await latestRecord<BlogDraft>('drafts'),
     latestCalendar: await latestRecord<SocialCalendar>('calendars'),
     latestReport: await latestRecord<WeeklyReport>('reports'),
+    latestGeoReport: await latestRecord<any>('geoReports'),
     recentLogs: await recentLogs(),
   };
   await writeJson(path.join(paths.publicDataDir, 'index.json'), index);

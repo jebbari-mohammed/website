@@ -11,7 +11,7 @@ import {
 } from '../../core/src/index.js';
 import type { BlogDraft, SocialCalendar } from '../../core/src/index.js';
 import { blogDraftToMarkdown, createBlogDraft, repurposeBlogDraft, socialCalendarToCsv, socialCalendarToMarkdown } from '../../content/src/index.js';
-import { roadmapToMarkdown, runSiteAudit, createKeywordRoadmap, siteAuditToMarkdown } from '../../seo/src/index.js';
+import { roadmapToMarkdown, runSiteAudit, createKeywordRoadmap, siteAuditToMarkdown, runGeoAuditAndOptimization, geoReportToMarkdown } from '../../seo/src/index.js';
 import { pushCalendarDraftsToPostiz } from '../../social/src/index.js';
 import { generateWeeklyReport, weeklyReportToMarkdown } from './weekly.js';
 
@@ -132,6 +132,32 @@ export async function executeWeeklyReport() {
     approvalRequired: decision.approvalRequired,
     status: 'success',
   });
+  return { report, jsonPath, markdownPath };
+}
+
+export async function executeGeoOptimization(input: { apply?: boolean }) {
+  const policy = await loadPolicy();
+  const decision = evaluatePolicy(policy, 'optimize_geo_score', input.apply ? 'medium' : 'low');
+  assertAllowed(decision);
+
+  const report = await runGeoAuditAndOptimization({
+    apply: input.apply,
+    brandVoice: policy.brandVoice.positioning,
+  });
+
+  const jsonPath = await saveRecord('geoReports', report);
+  const markdownPath = await saveMarkdown('geoReports', report.id, geoReportToMarkdown(report));
+
+  await logAction({
+    agent: 'seo_strategist',
+    action: 'optimize_geo_score',
+    inputSummary: `Optimizing GEO score. Apply patches: ${input.apply ?? false}`,
+    outputSummary: `Average GEO score: ${report.averageScore}/100 across ${report.pages.length} pages. Applied ${report.appliedOptimizationsCount} patches. JSON: ${jsonPath}`,
+    riskLevel: input.apply ? 'medium' : 'low',
+    approvalRequired: decision.approvalRequired,
+    status: 'success',
+  });
+
   return { report, jsonPath, markdownPath };
 }
 

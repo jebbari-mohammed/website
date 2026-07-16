@@ -16,6 +16,8 @@
     "blog:create": "tsx apps/worker/src/cli.ts blog:create",
     "social:repurpose": "tsx apps/worker/src/cli.ts social:repurpose",
     "report:weekly": "tsx apps/worker/src/cli.ts report:weekly",
+    "seo:geo": "tsx apps/worker/src/cli.ts seo:geo",
+    "seo:geo:apply": "tsx apps/worker/src/cli.ts seo:geo --apply",
     "test:marketing": "tsx --test \"packages/**/*.test.ts\""
   },
   "dependencies": {

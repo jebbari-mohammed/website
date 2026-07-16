@@ -8,7 +8,8 @@
     "repurpose_social_posts",
     "schedule_social_draft",
     "generate_weekly_report",
-    "postiz_push_draft"
+    "postiz_push_draft",
+    "optimize_geo_score"
   ],
   "blockedActions": [
     "publish_social_post",
@@ -23,6 +24,7 @@
     { "action": "schedule_social_draft", "requiresApprovalAt": "medium" },
     { "action": "postiz_push_draft", "requiresApprovalAt": "medium" },
     { "action": "generate_weekly_report", "requiresApprovalAt": "high" },
+    { "action": "optimize_geo_score", "requiresApprovalAt": "high" },
     { "action": "publish_social_post", "requiresApprovalAt": "low" },
     { "action": "write_website_patch", "requiresApprovalAt": "low" },
     { "action": "delete_content", "requiresApprovalAt": "low" }

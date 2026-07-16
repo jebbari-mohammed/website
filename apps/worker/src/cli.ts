@@ -4,6 +4,7 @@ import {
   executeSiteAudit,
   executeSocialRepurpose,
   executeWeeklyReport,
+  executeGeoOptimization,
 } from '../../../packages/agents/src/index.js';
 
 function parseArgs(argv: string[]) {
@@ -62,9 +63,18 @@ async function main() {
       console.log(result.markdownPath);
       break;
     }
+    case 'seo:geo': {
+      const result = await executeGeoOptimization({
+        apply: args.apply === true || args.apply === 'true',
+      });
+      console.log(`GEO optimization complete: ${result.report.pages.length} pages audited, average score ${result.report.averageScore}/100`);
+      console.log(`Applied optimizations: ${result.report.appliedOptimizationsCount}`);
+      console.log(result.markdownPath);
+      break;
+    }
     default:
       console.error(`Unknown command: ${command || '(empty)'}`);
-      console.error('Commands: audit:site, keywords:generate, blog:create, social:repurpose, report:weekly');
+      console.error('Commands: audit:site, keywords:generate, blog:create, social:repurpose, report:weekly, seo:geo');
       process.exitCode = 1;
   }
 }

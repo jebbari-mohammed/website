@@ -21,7 +21,8 @@ export type MarketingAction =
   | 'write_website_patch'
   | 'delete_content'
   | 'generate_weekly_report'
-  | 'postiz_push_draft';
+  | 'postiz_push_draft'
+  | 'optimize_geo_score';
 
 export type ApprovalThreshold = {
   action: MarketingAction;
@@ -213,5 +214,41 @@ export type DashboardIndex = {
   latestDraft?: BlogDraft;
   latestCalendar?: SocialCalendar;
   latestReport?: WeeklyReport;
+  latestGeoReport?: GeoScoreReport;
   recentLogs: AuditLogEntry[];
+};
+
+export type GeoPageScore = {
+  url: string;
+  filePath: string;
+  score: number;
+  breakdown: {
+    robotsAllowed: number; // 0-10
+    schemaMarkup: number; // 0-25
+    answerFirstStructure: number; // 0-25
+    eeatTrustSignals: number; // 0-20
+    infoDensityAndCitations: number; // 0-20
+  };
+  details: {
+    hasSchema: boolean;
+    schemaTypes: string[];
+    answerFirstHeadingRatio: number;
+    hasAuthor: boolean;
+    hasDate: boolean;
+    citationCount: number;
+    statDensityRatio: number;
+  };
+  recommendations: string[];
+  suggestedPatch?: {
+    schema?: string;
+    answerFirstPara?: string;
+  };
+};
+
+export type GeoScoreReport = {
+  id: string;
+  createdAt: string;
+  averageScore: number;
+  pages: GeoPageScore[];
+  appliedOptimizationsCount: number;
 };
