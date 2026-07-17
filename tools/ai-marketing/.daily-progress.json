@@ -285,8 +285,16 @@
       "slug": "adaptive-workout-app-home-gym",
       "title": "How to Turn Your Random Home Gym Gear Into a Smart Workout Plan",
       "description": "Frustrated by dusty dumbbells? Learn how adaptive workout apps scan your home gym equipment to build highly personalized, evolving workout routines today.",
-      "date": "2026-07-16"
+      "date": "2026-07-16",
+      "noindex": false
+    },
+    {
+      "keyword": "fitness app with real voice coaching not chatbot",
+      "slug": "fitness-app-with-real-voice-coaching-not-chatbot",
+      "title": "Voice Coaching vs Chatbots: The Fitness App Revolution",
+      "description": "Tired of silent fitness apps? Discover how real-time voice coaching is replacing boring chatbots to keep you accountable and help you reach your goals.",
+      "date": "2026-07-17"
     }
   ],
-  "lastRun": "2026-07-16T11:37:16.207Z"
+  "lastRun": "2026-07-17T11:19:50.676Z"
 }
