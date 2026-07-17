@@ -378,6 +378,24 @@ export function geoReportToMarkdown(report: GeoScoreReport): string {
   const totalPages = report.pages.length;
   const weakPages = report.pages.filter((p) => p.score < 85);
   
+  const pageScoresText = report.pages
+    .map((page) => {
+      const recommendationsText = page.recommendations.length > 0
+        ? `- **Recommendations:**\n${page.recommendations.map((r) => `  - ${r}`).join('\n')}`
+        : '- **All criteria met! Highly optimized for generative search.**';
+        
+      const patchText = page.suggestedPatch
+        ? `- **Generated Optimization Patch:**\n\`\`\`html\n${page.suggestedPatch.schema ? `<!-- Schema Block -->\n${page.suggestedPatch.schema}\n` : ''}${page.suggestedPatch.answerFirstPara ? `<!-- Answer-First Summary -->\n${page.suggestedPatch.answerFirstPara}\n` : ''}\`\`\``
+        : '';
+        
+      return `### ${page.url} (Score: **${page.score}/100**)
+- **File Path:** \`${page.filePath}\`
+- **Breakdown:** Robots: ${page.breakdown.robotsAllowed}/10, Schema: ${page.breakdown.schemaMarkup}/25, Headings: ${page.breakdown.answerFirstStructure}/25, E-E-A-T: ${page.breakdown.eeatTrustSignals}/20, Stats: ${page.breakdown.infoDensityAndCitations}/20
+${recommendationsText}
+${patchText}`;
+    })
+    .join('\n\n');
+
   return `# Generative Engine Optimization (GEO) Report
 
 **Created:** ${report.createdAt}
@@ -398,27 +416,6 @@ Our GEO Score evaluates how citation-ready your pages are for LLM and RAG engine
 
 ## Detailed Page Scores
 
-\${report.pages
-  .map(
-    (page) => \`### \${page.url} (Score: **\${page.score}/100**)
-- **File Path:** \\\`\${page.filePath}\\\`
-- **Breakdown:** Robots: \${page.breakdown.robotsAllowed}/10, Schema: \${page.breakdown.schemaMarkup}/25, Headings: \${page.breakdown.answerFirstStructure}/25, E-E-A-T: \${page.breakdown.eeatTrustSignals}/20, Stats: \${page.breakdown.infoDensityAndCitations}/20
-\${
-  page.recommendations.length > 0
-    ? \`- **Recommendations:**\\\\n\${page.recommendations.map((r) => \`  - \${r}\`).join('\\\\n')}\`
-    : '- **All criteria met! Highly optimized for generative search.**'
-}
-\${
-  page.suggestedPatch
-    ? \`- **Generated Optimization Patch:**
-\\\\\`\\\\\`\\\\\`html
-\${page.suggestedPatch.schema ? \`<!-- Schema Block -->\\\\n\${page.suggestedPatch.schema}\\\\n\` : ''}\${
-        page.suggestedPatch.answerFirstPara ? \`<!-- Answer-First Summary -->\\\\n\${page.suggestedPatch.answerFirstPara}\\\\n\` : ''
-      }
-\\\\\`\\\\\`\\\\\`\`
-    : ''
-}\`
-  )
-  .join('\\n\\n')}
+${pageScoresText}
 `;
 }
