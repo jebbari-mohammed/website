@@ -1,0 +1,70 @@
+{
+  "id": "2026-07-18T07-26-20-041Z-site-audit",
+  "createdAt": "2026-07-18T07:26:20.041Z",
+  "websiteUrl": "https://youraicoach.life",
+  "pages": [
+    {
+      "url": "https://youraicoach.life/",
+      "status": 200,
+      "title": "IZEM AI Fitness Coach | Workout Plans, Meal Plans, Scans & Calls",
+      "metaDescription": "IZEM AI Fitness Coach is a premium AI personal trainer for weekly workout plans, meal plans, food/body/equipment scans, day reviews, adaptive coaching, and accountability calls.",
+      "canonical": "https://youraicoach.life/",
+      "h1": [],
+      "h2": [],
+      "wordCount": 0,
+      "images": [],
+      "links": [],
+      "schemaTypes": [
+        "MobileApplication",
+        "Organization",
+        "FAQPage"
+      ],
+      "loadMs": 396
+    }
+  ],
+  "issues": [
+    {
+      "id": "e01fe47f-3036-4931-b95a-ea615355bae8",
+      "url": "https://youraicoach.life/",
+      "category": "metadata",
+      "severity": "low",
+      "title": "Meta description length is suboptimal",
+      "detail": "Meta description length is 177 characters.",
+      "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
+    },
+    {
+      "id": "1d29f273-ac74-4c61-b9cd-1127a8591d55",
+      "url": "https://youraicoach.life/",
+      "category": "content",
+      "severity": "high",
+      "title": "Missing H1",
+      "detail": "Found 0 H1 headings.",
+      "recommendation": "Use exactly one clear H1 that matches the page intent."
+    },
+    {
+      "id": "b65da2b7-f044-4c82-8b27-b9f3fbfe20a6",
+      "url": "https://youraicoach.life/",
+      "category": "content",
+      "severity": "medium",
+      "title": "Thin page",
+      "detail": "The page has about 0 words.",
+      "recommendation": "Add useful, specific content or consolidate this page if it does not deserve its own URL."
+    },
+    {
+      "id": "6c737ebd-d98b-4ffd-b695-3ce5462bd877",
+      "url": "https://youraicoach.life/",
+      "category": "links",
+      "severity": "medium",
+      "title": "Weak internal linking",
+      "detail": "Found 0 internal links.",
+      "recommendation": "Add contextual links to nearby accountability, calls, workout, meal plan, and comparison pages."
+    }
+  ],
+  "summary": {
+    "pagesCrawled": 1,
+    "high": 1,
+    "medium": 2,
+    "low": 1,
+    "score": 74
+  }
+}
