@@ -293,8 +293,16 @@
       "slug": "fitness-app-with-real-voice-coaching-not-chatbot",
       "title": "Voice Coaching vs Chatbots: The Fitness App Revolution",
       "description": "Tired of silent fitness apps? Discover how real-time voice coaching is replacing boring chatbots to keep you accountable and help you reach your goals.",
-      "date": "2026-07-17"
+      "date": "2026-07-17",
+      "noindex": false
+    },
+    {
+      "keyword": "best app to track progressive overload automatically",
+      "slug": "best-app-to-track-progressive-overload-automatically",
+      "title": "Ditch the Gym Notebook: Best Apps for Progressive Overload",
+      "description": "Struggling to track your lifts? We review the best progressive overload apps, including AI trainers that automate your weight progression seamlessly.",
+      "date": "2026-07-18"
     }
   ],
-  "lastRun": "2026-07-17T11:19:50.676Z"
+  "lastRun": "2026-07-18T10:59:21.494Z"
 }
