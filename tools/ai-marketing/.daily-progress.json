@@ -301,8 +301,16 @@
       "slug": "best-app-to-track-progressive-overload-automatically",
       "title": "Ditch the Gym Notebook: Best Apps for Progressive Overload",
       "description": "Struggling to track your lifts? We review the best progressive overload apps, including AI trainers that automate your weight progression seamlessly.",
-      "date": "2026-07-18"
+      "date": "2026-07-18",
+      "noindex": false
+    },
+    {
+      "keyword": "AI meal planner app that matches your cuisine",
+      "slug": "ai-meal-planner-matches-your-cuisine",
+      "title": "Ditch the Bland Chicken: Find an AI Meal Planner That Matches Your Cuisine",
+      "description": "Tired of generic fitness meal plans? Discover how premium AI meal planners adapt to your cultural cuisine, track macros, and keep your favorite meals.",
+      "date": "2026-07-19"
     }
   ],
-  "lastRun": "2026-07-18T10:59:21.494Z"
+  "lastRun": "2026-07-19T11:07:50.803Z"
 }
