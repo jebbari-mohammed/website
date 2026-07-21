@@ -1,0 +1,59 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Gym Machines vs Free Weights</title>
+  <desc id="desc">IZEM article cover comparing gym machines and free weights.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#06101F"/>
+      <stop offset="1" stop-color="#0A1730"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="260" y1="120" x2="980" y2="540" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#111B36"/>
+      <stop offset="1" stop-color="#0A1228"/>
+    </linearGradient>
+    <filter id="blur" x="-100" y="-100" width="1400" height="830" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="60"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="250" cy="110" r="160" fill="#22D3EE" fill-opacity="0.14" filter="url(#blur)"/>
+  <circle cx="980" cy="520" r="180" fill="#8B5CF6" fill-opacity="0.16" filter="url(#blur)"/>
+  <circle cx="610" cy="310" r="240" fill="#34D399" fill-opacity="0.06" filter="url(#blur)"/>
+
+  <rect x="78" y="76" width="1044" height="478" rx="36" fill="url(#card)" stroke="rgba(255,255,255,0.12)"/>
+
+  <g opacity="0.9">
+    <rect x="130" y="124" width="214" height="350" rx="28" fill="#0F1830" stroke="rgba(255,255,255,0.08)"/>
+    <rect x="388" y="124" width="260" height="350" rx="28" fill="#0F1830" stroke="rgba(255,255,255,0.08)"/>
+    <rect x="690" y="124" width="340" height="350" rx="28" fill="#0F1830" stroke="rgba(255,255,255,0.08)"/>
+  </g>
+
+  <text x="130" y="170" fill="#94A3B8" font-family="Inter,Arial,sans-serif" font-size="20" font-weight="700" letter-spacing="3">IZEM</text>
+  <text x="130" y="240" fill="#F8FAFC" font-family="Inter,Arial,sans-serif" font-size="54" font-weight="800">Gym machines</text>
+  <text x="130" y="300" fill="#C7D2FE" font-family="Inter,Arial,sans-serif" font-size="54" font-weight="800">vs free weights</text>
+  <text x="130" y="356" fill="#94A3B8" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="500">Use both. Let the coach adapt.</text>
+
+  <rect x="428" y="172" width="132" height="132" rx="20" fill="#0B1225" stroke="url(#accent)" stroke-width="3"/>
+  <rect x="460" y="194" width="12" height="88" rx="6" fill="#22D3EE"/>
+  <rect x="516" y="194" width="12" height="88" rx="6" fill="#8B5CF6"/>
+  <rect x="472" y="220" width="36" height="18" rx="9" fill="#E2E8F0"/>
+  <rect x="472" y="246" width="36" height="18" rx="9" fill="#E2E8F0"/>
+  <text x="430" y="346" fill="#F8FAFC" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="800">Machines</text>
+  <text x="430" y="384" fill="#94A3B8" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="500">Stable, repeatable work</text>
+
+  <rect x="736" y="172" width="200" height="132" rx="20" fill="#0B1225" stroke="url(#accent)" stroke-width="3"/>
+  <rect x="770" y="230" width="132" height="16" rx="8" fill="#E2E8F0"/>
+  <circle cx="762" cy="238" r="26" fill="#22D3EE"/>
+  <circle cx="910" cy="238" r="26" fill="#8B5CF6"/>
+  <circle cx="762" cy="238" r="12" fill="#0B1225"/>
+  <circle cx="910" cy="238" r="12" fill="#0B1225"/>
+  <text x="738" y="346" fill="#F8FAFC" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="800">Free weights</text>
+  <text x="738" y="384" fill="#94A3B8" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="500">Skill, control, coordination</text>
+
+  <text x="600" y="548" text-anchor="middle" fill="#F8FAFC" font-family="Inter,Arial,sans-serif" font-size="26" font-weight="700">AI personal trainer and accountability coach</text>
+  <text x="600" y="582" text-anchor="middle" fill="#94A3B8" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="500">Calls, reviews, scans, and weekly adaptation</text>
+</svg>
