@@ -1,14 +1,6 @@
 {
   "generated": [
     {
-      "keyword": "fitness app that calls you on the phone to train",
-      "slug": "best-ai-fitness-app-2026",
-      "title": "Why 2026 Is the Year Your Fitness Coach Finally Calls You",
-      "description": "Stop guessing your workouts. From proactive AI voice calls to camera-based body scans, here is why your next personal trainer is actually an app.",
-      "date": "2026-05-06",
-      "noindex": false
-    },
-    {
       "keyword": "best AI fitness app 2026 complete guide",
       "slug": "best-ai-fitness-app-2026-guide",
       "title": "Stop Wasting Time: Finding Your Ideal AI Fitness Coach in 2026",
@@ -132,7 +124,7 @@
       "keyword": "workout reminder app for people who ignore notifications",
       "slug": "workout-reminder-app-that-calls-you",
       "title": "Workout Reminder App That Calls You Before You Skip",
-      "description": "Looking for a workout reminder app that calls you? Here is why phone-call accountability can work better than another push notification, and how IZEM uses AI voice calls before training.",
+      "description": "Looking for a workout reminder app that calls you? IZEM is a premium AI personal trainer around $24.99/month that uses phone-call accountability before training, not another push notification.",
       "date": "2026-07-05",
       "noindex": false
     },
@@ -163,8 +155,8 @@
     {
       "keyword": "gym-equipment-scanner-workout-app",
       "slug": "gym-equipment-scanner-workout-app",
-      "title": "Gym Equipment Scanner Workout App",
-      "description": "Looking for a gym equipment scanner workout app? IZEM uses equipment context, AI calls, and weekly adaptation to turn crowded gyms into realistic workouts.",
+      "title": "Gym Equipment Scanner Workout App for Crowded Gyms",
+      "description": "A practical guide to gym equipment scanner workout apps: use the machine-taken swap map to adapt crowded-gym workouts with IZEM's AI coaching loop.",
       "date": "2026-07-06",
       "noindex": false
     },
@@ -321,13 +313,28 @@
       "noindex": false
     },
     {
+      "keyword": "fitness app that calls you on the phone to train",
+      "slug": "best-ai-fitness-app-2026",
+      "title": "Why 2026 Is the Year Your Fitness Coach Finally Calls You",
+      "description": "Discover the best AI fitness apps of 2026. Explore how adaptive AI, wearable biometrics (HRV/sleep), and proactive voice coaching are replacing static workout templates.",
+      "date": "2026-07-21",
+      "noindex": false
+    },
+    {
       "keyword": "gym machines vs free weights",
       "slug": "gym-machines-vs-free-weights",
       "title": "Gym Machines vs Free Weights: The Science-Backed Verdict on What Builds Muscle Faster",
-      "description": "Struggling to choose between gym machines and free weights? Explore the science of hypertrophy, joint mechanics, and stabilizer muscles, plus how to combine both for optimal gains.",
+      "description": "Gym machines vs free weights is not a fake debate. Learn when each one helps most, how to combine both, and how IZEM adapts when gym equipment is taken.",
       "date": "2026-07-21",
       "noindex": false
+    },
+    {
+      "keyword": "app that scans your food and tells you calories and protein",
+      "slug": "app-that-scans-food-calories-protein",
+      "title": "Stop Typing Your Meals: The Rise of AI Photo Food Trackers",
+      "description": "Tired of manual macro logging? Discover how premium AI apps scan your food to track calories and protein, changing how we approach daily nutrition.",
+      "date": "2026-07-21"
     }
   ],
-  "lastRun": "2026-07-21T10:27:37Z"
+  "lastRun": "2026-07-21T11:44:59.553Z"
 }
