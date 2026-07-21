@@ -317,8 +317,17 @@
       "slug": "best-body-progress-scanning-app",
       "title": "Ditch the Scale: Best Body Progress Scanning Apps of 2024",
       "description": "Discover the best body progress scanning apps for tracking visual changes, featuring detailed reviews, comparisons, and top tech like IZEM.",
-      "date": "2026-07-20"
+      "date": "2026-07-20",
+      "noindex": false
+    },
+    {
+      "keyword": "gym machines vs free weights",
+      "slug": "gym-machines-vs-free-weights",
+      "title": "Gym Machines vs Free Weights: The Science-Backed Verdict on What Builds Muscle Faster",
+      "description": "Struggling to choose between gym machines and free weights? Explore the science of hypertrophy, joint mechanics, and stabilizer muscles, plus how to combine both for optimal gains.",
+      "date": "2026-07-21",
+      "noindex": false
     }
   ],
-  "lastRun": "2026-07-20T12:15:41.868Z"
+  "lastRun": "2026-07-21T10:27:37Z"
 }
