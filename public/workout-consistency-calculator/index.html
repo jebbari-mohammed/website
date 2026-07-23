@@ -3,16 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workout Consistency Calculator | Find Your Skip Risk | IZEM</title>
-    <meta name="description" content="Use this free workout consistency calculator to find your skip risk, estimate lost workouts, and choose better call timing, fallback sessions, and accountability cues.">
+    <title>Workout Consistency Calculator | Skip Risk and Call Timing | IZEM</title>
+    <meta name="description" content="Use this free workout consistency calculator to estimate skip risk, missed sessions, and the best call timing for workouts, plus fallback plans for hard days.">
     <link rel="canonical" href="https://youraicoach.life/workout-consistency-calculator/">
-    <meta property="og:title" content="Workout Consistency Calculator">
+    <meta property="og:title" content="Workout Consistency Calculator | Skip Risk and Call Timing">
     <meta property="og:description" content="Calculate your consistency gap and get a practical accountability plan for the workouts you keep meaning to do.">
     <meta property="og:url" content="https://youraicoach.life/workout-consistency-calculator/">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="IZEM">
+    <meta property="og:image" content="https://youraicoach.life/og/workout-consistency-calculator.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="IZEM workout consistency calculator showing skip risk and call timing">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Workout Consistency Calculator">
+    <meta name="twitter:title" content="Workout Consistency Calculator | Skip Risk and Call Timing">
     <meta name="twitter:description" content="Find your workout skip risk and get a call-based accountability plan.">
+    <meta name="twitter:image" content="https://youraicoach.life/og/workout-consistency-calculator.svg">
+    <meta name="twitter:image:alt" content="IZEM workout consistency calculator showing skip risk and call timing">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <script type="application/ld+json">
     {
@@ -132,6 +139,17 @@
         .related{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}
         .related a{display:block;background:#0C1A2C;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:18px;color:#F8FAFC}
         .related span{display:block;color:#8FA1B8;font-size:.9rem;margin-top:6px}
+        .insight{margin-top:28px;background:linear-gradient(145deg,rgba(45,212,191,.12),rgba(0,184,217,.05));border:1px solid rgba(45,212,191,.22);border-radius:8px;padding:22px}
+        .insight h2{margin-top:0;margin-bottom:12px}
+        .insight p{margin-bottom:12px}
+        .bands{width:100%;border-collapse:collapse;margin-top:14px;background:#0C1A2C;border:1px solid rgba(255,255,255,.1);border-radius:8px;overflow:hidden}
+        .bands th,.bands td{text-align:left;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top}
+        .bands th{color:#F8FAFC;background:rgba(255,255,255,.045)}
+        .bands td{color:#C6D2DF}
+        .bands .range{color:#8FE8D2;font-weight:800}
+        .playbook{display:grid;gap:12px;margin-top:16px}
+        .playbook .step{background:#0C1A2C;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:16px 18px}
+        .playbook .step strong{display:block;margin-bottom:4px}
         .cta-box{background:#E9FBF7;color:#08231F;border-radius:8px;padding:24px;margin-top:32px}
         .cta-box p,.cta-box strong{color:#08231F}
         .cta-box .button{margin:4px 8px 4px 0}
@@ -243,12 +261,48 @@
     </section>
 
     <article class="content">
-        <div class="answer">
-            <p><strong>Short answer:</strong> consistency is not just motivation. It is the distance between intention and the first physical action. If you keep skipping workouts, measure the handoff, not just the streak.</p>
-        </div>
+    <div class="answer">
+        <p><strong>Short answer:</strong> consistency is not just motivation. It is the distance between intention and the first physical action. If you keep skipping workouts, measure the handoff, not just the streak.</p>
+    </div>
 
-        <h2>What this calculator measures</h2>
-        <p>Most fitness trackers measure what happened after you started. This calculator looks at the earlier moment: how often a planned workout turns into a real session, and what kind of accountability would help before the plan disappears.</p>
+    <section class="insight" aria-labelledby="score-guide">
+        <h2 id="score-guide">How to read your score</h2>
+        <p>The value of this calculator is not the number itself. It is the decision it gives you: do you need a stronger call, a smaller workout, or a simpler way to start?</p>
+        <table class="bands" aria-label="Workout consistency score bands">
+            <thead>
+                <tr>
+                    <th>Score band</th>
+                    <th>What it means</th>
+                    <th>What to do next</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="range">0-39</td>
+                    <td>High skip risk. The plan is probably too big or too vague for your current week.</td>
+                    <td>Shrink the workout, move the call earlier, and pre-approve a fallback session.</td>
+                </tr>
+                <tr>
+                    <td class="range">40-69</td>
+                    <td>Fixable consistency gap. You have a routine, but the handoff keeps breaking.</td>
+                    <td>Use one default workout, remove one passive reminder, and make the first step physical.</td>
+                </tr>
+                <tr>
+                    <td class="range">70-84</td>
+                    <td>Good base. You are showing up, but timing and friction still cost you sessions.</td>
+                    <td>Move the call 10 minutes earlier and keep one shorter fallback ready.</td>
+                </tr>
+                <tr>
+                    <td class="range">85-100</td>
+                    <td>Stable foundation. Your system is working, so protect it from schedule drift.</td>
+                    <td>Keep the current timing, review weekly, and only change one variable at a time.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <h2>What this calculator measures</h2>
+    <p>Most fitness trackers measure what happened after you started. This calculator looks at the earlier moment: how often a planned workout turns into a real session, and what kind of accountability would help before the plan disappears.</p>
         <p>The output is not a medical score or a diagnosis. It is a practical planning tool for people who know they want to train, but keep losing the workout to schedule drift, fatigue, reminder fatigue, or too many decisions.</p>
 
         <h2>The Consistency Gap framework</h2>
@@ -264,6 +318,17 @@
         <h2>Why normal reminders are weak for consistency</h2>
         <p>A notification can be useful when the problem is memory. It is weaker when the problem is negotiation. If you see "Workout at 6 PM" and immediately think "after one more thing," the reminder did its job but still failed to protect the habit.</p>
         <p>That is why a call-based coach can be different. A call asks for a response. You can start the full workout, switch to the fallback, or reschedule honestly, but the decision is no longer silent.</p>
+
+        <div class="insight" style="margin-top:26px">
+            <h2 style="margin-bottom:10px">A simple weekly playbook</h2>
+            <p>Use the same sequence for most weeks so you stop rebuilding the plan every Monday.</p>
+            <div class="playbook">
+                <div class="step"><strong>1. Decide the first physical action.</strong> Shoes on, water filled, warmup started, or the first set loaded.</div>
+                <div class="step"><strong>2. Put the call before your skip window.</strong> The best timing is usually 10 to 30 minutes before you normally negotiate with yourself.</div>
+                <div class="step"><strong>3. Pre-approve a fallback workout.</strong> A short session still counts if you chose that rule before the day got hard.</div>
+                <div class="step"><strong>4. Review the day at night.</strong> Ask whether the miss was time, energy, equipment, or unclear next steps.</div>
+            </div>
+        </div>
 
         <table>
             <thead>
@@ -311,8 +376,10 @@
         <div class="related">
             <a href="/fitness-app-that-calls-you/">Fitness app that calls you <span>The broader guide to proactive phone-call coaching.</span></a>
             <a href="/blog/workout-reminder-app-that-calls-you">Workout reminder app that calls you <span>Why calls work better than passive notifications.</span></a>
+            <a href="/blog/fitness-app-that-reviews-your-day">Fitness app that reviews your day <span>How the day review closes the loop after a missed workout.</span></a>
             <a href="/blog/workout-accountability-app-without-social-media">Workout accountability without social media <span>Private accountability without feeds or friend challenges.</span></a>
             <a href="/blog/adhd-workout-accountability-app">ADHD workout accountability app <span>Fallback workouts and lower-friction starts.</span></a>
+            <a href="/blog/adaptive-workout-and-meal-plan-app">Adaptive workout and meal plan app <span>How workouts and meals stay useful when life changes.</span></a>
         </div>
 
         <section>
