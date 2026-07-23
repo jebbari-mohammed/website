@@ -194,15 +194,21 @@
   </url>
   <url>
     <loc>https://youraicoach.life/privacy-policy.html</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-22</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/terms.html</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-22</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://youraicoach.life/support.html</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://youraicoach.life/blog/</loc>
@@ -224,7 +230,7 @@
   </url>
   <url>
     <loc>https://youraicoach.life/workout-consistency-calculator/</loc>
-    <lastmod>2026-07-05</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
