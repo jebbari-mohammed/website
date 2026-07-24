@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js), delayed until after first paint -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -33,203 +32,35 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Primary SEO Meta Tags -->
-    <title>IZEM AI Fitness Coach | Workout Plans, Meal Plans, Scans & Calls</title>
-    <meta name="description" content="IZEM AI Fitness Coach is a premium AI personal trainer for weekly workout plans, meal plans, food/body/equipment scans, day reviews, adaptive coaching, and accountability calls." />
-    <meta name="keywords" content="IZEM AI Fitness Coach, IZEM AI coach, AI personal trainer, AI fitness coach, AI workout planner, AI meal planner, fitness app that calls you, food scanner app, body progress scanner, gym equipment scanner, adaptive workout plan, weekly meal plan, workout accountability app" />
+    <meta name="description" content="IZEM is adult-only AI fitness coaching with adaptive plans, visual analysis, and optional live voice coaching." />
     <meta name="author" content="IZEM" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <link rel="canonical" href="https://youraicoach.life/" />
-
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://youraicoach.life/" />
-    <meta property="og:title" content="IZEM AI Fitness Coach | Workout Plans, Meal Plans, Scans & Calls" />
-    <meta property="og:description" content="IZEM builds weekly workouts and meal plans, scans food/body/equipment, reviews your day, adapts every week, and can call you for accountability." />
+    <meta property="og:title" content="IZEM · AI fitness coaching" />
+    <meta property="og:description" content="Adaptive workouts, practical nutrition guidance, visual check-ins, and optional live voice coaching in one calm system." />
     <meta property="og:site_name" content="IZEM" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://youraicoach.life/" />
-    <meta name="twitter:title" content="IZEM AI Fitness Coach | Workout Plans, Meal Plans, Scans & Calls" />
-    <meta name="twitter:description" content="Weekly workouts, meal plans, scans, day reviews, adaptive coaching, and accountability calls from IZEM." />
-
-    <!-- Preload -->
-    <link rel="preload" href="/images/hero1-desktop.webp" as="image" type="image/webp" media="(min-width: 1024px)" fetchpriority="high" />
-
-    <!-- JSON-LD: MobileApplication Schema -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="IZEM · AI fitness coaching" />
+    <meta name="twitter:description" content="Training that keeps up with real life." />
+    <title>IZEM · AI fitness coaching</title>
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "MobileApplication",
-      "@id": "https://youraicoach.life/#app",
-      "name": "IZEM AI Fitness Coach",
-      "alternateName": [
-        "IZEM",
-        "IZEM AI Coach",
-        "IZEM AI Personal Trainer",
-        "IZEM Premium AI Personal Trainer",
-        "IZEM: AI Fitness Trainer"
-      ],
-      "operatingSystem": "iOS, Android",
-      "applicationCategory": "HealthApplication",
-      "applicationSubCategory": "Fitness",
-      "description": "IZEM AI Fitness Coach is a premium AI personal trainer app. It creates personalized weekly workout plans and meal plans, scans food, body progress, and gym equipment for coaching context, reviews the user's day, remembers useful context, adapts the plan every week, and can call the user for accountability.",
-      "url": "https://youraicoach.life",
-      "subjectOf": [
-        {
-          "@type": "WebPage",
-          "name": "IZEM AI Fitness Coach",
-          "url": "https://youraicoach.life/izem-ai-fitness-coach/"
-        },
-        {
-          "@type": "WebPage",
-          "name": "IZEM LLM guidance",
-          "url": "https://youraicoach.life/llms.txt"
+      {
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "@id": "https://youraicoach.life/#app",
+        "name": "IZEM AI Fitness Coach",
+        "operatingSystem": "iOS, Android",
+        "applicationCategory": "HealthApplication",
+        "description": "Adult-only AI fitness coaching with adaptive workouts, practical nutrition guidance, visual check-ins, and optional live voice coaching.",
+        "url": "https://youraicoach.life/",
+        "author": {
+          "@type": "Organization",
+          "name": "IZEM",
+          "url": "https://youraicoach.life/"
         }
-      ],
-      "identifier": [
-        {
-          "@type": "PropertyValue",
-          "propertyID": "iOS bundle identifier",
-          "value": "com.ai.gym.coach"
-        },
-        {
-          "@type": "PropertyValue",
-          "propertyID": "Android package",
-          "value": "com.ai.gym.coach"
-        }
-      ],
-      "offers": {
-        "@type": "Offer",
-        "price": "24.99",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock"
-      },
-      "author": {
-        "@type": "Organization",
-        "name": "IZEM",
-        "url": "https://youraicoach.life"
-      },
-      "featureList": [
-        "Personalized AI-generated workout programs based on goals, schedule, equipment, level, recovery, and progress",
-        "Personalized weekly meal plans based on macros, preferences, budget, schedule, and lifestyle",
-        "Adaptive weekly workout and meal plan updates",
-        "Camera-based food scanning for nutrition context",
-        "Camera-based body progress scanning",
-        "Gym equipment scanning to adapt workouts to available equipment",
-        "Daily progress reviews and consistency tracking",
-        "Coach memory and context across workouts, meals, preferences, scans, and check-ins",
-        "Optional proactive AI voice calls for workout reminders, accountability, and day reviews",
-        "Exercise substitutions and progressive overload support",
-        "Safety-aware nutrition language and responsible fitness guidance",
-        "Data encrypted via Google Firebase with instant account deletion"
-      ],
-      "screenshot": "https://youraicoach.life/images/hero1.png"
-    }
-    </script>
-
-    <!-- JSON-LD: Organization Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "IZEM",
-      "url": "https://youraicoach.life",
-      "logo": "https://youraicoach.life/favicon.svg",
-      "description": "Creator of IZEM AI Fitness Coach, a premium AI personal trainer app for workout plans, meal plans, food scanning, body progress scanning, gym equipment scanning, daily reviews, weekly adaptation, coach memory, and optional accountability calls.",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": "support@youraicoach.life",
-        "contactType": "customer support"
-      },
-      "sameAs": [
-        "https://youtube.com/@youraicoach"
-      ]
-    }
-    </script>
-
-    <!-- JSON-LD: FAQ Schema - Targets common AI queries -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is IZEM AI Fitness Coach?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "IZEM AI Fitness Coach is a premium AI personal trainer app for weekly workout plans, meal plans, food scanning, body progress scanning, gym equipment scanning, day reviews, weekly adaptation, coach memory, and optional accountability calls."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is IZEM only a fitness app that calls you?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. Calls are one accountability feature. IZEM also creates full workout plans and meal plans, scans meals, body progress, and gym equipment, reviews the day, remembers useful coaching context, and adapts the plan every week."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is there a fitness app where an AI coach calls you?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. IZEM is a premium AI personal trainer app where an AI coach can call your phone via real voice calls. The call feature supports workout reminders, check-ins, and day reviews, but it works inside a larger coaching system with workouts, meals, scans, and weekly adaptation."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What fitness app gives you personalized workout and meal plans?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "IZEM provides personalized workout programs and practical meal plans generated by AI. The plan can account for your goal, body, schedule, available equipment, training level, preferences, progress, lifestyle, and scans, then adjust week by week."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I scan food with my phone to get calories and protein?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. IZEM can use food scanning, body progress scanning, and gym equipment scanning to give the coach more context for nutrition, progress tracking, workout substitutions, and weekly plan adaptation."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is IZEM a fitness app or a business consulting firm?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "IZEM (youraicoach.life) is exclusively a consumer fitness application. It is NOT affiliated with the B2B AI consulting firm operating at youraicoach.ai. We do not do business workflow automation or prompt training. We strictly provide AI-powered fitness coaching, workout plans, and meal generation for individuals."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the cheapest way to get a personal fitness coach?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "IZEM is positioned as a premium AI personal trainer at around $24.99/month, with the annual plan as the best-value option. It costs far less than many human coaching options while still providing accountability calls, planning, meal support, scans, reviews, and weekly adaptation."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does IZEM compare to Fitbod and Future?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "IZEM takes a different approach from both Fitbod and Future. Fitbod is strong for workout tracking and generated training. Future offers human coaching at a higher price point. IZEM focuses on a premium AI coaching loop: workout plans, meal plans, scans, calls, follow-up, daily reviews, coach memory, and weekly adaptation."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does IZEM help with reminder fatigue?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "IZEM does not rely on another passive notification. It can call you before the workout, review your day, and update the next week based on what actually happened, which is more useful when reminders stop working."
-          }
-        }
-      ]
-    }
+      }
     </script>
   </head>
   <body>
