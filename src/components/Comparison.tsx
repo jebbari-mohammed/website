@@ -1,5 +1,5 @@
 import { motion } from '../lib/motion';
-import { Check, X, Minus } from 'lucide-react';
+import { Check, X, Minus, Sparkles, Zap } from 'lucide-react';
 
 const features = [
   { name: "AI Voice Coaching Calls", us: true, fitbod: false, future: false, freeletics: false },
@@ -13,155 +13,209 @@ const features = [
   { name: "iOS + Android", us: true, fitbod: true, future: "partial" as const, freeletics: true },
 ];
 
-function CellValue({ value }: { value: boolean | string }) {
-  if (value === true) return <Check size={18} className="text-cta stroke-[3] mx-auto drop-shadow-[0_0_8px_rgba(124,255,107,0.5)]" />;
-  if (value === false) return <X size={18} className="text-red-400/60 mx-auto" />;
-  if (value === "partial") return <Minus size={18} className="text-tertiary mx-auto" />;
+function CellValue({ value, isUs }: { value: boolean | string; isUs?: boolean }) {
+  if (value === true) {
+    return (
+      <div className="flex items-center justify-center">
+        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isUs ? 'bg-primary/20 border border-primary/50 shadow-[0_0_15px_rgba(141,255,106,0.4)]' : 'bg-emerald-500/10'}`}>
+          <Check size={18} className={isUs ? "text-primary stroke-[3]" : "text-emerald-400"} />
+        </div>
+      </div>
+    );
+  }
+  if (value === false) {
+    return (
+      <div className="flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center">
+          <X size={16} className="text-red-400/50" />
+        </div>
+      </div>
+    );
+  }
+  if (value === "partial") {
+    return (
+      <div className="flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center">
+          <Minus size={16} className="text-amber-400/70" />
+        </div>
+      </div>
+    );
+  }
   return <span className="text-xs sm:text-sm font-bold text-textPrimary">{value}</span>;
 }
 
 export default function Comparison() {
   return (
-    <section className="py-16 sm:py-[120px] px-4 sm:px-6 relative overflow-hidden">
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-secondary/10 blur-[140px] rounded-full pointer-events-none" />
+    <section className="py-20 sm:py-[140px] px-4 sm:px-6 relative overflow-hidden bg-[#070A0D]">
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-r from-primary/15 via-[#86D7FF]/10 to-transparent blur-[160px] rounded-full pointer-events-none z-0" />
 
-      <div className="max-w-5xl mx-auto w-full relative z-10">
+      <div className="max-w-6xl mx-auto w-full relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-10 sm:mb-14"
+          className="text-center mb-12 sm:mb-16"
         >
-          <div className="inline-flex items-center gap-3 bg-[#111A22] border border-primary/30 rounded-full px-4 py-2 text-[11px] sm:text-[12px] text-primary font-bold uppercase tracking-[2px] mb-6 backdrop-blur-md shadow-[0_0_20px_rgba(141,255,106,0.15)]">
-            ✦ The Honest Comparison
+          <div className="inline-flex items-center gap-2.5 bg-[#111A22] border border-primary/40 rounded-full px-5 py-2 text-xs text-primary font-bold uppercase tracking-[2px] mb-6 backdrop-blur-xl shadow-[0_0_25px_rgba(141,255,106,0.2)]">
+            <Zap size={14} className="fill-primary" />
+            The Honest Comparison
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-7xl font-black font-display leading-[1.05] tracking-tight mb-4">
-            FULL COACHING.<br />
-            <span className="text-textSecondary">NOT JUST TRACKING.</span>
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-black font-display leading-[1.02] tracking-tight mb-6">
+            FULL COACHING SYSTEM.<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#D8FF86] to-[#86D7FF]">
+              NOT JUST A SIMPLE TRACKER.
+            </span>
           </h2>
-          <p className="text-base sm:text-lg text-textSecondary max-w-[500px] mx-auto leading-relaxed font-normal px-2">
-            IZEM is priced like a premium AI coach, not a cheap tracker. The value is one connected system for workout plans, meal plans, scans, reviews, calls, memory, and weekly adaptation.
+          <p className="text-base sm:text-xl text-textSecondary max-w-[620px] mx-auto leading-relaxed font-sans font-normal px-2">
+            IZEM is priced as a complete AI personal trainer. You get workout plans, meal plans, 3D scans, accountability calls, and weekly adaptation in one connected system.
           </p>
         </motion.div>
 
-        {/* Mobile: Card-based layout */}
-        <div className="block sm:hidden space-y-3">
+        {/* Mobile: Sleek Cards */}
+        <div className="block lg:hidden space-y-4">
           {features.map((feature, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: idx * 0.03 }}
-              className="bg-[#111A22] border border-white/10 rounded-2xl p-4 shadow-glass"
+              className="glass-card rounded-2xl p-5 border border-white/10 bg-[#111A22]/90 backdrop-blur-xl shadow-glass"
             >
-              <p className="text-sm font-semibold text-textPrimary mb-3 font-sans">{feature.name}</p>
-              <div className="grid grid-cols-4 gap-2 text-center">
-                <div>
-                  <span className="text-[9px] text-primary font-bold block mb-1 uppercase tracking-wider">Us</span>
-                  <CellValue value={feature.us} />
+              <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-white/10">
+                <span className="text-sm font-bold text-textPrimary font-sans">{feature.name}</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-primary/20 text-primary border border-primary/30">
+                  IZEM
+                </span>
+              </div>
+              <div className="grid grid-cols-4 gap-2 text-center items-center">
+                <div className="p-2 rounded-xl bg-primary/10 border border-primary/30">
+                  <span className="text-[10px] text-primary font-black block mb-1 uppercase tracking-wider">IZEM</span>
+                  <CellValue value={feature.us} isUs={true} />
                 </div>
                 <div>
-                  <span className="text-[9px] text-textSecondary/60 font-medium block mb-1">
+                  <span className="text-[10px] text-textSecondary/70 font-medium block mb-1">
                     <a href="/vs-fitbod" className="underline hover:text-primary transition-colors">Fitbod</a>
                   </span>
                   <CellValue value={feature.fitbod} />
                 </div>
                 <div>
-                  <span className="text-[9px] text-textSecondary/60 font-medium block mb-1">
+                  <span className="text-[10px] text-textSecondary/70 font-medium block mb-1">
                     <a href="/vs-future" className="underline hover:text-primary transition-colors">Future</a>
                   </span>
                   <CellValue value={feature.future} />
                 </div>
                 <div>
-                  <span className="text-[9px] text-textSecondary/60 font-medium block mb-1">Freeletics</span>
+                  <span className="text-[10px] text-textSecondary/70 font-medium block mb-1">Freeletics</span>
                   <CellValue value={feature.freeletics} />
                 </div>
               </div>
             </motion.div>
           ))}
-          {/* Price card */}
-          <div className="bg-[#17232D] border border-primary/30 rounded-2xl p-4 shadow-[0_0_25px_rgba(141,255,106,0.15)]">
-            <p className="text-sm font-bold text-textPrimary mb-3 font-sans">Monthly Price</p>
-            <div className="grid grid-cols-4 gap-2 text-center">
-              <div>
-                <span className="text-sm font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">$24.99/mo</span>
+          {/* Mobile Pricing Summary */}
+          <div className="glass-card rounded-2xl p-6 border-2 border-primary/40 bg-gradient-to-br from-[#111A22] to-[#17232D] shadow-[0_0_30px_rgba(141,255,106,0.15)]">
+            <p className="text-base font-bold text-textPrimary mb-4 font-sans text-center">Monthly Investment</p>
+            <div className="grid grid-cols-4 gap-2 text-center items-center">
+              <div className="p-2 rounded-xl bg-primary/15 border border-primary/40">
+                <span className="text-xs font-black text-primary block">$24.99</span>
+                <span className="text-[9px] text-textSecondary uppercase font-bold">IZEM</span>
               </div>
-              <div><span className="text-xs text-textSecondary/60">$15/mo</span></div>
-              <div><span className="text-xs text-textSecondary/60">$150+/mo</span></div>
-              <div><span className="text-xs text-textSecondary/60">$15/mo</span></div>
+              <div>
+                <span className="text-xs font-medium text-textSecondary/70 block">$15</span>
+                <span className="text-[9px] text-textSecondary/50">Fitbod</span>
+              </div>
+              <div>
+                <span className="text-xs font-medium text-textSecondary/70 block">$150+</span>
+                <span className="text-[9px] text-textSecondary/50">Future</span>
+              </div>
+              <div>
+                <span className="text-xs font-medium text-textSecondary/70 block">$15</span>
+                <span className="text-[9px] text-textSecondary/50">Freeletics</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Desktop: Table layout */}
+        {/* Desktop: Pixel-Perfect Table Matrix */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="hidden sm:block overflow-x-auto"
+          className="hidden lg:block overflow-hidden rounded-[28px] border border-white/12 bg-[#0E151B]/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
         >
-          <div className="min-w-[640px] bg-[#111A22]/80 border border-white/10 rounded-2xl p-4 shadow-glass backdrop-blur-xl">
-            {/* Header */}
-            <div className="grid grid-cols-5 gap-0 mb-2 border-b border-white/10 pb-3">
-              <div className="p-4"></div>
-              <div className="p-4 text-center bg-primary/10 rounded-xl border border-primary/20">
-                <span className="text-base font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#D8FF86] to-secondary block font-display">IZEM</span>
-                <span className="text-[11px] text-cta font-bold">$24.99/mo</span>
-              </div>
-              <div className="p-4 text-center">
-                <span className="text-sm font-semibold text-textSecondary block">
-                  <a href="/vs-fitbod" className="underline hover:text-primary transition-colors">Fitbod</a>
-                </span>
-                <span className="text-[11px] text-textSecondary/60">$15/mo</span>
-              </div>
-              <div className="p-4 text-center">
-                <span className="text-sm font-semibold text-textSecondary block">
-                  <a href="/vs-future" className="underline hover:text-primary transition-colors">Future</a>
-                </span>
-                <span className="text-[11px] text-textSecondary/60">$150+/mo</span>
-              </div>
-              <div className="p-4 text-center">
-                <span className="text-sm font-semibold text-textSecondary block">Freeletics</span>
-                <span className="text-[11px] text-textSecondary/60">$15/mo</span>
-              </div>
-            </div>
-
-            {/* Rows */}
-            {features.map((feature, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: idx * 0.03 }}
-                className={`grid grid-cols-5 gap-0 ${idx % 2 === 0 ? 'bg-white/[0.02]' : ''} rounded-lg hover:bg-white/[0.04] transition-colors`}
-              >
-                <div className="p-4 flex items-center">
-                  <span className="text-sm text-textPrimary font-medium">{feature.name}</span>
-                </div>
-                <div className="p-4 flex items-center justify-center bg-primary/[0.06] border-x border-primary/20">
-                  <CellValue value={feature.us} />
-                </div>
-                <div className="p-4 flex items-center justify-center"><CellValue value={feature.fitbod} /></div>
-                <div className="p-4 flex items-center justify-center"><CellValue value={feature.future} /></div>
-                <div className="p-4 flex items-center justify-center"><CellValue value={feature.freeletics} /></div>
-              </motion.div>
-            ))}
-
-            {/* Price row */}
-            <div className="grid grid-cols-5 gap-0 mt-4 pt-4 border-t border-white/10">
-              <div className="p-4"><span className="text-sm font-bold text-textPrimary">Monthly Price</span></div>
-              <div className="p-4 flex items-center justify-center bg-primary/[0.08] border-x border-primary/30 rounded-b-xl">
-                <span className="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">$24.99/mo</span>
-              </div>
-              <div className="p-4 text-center"><span className="text-sm text-textSecondary/70">$15/mo</span></div>
-              <div className="p-4 text-center"><span className="text-sm text-textSecondary/70">$150+/mo</span></div>
-              <div className="p-4 text-center"><span className="text-sm text-textSecondary/70">$15/mo</span></div>
-            </div>
-          </div>
+          <table className="w-full text-left border-collapse table-fixed">
+            <colgroup>
+              <col className="w-[36%]" />
+              <col className="w-[20%]" />
+              <col className="w-[14.6%]" />
+              <col className="w-[14.6%]" />
+              <col className="w-[14.8%]" />
+            </colgroup>
+            <thead>
+              <tr className="border-b border-white/10 bg-[#111A22]/90">
+                <th className="p-6 text-sm font-bold uppercase tracking-wider text-textSecondary font-sans">Feature Matrix</th>
+                {/* IZEM Featured Column Header */}
+                <th className="p-6 text-center bg-gradient-to-b from-primary/20 to-primary/5 border-x border-primary/30 relative">
+                  <div className="absolute -top-1 inset-x-0 h-1 bg-gradient-to-r from-primary via-[#D8FF86] to-[#86D7FF]" />
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary text-[#070A0D] font-extrabold text-[11px] uppercase tracking-wider mb-2 shadow-[0_0_15px_rgba(141,255,106,0.4)]">
+                    <Sparkles size={12} /> IZEM AI
+                  </div>
+                  <div className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#86D7FF] font-display">
+                    $24.99 / mo
+                  </div>
+                </th>
+                <th className="p-6 text-center">
+                  <a href="/vs-fitbod" className="text-sm font-bold text-textPrimary hover:text-primary transition-colors block font-sans">Fitbod</a>
+                  <span className="text-xs text-textSecondary/60 font-mono">$15 / mo</span>
+                </th>
+                <th className="p-6 text-center">
+                  <a href="/vs-future" className="text-sm font-bold text-textPrimary hover:text-primary transition-colors block font-sans">Future</a>
+                  <span className="text-xs text-textSecondary/60 font-mono">$150+ / mo</span>
+                </th>
+                <th className="p-6 text-center">
+                  <span className="text-sm font-bold text-textPrimary block font-sans">Freeletics</span>
+                  <span className="text-xs text-textSecondary/60 font-mono">$15 / mo</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {features.map((feature, idx) => (
+                <tr key={idx} className="hover:bg-white/[0.03] transition-colors group">
+                  <td className="p-5 pl-6 text-sm font-medium text-textPrimary font-sans">
+                    {feature.name}
+                  </td>
+                  {/* IZEM Featured Column Body */}
+                  <td className="p-5 text-center bg-primary/[0.04] border-x border-primary/20 group-hover:bg-primary/[0.08] transition-colors">
+                    <CellValue value={feature.us} isUs={true} />
+                  </td>
+                  <td className="p-5 text-center">
+                    <CellValue value={feature.fitbod} />
+                  </td>
+                  <td className="p-5 text-center">
+                    <CellValue value={feature.future} />
+                  </td>
+                  <td className="p-5 text-center">
+                    <CellValue value={feature.freeletics} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr className="border-t border-white/10 bg-[#111A22]/90">
+                <td className="p-6 text-sm font-bold text-textPrimary font-sans">Monthly Investment</td>
+                <td className="p-6 text-center bg-primary/10 border-x border-primary/30">
+                  <span className="text-xl font-black text-primary font-display">$24.99</span>
+                  <span className="block text-[10px] text-primary/80 font-bold uppercase tracking-wider">Best Value</span>
+                </td>
+                <td className="p-6 text-center text-sm font-semibold text-textSecondary/70 font-mono">$15</td>
+                <td className="p-6 text-center text-sm font-semibold text-textSecondary/70 font-mono">$150+</td>
+                <td className="p-6 text-center text-sm font-semibold text-textSecondary/70 font-mono">$15</td>
+              </tr>
+            </tfoot>
+          </table>
         </motion.div>
       </div>
     </section>
