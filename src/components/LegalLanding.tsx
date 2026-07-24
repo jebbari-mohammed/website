@@ -25,7 +25,7 @@ export default function LegalLanding() {
   return (
     <div className="izem-site">
       <header className="topbar">
-        <div className="shell topbar-inner">
+        <div className="shell">
           <a className="brand" href="/" aria-label="IZEM home">
             <span>IZEM</span> / COACHING SYSTEM
           </a>

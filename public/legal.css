@@ -24,18 +24,8 @@ body {
   font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 a { color: var(--accent); }
-a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 3px; }
 .shell { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  padding: 28px 0;
-  border-bottom: 1px solid var(--line);
-  background: rgba(7, 9, 8, .78);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
+.topbar { padding: 28px 0; border-bottom: 1px solid var(--line); }
 .brand { color: var(--text); font: 700 13px/1 "SFMono-Regular", Consolas, monospace; letter-spacing: .22em; text-decoration: none; }
 .brand span { color: var(--accent); }
 .topbar nav { float: right; display: flex; gap: 22px; font-size: 13px; }
