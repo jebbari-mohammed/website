@@ -27,7 +27,7 @@ const trustItems = [
 
 export default function Trust() {
     return (
-        <section className="py-[100px] px-6 bg-gradient-to-br from-primary/5 to-secondary/5 border-y border-white/5">
+        <section className="py-[100px] px-6 bg-[#0E151B]/80 border-y border-white/10">
             <div className="max-w-7xl mx-auto w-full">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -39,7 +39,7 @@ export default function Trust() {
                     <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[1.5px] text-primary mb-4 font-sans">
                         ✦ Trust & Safety
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-extrabold font-condensed leading-[1.15] tracking-tight">
+                    <h2 className="text-4xl md:text-5xl font-black font-display leading-[1.15] tracking-tight">
                         Built with your safety<br />in mind
                     </h2>
                 </motion.div>
@@ -57,10 +57,10 @@ export default function Trust() {
                                 className="glass-card rounded-[24px] p-6 text-center hover:-translate-y-1 transition-transform flex flex-col justify-between"
                             >
                                 <div>
-                                    <div className="w-14 h-14 mx-auto rounded-full bg-white/5 flex items-center justify-center mb-4">
-                                        <Icon className="text-textPrimary" size={28} strokeWidth={1.5} />
+                                    <div className="w-14 h-14 mx-auto rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(141,255,106,0.15)]">
+                                        <Icon className="text-primary" size={26} strokeWidth={1.8} />
                                     </div>
-                                    <h4 className="text-[15px] font-bold mb-2 font-sans">{item.title}</h4>
+                                    <h4 className="text-[15px] font-bold mb-2 font-display text-textPrimary">{item.title}</h4>
                                 </div>
                                 <p className="text-[13px] text-textSecondary leading-relaxed font-sans mt-2">{item.desc}</p>
                             </motion.div>
@@ -73,14 +73,14 @@ export default function Trust() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.4 }}
-                    className="mt-12 bg-[#0C1232]/80 border-2 border-red-500/30 rounded-[20px] p-6 sm:p-8 flex flex-col sm:flex-row gap-5 items-start sm:items-center shadow-[0_10px_40px_rgba(239,68,68,0.05)]"
+                    className="mt-12 bg-[#111A22] border-2 border-red-500/30 rounded-[20px] p-6 sm:p-8 flex flex-col sm:flex-row gap-5 items-start sm:items-center shadow-[0_10px_40px_rgba(239,68,68,0.08)]"
                 >
-                    <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 rounded-full bg-red-500/15 flex items-center justify-center shrink-0">
                         <AlertTriangle className="text-red-500" size={24} />
                     </div>
                     <div>
-                        <h4 className="text-base font-bold text-white mb-1">Important Medical Disclaimer</h4>
-                        <p className="text-sm text-textSecondary leading-relaxed">
+                        <h4 className="text-base font-bold text-white mb-1 font-sans">Important Medical Disclaimer</h4>
+                        <p className="text-sm text-textSecondary leading-relaxed font-sans">
                             IZEM provides general fitness and nutritional guidance based on user inputs and AI analysis. It is <strong>NOT</strong> a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before beginning any new exercise or diet programme, especially if you have a medical condition or injury.
                         </p>
                     </div>

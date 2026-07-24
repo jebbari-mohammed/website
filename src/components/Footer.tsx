@@ -2,15 +2,15 @@ import { Zap } from 'lucide-react';
 
 export default function Footer() {
     return (
-        <footer className="bg-bgPrimary border-t border-white/10 pt-[60px] pb-8 px-6">
+        <footer className="bg-[#070A0D] border-t border-white/10 pt-[60px] pb-8 px-6">
             <div className="max-w-7xl mx-auto w-full">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
                     <div className="md:col-span-5">
                         <div className="flex items-center gap-2.5 mb-3">
-                            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white">
-                                <Zap size={18} className="fill-white" />
+                            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-[#070A0D] shadow-[0_0_15px_rgba(141,255,106,0.3)]">
+                                <Zap size={18} className="fill-[#070A0D] text-[#070A0D]" />
                             </div>
-                            <span className="text-base font-bold font-condensed tracking-wide text-textPrimary">IZEM</span>
+                            <span className="text-xl font-black font-display tracking-wider text-textPrimary">IZEM</span>
                         </div>
                         <p className="text-sm text-textSecondary leading-[1.7] max-w-[300px]">
                             Premium AI personal training with weekly workouts, practical meals, food/body/equipment scans, daily reviews, coach memory, optional calls, and weekly plan adaptation.

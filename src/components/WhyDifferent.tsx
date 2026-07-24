@@ -38,7 +38,7 @@ export default function WhyDifferent() {
   return (
     <section className="py-16 sm:py-[120px] px-4 sm:px-6 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-primary/8 to-transparent blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-primary/10 to-transparent blur-[140px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <motion.div
@@ -48,14 +48,14 @@ export default function WhyDifferent() {
           transition={{ duration: 0.6 }}
           className="text-center mb-10 sm:mb-16"
         >
-          <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-[11px] sm:text-[12px] text-primary font-bold uppercase tracking-[2px] mb-6 backdrop-blur-md">
+          <div className="inline-flex items-center gap-3 bg-[#111A22] border border-primary/30 rounded-full px-4 py-2 text-[11px] sm:text-[12px] text-primary font-bold uppercase tracking-[2px] mb-6 backdrop-blur-md shadow-[0_0_20px_rgba(141,255,106,0.15)]">
             ✦ Not Another Fitness App
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-7xl font-extrabold font-condensed leading-[1.05] tracking-tighter mb-4">
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-black font-display leading-[1.05] tracking-tight mb-4">
             TRACKERS WAIT.<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">IZEM COACHES.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#D8FF86] to-secondary">IZEM COACHES.</span>
           </h2>
-          <p className="text-base sm:text-lg text-textSecondary max-w-[600px] mx-auto leading-relaxed font-light px-2">
+          <p className="text-base sm:text-lg text-textSecondary max-w-[600px] mx-auto leading-relaxed font-normal px-2">
             Most fitness apps track what you did. IZEM helps you decide what to do next.
           </p>
         </motion.div>
@@ -73,25 +73,25 @@ export default function WhyDifferent() {
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
                 className="group"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-0 rounded-[16px] sm:rounded-[20px] overflow-hidden border border-white/8 hover:border-white/15 transition-all duration-300">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-0 rounded-[16px] sm:rounded-[20px] overflow-hidden border border-white/10 hover:border-primary/30 transition-all duration-300 shadow-glass">
                   {/* Other apps */}
-                  <div className="bg-[#0C1232]/50 p-4 sm:p-6 flex items-center gap-3 sm:gap-4 border-b sm:border-b-0 sm:border-r border-white/8">
+                  <div className="bg-[#0E151B]/80 p-4 sm:p-6 flex items-center gap-3 sm:gap-4 border-b sm:border-b-0 sm:border-r border-white/10">
                     <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-red-500/10 flex items-center justify-center shrink-0">
-                      <IconOther size={18} className="text-red-400/60" />
+                      <IconOther size={18} className="text-red-400/80" />
                     </div>
                     <div>
-                      <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-red-400/50 block mb-0.5">Other Apps</span>
-                      <p className="text-xs sm:text-sm text-textSecondary/70 font-light">{item.others}</p>
+                      <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-red-400/80 block mb-0.5">Other Apps</span>
+                      <p className="text-xs sm:text-sm text-textSecondary/80 font-normal">{item.others}</p>
                     </div>
                   </div>
                   {/* IZEM */}
-                  <div className="bg-[#0C1232]/80 p-4 sm:p-6 flex items-center gap-3 sm:gap-4 group-hover:bg-primary/5 transition-colors duration-300">
-                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/15 flex items-center justify-center shrink-0">
+                  <div className="bg-[#111A22] p-4 sm:p-6 flex items-center gap-3 sm:gap-4 group-hover:bg-[#17232D] transition-colors duration-300">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/20 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(141,255,106,0.2)]">
                       <IconOurs size={18} className="text-primary" />
                     </div>
                     <div>
-                      <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-primary block mb-0.5">IZEM</span>
-                      <p className="text-xs sm:text-sm text-textPrimary font-medium">{item.ours}</p>
+                      <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-primary block mb-0.5">IZEM</span>
+                      <p className="text-xs sm:text-sm text-textPrimary font-semibold">{item.ours}</p>
                     </div>
                   </div>
                 </div>

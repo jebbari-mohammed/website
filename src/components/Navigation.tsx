@@ -10,13 +10,13 @@ export default function Navigation() {
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="fixed top-0 left-0 right-0 z-[100] px-6 py-4 flex items-center justify-between bg-bgPrimary/85 backdrop-blur-xl border-b border-white/10"
+            className="fixed top-0 left-0 right-0 z-[100] px-6 py-4 flex items-center justify-between bg-[#070A0D]/90 backdrop-blur-xl border-b border-white/10 shadow-glass"
         >
-            <a href="/" className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white">
-                    <Zap size={20} className="fill-white" />
+            <a href="/" className="flex items-center gap-2.5 group">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-[#070A0D] shadow-[0_0_15px_rgba(141,255,106,0.3)] transition-transform duration-300 group-hover:scale-105">
+                    <Zap size={20} className="fill-[#070A0D] text-[#070A0D]" />
                 </div>
-                <span className="text-lg font-bold font-condensed tracking-wide text-textPrimary">IZEM</span>
+                <span className="text-xl font-extrabold font-display tracking-wider text-textPrimary">IZEM</span>
             </a>
 
             <div className="hidden md:flex items-center gap-4 lg:gap-7">
@@ -29,7 +29,7 @@ export default function Navigation() {
                 <a href="#data" className="text-sm font-medium text-textSecondary hover:text-primary transition-colors duration-200">Privacy</a>
             </div>
 
-            <a href="/izem-ai-fitness-coach/" className="hidden md:flex bg-gradient-to-r from-primary to-secondary text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-85 transition-opacity">
+            <a href="/izem-ai-fitness-coach/" className="hidden md:flex bg-gradient-to-r from-primary to-secondary text-[#070A0D] px-5 py-2.5 rounded-full text-sm font-extrabold shadow-[0_0_20px_rgba(141,255,106,0.25)] hover:shadow-[0_0_30px_rgba(141,255,106,0.45)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300">
                 See Full Coach
             </a>
 
@@ -42,7 +42,7 @@ export default function Navigation() {
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-0 right-0 bg-bgPrimary border-b border-white/10 p-6 flex flex-col gap-4 shadow-2xl"
+                    className="absolute top-full left-0 right-0 bg-[#0E151B] border-b border-white/10 p-6 flex flex-col gap-4 shadow-2xl"
                 >
                     <a href="/izem-ai-fitness-coach/" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">IZEM AI Fitness Coach</a>
                     <a href="/fitness-app-that-calls-you/" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Voice Calls Guide</a>
@@ -52,7 +52,7 @@ export default function Navigation() {
                     <a href="#how" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">How it Works</a>
                     <a href="#data" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Privacy</a>
                     <a href="#delete" onClick={() => setIsOpen(false)} className="text-base font-medium text-textPrimary hover:text-primary">Data Deletion</a>
-                    <a href="/izem-ai-fitness-coach/" onClick={() => setIsOpen(false)} className="mt-2 text-center bg-gradient-to-r from-primary to-secondary text-white px-5 py-3 rounded-full text-sm font-semibold">
+                    <a href="/izem-ai-fitness-coach/" onClick={() => setIsOpen(false)} className="mt-2 text-center bg-gradient-to-r from-primary to-secondary text-[#070A0D] px-5 py-3 rounded-full text-sm font-extrabold shadow-lg">
                         See Full Coach
                     </a>
                 </motion.div>

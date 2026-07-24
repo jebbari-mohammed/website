@@ -18,12 +18,12 @@ function StatItem({ value, suffix, label, sublabel, delay }: StatItemProps) {
       transition={{ duration: 0.6, delay }}
       className="text-center group"
     >
-      <div className="text-4xl sm:text-5xl md:text-7xl font-black font-condensed tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2">
+      <div className="text-4xl sm:text-5xl md:text-7xl font-black font-display tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#D8FF86] to-secondary mb-2 drop-shadow-[0_0_20px_rgba(141,255,106,0.25)]">
         {isAnimatable ? Number(value).toLocaleString() : value}
         {suffix && <span className="text-2xl sm:text-3xl md:text-5xl">{suffix}</span>}
       </div>
       <p className="text-sm sm:text-lg font-bold text-textPrimary mb-1 font-sans">{label}</p>
-      <p className="text-xs sm:text-sm text-textSecondary font-light px-2">{sublabel}</p>
+      <p className="text-xs sm:text-sm text-textSecondary font-normal px-2">{sublabel}</p>
     </motion.div>
   );
 }
@@ -32,7 +32,7 @@ export default function Stats() {
   return (
     <section className="py-16 sm:py-[120px] px-4 sm:px-6 relative overflow-hidden">
       {/* Background gradients */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/10 to-secondary/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/10 to-secondary/10 blur-[160px] rounded-full pointer-events-none" />
 
       <div className="max-w-5xl mx-auto w-full relative z-10">
         <motion.div
@@ -42,9 +42,9 @@ export default function Stats() {
           transition={{ duration: 0.6 }}
           className="text-center mb-10 sm:mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-7xl font-extrabold font-condensed leading-[1.05] tracking-tighter">
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-black font-display leading-[1.05] tracking-tight">
             BY THE<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">NUMBERS.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#D8FF86] to-secondary">NUMBERS.</span>
           </h2>
         </motion.div>
 
@@ -63,13 +63,13 @@ export default function Stats() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-10 sm:mt-16 text-center"
         >
-          <div className="inline-flex flex-col sm:flex-row items-center gap-2 sm:gap-3 bg-[#0C1232]/80 border border-white/10 rounded-2xl sm:rounded-full px-5 sm:px-6 py-3 backdrop-blur-md">
-            <span className="text-xs sm:text-sm text-textSecondary">Built as a coach, not a tracker:</span>
+          <div className="inline-flex flex-col sm:flex-row items-center gap-2 sm:gap-3 bg-[#111A22] border border-white/10 rounded-2xl sm:rounded-full px-5 sm:px-6 py-3 backdrop-blur-md shadow-glass">
+            <span className="text-xs sm:text-sm text-textSecondary font-medium">Built as a coach, not a tracker:</span>
             <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
               <span className="text-xs sm:text-sm font-bold text-red-400 line-through">Passive logs</span>
-              <span className="text-textSecondary/30">·</span>
+              <span className="text-textSecondary/40">·</span>
               <span className="text-xs sm:text-sm font-bold text-red-400 line-through">Generic plans</span>
-              <span className="text-textSecondary/30">·</span>
+              <span className="text-textSecondary/40">·</span>
               <span className="text-xs sm:text-sm font-bold text-red-400 line-through">No follow-up</span>
             </div>
           </div>
