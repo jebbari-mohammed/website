@@ -148,7 +148,7 @@
       "keyword": "fitness app that reviews missed workouts and adjusts the plan",
       "slug": "fitness-app-that-reviews-your-day",
       "title": "Fitness App That Reviews Your Day",
-      "description": "Looking for a fitness app that reviews your day? IZEM uses AI calls, evening check-ins, and weekly adaptation to turn missed workouts and messy meals into a better plan.",
+      "description": "Looking for a fitness app that reviews your day? IZEM uses AI calls, evening check-ins, and a 90-second day review checklist to turn missed workouts and messy meals into a better plan.",
       "date": "2026-07-06",
       "noindex": false
     },
@@ -349,8 +349,16 @@
       "slug": "premium-ai-personal-trainer-app-review-2026",
       "title": "Beyond Tracking: Premium AI Personal Trainer App Review 2026",
       "description": "Read our comprehensive review of premium AI personal trainer apps in 2026. Discover how proactive voice coaching and adaptive plans compare to human trainers.",
-      "date": "2026-07-23"
+      "date": "2026-07-23",
+      "noindex": false
+    },
+    {
+      "keyword": "best workout app with meal planning included",
+      "slug": "best-workout-app-with-meal-planning-included",
+      "title": "Finding an App That Actually Builds Muscle and Plans Meals",
+      "description": "Looking for the best workout app with meal planning included? We review how premium AI coaching stacks up against basic trackers and expensive trainers.",
+      "date": "2026-07-24"
     }
   ],
-  "lastRun": "2026-07-23T11:49:17.144Z"
+  "lastRun": "2026-07-24T11:40:23.475Z"
 }
