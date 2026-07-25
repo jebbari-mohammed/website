@@ -147,8 +147,8 @@
     {
       "keyword": "fitness app that reviews missed workouts and adjusts the plan",
       "slug": "fitness-app-that-reviews-your-day",
-      "title": "Fitness App That Reviews Your Day",
-      "description": "Looking for a fitness app that reviews your day? IZEM uses AI calls, evening check-ins, and a 90-second day review checklist to turn missed workouts and messy meals into a better plan.",
+      "title": "Fitness App That Reviews Your Day | AI Calls + Weekly Updates",
+      "description": "Looking for a fitness app that reviews your day and fixes your next plan? IZEM uses AI calls, evening reviews, food scanning, and weekly updates to keep your routine realistic.",
       "date": "2026-07-06",
       "noindex": false
     },
@@ -243,8 +243,8 @@
     {
       "keyword": "fitness tracker alternative that actually coaches you",
       "slug": "fitness-tracker-alternative-that-coaches",
-      "title": "Stop Tracking Your Workouts—Start Getting Coached Instead",
-      "description": "Tired of fitness apps that just track numbers? Discover how IZEM uses real-time AI voice coaching to hold you accountable and build a program that actually works.",
+      "title": "Fitness Tracker Alternatives That Actually Coach You",
+      "description": "Most fitness trackers can only record data. IZEM is built to coach, review your day, and adapt your workouts and meals so progress happens when life interrupts your routine.",
       "date": "2026-07-13",
       "noindex": false
     },
@@ -357,8 +357,24 @@
       "slug": "best-workout-app-with-meal-planning-included",
       "title": "Finding an App That Actually Builds Muscle and Plans Meals",
       "description": "Looking for the best workout app with meal planning included? We review how premium AI coaching stacks up against basic trackers and expensive trainers.",
-      "date": "2026-07-24"
+      "date": "2026-07-24",
+      "noindex": false
+    },
+    {
+      "keyword": "strength-training-after-40-guide",
+      "slug": "strength-training-after-40-guide",
+      "title": "Strength Training After 40: The Science-Backed Playbook for Building Muscle, Joint Longevity, and Smart AI Recovery",
+      "description": "Discover the definitive guide to strength training after 40. Learn how to prevent sarcopenia, protect your joints with smart exercise selection, auto-regulate progressive overload, and use AI voice coaching for optimal recovery.",
+      "date": "2026-07-24",
+      "noindex": false
+    },
+    {
+      "keyword": "AI fitness coach versus human personal trainer which is better",
+      "slug": "ai-fitness-coach-vs-human-trainer",
+      "title": "AI Fitness Coach vs Human Trainer: Which Is Actually Better?",
+      "description": "Is a human personal trainer worth the cost, or can a premium AI fitness coach keep you accountable? We break down the real differences in 2024.",
+      "date": "2026-07-25"
     }
   ],
-  "lastRun": "2026-07-24T11:40:23.475Z"
+  "lastRun": "2026-07-25T11:06:48.470Z"
 }
