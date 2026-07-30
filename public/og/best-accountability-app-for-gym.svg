@@ -34,8 +34,8 @@
   <text x="80" y="84" font-family="system-ui,-apple-system,sans-serif" font-size="18" font-weight="600" fill="#00D4FF">AI Fitness</text>
 
   <!-- Title -->
-  <text x="60" y="204" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Skip Proof Your Workouts: Best Gym</text>
-    <text x="60" y="276" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Accountability Apps in 2024</text>
+  <text x="60" y="204" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Best Gym Accountability App:</text>
+  <text x="60" y="276" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Match the Moment You Skip</text>
 
   <!-- Bottom bar -->
   <rect x="0" y="560" width="1200" height="70" fill="rgba(0,0,0,0.3)"/>
