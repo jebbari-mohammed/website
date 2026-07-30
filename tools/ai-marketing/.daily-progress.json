@@ -147,8 +147,8 @@
     {
       "keyword": "fitness app that reviews missed workouts and adjusts the plan",
       "slug": "fitness-app-that-reviews-your-day",
-      "title": "Fitness App That Reviews Your Day | Personal Trainer Alternative",
-      "description": "If you searched for a fitness app that reviews your day, this is what actually works: proactive calls, practical weekly adaptation, food scans, and fallback workouts when plans fall apart.",
+      "title": "AI Personal Trainer That Reviews Your Day",
+      "description": "Looking for an AI personal trainer that reviews your day? IZEM uses proactive calls, fallback workouts, food scans, and weekly adaptation so missed sessions become a better next plan.",
       "date": "2026-07-06",
       "noindex": false
     },
@@ -187,8 +187,8 @@
     {
       "keyword": "workout app that gives exercise substitutions when machines are taken",
       "slug": "workout-app-exercise-substitutions-busy-machines",
-      "title": "Stop Waiting for the Lat Pulldown: Best Apps for On-the-Fly Swaps",
-      "description": "Tired of hovering around busy gym machines? Discover how smart workout apps like IZEM provide instant exercise substitutions to keep your momentum going.",
+      "title": "Workout App for Busy Machines: Exercise Swaps",
+      "description": "Need an alternative when a gym machine is taken? Use the Keep-the-Job Swap Card to choose a goal-matched exercise and keep your workout moving with IZEM.",
       "date": "2026-07-07",
       "noindex": false
     },
@@ -401,20 +401,28 @@
       "noindex": false
     },
     {
-      "keyword": "science-of-deload-weeks-for-hypertrophy",
-      "slug": "science-of-deload-weeks-for-hypertrophy",
-      "title": "The Science of Deload Weeks for Hypertrophy: Ultimate Guide (2026)",
-      "description": "Learn the science of deload weeks for muscle hypertrophy. Discover when to deload, how to reduce volume vs intensity, and how AI adaptive planning optimizes recovery.",
-      "date": "2026-07-29",
-      "noindex": false
-    },
-    {
       "keyword": "how to build muscle on a budget with AI help",
       "slug": "build-muscle-on-budget-with-ai-coach",
       "title": "Building Muscle Without Breaking the Bank: How AI Coaching Changes The Game",
       "description": "Stop guessing your macros and gym routine. Learn how to build muscle on a budget using AI-powered tools that offer human-like coaching at a fraction of the cost.",
-      "date": "2026-07-29"
+      "date": "2026-07-29",
+      "noindex": false
+    },
+    {
+      "keyword": "science-of-deload-weeks-for-hypertrophy",
+      "slug": "science-of-deload-weeks-for-hypertrophy",
+      "title": "The Science of Deload Weeks for Hypertrophy: Ultimate Guide (2026)",
+      "description": "Learn the science of deload weeks for muscle hypertrophy. Discover when to deload, how to reduce volume vs intensity, and how AI adaptive planning optimizes recovery.",
+      "date": "2026-07-30",
+      "noindex": false
+    },
+    {
+      "keyword": "meal prep for gym goers who hate cooking",
+      "slug": "meal-prep-for-gym-goers-who-hate-cooking",
+      "title": "Stop Frying Chicken: Meal Prep Hacks for People Who Hate Cooking",
+      "description": "Hate spending your Sunday in the kitchen? Learn how to fuel your gym progress without the stress using smart tech and simple, high-protein meal hacks.",
+      "date": "2026-07-30"
     }
   ],
-  "lastRun": "2026-07-29T12:00:14.927Z"
+  "lastRun": "2026-07-30T11:49:12.536Z"
 }
