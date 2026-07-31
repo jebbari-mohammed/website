@@ -574,6 +574,15 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
+function escapeXml(value) {
+  return String(value || '')
+    .replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[\da-f]+);)/gi, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
 function readPostMetadata(file) {
   const slug = file.replace('.html', '');
   const html = fs.readFileSync(path.join(BLOG_DIR, file), 'utf-8');
@@ -926,10 +935,10 @@ function updateRSSFeed() {
   const posts = loadPublishedPostsFromDisk().filter(post => !post.noindex).reverse();
   const items = posts.map(p => `
     <item>
-      <title>${p.title}</title>
+      <title>${escapeXml(p.title)}</title>
       <link>https://youraicoach.life/blog/${p.slug}</link>
       <guid>https://youraicoach.life/blog/${p.slug}</guid>
-      <description>${p.description || ''}</description>
+      <description>${escapeXml(p.description)}</description>
       <pubDate>${new Date(p.date).toUTCString()}</pubDate>
     </item>`).join('');
 
