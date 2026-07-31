@@ -30,11 +30,13 @@
   <rect x="0" y="0" width="1200" height="6" fill="url(#accent)"/>
 
   <!-- Category pill -->
-  <rect x="60" y="60" width="170" height="40" rx="20" fill="rgba(0,212,255,0.12)" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
-  <text x="80" y="84" font-family="system-ui,-apple-system,sans-serif" font-size="18" font-weight="600" fill="#00D4FF">AI Fitness</text>
+  <rect x="60" y="60" width="260" height="40" rx="20" fill="rgba(0,212,255,0.12)" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
+  <text x="80" y="84" font-family="system-ui,-apple-system,sans-serif" font-size="18" font-weight="600" fill="#00D4FF">EQUIPMENT-AWARE COACHING</text>
 
   <!-- Title -->
-  <text x="60" y="240" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Gym Equipment Scanner Workout App</text>
+  <text x="60" y="226" font-family="system-ui,-apple-system,sans-serif" font-size="54" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Gym Equipment Scanner App</text>
+  <text x="60" y="304" font-family="system-ui,-apple-system,sans-serif" font-size="38" font-weight="700" fill="#A5F3FC">The Scan-to-Workout Test</text>
+  <text x="60" y="382" font-family="system-ui,-apple-system,sans-serif" font-size="24" fill="#CBD5E1">Capture → Confirm → Constrain → Generate → Retain</text>
 
   <!-- Bottom bar -->
   <rect x="0" y="560" width="1200" height="70" fill="rgba(0,0,0,0.3)"/>
