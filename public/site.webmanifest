@@ -1,0 +1,23 @@
+{
+  "name": "IZEM AI Fitness Coach",
+  "short_name": "IZEM",
+  "description": "AI fitness coaching with adaptive workouts, meal plans, scans, and accountability calls.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060B1D",
+  "theme_color": "#20D5D9",
+  "icons": [
+    {
+      "src": "/images/izem-app-logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/izem-app-logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

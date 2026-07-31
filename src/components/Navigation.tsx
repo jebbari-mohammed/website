@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from '../lib/motion';
-import { Menu, X, Zap } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 export default function Navigation() {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,9 +13,14 @@ export default function Navigation() {
             className="fixed top-0 left-0 right-0 z-[100] px-6 py-4 flex items-center justify-between bg-[#070A0D]/90 backdrop-blur-xl border-b border-white/10 shadow-glass"
         >
             <a href="/" className="flex items-center gap-2.5 group">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-[#070A0D] shadow-[0_0_15px_rgba(141,255,106,0.3)] transition-transform duration-300 group-hover:scale-105">
-                    <Zap size={20} className="fill-[#070A0D] text-[#070A0D]" />
-                </div>
+                <img
+                    data-izem-navigation-logo="true"
+                    src="/images/izem-app-logo-192.png"
+                    alt=""
+                    width="36"
+                    height="36"
+                    className="w-9 h-9 rounded-xl object-cover shadow-[0_0_15px_rgba(45,224,205,0.35)] transition-transform duration-300 group-hover:scale-105"
+                />
                 <span className="text-xl font-extrabold font-display tracking-wider text-textPrimary">IZEM</span>
             </a>
 

@@ -1,5 +1,3 @@
-import { Zap } from 'lucide-react';
-
 export default function Footer() {
     return (
         <footer className="bg-[#070A0D] border-t border-white/10 pt-[60px] pb-8 px-6">
@@ -7,9 +5,15 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
                     <div className="md:col-span-5">
                         <div className="flex items-center gap-2.5 mb-3">
-                            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-[#070A0D] shadow-[0_0_15px_rgba(141,255,106,0.3)]">
-                                <Zap size={18} className="fill-[#070A0D] text-[#070A0D]" />
-                            </div>
+                            <img
+                                src="/images/izem-app-logo-192.png"
+                                alt=""
+                                width="32"
+                                height="32"
+                                loading="lazy"
+                                decoding="async"
+                                className="w-8 h-8 rounded-xl object-cover shadow-[0_0_15px_rgba(45,224,205,0.35)]"
+                            />
                             <span className="text-xl font-black font-display tracking-wider text-textPrimary">IZEM</span>
                         </div>
                         <p className="text-sm text-textSecondary leading-[1.7] max-w-[300px]">

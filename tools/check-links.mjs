@@ -7,6 +7,17 @@ const siteOrigin = 'https://youraicoach.life'
 const distDirectory = path.resolve('dist')
 const excludedDirectory = 'blog/drafts/'
 const videoSitemapFile = 'video-sitemap.xml'
+const brandLogoPath = '/images/izem-app-logo-192.png'
+const brandAssets = [
+  'images/izem-app-logo.png',
+  'images/izem-app-logo-512.png',
+  'images/izem-app-logo-192.png',
+  'favicon-32x32.png',
+  'favicon-16x16.png',
+  'favicon.ico',
+  'apple-touch-icon.png',
+  'site.webmanifest',
+]
 const knownDeadUrls = [
   'https://apps.apple.com/app/your-ai-coach',
   'https://play.google.com/store/apps/details?id=com.ai.gym.coach',
@@ -95,6 +106,10 @@ let checkedLinks = 0
 const sitemapCanonicalUrls = new Set()
 const videoSitemapUrls = new Set()
 
+for (const asset of brandAssets) {
+  if (!allFiles.has(asset)) errors.push(`${asset}: required IZEM brand asset is missing`)
+}
+
 function typedJsonLdItems(value, type, items = []) {
   if (Array.isArray(value)) {
     for (const item of value) typedJsonLdItems(item, type, items)
@@ -116,6 +131,42 @@ for (const htmlFile of htmlFiles) {
   }
 
   const $ = load(html)
+
+  const brandLogo = $(`[data-izem-brand-logo="true"] img[src="${brandLogoPath}"]`)
+  if (brandLogo.length !== 1) {
+    errors.push(`${htmlFile}: every page must display exactly one universal IZEM app logo (found ${brandLogo.length})`)
+  }
+  if (brandLogo.attr('alt') !== 'IZEM app logo' || brandLogo.attr('width') !== '64' || brandLogo.attr('height') !== '64') {
+    errors.push(`${htmlFile}: universal IZEM app logo must have accessible text and fixed dimensions`)
+  }
+  const requiredHeadElements = [
+    ['32x32 favicon', 'link[rel="icon"][sizes="32x32"][href="/favicon-32x32.png"]'],
+    ['16x16 favicon', 'link[rel="icon"][sizes="16x16"][href="/favicon-16x16.png"]'],
+    ['shortcut favicon', 'link[rel="shortcut icon"][href="/favicon.ico"]'],
+    ['Apple touch icon', 'link[rel="apple-touch-icon"][href="/apple-touch-icon.png"]'],
+    ['web app manifest', 'link[rel="manifest"][href="/site.webmanifest"]'],
+    ['brand theme colour', 'meta[name="theme-color"][content="#20D5D9"]'],
+  ]
+  for (const [label, selector] of requiredHeadElements) {
+    if ($(selector).length !== 1) errors.push(`${htmlFile}: must have exactly one ${label}`)
+  }
+  if (html.includes('https://youraicoach.life/favicon.svg')) {
+    errors.push(`${htmlFile}: structured data still references the retired favicon logo`)
+  }
+  for (const anchor of $('a[href="/"]').toArray()) {
+    const text = $(anchor).text().replace(/\s+/g, ' ').trim()
+    if (/^⚡\s*IZEM$/i.test(text)) {
+      errors.push(`${htmlFile}: navigation still uses the retired lightning character logo`)
+    }
+    if (/^IZEM(?:\s*\/\s*(?:SUPPORT|TERMS))?$/i.test(text)) {
+      const navigationLogos = $(anchor).find(
+        'img[data-izem-navigation-logo="true"][src="/images/izem-app-logo-192.png"]',
+      )
+      if (navigationLogos.length !== 1) {
+        errors.push(`${htmlFile}: IZEM navigation brand must display the supplied app logo`)
+      }
+    }
+  }
 
   const videoFrames = $('iframe[src*="youtube.com/embed/"]')
   const isWatchPage = /^youtube\/[^/]+\/index\.html$/.test(htmlFile)

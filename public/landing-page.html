@@ -11,13 +11,17 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     
     <!-- Primary SEO Meta Tags -->
     <title>IZEM | AI Fitness Coach for Workouts, Meals, Scans and Calls</title>
     <meta name="description" content="IZEM plans your workouts and meals, scans food and body progress, and can call you for check-ins, reminders, and accountability.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="theme-color" content="#030712">
+    <meta name="theme-color" content="#20D5D9">
     <meta name="application-name" content="IZEM">
     <meta name="apple-mobile-web-app-title" content="IZEM">
     <link rel="canonical" href="https://youraicoach.life/landing-page">
@@ -56,7 +60,7 @@
           "@id": "https://youraicoach.life/#organization",
           "name": "IZEM",
           "url": "https://youraicoach.life/",
-          "logo": "https://youraicoach.life/favicon.svg"
+          "logo": "https://youraicoach.life/images/izem-app-logo-512.png"
         },
         {
           "@type": "WebSite",
@@ -226,6 +230,10 @@
         }
 
         .loader-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             font-size: 2.2rem;
             font-weight: 800;
             background: linear-gradient(135deg, #60a5fa, #c084fc);
@@ -274,6 +282,9 @@
         }
 
         .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             font-size: 1.5rem;
             font-weight: 800;
             text-decoration: none;
@@ -502,6 +513,9 @@
         }
 
         .footer-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             font-size: 1.2rem;
             font-weight: 800;
             color: #94a3b8;
@@ -553,7 +567,7 @@
     <!-- Premium Loading Screen -->
     <div id="preloader">
         <div class="loader-content">
-            <div class="loader-logo">⚡ IZEM</div>
+            <div class="loader-logo"><img src="/images/izem-app-logo-192.png" alt="" width="48" height="48" style="width:48px;height:48px;border-radius:14px;object-fit:cover">IZEM</div>
             <div class="loader-bar-bg">
                 <div class="loader-bar-fill" id="loader-bar"></div>
             </div>
@@ -563,7 +577,7 @@
 
     <!-- Header Navigation -->
     <header>
-        <a href="/" class="logo">⚡ IZEM</a>
+        <a href="/" class="logo"><img data-izem-navigation-logo="true" src="/images/izem-app-logo-192.png" alt="" width="30" height="30" style="width:30px;height:30px;border-radius:9px;object-fit:cover">IZEM</a>
         <a href="/" class="back-btn">Explore IZEM</a>
     </header>
 
@@ -633,7 +647,7 @@
             </div>
             
             <footer>
-                <a href="/" class="footer-logo">⚡ IZEM</a>
+                <a href="/" class="footer-logo"><img data-izem-navigation-logo="true" src="/images/izem-app-logo-192.png" alt="" width="30" height="30" style="width:30px;height:30px;border-radius:9px;object-fit:cover">IZEM</a>
                 <div class="copyright">&copy; 2026 IZEM. All rights reserved.</div>
             </footer>
         </div>
