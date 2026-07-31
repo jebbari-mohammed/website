@@ -1,12 +1,16 @@
 name: Translate Blog Posts
 
 on:
-  workflow_run:
-    workflows: ["Daily Blog Post"]
-    types: [completed]
-  # Fallback daily run in case the blog workflow is skipped or manually edited.
+  # A separate randomized daily run avoids firing once for every hourly timing
+  # check performed by the blog workflow.
   schedule:
-    - cron: '0 16 * * *'
+    - cron: '13 16 * * *'
+    - cron: '13 17 * * *'
+    - cron: '13 18 * * *'
+    - cron: '13 19 * * *'
+    - cron: '13 20 * * *'
+    - cron: '13 21 * * *'
+    - cron: '13 22 * * *'
   workflow_dispatch:
 
 permissions:
@@ -15,7 +19,6 @@ permissions:
 
 jobs:
   translate:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,15 +27,27 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
+      - name: Select fallback publication time
+        id: timing
+        if: github.event_name == 'schedule'
+        run: node tools/ai-marketing/publication-window.mjs --event "${{ github.event_name }}" --schedule "${{ github.event.schedule }}" --base-hour 16 --salt translations
+
+      - name: Wait until the selected fallback time
+        if: github.event_name == 'schedule' && steps.timing.outputs.publish == 'true'
+        run: sleep "${{ steps.timing.outputs.wait_seconds }}"
+
       - name: Set up Node
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Install dependencies
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         run: cd tools/ai-marketing && npm install
 
       - name: Translate latest blog post
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
@@ -41,7 +56,12 @@ jobs:
           GITHUB_ACTIONS: true
         run: node tools/ai-marketing/translate-blog.mjs
 
+      - name: Synchronize the indexable-page sitemap
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
+        run: node tools/sync-sitemap.mjs
+
       - name: Commit and push
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         run: |
           git config user.name "IZEM Editorial"
           git config user.email "editorial@youraicoach.life"
@@ -55,7 +75,7 @@ jobs:
           git push || (sleep 5 && git pull --rebase origin main && git push)
 
       - name: Trigger Pages deploy
-        if: success()
+        if: success() && (github.event_name != 'schedule' || steps.timing.outputs.publish == 'true')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh workflow run "Deploy static content to Pages" --ref main

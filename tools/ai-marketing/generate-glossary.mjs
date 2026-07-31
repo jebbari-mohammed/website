@@ -255,8 +255,7 @@ function buildGlossaryPage(item) {
     ${relatedLinks ? `<div class="related"><h3>📚 Related Terms</h3><p>${relatedLinks}</p></div>` : ''}
     <div class="cta-box">
         <p style="color:#CBD5E1;margin-bottom:12px"><strong>IZEM applies these principles automatically.</strong></p>
-        <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
-        <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
+        <a href="/izem-ai-fitness-coach/" class="cta">Explore IZEM</a>
     </div>
 </article>
 </body>

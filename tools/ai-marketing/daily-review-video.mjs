@@ -405,8 +405,7 @@ IZEM is built around proactive accountability: your AI coach can call you, revie
 
 📱 TRY IZEM:
 → Website: https://youraicoach.life
-→ iOS: https://apps.apple.com/app/your-ai-coach
-→ Android: https://play.google.com/store/apps/details?id=com.ai.gym.coach
+→ Learn about IZEM: https://youraicoach.life/izem-ai-fitness-coach/
 
 🛠️ FREE FITNESS TOOLS:
 → TDEE Calculator: ${SITE_URL}/tools

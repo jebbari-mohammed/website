@@ -184,8 +184,7 @@ In this podcast episode, two AI hosts break down everything you need to know abo
 • Practical tips you can implement today
 
 📱 TRY IZEM:
-→ iOS: https://apps.apple.com/app/your-ai-coach
-→ Android: https://play.google.com/store/apps/details?id=com.ai.gym.coach
+→ Learn about IZEM: https://youraicoach.life/izem-ai-fitness-coach/
 
 📖 READ THE FULL ARTICLE:
 ${SITE_URL}/blog/${post.slug}

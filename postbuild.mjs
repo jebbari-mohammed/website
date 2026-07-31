@@ -7,35 +7,26 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = path.resolve(__dirname, 'dist');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
-const GOOGLE_TAG_ID = 'G-ZXDRG5V07H';
-const GOOGLE_TAG = `<!-- Google tag (gtag.js), delayed until after first paint -->
+const GOOGLE_TAG_ID = 'G-3W49ZGG4NS';
+const PUBLISHER_NAME = 'Mohammed Jebbari';
+const PUBLISHER_ATTRIBUTION_MARKER = 'data-izem-publisher';
+const PUBLISHER_ATTRIBUTION = `<aside data-izem-publisher="true" aria-label="Publisher information" style="max-width:920px;margin:32px auto 20px;padding:16px 20px;border-top:1px solid rgba(148,163,184,.25);color:#94A3B8;font:14px/1.6 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;text-align:center">
+      Published by <a href="/about" style="color:#00D4FF">${PUBLISHER_NAME}</a>, founder of IZEM. Editorial pages may use disclosed AI assistance; IZEM remains accountable for corrections. <a href="/editorial-policy.html" style="color:#00D4FF">Editorial policy</a>.
+      <nav data-izem-site-links="true" aria-label="Explore IZEM" style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px">
+        <a href="/izem-ai-fitness-coach/" style="color:#CBD5E1">AI Coach</a>
+        <a href="/blog/" style="color:#CBD5E1">Blog</a>
+        <a href="/glossary/" style="color:#CBD5E1">Glossary</a>
+        <a href="/tools/" style="color:#CBD5E1">Calculators</a>
+        <a href="/comparisons/" style="color:#CBD5E1">Comparisons</a>
+      </nav>
+    </aside>`;
+const GOOGLE_TAG = `<!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      (function(){
-        var tagLoaded = false;
-        function loadGoogleTag(){
-          if (tagLoaded) return;
-          tagLoaded = true;
-          var script = document.createElement('script');
-          script.async = true;
-          script.src = 'https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}';
-          document.head.appendChild(script);
-          gtag('js', new Date());
-          gtag('config', '${GOOGLE_TAG_ID}');
-        }
-        function scheduleGoogleTag(){
-          if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(loadGoogleTag, { timeout: 2000 });
-          } else {
-            window.setTimeout(loadGoogleTag, 1);
-          }
-        }
-        window.addEventListener('load', function(){ window.setTimeout(scheduleGoogleTag, 6000); }, { once: true });
-        window.addEventListener('pointerdown', scheduleGoogleTag, { once: true, passive: true });
-        window.addEventListener('keydown', scheduleGoogleTag, { once: true });
-        window.addEventListener('scroll', scheduleGoogleTag, { once: true, passive: true });
-      })();
+      gtag('js', new Date());
+      gtag('config', '${GOOGLE_TAG_ID}');
     </script>`;
 
 function findHtmlFiles(dir) {
@@ -66,6 +57,36 @@ function injectGoogleTag() {
   }
 
   console.log(`✅ Google tag present in ${htmlFiles.length} HTML files (${changed} updated).`);
+}
+
+function injectPublisherAttribution() {
+  const htmlFiles = findHtmlFiles(DIST_DIR);
+  let changed = 0;
+
+  for (const file of htmlFiles) {
+    let html = fs.readFileSync(file, 'utf-8');
+    if (html.includes(PUBLISHER_ATTRIBUTION_MARKER)) continue;
+
+    if (!/<meta\s+name=["']publisher["']/i.test(html)) {
+      html = html.replace(/<head(\s[^>]*)?>/i, match => `${match}\n    <meta name="publisher" content="${PUBLISHER_NAME}">`);
+    }
+
+    const nextHtml = html.replace(/<\/body>/i, `${PUBLISHER_ATTRIBUTION}\n</body>`);
+    if (nextHtml === html) {
+      console.warn(`⚠️ Could not find <body> in ${path.relative(DIST_DIR, file)}`);
+      continue;
+    }
+
+    fs.writeFileSync(file, nextHtml);
+    changed += 1;
+  }
+
+  console.log(`✅ Publisher attribution present in ${htmlFiles.length} HTML files (${changed} updated).`);
+}
+
+function injectSiteMetadata() {
+  injectGoogleTag();
+  injectPublisherAttribution();
 }
 
 async function preRender() {
@@ -110,7 +131,7 @@ async function preRender() {
       fs.writeFileSync(HTML_FILE, html);
       console.log('✅ Pre-rendering complete! Overwrote dist/index.html with static content.');
 
-      injectGoogleTag();
+      injectSiteMetadata();
       
       server.close();
       process.exit(0);
@@ -118,7 +139,7 @@ async function preRender() {
       console.warn('⚠️ Pre-rendering skipped (expected in sandboxed environment):', err.message);
       console.log('ℹ️ Proceeding with static html deployment and injecting Google tag...');
       try {
-        injectGoogleTag();
+        injectSiteMetadata();
       } catch (injectErr) {
         console.error('❌ Failed to inject Google tag:', injectErr);
       }

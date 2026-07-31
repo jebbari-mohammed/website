@@ -121,6 +121,11 @@ export type KeywordIdea = {
     basis: 'heuristic' | 'estimated' | 'provider';
     explanation: string;
   };
+  demand: {
+    score: number;
+    basis: 'search-console-page-signal' | 'intent-proxy' | 'provider';
+    explanation: string;
+  };
   rationale: string;
 };
 
