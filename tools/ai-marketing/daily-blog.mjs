@@ -4,7 +4,7 @@
  * 
  * Features:
  * - Picks the next keyword from the list that hasn't been published yet
- * - Generates a human-sounding, long-form article using Gemini
+ * - Generates a clear, naturally written draft using Gemini
  * - Saves as HTML with full SEO markup
  * - Updates sitemap
  * - Updates the blog index page with all published posts
@@ -28,6 +28,14 @@ const PROGRESS_FILE = path.join(__dirname, '.daily-progress.json');
 // KEYWORD QUEUE (one per day)
 // ========================
 const KEYWORD_QUEUE = [
+  // Best attainable demand/difficulty mix. These support the Search Console
+  // winners without claiming that an easy keyword has guaranteed high volume.
+  "how to stay consistent with workouts on a busy schedule",
+  "AI workout generator for beginners at the gym",
+  "workout accountability ideas for people who train alone",
+  "personalized workout plan for busy professionals",
+  "how to choose a workout accountability app",
+
   // Easy-to-rank IZEM-fit clusters. Keep these ahead of broad fitness topics.
   "fitness app for crowded gyms that adapts your workout",
   "workout app that gives exercise substitutions when machines are taken",
@@ -467,18 +475,18 @@ const KEYWORD_QUEUE = [
 ];
 
 // ========================
-// HUMAN-STYLE WRITING PROMPT
+// TRANSPARENT EDITORIAL WRITING PROMPT
 // ========================
-const SYSTEM_PROMPT = `You are a fitness writer who has been covering health and technology for 8 years. You write for publications like Men's Health, SELF, and Wired. Your articles are warm, conversational, evidence-based, and genuinely helpful.
+const SYSTEM_PROMPT = `You are an AI drafting assistant for IZEM's editorial workflow. Write clear, natural, useful fitness-product content under the accountability of IZEM founder and publisher Mohammed Jebbari. Do not claim to be a human writer or imply credentials, employment, testing, or personal experience you do not have.
 
 WRITING STYLE RULES (THIS IS CRITICAL — follow every single one):
-1. Write like a REAL HUMAN journalist, not an AI. No corporate speak. No buzzwords. No "in today's world" or "in conclusion" or "let's dive in."
-2. Start with a STORY or a REAL SCENARIO — not a generic introduction. Example: "Last Tuesday, my phone rang at 6:45 PM. It wasn't my mom. It was my AI fitness coach, asking why I hadn't gone to the gym yet."
-3. Do not pretend to personally test the product, interview users, or observe fake outcomes. Use founder/product-expert perspective only when the article is clearly explaining product reasoning.
+1. Use plain language, concrete examples, varied sentence length, and a warm tone. Avoid corporate speak, buzzwords, "in today's world", "in conclusion", and "let's dive in."
+2. Start with the direct answer, then use a clearly labeled hypothetical scenario when it helps. Never present a generated scenario as a real person's experience.
+3. Do not pretend to personally test the product, interview users, hold credentials, write for a publication, or observe outcomes. Do not use first-person experience unless the prompt supplies a verified quote or test note from a named person.
 4. Include specific numbers only when they are verifiable from the prompt, stable public facts, competitor pricing, or clearly framed examples. Do not invent studies, percentages, awards, user counts, or clinical claims.
 5. Write short paragraphs (2-3 sentences max). Use line breaks often.
 6. Use contractions naturally (don't, can't, won't, it's)
-7. Include one slightly negative or honest criticism to build trust ("The onboarding takes about 5 minutes, which felt long at first, but it's what makes the personalization work")
+7. Include a genuine limitation that follows from supplied facts. Do not invent a criticism or personal reaction merely to simulate trust.
 8. Vary sentence length dramatically. Some short. Some medium. And occasionally a longer one that flows naturally and carries a thought to completion.
 9. NO listicle-style headers like "1. Feature A" — use descriptive, interesting headings
 10. End sections with a thought or insight, not a sales pitch
@@ -638,9 +646,9 @@ async function generatePost(topic, apiKeys) {
   ];
   const MAX_RETRIES = 2;
 
-  const prompt = `Write a comprehensive, human-sounding blog article about: "${topic}"
+  const prompt = `Write a comprehensive, naturally phrased blog article about: "${topic}"
 
-This should read like it was written by a real fitness journalist — warm, specific, opinionated, and genuinely helpful. NOT like AI-generated content.
+This draft should be warm, specific, and genuinely helpful without impersonating a person. Never fabricate a byline, personal test, user story, source, credential, or outcome.
 
 Return ONLY valid JSON (no markdown fences) in this exact format:
 {
@@ -751,8 +759,9 @@ function buildHTML(post) {
         "@type": "Article",
         "headline": "${post.title}",
         "description": "${post.metaDescription}",
-        "author": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life", "sameAs": ["https://apps.apple.com/app/your-ai-coach", "https://play.google.com/store/apps/details?id=com.ai.gym.coach"]},
+        "author": {"@type": "Organization", "name": "IZEM Editorial", "url": "https://youraicoach.life/editorial-policy.html"},
         "publisher": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"},
+        "accountablePerson": {"@type": "Person", "name": "Mohammed Jebbari", "url": "https://youraicoach.life/about"},
         "datePublished": "${today}",
         "dateModified": "${today}",
         "mainEntityOfPage": "https://youraicoach.life/blog/${post.slug}"
@@ -805,13 +814,12 @@ function buildHTML(post) {
 <article>
     <div class="breadcrumb"><a href="/">Home</a> → <a href="/blog/">Blog</a></div>
     <h1>${post.title}</h1>
-    <p class="meta">${readableDate} · IZEM Team</p>
+    <p class="meta">${readableDate} · Published by <a href="/about">Mohammed Jebbari</a>, IZEM founder · <a href="/editorial-policy.html">AI-assisted draft</a></p>
     ${post.content}
     ${post._relatedHTML || ''}
     <div class="cta-box">
         <p><strong>Try IZEM premium</strong> — a premium AI personal trainer where your coach calls your phone.</p>
-        <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
-        <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
+        <a href="/izem-ai-fitness-coach/" class="cta">Explore IZEM</a>
     </div>
 </article>
 </body>

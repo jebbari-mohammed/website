@@ -386,9 +386,8 @@ What this video covers:
 - Where IZEM's calls, scans, meals, and weekly adaptation fit
 - Where human professionals are still the better choice
 
-Download IZEM:
-iOS: https://apps.apple.com/app/your-ai-coach
-Android: https://play.google.com/store/apps/details?id=com.ai.gym.coach
+Learn about IZEM:
+https://youraicoach.life/izem-ai-fitness-coach/
 
 #IZEM #AIFitness #AIPersonalTrainer #FitnessApp #WorkoutAccountability`;
 }

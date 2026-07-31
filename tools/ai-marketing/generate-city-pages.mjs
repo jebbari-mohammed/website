@@ -109,8 +109,7 @@ function buildCityPage(city) {
 
     <div class="cta-box">
         <p style="color:#CBD5E1;margin-bottom:12px"><strong>Try IZEM premium in ${city.city}</strong></p>
-        <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
-        <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
+        <a href="/izem-ai-fitness-coach/" class="cta">Explore IZEM</a>
     </div>
 </article>
 </body>

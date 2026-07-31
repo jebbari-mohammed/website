@@ -202,8 +202,7 @@ function buildHTML(post) {
     ${post.content}
     <div class="cta-box">
         <p><strong>Ready for an AI coach that follows up?</strong> Download IZEM.</p>
-        <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 App Store</a>
-        <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Google Play</a>
+        <a href="/izem-ai-fitness-coach/" class="cta">Explore IZEM</a>
     </div>
 </article>
 </body>

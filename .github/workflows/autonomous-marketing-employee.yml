@@ -1,9 +1,16 @@
 name: Autonomous Marketing Employee Daily Run
 
 on:
-  # Runs every day at 6:00 AM UTC (7:00 AM Morocco/West Europe time)
+  # Publishes generated dashboard/report data once at a randomized time between
+  # 06:00 and 13:00 UTC.
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '13 6 * * *'
+    - cron: '13 7 * * *'
+    - cron: '13 8 * * *'
+    - cron: '13 9 * * *'
+    - cron: '13 10 * * *'
+    - cron: '13 11 * * *'
+    - cron: '13 12 * * *'
   # Allows manual triggering from the GitHub Actions tab
   workflow_dispatch:
 
@@ -21,21 +28,33 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
+      - name: Select today's randomized publication time
+        id: timing
+        run: node tools/ai-marketing/publication-window.mjs --event "${{ github.event_name }}" --schedule "${{ github.event.schedule }}" --base-hour 6 --salt marketing-employee
+
+      - name: Wait until the selected publication time
+        if: github.event_name == 'schedule' && steps.timing.outputs.publish == 'true'
+        run: sleep "${{ steps.timing.outputs.wait_seconds }}"
+
       - name: Install pnpm
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         uses: pnpm/action-setup@v4
         with:
           version: 9
 
       - name: Set up Node
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'pnpm'
 
       - name: Install Dependencies
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         run: pnpm install --no-frozen-lockfile
 
       - name: Run Marketing Tasks
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         env:
           # API Keys from GitHub Secrets
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -64,6 +83,7 @@ jobs:
           pnpm report:weekly
 
       - name: Commit and Push Generated Data (Force-Adding Ignored Artifacts)
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         run: |
           git config user.name "IZEM Marketing Agent"
           git config user.email "marketing-agent@youraicoach.life"
@@ -83,7 +103,7 @@ jobs:
           fi
 
       - name: Trigger static Pages Deployment
-        if: success()
+        if: success() && (github.event_name != 'schedule' || steps.timing.outputs.publish == 'true')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh workflow run "Deploy static content to Pages" --ref main

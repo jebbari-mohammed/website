@@ -1,8 +1,8 @@
 name: Weekly Content Refresh
 
 on:
-  schedule:
-    - cron: '0 10 * * 0'  # Every Sunday at 10 AM UTC
+  # A dateModified value should change only after a real content review.
+  # Keep this manual so an editor can verify the page was substantively updated.
   workflow_dispatch:
 
 permissions:
@@ -35,6 +35,9 @@ jobs:
             fi
           done
           echo "🔄 Refreshed dateModified on $CHANGED posts"
+
+      - name: Synchronize the indexable-page sitemap
+        run: node tools/sync-sitemap.mjs
 
       - name: Commit and push
         run: |

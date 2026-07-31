@@ -1,34 +1,13 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js), delayed until after first paint -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3W49ZGG4NS"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      (function(){
-        var tagLoaded = false;
-        function loadGoogleTag(){
-          if (tagLoaded) return;
-          tagLoaded = true;
-          var script = document.createElement('script');
-          script.async = true;
-          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-ZXDRG5V07H';
-          document.head.appendChild(script);
-          gtag('js', new Date());
-          gtag('config', 'G-ZXDRG5V07H');
-        }
-        function scheduleGoogleTag(){
-          if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(loadGoogleTag, { timeout: 2000 });
-          } else {
-            window.setTimeout(loadGoogleTag, 1);
-          }
-        }
-        window.addEventListener('load', function(){ window.setTimeout(scheduleGoogleTag, 6000); }, { once: true });
-        window.addEventListener('pointerdown', scheduleGoogleTag, { once: true, passive: true });
-        window.addEventListener('keydown', scheduleGoogleTag, { once: true });
-        window.addEventListener('scroll', scheduleGoogleTag, { once: true, passive: true });
-      })();
+      gtag('js', new Date());
+      gtag('config', 'G-3W49ZGG4NS');
     </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

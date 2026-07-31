@@ -25,7 +25,7 @@ const COMPETITORS = [
   "caliber"
 ];
 
-const SYSTEM_PROMPT = `You are an expert direct-response copywriter and technical SEO strategist. Your job is to create high-converting, fair comparison landing pages for 'IZEM' against major fitness apps.
+const SYSTEM_PROMPT = `You are an AI drafting assistant for IZEM. Create a clear, fair comparison landing-page draft under the accountability of IZEM founder and publisher Mohammed Jebbari. Do not impersonate a human reviewer or invent testing, experience, credentials, sources, or outcomes.
 
 YOUR GOAL: Explain why IZEM is a better fit for users who want a premium AI personal trainer, not a passive tracker. Highlight proactive voice calls, daily reviews, adaptive weekly workout and meal planning, food scanning, body progress scanning, gym equipment scanning, and accountability.
 
@@ -35,7 +35,7 @@ RULES:
 3. Use modern, highly-readable semantic HTML with <h2>, <h3>, <p>, <ul>, and <table> tags.
 4. Include a Comparison Table (<table>) as the very first section. It MUST include rows for: "Proactive Voice Calls", "Daily Progress Reviews", "Body Progress Scanning", "Gym Equipment Scanning", "Practical Personalized Meal Plans", "Weekly Adaptive Coaching", and "Progressive Overload Support".
 5. Use a persuasive but fair tone. Acknowledge what the competitor does well before explaining where IZEM is stronger.
-6. End with a strong Call to Action section directing them to the App Store and Google Play.
+6. End with a clear Call to Action based only on verified public download destinations supplied in the prompt. If no verified store destination is supplied, direct the reader to the IZEM website instead.
 7. Do not invent statistics, awards, user counts, accuracy claims, clinical claims, or fake tests.
 8. Return ONLY valid JSON in this exact format:
 {
@@ -121,6 +121,9 @@ async function generateComparisonPage() {
     <meta property="og:url" content="https://youraicoach.life/${slug}/">
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebPage","name":${JSON.stringify(data.title)},"url":"https://youraicoach.life/${slug}/","author":{"@type":"Organization","name":"IZEM Editorial","url":"https://youraicoach.life/editorial-policy.html"},"publisher":{"@type":"Organization","name":"IZEM","url":"https://youraicoach.life"},"accountablePerson":{"@type":"Person","name":"Mohammed Jebbari","url":"https://youraicoach.life/about"}}
+    </script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#E2E8F0;line-height:1.7}
@@ -149,13 +152,13 @@ async function generateComparisonPage() {
 <body>
 <nav class="nav"><div class="ni"><a href="/" class="nb">⚡ IZEM</a><a href="/" style="color:#94A3B8;font-size:.9rem;text-decoration:none">Back to Home</a></div></nav>
 <div class="container">
+    <p style="color:#94A3B8;font-size:.9rem;margin-bottom:24px">Published by <a href="/about" style="color:#00D4FF">Mohammed Jebbari</a>, IZEM founder · <a href="/editorial-policy.html" style="color:#00D4FF">AI-assisted draft and comparison policy</a></p>
     ${data.html}
     
     <div class="cta-box">
         <h3>Ready to upgrade your coaching?</h3>
-        <p style="margin-bottom:24px">Join thousands of users who switched to IZEM and finally started seeing consistent results.</p>
-        <a href="https://apps.apple.com/app/your-ai-coach" class="cta">🍎 Download on App Store</a>
-        <a href="https://play.google.com/store/apps/details?id=com.ai.gym.coach" class="cta">▶ Get it on Google Play</a>
+        <p style="margin-bottom:24px">See how IZEM combines adaptive planning, nutrition context, and proactive call accountability.</p>
+        <a href="/izem-ai-fitness-coach/" class="cta">Explore IZEM</a>
     </div>
 </div>
 </body>

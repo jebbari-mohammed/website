@@ -35,8 +35,12 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
+      - name: Check sitemap completeness
+        run: pnpm sitemap:check
       - name: Build
         run: pnpm build
+      - name: Check links
+        run: pnpm check:links
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact

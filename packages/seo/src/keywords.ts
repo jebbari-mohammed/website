@@ -8,6 +8,10 @@ const intentPatterns: Array<[KeywordIdea['intent'], RegExp]> = [
 ];
 
 const modifiers = [
+  'how to stay consistent with workouts on a busy schedule',
+  'ai workout generator for beginners at the gym',
+  'workout accountability ideas for people who train alone',
+  'personalized workout plan for busy professionals',
   'ai personal trainer',
   'fitness app that calls you',
   'workout accountability app',
@@ -23,6 +27,27 @@ const modifiers = [
   'how to stay consistent with workouts',
   'fitness accountability for beginners',
   'app that adapts workouts every week'
+];
+
+// These are page-level signals from IZEM's latest 28-day Search Console export,
+// not claims about total market search volume. They steer the roadmap toward
+// topics where this site has already demonstrated discovery and clicks.
+const siteDemandSignals: Array<{ pattern: RegExp; score: number; explanation: string }> = [
+  {
+    pattern: /fitness app.*(reviews|review).*day|missed workout/i,
+    score: 92,
+    explanation: 'Search Console page signal: the daily-review topic led IZEM with 41 impressions and 8 clicks in the latest 28-day window.',
+  },
+  {
+    pattern: /(fitness app|workout reminder|accountability app).*(call|phone)|call.*accountability/i,
+    score: 88,
+    explanation: 'Search Console page signal: call-accountability pages produced impressions and clicks in the latest 28-day window.',
+  },
+  {
+    pattern: /ai workout generator|adaptive workout|workout plan.*adapt/i,
+    score: 82,
+    explanation: 'Search Console page signal: the AI workout generator page earned 12 impressions and 3 clicks in the latest 28-day window.',
+  },
 ];
 
 function tokenize(value: string) {
@@ -51,10 +76,28 @@ function difficulty(keyword: string): KeywordIdea['difficulty'] {
   };
 }
 
-function opportunity(keyword: string, intent: KeywordIdea['intent'], diff: number) {
-  const intentBoost = intent === 'commercial' ? 22 : intent === 'transactional' ? 18 : intent === 'informational' ? 12 : 8;
-  const specificity = Math.min(25, tokenize(keyword).length * 4);
-  return Math.max(1, Math.min(100, 100 - diff + intentBoost + specificity));
+function demand(keyword: string): KeywordIdea['demand'] {
+  const signal = siteDemandSignals.find((item) => item.pattern.test(keyword));
+  if (signal) {
+    return {
+      score: signal.score,
+      basis: 'search-console-page-signal',
+      explanation: signal.explanation,
+    };
+  }
+
+  const intentProxy = /\b(app|coach|trainer|plan|consistent|accountability)\b/i.test(keyword) ? 58 : 42;
+  return {
+    score: intentProxy,
+    basis: 'intent-proxy',
+    explanation: 'No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim.',
+  };
+}
+
+function opportunity(intent: KeywordIdea['intent'], diff: number, demandScore: number) {
+  const intentScore = intent === 'commercial' ? 95 : intent === 'transactional' ? 90 : intent === 'informational' ? 72 : 45;
+  const easeScore = 100 - diff;
+  return Math.max(1, Math.min(100, Math.round(demandScore * 0.45 + easeScore * 0.35 + intentScore * 0.2)));
 }
 
 function similarity(a: string, b: string) {
@@ -80,13 +123,17 @@ export function generateKeywordIdeas(seed: string): KeywordIdea[] {
   return raw.map((keyword) => {
     const intent = classifyIntent(keyword);
     const kd = difficulty(keyword);
+    const demandSignal = demand(keyword);
     return {
       keyword,
       clusterId: '',
       intent,
-      opportunityScore: opportunity(keyword, intent, kd.score),
+      opportunityScore: opportunity(intent, kd.score, demandSignal.score),
       difficulty: kd,
-      rationale: 'Prioritized for long-tail specificity, IZEM product fit, and search intent clarity.',
+      demand: demandSignal,
+      rationale: demandSignal.basis === 'search-console-page-signal'
+        ? 'Prioritized for demonstrated IZEM discovery, long-tail attainability, and product fit.'
+        : 'Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed.',
     };
   });
 }
@@ -161,7 +208,7 @@ ${roadmap.clusters
 - Priority: ${cluster.priority}
 - Intent: ${cluster.intent}
 - Format: ${cluster.recommendedFormat}
-- Keywords: ${cluster.keywords.map((item) => `${item.keyword} (${item.opportunityScore}/100, KD ${item.difficulty.score} ${item.difficulty.basis})`).join('; ')}`
+- Keywords: ${cluster.keywords.map((item) => `${item.keyword} (${item.opportunityScore}/100, demand ${item.demand.score} ${item.demand.basis}, KD ${item.difficulty.score} ${item.difficulty.basis})`).join('; ')}`
   )
   .join('\n\n')}
 
