@@ -10,6 +10,12 @@ const HTML_FILE = path.join(DIST_DIR, 'index.html');
 const GOOGLE_TAG_ID = 'G-3W49ZGG4NS';
 const PUBLISHER_NAME = 'Mohammed Jebbari';
 const PUBLISHER_ATTRIBUTION_MARKER = 'data-izem-publisher';
+const SYSTEM_CHROME_PATHS = [
+  '/usr/bin/google-chrome',
+  '/usr/bin/google-chrome-stable',
+  '/usr/bin/chromium',
+  '/usr/bin/chromium-browser',
+];
 const PUBLISHER_ATTRIBUTION = `<aside data-izem-publisher="true" aria-label="Publisher information" style="max-width:920px;margin:32px auto 20px;padding:16px 20px;border-top:1px solid rgba(148,163,184,.25);color:#94A3B8;font:14px/1.6 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;text-align:center">
       Published by <a href="/about" style="color:#00D4FF">${PUBLISHER_NAME}</a>, founder of IZEM. Editorial pages may use disclosed AI assistance; IZEM remains accountable for corrections. <a href="/editorial-policy.html" style="color:#00D4FF">Editorial policy</a>.
       <nav data-izem-site-links="true" aria-label="Explore IZEM" style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px">
@@ -91,6 +97,12 @@ function injectSiteMetadata() {
   injectPublisherAttribution();
 }
 
+function resolveChromeExecutable() {
+  const configuredPath = process.env.PUPPETEER_EXECUTABLE_PATH;
+  if (configuredPath && fs.existsSync(configuredPath)) return configuredPath;
+  return SYSTEM_CHROME_PATHS.find(candidate => fs.existsSync(candidate));
+}
+
 async function preRender() {
   if (!fs.existsSync(HTML_FILE)) {
     console.error('dist/index.html not found. Did you run vite build?');
@@ -107,9 +119,11 @@ async function preRender() {
     console.log('🌍 Local server running on port 3000');
     
     try {
+      const executablePath = resolveChromeExecutable();
       const browser = await puppeteer.launch({ 
         headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        ...(executablePath ? { executablePath } : {}),
       });
       const page = await browser.newPage();
       
