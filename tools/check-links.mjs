@@ -151,6 +151,9 @@ for (const htmlFile of htmlFiles) {
       for (const required of ['name', 'description', 'thumbnailUrl', 'uploadDate', 'embedUrl']) {
         if (!video[required]) errors.push(`${htmlFile}: VideoObject is missing ${required}`)
       }
+      if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/i.test(String(video.uploadDate || ''))) {
+        errors.push(`${htmlFile}: VideoObject uploadDate must include a valid time and time zone`)
+      }
       if (!String(video.embedUrl || '').includes(`/embed/${videoId}`)) {
         errors.push(`${htmlFile}: VideoObject embedUrl does not match ${videoId}`)
       }
@@ -216,6 +219,10 @@ if (!allFiles.has(videoSitemapFile)) {
     }
     for (const requiredTag of ['video:thumbnail_loc', 'video:title', 'video:description', 'video:publication_date']) {
       if (!entry.includes(`<${requiredTag}>`)) errors.push(`${videoSitemapFile}: ${location} is missing ${requiredTag}`)
+    }
+    const publicationDate = entry.match(/<video:publication_date>([^<]+)<\/video:publication_date>/)?.[1]?.trim()
+    if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/i.test(publicationDate || '')) {
+      errors.push(`${videoSitemapFile}: ${location} publication_date must include a valid time and time zone`)
     }
     if (!targetExists(new URL(location), allFiles)) {
       errors.push(`${videoSitemapFile}: ${location} has no built watch page`)

@@ -72,6 +72,14 @@ function normalizedDate(value) {
   return match?.[0]
 }
 
+function googleVideoDateTime(value) {
+  const date = normalizedDate(value)
+  if (!date) return ''
+  if (/^\d{4}-\d{2}-\d{2}$/.test(date)) return `${date}T00:00:00Z`
+  if (/(?:Z|[+-]\d{2}:\d{2})$/i.test(date)) return date
+  return `${date}Z`
+}
+
 function firstMatch(html, regex) {
   return decodeEntities(html.match(regex)?.[1]?.trim() || '')
 }
@@ -252,7 +260,7 @@ function renderWatchPage(video) {
         name: video.title,
         description: video.description,
         thumbnailUrl: [thumbnailUrl(video.id)],
-        uploadDate: video.uploadDate,
+        uploadDate: googleVideoDateTime(video.uploadDate),
         embedUrl: `https://www.youtube.com/embed/${video.id}`,
         url: canonical,
         inLanguage: 'en',
@@ -337,7 +345,7 @@ function renderVideoSitemap(videos) {
       <video:title>${xmlEscape(video.title)}</video:title>
       <video:description>${xmlEscape(video.description.slice(0, 2048))}</video:description>
       <video:player_loc allow_embed="yes">${xmlEscape(`https://www.youtube.com/embed/${video.id}`)}</video:player_loc>
-      <video:publication_date>${xmlEscape(video.uploadDate)}</video:publication_date>
+      <video:publication_date>${xmlEscape(googleVideoDateTime(video.uploadDate))}</video:publication_date>
       <video:family_friendly>yes</video:family_friendly>
       <video:uploader info="${siteOrigin}/about">Mohammed Jebbari</video:uploader>
     </video:video>
