@@ -1,0 +1,576 @@
+{
+  "id": "2026-07-31T08-31-56-569Z-keyword-roadmap",
+  "createdAt": "2026-07-31T08:31:56.569Z",
+  "seed": "AI personal trainer accountability",
+  "clusters": [
+    {
+      "id": "cluster-1",
+      "name": "fitness app that reviews your day",
+      "intent": "transactional",
+      "keywords": [
+        {
+          "keyword": "fitness app that reviews your day",
+          "clusterId": "cluster-1",
+          "intent": "transactional",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 39,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "fitness app that reviews your day for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "transactional",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 32,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "fitness app that calls you",
+          "clusterId": "cluster-1",
+          "intent": "transactional",
+          "opportunityScore": 92,
+          "difficulty": {
+            "score": 46,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "high"
+    },
+    {
+      "id": "cluster-2",
+      "name": "how to stay consistent with workouts",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "how to stay consistent with workouts",
+          "clusterId": "cluster-2",
+          "intent": "informational",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 30,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "how to stay consistent with workouts for ai personal trainer accountability",
+          "clusterId": "cluster-2",
+          "intent": "informational",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 16,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        }
+      ],
+      "recommendedFormat": "blog",
+      "priority": "high"
+    },
+    {
+      "id": "cluster-3",
+      "name": "app that adapts workouts every week",
+      "intent": "transactional",
+      "keywords": [
+        {
+          "keyword": "app that adapts workouts every week",
+          "clusterId": "cluster-3",
+          "intent": "transactional",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 31,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "app that adapts workouts every week for ai personal trainer accountability",
+          "clusterId": "cluster-3",
+          "intent": "transactional",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "high"
+    },
+    {
+      "id": "cluster-4",
+      "name": "ai personal trainer for ai personal trainer accountability",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "ai personal trainer for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "informational",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 23,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "fitness app that calls you for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "transactional",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 32,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "workout accountability app for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "transactional",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 32,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "adaptive workout and meal plan app for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "transactional",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 40,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "ai fitness coach for busy people for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "informational",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "personal trainer accountability calls for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "informational",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 16,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "weekly workout plan app for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "transactional",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 32,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "meal plan and workout coach app for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "transactional",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 40,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "workout consistency calculator for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "informational",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "best ai fitness coach app for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "transactional",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 40,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "ai fitness coach vs personal trainer for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "commercial",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "fitness accountability for beginners for ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "informational",
+          "opportunityScore": 100,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "personal trainer accountability calls",
+          "clusterId": "cluster-4",
+          "intent": "informational",
+          "opportunityScore": 91,
+          "difficulty": {
+            "score": 37,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "ai personal trainer accountability",
+          "clusterId": "cluster-4",
+          "intent": "informational",
+          "opportunityScore": 80,
+          "difficulty": {
+            "score": 44,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "ai personal trainer",
+          "clusterId": "cluster-4",
+          "intent": "informational",
+          "opportunityScore": 76,
+          "difficulty": {
+            "score": 44,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "high"
+    },
+    {
+      "id": "cluster-5",
+      "name": "adaptive workout and meal plan app",
+      "intent": "transactional",
+      "keywords": [
+        {
+          "keyword": "adaptive workout and meal plan app",
+          "clusterId": "cluster-5",
+          "intent": "transactional",
+          "opportunityScore": 95,
+          "difficulty": {
+            "score": 47,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "meal plan and workout coach app",
+          "clusterId": "cluster-5",
+          "intent": "transactional",
+          "opportunityScore": 95,
+          "difficulty": {
+            "score": 47,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        },
+        {
+          "keyword": "weekly workout plan app",
+          "clusterId": "cluster-5",
+          "intent": "transactional",
+          "opportunityScore": 81,
+          "difficulty": {
+            "score": 53,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "high"
+    },
+    {
+      "id": "cluster-6",
+      "name": "ai fitness coach for busy people",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "ai fitness coach for busy people",
+          "clusterId": "cluster-6",
+          "intent": "informational",
+          "opportunityScore": 94,
+          "difficulty": {
+            "score": 38,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "high"
+    },
+    {
+      "id": "cluster-7",
+      "name": "ai fitness coach vs personal trainer",
+      "intent": "commercial",
+      "keywords": [
+        {
+          "keyword": "ai fitness coach vs personal trainer",
+          "clusterId": "cluster-7",
+          "intent": "commercial",
+          "opportunityScore": 93,
+          "difficulty": {
+            "score": 45,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        }
+      ],
+      "recommendedFormat": "comparison",
+      "priority": "high"
+    },
+    {
+      "id": "cluster-8",
+      "name": "fitness accountability for beginners",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "fitness accountability for beginners",
+          "clusterId": "cluster-8",
+          "intent": "informational",
+          "opportunityScore": 83,
+          "difficulty": {
+            "score": 45,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        }
+      ],
+      "recommendedFormat": "faq",
+      "priority": "high"
+    },
+    {
+      "id": "cluster-9",
+      "name": "best ai fitness coach app",
+      "intent": "transactional",
+      "keywords": [
+        {
+          "keyword": "best ai fitness coach app",
+          "clusterId": "cluster-9",
+          "intent": "transactional",
+          "opportunityScore": 73,
+          "difficulty": {
+            "score": 61,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        }
+      ],
+      "recommendedFormat": "comparison",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-10",
+      "name": "workout consistency calculator",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "workout consistency calculator",
+          "clusterId": "cluster-10",
+          "intent": "informational",
+          "opportunityScore": 72,
+          "difficulty": {
+            "score": 52,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        }
+      ],
+      "recommendedFormat": "tool",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-11",
+      "name": "workout accountability app",
+      "intent": "transactional",
+      "keywords": [
+        {
+          "keyword": "workout accountability app",
+          "clusterId": "cluster-11",
+          "intent": "transactional",
+          "opportunityScore": 70,
+          "difficulty": {
+            "score": 60,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "rationale": "Prioritized for long-tail specificity, IZEM product fit, and search intent clarity."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "medium"
+    }
+  ],
+  "calendar": [
+    {
+      "day": 1,
+      "keyword": "fitness app that reviews your day",
+      "format": "landing_page",
+      "title": "Fitness App That Reviews Your Day: Practical Guide"
+    },
+    {
+      "day": 2,
+      "keyword": "fitness app that reviews your day for ai personal trainer accountability",
+      "format": "landing_page",
+      "title": "Fitness App That Reviews Your Day For Ai Personal Trainer Accountability: Practical Guide"
+    },
+    {
+      "day": 3,
+      "keyword": "how to stay consistent with workouts",
+      "format": "blog",
+      "title": "How To Stay Consistent With Workouts: Practical Guide"
+    },
+    {
+      "day": 4,
+      "keyword": "how to stay consistent with workouts for ai personal trainer accountability",
+      "format": "blog",
+      "title": "How To Stay Consistent With Workouts For Ai Personal Trainer Accountability: Practical Guide"
+    },
+    {
+      "day": 5,
+      "keyword": "app that adapts workouts every week",
+      "format": "landing_page",
+      "title": "App That Adapts Workouts Every Week: Practical Guide"
+    },
+    {
+      "day": 6,
+      "keyword": "app that adapts workouts every week for ai personal trainer accountability",
+      "format": "landing_page",
+      "title": "App That Adapts Workouts Every Week For Ai Personal Trainer Accountability: Practical Guide"
+    },
+    {
+      "day": 7,
+      "keyword": "ai personal trainer for ai personal trainer accountability",
+      "format": "landing_page",
+      "title": "Ai Personal Trainer For Ai Personal Trainer Accountability: Practical Guide"
+    },
+    {
+      "day": 8,
+      "keyword": "fitness app that calls you for ai personal trainer accountability",
+      "format": "landing_page",
+      "title": "Fitness App That Calls You For Ai Personal Trainer Accountability: Practical Guide"
+    },
+    {
+      "day": 9,
+      "keyword": "adaptive workout and meal plan app",
+      "format": "landing_page",
+      "title": "Adaptive Workout And Meal Plan App: Practical Guide"
+    },
+    {
+      "day": 10,
+      "keyword": "meal plan and workout coach app",
+      "format": "landing_page",
+      "title": "Meal Plan And Workout Coach App: Practical Guide"
+    },
+    {
+      "day": 11,
+      "keyword": "ai fitness coach for busy people",
+      "format": "landing_page",
+      "title": "Ai Fitness Coach For Busy People: Practical Guide"
+    },
+    {
+      "day": 12,
+      "keyword": "ai fitness coach vs personal trainer",
+      "format": "comparison",
+      "title": "Ai Fitness Coach Vs Personal Trainer: Practical Guide"
+    },
+    {
+      "day": 13,
+      "keyword": "fitness accountability for beginners",
+      "format": "faq",
+      "title": "Fitness Accountability For Beginners: Practical Guide"
+    },
+    {
+      "day": 14,
+      "keyword": "best ai fitness coach app",
+      "format": "comparison",
+      "title": "Best Ai Fitness Coach App: Practical Guide"
+    },
+    {
+      "day": 15,
+      "keyword": "workout consistency calculator",
+      "format": "tool",
+      "title": "Workout Consistency Calculator: Practical Guide"
+    },
+    {
+      "day": 16,
+      "keyword": "workout accountability app",
+      "format": "landing_page",
+      "title": "Workout Accountability App: Practical Guide"
+    }
+  ]
+}
