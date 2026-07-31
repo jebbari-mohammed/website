@@ -35,7 +35,7 @@
   <text x="130" y="170" fill="#94A3B8" font-family="Inter,Arial,sans-serif" font-size="20" font-weight="700" letter-spacing="3">IZEM</text>
   <text x="130" y="240" fill="#F8FAFC" font-family="Inter,Arial,sans-serif" font-size="54" font-weight="800">Gym machines</text>
   <text x="130" y="300" fill="#C7D2FE" font-family="Inter,Arial,sans-serif" font-size="54" font-weight="800">vs free weights</text>
-  <text x="130" y="356" fill="#94A3B8" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="500">Use both. Let the coach adapt.</text>
+  <text x="130" y="356" fill="#94A3B8" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="500">The 4F equipment decision card</text>
 
   <rect x="428" y="172" width="132" height="132" rx="20" fill="#0B1225" stroke="url(#accent)" stroke-width="3"/>
   <rect x="460" y="194" width="12" height="88" rx="6" fill="#22D3EE"/>
