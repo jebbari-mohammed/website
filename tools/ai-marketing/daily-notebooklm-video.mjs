@@ -513,9 +513,10 @@ function buildEmbedBlock(post, youtubeUrl, notebookId) {
   return `<!-- IZEM_VIDEO_START -->
 <section class="izem-video" style="margin:32px 0;padding:24px;border:1px solid rgba(55,199,201,.25);border-radius:8px;background:rgba(55,199,201,.08)">
   <h2 style="margin-top:0">Watch the video guide</h2>
-  <div style="position:relative;aspect-ratio:16/9;background:#02070D;border-radius:8px;overflow:hidden">
-    <iframe src="https://www.youtube.com/embed/${videoId}" title="${title} video guide" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
-  </div>
+  <a data-izem-video-card="true" data-video-id="${videoId}" href="/youtube/${videoId}/" aria-label="Watch ${title}" style="display:block;width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;border-radius:8px;background:#02070D;text-decoration:none">
+    <img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" alt="${title}" width="480" height="360" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover">
+    <span aria-hidden="true" style="position:absolute;inset:0;display:grid;place-items:center"><span style="display:grid;place-items:center;width:68px;height:48px;border-radius:12px;background:#FF0000;color:#fff;font:700 24px/1 system-ui">▶</span></span>
+  </a>
   <p style="margin:14px 0 0;color:#AEBBCC">A short IZEM video guide for the decisions in this article.</p>
 </section>
 <!-- IZEM_VIDEO_END -->`;
@@ -597,7 +598,7 @@ function embedVideoInPost(post, youtubeUrl, notebookId) {
 function buildYoutubeCard(post, youtubeUrl) {
   const videoId = extractYouTubeId(youtubeUrl);
   const title = escapeHtml(post.title);
-  return `<a data-video-id="${videoId}" href="${youtubeUrl}" target="_blank" rel="noopener" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
+  return `<a data-video-id="${videoId}" href="/youtube/${videoId}/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
   <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="${title}" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
   <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">${title}</span>
   <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">A short IZEM video guide based on the full article.</span>

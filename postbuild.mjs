@@ -18,6 +18,8 @@ const PUBLISHER_ATTRIBUTION = `<aside data-izem-publisher="true" aria-label="Pub
         <a href="/glossary/" style="color:#CBD5E1">Glossary</a>
         <a href="/tools/" style="color:#CBD5E1">Calculators</a>
         <a href="/comparisons/" style="color:#CBD5E1">Comparisons</a>
+        <a href="/youtube/" style="color:#CBD5E1">Videos</a>
+        <a href="/landing-page" style="color:#CBD5E1">How IZEM works</a>
       </nav>
     </aside>`;
 const GOOGLE_TAG = `<!-- Google tag (gtag.js) -->

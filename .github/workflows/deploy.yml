@@ -35,6 +35,8 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
+      - name: Check dedicated video pages
+        run: pnpm video:check
       - name: Check sitemap completeness
         run: pnpm sitemap:check
       - name: Build

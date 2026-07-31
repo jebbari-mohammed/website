@@ -129,7 +129,7 @@ export default function Features() {
                 {/* Feature image for wide cards */}
                 {feature.image && (
                   <div className="absolute -right-4 sm:-right-2 top-4 sm:top-2 w-[140px] sm:w-[200px] h-[140px] sm:h-[200px] rounded-2xl overflow-hidden opacity-30 sm:opacity-50 group-hover:opacity-75 transition-opacity duration-500 z-0">
-                    <img src={feature.image} alt={feature.title} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                    <img src={feature.image} alt={feature.title} width={420} height={420} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                     <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#111A22]" />
                   </div>
                 )}

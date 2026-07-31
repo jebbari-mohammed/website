@@ -104,6 +104,12 @@ jobs:
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: node tools/ai-marketing/daily-notebooklm-video.mjs
 
+      - name: Build dedicated video pages and refresh sitemaps
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        run: |
+          node tools/sync-video-pages.mjs
+          node tools/sync-sitemap.mjs
+
       - name: Commit and push website video embed
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         run: |

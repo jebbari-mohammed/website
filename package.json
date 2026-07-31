@@ -8,6 +8,8 @@
     "build": "tsc -b && vite build",
     "postbuild": "node postbuild.mjs",
     "check:links": "node tools/check-links.mjs",
+    "video:sync": "node tools/sync-video-pages.mjs",
+    "video:check": "node tools/sync-video-pages.mjs --check",
     "sitemap:sync": "node tools/sync-sitemap.mjs",
     "sitemap:check": "node tools/sync-sitemap.mjs --check",
     "lint": "eslint .",
