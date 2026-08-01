@@ -1,0 +1,927 @@
+{
+  "id": "2026-08-01T10-46-34-150Z-keyword-roadmap",
+  "createdAt": "2026-08-01T10:46:34.150Z",
+  "seed": "AI personal trainer accountability",
+  "clusters": [
+    {
+      "id": "cluster-1",
+      "name": "fitness app that reviews your day for ai personal trainer accountability",
+      "intent": "transactional",
+      "keywords": [
+        {
+          "keyword": "fitness app that reviews your day for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "transactional",
+          "opportunityScore": 83,
+          "difficulty": {
+            "score": 32,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 92,
+            "basis": "search-console-page-signal",
+            "explanation": "Search Console page signal: the daily-review topic led IZEM with 41 impressions and 8 clicks in the latest 28-day window."
+          },
+          "rationale": "Prioritized for demonstrated IZEM discovery, long-tail attainability, and product fit."
+        },
+        {
+          "keyword": "personal trainer accountability calls for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "informational",
+          "opportunityScore": 83,
+          "difficulty": {
+            "score": 16,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 88,
+            "basis": "search-console-page-signal",
+            "explanation": "Search Console page signal: call-accountability pages produced impressions and clicks in the latest 28-day window."
+          },
+          "rationale": "Prioritized for demonstrated IZEM discovery, long-tail attainability, and product fit."
+        },
+        {
+          "keyword": "fitness app that reviews your day",
+          "clusterId": "cluster-1",
+          "intent": "transactional",
+          "opportunityScore": 81,
+          "difficulty": {
+            "score": 39,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 92,
+            "basis": "search-console-page-signal",
+            "explanation": "Search Console page signal: the daily-review topic led IZEM with 41 impressions and 8 clicks in the latest 28-day window."
+          },
+          "rationale": "Prioritized for demonstrated IZEM discovery, long-tail attainability, and product fit."
+        },
+        {
+          "keyword": "fitness app that calls you for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "transactional",
+          "opportunityScore": 81,
+          "difficulty": {
+            "score": 32,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 88,
+            "basis": "search-console-page-signal",
+            "explanation": "Search Console page signal: call-accountability pages produced impressions and clicks in the latest 28-day window."
+          },
+          "rationale": "Prioritized for demonstrated IZEM discovery, long-tail attainability, and product fit."
+        },
+        {
+          "keyword": "ai fitness coach vs personal trainer for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "commercial",
+          "opportunityScore": 72,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "app that adapts workouts every week for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "transactional",
+          "opportunityScore": 71,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "workout accountability app for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "transactional",
+          "opportunityScore": 68,
+          "difficulty": {
+            "score": 32,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "weekly workout plan app for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "transactional",
+          "opportunityScore": 68,
+          "difficulty": {
+            "score": 32,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "ai personal trainer for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "informational",
+          "opportunityScore": 67,
+          "difficulty": {
+            "score": 23,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "ai fitness coach for busy people for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "informational",
+          "opportunityScore": 67,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "fitness accountability for beginners for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "informational",
+          "opportunityScore": 67,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "best ai fitness coach app for ai personal trainer accountability",
+          "clusterId": "cluster-1",
+          "intent": "transactional",
+          "opportunityScore": 65,
+          "difficulty": {
+            "score": 40,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-2",
+      "name": "ai workout generator for beginners at the gym for ai personal trainer accountability",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "ai workout generator for beginners at the gym for ai personal trainer accountability",
+          "clusterId": "cluster-2",
+          "intent": "informational",
+          "opportunityScore": 78,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 82,
+            "basis": "search-console-page-signal",
+            "explanation": "Search Console page signal: the AI workout generator page earned 12 impressions and 3 clicks in the latest 28-day window."
+          },
+          "rationale": "Prioritized for demonstrated IZEM discovery, long-tail attainability, and product fit."
+        },
+        {
+          "keyword": "adaptive workout and meal plan app for ai personal trainer accountability",
+          "clusterId": "cluster-2",
+          "intent": "transactional",
+          "opportunityScore": 76,
+          "difficulty": {
+            "score": 40,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 82,
+            "basis": "search-console-page-signal",
+            "explanation": "Search Console page signal: the AI workout generator page earned 12 impressions and 3 clicks in the latest 28-day window."
+          },
+          "rationale": "Prioritized for demonstrated IZEM discovery, long-tail attainability, and product fit."
+        },
+        {
+          "keyword": "ai workout generator for beginners at the gym",
+          "clusterId": "cluster-2",
+          "intent": "informational",
+          "opportunityScore": 75,
+          "difficulty": {
+            "score": 31,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 82,
+            "basis": "search-console-page-signal",
+            "explanation": "Search Console page signal: the AI workout generator page earned 12 impressions and 3 clicks in the latest 28-day window."
+          },
+          "rationale": "Prioritized for demonstrated IZEM discovery, long-tail attainability, and product fit."
+        },
+        {
+          "keyword": "workout accountability ideas for people who train alone for ai personal trainer accountability",
+          "clusterId": "cluster-2",
+          "intent": "informational",
+          "opportunityScore": 67,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "personalized workout plan for busy professionals for ai personal trainer accountability",
+          "clusterId": "cluster-2",
+          "intent": "informational",
+          "opportunityScore": 67,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "workout consistency calculator for ai personal trainer accountability",
+          "clusterId": "cluster-2",
+          "intent": "informational",
+          "opportunityScore": 67,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "meal plan and workout coach app for ai personal trainer accountability",
+          "clusterId": "cluster-2",
+          "intent": "transactional",
+          "opportunityScore": 65,
+          "difficulty": {
+            "score": 40,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-3",
+      "name": "fitness app that calls you",
+      "intent": "transactional",
+      "keywords": [
+        {
+          "keyword": "fitness app that calls you",
+          "clusterId": "cluster-3",
+          "intent": "transactional",
+          "opportunityScore": 77,
+          "difficulty": {
+            "score": 46,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 88,
+            "basis": "search-console-page-signal",
+            "explanation": "Search Console page signal: call-accountability pages produced impressions and clicks in the latest 28-day window."
+          },
+          "rationale": "Prioritized for demonstrated IZEM discovery, long-tail attainability, and product fit."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-4",
+      "name": "adaptive workout and meal plan app",
+      "intent": "transactional",
+      "keywords": [
+        {
+          "keyword": "adaptive workout and meal plan app",
+          "clusterId": "cluster-4",
+          "intent": "transactional",
+          "opportunityScore": 73,
+          "difficulty": {
+            "score": 47,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 82,
+            "basis": "search-console-page-signal",
+            "explanation": "Search Console page signal: the AI workout generator page earned 12 impressions and 3 clicks in the latest 28-day window."
+          },
+          "rationale": "Prioritized for demonstrated IZEM discovery, long-tail attainability, and product fit."
+        },
+        {
+          "keyword": "meal plan and workout coach app",
+          "clusterId": "cluster-4",
+          "intent": "transactional",
+          "opportunityScore": 63,
+          "difficulty": {
+            "score": 47,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "weekly workout plan app",
+          "clusterId": "cluster-4",
+          "intent": "transactional",
+          "opportunityScore": 61,
+          "difficulty": {
+            "score": 53,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-5",
+      "name": "how to stay consistent with workouts on a busy schedule",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "how to stay consistent with workouts on a busy schedule",
+          "clusterId": "cluster-5",
+          "intent": "informational",
+          "opportunityScore": 70,
+          "difficulty": {
+            "score": 16,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "how to stay consistent with workouts on a busy schedule for ai personal trainer accountability",
+          "clusterId": "cluster-5",
+          "intent": "informational",
+          "opportunityScore": 70,
+          "difficulty": {
+            "score": 16,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "how to stay consistent with workouts for ai personal trainer accountability",
+          "clusterId": "cluster-5",
+          "intent": "informational",
+          "opportunityScore": 70,
+          "difficulty": {
+            "score": 16,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "how to stay consistent with workouts",
+          "clusterId": "cluster-5",
+          "intent": "informational",
+          "opportunityScore": 65,
+          "difficulty": {
+            "score": 30,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "blog",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-6",
+      "name": "app that adapts workouts every week",
+      "intent": "transactional",
+      "keywords": [
+        {
+          "keyword": "app that adapts workouts every week",
+          "clusterId": "cluster-6",
+          "intent": "transactional",
+          "opportunityScore": 68,
+          "difficulty": {
+            "score": 31,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-7",
+      "name": "workout accountability ideas for people who train alone",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "workout accountability ideas for people who train alone",
+          "clusterId": "cluster-7",
+          "intent": "informational",
+          "opportunityScore": 67,
+          "difficulty": {
+            "score": 24,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "faq",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-8",
+      "name": "personalized workout plan for busy professionals",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "personalized workout plan for busy professionals",
+          "clusterId": "cluster-8",
+          "intent": "informational",
+          "opportunityScore": 65,
+          "difficulty": {
+            "score": 31,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "faq",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-9",
+      "name": "ai fitness coach vs personal trainer",
+      "intent": "commercial",
+      "keywords": [
+        {
+          "keyword": "ai fitness coach vs personal trainer",
+          "clusterId": "cluster-9",
+          "intent": "commercial",
+          "opportunityScore": 64,
+          "difficulty": {
+            "score": 45,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "ai personal trainer accountability",
+          "clusterId": "cluster-9",
+          "intent": "informational",
+          "opportunityScore": 60,
+          "difficulty": {
+            "score": 44,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        },
+        {
+          "keyword": "ai personal trainer",
+          "clusterId": "cluster-9",
+          "intent": "informational",
+          "opportunityScore": 60,
+          "difficulty": {
+            "score": 44,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "comparison",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-10",
+      "name": "personal trainer accountability calls",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "personal trainer accountability calls",
+          "clusterId": "cluster-10",
+          "intent": "informational",
+          "opportunityScore": 63,
+          "difficulty": {
+            "score": 37,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-11",
+      "name": "ai fitness coach for busy people",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "ai fitness coach for busy people",
+          "clusterId": "cluster-11",
+          "intent": "informational",
+          "opportunityScore": 62,
+          "difficulty": {
+            "score": 38,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-12",
+      "name": "fitness accountability for beginners",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "fitness accountability for beginners",
+          "clusterId": "cluster-12",
+          "intent": "informational",
+          "opportunityScore": 60,
+          "difficulty": {
+            "score": 45,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "faq",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-13",
+      "name": "workout accountability app",
+      "intent": "transactional",
+      "keywords": [
+        {
+          "keyword": "workout accountability app",
+          "clusterId": "cluster-13",
+          "intent": "transactional",
+          "opportunityScore": 58,
+          "difficulty": {
+            "score": 60,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "landing_page",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-14",
+      "name": "best ai fitness coach app",
+      "intent": "transactional",
+      "keywords": [
+        {
+          "keyword": "best ai fitness coach app",
+          "clusterId": "cluster-14",
+          "intent": "transactional",
+          "opportunityScore": 58,
+          "difficulty": {
+            "score": 61,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 58,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "comparison",
+      "priority": "medium"
+    },
+    {
+      "id": "cluster-15",
+      "name": "workout consistency calculator",
+      "intent": "informational",
+      "keywords": [
+        {
+          "keyword": "workout consistency calculator",
+          "clusterId": "cluster-15",
+          "intent": "informational",
+          "opportunityScore": 50,
+          "difficulty": {
+            "score": 52,
+            "basis": "heuristic",
+            "explanation": "No paid keyword database is connected. This score estimates difficulty from query specificity, commercial modifiers, and breadth."
+          },
+          "demand": {
+            "score": 42,
+            "basis": "intent-proxy",
+            "explanation": "No verified query-volume provider is connected. This is a conservative demand proxy based on product fit and search intent, not a traffic-volume claim."
+          },
+          "rationale": "Prioritized for the best attainable balance of demand proxy, long-tail difficulty, and product fit; exact traffic volume is not claimed."
+        }
+      ],
+      "recommendedFormat": "tool",
+      "priority": "low"
+    }
+  ],
+  "calendar": [
+    {
+      "day": 1,
+      "keyword": "fitness app that reviews your day for ai personal trainer accountability",
+      "format": "landing_page",
+      "title": "Fitness App That Reviews Your Day For Ai Personal Trainer Accountability: Practical Guide"
+    },
+    {
+      "day": 2,
+      "keyword": "personal trainer accountability calls for ai personal trainer accountability",
+      "format": "landing_page",
+      "title": "Personal Trainer Accountability Calls For Ai Personal Trainer Accountability: Practical Guide"
+    },
+    {
+      "day": 3,
+      "keyword": "ai workout generator for beginners at the gym for ai personal trainer accountability",
+      "format": "landing_page",
+      "title": "Ai Workout Generator For Beginners At The Gym For Ai Personal Trainer Accountability: Practical Guide"
+    },
+    {
+      "day": 4,
+      "keyword": "fitness app that calls you",
+      "format": "landing_page",
+      "title": "Fitness App That Calls You: Practical Guide"
+    },
+    {
+      "day": 5,
+      "keyword": "adaptive workout and meal plan app for ai personal trainer accountability",
+      "format": "landing_page",
+      "title": "Adaptive Workout And Meal Plan App For Ai Personal Trainer Accountability: Practical Guide"
+    },
+    {
+      "day": 6,
+      "keyword": "adaptive workout and meal plan app",
+      "format": "landing_page",
+      "title": "Adaptive Workout And Meal Plan App: Practical Guide"
+    },
+    {
+      "day": 7,
+      "keyword": "how to stay consistent with workouts on a busy schedule",
+      "format": "blog",
+      "title": "How To Stay Consistent With Workouts On A Busy Schedule: Practical Guide"
+    },
+    {
+      "day": 8,
+      "keyword": "how to stay consistent with workouts on a busy schedule for ai personal trainer accountability",
+      "format": "blog",
+      "title": "How To Stay Consistent With Workouts On A Busy Schedule For Ai Personal Trainer Accountability: Practical Guide"
+    },
+    {
+      "day": 9,
+      "keyword": "app that adapts workouts every week",
+      "format": "landing_page",
+      "title": "App That Adapts Workouts Every Week: Practical Guide"
+    },
+    {
+      "day": 10,
+      "keyword": "workout accountability ideas for people who train alone",
+      "format": "faq",
+      "title": "Workout Accountability Ideas For People Who Train Alone: Practical Guide"
+    },
+    {
+      "day": 11,
+      "keyword": "personalized workout plan for busy professionals",
+      "format": "faq",
+      "title": "Personalized Workout Plan For Busy Professionals: Practical Guide"
+    },
+    {
+      "day": 12,
+      "keyword": "ai fitness coach vs personal trainer",
+      "format": "comparison",
+      "title": "Ai Fitness Coach Vs Personal Trainer: Practical Guide"
+    },
+    {
+      "day": 13,
+      "keyword": "meal plan and workout coach app",
+      "format": "landing_page",
+      "title": "Meal Plan And Workout Coach App: Practical Guide"
+    },
+    {
+      "day": 14,
+      "keyword": "personal trainer accountability calls",
+      "format": "landing_page",
+      "title": "Personal Trainer Accountability Calls: Practical Guide"
+    },
+    {
+      "day": 15,
+      "keyword": "ai fitness coach for busy people",
+      "format": "landing_page",
+      "title": "Ai Fitness Coach For Busy People: Practical Guide"
+    },
+    {
+      "day": 16,
+      "keyword": "ai personal trainer accountability",
+      "format": "comparison",
+      "title": "Ai Personal Trainer Accountability: Practical Guide"
+    },
+    {
+      "day": 17,
+      "keyword": "fitness accountability for beginners",
+      "format": "faq",
+      "title": "Fitness Accountability For Beginners: Practical Guide"
+    },
+    {
+      "day": 18,
+      "keyword": "workout accountability app",
+      "format": "landing_page",
+      "title": "Workout Accountability App: Practical Guide"
+    },
+    {
+      "day": 19,
+      "keyword": "best ai fitness coach app",
+      "format": "comparison",
+      "title": "Best Ai Fitness Coach App: Practical Guide"
+    },
+    {
+      "day": 20,
+      "keyword": "workout consistency calculator",
+      "format": "tool",
+      "title": "Workout Consistency Calculator: Practical Guide"
+    }
+  ]
+}
