@@ -62,6 +62,21 @@ function translationExists(slug, langCode) {
   return fs.existsSync(translationPath(slug, langCode));
 }
 
+function htmlIsIndexable(filePath) {
+  if (!fs.existsSync(filePath)) return false;
+  const html = fs.readFileSync(filePath, 'utf-8');
+  const robots = html.match(/<meta name="robots" content="([^"]+)"/i)?.[1] || '';
+  return !robots.toLowerCase().includes('noindex');
+}
+
+function sourceIsIndexable(slug) {
+  return htmlIsIndexable(path.join(BLOG_DIR, `${slug}.html`));
+}
+
+function translationIsIndexable(slug, langCode) {
+  return htmlIsIndexable(translationPath(slug, langCode));
+}
+
 function missingLanguages(slug) {
   return LANGUAGES.filter(lang => !translationExists(slug, lang.code));
 }
@@ -73,11 +88,12 @@ function existingLanguageCount(slug) {
 function completeTranslatedSlugs(posts) {
   return posts
     .map(post => post.slug)
+    .filter(sourceIsIndexable)
     .filter(slug => missingLanguages(slug).length === 0);
 }
 
 function buildHreflangTags(slug) {
-  const availableLanguages = LANGUAGES.filter(lang => translationExists(slug, lang.code));
+  const availableLanguages = LANGUAGES.filter(lang => translationIsIndexable(slug, lang.code));
   return [
     `    <link rel="alternate" hreflang="en" href="https://youraicoach.life/blog/${slug}" />`,
     ...availableLanguages.map(lang => `    <link rel="alternate" hreflang="${lang.code}" href="https://youraicoach.life/blog/${lang.code}/${slug}" />`),
@@ -86,7 +102,7 @@ function buildHreflangTags(slug) {
 }
 
 function buildLanguageLinks(slug) {
-  const availableLanguages = LANGUAGES.filter(lang => translationExists(slug, lang.code));
+  const availableLanguages = LANGUAGES.filter(lang => translationIsIndexable(slug, lang.code));
   return [
     `<a href="/blog/${slug}">English</a>`,
     ...availableLanguages.map(lang => `<a href="/blog/${lang.code}/${slug}">${lang.label}</a>`),
@@ -116,7 +132,7 @@ function syncLanguageLinks(slug) {
 
 function syncAllLanguageLinks(posts) {
   for (const post of posts) {
-    if (fs.existsSync(path.join(BLOG_DIR, `${post.slug}.html`))) {
+    if (sourceIsIndexable(post.slug)) {
       syncLanguageLinks(post.slug);
     }
   }
@@ -266,13 +282,19 @@ ${buildHreflangTags(slug)}
 }
 
 function updateLanguageSitemap(langCode, translatedSlugs) {
-  const today = new Date().toISOString().split('T')[0];
-  const urls = translatedSlugs.map(slug => `  <url>
-    <loc>https://youraicoach.life/blog/${langCode}/${slug}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>`).join('\n');
+  const urls = translatedSlugs.map(slug => {
+    const html = fs.readFileSync(translationPath(slug, langCode), 'utf-8');
+    const lastmod = html.match(/"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})"/i)?.[1]
+      || html.match(/"datePublished"\s*:\s*"(\d{4}-\d{2}-\d{2})"/i)?.[1];
+    return [
+      '  <url>',
+      `    <loc>https://youraicoach.life/blog/${langCode}/${slug}</loc>`,
+      ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
+      '    <changefreq>monthly</changefreq>',
+      '    <priority>0.7</priority>',
+      '  </url>',
+    ].join('\n');
+  }).join('\n');
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls}
@@ -295,7 +317,7 @@ function updateTranslationMetadata(blogProgress, translationProgress) {
   for (const lang of LANGUAGES) {
     const slugsForLanguage = blogProgress.generated
       .map(item => item.slug)
-      .filter(slug => translationExists(slug, lang.code));
+      .filter(slug => sourceIsIndexable(slug) && translationIsIndexable(slug, lang.code));
     updateLanguageSitemap(lang.code, slugsForLanguage);
   }
 }
@@ -329,7 +351,7 @@ async function main() {
   console.log(`🔑 ${apiKeys.length} API key(s) available for translations`);
 
   const postsMissingTranslations = blogProgress.generated.filter(post =>
-    missingLanguages(post.slug).length > 0
+    sourceIsIndexable(post.slug) && missingLanguages(post.slug).length > 0
   );
   
   if (postsMissingTranslations.length === 0) {

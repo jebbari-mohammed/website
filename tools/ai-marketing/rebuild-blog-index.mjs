@@ -68,6 +68,7 @@ function loadPosts() {
   const files = fs.readdirSync(BLOG_DIR)
     .filter(f => f.endsWith('.html') && f !== 'index.html' && f !== 'feed.xml')
     .map(readPostMetadata)
+    .filter(post => !post.noindex)
     .sort((a, b) => b.date.localeCompare(a.date)); // newest first
 
   return files;
@@ -75,14 +76,13 @@ function loadPosts() {
 
 function buildArchiveSection(posts) {
   const cards = posts.map(post => {
-    const label = post.noindex ? 'Legacy noindex' : post.date;
-    return `            <a href="/blog/${post.slug}">${escapeHtml(post.title)} <span>${escapeHtml(label)}</span></a>`;
+    return `            <a href="/blog/${post.slug}">${escapeHtml(post.title)} <span>${escapeHtml(post.date)}</span></a>`;
   }).join('\n');
 
   return `<!-- BLOG_ARCHIVE_START -->
     <section>
         <h2>All blog posts</h2>
-        <p class="cluster-intro">The full archive is generated from the files in <code>public/blog</code>. Older legacy posts are still linked here even when they are marked noindex for SEO cleanup.</p>
+        <p class="cluster-intro">Browse IZEM's indexable guides on AI coaching, practical workouts, nutrition, scans, and fitness accountability.</p>
         <div class="older">
 ${cards}
         </div>
@@ -123,8 +123,7 @@ function updateBlogIndex(posts) {
 }
 
 function buildRSSFeed(posts) {
-  const indexablePosts = posts.filter(post => !post.noindex);
-  const items = indexablePosts.map(p => `
+  const items = posts.map(p => `
     <item>
       <title>${escapeXml(p.title)}</title>
       <link>https://youraicoach.life/blog/${p.slug}</link>
