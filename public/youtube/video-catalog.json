@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "f964L8xsdJI",
+      "title": "Busy Schedule? How to Stay Consistent With Your Workouts",
+      "description": "Discover how to maintain workout consistency when you are busy. Learn practical strategies, compare top tools, and see how proactive AI coaching helps.",
+      "uploadDate": "2026-08-01",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/busy-schedule-workout-consistency",
+          "relativePath": "blog/busy-schedule-workout-consistency.html",
+          "title": "Busy Schedule? How to Stay Consistent With Your Workouts"
+        }
+      ]
+    },
+    {
       "id": "s1tfY0paIHQ",
       "title": "Beyond the Lift: A Simple Guide to Progressive Overload",
       "description": "Discover how progressive overload works in plain English. Learn how to safely build muscle, track your progress, and get actual results without injury.",

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/f964L8xsdJI/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/f964L8xsdJI/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Busy Schedule? How to Stay Consistent With Your Workouts</video:title>
+      <video:description>Discover how to maintain workout consistency when you are busy. Learn practical strategies, compare top tools, and see how proactive AI coaching helps.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/f964L8xsdJI</video:player_loc>
+      <video:publication_date>2026-08-01T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/s1tfY0paIHQ/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/s1tfY0paIHQ/hqdefault.jpg</video:thumbnail_loc>
