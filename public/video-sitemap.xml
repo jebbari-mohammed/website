@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/aebzjuNpQe0/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/aebzjuNpQe0/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Gym Confidence for Beginners: How AI Workout Generators Change Everything</video:title>
+      <video:description>Discover how a smart AI workout generator helps gym beginners build confidence, save money, and get customized training plans without the high pressure.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/aebzjuNpQe0</video:player_loc>
+      <video:publication_date>2026-08-02T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/f964L8xsdJI/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/f964L8xsdJI/hqdefault.jpg</video:thumbnail_loc>
