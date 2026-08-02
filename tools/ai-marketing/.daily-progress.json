@@ -123,8 +123,8 @@
     {
       "keyword": "workout reminder app for people who ignore notifications",
       "slug": "workout-reminder-app-that-calls-you",
-      "title": "Workout Reminder App That Calls You Before You Skip",
-      "description": "Looking for a workout reminder app that calls you? IZEM is a premium AI personal trainer around $24.99/month that uses phone-call accountability before training, not another push notification.",
+      "title": "Workout Reminder App That Calls You: 5-Point Test",
+      "description": "Compare workout reminder calls with ordinary alerts. Use IZEM's five-point Pre-Workout Call Brief to judge timing, fallback plans, and follow-up.",
       "date": "2026-07-05",
       "noindex": false
     },
@@ -425,20 +425,28 @@
       "noindex": false
     },
     {
-      "keyword": "science-of-deload-weeks-for-hypertrophy",
-      "slug": "science-of-deload-weeks-for-hypertrophy",
-      "title": "The Science of Deload Weeks for Hypertrophy: Ultimate Guide (2026)",
-      "description": "Learn the science of deload weeks for muscle hypertrophy. Discover when to deload, how to reduce volume vs intensity, and how AI adaptive planning optimizes recovery.",
-      "date": "2026-08-01",
-      "noindex": false
-    },
-    {
       "keyword": "how to stay consistent with workouts on a busy schedule",
       "slug": "busy-schedule-workout-consistency",
       "title": "Busy Schedule? How to Stay Consistent With Your Workouts",
       "description": "Discover how to maintain workout consistency when you are busy. Learn practical strategies, compare top tools, and see how proactive AI coaching helps.",
-      "date": "2026-08-01"
+      "date": "2026-08-01",
+      "noindex": false
+    },
+    {
+      "keyword": "science-of-deload-weeks-for-hypertrophy",
+      "slug": "science-of-deload-weeks-for-hypertrophy",
+      "title": "The Science of Deload Weeks for Hypertrophy: Ultimate Guide (2026)",
+      "description": "Learn the science of deload weeks for muscle hypertrophy. Discover when to deload, how to reduce volume vs intensity, and how AI adaptive planning optimizes recovery.",
+      "date": "2026-08-02",
+      "noindex": false
+    },
+    {
+      "keyword": "AI workout generator for beginners at the gym",
+      "slug": "ai-workout-generator-beginners",
+      "title": "Gym Confidence for Beginners: How AI Workout Generators Change Everything",
+      "description": "Discover how a smart AI workout generator helps gym beginners build confidence, save money, and get customized training plans without the high pressure.",
+      "date": "2026-08-02"
     }
   ],
-  "lastRun": "2026-08-01T16:12:48.861Z"
+  "lastRun": "2026-08-02T13:52:07.184Z"
 }
