@@ -1,51 +1,43 @@
-<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">The Pre-Workout Call Brief</title>
+  <desc id="desc">Five tests for a useful workout reminder call: timing, session, first action, fallback, and follow-up.</desc>
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#060B1D"/>
-      <stop offset="100%" style="stop-color:#0C1A3D"/>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#060B1D"/>
+      <stop offset="1" stop-color="#101B44"/>
     </linearGradient>
-    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#00D4FF"/>
-      <stop offset="100%" style="stop-color:#7C5CFC"/>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#00D4FF"/>
+      <stop offset="1" stop-color="#7C5CFC"/>
     </linearGradient>
-    <linearGradient id="glow" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:0.15"/>
-      <stop offset="100%" style="stop-color:#7C5CFC;stop-opacity:0"/>
-    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="34"/>
+    </filter>
   </defs>
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <circle cx="1080" cy="85" r="220" fill="#00D4FF" opacity=".12" filter="url(#glow)"/>
+  <rect width="1200" height="8" fill="url(#accent)"/>
 
-  <!-- Background -->
-  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="64" y="84" fill="#67E8F9" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="750" letter-spacing="3">IZEM PRODUCT-DESIGN FRAMEWORK</text>
+  <text x="64" y="166" fill="#F8FAFC" font-family="system-ui,-apple-system,sans-serif" font-size="64" font-weight="850" letter-spacing="-2">The Pre-Workout</text>
+  <text x="64" y="234" fill="#F8FAFC" font-family="system-ui,-apple-system,sans-serif" font-size="64" font-weight="850" letter-spacing="-2">Call Brief</text>
+  <text x="64" y="285" fill="#AFC1D4" font-family="system-ui,-apple-system,sans-serif" font-size="27">Five tests for a call that creates a useful next step</text>
 
-  <!-- Glow blob top-right -->
-  <ellipse cx="1050" cy="80" rx="280" ry="180" fill="url(#glow)" opacity="0.6"/>
+  <g font-family="system-ui,-apple-system,sans-serif" font-size="23" font-weight="700">
+    <rect x="64" y="340" width="198" height="70" rx="18" fill="#0E2740" stroke="#1D7188"/>
+    <text x="92" y="384" fill="#E6FAFF">1  TIMING</text>
+    <rect x="278" y="340" width="198" height="70" rx="18" fill="#10233F" stroke="#315D8B"/>
+    <text x="306" y="384" fill="#E6FAFF">2  SESSION</text>
+    <rect x="492" y="340" width="198" height="70" rx="18" fill="#15213F" stroke="#4F578F"/>
+    <text x="520" y="384" fill="#E6FAFF">3  START</text>
+    <rect x="706" y="340" width="198" height="70" rx="18" fill="#1A2043" stroke="#654E9D"/>
+    <text x="734" y="384" fill="#E6FAFF">4  FALLBACK</text>
+    <rect x="920" y="340" width="216" height="70" rx="18" fill="#211E46" stroke="#7951B1"/>
+    <text x="948" y="384" fill="#E6FAFF">5  FOLLOW-UP</text>
+  </g>
 
-  <!-- Grid lines (subtle) -->
-  <line x1="0" y1="210" x2="1200" y2="210" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="0" y1="420" x2="1200" y2="420" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="400" y1="0" x2="400" y2="630" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="800" y1="0" x2="800" y2="630" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-
-  <!-- Top accent bar -->
-  <rect x="0" y="0" width="1200" height="6" fill="url(#accent)"/>
-
-  <!-- Category pill -->
-  <rect x="60" y="60" width="170" height="40" rx="20" fill="rgba(0,212,255,0.12)" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
-  <text x="80" y="84" font-family="system-ui,-apple-system,sans-serif" font-size="18" font-weight="600" fill="#00D4FF">AI Fitness</text>
-
-  <!-- Title -->
-  <text x="60" y="204" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Workout Reminder App That Calls You</text>
-    <text x="60" y="276" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Before You Skip</text>
-
-  <!-- Bottom bar -->
-  <rect x="0" y="560" width="1200" height="70" fill="rgba(0,0,0,0.3)"/>
-
-  <!-- Logo -->
-  <text x="60" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="800" fill="#F8FAFC">⚡ IZEM</text>
-
-  <!-- Domain -->
-  <text x="1140" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#475569" text-anchor="end">youraicoach.life</text>
-
-  <!-- Decorative accent line -->
-  <rect x="60" y="372" width="80" height="4" rx="2" fill="url(#accent)"/>
+  <rect x="64" y="468" width="1072" height="2" fill="url(#accent)" opacity=".65"/>
+  <text x="64" y="526" fill="#F8FAFC" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="750">A useful call removes a decision.</text>
+  <text x="64" y="567" fill="#94A3B8" font-family="system-ui,-apple-system,sans-serif" font-size="24">If it only repeats the time, it is an expensive ringtone.</text>
+  <text x="1136" y="578" fill="#64748B" text-anchor="end" font-family="system-ui,-apple-system,sans-serif" font-size="20">youraicoach.life</text>
 </svg>
