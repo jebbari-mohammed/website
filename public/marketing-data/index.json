@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-08-02T12:59:14.839Z",
+  "updatedAt": "2026-08-03T13:47:47.778Z",
   "latestAudit": {
-    "id": "2026-08-02T12-59-03-219Z-site-audit",
-    "createdAt": "2026-08-02T12:59:03.219Z",
+    "id": "2026-08-03T13-47-28-464Z-site-audit",
+    "createdAt": "2026-08-03T13:47:28.464Z",
     "websiteUrl": "https://youraicoach.life",
     "pages": [
       {
@@ -411,7 +411,7 @@
           "Organization",
           "FAQPage"
         ],
-        "loadMs": 104
+        "loadMs": 155
       },
       {
         "url": "https://youraicoach.life/izem-ai-fitness-coach/",
@@ -566,7 +566,7 @@
           }
         ],
         "schemaTypes": [],
-        "loadMs": 26
+        "loadMs": 44
       },
       {
         "url": "https://youraicoach.life/fitness-app-that-calls-you/",
@@ -787,7 +787,7 @@
           }
         ],
         "schemaTypes": [],
-        "loadMs": 31
+        "loadMs": 43
       },
       {
         "url": "https://youraicoach.life/tools/",
@@ -916,7 +916,7 @@
         "schemaTypes": [
           "WebApplication"
         ],
-        "loadMs": 22
+        "loadMs": 51
       },
       {
         "url": "https://youraicoach.life/blog/",
@@ -1364,7 +1364,7 @@
         "schemaTypes": [
           "WebPage"
         ],
-        "loadMs": 27
+        "loadMs": 51
       },
       {
         "url": "https://youraicoach.life/features/ai-workout-generator",
@@ -1483,7 +1483,7 @@
         "schemaTypes": [
           "Article"
         ],
-        "loadMs": 25
+        "loadMs": 41
       },
       {
         "url": "https://youraicoach.life/features/ai-voice-calls",
@@ -1608,7 +1608,7 @@
         "schemaTypes": [
           "Article"
         ],
-        "loadMs": 30
+        "loadMs": 34
       },
       {
         "url": "https://youraicoach.life/workout-consistency-calculator/",
@@ -1786,7 +1786,7 @@
           }
         ],
         "schemaTypes": [],
-        "loadMs": 47
+        "loadMs": 42
       },
       {
         "url": "https://youraicoach.life/features/ai-meal-planner",
@@ -1890,7 +1890,7 @@
         "schemaTypes": [
           "Article"
         ],
-        "loadMs": 22
+        "loadMs": 43
       },
       {
         "url": "https://youraicoach.life/vs-fitbod",
@@ -1995,7 +1995,7 @@
           "Article",
           "FAQPage"
         ],
-        "loadMs": 23
+        "loadMs": 39
       },
       {
         "url": "https://youraicoach.life/vs-future",
@@ -2100,7 +2100,7 @@
           "Article",
           "FAQPage"
         ],
-        "loadMs": 27
+        "loadMs": 41
       },
       {
         "url": "https://youraicoach.life/privacy-policy.html",
@@ -2253,7 +2253,7 @@
         "schemaTypes": [
           "WebPage"
         ],
-        "loadMs": 27
+        "loadMs": 45
       },
       {
         "url": "https://youraicoach.life/features/body-scanning",
@@ -2357,7 +2357,7 @@
         "schemaTypes": [
           "Article"
         ],
-        "loadMs": 35
+        "loadMs": 49
       },
       {
         "url": "https://youraicoach.life/best-ai-fitness-app",
@@ -2541,7 +2541,7 @@
           }
         ],
         "schemaTypes": [],
-        "loadMs": 23
+        "loadMs": 43
       },
       {
         "url": "https://youraicoach.life/glossary/",
@@ -2779,7 +2779,7 @@
         "schemaTypes": [
           "WebPage"
         ],
-        "loadMs": 36
+        "loadMs": 52
       },
       {
         "url": "https://youraicoach.life/about.html",
@@ -2894,7 +2894,7 @@
         "schemaTypes": [
           "AboutPage"
         ],
-        "loadMs": 35
+        "loadMs": 56
       },
       {
         "url": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
@@ -3076,7 +3076,7 @@
           }
         ],
         "schemaTypes": [],
-        "loadMs": 24
+        "loadMs": 42
       },
       {
         "url": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
@@ -3245,7 +3245,7 @@
           }
         ],
         "schemaTypes": [],
-        "loadMs": 27
+        "loadMs": 43
       },
       {
         "url": "https://youraicoach.life/about",
@@ -3360,7 +3360,7 @@
         "schemaTypes": [
           "AboutPage"
         ],
-        "loadMs": 26
+        "loadMs": 48
       },
       {
         "url": "https://youraicoach.life/terms.html",
@@ -3477,7 +3477,7 @@
         "schemaTypes": [
           "WebPage"
         ],
-        "loadMs": 83
+        "loadMs": 75
       },
       {
         "url": "https://youraicoach.life/editorial-policy.html",
@@ -3570,7 +3570,7 @@
         "schemaTypes": [
           "WebPage"
         ],
-        "loadMs": 35
+        "loadMs": 45
       },
       {
         "url": "https://youraicoach.life/comparisons/",
@@ -3728,7 +3728,7 @@
         "schemaTypes": [
           "CollectionPage"
         ],
-        "loadMs": 29
+        "loadMs": 47
       },
       {
         "url": "https://youraicoach.life/youtube/",
@@ -4150,7 +4150,7 @@
         "schemaTypes": [
           "CollectionPage"
         ],
-        "loadMs": 22
+        "loadMs": 47
       },
       {
         "url": "https://youraicoach.life/landing-page",
@@ -4265,7 +4265,7 @@
           }
         ],
         "schemaTypes": [],
-        "loadMs": 49
+        "loadMs": 34
       },
       {
         "url": "https://youraicoach.life/vs-freeletics/",
@@ -4369,12 +4369,12 @@
         "schemaTypes": [
           "Article"
         ],
-        "loadMs": 30
+        "loadMs": 45
       }
     ],
     "issues": [
       {
-        "id": "ace3af52-8b2d-4e1a-91a2-650203f99f55",
+        "id": "452d5c71-0921-4d33-80bd-90e1afda5478",
         "url": "https://youraicoach.life/",
         "category": "metadata",
         "severity": "low",
@@ -4383,7 +4383,7 @@
         "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
       },
       {
-        "id": "7cfe4e74-d8c0-44c1-a7f7-7a48307d8e78",
+        "id": "54e44a24-c221-4938-889e-f3a85fb63b08",
         "url": "https://youraicoach.life/",
         "category": "content",
         "severity": "low",
@@ -4392,7 +4392,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "bdb507c7-31a6-4860-994c-da86299cef26",
+        "id": "3bab8e78-573f-4075-99c6-b655fb06e3ac",
         "url": "https://youraicoach.life/izem-ai-fitness-coach/",
         "category": "metadata",
         "severity": "medium",
@@ -4401,7 +4401,7 @@
         "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
       },
       {
-        "id": "99a44458-1a7a-4d85-9c8d-39ebf4323d6b",
+        "id": "5fbcbf93-c02a-4c7f-a2db-f0648c46786f",
         "url": "https://youraicoach.life/izem-ai-fitness-coach/",
         "category": "metadata",
         "severity": "low",
@@ -4410,7 +4410,7 @@
         "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
       },
       {
-        "id": "5d6db12a-396a-46f8-a4b6-f252c8629f04",
+        "id": "81bbe7ac-7bbf-4233-92fb-a2998492dd37",
         "url": "https://youraicoach.life/izem-ai-fitness-coach/",
         "category": "content",
         "severity": "low",
@@ -4419,7 +4419,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "c6859acc-8891-4faf-8b8e-a3f35f893e21",
+        "id": "3984cad1-ea87-4172-93f3-814af3b7d665",
         "url": "https://youraicoach.life/izem-ai-fitness-coach/",
         "category": "schema",
         "severity": "low",
@@ -4428,7 +4428,7 @@
         "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
       },
       {
-        "id": "13e97685-e0ee-43e6-9619-ad30c8125858",
+        "id": "d6015e17-5190-4f87-8731-62912e081652",
         "url": "https://youraicoach.life/fitness-app-that-calls-you/",
         "category": "metadata",
         "severity": "low",
@@ -4437,7 +4437,7 @@
         "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
       },
       {
-        "id": "8a468812-4025-44cd-ab76-7459650fff02",
+        "id": "b59597bb-2dab-4183-8c01-99145fd2779e",
         "url": "https://youraicoach.life/fitness-app-that-calls-you/",
         "category": "content",
         "severity": "low",
@@ -4446,7 +4446,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "2d6bbd21-ec24-4d6c-9bfc-8f2c25d2927e",
+        "id": "e1f99301-cf1b-4365-8b95-d38c1b221e86",
         "url": "https://youraicoach.life/fitness-app-that-calls-you/",
         "category": "schema",
         "severity": "low",
@@ -4455,7 +4455,7 @@
         "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
       },
       {
-        "id": "c0c1d7d9-cd3d-4f63-87e7-725b87cda591",
+        "id": "38ca93d6-63d5-4998-94cf-6f4df08d5d4b",
         "url": "https://youraicoach.life/tools/",
         "category": "content",
         "severity": "low",
@@ -4464,7 +4464,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "c3e29877-2297-48f8-8643-1e9b6a9f3667",
+        "id": "26a0a130-467a-4e80-835c-b16c9662a721",
         "url": "https://youraicoach.life/blog/",
         "category": "metadata",
         "severity": "medium",
@@ -4473,7 +4473,7 @@
         "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
       },
       {
-        "id": "e371f4f0-4012-4537-b5d6-d2fb78fd25da",
+        "id": "4d2e7fdb-00f1-4727-a214-3230440aa8db",
         "url": "https://youraicoach.life/blog/",
         "category": "content",
         "severity": "low",
@@ -4482,7 +4482,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "0b39d8d6-e2b2-406e-83d8-ccd032dd3e4f",
+        "id": "0938efb6-061e-463c-8e0a-cdd02f0af1e4",
         "url": "https://youraicoach.life/features/ai-workout-generator",
         "category": "content",
         "severity": "low",
@@ -4491,7 +4491,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "69902ed6-b96e-49f0-8d74-349a047aed4a",
+        "id": "a59d638e-0af7-4a41-83bd-0bb839f12dce",
         "url": "https://youraicoach.life/features/ai-voice-calls",
         "category": "metadata",
         "severity": "medium",
@@ -4500,7 +4500,7 @@
         "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
       },
       {
-        "id": "257d1358-04ce-4cb6-b48f-0fdded6250eb",
+        "id": "18f2521f-974d-4d57-94af-9cbc68886199",
         "url": "https://youraicoach.life/features/ai-voice-calls",
         "category": "metadata",
         "severity": "low",
@@ -4509,7 +4509,7 @@
         "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
       },
       {
-        "id": "c184f289-103b-4cb7-b355-593d582e5401",
+        "id": "314013da-2b69-4dda-a248-3c332d7a5478",
         "url": "https://youraicoach.life/features/ai-voice-calls",
         "category": "content",
         "severity": "low",
@@ -4518,7 +4518,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "67ebdfb4-cc4a-4891-a458-989a7e32bfdc",
+        "id": "9d2d6789-521c-47b4-9bc3-03d339555068",
         "url": "https://youraicoach.life/workout-consistency-calculator/",
         "category": "metadata",
         "severity": "medium",
@@ -4527,7 +4527,7 @@
         "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
       },
       {
-        "id": "b9f33de8-06e5-4e1b-af4f-beba8aded264",
+        "id": "c651f15e-f6a7-49b9-8798-3ef7d7d7c831",
         "url": "https://youraicoach.life/workout-consistency-calculator/",
         "category": "content",
         "severity": "low",
@@ -4536,7 +4536,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "96ff8eef-d90b-4ed3-a7a3-bd0a41082e7d",
+        "id": "032f55f2-efa6-4df4-8eed-3e22ca7325b1",
         "url": "https://youraicoach.life/workout-consistency-calculator/",
         "category": "schema",
         "severity": "low",
@@ -4545,7 +4545,7 @@
         "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
       },
       {
-        "id": "5401fab4-1de9-4f0d-bfbe-a27d3b4eed19",
+        "id": "2450adb3-baa2-4f6b-a843-2fdfa375adc7",
         "url": "https://youraicoach.life/features/ai-meal-planner",
         "category": "content",
         "severity": "low",
@@ -4554,7 +4554,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "6a45cdd6-55a5-454d-9e1d-df981fc8e10c",
+        "id": "2b3ff3c5-d914-4bff-a168-f73fa6c055be",
         "url": "https://youraicoach.life/vs-fitbod",
         "category": "content",
         "severity": "low",
@@ -4563,7 +4563,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "f99ccf15-13ca-41d6-b1af-46490d80e78f",
+        "id": "b3c242c3-10f3-45c1-9f24-c48da9827413",
         "url": "https://youraicoach.life/vs-future",
         "category": "content",
         "severity": "low",
@@ -4572,7 +4572,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "fcd671e7-bdb3-4a14-9193-8e1d52ea925a",
+        "id": "a29c224d-e316-43a7-b0fa-9e9f21367358",
         "url": "https://youraicoach.life/privacy-policy.html",
         "category": "metadata",
         "severity": "medium",
@@ -4581,7 +4581,7 @@
         "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
       },
       {
-        "id": "2de46bfd-6b93-480e-9fa1-ca9d6fe6e3bc",
+        "id": "363b8bc0-c9f9-4bca-bc04-daf1c6243c6e",
         "url": "https://youraicoach.life/privacy-policy.html",
         "category": "metadata",
         "severity": "low",
@@ -4590,7 +4590,7 @@
         "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
       },
       {
-        "id": "82844680-fa0e-4ff2-863f-376cf5342ce4",
+        "id": "df07dcd3-ff87-4950-a56e-005a212ad3ed",
         "url": "https://youraicoach.life/privacy-policy.html",
         "category": "content",
         "severity": "low",
@@ -4599,7 +4599,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "e5f6d3d2-028f-4765-9501-715647db242c",
+        "id": "0d4af38b-b2ee-487a-883a-ac53bd0a4ce7",
         "url": "https://youraicoach.life/features/body-scanning",
         "category": "content",
         "severity": "low",
@@ -4608,7 +4608,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "e8b94125-6014-4fdf-9e60-3e67d9533fa1",
+        "id": "e1615c40-37bf-4a7d-8940-aa94f57989c2",
         "url": "https://youraicoach.life/best-ai-fitness-app",
         "category": "content",
         "severity": "low",
@@ -4617,7 +4617,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "64dcd535-3026-40e7-b65c-c59322eb8752",
+        "id": "3652ba7e-0639-4695-b4a5-3308d556777e",
         "url": "https://youraicoach.life/best-ai-fitness-app",
         "category": "schema",
         "severity": "low",
@@ -4626,7 +4626,7 @@
         "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
       },
       {
-        "id": "edc318da-5f8e-40ba-a431-7f563e3d3605",
+        "id": "5d7a8729-dc97-45fc-be69-1332b9cb1cb0",
         "url": "https://youraicoach.life/glossary/",
         "category": "content",
         "severity": "low",
@@ -4635,7 +4635,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "5174c5f6-8aaa-4777-a96e-063c73301dc3",
+        "id": "52561faa-d53b-416f-ac3e-d700b6b9df51",
         "url": "https://youraicoach.life/about.html",
         "category": "content",
         "severity": "low",
@@ -4644,7 +4644,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "08d00d42-e4cd-4df9-9350-603e7682476f",
+        "id": "dcd241da-440f-479a-a854-4a096842b7d7",
         "url": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
         "category": "content",
         "severity": "low",
@@ -4653,7 +4653,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "b7184f0c-cdc8-47d1-91c1-3de0582715c5",
+        "id": "a50acd23-72e4-44b5-9e65-32ea3a0b2967",
         "url": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
         "category": "schema",
         "severity": "low",
@@ -4662,7 +4662,7 @@
         "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
       },
       {
-        "id": "dff407d5-d2d5-4e84-947e-000a6117f7f2",
+        "id": "50cae6d4-60f4-432f-ae66-37839be3718b",
         "url": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
         "category": "content",
         "severity": "low",
@@ -4671,7 +4671,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "8764d73a-82c1-45b3-ab96-de30b5df746b",
+        "id": "35b08dfb-781f-4f9f-9355-df2a43de45d8",
         "url": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
         "category": "schema",
         "severity": "low",
@@ -4680,7 +4680,7 @@
         "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
       },
       {
-        "id": "5fe675ce-2377-48d2-a368-4b51d79ba3be",
+        "id": "d656f5bf-40a6-42cf-994e-6bac3aa0fd96",
         "url": "https://youraicoach.life/about",
         "category": "content",
         "severity": "low",
@@ -4689,7 +4689,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "c98c5fbf-6528-4eae-a515-d36592ab2e6d",
+        "id": "f339ee6e-c10e-4a8a-90c7-5cd7981c27fa",
         "url": "https://youraicoach.life/terms.html",
         "category": "metadata",
         "severity": "medium",
@@ -4698,7 +4698,7 @@
         "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
       },
       {
-        "id": "9eefd077-0138-4b7a-abce-088342622361",
+        "id": "2bec0462-7441-4b8a-9610-45989ba7b16c",
         "url": "https://youraicoach.life/terms.html",
         "category": "content",
         "severity": "low",
@@ -4707,7 +4707,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "744db164-6d60-4f90-a807-cb08a329bb5d",
+        "id": "2c4d61cc-8abd-4050-8ea8-1346aa78a61c",
         "url": "https://youraicoach.life/editorial-policy.html",
         "category": "content",
         "severity": "medium",
@@ -4716,7 +4716,7 @@
         "recommendation": "Add useful, specific content or consolidate this page if it does not deserve its own URL."
       },
       {
-        "id": "d0ca79da-b55b-4818-b19b-d33e363285ce",
+        "id": "5dfafc06-36fa-46d9-97f3-b28d9fd7576d",
         "url": "https://youraicoach.life/editorial-policy.html",
         "category": "content",
         "severity": "low",
@@ -4725,7 +4725,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "5b47167c-b767-45db-aae0-b4e21519cd1b",
+        "id": "0d493e36-361e-4781-b890-11865f51536a",
         "url": "https://youraicoach.life/comparisons/",
         "category": "content",
         "severity": "low",
@@ -4734,7 +4734,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "cbd25618-e4dd-4f4b-937e-9de3807a888b",
+        "id": "6b082b29-80f0-4582-94c0-ecbb39238e22",
         "url": "https://youraicoach.life/youtube/",
         "category": "content",
         "severity": "low",
@@ -4743,7 +4743,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "95f02a6d-2a0f-4d10-abc3-46e6ecee216a",
+        "id": "2301e1f5-7fe0-4674-ba6c-4a7a902677fd",
         "url": "https://youraicoach.life/landing-page",
         "category": "content",
         "severity": "low",
@@ -4752,7 +4752,7 @@
         "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
       },
       {
-        "id": "e397e329-0801-4732-a4cd-9c75f9bc65e9",
+        "id": "1a478881-efe6-48f1-848c-075b8af07a64",
         "url": "https://youraicoach.life/landing-page",
         "category": "schema",
         "severity": "low",
@@ -4761,7 +4761,7 @@
         "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
       },
       {
-        "id": "add23cb0-fb32-4f1a-b6b1-32a50898baa4",
+        "id": "00b56888-c95f-4677-8743-02991e95d332",
         "url": "https://youraicoach.life/vs-freeletics/",
         "category": "content",
         "severity": "low",
@@ -4779,8 +4779,8 @@
     }
   },
   "latestRoadmap": {
-    "id": "2026-08-02T12-59-04-142Z-keyword-roadmap",
-    "createdAt": "2026-08-02T12:59:04.142Z",
+    "id": "2026-08-03T13-47-29-362Z-keyword-roadmap",
+    "createdAt": "2026-08-03T13:47:29.363Z",
     "seed": "AI personal trainer accountability",
     "clusters": [
       {
@@ -5706,8 +5706,8 @@
     ]
   },
   "latestDraft": {
-    "id": "2026-08-02T12-59-12-932Z-b4aad277-blog-draft",
-    "createdAt": "2026-08-02T12:59:12.933Z",
+    "id": "2026-08-03T13-47-45-959Z-80aa341a-blog-draft",
+    "createdAt": "2026-08-03T13:47:45.960Z",
     "targetKeyword": "fitness app that reviews your day for ai personal trainer accountability",
     "searchIntent": "transactional",
     "title": "Fitness App That Reviews Your Day For Ai Personal Trainer Accountability: What To Look For Before You Choose",
@@ -5726,7 +5726,7 @@
     "sections": [
       {
         "heading": "LLM-Assisted Draft Body",
-        "body": "# Why You Need a Fitness App That Reviews Your Day for AI Personal Trainer Accountability\n\nMost fitness applications sit silently on your phone, waiting for you to log your workouts. They do not notice when you skip a session, and they do not adjust when your schedule falls apart. For those who require high-level consistency, passive tracking is rarely enough to sustain long-term progress. \n\nTo achieve meaningful results, you need active engagement. IZEM is a premium **fitness app that reviews your day for ai personal trainer accountability**, ensuring your fitness plan adapts to your actual life in real time.\n\n---\n\n## The Accountability Gap in Digital Fitness\n\nTraditional fitness platforms rely entirely on self-motivation. They provide static templates but offer no feedback loop. When your day gets busy, your workout plan is often the first thing to go. \n\nTrue accountability requires a two-way conversation. Without a system that checks in on your progress, it is easy to fall out of your routine. IZEM bridges this gap by acting as an active partner in your fitness journey, keeping you focused, structured, and aligned with your goals.\n\n---\n\n## How IZEM Keeps You Accountable\n\nIZEM is designed for individuals who value precision, structure, and professional-grade support. It functions as a dedicated personal trainer through a structured, daily feedback loop:\n\n* **Daily Voice Check-Ins:** IZEM calls you directly to review your day. During this call, you discuss your completed activities, nutrition, sleep, and energy levels.\n* **Weekly Plan Adjustments:** Your fitness needs change based on your recovery and schedule. Every week, IZEM adapts your workout and meal plans based on the data gathered from your daily reviews.\n* **Dynamic Adaptation:** If you have an unexpectedly busy week or your recovery is lagging, your plan shifts to keep you on track without causing burnout.\n\n---\n\n## A Premium, Evidence-Aware Approach to Fitness\n\nWe do not promise effortless shortcuts or instant transformations. Sustainable physical progress is built on consistent habits, structured progression, and proper recovery. \n\nIZEM provides the professional-grade structure you need to stay committed to your health goals. By analyzing your daily inputs, your AI personal trainer helps you build a reliable routine based on established exercise science and nutritional principles.\n\n---\n\n## Elevate Your Fitness Journey\n\nStop letting your fitness goals slip through the cracks of a passive application. Experience the difference of a premium AI personal trainer that actively keeps you accountable every single day.\n\n[Get Started with IZEM Today]"
+        "body": "# Looking for a Fitness App That Reviews Your Day for AI Personal Trainer Accountability? Meet IZEM\n\nMost fitness apps sit silently on your phone. They send generic notifications that are easy to ignore, leaving the burden of consistency entirely on you. If you want sustainable progress, you need more than a digital logbook—you need active, responsive accountability.\n\nIZEM is a premium AI personal trainer designed to bridge this gap. If you are searching for a **fitness app that reviews your day for ai personal trainer accountability**, IZEM offers a structured, voice-activated coaching experience that adapts to your actual life, helping you stay consistent through direct engagement.\n\n---\n\n## The Accountability Gap in Standard Fitness Tools\n\nMany digital fitness tools operate on a one-way street: you input data, and the app stores it. If you miss a workout or deviate from your nutrition plan, there is no follow-up. This lack of engagement is why many self-guided fitness journeys stall.\n\nTo build lasting habits, you need a feedback loop. Consistency relies on a system that recognizes your daily efforts, reviews your choices, and adjusts your path forward in real time. Without this active check-in, it is easy to lose momentum.\n\n---\n\n## How IZEM Delivers True AI Personal Trainer Accountability\n\nIZEM functions as a dedicated, premium AI personal trainer. Instead of leaving you to navigate your fitness journey alone, the platform actively engages with you to keep you aligned with your goals.\n\n* **Daily Voice Reviews:** IZEM calls you to review your day. This interactive check-in allows you to report on your workouts, nutrition, and energy levels, simulating the experience of working with an attentive coach.\n* **Dynamic Weekly Adaptations:** Your schedule and physical recovery change from week to week. Every seven days, IZEM analyzes your daily reviews to adapt your workout and meal plans. If a specific exercise isn't working or your schedule shifts, your plan evolves accordingly.\n* **Tailored Nutrition and Training:** Rather than relying on generic templates, your meal plans and workout regimens are tailored to your specific metrics and updated weekly based on your actual performance and feedback.\n\n---\n\n## The Value of Daily Feedback Loops\n\nBehavioral science indicates that consistent feedback loops are critical for habit formation. When you actively review your day, you reinforce positive behaviors and identify obstacles before they become setbacks. \n\nBy integrating a daily voice review into your routine, IZEM helps you build cognitive awareness around your health choices. This structured reflection ensures that your fitness plan remains aligned with your daily reality, making consistency a natural part of your schedule.\n\n---\n\n## A Premium, Focused Fitness Experience\n\nIZEM is built for individuals who value their time and demand high-quality, structured support. \n\n* **No Distractions:** Unlike basic apps that rely on ad-supported models or gamified gimmicks, IZEM offers a streamlined, premium interface focused entirely on your progress.\n* **Direct Communication:** The voice-based review system ensures you do not have to spend hours logging details manually. A quick, focused conversation updates your AI trainer on everything it needs to know.\n\n---\n\n## Elevate Your Fitness Journey with IZEM\n\nIf you are ready to move past static PDFs and silent apps, experience the difference of active coaching. IZEM provides the structure, daily check-ins, and weekly plan adaptations required to support your long-term fitness goals.\n\nDiscover how IZEM’s premium AI personal trainer can bring structure and accountability to your daily routine."
       },
       {
         "heading": "What \"fitness app that reviews your day for ai personal trainer accountability\" Should Solve",
@@ -5791,14 +5791,14 @@
     }
   },
   "latestCalendar": {
-    "id": "2026-08-02T12-59-13-906Z-social-calendar",
-    "createdAt": "2026-08-02T12:59:13.906Z",
-    "sourceDraftId": "2026-08-02T12-59-12-932Z-b4aad277-blog-draft",
+    "id": "2026-08-03T13-47-46-877Z-social-calendar",
+    "createdAt": "2026-08-03T13:47:46.878Z",
+    "sourceDraftId": "2026-08-03T13-47-45-959Z-80aa341a-blog-draft",
     "posts": [
       {
-        "id": "3faa1678-4528-4104-9736-0114f12431c7-facebook",
+        "id": "c076bfc5-ed01-4729-b507-6b99c764e72d-facebook",
         "platform": "facebook",
-        "draftId": "2026-08-02T12-59-12-932Z-b4aad277-blog-draft",
+        "draftId": "2026-08-03T13-47-45-959Z-80aa341a-blog-draft",
         "content": "If you searched for \"fitness app that reviews your day for ai personal trainer accountability\", this is the part most apps miss.\n\nThe real value is a feedback loop: plan the workout, review what happened, and adapt the next step. IZEM is built around accountability calls, day review, and weekly workout plus meal plan updates.\n\nRead the draft: /blog/fitness-app-that-reviews-your-day-for-ai-personal-trainer-accountability\n\n#AIFitness #PersonalTrainer #WorkoutAccountability",
         "hook": "If you searched for \"fitness app that reviews your day for ai personal trainer accountability\", this is the part most apps miss.",
         "hashtags": [
@@ -5811,9 +5811,9 @@
         "characterCount": 475
       },
       {
-        "id": "dcf13f13-f693-4104-b2aa-c8fac499461b-instagram",
+        "id": "da39796a-5800-4a90-aa5c-3c7d8946821c-instagram",
         "platform": "instagram",
-        "draftId": "2026-08-02T12-59-12-932Z-b4aad277-blog-draft",
+        "draftId": "2026-08-03T13-47-45-959Z-80aa341a-blog-draft",
         "content": "If you searched for \"fitness app that reviews your day for ai personal trainer accountability\", this is the part most apps miss.\n\nStatic plans do not know when your day fell apart. A better coaching loop checks in, learns what happened, and adjusts the next move.\n\nSave this if consistency is your main fitness problem.\n\n#AIFitness #PersonalTrainer #WorkoutAccountability #FitnessJourney #WorkoutPlan",
         "hook": "If you searched for \"fitness app that reviews your day for ai personal trainer accountability\", this is the part most apps miss.",
         "hashtags": [
@@ -5828,9 +5828,9 @@
         "characterCount": 400
       },
       {
-        "id": "50cdcdf4-8391-47da-95c4-65df5e275dd3-tiktok",
+        "id": "551ec01a-e672-4fd8-885a-575107b33a5c-tiktok",
         "platform": "tiktok",
-        "draftId": "2026-08-02T12-59-12-932Z-b4aad277-blog-draft",
+        "draftId": "2026-08-03T13-47-45-959Z-80aa341a-blog-draft",
         "content": "POV: your fitness app actually checks in.\n\nScene 1: You missed yesterday's workout.\nScene 2: Instead of guilt, your AI coach asks what happened.\nScene 3: Your week adjusts around real life.\n\nCTA on screen: Stop relying on reminders.\n\n#AIFitness #PersonalTrainer #WorkoutAccountability #FitnessJourney #WorkoutPlan",
         "hook": "POV: your fitness app actually checks in.",
         "hashtags": [
@@ -5845,9 +5845,9 @@
         "characterCount": 313
       },
       {
-        "id": "8bf86bff-bea6-4da9-987e-c9880999bb97-youtube_shorts",
+        "id": "9a843a20-f99c-4d6b-9799-9d976001d352-youtube_shorts",
         "platform": "youtube_shorts",
-        "draftId": "2026-08-02T12-59-12-932Z-b4aad277-blog-draft",
+        "draftId": "2026-08-03T13-47-45-959Z-80aa341a-blog-draft",
         "content": "POV: your fitness app actually checks in.\n\nShort script:\n1. Open with the missed-workout problem.\n2. Show how reminders fail when the plan no longer fits.\n3. Explain the IZEM loop: call, review the day, adapt the week.\n4. End with: \"Fitness plans should change when life changes.\"\n\n#AIFitness #PersonalTrainer #WorkoutAccountability",
         "hook": "POV: your fitness app actually checks in.",
         "hashtags": [
@@ -5860,9 +5860,9 @@
         "characterCount": 332
       },
       {
-        "id": "f954ca61-5b5e-4ebd-8b7a-67804e57320e-linkedin",
+        "id": "85f525ab-41a3-4eb5-b0ac-86e7692394a2-linkedin",
         "platform": "linkedin",
-        "draftId": "2026-08-02T12-59-12-932Z-b4aad277-blog-draft",
+        "draftId": "2026-08-03T13-47-45-959Z-80aa341a-blog-draft",
         "content": "Most fitness apps stop at reminders. Fitness App That Reviews Your Day For Ai Personal Trainer Accountability: What To Look For Before You Choose looks at what comes next.\n\nA useful AI fitness product should do more than generate a plan. It should close the loop between intention and behavior:\n\n- What was planned?\n- What actually happened?\n- What got in the way?\n- What should change next week?\n\nThat is the product direction behind IZEM: accountability calls, day review, and adaptive workout plus meal planning.\n\n#FitnessTech #AI #BehaviorChange",
         "hook": "Most fitness apps stop at reminders. Fitness App That Reviews Your Day For Ai Personal Trainer Accountability: What To Look For Before You Choose looks at what comes next.",
         "hashtags": [
@@ -5875,9 +5875,9 @@
         "characterCount": 549
       },
       {
-        "id": "21432369-88ad-4e90-8eb8-5b84d35bca72-x",
+        "id": "0ecc3ad7-d5c9-4d3c-9da2-e85158a9ea23-x",
         "platform": "x",
-        "draftId": "2026-08-02T12-59-12-932Z-b4aad277-blog-draft",
+        "draftId": "2026-08-03T13-47-45-959Z-80aa341a-blog-draft",
         "content": "A fitness reminder is easy to ignore.\n\nBetter loop:\nplan workout -> call/check-in -> review the day -> adapt next week.\n\nThat is the difference between reminders and coaching.\n\n#AIFitness #FitnessApp",
         "hook": "A fitness reminder is easy to ignore.",
         "hashtags": [
@@ -5889,9 +5889,9 @@
         "characterCount": 199
       },
       {
-        "id": "4965e323-301b-4a72-8975-19145f79ea6d-threads",
+        "id": "6cfdc677-828c-4395-932b-fb7dc0c9d2f7-threads",
         "platform": "threads",
-        "draftId": "2026-08-02T12-59-12-932Z-b4aad277-blog-draft",
+        "draftId": "2026-08-03T13-47-45-959Z-80aa341a-blog-draft",
         "content": "If you searched for \"fitness app that reviews your day for ai personal trainer accountability\", this is the part most apps miss.\n\nMost people do not need more exercises. They need a plan that notices when real life changes and adjusts without turning fitness into guilt.\n\n#AIFitness #PersonalTrainer #WorkoutAccountability",
         "hook": "If you searched for \"fitness app that reviews your day for ai personal trainer accountability\", this is the part most apps miss.",
         "hashtags": [
@@ -5906,8 +5906,8 @@
     ]
   },
   "latestReport": {
-    "id": "2026-08-02T12-59-14-827Z-weekly-report",
-    "createdAt": "2026-08-02T12:59:14.827Z",
+    "id": "2026-08-03T13-47-47-766Z-weekly-report",
+    "createdAt": "2026-08-03T13:47:47.767Z",
     "publishedSummary": "7 social drafts prepared from the latest blog draft. Publishing remains draft-only unless Postiz and approvals are configured.",
     "wins": [
       "Latest crawl covered 25 pages with a score of 0/100.",
@@ -5941,6 +5941,61 @@
     ]
   },
   "recentLogs": [
+    {
+      "id": "98992436-c033-4103-b17c-e98d87764656",
+      "timestamp": "2026-08-03T13:47:47.777Z",
+      "agent": "analytics_agent",
+      "action": "generate_weekly_report",
+      "inputSummary": "Latest local marketing data",
+      "outputSummary": "Weekly report generated. JSON: /home/runner/work/website/website/data/marketing-employee/reports/2026-08-03T13-47-47-766Z-weekly-report.json",
+      "riskLevel": "low",
+      "approvalRequired": false,
+      "status": "success"
+    },
+    {
+      "id": "1a9f911e-704c-4b95-ad17-d37684226611",
+      "timestamp": "2026-08-03T13:47:46.890Z",
+      "agent": "social_media_manager",
+      "action": "repurpose_social_posts",
+      "inputSummary": "Draft: 2026-08-03T13-47-45-959Z-80aa341a-blog-draft",
+      "outputSummary": "7 platform drafts. POSTIZ_API_KEY is not configured. Posts were kept as local drafts. JSON: /home/runner/work/website/website/data/marketing-employee/calendars/2026-08-03T13-47-46-877Z-social-calendar.json",
+      "riskLevel": "medium",
+      "approvalRequired": true,
+      "status": "success"
+    },
+    {
+      "id": "d061215b-3ec5-4072-8aec-da19cd3f6873",
+      "timestamp": "2026-08-03T13:47:45.972Z",
+      "agent": "content_writer",
+      "action": "generate_blog_draft",
+      "inputSummary": "Keyword: fitness app that reviews your day for ai personal trainer accountability",
+      "outputSummary": "Draft Fitness App That Reviews Your Day For Ai Personal Trainer Accountability: What To Look For Before You Choose. JSON: /home/runner/work/website/website/data/marketing-employee/drafts/2026-08-03T13-47-45-959Z-80aa341a-blog-draft.json",
+      "riskLevel": "high",
+      "approvalRequired": true,
+      "status": "success"
+    },
+    {
+      "id": "16f34acc-5da1-4f48-8a07-3187498ab40d",
+      "timestamp": "2026-08-03T13:47:29.375Z",
+      "agent": "seo_strategist",
+      "action": "generate_keyword_roadmap",
+      "inputSummary": "Seed: AI personal trainer accountability",
+      "outputSummary": "15 clusters, 20 calendar items. JSON: /home/runner/work/website/website/data/marketing-employee/roadmaps/2026-08-03T13-47-29-362Z-keyword-roadmap.json",
+      "riskLevel": "low",
+      "approvalRequired": false,
+      "status": "success"
+    },
+    {
+      "id": "16820629-ae77-491c-bda4-3fd8b8232dee",
+      "timestamp": "2026-08-03T13:47:28.478Z",
+      "agent": "seo_strategist",
+      "action": "crawl_site",
+      "inputSummary": "Audited https://youraicoach.life",
+      "outputSummary": "25 pages, score 0/100. JSON: /home/runner/work/website/website/data/marketing-employee/audits/2026-08-03T13-47-28-464Z-site-audit.json",
+      "riskLevel": "low",
+      "approvalRequired": false,
+      "status": "success"
+    },
     {
       "id": "4485a6bb-8b66-475e-b3ed-46fa3de4745e",
       "timestamp": "2026-08-02T12:59:14.838Z",
@@ -6102,61 +6157,6 @@
       "action": "crawl_site",
       "inputSummary": "Audited https://youraicoach.life",
       "outputSummary": "1 pages, score 74/100. JSON: /home/runner/work/website/website/data/marketing-employee/audits/2026-07-31T08-31-55-595Z-site-audit.json",
-      "riskLevel": "low",
-      "approvalRequired": false,
-      "status": "success"
-    },
-    {
-      "id": "61e66191-b721-4acf-a883-a011629e933e",
-      "timestamp": "2026-07-30T08:06:01.287Z",
-      "agent": "analytics_agent",
-      "action": "generate_weekly_report",
-      "inputSummary": "Latest local marketing data",
-      "outputSummary": "Weekly report generated. JSON: /home/runner/work/website/website/data/marketing-employee/reports/2026-07-30T08-06-01-278Z-weekly-report.json",
-      "riskLevel": "low",
-      "approvalRequired": false,
-      "status": "success"
-    },
-    {
-      "id": "56414612-5ebf-4e94-850e-721f10692dc5",
-      "timestamp": "2026-07-30T08:06:00.341Z",
-      "agent": "social_media_manager",
-      "action": "repurpose_social_posts",
-      "inputSummary": "Draft: 2026-07-30T08-05-59-381Z-508eabb8-blog-draft",
-      "outputSummary": "7 platform drafts. POSTIZ_API_KEY is not configured. Posts were kept as local drafts. JSON: /home/runner/work/website/website/data/marketing-employee/calendars/2026-07-30T08-06-00-332Z-social-calendar.json",
-      "riskLevel": "medium",
-      "approvalRequired": true,
-      "status": "success"
-    },
-    {
-      "id": "532eb9b5-09da-49e9-a218-f777bf62f29c",
-      "timestamp": "2026-07-30T08:05:59.393Z",
-      "agent": "content_writer",
-      "action": "generate_blog_draft",
-      "inputSummary": "Keyword: fitness app that reviews your day",
-      "outputSummary": "Draft Fitness App That Reviews Your Day: What To Look For Before You Choose. JSON: /home/runner/work/website/website/data/marketing-employee/drafts/2026-07-30T08-05-59-381Z-508eabb8-blog-draft.json",
-      "riskLevel": "high",
-      "approvalRequired": true,
-      "status": "success"
-    },
-    {
-      "id": "ac7afa6f-5ac9-45ec-be4e-fcd0664c2053",
-      "timestamp": "2026-07-30T08:05:49.690Z",
-      "agent": "seo_strategist",
-      "action": "generate_keyword_roadmap",
-      "inputSummary": "Seed: AI personal trainer accountability",
-      "outputSummary": "11 clusters, 16 calendar items. JSON: /home/runner/work/website/website/data/marketing-employee/roadmaps/2026-07-30T08-05-49-678Z-keyword-roadmap.json",
-      "riskLevel": "low",
-      "approvalRequired": false,
-      "status": "success"
-    },
-    {
-      "id": "63a6f3a7-e4cf-4c38-9169-04b2045ccf12",
-      "timestamp": "2026-07-30T08:05:48.745Z",
-      "agent": "seo_strategist",
-      "action": "crawl_site",
-      "inputSummary": "Audited https://youraicoach.life",
-      "outputSummary": "1 pages, score 74/100. JSON: /home/runner/work/website/website/data/marketing-employee/audits/2026-07-30T08-05-48-734Z-site-audit.json",
       "riskLevel": "low",
       "approvalRequired": false,
       "status": "success"
