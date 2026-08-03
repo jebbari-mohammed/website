@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "rUQsUzG-VsQ",
+      "title": "Solo Strength: Workout Accountability Ideas for Solo Trainers",
+      "description": "Discover highly effective workout accountability ideas for training alone. Learn how to stay consistent using smart routines, feedback loops, and AI coaching.",
+      "uploadDate": "2026-08-03",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/workout-accountability-ideas-alone",
+          "relativePath": "blog/workout-accountability-ideas-alone.html",
+          "title": "Solo Strength: Workout Accountability Ideas for Solo Trainers"
+        }
+      ]
+    },
+    {
       "id": "aebzjuNpQe0",
       "title": "Gym Confidence for Beginners: How AI Workout Generators Change Everything",
       "description": "Discover how a smart AI workout generator helps gym beginners build confidence, save money, and get customized training plans without the high pressure.",
@@ -10,6 +23,36 @@
           "canonical": "https://youraicoach.life/blog/ai-workout-generator-beginners",
           "relativePath": "blog/ai-workout-generator-beginners.html",
           "title": "Gym Confidence for Beginners: How AI Workout Generators Change Everything"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/ar/ai-workout-generator-beginners",
+          "relativePath": "blog/ar/ai-workout-generator-beginners.html",
+          "title": "وداعاً لرهبة الجيم: كيف ستغير تطبيقات الذكاء الاصطناعي رحلتك الرياضية؟"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/de/ai-workout-generator-beginners",
+          "relativePath": "blog/de/ai-workout-generator-beginners.html",
+          "title": "Gym-Angst war gestern: Wie KI-Coachings dein Training revolutionieren"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/es/ai-workout-generator-beginners",
+          "relativePath": "blog/es/ai-workout-generator-beginners.html",
+          "title": "Perder el miedo al gimnasio: Cómo la IA está revolucionando tus entrenamientos"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/hi/ai-workout-generator-beginners",
+          "relativePath": "blog/hi/ai-workout-generator-beginners.html",
+          "title": "जिम जाने से डर लगता है? AI फिटनेस कोच बदल देगा आपका वर्कआउट गेम"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/id/ai-workout-generator-beginners",
+          "relativePath": "blog/id/ai-workout-generator-beginners.html",
+          "title": "Percaya Diri Nge-Gym untuk Pemula: Gimana AI Workout Generator Mengubah Segalanya"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/ja/ai-workout-generator-beginners",
+          "relativePath": "blog/ja/ai-workout-generator-beginners.html",
+          "title": "ジム初心者必見！AIパーソナルコーチで「迷子」を卒業する最新トレーニング術"
         }
       ]
     },

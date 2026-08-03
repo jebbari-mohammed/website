@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/rUQsUzG-VsQ/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/rUQsUzG-VsQ/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Solo Strength: Workout Accountability Ideas for Solo Trainers</video:title>
+      <video:description>Discover highly effective workout accountability ideas for training alone. Learn how to stay consistent using smart routines, feedback loops, and AI coaching.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/rUQsUzG-VsQ</video:player_loc>
+      <video:publication_date>2026-08-03T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/aebzjuNpQe0/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/aebzjuNpQe0/hqdefault.jpg</video:thumbnail_loc>
