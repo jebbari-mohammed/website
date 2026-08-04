@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "Hk_UgfaK4l0",
+      "title": "Master Your Fitness With A Personalized Plan For Busy Schedules",
+      "description": "Build a sustainable routine with personalized workout plans that adapt to your calendar. Discover how IZEM keeps professionals consistent and on track.",
+      "uploadDate": "2026-08-04",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/personalized-workout-plan-for-busy-professionals",
+          "relativePath": "blog/personalized-workout-plan-for-busy-professionals.html",
+          "title": "Master Your Fitness With A Personalized Plan For Busy Schedules"
+        }
+      ]
+    },
+    {
       "id": "rUQsUzG-VsQ",
       "title": "Solo Strength: Workout Accountability Ideas for Solo Trainers",
       "description": "Discover highly effective workout accountability ideas for training alone. Learn how to stay consistent using smart routines, feedback loops, and AI coaching.",
@@ -10,6 +23,36 @@
           "canonical": "https://youraicoach.life/blog/workout-accountability-ideas-alone",
           "relativePath": "blog/workout-accountability-ideas-alone.html",
           "title": "Solo Strength: Workout Accountability Ideas for Solo Trainers"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/ar/workout-accountability-ideas-alone",
+          "relativePath": "blog/ar/workout-accountability-ideas-alone.html",
+          "title": "كيف تلتزم بتمارينك وأنت تتمرن وحدك؟ أسرار القوة الفردية"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/de/workout-accountability-ideas-alone",
+          "relativePath": "blog/de/workout-accountability-ideas-alone.html",
+          "title": "Solo-Power: So bleibst du beim Einzeltraining am Ball"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/es/workout-accountability-ideas-alone",
+          "relativePath": "blog/es/workout-accountability-ideas-alone.html",
+          "title": "Entrenar solo y no morir en el intento: cómo mantener la motivación sin compañeros"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/hi/workout-accountability-ideas-alone",
+          "relativePath": "blog/hi/workout-accountability-ideas-alone.html",
+          "title": "अकेले वर्कआउट करते हैं? इन स्मार्ट तरीकों से अपनी फिटनेस कंसिस्टेंसी बढ़ाएं"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/id/workout-accountability-ideas-alone",
+          "relativePath": "blog/id/workout-accountability-ideas-alone.html",
+          "title": "Latihan Sendiri Tetap Gacor: Strategi Anti-Gagal Buat Kamu yang Suka Solo Training"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/ja/workout-accountability-ideas-alone",
+          "relativePath": "blog/ja/workout-accountability-ideas-alone.html",
+          "title": "「一人トレ」を挫折しないために。AIコーチとつくる継続の仕組み"
         }
       ]
     },

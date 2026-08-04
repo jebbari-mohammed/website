@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/Hk_UgfaK4l0/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/Hk_UgfaK4l0/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Master Your Fitness With A Personalized Plan For Busy Schedules</video:title>
+      <video:description>Build a sustainable routine with personalized workout plans that adapt to your calendar. Discover how IZEM keeps professionals consistent and on track.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/Hk_UgfaK4l0</video:player_loc>
+      <video:publication_date>2026-08-04T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/rUQsUzG-VsQ/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/rUQsUzG-VsQ/hqdefault.jpg</video:thumbnail_loc>
