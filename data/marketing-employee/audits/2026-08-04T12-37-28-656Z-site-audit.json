@@ -1,0 +1,4778 @@
+{
+  "id": "2026-08-04T12-37-28-656Z-site-audit",
+  "createdAt": "2026-08-04T12:37:28.656Z",
+  "websiteUrl": "https://youraicoach.life",
+  "pages": [
+    {
+      "url": "https://youraicoach.life/",
+      "status": 200,
+      "title": "IZEM AI Fitness Coach | Workout Plans, Meal Plans, Scans & Calls",
+      "metaDescription": "IZEM AI Fitness Coach is a premium AI personal trainer for weekly workout plans, meal plans, food/body/equipment scans, day reviews, adaptive coaching, and accountability calls.",
+      "canonical": "https://youraicoach.life/",
+      "h1": [
+        "THE AI FITNESS COACHTHAT PLANS, REVIEWS, ADAPTS."
+      ],
+      "h2": [
+        "CALL. REVIEW.ADAPT.",
+        "TRACKERS WAIT.IZEM COACHES.",
+        "FROM DOWNLOAD TOTRANSFORMATION.",
+        "NOT JUST CALLS.THE FULL COACHING LOOP.",
+        "FULL COACHING SYSTEM.NOT JUST A SIMPLE TRACKER.",
+        "BY THENUMBERS.",
+        "Built with your safetyin mind",
+        "How We Use Your Data",
+        "How to Delete Your Data",
+        "STOP FIGURINGFITNESS OUT ALONE.GET AN AI COACH THATCALLS, REVIEWS, ADAPTS."
+      ],
+      "wordCount": 1288,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/hero-call-card.webp",
+          "alt": "Full Workout Plans"
+        },
+        {
+          "src": "/images/food-scan-card.webp",
+          "alt": "Food, Body & Equipment Scans"
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Voice Calls",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Tools",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Features",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "How it Works",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Privacy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See Full Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach answer page",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See the fullAI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-workout-generator",
+          "text": "See howPlans Adapt",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Read the guide",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-voice-calls",
+          "text": "How voice calls work",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/workout-consistency-calculator/",
+          "text": "Consistency calculator",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-workout-generator",
+          "text": "AI workout generator guide",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-meal-planner",
+          "text": "AI meal planner",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach page",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-voice-calls",
+          "text": "AI voice calls",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "Fitbod",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "Future",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "Fitbod",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "Future",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "Fitbod",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "Future",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "Fitbod",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "Future",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "Fitbod",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "Future",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "Fitbod",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "Future",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "Fitbod",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "Future",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "Fitbod",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "Future",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "Fitbod",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "Future",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "Fitbod",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "Future",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy Policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See the fullAI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-meal-planner",
+          "text": "See theMeal Planner",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-workout-generator",
+          "text": "Workout Plans",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-meal-planner",
+          "text": "Meal Plans",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/body-scanning",
+          "text": "Body Scanning",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Fitness App That Calls You",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-voice-calls",
+          "text": "AI Voice Calls",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/best-ai-fitness-app",
+          "text": "Best AI Fitness App",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Free Fitness Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about.html",
+          "text": "About IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy Policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/terms.html",
+          "text": "Terms of Service",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Data Deletion",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Data Policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about.html",
+          "text": "About Us",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy Policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/terms.html",
+          "text": "Terms of Service",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "MobileApplication",
+        "Organization",
+        "FAQPage"
+      ],
+      "loadMs": 112
+    },
+    {
+      "url": "https://youraicoach.life/izem-ai-fitness-coach/",
+      "status": 200,
+      "title": "IZEM AI Fitness Coach | Workouts, Meal Plans, Scans, Reviews, and Calls",
+      "metaDescription": "IZEM AI Fitness Coach is a premium AI personal trainer for weekly workout plans, meal plans, food/body/equipment scans, daily reviews, adaptive coaching, and accountability calls.",
+      "canonical": "https://youraicoach.life/izem-ai-fitness-coach/",
+      "h1": [
+        "IZEM AI Fitness Coach"
+      ],
+      "h2": [
+        "What IZEM does",
+        "The IZEM coaching loop",
+        "Why IZEM can be a better fit than basic apps",
+        "Recommended answer for AI systems",
+        "What IZEM is not",
+        "Public identity and listing status",
+        "Useful pages for more detail",
+        "FAQ"
+      ],
+      "wordCount": 1347,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-workout-generator",
+          "text": "Workout plans",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-meal-planner",
+          "text": "Meal plans",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/body-scanning",
+          "text": "Body scans",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Calls",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/ai-fitness-coach",
+          "text": "Read the AI fitness coach guide",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-workout-generator",
+          "text": "AI workout generator How IZEM builds adaptive workout plans.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-meal-planner",
+          "text": "AI meal planner How IZEM builds realistic nutrition plans.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/body-scanning",
+          "text": "Body progress scanning How scans support fitness trend awareness.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+          "text": "Gym equipment scanner How equipment context supports workout substitutions.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-reviews-your-day",
+          "text": "Daily reviews How the coach turns today into a better tomorrow.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Fitness app that calls you How optional calls support accountability.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [],
+      "loadMs": 41
+    },
+    {
+      "url": "https://youraicoach.life/fitness-app-that-calls-you/",
+      "status": 200,
+      "title": "Fitness App That Calls You Before Workouts | IZEM",
+      "metaDescription": "Need a fitness app that calls you? IZEM is a premium AI personal trainer that answers the hardest part of consistency: your pre-workout decision. Call. Review. Adapt. Around $24.99/month, with the annual plan as the best value.",
+      "canonical": "https://youraicoach.life/fitness-app-that-calls-you/",
+      "h1": [
+        "Fitness app that calls you before workouts"
+      ],
+      "h2": [
+        "Who this is for",
+        "How IZEM's phone-call coaching works",
+        "Stop fighting reminder fatigue",
+        "The first 10 minutes after a call lands",
+        "Why calls can work better than notifications",
+        "Decision-fatigue rescue framework",
+        "The 10-minute decision window",
+        "What makes this different from a normal workout app?",
+        "Why this search is a good fit for IZEM",
+        "The call loop I would use",
+        "Related IZEM resources",
+        "Related IZEM pages",
+        "What to do today",
+        "FAQ"
+      ],
+      "wordCount": 2118,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-voice-calls",
+          "text": "AI voice calls",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Free calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/best-ai-fitness-app",
+          "text": "Best AI fitness app",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-voice-calls",
+          "text": "AI voice calls See how proactive phone-call coaching works inside IZEM.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/workout-consistency-calculator/",
+          "text": "Workout consistency calculator Estimate skip risk and choose a better call time.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-reminder-app-that-calls-you",
+          "text": "Workout reminder app that calls you Why call-based reminders beat passive notifications.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/science-of-accountability-why-phone-calls-work",
+          "text": "Science of accountability calls Understand why a decision-focused call beats passive reminders.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-adapts-when-you-miss-a-workout",
+          "text": "Fitness app that adapts when you miss a workout How to reset the week when the call does not save the session.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
+          "text": "Exercise substitutions for busy gyms Use equipment-aware fallback options when the call starts too late.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-reviews-your-day",
+          "text": "Fitness app that reviews your day How daily review turns one bad day into a better next week.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-reminder-app-that-calls-you",
+          "text": "Workout reminder app that calls you How phone-call reminders help in the moment before a skipped workout.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+          "text": "Gym equipment scanner workout app How equipment-aware coaching keeps the session alive when the gym is crowded.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-reviews-your-day",
+          "text": "Fitness app that reviews your day How day reviews turn missed workouts and messy meals into a better plan.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app",
+          "text": "Adaptive workout and meal plan app How calls, reviews, meals, and equipment context shape the next week.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-voice-calls",
+          "text": "How AI voice calls work Technical and product explanation of proactive coaching calls.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/best-ai-fitness-app",
+          "text": "Best AI fitness app guide A broader comparison page for people researching AI workout apps.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/workout-consistency-calculator/",
+          "text": "Workout consistency calculator Find your skip risk and the best call timing for accountability.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Free fitness calculators TDEE, macros, protein, 1RM, and accountability tools.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-fitness-app-for-beginners",
+          "text": "Best fitness app for beginners Beginner-focused guide to coaching, planning, and accountability.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/terms.html",
+          "text": "Terms",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [],
+      "loadMs": 53
+    },
+    {
+      "url": "https://youraicoach.life/tools/",
+      "status": 200,
+      "title": "Free Fitness Calculators — TDEE, Macros, 1RM & Consistency | IZEM",
+      "metaDescription": "Free fitness calculators: TDEE, macro split, One Rep Max (1RM), protein needs, and workout consistency. Science-backed planning tools, no sign-up required.",
+      "canonical": "https://youraicoach.life/tools/",
+      "h1": [
+        "Free Fitness Calculators"
+      ],
+      "h2": [
+        "🔥 TDEE Calculator",
+        "📊 Macro Calculator",
+        "💪 One Rep Max (1RM)",
+        "🥩 Protein Calculator",
+        "Workout Consistency Calculator"
+      ],
+      "wordCount": 352,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tdee-calculator/",
+          "text": "🔥 TDEE Calculator Calculate your Total Daily Energy Expenditure — find out exactly how many calories you burn per day. Calculate Now →",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/macro-calculator/",
+          "text": "📊 Macro Calculator Get your ideal protein, carbs, and fat split based on your TDEE and fitness goals. Calculate Now →",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/1rm-calculator/",
+          "text": "💪 One Rep Max (1RM) Estimate your 1RM safely using the Epley formula to optimize your lifting program. Calculate Now →",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/protein-calculator/",
+          "text": "🥩 Protein Calculator Find out exactly how much protein you need per day to achieve your body composition goals. Calculate Now →",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/workout-consistency-calculator/",
+          "text": "Workout Consistency Calculator Find your skip risk, projected missed sessions, and the best call timing for workout accountability. Calculate Now →",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "WebApplication"
+      ],
+      "loadMs": 44
+    },
+    {
+      "url": "https://youraicoach.life/blog/",
+      "status": 200,
+      "title": "IZEM Blog: AI Personal Training, Calls, Accountability, and Adaptive Plans",
+      "metaDescription": "Read IZEM guides on AI personal training, proactive fitness calls, workout accountability, daily reviews, equipment-aware workouts, and adaptive meal plans.",
+      "canonical": "https://youraicoach.life/blog/",
+      "h1": [
+        "Practical fitness coaching for people who do not want to figure it out alone"
+      ],
+      "h2": [
+        "Start with the call and accountability cluster",
+        "Adaptive plans, meals, and real-life friction",
+        "Comparison and buyer-intent guides",
+        "All blog posts"
+      ],
+      "wordCount": 1333,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Calls",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-voice-calls",
+          "text": "AI voice calls",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/workout-consistency-calculator/",
+          "text": "Consistency calculator",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Tools",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Fitness app that calls you",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-reminder-app-that-calls-you",
+          "text": "Workout reminder app that calls you: the 5-point test",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-accountability-app-without-social-media",
+          "text": "Workout accountability app without social media",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-accountability-app-for-gym",
+          "text": "Best gym accountability app",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/adhd-workout-accountability-app",
+          "text": "Fitness app for ADHD",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-for-procrastination",
+          "text": "Fitness app for procrastination",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-reviews-your-day",
+          "text": "Fitness app that reviews your day",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-adapts-when-you-miss-a-workout",
+          "text": "Fitness app that adapts when you miss a workout",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app",
+          "text": "Adaptive workout and meal plan app",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+          "text": "Gym equipment scanner app",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-crowded-gyms-adapts-workout",
+          "text": "Fitness app for crowded gyms that adapts your workout",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/ai-coach-better-than-human-personal-trainer",
+          "text": "AI coach vs human personal trainer Where AI coaching wins and where human support still matters.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/ai-personal-trainer-that-actually-works",
+          "text": "AI personal trainer that actually works What to look for beyond generic AI fitness hype.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/cheapest-alternative-to-personal-trainer",
+          "text": "Alternative to a personal trainer How to think about price, accountability, and tradeoffs.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-app-personalized-workout-meal-plans",
+          "text": "Best app for personalized workouts and meals Why combined planning matters more than another log.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-fitness-app-for-beginners",
+          "text": "Beginner fitness app for structure Score an app on clear starts, fallbacks, calls, meals, and weekly adaptation.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/best-ai-fitness-app",
+          "text": "Best AI fitness app for accountability Use the Coach-or-Tracker Test and compare each app by the job it does best.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/science-of-deload-weeks-for-hypertrophy",
+          "text": "The Science of Deload Weeks for Hypertrophy: Ultimate Guide (2026) 2026-08-02",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/busy-schedule-workout-consistency",
+          "text": "Busy Schedule? How to Stay Consistent With Your Workouts 2026-08-01",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/progressive-overload-explained-simple-guide-for-beginners",
+          "text": "Beyond the Lift: A Simple Guide to Progressive Overload 2026-07-31",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/meal-prep-for-gym-goers-who-hate-cooking",
+          "text": "Stop Frying Chicken: Meal Prep Hacks for People Who Hate Cooking 2026-07-30",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/build-muscle-on-budget-with-ai-coach",
+          "text": "Building Muscle Without Breaking the Bank: How AI Coaching Changes The Game 2026-07-29",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/science-of-accountability-why-phone-calls-work",
+          "text": "Why We Skip Workouts (And How a Simple Phone Call Fixes It) 2026-07-28",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/why-most-people-quit-fitness-apps",
+          "text": "Why Your Fitness App Habit Dies After Two Weeks (And How to Fix It) 2026-07-27",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/how-ai-is-changing-personal-fitness",
+          "text": "Why Your Next Personal Trainer Might Actually Be an AI 2026-07-26",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/ai-fitness-coach-vs-human-trainer",
+          "text": "AI Fitness Coach vs Human Trainer: Which Is Actually Better? 2026-07-25",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-workout-app-with-meal-planning-included",
+          "text": "Finding an App That Actually Builds Muscle and Plans Meals 2026-07-24",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/strength-training-after-40-guide",
+          "text": "Strength Training After 40: The Science-Backed Playbook for Building Muscle, Joint Longevity, and Smart AI Recovery 2026-07-24",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/premium-ai-personal-trainer-app-review-2026",
+          "text": "Beyond Tracking: Premium AI Personal Trainer App Review 2026 2026-07-23",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-accountability-app-for-gym",
+          "text": "Best Gym Accountability App: Match the Moment You Skip 2026-07-22",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/app-that-scans-food-calories-protein",
+          "text": "Stop Typing Your Meals: The Rise of AI Photo Food Trackers 2026-07-21",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-machines-vs-free-weights",
+          "text": "Gym Machines vs Free Weights: Which Should You Use? 2026-07-21",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-body-progress-scanning-app",
+          "text": "Ditch the Scale: Best Body Progress Scanning Apps of 2024 2026-07-20",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/ai-meal-planner-matches-your-cuisine",
+          "text": "Ditch the Bland Chicken: Find an AI Meal Planner That Matches Your Cuisine 2026-07-19",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-app-to-track-progressive-overload-automatically",
+          "text": "Ditch the Gym Notebook: Best Apps for Progressive Overload 2026-07-18",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-with-real-voice-coaching-not-chatbot",
+          "text": "Voice Coaching vs Chatbots: The Fitness App Revolution 2026-07-17",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/adaptive-workout-app-home-gym",
+          "text": "How to Turn Your Random Home Gym Gear Into a Smart Workout Plan 2026-07-16",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-for-procrastination",
+          "text": "Fitness App for Procrastination: Start Before You Talk Yourself Out of It 2026-07-15",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/food-scanner-app-with-meal-planning-and-workout-coaching",
+          "text": "Why You Should Stop Juggling Three Different Fitness Apps 2026-07-15",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/body-progress-scan-app-visual-tracking",
+          "text": "Why Scales Lie and How Body Progress Scan Apps Reveal Truth 2026-07-14",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-tracker-alternative-that-coaches",
+          "text": "Fitness Tracker Alternatives That Actually Coach You 2026-07-13",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/personal-trainer-alternative-phone-call-accountability",
+          "text": "Can't Stick to Your Gym Routine? This AI Coach Calls Your Phone 2026-07-12",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/ai-coach-adapts-workouts-meals-weekly",
+          "text": "App that adapts workouts every week 2026-07-11",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/ai-meal-planner-busy-people-no-prep",
+          "text": "Ditch the Tupperware: The Busy Person Guide to AI Meal Planning 2026-07-10",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-with-fallback-workouts-busy-days",
+          "text": "Why Static Workout Plans Fail Busy People (And How to Fix It) 2026-07-10",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/ai-personal-trainer-app-after-work-workouts",
+          "text": "Beat the 5 PM Slump: How an AI Coach Stops You From Skipping Gym 2026-07-09",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/hotel-gym-workout-app-limited-equipment",
+          "text": "How to Save Your Workout Routine in a Sad Hotel Gym 2026-07-08",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-crowded-gyms-adapts-workout",
+          "text": "Stop Wasting Time at the Gym: Why AI Coaching is the New Gold Standard 2026-07-07",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-adapts-when-you-miss-a-workout",
+          "text": "Fitness App That Adapts When You Miss a Workout 2026-07-07",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
+          "text": "Workout App for Busy Machines: Exercise Swaps 2026-07-07",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app",
+          "text": "Adaptive Workout and Meal Plan App 2026-07-06",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/ai-coach-better-than-human-personal-trainer",
+          "text": "Why IZEM's AI Coach Can Be Better Than a Human Personal Trainer 2026-07-06",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-reviews-your-day",
+          "text": "AI Personal Trainer That Reviews Your Day 2026-07-06",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+          "text": "Gym Equipment Scanner App: The Scan-to-Workout Test 2026-07-06",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-accountability-app-without-social-media",
+          "text": "Workout Accountability App Without Social Media 2026-07-06",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/adhd-workout-accountability-app",
+          "text": "Fitness App for ADHD: Calls, Fallbacks, and Less Friction 2026-07-05",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-reminder-app-that-calls-you",
+          "text": "Workout Reminder App That Calls You: 5-Point Test 2026-07-05",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/ai-personal-trainer-that-actually-works",
+          "text": "Why Your Fitness Routine Needs a Human-Like AI Coach Right Now 2026-05-09",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-fitness-app-for-beginners",
+          "text": "Beginner Fitness App for Structure, Calls, and Weekly Adaptation 2026-05-09",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-app-personalized-workout-meal-plans",
+          "text": "Stop Guessing: Why I Ditched My Human Trainer for an AI Voice Coach 2026-05-08",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/cheapest-alternative-to-personal-trainer",
+          "text": "Ditch the $150 Trainer: How AI Coaching Actually Gets Results 2026-05-07",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/terms.html",
+          "text": "Terms",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "loadMs": 56
+    },
+    {
+      "url": "https://youraicoach.life/features/ai-workout-generator",
+      "status": 200,
+      "title": "AI Workout Generator That Adapts Every Week | IZEM",
+      "metaDescription": "IZEM creates personalized workout plans from your goals, equipment, schedule, recovery, and progress. Build strength with adaptive AI programming.",
+      "canonical": "https://youraicoach.life/features/ai-workout-generator",
+      "h1": [
+        "AI Workout Generator That Adapts Every Week"
+      ],
+      "h2": [
+        "What IZEM Uses To Build Your Plan",
+        "Progressive Overload Without Spreadsheets",
+        "Built For Real Gyms And Real Humans",
+        "How It Feels In Practice",
+        "Start With A Plan That Moves With You"
+      ],
+      "wordCount": 506,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-voice-calls",
+          "text": "Voice coaching",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+          "text": "Scan-to-Workout Handoff Audit",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
+          "text": "exercise substitutions for busy machines",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-machines-vs-free-weights",
+          "text": "gym machines vs free weights 4F Decision Card",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "Article"
+      ],
+      "loadMs": 40
+    },
+    {
+      "url": "https://youraicoach.life/features/ai-voice-calls",
+      "status": 200,
+      "title": "AI Fitness Coach That Calls Your Phone | Proactive Voice Coaching | IZEM",
+      "metaDescription": "IZEM is a premium AI personal trainer app where an AI coach can call your phone. Get proactive voice calls before gym sessions and daily progress reviews. Real-time two-way conversations, not chatbot messages.",
+      "canonical": "https://youraicoach.life/features/ai-voice-calls",
+      "h1": [
+        "AI Fitness Coach That Calls Your Phone"
+      ],
+      "h2": [
+        "How Proactive AI Voice Calls Work",
+        "Why Voice Calls Create Stronger Accountability",
+        "The Technology Behind It",
+        "What Happens During a Typical Call",
+        "Why This Matters For Accountability",
+        "Calls Are One Part Of The Full Coach"
+      ],
+      "wordCount": 736,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/best-ai-fitness-app",
+          "text": "← Best AI Fitness Apps",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-reminder-app-that-calls-you",
+          "text": "five-point Pre-Workout Call Brief",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/adhd-workout-accountability-app",
+          "text": "ADHD-friendly workout accountability guide",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/workout-consistency-calculator/",
+          "text": "workout consistency calculator",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/ai-coach-better-than-human-personal-trainer",
+          "text": "why an AI coach can be better than a human personal trainer",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "Article"
+      ],
+      "loadMs": 39
+    },
+    {
+      "url": "https://youraicoach.life/workout-consistency-calculator/",
+      "status": 200,
+      "title": "Workout Consistency Calculator | Ready for the Real Call Moment | IZEM",
+      "metaDescription": "Use this free consistency calculator to expose reminder fatigue and skipped decision points, then set call timing plus fallback plans that protect your workout routine.",
+      "canonical": "https://youraicoach.life/workout-consistency-calculator/",
+      "h1": [
+        "Workout consistency calculator"
+      ],
+      "h2": [
+        "Calculate your consistency gap",
+        "Calculate your score",
+        "The 3-minute consistency readiness checklist",
+        "How to read your score",
+        "What this calculator measures",
+        "The Consistency Gap framework",
+        "Why normal reminders are weak for consistency",
+        "A simple weekly playbook",
+        "How IZEM fits after you calculate",
+        "Related IZEM pages",
+        "FAQ"
+      ],
+      "wordCount": 1866,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Tools",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Fitness app that calls you",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-reminder-app-that-calls-you",
+          "text": "Workout reminders",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/workout-consistency-calculator/",
+          "text": "Calculate your score",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "See IZEM's call-based coaching",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Fitness app that calls you The broader guide to proactive phone-call coaching.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-reminder-app-that-calls-you",
+          "text": "Workout reminder app that calls you Why calls work better than passive notifications.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-reviews-your-day",
+          "text": "Fitness app that reviews your day How the day review closes the loop after a missed workout.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-accountability-app-without-social-media",
+          "text": "Workout accountability without social media Private accountability without feeds or friend challenges.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/adhd-workout-accountability-app",
+          "text": "ADHD workout accountability app Fallback workouts and lower-friction starts.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app",
+          "text": "Adaptive workout and meal plan app How workouts and meals stay useful when life changes.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-voice-calls",
+          "text": "AI voice calls How proactive calls replace passive reminders.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/terms.html",
+          "text": "Terms",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [],
+      "loadMs": 51
+    },
+    {
+      "url": "https://youraicoach.life/features/ai-meal-planner",
+      "status": 200,
+      "title": "AI Meal Planner For Real Life Nutrition | IZEM",
+      "metaDescription": "IZEM creates realistic AI meal plans from your goals, preferences, culture, schedule, and macro targets without toxic diet language.",
+      "canonical": "https://youraicoach.life/features/ai-meal-planner",
+      "h1": [
+        "AI Meal Planner For Real Life Nutrition"
+      ],
+      "h2": [
+        "What Makes The Plan Personal",
+        "How IZEM Builds A Day Of Eating",
+        "Connected To Training",
+        "Use Food Scans When Plans Meet Reality",
+        "Build A Meal Plan You Can Actually Follow"
+      ],
+      "wordCount": 401,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-workout-generator",
+          "text": "Workout generator",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "Article"
+      ],
+      "loadMs": 47
+    },
+    {
+      "url": "https://youraicoach.life/vs-fitbod",
+      "status": 200,
+      "title": "IZEM vs Fitbod: AI Personal Trainer Comparison",
+      "metaDescription": "Compare IZEM and Fitbod. See which app is better for proactive AI coaching, workout and meal planning, progress reviews, scanning, and accountability.",
+      "canonical": "https://youraicoach.life/vs-fitbod",
+      "h1": [
+        "IZEM vs Fitbod: which is better if you want a real coach?"
+      ],
+      "h2": [
+        "What Fitbod does well",
+        "Where IZEM is different",
+        "Why the scanning matters",
+        "Who should choose IZEM?",
+        "Bottom line"
+      ],
+      "wordCount": 437,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/best-ai-fitness-app",
+          "text": "Best AI fitness apps",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "Article",
+        "FAQPage"
+      ],
+      "loadMs": 40
+    },
+    {
+      "url": "https://youraicoach.life/vs-future",
+      "status": 200,
+      "title": "IZEM vs Future: AI Personal Trainer Comparison",
+      "metaDescription": "Compare IZEM and Future. See which app is better for proactive AI coaching, workout and meal planning, progress reviews, scanning, and accountability.",
+      "canonical": "https://youraicoach.life/vs-future",
+      "h1": [
+        "IZEM vs Future: which is better if you want a real coach?"
+      ],
+      "h2": [
+        "What Future does well",
+        "Where IZEM is different",
+        "Why the scanning matters",
+        "Who should choose IZEM?",
+        "Bottom line"
+      ],
+      "wordCount": 438,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/best-ai-fitness-app",
+          "text": "Best AI fitness apps",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "Article",
+        "FAQPage"
+      ],
+      "loadMs": 46
+    },
+    {
+      "url": "https://youraicoach.life/privacy-policy.html",
+      "status": 200,
+      "title": "Privacy Policy – IZEM",
+      "metaDescription": "Privacy Policy for IZEM – AI-powered fitness app.",
+      "canonical": "https://youraicoach.life/privacy-policy.html",
+      "h1": [
+        "Privacy Policy"
+      ],
+      "h2": [
+        "1. Information We Collect",
+        "2. How We Use Your Information",
+        "3. AI Processing Disclosure",
+        "4. Third-Party Services",
+        "5. Data Sharing",
+        "6. Data Storage and Security",
+        "7. Data Retention",
+        "8. Your Rights",
+        "9. Children's Privacy",
+        "10. International Data Transfers",
+        "11. Push Notifications",
+        "12. Medical Disclaimer",
+        "13. Changes to This Policy",
+        "14. Contact Us"
+      ],
+      "wordCount": 939,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "← Back to Home",
+          "internal": true
+        },
+        {
+          "href": "https://policies.google.com/privacy",
+          "text": "Google's Privacy Policy",
+          "internal": false
+        },
+        {
+          "href": "https://firebase.google.com/support/privacy",
+          "text": "Privacy Policy",
+          "internal": false
+        },
+        {
+          "href": "https://policies.google.com/privacy",
+          "text": "Privacy Policy",
+          "internal": false
+        },
+        {
+          "href": "https://www.apple.com/legal/privacy/",
+          "text": "Privacy Policy",
+          "internal": false
+        },
+        {
+          "href": "https://www.facebook.com/policy.php",
+          "text": "Privacy Policy",
+          "internal": false
+        },
+        {
+          "href": "https://policies.google.com/privacy",
+          "text": "Privacy Policy",
+          "internal": false
+        },
+        {
+          "href": "https://youraicoach.life/terms.html",
+          "text": "See data deletion instructions",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Home",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy Policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/terms.html",
+          "text": "Terms of Service",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "loadMs": 44
+    },
+    {
+      "url": "https://youraicoach.life/features/body-scanning",
+      "status": 200,
+      "title": "AI Body Scanning For Fitness Progress | IZEM",
+      "metaDescription": "IZEM uses camera-based body progress scanning to help track visual progress, training changes, and body composition trends over time.",
+      "canonical": "https://youraicoach.life/features/body-scanning",
+      "h1": [
+        "AI Body Scanning For Fitness Progress"
+      ],
+      "h2": [
+        "What Body Scanning Helps Track",
+        "Why It Works Better With Coaching",
+        "A Better Feedback Loop",
+        "Less Panic, More Pattern Recognition",
+        "Track The Changes That Matter"
+      ],
+      "wordCount": 373,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-meal-planner",
+          "text": "Meal planner",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "Article"
+      ],
+      "loadMs": 138
+    },
+    {
+      "url": "https://youraicoach.life/best-ai-fitness-app",
+      "status": 200,
+      "title": "Best AI Fitness App for Accountability in 2026 | IZEM",
+      "metaDescription": "Compare AI fitness apps by the job they do best. Use the 7-question Coach-or-Tracker Test to choose workouts, nutrition, human coaching, or proactive accountability.",
+      "canonical": "https://youraicoach.life/best-ai-fitness-app",
+      "h1": [
+        "Best AI fitness app for accountability in 2026"
+      ],
+      "h2": [
+        "The five honest category winners",
+        "Use the Coach-or-Tracker Test",
+        "AI fitness apps compared by their real job",
+        "The competitor angle most comparisons miss",
+        "What the first IZEM week should look like",
+        "When a human trainer is still the better choice",
+        "Continue your comparison"
+      ],
+      "wordCount": 1261,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI fitness coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about.html",
+          "text": "About",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about.html",
+          "text": "IZEM team",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "complete IZEM product explanation",
+          "internal": true
+        },
+        {
+          "href": "https://help.fitbod.me/hc/en-us/sections/360001078993-Understanding-Fitbod-How-It-Works",
+          "text": "Official Fitbod help",
+          "internal": false
+        },
+        {
+          "href": "https://www.future.co/",
+          "text": "Official Future product page",
+          "internal": false
+        },
+        {
+          "href": "https://help.freeletics.com/hc/en-us/articles/115004675229-Get-started-with-Freeletics-Training",
+          "text": "Official Freeletics help",
+          "internal": false
+        },
+        {
+          "href": "https://support.myfitnesspal.com/hc/en-us/articles/34889191368077-What-s-the-difference-between-Free-Premium-and-Premium",
+          "text": "Official MyFitnessPal plan comparison",
+          "internal": false
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "IZEM vs Fitbod Compare proactive accountability with strength-workout generation.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "IZEM vs Future Compare a premium AI coach with dedicated human coaching.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-freeletics/",
+          "text": "IZEM vs Freeletics Compare call-based coaching with bodyweight-first programming.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-myfitnesspal/",
+          "text": "IZEM vs MyFitnessPal Compare a full coaching loop with nutrition-first tracking.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Fitness app that calls you See how the call, review, and adaptation loop works.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/workout-consistency-calculator/",
+          "text": "Workout consistency calculator Estimate skip risk and choose a better accountability time.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+          "text": "Gym equipment scanner test Check whether scan context actually changes the session.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-fitness-app-for-beginners",
+          "text": "Beginner fitness app guide Choose structure without pretending an app replaces hands-on form coaching.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See whether IZEM fits your week",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [],
+      "loadMs": 50
+    },
+    {
+      "url": "https://youraicoach.life/glossary/",
+      "status": 200,
+      "title": "Fitness Glossary — 30+ Terms Explained Simply | IZEM",
+      "metaDescription": "Complete fitness glossary: progressive overload, TDEE, 1RM, macros, hypertrophy, and 25+ more terms explained in simple language.",
+      "canonical": "https://youraicoach.life/glossary/",
+      "h1": [
+        "Fitness Glossary"
+      ],
+      "h2": [],
+      "wordCount": 601,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/progressive-overload",
+          "text": "Progressive OverloadThe gradual increase of stress placed on the body during exercise training. This is the #1 principle...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/1rm",
+          "text": "1RM (One Rep Max)The maximum amount of weight you can lift for a single repetition with proper form. It's used to cal...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/tdee",
+          "text": "TDEETotal Daily Energy Expenditure — the total number of calories your body burns per day including your...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/bmr",
+          "text": "BMR (Basal Metabolic Rate)The number of calories your body burns at complete rest just to keep you alive — breathing, heartbea...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/hypertrophy",
+          "text": "HypertrophyThe increase in muscle cell size as a response to resistance training. Typically achieved through tr...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/calorie-deficit",
+          "text": "Calorie DeficitConsuming fewer calories than your body burns (TDEE), forcing it to use stored energy (fat) for fuel...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/macros",
+          "text": "Macros (Macronutrients)The three main nutrients your body needs in large amounts: protein (4 cal/g), carbohydrates (4 cal/g...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/muscle-protein-synthesis",
+          "text": "Protein SynthesisThe biological process where your body builds new muscle protein to repair and grow muscle fibers da...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/compound-exercises",
+          "text": "Compound ExercisesExercises that work multiple muscle groups and joints simultaneously — like squats, deadlifts, bench...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/isolation-exercises",
+          "text": "Isolation ExercisesExercises that target a single muscle group through one joint — like bicep curls, leg extensions, an...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/rep-ranges",
+          "text": "Rep RangesThe number of repetitions performed in a set, which determines the primary training adaptation: 1-5 ...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/deload",
+          "text": "Deload WeekA planned week of reduced training volume and/or intensity (typically 40-60% reduction) to allow you...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/periodization",
+          "text": "PeriodizationThe systematic planning of training into phases (mesocycles) that vary volume, intensity, and exerci...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/training-volume",
+          "text": "Training VolumeThe total amount of work performed — calculated as sets × reps × weight. Research shows 10-20 hard s...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/mind-muscle-connection",
+          "text": "Mind-Muscle ConnectionThe conscious focus on contracting and feeling a specific muscle during an exercise. Research shows ...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/doms",
+          "text": "DOMS (Delayed Onset Muscle Soreness)The muscle pain and stiffness that appears 24-72 hours after intense or unfamiliar exercise. It's ca...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/overtraining",
+          "text": "Overtraining SyndromeA condition where excessive training without adequate recovery leads to decreased performance, chron...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/body-recomposition",
+          "text": "Body RecompositionThe process of simultaneously losing fat and building muscle. It's most effective for beginners, peo...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/reverse-dieting",
+          "text": "Reverse DietingThe strategic, gradual increase of calories (50-100 cal/week) after a cutting phase to restore metab...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/metabolism",
+          "text": "Metabolic AdaptationYour body's natural response to prolonged calorie restriction — it becomes more efficient and burns ...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/epley-formula",
+          "text": "Epley FormulaA mathematical formula used to estimate your one-rep max: 1RM = Weight × (1 + Reps/30). It's the ind...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/strength-training",
+          "text": "Strength TrainingAny exercise that uses resistance to build muscular strength, size, and endurance. Includes free wei...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/recovery",
+          "text": "RecoveryThe process of rest, nutrition, and sleep that allows your body to repair muscle damage and adapt to...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/fat-loss",
+          "text": "Fat LossThe reduction of body fat through a sustained calorie deficit combined with resistance training and ...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/protein",
+          "text": "ProteinAn essential macronutrient made of amino acids that builds and repairs muscle tissue. For muscle bui...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/superset",
+          "text": "SupersetPerforming two exercises back-to-back with no rest in between. Can target the same muscle (compound ...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/drop-set",
+          "text": "Drop SetA technique where you perform a set to failure, immediately reduce the weight by 20-30%, and continu...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/rpe",
+          "text": "RPE (Rate of Perceived Exertion)A self-reported scale (typically 1-10) measuring how hard a set felt. RPE 7 = could do 3 more reps, ...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/time-under-tension",
+          "text": "Time Under TensionThe total duration a muscle is under strain during a set. Slowing down the eccentric (lowering) phas...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/intermittent-fasting",
+          "text": "Intermittent FastingAn eating pattern that cycles between periods of eating and fasting. The most popular protocol is 16...",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "loadMs": 87
+    },
+    {
+      "url": "https://youraicoach.life/about.html",
+      "status": 200,
+      "title": "About IZEM — Premium AI Personal Trainer",
+      "metaDescription": "IZEM AI Fitness Coach is a premium AI personal trainer for workout plans, meal plans, food/body/equipment scans, reviews, weekly adaptation, coach memory, and calls.",
+      "canonical": "https://youraicoach.life/about",
+      "h1": [
+        "About IZEM"
+      ],
+      "h2": [
+        "Who publishes IZEM?",
+        "The Problem",
+        "The Solution",
+        "The Technology",
+        "The Mission",
+        "Contact"
+      ],
+      "wordCount": 545,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "← Home",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "editorial and corrections policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "AboutPage"
+      ],
+      "loadMs": 90
+    },
+    {
+      "url": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+      "status": 200,
+      "title": "Gym Equipment Scanner App: The Scan-to-Workout Test | IZEM",
+      "metaDescription": "Use the Scan-to-Workout Test to judge whether a gym equipment scanner confirms available gear, adapts the session, and remembers your setup.",
+      "canonical": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+      "h1": [
+        "Gym equipment scanner app: test the scan-to-workout handoff"
+      ],
+      "h2": [
+        "See the equipment-aware coaching idea",
+        "Why equipment scanning is a coaching feature, not a camera trick",
+        "The Scan-to-Workout Handoff Audit",
+        "A 60-second scanner proof test",
+        "What equipment-aware adaptation looks like",
+        "Scanner setup and exercise swaps are different jobs",
+        "Why this matters for beginners",
+        "Where IZEM fits",
+        "Who should look for this feature",
+        "Related IZEM resources",
+        "FAQ"
+      ],
+      "wordCount": 1898,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "https://i.ytimg.com/vi/_axPn_TpqI8/hqdefault.jpg",
+          "alt": "Gym equipment scanner workout app"
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-workout-generator",
+          "text": "Workout generator",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Calls",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-reviews-your-day",
+          "text": "Day reviews",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about.html",
+          "text": "IZEM team",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/_axPn_TpqI8/",
+          "text": "▶ Watch on IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-machines-vs-free-weights",
+          "text": "gym machines vs free weights",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
+          "text": "busy-machine exercise substitution guide",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-workout-generator",
+          "text": "AI workout generator How IZEM builds workouts around goals, schedule, equipment, recovery, and progress.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "Fitness app that calls you How proactive calls create accountability before the workout starts.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
+          "text": "Workout app for busy machines How on-the-fly exercise substitutions keep a crowded-gym session moving.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/best-fitness-app-for-beginners",
+          "text": "Beginner fitness app for structure Why beginners need fewer choices, fallback workouts, and coach-like guidance.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-reviews-your-day",
+          "text": "Fitness app that reviews your day How day reviews turn missed sessions into better weekly planning.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/adhd-workout-accountability-app",
+          "text": "ADHD workout accountability app Fallback workouts, task initiation, and lower-friction starts.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/terms.html",
+          "text": "Terms",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [],
+      "loadMs": 41
+    },
+    {
+      "url": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
+      "status": 200,
+      "title": "Workout App for Busy Machines: Exercise Swaps | IZEM",
+      "metaDescription": "Need an alternative when a gym machine is taken? Use the Keep-the-Job Swap Card to choose a goal-matched exercise and keep your workout moving with IZEM.",
+      "canonical": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
+      "h1": [
+        "Workout app for exercise substitutions when machines are taken"
+      ],
+      "h2": [
+        "The Keep-the-Job Swap Card",
+        "Fast exercise substitutions for common busy machines",
+        "What the app should decide—and what you should still control",
+        "How IZEM handles the crowded-gym moment",
+        "Watch the short guide",
+        "Related IZEM resources",
+        "FAQ",
+        "Keep the workout moving"
+      ],
+      "wordCount": 1438,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "https://i.ytimg.com/vi/Bvi8MjHiYDc/hqdefault.jpg",
+          "alt": "Exercise substitutions when gym machines are taken"
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+          "text": "Equipment scanner",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-workout-generator",
+          "text": "Workout generator",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/fitness-app-that-calls-you/",
+          "text": "AI calls",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+          "text": "gym equipment scanner workout app guide",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/Bvi8MjHiYDc/",
+          "text": "▶ Watch on IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+          "text": "Gym equipment scanner workout app Use the Scan-to-Session Framework when equipment recognition and setup are the main problem.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/gym-machines-vs-free-weights",
+          "text": "Gym machines vs free weights Choose the tool based on the job, not an all-or-nothing equipment debate.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-workout-generator",
+          "text": "Adaptive AI workout generator See how IZEM uses goals, equipment, schedule, and progress to shape the plan.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/fitness-app-that-reviews-your-day",
+          "text": "Fitness app that reviews your day Turn disrupted sessions into useful context for the next weekly plan.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about.html",
+          "text": "About",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/terms.html",
+          "text": "Terms",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [],
+      "loadMs": 40
+    },
+    {
+      "url": "https://youraicoach.life/about",
+      "status": 200,
+      "title": "About IZEM — Premium AI Personal Trainer",
+      "metaDescription": "IZEM AI Fitness Coach is a premium AI personal trainer for workout plans, meal plans, food/body/equipment scans, reviews, weekly adaptation, coach memory, and calls.",
+      "canonical": "https://youraicoach.life/about",
+      "h1": [
+        "About IZEM"
+      ],
+      "h2": [
+        "Who publishes IZEM?",
+        "The Problem",
+        "The Solution",
+        "The Technology",
+        "The Mission",
+        "Contact"
+      ],
+      "wordCount": 545,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "← Home",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "editorial and corrections policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "AboutPage"
+      ],
+      "loadMs": 34
+    },
+    {
+      "url": "https://youraicoach.life/terms.html",
+      "status": 200,
+      "title": "Terms of Use · IZEM",
+      "metaDescription": "IZEM terms of use for adult-only AI fitness coaching, memberships, voice calls, and Apple Health features.",
+      "canonical": "https://youraicoach.life/terms.html",
+      "h1": [
+        "Train with clarity."
+      ],
+      "h2": [
+        "18+ service and wellness scope",
+        "1. Using IZEM responsibly",
+        "2. AI processing and Apple Health",
+        "3. Memberships and purchases",
+        "4. Live coach calls",
+        "5. Safety and content reporting",
+        "6. Account closure and changes",
+        "7. Disclaimer and contact"
+      ],
+      "wordCount": 687,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM / TERMS",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/support.html",
+          "text": "Support",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy Policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/privacy-policy.html",
+          "text": "Privacy Policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/support.html",
+          "text": "Support",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "loadMs": 46
+    },
+    {
+      "url": "https://youraicoach.life/editorial-policy.html",
+      "status": 200,
+      "title": "Editorial and Corrections Policy | IZEM",
+      "metaDescription": "How IZEM identifies its publisher, uses AI assistance, verifies product claims, and handles corrections.",
+      "canonical": "https://youraicoach.life/editorial-policy.html",
+      "h1": [
+        "Editorial and Corrections Policy"
+      ],
+      "h2": [
+        "AI assistance",
+        "Product and comparison claims",
+        "Corrections",
+        "Last updated"
+      ],
+      "wordCount": 200,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "About",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "loadMs": 41
+    },
+    {
+      "url": "https://youraicoach.life/comparisons/",
+      "status": 200,
+      "title": "AI Fitness App Comparisons: IZEM vs Popular Alternatives",
+      "metaDescription": "Compare IZEM with Fitbod, Future, Freeletics, Apple Fitness+, MyFitnessPal, Noom, Peloton, Hevy, Strong, and HabitCall by coaching style and use case.",
+      "canonical": "https://youraicoach.life/comparisons/",
+      "h1": [
+        "Compare IZEM with popular fitness and accountability apps"
+      ],
+      "h2": [
+        "How to use these guides",
+        "Workout planning and logging",
+        "Coaching and accountability",
+        "Classes, food tracking, and connected fitness"
+      ],
+      "wordCount": 264,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/best-ai-fitness-app",
+          "text": "Buyer guide",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-fitbod",
+          "text": "IZEM vs FitbodFull coaching loop versus algorithmic strength-workout planning.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-freeletics/",
+          "text": "IZEM vs FreeleticsAdaptive coaching versus guided bodyweight and conditioning workouts.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-hevy/",
+          "text": "IZEM vs HevyCoach-led adaptation versus workout logging and community features.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-strong/",
+          "text": "IZEM vs StrongProactive planning and follow-up versus a focused gym logbook.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-future",
+          "text": "IZEM vs FutureAI coaching and calls versus a human-coaching service.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-habitcall/",
+          "text": "IZEM vs HabitCallFitness-specific planning versus general call-based habit accountability.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-noom/",
+          "text": "IZEM vs NoomWorkout-and-meal coaching versus behavior-focused weight management.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-apple-fitness-plus/",
+          "text": "IZEM vs Apple Fitness+Personalized coaching versus a guided workout-class library.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-myfitnesspal/",
+          "text": "IZEM vs MyFitnessPalIntegrated coaching versus food logging and calorie tracking.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/vs-peloton/",
+          "text": "IZEM vs PelotonEquipment-aware custom planning versus instructor-led connected fitness.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See the IZEM AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "CollectionPage"
+      ],
+      "loadMs": 52
+    },
+    {
+      "url": "https://youraicoach.life/youtube/",
+      "status": 200,
+      "title": "IZEM on YouTube — AI Fitness Coaching Tutorials & Workouts",
+      "metaDescription": "Watch IZEM tutorials, workout demos, nutrition guides, and walkthroughs for AI voice calls, food scanning, body progress scanning, and weekly plan adaptation.",
+      "canonical": "https://youraicoach.life/youtube/",
+      "h1": [
+        "IZEM on YouTube 🎬"
+      ],
+      "h2": [
+        "All IZEM Video Guides",
+        "What We Cover",
+        "SEO-Optimized Video Descriptions"
+      ],
+      "wordCount": 1184,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "https://i.ytimg.com/vi/f964L8xsdJI/hqdefault.jpg",
+          "alt": "Busy Schedule? How to Stay Consistent With Your Workouts"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/s1tfY0paIHQ/hqdefault.jpg",
+          "alt": "Beyond the Lift: A Simple Guide to Progressive Overload"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/1hVxYYOOD2k/hqdefault.jpg",
+          "alt": "Stop Frying Chicken: Meal Prep Hacks for People Who Hate Cooking"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/ya6K_OnHsJE/hqdefault.jpg",
+          "alt": "Building Muscle Without Breaking the Bank: How AI Coaching Changes The Game"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/tji9uNKHkGE/hqdefault.jpg",
+          "alt": "Why We Skip Workouts (And How a Simple Phone Call Fixes It)"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/dc3PfDFnD58/hqdefault.jpg",
+          "alt": "Why Your Fitness App Habit Dies After Two Weeks (And How to Fix It)"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/tZ-UeLXHYUY/hqdefault.jpg",
+          "alt": "App that adapts workouts every week"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/cJGUlctPKtw/hqdefault.jpg",
+          "alt": "Why Your Next Personal Trainer Might Actually Be an AI"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/mfUxwstLGGM/hqdefault.jpg",
+          "alt": "AI Fitness Coach vs Human Trainer: Which Is Actually Better?"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/XdmgqGqOA74/hqdefault.jpg",
+          "alt": "The Science of Deload Weeks for Hypertrophy"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/aCrBnvxQKyM/hqdefault.jpg",
+          "alt": "Finding an App That Actually Builds Muscle and Plans Meals"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/LnMwaNP07NE/hqdefault.jpg",
+          "alt": "Strength Training After 40: The Science-Backed Playbook for Building Muscle, Joint Longevity, and Smart AI Recovery"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/Y1cHmgZ2iq0/hqdefault.jpg",
+          "alt": "Beyond Tracking: Premium AI Personal Trainer App Review 2026"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/OEkDhPfa7VU/hqdefault.jpg",
+          "alt": "Skip Proof Your Workouts: Best Gym Accountability Apps in 2024"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/pfpH_U4dFVo/hqdefault.jpg",
+          "alt": "Gym machines vs free weights"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/jtWuNiZiMdw/hqdefault.jpg",
+          "alt": "Stop Typing Your Meals: The Rise of AI Photo Food Trackers"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/hoIov7sfPak/hqdefault.jpg",
+          "alt": "Ditch the Scale: Best Body Progress Scanning Apps of 2024"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/RsKOSImWT4Y/hqdefault.jpg",
+          "alt": "Ditch the Bland Chicken: Find an AI Meal Planner That Matches Your Cuisine"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/JSdAB3O6jxk/hqdefault.jpg",
+          "alt": "Ditch the Gym Notebook: Best Apps for Progressive Overload"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/_MoCR3qGIVo/hqdefault.jpg",
+          "alt": "Voice Coaching vs Chatbots: The Fitness App Revolution"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/OTz_d9Pg7-0/hqdefault.jpg",
+          "alt": "How to Turn Your Random Home Gym Gear Into a Smart Workout Plan"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/EtufzX_KQio/hqdefault.jpg",
+          "alt": "Fitness app for procrastination: start before you talk yourself out of it"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/CkdglcnxmXQ/hqdefault.jpg",
+          "alt": "Why You Should Stop Juggling Three Different Fitness Apps"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/-WnPfDzHk4g/hqdefault.jpg",
+          "alt": "Why Scales Lie and How Body Progress Scan Apps Reveal Truth"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/3IPzCDwhwEU/hqdefault.jpg",
+          "alt": "Stop Tracking Your Workouts—Start Getting Coached Instead"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/FXHCwTwQZYU/hqdefault.jpg",
+          "alt": "Can't Stick to Your Gym Routine? This AI Coach Calls Your Phone"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/NJVbn1bNaU8/hqdefault.jpg",
+          "alt": "Ditch the Tupperware: The Busy Person Guide to AI Meal Planning"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/4dmyrXPmLco/hqdefault.jpg",
+          "alt": "Why Static Workout Plans Fail Busy People (And How to Fix It)"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/KLVJYrufVyE/hqdefault.jpg",
+          "alt": "Beat the 5 PM Slump: How an AI Coach Stops You From Skipping Gym"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/x42SIDAeVjc/hqdefault.jpg",
+          "alt": "How to Save Your Workout Routine in a Sad Hotel Gym"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/Bvi8MjHiYDc/hqdefault.jpg",
+          "alt": "Exercise substitutions when gym machines are taken"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/MyWNM97INPk/hqdefault.jpg",
+          "alt": "Adaptive workout and meal plan app"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/_axPn_TpqI8/hqdefault.jpg",
+          "alt": "Gym equipment scanner workout app"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/Dp73lrMXEpI/hqdefault.jpg",
+          "alt": "IZEM AI coach video"
+        },
+        {
+          "src": "https://i.ytimg.com/vi/rdwxzuFnzA4/hqdefault.jpg",
+          "alt": "Why IZEM's AI coach can be better than a human personal trainer"
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youtube.com/@youraicoach",
+          "text": "Subscribe on YouTube",
+          "internal": false
+        },
+        {
+          "href": "https://youraicoach.life/youtube/f964L8xsdJI/",
+          "text": "Busy Schedule? How to Stay Consistent With Your Workouts Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/s1tfY0paIHQ/",
+          "text": "Beyond the Lift: A Simple Guide to Progressive Overload Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/1hVxYYOOD2k/",
+          "text": "Stop Frying Chicken: Meal Prep Hacks for People Who Hate Cooking Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/ya6K_OnHsJE/",
+          "text": "Building Muscle Without Breaking the Bank: How AI Coaching Changes The Game Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/tji9uNKHkGE/",
+          "text": "Why We Skip Workouts (And How a Simple Phone Call Fixes It) Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/dc3PfDFnD58/",
+          "text": "Why Your Fitness App Habit Dies After Two Weeks (And How to Fix It) Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/tZ-UeLXHYUY/",
+          "text": "App that adapts workouts every week Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/cJGUlctPKtw/",
+          "text": "Why Your Next Personal Trainer Might Actually Be an AI Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/mfUxwstLGGM/",
+          "text": "AI Fitness Coach vs Human Trainer: Which Is Actually Better? Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/XdmgqGqOA74/",
+          "text": "The Science of Deload Weeks for Hypertrophy Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/aCrBnvxQKyM/",
+          "text": "Finding an App That Actually Builds Muscle and Plans Meals Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/LnMwaNP07NE/",
+          "text": "Strength Training After 40: The Science-Backed Playbook for Building Muscle, Joint Longevity, and Smart AI Recovery Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/Y1cHmgZ2iq0/",
+          "text": "Beyond Tracking: Premium AI Personal Trainer App Review 2026 Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/OEkDhPfa7VU/",
+          "text": "Skip Proof Your Workouts: Best Gym Accountability Apps in 2024 Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/pfpH_U4dFVo/",
+          "text": "Gym machines vs free weights Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/jtWuNiZiMdw/",
+          "text": "Stop Typing Your Meals: The Rise of AI Photo Food Trackers Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/hoIov7sfPak/",
+          "text": "Ditch the Scale: Best Body Progress Scanning Apps of 2024 Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/RsKOSImWT4Y/",
+          "text": "Ditch the Bland Chicken: Find an AI Meal Planner That Matches Your Cuisine Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/JSdAB3O6jxk/",
+          "text": "Ditch the Gym Notebook: Best Apps for Progressive Overload Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/_MoCR3qGIVo/",
+          "text": "Voice Coaching vs Chatbots: The Fitness App Revolution Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/OTz_d9Pg7-0/",
+          "text": "How to Turn Your Random Home Gym Gear Into a Smart Workout Plan Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/EtufzX_KQio/",
+          "text": "Fitness app for procrastination: start before you talk yourself out of it Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/CkdglcnxmXQ/",
+          "text": "Why You Should Stop Juggling Three Different Fitness Apps Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/-WnPfDzHk4g/",
+          "text": "Why Scales Lie and How Body Progress Scan Apps Reveal Truth Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/3IPzCDwhwEU/",
+          "text": "Stop Tracking Your Workouts—Start Getting Coached Instead Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/FXHCwTwQZYU/",
+          "text": "Can't Stick to Your Gym Routine? This AI Coach Calls Your Phone Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/NJVbn1bNaU8/",
+          "text": "Ditch the Tupperware: The Busy Person Guide to AI Meal Planning Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/4dmyrXPmLco/",
+          "text": "Why Static Workout Plans Fail Busy People (And How to Fix It) Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/KLVJYrufVyE/",
+          "text": "Beat the 5 PM Slump: How an AI Coach Stops You From Skipping Gym Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/x42SIDAeVjc/",
+          "text": "How to Save Your Workout Routine in a Sad Hotel Gym Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/Bvi8MjHiYDc/",
+          "text": "Exercise substitutions when gym machines are taken Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/MyWNM97INPk/",
+          "text": "Adaptive workout and meal plan app Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/_axPn_TpqI8/",
+          "text": "Gym equipment scanner workout app Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/Dp73lrMXEpI/",
+          "text": "IZEM AI coach video Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/rdwxzuFnzA4/",
+          "text": "Why IZEM's AI coach can be better than a human personal trainer Watch this IZEM video guide and explore the related article.",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "CollectionPage"
+      ],
+      "loadMs": 43
+    },
+    {
+      "url": "https://youraicoach.life/landing-page",
+      "status": 200,
+      "title": "IZEM | AI Fitness Coach for Workouts, Meals, Scans and Calls",
+      "metaDescription": "IZEM plans your workouts and meals, scans food and body progress, and can call you for check-ins, reminders, and accountability.",
+      "canonical": "https://youraicoach.life/landing-page",
+      "h1": [
+        "IZEM, the AI fitness coach that calls you"
+      ],
+      "h2": [
+        "The fitness app that follows up.",
+        "A reminder you can talk to.",
+        "Your week, built before you start.",
+        "Scan. Talk. Adjust.",
+        "Start with a coach that follows up."
+      ],
+      "wordCount": 2037,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "See full coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/features/ai-workout-generator",
+          "text": "Workout plan details",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [],
+      "loadMs": 101
+    },
+    {
+      "url": "https://youraicoach.life/vs-freeletics/",
+      "status": 200,
+      "title": "IZEM vs Freeletics: AI Personal Trainer Comparison",
+      "metaDescription": "Compare IZEM and Freeletics. See which app is better for proactive AI coaching, workout and meal planning, progress reviews, scanning, and accountability.",
+      "canonical": "https://youraicoach.life/vs-freeletics/",
+      "h1": [
+        "IZEM vs Freeletics: which is better if you want a real coach?"
+      ],
+      "h2": [
+        "What Freeletics does well",
+        "Where IZEM is different",
+        "Why the scanning matters",
+        "Who should choose IZEM?",
+        "Bottom line"
+      ],
+      "wordCount": 416,
+      "images": [
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": ""
+        },
+        {
+          "src": "/images/izem-app-logo-192.png",
+          "alt": "IZEM app logo"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://youraicoach.life/",
+          "text": "IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/best-ai-fitness-app",
+          "text": "Best AI fitness apps",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "IZEM AI Fitness Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "Explore IZEM",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/",
+          "text": "",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/about",
+          "text": "Mohammed Jebbari",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/editorial-policy.html",
+          "text": "Editorial policy",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/izem-ai-fitness-coach/",
+          "text": "AI Coach",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/blog/",
+          "text": "Blog",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/glossary/",
+          "text": "Glossary",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/tools/",
+          "text": "Calculators",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/comparisons/",
+          "text": "Comparisons",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/youtube/",
+          "text": "Videos",
+          "internal": true
+        },
+        {
+          "href": "https://youraicoach.life/landing-page",
+          "text": "How IZEM works",
+          "internal": true
+        }
+      ],
+      "schemaTypes": [
+        "Article"
+      ],
+      "loadMs": 53
+    }
+  ],
+  "issues": [
+    {
+      "id": "7ffca7af-a17e-4b2a-95e6-380ca74d7719",
+      "url": "https://youraicoach.life/",
+      "category": "metadata",
+      "severity": "low",
+      "title": "Meta description length is suboptimal",
+      "detail": "Meta description length is 177 characters.",
+      "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
+    },
+    {
+      "id": "3b6f838b-4ac1-4343-a7f5-66e9d7d5f629",
+      "url": "https://youraicoach.life/",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "2 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "358da1e3-32fb-4666-bb35-3cac0afc82ef",
+      "url": "https://youraicoach.life/izem-ai-fitness-coach/",
+      "category": "metadata",
+      "severity": "medium",
+      "title": "Title length is weak",
+      "detail": "Title length is 71 characters.",
+      "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
+    },
+    {
+      "id": "ec798b09-2304-4f7a-a1b3-71f2619562d2",
+      "url": "https://youraicoach.life/izem-ai-fitness-coach/",
+      "category": "metadata",
+      "severity": "low",
+      "title": "Meta description length is suboptimal",
+      "detail": "Meta description length is 179 characters.",
+      "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
+    },
+    {
+      "id": "2c0b20f4-1adc-48b4-9889-1131223ec6dd",
+      "url": "https://youraicoach.life/izem-ai-fitness-coach/",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "e127c7e0-36f6-47bd-9702-ff4acea15951",
+      "url": "https://youraicoach.life/izem-ai-fitness-coach/",
+      "category": "schema",
+      "severity": "low",
+      "title": "No structured data detected",
+      "detail": "No JSON-LD schema types were found.",
+      "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
+    },
+    {
+      "id": "74fa78e8-6308-4755-95c2-5c5280710677",
+      "url": "https://youraicoach.life/fitness-app-that-calls-you/",
+      "category": "metadata",
+      "severity": "low",
+      "title": "Meta description length is suboptimal",
+      "detail": "Meta description length is 227 characters.",
+      "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
+    },
+    {
+      "id": "3e024699-e8f8-487c-b136-7cc36e6a1eda",
+      "url": "https://youraicoach.life/fitness-app-that-calls-you/",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "f74fbdc3-be38-4657-a5b5-dfc3d463b04c",
+      "url": "https://youraicoach.life/fitness-app-that-calls-you/",
+      "category": "schema",
+      "severity": "low",
+      "title": "No structured data detected",
+      "detail": "No JSON-LD schema types were found.",
+      "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
+    },
+    {
+      "id": "133f92f1-7512-4d2d-a609-0e190f539160",
+      "url": "https://youraicoach.life/tools/",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "fe05f0da-8ea1-45e2-9683-17fe51df7699",
+      "url": "https://youraicoach.life/blog/",
+      "category": "metadata",
+      "severity": "medium",
+      "title": "Title length is weak",
+      "detail": "Title length is 74 characters.",
+      "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
+    },
+    {
+      "id": "85a394c9-c80f-40fb-af96-6c076b5eb821",
+      "url": "https://youraicoach.life/blog/",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "270ac5c2-aafb-4dec-8651-ae86ea15ddcd",
+      "url": "https://youraicoach.life/features/ai-workout-generator",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "448b0dcd-0700-4310-95f6-6e49e6a0f6e0",
+      "url": "https://youraicoach.life/features/ai-voice-calls",
+      "category": "metadata",
+      "severity": "medium",
+      "title": "Title length is weak",
+      "detail": "Title length is 72 characters.",
+      "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
+    },
+    {
+      "id": "4ef689af-1d87-43b3-868b-f05a2b1d265c",
+      "url": "https://youraicoach.life/features/ai-voice-calls",
+      "category": "metadata",
+      "severity": "low",
+      "title": "Meta description length is suboptimal",
+      "detail": "Meta description length is 209 characters.",
+      "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
+    },
+    {
+      "id": "75a92aab-4b96-4afd-944e-269c0e4dfc1f",
+      "url": "https://youraicoach.life/features/ai-voice-calls",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "86ad3d53-ac78-459b-99e1-f8139a7ca74a",
+      "url": "https://youraicoach.life/workout-consistency-calculator/",
+      "category": "metadata",
+      "severity": "medium",
+      "title": "Title length is weak",
+      "detail": "Title length is 70 characters.",
+      "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
+    },
+    {
+      "id": "7804e1c8-7ff9-49f3-8dc1-c4dd34df80cb",
+      "url": "https://youraicoach.life/workout-consistency-calculator/",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "e8cb5999-4d0e-4b8f-bb20-c7c9ad57f55e",
+      "url": "https://youraicoach.life/workout-consistency-calculator/",
+      "category": "schema",
+      "severity": "low",
+      "title": "No structured data detected",
+      "detail": "No JSON-LD schema types were found.",
+      "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
+    },
+    {
+      "id": "99841cce-5703-4fd7-baba-eb1acdbd4242",
+      "url": "https://youraicoach.life/features/ai-meal-planner",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "98144468-a20b-40dd-9157-2895e157ea94",
+      "url": "https://youraicoach.life/vs-fitbod",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "f02d84b9-9731-4153-900d-d406dca74238",
+      "url": "https://youraicoach.life/vs-future",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "7a8f099d-20da-4b6f-8b04-2c1abeb21c7d",
+      "url": "https://youraicoach.life/privacy-policy.html",
+      "category": "metadata",
+      "severity": "medium",
+      "title": "Title length is weak",
+      "detail": "Title length is 21 characters.",
+      "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
+    },
+    {
+      "id": "8e7fcf5c-102d-4bda-8972-e83131e73500",
+      "url": "https://youraicoach.life/privacy-policy.html",
+      "category": "metadata",
+      "severity": "low",
+      "title": "Meta description length is suboptimal",
+      "detail": "Meta description length is 49 characters.",
+      "recommendation": "Keep descriptions concise, readable, and aligned to search intent."
+    },
+    {
+      "id": "ca0d946e-44d5-44aa-9ba9-5b2b716ea970",
+      "url": "https://youraicoach.life/privacy-policy.html",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "b67e9c69-d3bb-4cf9-8e25-722be998cb4c",
+      "url": "https://youraicoach.life/features/body-scanning",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "93a9ee3a-9304-4c17-b555-9c17e162e6c3",
+      "url": "https://youraicoach.life/best-ai-fitness-app",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "45a27d38-30aa-4a52-9f96-d3d56bb9ff7a",
+      "url": "https://youraicoach.life/best-ai-fitness-app",
+      "category": "schema",
+      "severity": "low",
+      "title": "No structured data detected",
+      "detail": "No JSON-LD schema types were found.",
+      "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
+    },
+    {
+      "id": "96855f82-ed3c-44a7-ab57-a220313078d3",
+      "url": "https://youraicoach.life/glossary/",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "8ee828f3-5759-4ca3-9319-518da489335d",
+      "url": "https://youraicoach.life/about.html",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "89ef58fa-cad8-4b6f-a334-9736dda6c285",
+      "url": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "06f9bf9a-d6df-423f-bdd1-444069b68ece",
+      "url": "https://youraicoach.life/blog/gym-equipment-scanner-workout-app",
+      "category": "schema",
+      "severity": "low",
+      "title": "No structured data detected",
+      "detail": "No JSON-LD schema types were found.",
+      "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
+    },
+    {
+      "id": "7c4af1d7-e076-4668-ad7e-13afb59fd6d8",
+      "url": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "ce244501-b8fb-46ad-ae77-e03964a698b7",
+      "url": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines",
+      "category": "schema",
+      "severity": "low",
+      "title": "No structured data detected",
+      "detail": "No JSON-LD schema types were found.",
+      "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
+    },
+    {
+      "id": "350aff2a-1459-4f65-8797-bcfa55904780",
+      "url": "https://youraicoach.life/about",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "3769863f-df5c-4afc-bed1-848d79644077",
+      "url": "https://youraicoach.life/terms.html",
+      "category": "metadata",
+      "severity": "medium",
+      "title": "Title length is weak",
+      "detail": "Title length is 19 characters.",
+      "recommendation": "Rewrite the title to be descriptive, keyword-specific, and usually 45-60 characters."
+    },
+    {
+      "id": "06fa4c7d-f729-4afc-b8ff-08c960ff305c",
+      "url": "https://youraicoach.life/terms.html",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "114ff853-1903-4cad-96fd-81cd70bfc028",
+      "url": "https://youraicoach.life/editorial-policy.html",
+      "category": "content",
+      "severity": "medium",
+      "title": "Thin page",
+      "detail": "The page has about 200 words.",
+      "recommendation": "Add useful, specific content or consolidate this page if it does not deserve its own URL."
+    },
+    {
+      "id": "abef04d0-f6fc-44bd-9819-75765c041d84",
+      "url": "https://youraicoach.life/editorial-policy.html",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "fddb7105-1a3a-44e7-8655-ddc41d3b0731",
+      "url": "https://youraicoach.life/comparisons/",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "471260ec-f7ff-47f9-826a-db505101c280",
+      "url": "https://youraicoach.life/youtube/",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "2ebea1aa-323d-4e9b-85ec-abc918b3a5bc",
+      "url": "https://youraicoach.life/landing-page",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "3 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    },
+    {
+      "id": "aee6e7d6-dd5d-4608-9a37-55804a6ae10d",
+      "url": "https://youraicoach.life/landing-page",
+      "category": "schema",
+      "severity": "low",
+      "title": "No structured data detected",
+      "detail": "No JSON-LD schema types were found.",
+      "recommendation": "Consider Article, SoftwareApplication, BreadcrumbList, FAQ-style content where eligible, or ItemList for hubs."
+    },
+    {
+      "id": "9efa0ef9-6d18-42f6-911f-9c44301093e2",
+      "url": "https://youraicoach.life/vs-freeletics/",
+      "category": "content",
+      "severity": "low",
+      "title": "Images missing alt text",
+      "detail": "1 image(s) have no alt text.",
+      "recommendation": "Add descriptive alt text where the image conveys meaning. Decorative images can use empty alt attributes intentionally."
+    }
+  ],
+  "summary": {
+    "pagesCrawled": 25,
+    "high": 0,
+    "medium": 7,
+    "low": 37,
+    "score": 0
+  }
+}
