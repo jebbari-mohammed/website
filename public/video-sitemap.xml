@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/EqUYCxoG7LM/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/EqUYCxoG7LM/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Finding Your Match: How to Choose a Workout Accountability App</video:title>
+      <video:description>Discover how to choose the best workout accountability app for your fitness journey. Compare features, pricing, and active voice coaching options.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/EqUYCxoG7LM</video:player_loc>
+      <video:publication_date>2026-08-05T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/Hk_UgfaK4l0/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/Hk_UgfaK4l0/hqdefault.jpg</video:thumbnail_loc>

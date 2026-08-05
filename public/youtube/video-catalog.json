@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "EqUYCxoG7LM",
+      "title": "Finding Your Match: How to Choose a Workout Accountability App",
+      "description": "Discover how to choose the best workout accountability app for your fitness journey. Compare features, pricing, and active voice coaching options.",
+      "uploadDate": "2026-08-05",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/how-to-choose-workout-accountability-app",
+          "relativePath": "blog/how-to-choose-workout-accountability-app.html",
+          "title": "Finding Your Match: How to Choose a Workout Accountability App"
+        }
+      ]
+    },
+    {
       "id": "Hk_UgfaK4l0",
       "title": "Master Your Fitness With A Personalized Plan For Busy Schedules",
       "description": "Build a sustainable routine with personalized workout plans that adapt to your calendar. Discover how IZEM keeps professionals consistent and on track.",
@@ -10,6 +23,36 @@
           "canonical": "https://youraicoach.life/blog/personalized-workout-plan-for-busy-professionals",
           "relativePath": "blog/personalized-workout-plan-for-busy-professionals.html",
           "title": "Master Your Fitness With A Personalized Plan For Busy Schedules"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/ar/personalized-workout-plan-for-busy-professionals",
+          "relativePath": "blog/ar/personalized-workout-plan-for-busy-professionals.html",
+          "title": "كيف تروض جدول أعمالك المزدحم وتلتزم بلياقتك البدنية؟"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/de/personalized-workout-plan-for-busy-professionals",
+          "relativePath": "blog/de/personalized-workout-plan-for-busy-professionals.html",
+          "title": "Fitness im stressigen Berufsalltag: Dein smarter Trainingsplan für maximale Effizienz"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/es/personalized-workout-plan-for-busy-professionals",
+          "relativePath": "blog/es/personalized-workout-plan-for-busy-professionals.html",
+          "title": "Domina tu forma física: un plan a tu medida para vidas a mil"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/hi/personalized-workout-plan-for-busy-professionals",
+          "relativePath": "blog/hi/personalized-workout-plan-for-busy-professionals.html",
+          "title": "बिजी शेड्यूल के बीच भी रहें फिट: स्मार्ट वर्कआउट प्लान से बदलें अपनी लाइफस्टाइल"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/id/personalized-workout-plan-for-busy-professionals",
+          "relativePath": "blog/id/personalized-workout-plan-for-busy-professionals.html",
+          "title": "Sibuk Kerja? Ini Cara Tetap Fit Tanpa Harus Ribet Atur Jadwal"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/ja/personalized-workout-plan-for-busy-professionals",
+          "relativePath": "blog/ja/personalized-workout-plan-for-busy-professionals.html",
+          "title": "忙しいビジネスパーソンのための「継続する」フィットネス戦略：AI活用で理想の体へ"
         }
       ]
     },
