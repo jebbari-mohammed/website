@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/-4VAXFeZ2WM/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/-4VAXFeZ2WM/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Crack the Code: How to Calculate Your Macros on Your Own</video:title>
+      <video:description>Learn how to calculate your macros without a nutritionist. Follow this simple guide to set your calories, protein, carbs, and fats for your goals.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/-4VAXFeZ2WM</video:player_loc>
+      <video:publication_date>2026-08-06T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/EqUYCxoG7LM/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/EqUYCxoG7LM/hqdefault.jpg</video:thumbnail_loc>

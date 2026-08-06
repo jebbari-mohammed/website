@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "-4VAXFeZ2WM",
+      "title": "Crack the Code: How to Calculate Your Macros on Your Own",
+      "description": "Learn how to calculate your macros without a nutritionist. Follow this simple guide to set your calories, protein, carbs, and fats for your goals.",
+      "uploadDate": "2026-08-06",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/how-to-calculate-macros-without-nutritionist",
+          "relativePath": "blog/how-to-calculate-macros-without-nutritionist.html",
+          "title": "Crack the Code: How to Calculate Your Macros on Your Own"
+        }
+      ]
+    },
+    {
       "id": "EqUYCxoG7LM",
       "title": "Finding Your Match: How to Choose a Workout Accountability App",
       "description": "Discover how to choose the best workout accountability app for your fitness journey. Compare features, pricing, and active voice coaching options.",
@@ -10,6 +23,11 @@
           "canonical": "https://youraicoach.life/blog/how-to-choose-workout-accountability-app",
           "relativePath": "blog/how-to-choose-workout-accountability-app.html",
           "title": "Finding Your Match: How to Choose a Workout Accountability App"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/id/how-to-choose-workout-accountability-app",
+          "relativePath": "blog/id/how-to-choose-workout-accountability-app.html",
+          "title": "Susah Konsisten Olahraga? Ini Cara Memilih Aplikasi Fitness yang Tepat buat Kamu"
         }
       ]
     },
