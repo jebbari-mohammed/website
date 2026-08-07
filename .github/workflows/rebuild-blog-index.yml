@@ -35,15 +35,18 @@ jobs:
       - name: Rebuild blog index
         run: node tools/ai-marketing/rebuild-blog-index.mjs
 
-      - name: Commit index rebuild
+      - name: Sync sitemap
+        run: node tools/sync-sitemap.mjs
+
+      - name: Commit index and sitemap rebuild
         run: |
           git config user.name "IZEM Editorial"
           git config user.email "editorial@youraicoach.life"
-          git add public/blog/index.html public/blog/feed.xml
+          git add public/blog/index.html public/blog/feed.xml public/sitemap.xml
           if git diff --staged --quiet; then
-            echo "No changes to index"
+            echo "No changes to index or sitemap"
           else
-            git commit -m "🔄 Auto-rebuild blog index"
+            git commit -m "🔄 Auto-rebuild blog index and sitemap"
             git pull --rebase origin main || true
             git push
           fi
