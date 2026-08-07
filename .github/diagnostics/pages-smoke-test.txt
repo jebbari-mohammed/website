@@ -1,0 +1,41 @@
+checked_at_utc=2026-08-07T17:02:56Z
+upstream_conclusion=failure
+upstream_run_url=https://github.com/jebbari-mohammed/website/actions/runs/31200377244
+upstream_sha=aff2cd5c1735e2eda36fe5fe470cfa8963bb34ac
+attempt=1
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+attempt=2
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+attempt=3
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+attempt=4
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+attempt=5
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+attempt=6
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+attempt=7
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+attempt=8
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+attempt=9
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+attempt=10
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+attempt=11
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+attempt=12
+url=https://youraicoach.life/blog/accountability-apps-for-working-out status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out article_match=no not_found_match=yes title=Page not found | IZEM
+url=https://youraicoach.life/blog/accountability-apps-for-working-out.html status=404 final_url=https://youraicoach.life/blog/accountability-apps-for-working-out.html article_match=no not_found_match=yes title=Page not found | IZEM
+smoke_success=0
