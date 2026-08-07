@@ -1,0 +1,37 @@
+name: Content integrity
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'public/**/*.html'
+      - 'tools/validate-jsonld.mjs'
+      - '.github/workflows/content-integrity.yml'
+  pull_request:
+    paths:
+      - 'public/**/*.html'
+      - 'tools/validate-jsonld.mjs'
+      - '.github/workflows/content-integrity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "content-integrity-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate structured data in every public HTML page
+        run: node tools/validate-jsonld.mjs public
