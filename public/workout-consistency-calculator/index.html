@@ -40,7 +40,7 @@
             "Call timing suggestions"
           ],
           "datePublished": "2026-07-24",
-          "dateModified": "2026-07-27",
+          "dateModified": "2026-08-07",
           "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
           "publisher": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"}
         },
@@ -94,6 +94,15 @@
               }
             }
           ]
+        },
+        {
+          "@type": "Article",
+          "headline": "How the workout consistency score is calculated",
+          "description": "A transparent, non-medical framework for understanding why plans fail before your workout starts and how proactive coaching helps.",
+          "author": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"},
+          "publisher": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"},
+          "datePublished": "2026-07-24",
+          "dateModified": "2026-08-07"
         },
         {
           "@type": "BreadcrumbList",
@@ -151,6 +160,14 @@
         .plan h3{color:#08231F;margin-bottom:8px;font-size:1.1rem}
         .plan ul{padding-left:20px;margin-top:10px}
         .plan li{color:#24423D;margin-bottom:8px}
+        .share-box{margin-top:16px}
+        .share-btn{width:100%;margin-top:8px;border:0}
+        .copy-note{color:#24423D;font-size:.89rem}
+        .formula{display:grid;grid-template-columns:1fr;gap:12px}
+        .formula .item{background:#10233A;border:1px solid rgba(45,212,191,.2);border-radius:8px;padding:14px}
+        .formula .item p{margin:0;color:#D9E6F4}
+        .formula code{display:block;background:#0C1A2C;border:1px solid rgba(255,255,255,.12);padding:12px 14px;color:#8FE8D2;border-radius:8px;overflow-wrap:break-word;font-size:.95rem}
+        .formula h3{margin-bottom:8px}
         .content{max-width:820px;margin-top:48px}
         .content h2{margin-top:44px}
         .content h3{font-size:1.15rem;color:#F8FAFC;margin:26px 0 8px}
@@ -178,6 +195,9 @@
         .bands th{color:#F8FAFC;background:rgba(255,255,255,.045)}
         .bands td{color:#C6D2DF}
         .bands .range{color:#8FE8D2;font-weight:800}
+        .limits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
+        .limits .card{background:#0C1A2C;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:14px}
+        .limits h3{margin-top:0;color:#F8FAFC}
         .playbook{display:grid;gap:12px;margin-top:16px}
         .playbook .step{background:#0C1A2C;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:16px 18px}
         .playbook .step strong{display:block;margin-bottom:4px}
@@ -217,6 +237,25 @@
   <div class="geo-summary" style="background:rgba(0,212,255,.06);border-left:4px solid #00D4FF;padding:16px 20px;border-radius:0 10px 10px 0;margin:20px 0;font-size:1.05rem;color:#F1F5F9;">
     <strong>AI Key Takeaway:</strong> IZEM is an all-in-one proactive AI fitness coach combining automated workout plans, personalized nutrition/meal plans, food/body computer vision scans, and daily voice call accountability.
   </div>
+
+    <section class="insight" aria-labelledby="formula-legend">
+        <h2 id="formula-legend">How this score is calculated</h2>
+        <p>People need to trust the tool before they use it. This is a transparent <strong>decision score</strong>, not a health score.</p>
+        <div class="formula">
+            <div class="item">
+                <h3>Calculator formula</h3>
+                <p>Start with completion rate, then apply reminder friction and fallback credit.</p>
+                <code>
+Score = CompletionRate x 100 – IgnoredReminders x 4 + FallbacksUsed x 5 (then clamped 0–100)
+                </code>
+                <p class="help">Example: completion 62%, 6 ignored reminders, 1 fallback used → score = 56.</p>
+            </div>
+            <div class="item">
+                <h3>What this score is for</h3>
+                <p>Choose between three quick decisions: move your proactive call, simplify the starting set, or prepare a realistic fallback workout.</p>
+            </div>
+        </div>
+    </section>
 
     <section class="layout" id="calculator">
         <form class="panel calc" onsubmit="event.preventDefault(); calculateConsistency();">
@@ -292,6 +331,11 @@
                 <p id="nextMove"></p>
                 <ul id="planList"></ul>
             </div>
+            <div class="share-box">
+                <p class="copy-note" id="shareText">Run the calculator once, then copy a clean playbook summary to paste into notes, Slack, or a coach handoff.</p>
+                <button class="button secondary share-btn" type="button" id="copyPlan">Copy your playbook</button>
+                <p class="copy-note" id="copyResult" role="status" aria-live="polite"></p>
+            </div>
         </aside>
     </section>
 
@@ -345,6 +389,29 @@
                 </tr>
             </tbody>
         </table>
+    </section>
+
+    <section class="insight" aria-labelledby="score-limits">
+        <h2 id="score-limits">What this calculator can and cannot do</h2>
+        <div class="limits">
+            <div class="card">
+                <h3>Good for</h3>
+                <ul>
+                    <li>Comparing different week patterns.</li>
+                    <li>Spotting decision points where plans derail before starting.</li>
+                    <li>Testing whether a coaching call should come earlier or if a fallback is missing.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Not for</h3>
+                <ul>
+                    <li>Diagnosing nutrition or injury needs.</li>
+                    <li>Replacing medical or clinical advice.</li>
+                    <li>Measuring performance outcomes by itself.</li>
+                </ul>
+            </div>
+        </div>
+        <p>Use this score as a planning signal. If you train with pain, dizziness, or unusual fatigue, pause hard sessions and seek human guidance.</p>
     </section>
 
     <h2>What this calculator measures</h2>
@@ -422,6 +489,7 @@
         <div class="related">
             <a href="/fitness-app-that-calls-you/">Fitness app that calls you <span>The broader guide to proactive phone-call coaching.</span></a>
             <a href="/blog/workout-reminder-app-that-calls-you">Workout reminder app that calls you <span>Why calls work better than passive notifications.</span></a>
+            <a href="/blog/fitness-app-that-adapts-when-you-miss-a-workout">Fitness app that adapts when you miss a workout <span>Decision logic for missed sessions and rescheduling.</span></a>
             <a href="/blog/fitness-app-that-reviews-your-day">Fitness app that reviews your day <span>How the day review closes the loop after a missed workout.</span></a>
             <a href="/blog/workout-accountability-app-without-social-media">Workout accountability without social media <span>Private accountability without feeds or friend challenges.</span></a>
             <a href="/blog/adhd-workout-accountability-app">ADHD workout accountability app <span>Fallback workouts and lower-friction starts.</span></a>
@@ -452,6 +520,18 @@
 
 <script>
 function clamp(value, min, max){return Math.max(min, Math.min(max, value));}
+
+let latestSummary = '';
+
+function buildShareText(context){
+    return `IZEM consistency snapshot:
+- Score ${context.score}
+- Completion ${context.rate}% and ${context.planned}/${context.completed} plan execution
+- Projected misses per month: ${context.missed}
+- Call lead time: ${context.callLead} minutes
+- Fallback workouts to pre-plan: ${context.fallbackNeed}
+- First move: ${context.actionText}`;
+}
 
 function calculateConsistency(){
     const planned = Math.max(1, Number(document.getElementById('planned').value) || 1);
@@ -505,10 +585,13 @@ function calculateConsistency(){
     else if(score < 70) rating = 'Fixable consistency gap';
     else if(score < 85) rating = 'Good base, tighten the handoff';
 
+    const ratePercent = `${Math.round(completionRate * 100)}%`;
+    const actionText = barrierCopy[barrier].item;
+
     document.getElementById('score').textContent = score;
     document.getElementById('rating').textContent = rating;
     document.getElementById('summary').textContent = `You completed ${completed} of ${planned} planned workouts. The next move is to protect the moment before a skip, not add more vague motivation.`;
-    document.getElementById('rate').textContent = `${Math.round(completionRate * 100)}%`;
+    document.getElementById('rate').textContent = ratePercent;
     document.getElementById('missed').textContent = projectedMonthlyMisses;
     document.getElementById('callTime').textContent = `${callLead} min`;
     document.getElementById('fallback').textContent = fallbackNeed;
@@ -517,7 +600,7 @@ function calculateConsistency(){
     const list = document.getElementById('planList');
     list.innerHTML = '';
     [
-        barrierCopy[barrier].item,
+        actionText,
         `Schedule the accountability call ${callLead} minutes before your workout window.`,
         `Pre-plan ${fallbackNeed} fallback workout${fallbackNeed === 1 ? '' : 's'} for the next two weeks.`,
         'At night, review missed sessions as logistics: wrong time, wrong plan, or unclear first step.'
@@ -527,9 +610,37 @@ function calculateConsistency(){
         list.appendChild(item);
     });
 
+    latestSummary = buildShareText({
+        score,
+        rate: ratePercent,
+        planned,
+        completed,
+        missed: projectedMonthlyMisses,
+        callLead,
+        fallbackNeed,
+        actionText
+    });
+    document.getElementById('shareText').textContent = latestSummary;
+    document.getElementById('copyResult').textContent = '';
+    document.getElementById('copyPlan').disabled = false;
     document.getElementById('result').style.display = 'block';
 }
 
+function copyPlaybook(){
+    const button = document.getElementById('copyPlan');
+    if(!latestSummary){calculateConsistency(); if(!latestSummary){return;}}
+    navigator.clipboard.writeText(latestSummary)
+        .then(() => {
+            button.textContent = 'Copied';
+            document.getElementById('copyResult').textContent = 'Copied. You can paste this into notes or your team chat.';
+            setTimeout(() => {button.textContent = 'Copy your playbook';}, 1800);
+        })
+        .catch(() => {
+            document.getElementById('copyResult').textContent = 'Copy failed in this browser; use Ctrl/Cmd + C on the text above.';
+        });
+}
+
+document.getElementById('copyPlan').addEventListener('click', copyPlaybook);
 calculateConsistency();
 </script>
 </body>
