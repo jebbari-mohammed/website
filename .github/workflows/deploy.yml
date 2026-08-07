@@ -10,9 +10,11 @@ permissions:
   pages: write
   id-token: write
 
+# Let an in-progress production deployment finish. New pushes replace only the
+# pending run, so rapid editorial commits cannot repeatedly cancel publication.
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -75,6 +77,13 @@ jobs:
           done < <(find public/blog -type f -name '*.html' -print | sort)
           test "$missing" -eq 0
           test -f dist/404.html
+
+      # This is the critical deployment gate. It checks only conditions that
+      # would produce a real 404: missing internal-link, sitemap, RSS, or news
+      # targets. SEO-quality warnings are handled separately and cannot block a
+      # valid page from reaching production.
+      - name: Block deployment when a route would return 404
+        run: node tools/check-critical-routes.mjs dist
 
       - name: Validate built site
         id: built_quality
