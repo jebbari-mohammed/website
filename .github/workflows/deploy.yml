@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   deploy:
-    timeout-minutes: 20
+    timeout-minutes: 25
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -39,30 +39,49 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      # Generate all derived files inside the same deployment run. This avoids
-      # racing the separate editorial workflows that update the blog archive,
-      # RSS feed, video pages, and sitemap after a new article is committed.
+      # Generate all derived files inside the same deployment run so a new post,
+      # the blog archive, RSS, video pages, and sitemap always reach Pages together.
       - name: Synchronize generated site files
         run: |
           node tools/ai-marketing/rebuild-blog-index.mjs
           pnpm video:sync
           pnpm sitemap:sync
 
-      - name: Validate generated site files
+      # Quality failures are recorded, but they no longer prevent a valid built
+      # artifact from being deployed. This avoids an unrelated SEO error making
+      # a newly published page return 404. The job is marked failed after deploy
+      # so the problem remains visible and must still be repaired.
+      - name: Validate source content
+        id: source_quality
+        continue-on-error: true
         run: |
           pnpm video:check
           pnpm sitemap:check
+          node tools/validate-jsonld.mjs public
 
       - name: Build
         run: pnpm build
 
-      - name: Verify accountability article is in the deployment
+      - name: Verify every public blog page is present in the artifact
         run: |
-          test -f dist/blog/accountability-apps-for-working-out.html
-          grep -qi "Accountability apps for working out" dist/blog/accountability-apps-for-working-out.html
+          set -euo pipefail
+          missing=0
+          while IFS= read -r source; do
+            target="dist/${source#public/}"
+            if [ ! -f "$target" ]; then
+              echo "::error::Missing built page: $target"
+              missing=1
+            fi
+          done < <(find public/blog -type f -name '*.html' -print | sort)
+          test "$missing" -eq 0
+          test -f dist/404.html
 
-      - name: Check links
-        run: pnpm check:links
+      - name: Validate built site
+        id: built_quality
+        continue-on-error: true
+        run: |
+          node tools/validate-jsonld.mjs dist
+          pnpm check:links
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -75,3 +94,62 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Smoke-test the newest deployed blog pages
+        id: smoke_test
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+
+          node - <<'NODE' > /tmp/newest-blog-urls.txt
+          const fs = require('fs');
+          const xml = fs.readFileSync('public/blog/feed.xml', 'utf8');
+          const urls = [...xml.matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>[\s\S]*?<\/item>/g)]
+            .map((match) => match[1].trim())
+            .slice(0, 5);
+          if (!urls.length) throw new Error('RSS feed contains no blog items');
+          process.stdout.write(urls.join('\n'));
+          NODE
+
+          success=0
+          for attempt in $(seq 1 12); do
+            success=1
+            echo "Smoke-test attempt ${attempt}/12"
+
+            while IFS= read -r url; do
+              body=$(mktemp)
+              code=$(curl -L -sS --max-time 30 -o "$body" -w '%{http_code}' "$url" || true)
+              title=$(grep -io '<title>[^<]*</title>' "$body" | head -1 | sed -E 's#</?title>##Ig' || true)
+              not_found=no
+              grep -qi 'Page not found' "$body" && not_found=yes
+              echo "$url -> HTTP ${code:-curl-error}; title=${title:-missing}; page_not_found=$not_found"
+
+              if [ "$code" != "200" ] || [ "$not_found" = "yes" ] || [ -z "$title" ]; then
+                success=0
+              fi
+              rm -f "$body"
+            done < /tmp/newest-blog-urls.txt
+
+            [ "$success" -eq 1 ] && break
+            sleep 15
+          done
+
+          test "$success" -eq 1
+
+      - name: Report any quality failure after deployment
+        if: always()
+        run: |
+          failed=0
+          if [ "${{ steps.source_quality.outcome }}" = "failure" ]; then
+            echo "::error::Source content validation failed. The site was still deployed to avoid publishing a 404."
+            failed=1
+          fi
+          if [ "${{ steps.built_quality.outcome }}" = "failure" ]; then
+            echo "::error::Built-site validation failed. The site was still deployed to avoid publishing a 404."
+            failed=1
+          fi
+          if [ "${{ steps.smoke_test.outcome }}" = "failure" ]; then
+            echo "::error::The public post-deployment smoke test failed."
+            failed=1
+          fi
+          test "$failed" -eq 0
