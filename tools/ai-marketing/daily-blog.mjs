@@ -766,8 +766,8 @@ function buildHTML(post) {
     {
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": "${post.title}",
-        "description": "${post.metaDescription}",
+        "headline": ${JSON.stringify(post.title)},
+        "description": ${JSON.stringify(post.metaDescription)},
         "author": {"@type": "Organization", "name": "IZEM Editorial", "url": "https://youraicoach.life/editorial-policy.html"},
         "publisher": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"},
         "accountablePerson": {"@type": "Person", "name": "Mohammed Jebbari", "url": "https://youraicoach.life/about"},
@@ -780,7 +780,7 @@ function buildHTML(post) {
     {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        "mainEntity": [${post.faq.map(f => `{"@type": "Question", "name": ${JSON.stringify(f.q)}, "acceptedAnswer": {"@type": "Answer", "text": ${JSON.stringify(f.a)}}}`).join(',')}]
+        "mainEntity": [${post.faq.map(f => `{"@type": "Question", "name": ${JSON.stringify(typeof f?.q === 'string' ? f.q : '')}, "acceptedAnswer": {"@type": "Answer", "text": ${JSON.stringify(typeof f?.a === 'string' ? f.a : '')}}}`).join(',')}]
     }
     </script>` : ''}
     <style>
