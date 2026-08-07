@@ -10,13 +10,6 @@
     <meta name="robots" content="noindex">
     <title>Page not found | IZEM</title>
     <script>
-        const redirects = {
-            '/blog/accountability-apps-for-working-out': '/blog/accountability-apps-for-working-out/',
-            '/blog/accountability-apps-for-working-out.html': '/blog/accountability-apps-for-working-out/'
-        };
-        if (redirects[location.pathname]) {
-            location.replace(redirects[location.pathname] + location.search + location.hash);
-        }
         if (location.pathname === '/landing-page/index.html' || location.pathname === '/landing-page/') {
             location.replace('/landing-page' + location.search + location.hash);
         }
