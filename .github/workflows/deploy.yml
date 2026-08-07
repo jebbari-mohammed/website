@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   deploy:
-    timeout-minutes: 15
+    timeout-minutes: 20
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -24,31 +24,54 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'pnpm'
+
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
-      - name: Check dedicated video pages
-        run: pnpm video:check
-      - name: Check sitemap completeness
-        run: pnpm sitemap:check
+
+      # Generate all derived files inside the same deployment run. This avoids
+      # racing the separate editorial workflows that update the blog archive,
+      # RSS feed, video pages, and sitemap after a new article is committed.
+      - name: Synchronize generated site files
+        run: |
+          node tools/ai-marketing/rebuild-blog-index.mjs
+          pnpm video:sync
+          pnpm sitemap:sync
+
+      - name: Validate generated site files
+        run: |
+          pnpm video:check
+          pnpm sitemap:check
+
       - name: Build
         run: pnpm build
+
+      - name: Verify accountability article is in the deployment
+        run: |
+          test -f dist/blog/accountability-apps-for-working-out.html
+          grep -qi "Accountability apps for working out" dist/blog/accountability-apps-for-working-out.html
+
       - name: Check links
         run: pnpm check:links
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
