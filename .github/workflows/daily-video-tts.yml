@@ -110,6 +110,10 @@ jobs:
           node tools/sync-video-pages.mjs
           node tools/sync-sitemap.mjs
 
+      - name: Validate all structured data before publishing
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        run: node tools/validate-jsonld.mjs public
+
       - name: Commit and push website video embed
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         run: |
