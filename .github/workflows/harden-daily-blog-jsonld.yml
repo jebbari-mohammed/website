@@ -1,0 +1,73 @@
+name: Harden daily blog JSON-LD generation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/harden-daily-blog-jsonld.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  harden:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Make generated structured data safe by construction
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('tools/ai-marketing/daily-blog.mjs')
+          source = path.read_text(encoding='utf-8')
+
+          replacements = [
+              (
+                  '        "headline": "${post.title}",',
+                  '        "headline": ${JSON.stringify(post.title)},',
+              ),
+              (
+                  '        "description": "${post.metaDescription}",',
+                  '        "description": ${JSON.stringify(post.metaDescription)},',
+              ),
+              (
+                  '"name": ${JSON.stringify(f.q)}',
+                  '"name": ${JSON.stringify(typeof f?.q === \'string\' ? f.q : \'\')}',
+              ),
+              (
+                  '"text": ${JSON.stringify(f.a)}',
+                  '"text": ${JSON.stringify(typeof f?.a === \'string\' ? f.a : \'\')}',
+              ),
+          ]
+
+          for old, new in replacements:
+              count = source.count(old)
+              if count != 1:
+                  raise SystemExit(f'Expected exactly one occurrence of {old!r}, found {count}')
+              source = source.replace(old, new, 1)
+
+          path.write_text(source, encoding='utf-8')
+          PY
+
+      - name: Confirm the generator contains no unsafe FAQ serialization
+        run: |
+          grep -Fq 'JSON.stringify(typeof f?.q ===' tools/ai-marketing/daily-blog.mjs
+          grep -Fq 'JSON.stringify(typeof f?.a ===' tools/ai-marketing/daily-blog.mjs
+          ! grep -Fq '"headline": "${post.title}"' tools/ai-marketing/daily-blog.mjs
+          ! grep -Fq '"description": "${post.metaDescription}"' tools/ai-marketing/daily-blog.mjs
+
+      - name: Commit hardening and remove this temporary workflow
+        run: |
+          rm .github/workflows/harden-daily-blog-jsonld.yml
+          git config user.name "IZEM Content Safety"
+          git config user.email "content-safety@youraicoach.life"
+          git add tools/ai-marketing/daily-blog.mjs .github/workflows/harden-daily-blog-jsonld.yml
+          git commit -m "fix: make daily blog JSON-LD safe by construction"
+          git push origin HEAD:main
