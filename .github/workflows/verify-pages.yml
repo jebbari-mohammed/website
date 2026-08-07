@@ -1,0 +1,89 @@
+name: Verify Pages deployment
+
+on:
+  workflow_run:
+    workflows: ["Deploy static content to Pages"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-smoke-test
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Check the deployed article
+        id: smoke
+        continue-on-error: true
+        env:
+          UPSTREAM_CONCLUSION: ${{ github.event.workflow_run.conclusion || 'manual' }}
+          UPSTREAM_RUN_URL: ${{ github.event.workflow_run.html_url || 'manual' }}
+          UPSTREAM_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+        run: |
+          set +e
+          report=/tmp/pages-smoke-test.txt
+          : > "$report"
+          echo "checked_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$report"
+          echo "upstream_conclusion=$UPSTREAM_CONCLUSION" >> "$report"
+          echo "upstream_run_url=$UPSTREAM_RUN_URL" >> "$report"
+          echo "upstream_sha=$UPSTREAM_SHA" >> "$report"
+
+          urls=(
+            "https://youraicoach.life/blog/accountability-apps-for-working-out"
+            "https://youraicoach.life/blog/accountability-apps-for-working-out.html"
+          )
+
+          success=0
+          for attempt in $(seq 1 12); do
+            echo "attempt=$attempt" >> "$report"
+            success=1
+            for url in "${urls[@]}"; do
+              body="/tmp/body-$(echo "$url" | sha256sum | cut -d' ' -f1).html"
+              code=$(curl -L -sS --max-time 30 -o "$body" -w '%{http_code}' "$url")
+              final=$(curl -L -sS --max-time 30 -o /dev/null -w '%{url_effective}' "$url")
+              title=$(grep -io '<title>[^<]*</title>' "$body" | head -1 | sed -E 's#</?title>##Ig')
+              article_match=no
+              grep -qi 'Accountability apps for working out' "$body" && article_match=yes
+              not_found_match=no
+              grep -qi 'Page not found' "$body" && not_found_match=yes
+              echo "url=$url status=$code final_url=$final article_match=$article_match not_found_match=$not_found_match title=$title" >> "$report"
+              if [ "$code" != "200" ] || [ "$article_match" != "yes" ] || [ "$not_found_match" = "yes" ]; then
+                success=0
+              fi
+            done
+            [ "$success" -eq 1 ] && break
+            sleep 15
+          done
+
+          echo "smoke_success=$success" >> "$report"
+          cat "$report"
+          [ "$success" -eq 1 ]
+
+      - name: Save smoke-test report in repository
+        if: always()
+        run: |
+          mkdir -p .github/diagnostics
+          cp /tmp/pages-smoke-test.txt .github/diagnostics/pages-smoke-test.txt
+          git config user.name "IZEM Deployment Diagnostics"
+          git config user.email "diagnostics@youraicoach.life"
+          git add .github/diagnostics/pages-smoke-test.txt
+          if git diff --staged --quiet; then
+            echo "Smoke-test report is unchanged"
+          else
+            git commit -m "chore: record Pages smoke-test result [skip ci]"
+            git push origin HEAD:main
+          fi
+
+      - name: Fail when the public page is unavailable
+        if: steps.smoke.outcome == 'failure'
+        run: exit 1
