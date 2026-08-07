@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/3ckCKrIUZ2I/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/3ckCKrIUZ2I/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Build Muscle and Lose Fat: Ultimate Body Recomposition Guide</video:title>
+      <video:description>Learn how to lose fat and build muscle at the same time. This comprehensive body recomposition guide explains the science, nutrition, and training.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/3ckCKrIUZ2I</video:player_loc>
+      <video:publication_date>2026-08-07T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/-4VAXFeZ2WM/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/-4VAXFeZ2WM/hqdefault.jpg</video:thumbnail_loc>

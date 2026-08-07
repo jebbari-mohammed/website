@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "3ckCKrIUZ2I",
+      "title": "Build Muscle and Lose Fat: Ultimate Body Recomposition Guide",
+      "description": "Learn how to lose fat and build muscle at the same time. This comprehensive body recomposition guide explains the science, nutrition, and training.",
+      "uploadDate": "2026-08-07",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/body-recomposition-guide-lose-fat-gain-muscle",
+          "relativePath": "blog/body-recomposition-guide-lose-fat-gain-muscle.html",
+          "title": "Build Muscle and Lose Fat: Ultimate Body Recomposition Guide"
+        }
+      ]
+    },
+    {
       "id": "-4VAXFeZ2WM",
       "title": "Crack the Code: How to Calculate Your Macros on Your Own",
       "description": "Learn how to calculate your macros without a nutritionist. Follow this simple guide to set your calories, protein, carbs, and fats for your goals.",
@@ -10,6 +23,21 @@
           "canonical": "https://youraicoach.life/blog/how-to-calculate-macros-without-nutritionist",
           "relativePath": "blog/how-to-calculate-macros-without-nutritionist.html",
           "title": "Crack the Code: How to Calculate Your Macros on Your Own"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/de/how-to-calculate-macros-without-nutritionist",
+          "relativePath": "blog/de/how-to-calculate-macros-without-nutritionist.html",
+          "title": "Makros berechnen wie ein Profi: Dein Guide zum Erfolg"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/es/how-to-calculate-macros-without-nutritionist",
+          "relativePath": "blog/es/how-to-calculate-macros-without-nutritionist.html",
+          "title": "Domina tus macros: Guía definitiva para calcular tu nutrición sin complicaciones"
+        },
+        {
+          "canonical": "https://youraicoach.life/blog/ja/how-to-calculate-macros-without-nutritionist",
+          "relativePath": "blog/ja/how-to-calculate-macros-without-nutritionist.html",
+          "title": "「なんとなく」のダイエットは卒業！自分に最適なマクロ管理を理論的に導き出す方法"
         }
       ]
     },
