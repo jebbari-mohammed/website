@@ -57,6 +57,10 @@ jobs:
         if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         run: node tools/sync-sitemap.mjs
 
+      - name: Validate all structured data before publishing
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
+        run: node tools/validate-jsonld.mjs public
+
       - name: Commit and push
         if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         run: |
