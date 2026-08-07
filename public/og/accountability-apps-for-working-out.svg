@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Accountability Apps for Working Out</title>
+  <desc id="desc">IZEM guide social image for workout accountability apps.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#060B1D"/>
+      <stop offset="0.55" stop-color="#0B1930"/>
+      <stop offset="1" stop-color="#122A33"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00D4FF"/>
+      <stop offset="1" stop-color="#7C5CFC"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="980" cy="90" r="230" fill="#00D4FF" opacity="0.08"/>
+  <circle cx="180" cy="560" r="260" fill="#7C5CFC" opacity="0.10"/>
+  <g opacity="0.28" stroke="#94A3B8" stroke-width="1">
+    <path d="M96 510 C250 390 382 435 518 286 S824 115 1086 194" fill="none"/>
+    <path d="M112 450 C276 342 430 340 548 232 S836 82 1060 138" fill="none"/>
+  </g>
+  <g transform="translate(780 178)" filter="url(#glow)">
+    <rect x="0" y="0" width="238" height="238" rx="54" fill="rgba(0,212,255,0.08)" stroke="rgba(0,212,255,0.32)"/>
+    <path d="M79 123 l31 31 l67 -78" fill="none" stroke="url(#accent)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="63" cy="63" r="16" fill="#00D4FF"/>
+    <circle cx="175" cy="178" r="16" fill="#7C5CFC"/>
+  </g>
+  <text x="84" y="112" fill="#67E8F9" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" letter-spacing="4">IZEM GUIDE</text>
+  <text x="84" y="236" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="900">Accountability apps</text>
+  <text x="84" y="322" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="900">for working out</text>
+  <text x="88" y="396" fill="#CBD5E1" font-family="Inter, Arial, sans-serif" font-size="28">Calls, check-ins, fallback workouts, and private coaching</text>
+  <rect x="84" y="460" width="296" height="56" rx="28" fill="url(#accent)"/>
+  <text x="112" y="497" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="850">youraicoach.life</text>
+</svg>
