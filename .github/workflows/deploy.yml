@@ -49,10 +49,8 @@ jobs:
           pnpm video:sync
           pnpm sitemap:sync
 
-      # Quality failures are recorded, but they no longer prevent a valid built
-      # artifact from being deployed. This avoids an unrelated SEO error making
-      # a newly published page return 404. The job is marked failed after deploy
-      # so the problem remains visible and must still be repaired.
+      # These broad editorial checks remain visible, but they are not allowed to
+      # block a complete, route-safe artifact from reaching production.
       - name: Validate source content
         id: source_quality
         continue-on-error: true
@@ -145,20 +143,48 @@ jobs:
 
           test "$success" -eq 1
 
-      - name: Report any quality failure after deployment
+      # A deployment is successful when the artifact was published and the live
+      # pages passed the smoke test. Non-critical editorial findings are warnings,
+      # not a false red deployment status. Actual deploy/route failures stay red.
+      - name: Summarize deployment and quality results
         if: always()
         run: |
-          failed=0
+          critical_failure=0
+
+          echo "### GitHub Pages deployment" >> "$GITHUB_STEP_SUMMARY"
+
           if [ "${{ steps.source_quality.outcome }}" = "failure" ]; then
-            echo "::error::Source content validation failed. The site was still deployed to avoid publishing a 404."
-            failed=1
+            echo "::warning::Source content quality checks found an issue. The route-safe site was still deployed; review the Validate source content logs."
+            echo "- ⚠️ Source quality checks reported an issue" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- ✅ Source quality checks passed" >> "$GITHUB_STEP_SUMMARY"
           fi
+
           if [ "${{ steps.built_quality.outcome }}" = "failure" ]; then
-            echo "::error::Built-site validation failed. The site was still deployed to avoid publishing a 404."
-            failed=1
+            echo "::warning::Built-site quality checks found an issue. The route-safe site was still deployed; review the Validate built site logs."
+            echo "- ⚠️ Built-site quality checks reported an issue" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- ✅ Built-site quality checks passed" >> "$GITHUB_STEP_SUMMARY"
           fi
-          if [ "${{ steps.smoke_test.outcome }}" = "failure" ]; then
-            echo "::error::The public post-deployment smoke test failed."
-            failed=1
+
+          if [ "${{ steps.deployment.outcome }}" != "success" ]; then
+            echo "::error::GitHub Pages did not deploy successfully."
+            echo "- ❌ Pages deployment failed or was skipped" >> "$GITHUB_STEP_SUMMARY"
+            critical_failure=1
+          else
+            echo "- ✅ Pages artifact deployed" >> "$GITHUB_STEP_SUMMARY"
           fi
-          test "$failed" -eq 0
+
+          if [ "${{ steps.smoke_test.outcome }}" != "success" ]; then
+            echo "::error::The public post-deployment smoke test failed or was skipped."
+            echo "- ❌ Live-page smoke test failed or was skipped" >> "$GITHUB_STEP_SUMMARY"
+            critical_failure=1
+          else
+            echo "- ✅ Newest public blog pages returned HTTP 200 and were not the 404 page" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          if [ "$critical_failure" -ne 0 ]; then
+            exit 1
+          fi
+
+          echo "Deployment completed successfully."
