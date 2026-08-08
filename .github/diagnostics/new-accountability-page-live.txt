@@ -1,0 +1,9 @@
+checked_at_start_utc=2026-08-08T19:51:40Z
+source_commit=0ee016519ab15120591d4f86793f16f9f3735a80
+attempt=1
+url=https://youraicoach.life/blog/app-to-keep-me-accountable-for-working-out status=200 final_url=https://youraicoach.life/blog/app-to-keep-me-accountable-for-working-out article_match=yes not_found_match=no title=Need an App to Keep You Accountable for Working Out? | IZEM
+url=https://youraicoach.life/blog/app-to-keep-me-accountable-for-working-out.html status=200 final_url=https://youraicoach.life/blog/app-to-keep-me-accountable-for-working-out.html article_match=yes not_found_match=no title=Need an App to Keep You Accountable for Working Out? | IZEM
+sitemap_status=200 sitemap_match=yes
+blog_index_status=200 blog_index_match=yes
+checked_at_end_utc=2026-08-08T19:51:42Z
+live_success=1
