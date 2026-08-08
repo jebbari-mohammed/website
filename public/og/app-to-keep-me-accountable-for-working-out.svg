@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Need an App to Keep You Accountable for Working Out?</title>
+  <desc id="desc">IZEM guide about choosing workout accountability that reaches the moment you normally skip.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#060B1D"/>
+      <stop offset="0.58" stop-color="#0B1831"/>
+      <stop offset="1" stop-color="#152A36"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00D4FF"/>
+      <stop offset="1" stop-color="#7C5CFC"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="16" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1035" cy="95" r="250" fill="#00D4FF" opacity=".08"/>
+  <circle cx="135" cy="590" r="280" fill="#7C5CFC" opacity=".11"/>
+  <path d="M78 506 C255 416 377 439 522 309 S830 112 1110 188" fill="none" stroke="#94A3B8" stroke-width="2" opacity=".24"/>
+  <text x="82" y="105" fill="#67E8F9" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" letter-spacing="4">IZEM ACCOUNTABILITY GUIDE</text>
+  <text x="82" y="205" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="58" font-weight="850">
+    <tspan x="82" dy="0">NEED AN APP TO KEEP YOU</tspan>
+    <tspan x="82" dy="72">ACCOUNTABLE FOR</tspan>
+    <tspan x="82" dy="72">WORKING OUT?</tspan>
+  </text>
+  <text x="86" y="482" fill="#B9C7D8" font-family="Inter, Arial, sans-serif" font-size="27">Choose the accountability that reaches you before the skip.</text>
+  <g transform="translate(870 220)" filter="url(#glow)">
+    <rect x="0" y="0" width="220" height="220" rx="52" fill="#07142A" stroke="#00D4FF" stroke-width="3" opacity=".96"/>
+    <path d="M68 68 C80 55 97 51 113 56 L132 65 C145 71 151 86 146 99 L138 118 C134 128 123 133 113 130 L97 124 C88 121 78 125 72 133 L61 149 C55 158 43 159 35 153 C11 134 0 103 6 74 C8 64 18 58 28 60 L49 64 C57 65 64 67 68 68Z" fill="none" stroke="url(#accent)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="162" cy="58" r="22" fill="#00D4FF"/>
+    <path d="M151 58 l8 8 l15 -18" fill="none" stroke="#06111F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="84" y="574" fill="#7F91A8" font-family="Inter, Arial, sans-serif" font-size="22">youraicoach.life</text>
+</svg>
