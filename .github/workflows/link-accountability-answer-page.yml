@@ -1,0 +1,66 @@
+name: Link new accountability answer page
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/link-accountability-answer-page.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  link-page:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Add contextual link from the accountability pillar
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('public/blog/accountability-apps-for-working-out.html')
+          html = path.read_text(encoding='utf-8')
+          href = '/blog/app-to-keep-me-accountable-for-working-out'
+
+          if href not in html:
+              marker = '''    <div class="related">
+        <a href="/blog/workout-reminder-app-that-calls-you">'''
+              replacement = '''    <div class="related">
+        <a href="/blog/app-to-keep-me-accountable-for-working-out">Need an app to keep you accountable for working out? <span>A human decision guide for choosing the right pressure, fallback, and check-in.</span></a>
+        <a href="/blog/workout-reminder-app-that-calls-you">'''
+              if marker not in html:
+                  raise SystemExit('Could not find the related-guides insertion point')
+              html = html.replace(marker, replacement, 1)
+
+          html, count = re.subn(
+              r'"dateModified"\s*:\s*"\d{4}-\d{2}-\d{2}"',
+              '"dateModified": "2026-08-08"',
+              html,
+              count=1,
+          )
+          if count != 1:
+              raise SystemExit(f'Expected one dateModified value, found {count}')
+
+          path.write_text(html, encoding='utf-8')
+          PY
+
+      - name: Validate structured data
+        run: node tools/validate-jsonld.mjs public/blog
+
+      - name: Commit the cluster link and remove this one-time workflow
+        run: |
+          rm .github/workflows/link-accountability-answer-page.yml
+          git config user.name "IZEM Editorial"
+          git config user.email "editorial@youraicoach.life"
+          git add public/blog/accountability-apps-for-working-out.html .github/workflows/link-accountability-answer-page.yml
+          git commit -m "seo: link accountability answer page from pillar"
+          git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
+          git push origin HEAD:main
