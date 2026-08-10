@@ -27,7 +27,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: seo-production-validation-${{ github.ref }}
@@ -48,7 +48,7 @@ jobs:
           version: 9
 
       - name: Set up Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -109,7 +109,7 @@ jobs:
           version: 9
 
       - name: Set up Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -146,6 +146,7 @@ jobs:
         id: smoke
         env:
           SEO_PLAN_PATH: /tmp/izem-seo-smoke-plan.json
+          SEO_REQUIRE_GROUNDING: 'true'
         run: node tools/ai-marketing/seo-production.mjs --dry-run --force
 
       - name: Prove the credentialed smoke was validated and non-mutating
@@ -153,9 +154,48 @@ jobs:
           set -euo pipefail
           [ "${{ steps.smoke.outputs.validated }}" = "true" ]
           [ "${{ steps.smoke.outputs.changed }}" = "false" ]
+          [ "${{ steps.smoke.outputs.grounded }}" = "true" ]
           if ! git diff --quiet -- public/; then
             echo "::error::Dry-run changed public website files"
             git diff --name-only -- public/
             exit 1
           fi
           echo "Credentialed end-to-end smoke passed without publishing or leaking exact queries."
+
+  lockfile:
+    name: Commit reproducible dependency resolution
+    needs: [deterministic, credentialed-smoke]
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout the pull-request branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Regenerate and commit the lockfile only when necessary
+        run: |
+          set -euo pipefail
+          pnpm install --lockfile-only --no-frozen-lockfile
+          if git diff --quiet -- pnpm-lock.yaml; then
+            echo "pnpm-lock.yaml is already reproducible."
+            exit 0
+          fi
+          git config user.name "IZEM SEO Validation"
+          git config user.email "seo-validation@youraicoach.life"
+          git add pnpm-lock.yaml
+          git commit -m "chore: lock SEO production dependencies"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
