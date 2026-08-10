@@ -1,0 +1,77 @@
+name: SEO production finalize
+
+on:
+  push:
+    branches: [agent/seo-production-hardening]
+    paths:
+      - '.github/workflows/seo-production-finalize.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout hardening branch
+        uses: actions/checkout@v7
+        with:
+          ref: agent/seo-production-hardening
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install and update lockfile
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Install fail-closed grounding output and gate
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const file = 'tools/ai-marketing/seo-production.mjs';
+          let source = fs.readFileSync(file, 'utf8');
+
+          const oldOutputs = "for (const [name, value] of Object.entries({ changed: 'false', action: 'none', slug: '', url: '', marker: '', query_hash: '', validated: 'false' })) setOutput(name, value);";
+          const newOutputs = "for (const [name, value] of Object.entries({ changed: 'false', action: 'none', slug: '', url: '', marker: '', query_hash: '', validated: 'false', grounded: 'false' })) setOutput(name, value);";
+          if (source.includes(oldOutputs)) source = source.replace(oldOutputs, newOutputs);
+          else if (!source.includes(newOutputs)) throw new Error('Could not patch output initialization safely');
+
+          const oldResearch = "console.log(`SERP research phase: ${research.grounded ? 'grounded' : 'conservative fallback'}.`);\n  const drafted = await createDeliverable(item, research, currentPageExcerpt(targetFile));";
+          const newResearch = "console.log(`SERP research phase: ${research.grounded ? 'grounded' : 'unavailable'}.`);\n  setOutput('grounded', research.grounded ? 'true' : 'false');\n  if (!research.grounded) {\n    throw new Error('Live Google Search grounding was unavailable; publication is skipped rather than using an ungrounded fallback');\n  }\n  const drafted = await createDeliverable(item, research, currentPageExcerpt(targetFile));";
+          if (source.includes(oldResearch)) source = source.replace(oldResearch, newResearch);
+          else if (!source.includes("setOutput('grounded', research.grounded ? 'true' : 'false')")) throw new Error('Could not patch grounded-research gate safely');
+
+          fs.writeFileSync(file, source);
+          NODE
+
+      - name: Verify all deterministic production checks
+        run: |
+          set -euo pipefail
+          node --check tools/ai-marketing/seo-production.mjs
+          pnpm test:seo-growth
+          node tools/validate-jsonld.mjs public
+          pnpm build
+          node tools/validate-jsonld.mjs dist
+          node tools/check-critical-routes.mjs dist
+          pnpm check:links
+
+      - name: Commit final production code, lockfile, and remove this workflow
+        run: |
+          set -euo pipefail
+          git config user.name "IZEM SEO Hardening"
+          git config user.email "seo-hardening@youraicoach.life"
+          git rm .github/workflows/seo-production-finalize.yml
+          git add tools/ai-marketing/seo-production.mjs pnpm-lock.yaml
+          git commit -m "chore: finalize grounded SEO production"
+          git push origin HEAD:agent/seo-production-hardening
