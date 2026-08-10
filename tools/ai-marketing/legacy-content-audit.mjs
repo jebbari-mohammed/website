@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const PUBLIC = path.join(ROOT, 'public');
 const SITE_ORIGIN = 'https://youraicoach.life';
-const REVIEW_BANNER = '<aside data-legacy-editorial-review="true" style="max-width:960px;margin:18px auto;padding:14px 18px;border:1px solid rgba(255,255,255,.12);background:#101B2A;color:#CBD5E1;font:14px/1.6 system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif"><strong style="color:#F8FAFC">Editorial review:</strong> This archived page is excluded from search while IZEM reviews legacy AI-assisted content. Use the linked canonical guide for maintained information.</aside>';
+const REVIEW_BANNER = '<aside data-legacy-editorial-review="true" style="max-width:960px;margin:18px auto;padding:14px 18px;border:1px solid rgba(255,255,255,.12);background:#101B2A;color:#CBD5E1;font:14px/1.6 system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif"><strong style="color:#F8FAFC">Editorial review:</strong> This archived page is excluded from search while IZEM reviews legacy AI-assisted content. Use maintained IZEM guides while this page is reviewed.</aside>';
 
 const args = new Set(process.argv.slice(2));
 const APPLY = args.has('--apply');
@@ -25,7 +25,7 @@ const HIGH_RISK_PATTERNS = [
   ['fabricated-anecdote', /\bmy phone rang\b/i],
   ['fabricated-anecdote', /\bI['’]ve found\b/i],
   ['fabricated-anecdote', /\bfrom my experience\b/i],
-  ['unsupported-clinical-language', /\b(?:clinical precision|clinically proven|medical-grade|diagnos(?:e|es|ed|ing)|cure(?:s|d|ing)?)\b/i],
+  ['unsupported-clinical-claim', /\b(?:clinical precision|clinically proven|medical-grade(?: accuracy| results?| scanning)?|diagnoses? your|cures? your)\b/i],
   ['unsupported-superlative', /\b(?:best app on the market|the best app in the world|guaranteed results?|100% accurate)\b/i],
   ['legacy-brand', /\bCallio\b/i],
 ];
@@ -64,6 +64,14 @@ function canonical(html) {
     .filter(Boolean)[0] || '';
 }
 
+function englishAlternate(html) {
+  return tags(html, 'link')
+    .filter((tag) => attribute(tag, 'rel').toLowerCase().split(/\s+/).includes('alternate'))
+    .filter((tag) => attribute(tag, 'hreflang').toLowerCase() === 'en')
+    .map((tag) => attribute(tag, 'href'))
+    .filter(Boolean)[0] || '';
+}
+
 function title(html) {
   return html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() || '';
 }
@@ -89,22 +97,29 @@ function expectedUrl(relativePath) {
   return `${SITE_ORIGIN}/${normalized.replace(/\.html$/, '')}`;
 }
 
+function normalizeUrl(value = '') {
+  try {
+    const url = new URL(value, SITE_ORIGIN);
+    if (url.origin !== SITE_ORIGIN) return '';
+    return `${url.origin}${url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/'}`;
+  } catch {
+    return '';
+  }
+}
+
 function isCityDoorway(relativePath) {
   const normalized = relativePath.split(path.sep).join('/');
   return /^best-ai-fitness-app\/[^/]+\.html$/i.test(normalized);
 }
 
+function isAggregatePage(relativePath) {
+  const normalized = relativePath.split(path.sep).join('/');
+  return normalized === 'index.html' || normalized.endsWith('/index.html');
+}
+
 function selfCanonicalLooksWrong(relativePath, canonicalUrl) {
   if (!canonicalUrl) return true;
-  try {
-    const actual = new URL(canonicalUrl, SITE_ORIGIN);
-    if (actual.origin !== SITE_ORIGIN) return true;
-    const expected = new URL(expectedUrl(relativePath));
-    const normalize = (value) => value.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
-    return normalize(actual) !== normalize(expected);
-  } catch {
-    return true;
-  }
+  return normalizeUrl(canonicalUrl) !== normalizeUrl(expectedUrl(relativePath));
 }
 
 function setMeta(html, name, content) {
@@ -146,69 +161,96 @@ async function collect(directory, relative = '') {
 }
 
 const files = await collect(PUBLIC);
+const pages = [];
+for (const file of files) {
+  const original = await fs.readFile(file.absolute, 'utf8');
+  const indexable = !isNoindex(original);
+  const page = {
+    ...file,
+    original,
+    text: visibleText(original),
+    title: title(original),
+    canonical: canonical(original),
+    englishAlternate: englishAlternate(original),
+    indexable,
+    reasons: new Set(),
+    warnings: new Set(),
+  };
+  if (indexable && isCityDoorway(file.relative)) page.reasons.add('city-doorway-template');
+  if (indexable && !isAggregatePage(file.relative)) {
+    for (const [code, pattern] of HIGH_RISK_PATTERNS) {
+      if (pattern.test(page.text)) page.reasons.add(code);
+    }
+    for (const [code, pattern] of CLAIM_PATTERNS) {
+      if (pattern.test(page.text)) page.warnings.add(code);
+    }
+  }
+  if (indexable && selfCanonicalLooksWrong(file.relative, page.canonical)) page.warnings.add('canonical-path-mismatch');
+  pages.push(page);
+}
+
+const directlyRiskyEnglishUrls = new Set(
+  pages
+    .filter((page) => page.indexable && page.reasons.size && /^blog\/[^/]+\.html$/i.test(page.relative.split(path.sep).join('/')))
+    .map((page) => normalizeUrl(page.canonical || expectedUrl(page.relative)))
+    .filter(Boolean),
+);
+
+for (const page of pages) {
+  if (!page.indexable || !page.englishAlternate) continue;
+  if (directlyRiskyEnglishUrls.has(normalizeUrl(page.englishAlternate))) {
+    page.reasons.add('translation-of-quarantined-source');
+  }
+}
+
 const findings = [];
 const canonicalOwners = new Map();
 const titleOwners = new Map();
 let changed = 0;
 
-for (const file of files) {
-  const original = await fs.readFile(file.absolute, 'utf8');
-  const text = visibleText(original);
-  const pageTitle = title(original);
-  const pageCanonical = canonical(original);
-  const indexable = !isNoindex(original);
-  const reasons = new Set();
-  const warnings = new Set();
-
-  if (indexable && isCityDoorway(file.relative)) reasons.add('city-doorway-template');
-  for (const [code, pattern] of HIGH_RISK_PATTERNS) {
-    if (indexable && pattern.test(text)) reasons.add(code);
-  }
-  for (const [code, pattern] of CLAIM_PATTERNS) {
-    if (indexable && pattern.test(text)) warnings.add(code);
-  }
-  if (indexable && selfCanonicalLooksWrong(file.relative, pageCanonical)) warnings.add('canonical-path-mismatch');
-
-  if (indexable && pageCanonical) {
-    const key = new URL(pageCanonical, SITE_ORIGIN).href;
+for (const page of pages) {
+  if (page.indexable && page.canonical) {
+    const key = normalizeUrl(page.canonical);
     const owners = canonicalOwners.get(key) || [];
-    owners.push(file.relative);
+    owners.push(page.relative);
     canonicalOwners.set(key, owners);
   }
-  if (indexable && pageTitle) {
-    const key = pageTitle.toLowerCase().replace(/\s+/g, ' ').trim();
+  if (page.indexable && page.title) {
+    const key = page.title.toLowerCase().replace(/\s+/g, ' ').trim();
     const owners = titleOwners.get(key) || [];
-    owners.push(file.relative);
+    owners.push(page.relative);
     titleOwners.set(key, owners);
   }
 
-  if (reasons.size || warnings.size) {
+  if (page.reasons.size || page.warnings.size) {
     findings.push({
-      file: file.relative.split(path.sep).join('/'),
-      indexable,
-      title: pageTitle,
-      canonical: pageCanonical,
-      reasons: [...reasons].sort(),
-      warnings: [...warnings].sort(),
+      file: page.relative.split(path.sep).join('/'),
+      indexable: page.indexable,
+      title: page.title,
+      canonical: page.canonical,
+      reasons: [...page.reasons].sort(),
+      warnings: [...page.warnings].sort(),
     });
   }
 
-  if (APPLY && reasons.size) {
-    const next = quarantine(original, file.relative, [...reasons]);
-    if (next !== original) {
-      await fs.writeFile(file.absolute, next, 'utf8');
+  if (APPLY && page.reasons.size) {
+    const next = quarantine(page.original, page.relative, [...page.reasons]);
+    if (next !== page.original) {
+      await fs.writeFile(page.absolute, next, 'utf8');
       changed += 1;
     }
   }
 }
 
 for (const [url, owners] of canonicalOwners) {
-  if (owners.length < 2) continue;
-  findings.push({ file: owners.join(', '), indexable: true, title: '', canonical: url, reasons: [], warnings: ['duplicate-indexable-canonical'] });
+  if (url && owners.length > 1) {
+    findings.push({ file: owners.join(', '), indexable: true, title: '', canonical: url, reasons: [], warnings: ['duplicate-indexable-canonical'] });
+  }
 }
 for (const [value, owners] of titleOwners) {
-  if (owners.length < 2) continue;
-  findings.push({ file: owners.join(', '), indexable: true, title: value, canonical: '', reasons: [], warnings: ['duplicate-indexable-title'] });
+  if (owners.length > 1) {
+    findings.push({ file: owners.join(', '), indexable: true, title: value, canonical: '', reasons: [], warnings: ['duplicate-indexable-title'] });
+  }
 }
 
 findings.sort((a, b) => a.file.localeCompare(b.file));
@@ -227,9 +269,7 @@ if (REPORT_PATH) {
 }
 
 console.log(`Legacy SEO audit: ${files.length} HTML files, ${highRisk.length} high-risk indexable pages, ${findings.length} total findings, ${changed} files changed.`);
-for (const item of highRisk.slice(0, 50)) {
-  console.log(`- ${item.file}: ${item.reasons.join(', ')}`);
-}
+for (const item of highRisk.slice(0, 80)) console.log(`- ${item.file}: ${item.reasons.join(', ')}`);
 
 if (STRICT && highRisk.length) {
   console.error('High-risk legacy content remains indexable. Run the reviewed quarantine or rewrite the pages.');
