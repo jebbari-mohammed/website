@@ -49,6 +49,14 @@ function isNoindex(html) {
   })
 }
 
+function isInfrastructureHtml(relativePath) {
+  const filename = path.posix.basename(relativePath)
+  // Google FILE verification tokens are control files, not webpages. Their
+  // required body is the filename itself, so adding canonical/robots markup
+  // would invalidate ownership verification.
+  return /^google[A-Za-z0-9_-]+\.html$/.test(filename)
+}
+
 function normalizedUrl(value) {
   const url = new URL(value, siteOrigin)
   url.hash = ''
@@ -112,7 +120,10 @@ const publicFiles = await collectHtmlFiles(publicDirectory)
 const sourceFiles = [
   { absolutePath: path.join(projectRoot, 'index.html'), relativePath: '../index.html' },
   ...publicFiles,
-].filter((file) => !file.relativePath.startsWith('blog/drafts/'))
+].filter((file) =>
+  !file.relativePath.startsWith('blog/drafts/') &&
+  !isInfrastructureHtml(file.relativePath),
+)
 
 const indexableUrls = new Map()
 const errors = []
