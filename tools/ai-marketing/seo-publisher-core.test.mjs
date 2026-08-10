@@ -44,8 +44,11 @@ test('metadata synchronization updates all visible snippet mirrors', () => {
   assert.match(output, /<title>A Better SEO Title/);
   assert.match(output, /property="og:title" content="A Better SEO Title/);
   assert.match(output, /name="twitter:description" content="A much better description/);
-  assert.match(output, /"headline":"A Better SEO Title/);
-  assert.match(output, /"dateModified":"2026-08-10"/);
+  const schemaBody = output.match(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/i)?.[1];
+  assert.ok(schemaBody, 'expected Article JSON-LD');
+  const schema = JSON.parse(schemaBody);
+  assert.equal(schema.headline, 'A Better SEO Title for the Existing Page');
+  assert.equal(schema.dateModified, '2026-08-10');
 });
 
 test('social image setter leaves exactly one tag of each type', () => {
