@@ -1,69 +1,80 @@
-name: Weekly Content Refresh
+name: Content Freshness Audit
 
 on:
-  # A dateModified value should change only after a real content review.
-  # Keep this manual so an editor can verify the page was substantively updated.
   workflow_dispatch:
 
 permissions:
-  contents: write
-  actions: write
+  contents: read
 
 jobs:
-  refresh:
-    runs-on: ubuntu-latest
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/checkout@v7
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
 
-      - name: Refresh dateModified on blog posts
+      - name: Audit freshness without changing dates or content
         run: |
-          TODAY=$(date -u +%Y-%m-%d)
-          CHANGED=0
-          for file in public/blog/*.html; do
-            [ "$file" = "public/blog/index.html" ] && continue
-            if grep -q '"dateModified"' "$file"; then
-              sed -i "s/\"dateModified\": \"[0-9-]*\"/\"dateModified\": \"$TODAY\"/" "$file"
-              CHANGED=$((CHANGED + 1))
-            fi
-          done
-          echo "🔄 Refreshed dateModified on $CHANGED posts"
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const blog = path.resolve('public/blog');
+          const files = fs.readdirSync(blog)
+            .filter((file) => file.endsWith('.html') && file !== 'index.html')
+            .map((file) => path.join(blog, file));
+          const now = Date.now();
+          const rows = [];
+          const invalid = [];
 
-      - name: Synchronize the indexable-page sitemap
-        run: node tools/sync-sitemap.mjs
+          for (const file of files) {
+            const html = fs.readFileSync(file, 'utf8');
+            const published = html.match(/"datePublished"\s*:\s*"([^"]+)"/)?.[1] || '';
+            const modified = html.match(/"dateModified"\s*:\s*"([^"]+)"/)?.[1] || published;
+            const time = Date.parse(modified);
+            if (!modified || Number.isNaN(time)) {
+              invalid.push(path.relative('.', file));
+              continue;
+            }
+            rows.push({
+              file: path.relative('.', file),
+              published,
+              modified,
+              ageDays: Math.floor((now - time) / 86400000),
+            });
+          }
 
-      - name: Validate all structured data before publishing
-        run: node tools/validate-jsonld.mjs public
+          rows.sort((a, b) => b.ageDays - a.ageDays);
+          const stale = rows.filter((row) => row.ageDays >= 180).slice(0, 40);
+          const summary = process.env.GITHUB_STEP_SUMMARY;
+          if (summary) {
+            fs.appendFileSync(summary, '### Content freshness audit\n\n');
+            fs.appendFileSync(summary, `- Blog pages checked: ${files.length}\n`);
+            fs.appendFileSync(summary, `- Invalid or missing dates: ${invalid.length}\n`);
+            fs.appendFileSync(summary, `- Pages older than 180 days: ${rows.filter((row) => row.ageDays >= 180).length}\n\n`);
+            if (stale.length) {
+              fs.appendFileSync(summary, '| Page | Last meaningful modification | Age |\n|---|---:|---:|\n');
+              for (const row of stale) fs.appendFileSync(summary, `| ${row.file} | ${row.modified} | ${row.ageDays} days |\n`);
+            }
+          }
 
-      - name: Commit and push
+          if (invalid.length) {
+            console.error(`Invalid date metadata in ${invalid.length} files.`);
+            for (const file of invalid.slice(0, 20)) console.error(file);
+            process.exit(1);
+          }
+          console.log(`Audited ${files.length} pages without modifying dateModified or content.`);
+          NODE
+
+      - name: Prove the audit is read-only
         run: |
-          git config user.name "IZEM Editorial"
-          git config user.email "editorial@youraicoach.life"
-          git checkout main || git checkout -b main
-          git add -A
-          git diff --staged --quiet || git commit -m "🔄 Weekly content refresh $(date +%Y-%m-%d)"
-          git rebase --abort || true
-          git pull --rebase origin main
-          git push || (sleep 5 && git pull --rebase origin main && git push)
-
-      - name: Trigger Pages deploy
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run "Deploy static content to Pages" --ref main
-
-      - name: Ping IndexNow
-        if: success()
-        run: |
-          URLS=$(ls public/blog/*.html | grep -v index.html | sed 's|public/blog/|https://youraicoach.life/blog/|;s|\.html||' | head -20 | jq -R . | jq -s .)
-          curl -s -X POST "https://api.indexnow.org/indexnow" \
-            -H "Content-Type: application/json" \
-            -d "{\"host\":\"youraicoach.life\",\"key\":\"a591ef961c787bfb23212d390a9d5a0c\",\"urlList\":$URLS}" || true
-          echo "✅ IndexNow pinged"
+          if ! git diff --quiet; then
+            echo "::error::Freshness audit modified repository files"
+            git diff --name-only
+            exit 1
+          fi
