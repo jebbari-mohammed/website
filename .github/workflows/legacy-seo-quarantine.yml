@@ -1,9 +1,10 @@
 name: Legacy SEO quarantine
 
 on:
-  push:
-    branches: [agent/legacy-seo-cleanup]
+  pull_request:
+    branches: [main]
     paths:
+      - 'tools/ai-marketing/legacy-content-audit.mjs'
       - '.github/workflows/legacy-seo-quarantine.yml'
   workflow_dispatch:
 
@@ -11,18 +12,19 @@ permissions:
   contents: write
 
 concurrency:
-  group: legacy-seo-quarantine
+  group: legacy-seo-quarantine-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 
 jobs:
   quarantine:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
       - name: Checkout cleanup branch
         uses: actions/checkout@v7
         with:
-          ref: agent/legacy-seo-cleanup
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || 'agent/legacy-seo-cleanup' }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -77,6 +79,7 @@ jobs:
       - name: Commit quarantined pages and remove this one-time workflow
         run: |
           set -euo pipefail
+          branch="${{ github.event_name == 'pull_request' && github.head_ref || 'agent/legacy-seo-cleanup' }}"
           git config user.name "IZEM Editorial Cleanup"
           git config user.email "editorial-cleanup@youraicoach.life"
           git rm .github/workflows/legacy-seo-quarantine.yml
@@ -86,4 +89,4 @@ jobs:
             exit 1
           fi
           git commit -m "seo: quarantine misleading legacy content"
-          git push origin HEAD:agent/legacy-seo-cleanup
+          git push origin HEAD:"$branch"
