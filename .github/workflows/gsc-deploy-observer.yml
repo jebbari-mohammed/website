@@ -1,4 +1,4 @@
-# Observe explicit corrected Pages redeploy for the Google FILE token.
+# Observe the final corrected Google FILE body deployment.
 name: GSC Pages deployment observer
 
 on:
