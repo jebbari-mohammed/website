@@ -227,8 +227,53 @@ export function setCanonical(html, url) {
   return html.replace(/<\/head>/i, `  ${tag}\n</head>`);
 }
 
-function jsonStringContent(value) {
-  return JSON.stringify(String(value)).slice(1, -1);
+function schemaTypes(value) {
+  const raw = value?.['@type'];
+  return new Set((Array.isArray(raw) ? raw : [raw]).filter(Boolean).map(String));
+}
+
+function updateSchemaMetadata(value, metadata) {
+  if (Array.isArray(value)) {
+    return value.reduce((changed, item) => updateSchemaMetadata(item, metadata) || changed, false);
+  }
+  if (!value || typeof value !== 'object') return false;
+
+  let changed = false;
+  const types = schemaTypes(value);
+  const article = ['Article', 'BlogPosting', 'NewsArticle'].some((type) => types.has(type));
+  const page = ['WebPage', 'CollectionPage', 'AboutPage'].some((type) => types.has(type));
+
+  if (article) {
+    value.headline = metadata.title;
+    value.description = metadata.description;
+    if (metadata.dateModified) value.dateModified = metadata.dateModified;
+    changed = true;
+  } else if (page) {
+    if ('name' in value) value.name = metadata.title;
+    value.description = metadata.description;
+    if (metadata.dateModified) value.dateModified = metadata.dateModified;
+    changed = true;
+  }
+
+  for (const nested of Object.values(value)) {
+    if (nested && typeof nested === 'object') {
+      changed = updateSchemaMetadata(nested, metadata) || changed;
+    }
+  }
+  return changed;
+}
+
+function syncStructuredData(html, metadata) {
+  return html.replace(/<script\b([^>]*\btype\s*=\s*(["'])application\/ld\+json\2[^>]*)>([\s\S]*?)<\/script>/gi, (match, attributes, _quote, body) => {
+    try {
+      const data = JSON.parse(body);
+      if (!updateSchemaMetadata(data, metadata)) return match;
+      const serialized = JSON.stringify(data, null, 2).replace(/</g, '\\u003c');
+      return `<script${attributes}>\n${serialized}\n</script>`;
+    } catch {
+      return match;
+    }
+  });
 }
 
 export function syncArticleMetadata(html, { title, description, dateModified }) {
@@ -238,18 +283,7 @@ export function syncArticleMetadata(html, { title, description, dateModified }) 
   output = setMetaTag(output, 'property', 'og:description', description);
   output = setMetaTag(output, 'name', 'twitter:title', title);
   output = setMetaTag(output, 'name', 'twitter:description', description);
-  const escapedTitle = jsonStringContent(title);
-  const escapedDescription = jsonStringContent(description);
-  output = output.replace(/("headline"\s*:\s*")[^"\\]*(?:\\.[^"\\]*)*(")/g, `$1${escapedTitle}$2`);
-  output = output.replace(/("description"\s*:\s*")[^"\\]*(?:\\.[^"\\]*)*(")/g, `$1${escapedDescription}$2`);
-  if (dateModified) {
-    if (/"dateModified"\s*:/.test(output)) {
-      output = output.replace(/("dateModified"\s*:\s*")[^"]+("\s*)/g, `$1${dateModified}$2`);
-    } else {
-      output = output.replace(/("datePublished"\s*:\s*"[^"]+"\s*,?)/, `$1\n        "dateModified": "${dateModified}",`);
-    }
-  }
-  return output;
+  return syncStructuredData(output, { title, description, dateModified });
 }
 
 export function setSocialImage(html, imageUrl) {
