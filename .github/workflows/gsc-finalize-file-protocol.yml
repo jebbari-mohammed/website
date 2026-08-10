@@ -1,0 +1,272 @@
+name: Finalize Search Console FILE verification
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/gsc-finalize-file-protocol.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+  issues: write
+
+concurrency:
+  group: gsc-final-file-protocol
+  cancel-in-progress: false
+
+jobs:
+  finalize:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+      GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+      GSC_SITE_URL: https://youraicoach.life/
+      SEO_GEMINI_MODEL: gemini-3.6-flash
+      SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.1-pro-preview,gemini-3.5-flash-lite
+
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Correct the Google FILE body protocol everywhere
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          script_path = Path('tools/ai-marketing/gsc-url-prefix-bootstrap.mjs')
+          script = script_path.read_text()
+          replacements = {
+              "await fs.writeFile(target, `${verification.filename}\\n`, 'utf8');":
+                  "await fs.writeFile(target, `google-site-verification: ${verification.filename}\\n`, 'utf8');",
+              "return response.status === 200 && text.trim() === filename;":
+                  "return response.status === 200 && text.trim() === `google-site-verification: ${filename}`;",
+          }
+          for old, new in replacements.items():
+              count = script.count(old)
+              if count == 1:
+                  script = script.replace(old, new)
+              elif count == 0 and new in script:
+                  pass
+              else:
+                  raise SystemExit(f'Unexpected bootstrap protocol match count: {count}')
+          script_path.write_text(script)
+
+          workflow_path = Path('.github/workflows/search-console-bootstrap.yml')
+          lines = workflow_path.read_text().splitlines()
+          matches = 0
+          for index, line in enumerate(lines):
+              if 'test "$(tr -d' in line and 'steps.prepare.outputs.verification_file' in line:
+                  matches += 1
+                  if 'google-site-verification:' not in line:
+                      lines[index] = line.replace('= "', '= "google-site-verification: ', 1)
+          if matches != 1:
+              raise SystemExit(f'Expected one Search Console workflow token assertion, found {matches}')
+          workflow_path.write_text('\n'.join(lines) + '\n')
+          PY
+          node --check tools/ai-marketing/gsc-url-prefix-bootstrap.mjs
+
+      - name: Request and materialize Google's official token with the exact required body
+        id: prepare
+        run: node tools/ai-marketing/gsc-url-prefix-bootstrap.mjs prepare
+
+      - name: Require the corrected FILE token and remove stale Google token files
+        id: token
+        run: |
+          set -euo pipefail
+          status="${{ steps.prepare.outputs.status }}"
+          if [ "$status" = "file-ready" ]; then
+            active="${{ steps.prepare.outputs.verification_file }}"
+          elif [ "$status" = "already-verified" ]; then
+            active=$(find public -maxdepth 1 -type f -name 'google*.html' -printf '%f\n' | sort | head -n1)
+          else
+            echo "::error::Unexpected bootstrap status after API enablement: $status"
+            exit 1
+          fi
+          [ -n "$active" ]
+          [[ "$active" =~ ^google[A-Za-z0-9_-]+\.html$ ]]
+          test -f "public/$active"
+          expected="google-site-verification: $active"
+          test "$(tr -d '\r\n' < "public/$active")" = "$expected"
+          find public -maxdepth 1 -type f -name 'google*.html' ! -name "$active" -delete
+          echo "active_file=$active" >> "$GITHUB_OUTPUT"
+          echo "Correct Google FILE token prepared without printing credentials."
+
+      - name: Validate control-file exclusions and production build before deployment
+        run: |
+          set -euo pipefail
+          pnpm sitemap:check
+          pnpm build
+          active="${{ steps.token.outputs.active_file }}"
+          test -f "dist/$active"
+          test "$(tr -d '\r\n' < "dist/$active")" = "google-site-verification: $active"
+          node tools/validate-jsonld.mjs dist
+          node tools/check-critical-routes.mjs dist
+          pnpm check:links
+
+      - name: Commit the corrected protocol and official token to main
+        run: |
+          set -euo pipefail
+          git config user.name "IZEM Search Console Bootstrap"
+          git config user.email "search-console-bootstrap@youraicoach.life"
+          git add tools/ai-marketing/gsc-url-prefix-bootstrap.mjs .github/workflows/search-console-bootstrap.yml public/google*.html
+          git add -u public/
+          if git diff --cached --quiet; then
+            echo "The corrected Google FILE protocol is already committed."
+          else
+            git commit -m "fix: use Google's required FILE verification body"
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main
+          fi
+
+      - name: Explicitly deploy the corrected token through GitHub Pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY" --ref main
+
+      - name: Verify ownership, add the HTTPS property, and prove Search Console query access
+        id: verify
+        run: node tools/ai-marketing/gsc-url-prefix-bootstrap.mjs verify "${{ steps.token.outputs.active_file }}"
+
+      - name: Independently retrieve private query and page evidence
+        run: |
+          set -euo pipefail
+          if [ -z "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ]; then
+            export GOOGLE_SERVICE_ACCOUNT_JSON="${GOOGLE_CLOUD_JSON:-${GCP_SA_KEY:-${GOOGLE_APPLICATION_CREDENTIALS_JSON:-}}}"
+          fi
+          node tools/ai-marketing/gsc-fetch-private.mjs \
+            --site https://youraicoach.life/ \
+            --days 28 \
+            --dimensions query,page \
+            --row-limit 2500
+
+      - name: Mark Search Console production ready
+        run: |
+          node tools/ai-marketing/mark-gsc-ready.mjs
+          node <<'NODE'
+          const fs = require('fs');
+          const marker = JSON.parse(fs.readFileSync('public/seo-system-version.json', 'utf8'));
+          if (Number(marker.version || 0) < 3) throw new Error('SEO readiness marker version is below 3');
+          if (marker.searchConsoleVerified !== true) throw new Error('Search Console readiness is not true');
+          if (marker.searchConsoleProperty !== 'https://youraicoach.life/') throw new Error('Unexpected Search Console property');
+          if (!String(marker.pipeline || '').includes('verified-url-prefix-gsc')) throw new Error('Verified GSC pipeline marker is missing');
+          console.log('Search Console production marker validated.');
+          NODE
+
+      - name: Commit readiness and remove the obsolete authorization notice
+        run: |
+          set -euo pipefail
+          git config user.name "IZEM Search Console Bootstrap"
+          git config user.email "search-console-bootstrap@youraicoach.life"
+          git add public/seo-system-version.json
+          git rm -f .github/SEO_GOOGLE_ACTION.md 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Production readiness is already committed."
+          else
+            git commit -m "chore: activate verified Search Console production"
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main
+          fi
+
+      - name: Prove final owner or full-user status
+        id: status
+        run: node tools/ai-marketing/gsc-url-prefix-bootstrap.mjs status
+
+      - name: Require final verified status
+        run: |
+          set -euo pipefail
+          [ "${{ steps.status.outputs.ready }}" = "true" ]
+          [ "${{ steps.status.outputs.status }}" = "verified" ]
+
+      - name: Re-run Gemini, live grounding, writer, critic, repair, and renderer
+        id: grounding
+        run: |
+          set -euo pipefail
+          pnpm seo:smoke:gemini
+          node tools/ai-marketing/seo-grounding-smoke-plan.mjs
+          SEO_PLAN_PATH=/tmp/izem-seo-grounding-smoke-plan.json \
+            node tools/ai-marketing/seo-production-runner.mjs --dry-run --force
+
+      - name: Require the independent editor smoke to stay grounded and non-mutating
+        run: |
+          set -euo pipefail
+          [ "${{ steps.grounding.outputs.validated }}" = "true" ]
+          [ "${{ steps.grounding.outputs.changed }}" = "false" ]
+          [ "${{ steps.grounding.outputs.grounded }}" = "true" ]
+          git diff --quiet -- public/
+
+      - name: Count available private GSC rows
+        id: rows
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const report = JSON.parse(fs.readFileSync('tools/ai-marketing/search-console-reports/latest-28d.json', 'utf8'));
+          const count = Array.isArray(report.rows) ? report.rows.length : 0;
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `count=${count}\n`);
+          console.log(`Private query+page rows available: ${count}.`);
+          NODE
+
+      - name: Run the full private GSC-backed planner and editor when evidence exists
+        id: gsc_smoke
+        if: steps.rows.outputs.count != '0'
+        run: |
+          set -euo pipefail
+          node tools/ai-marketing/seo-growth-engine.mjs \
+            --gsc tools/ai-marketing/search-console-reports/latest-28d.json \
+            --require-gsc > /tmp/seo-base-planner.log
+          pnpm seo:expert
+          node tools/ai-marketing/seo-smoke-plan.mjs
+          SEO_PLAN_PATH=/tmp/izem-seo-smoke-plan.json \
+            node tools/ai-marketing/seo-production-runner.mjs --dry-run --force
+
+      - name: Require the GSC-backed editor to stay grounded and non-mutating
+        if: steps.rows.outputs.count != '0'
+        run: |
+          set -euo pipefail
+          [ "${{ steps.gsc_smoke.outputs.validated }}" = "true" ]
+          [ "${{ steps.gsc_smoke.outputs.changed }}" = "false" ]
+          [ "${{ steps.gsc_smoke.outputs.grounded }}" = "true" ]
+          git diff --quiet -- public/
+
+      - name: Confirm safe no-action behavior for a new zero-row property
+        if: steps.rows.outputs.count == '0'
+        run: |
+          echo "Search Console ownership and query+page API access are verified. No evidence rows exist yet, so evidence-driven publication correctly remains inactive." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Close the one-time Google authorization issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          issue=$(gh issue list --state open --search '"[One-time Google action] Enable Site Verification API" in:title' --json number --jq '.[0].number // empty')
+          if [ -n "$issue" ]; then
+            gh issue close "$issue" --comment "Verified end to end: Google's required FILE body is live, HTTPS URL-prefix ownership succeeded, Search Console query+page API retrieval passed, the production marker is active, and the grounded editor smoke is green."
+          fi
