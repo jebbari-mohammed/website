@@ -1,0 +1,100 @@
+name: SEO Interactions grounding migration
+
+on:
+  push:
+    branches: [agent/seo-production-hardening]
+    paths:
+      - '.github/workflows/seo-interactions-migration.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout hardening branch
+        uses: actions/checkout@v7
+        with:
+          ref: agent/seo-production-hardening
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Migrate research to the official Interactions API client
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const file = 'tools/ai-marketing/seo-production.mjs';
+          let source = fs.readFileSync(file, 'utf8');
+
+          const importAnchor = "} from './seo-publisher-core.mjs';";
+          const groundedImport = "import { runGroundedResearch } from './gemini-grounded-research.mjs';";
+          if (!source.includes(groundedImport)) {
+            if (!source.includes(importAnchor)) throw new Error('Could not find the publisher-core import anchor');
+            source = source.replace(importAnchor, `${importAnchor}\n${groundedImport}`);
+          }
+
+          const oldFunction = `async function researchOpportunity(item) {
+            const prompt = \`Research the live Google search landscape for a fitness/AI coaching query.\\n\\nQuery: \${item.query}\\nIntent: \${item.brief?.intent || 'informational'}\\nCurrent target: \${item.targetPage || 'none'}\\n\\nUse Google Search. Return a concise private editorial brief covering: dominant intent; formats and SERP features; what top results do well; missing or weak angles; what would constitute genuine information gain; freshness/source expectations; and risks of overlap. Do not copy competitor wording. Do not recommend invented statistics, testimonials, medical claims, or unverified competitor prices/features.\`;
+            try {
+              const response = await generateText(prompt, { search: true, maxOutputTokens: 4500 });
+              return { text: response.text.slice(0, 12000), model: response.model, grounded: true };
+            } catch {
+              return { text: 'Live Google Search research was unavailable. Use only the supplied GSC evidence, current page context, product facts, and conservative claims.', model: '', grounded: false };
+            }
+          }`;
+
+          const newFunction = `async function researchOpportunity(item) {
+            const prompt = \`Research the live Google search landscape for a fitness/AI coaching query.\\n\\nQuery: \${item.query}\\nIntent: \${item.brief?.intent || 'informational'}\\nCurrent target: \${item.targetPage || 'none'}\\n\\nUse Google Search. Return a concise private editorial brief covering: dominant intent; formats and SERP features; what top results do well; missing or weak angles; what would constitute genuine information gain; freshness/source expectations; and risks of overlap. Do not copy competitor wording. Do not recommend invented statistics, testimonials, medical claims, or unverified competitor prices/features.\`;
+            try {
+              const response = await runGroundedResearch({
+                prompt,
+                apiKeys: apiKeys(),
+                models: modelCandidates(),
+                maxOutputTokens: 4500,
+                thinkingLevel: 'medium',
+              });
+              console.log(\`Grounded research completed with \${response.model} using key slot \${response.keySlot}.\`);
+              return { text: response.text.slice(0, 12000), model: response.model, grounded: true };
+            } catch (error) {
+              console.warn(\`Grounded SERP research unavailable: \${safeError(error)}\`);
+              return { text: '', model: '', grounded: false };
+            }
+          }`;
+
+          if (source.includes(oldFunction)) source = source.replace(oldFunction, newFunction);
+          else if (!source.includes('await runGroundedResearch({')) throw new Error('Could not replace the old research function safely');
+
+          fs.writeFileSync(file, source);
+          NODE
+
+      - name: Verify syntax and grounding utility tests
+        run: |
+          set -euo pipefail
+          node --check tools/ai-marketing/seo-production.mjs
+          node --test tools/ai-marketing/gemini-grounded-research.test.mjs
+
+      - name: Commit migration and remove this one-time workflow
+        run: |
+          set -euo pipefail
+          git config user.name "IZEM SEO Hardening"
+          git config user.email "seo-hardening@youraicoach.life"
+          git rm .github/workflows/seo-interactions-migration.yml
+          git add tools/ai-marketing/seo-production.mjs
+          git commit -m "fix: use Interactions API for grounded SEO research"
+          git push origin HEAD:agent/seo-production-hardening
