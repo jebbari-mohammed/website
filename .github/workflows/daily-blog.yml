@@ -108,6 +108,10 @@ jobs:
           fs.writeFileSync(`${base}/publish-state.json`, `${JSON.stringify(state, null, 2)}\n`);
           NODE
 
+      - name: Generate a unique OG image for a new page
+        if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create'
+        run: node tools/ai-marketing/gsc-publish-og.mjs
+
       - name: Rebuild blog index and RSS
         if: steps.publish.outputs.changed == 'true'
         run: node tools/ai-marketing/rebuild-blog-index.mjs
