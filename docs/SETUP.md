@@ -3,127 +3,157 @@
 ## Requirements
 
 - Node 22+
-- pnpm
+- pnpm 9.15.9
 
 ## Install
 
 ```bash
+corepack enable
 pnpm install --ignore-scripts
 ```
 
-Puppeteer is already configured as an ignored build dependency for this project. Do not approve third-party install scripts unless you know why the script is needed.
+Puppeteer is configured as an ignored build dependency. Do not approve third-party install scripts unless you understand why they are required.
 
 ## Environment
 
-Copy `.env.example` to `.env` and fill only the providers you use.
+Copy `.env.example` to `.env` and configure only the providers you use.
 
 ```bash
 cp .env.example .env
 ```
 
-LLM keys are optional for the deterministic planning/draft pipeline. Production GSC publication requires a Gemini key because the publisher writes or refreshes site content.
+Never commit `.env`, a service-account JSON file, Search Console exports, expert opportunity plans, experiment state, or API keys.
 
-## Search Console SEO Growth Engine
+## Production SEO system
 
-The SEO growth engine is intentionally driven by Google Search Console instead of guessed keyword volume. It inventories the existing site, groups query variants, checks the ranking URL, and returns one of these actions:
+The production SEO system is an evidence-driven decision pipeline, not a daily article queue. Its normal sequence is:
 
-- `REFRESH`: improve the existing ranking page, especially when it is already within striking distance.
-- `CREATE`: create one substantial page for a missing search intent only when the current ranking URL is a poor match.
-- `MERGE`: flag likely query cannibalization for consolidation review.
-- `MONITOR`: relevant, but not a high-leverage action yet.
-- `SKIP`: outside IZEM's topic/product focus.
+1. pull private Google Search Console `query,page` evidence;
+2. inventory the current public site;
+3. classify opportunities as `REFRESH`, `CREATE`, `MERGE`, `MONITOR`, or `SKIP`;
+4. apply senior-level expected-value, confidence, business-fit, risk, and cannibalization gates;
+5. research the live search landscape with Google Search grounding;
+6. produce a draft, run a separate critic pass, and repair it until deterministic quality gates pass;
+7. apply only a safe `REFRESH` or `CREATE` automatically;
+8. rebuild discovery files, validate JSON-LD/routes/links, build the site, and commit only public files;
+9. wait for GitHub Pages and verify the exact experiment marker on the live URL;
+10. save private cooldown and experiment state so the same idea is not repeated before it can be measured.
 
-### Local Search Console setup
+`MERGE`, redirects, deletions, broad pruning, and destructive consolidation remain human-reviewed because backlink and unique-content loss cannot be assessed safely from Search Console alone.
 
-Use a Google service account that has read-only access to the `youraicoach.life` Search Console property. Either put the raw JSON in `GOOGLE_SERVICE_ACCOUNT_JSON` or point `GOOGLE_APPLICATION_CREDENTIALS` at the credential file. Never commit the credential.
+### Search Console credentials
 
-Pull the latest query + page data and build the plan:
-
-```bash
-pnpm gsc -- --days 28 --dimensions query,page --row-limit 2500 --output latest-28d.json
-pnpm seo:plan
-pnpm test:seo-growth
-```
-
-The latest derived plan is written to:
-
-```text
-data/marketing-employee/seo-growth/latest.json
-data/marketing-employee/seo-growth/latest.md
-```
-
-Raw Search Console exports stay under:
-
-```text
-tools/ai-marketing/search-console-reports/
-```
-
-They are gitignored and should remain private.
-
-If no Search Console export is available, `pnpm seo:plan` produces a `needs-gsc-data` plan and refuses to invent a content opportunity. Use `pnpm seo:plan:strict` when missing GSC data should fail the command instead.
-
-### GitHub Actions setup
-
-Add the service-account JSON as this repository secret:
+Create a Google service account, give its email read-only access to the Search Console property `sc-domain:youraicoach.life`, and store the complete JSON credential in the GitHub Actions repository secret:
 
 ```text
 GOOGLE_SERVICE_ACCOUNT_JSON
 ```
 
-The marketing planning workflow then:
+The production workflow fails visibly when this secret is missing, malformed, unauthorized, or returns no query+page evidence. It never falls back to guessed demand.
 
-1. pulls fresh 28-day `query,page` Search Console data;
-2. inventories the existing website and builds the SEO action queue;
-3. tests the decision logic;
-4. selects the highest-leverage `REFRESH`, `CREATE`, or `MERGE` opportunity for brief/social planning;
-5. feeds the complete GSC brief into the content writer;
-6. skips content generation when no strong GSC-backed action exists;
-7. keeps the detailed GSC opportunity queue out of the public Git repository.
+For local use, put the raw JSON into the environment variable. Do not point production at a committed credential file.
 
-The heuristic keyword roadmap is still generated for ideation/dashboard context, but it no longer decides which daily page should be published.
+### Gemini credentials
 
-## Production GSC Publication Loop
+Configure one or more repository secrets:
 
-The existing `Daily Blog Post` GitHub Action no longer publishes from the old giant hard-coded keyword queue. It now pulls its own fresh Search Console report, runs the growth planner, and calls `tools/ai-marketing/gsc-publish.mjs`.
-
-The publisher deliberately auto-applies only two action types:
-
-- `CREATE`: writes one new substantial English blog page when GSC shows a relevant missing intent and the ranking page is a poor match.
-- `REFRESH`: preserves the existing HTML page and adds/replaces a marked improvement section. It only changes title/meta description when the current CTR is materially below the planner's internal position-based heuristic.
-
-`MERGE` stays advisory because deleting, redirecting, or consolidating pages safely requires a backlink and unique-content review.
-
-Before any production commit, the loop:
-
-1. rejects missing GSC data instead of falling back to the old queue;
-2. selects the highest-scoring eligible GSC opportunity;
-3. enforces 14-day refresh and 60-day create cooldowns;
-4. cools down sibling queries / the same target page after a publication so stale GSC data does not create near-duplicates the next day;
-5. uses a low-temperature Gemini generation step with explicit no-fabrication and health-safety rules;
-6. rejects thin content, unsafe HTML, keyword stuffing, unsupported guarantee/medical claim patterns, and malformed title/meta ranges;
-7. rebuilds the blog archive and RSS feed;
-8. synchronizes the sitemap;
-9. validates all JSON-LD across `public/`;
-10. commits only `public/` website changes, deploys Pages, and pings Google;
-11. triggers the existing IZEM video workflow only for a genuinely new `CREATE` page.
-
-The detailed query plan remains gitignored. Publication cooldown state persists in the private GitHub Actions cache rather than in the public repository.
-
-For a local production-style run:
-
-```bash
-cd tools/ai-marketing && npm install && cd ../..
-node tools/ai-marketing/search-console.mjs --days 28 --dimensions query,page --row-limit 2500 --output latest-28d.json
-node tools/ai-marketing/seo-growth-engine.mjs --require-gsc
-GEMINI_API_KEY=... GEMINI_MODEL=gemini-3.5-flash node tools/ai-marketing/gsc-publish.mjs
-node tools/ai-marketing/rebuild-blog-index.mjs
-node tools/sync-sitemap.mjs
-node tools/validate-jsonld.mjs public
+```text
+GEMINI_API_KEY
+GEMINI_API_KEY_2
+GEMINI_API_KEY_3
 ```
 
-Do not run the final publisher command against a working tree you are not prepared to review/commit; it can modify a real page or create a new one.
+The publisher uses the current `@google/genai` SDK and attempts these stable models in order unless overridden:
 
-## Run Dashboard
+```text
+gemini-3.6-flash
+gemini-3.5-flash
+gemini-3.5-flash-lite
+```
+
+A live structured-output smoke test runs before content work. Exact API keys and Search Console queries are never printed.
+
+## Local verification
+
+Pull private GSC evidence:
+
+```bash
+pnpm gsc:private
+```
+
+Build the base and expert plans:
+
+```bash
+pnpm seo:plan:strict -- --gsc tools/ai-marketing/search-console-reports/latest-28d.json
+pnpm seo:expert
+```
+
+Run all deterministic planner, clustering, sanitizer, metadata, and idempotency tests:
+
+```bash
+pnpm test:seo-growth
+```
+
+Verify the configured Gemini model/key combination:
+
+```bash
+pnpm seo:smoke:gemini
+```
+
+Run the full research, draft, critic, repair, renderer, and quality-gate path without modifying public files:
+
+```bash
+pnpm seo:publish:dry
+```
+
+A real publication is intentionally explicit:
+
+```bash
+pnpm seo:publish
+```
+
+Do not run the real publisher in a working tree you are not prepared to validate and commit.
+
+## Private artifacts
+
+These paths are gitignored and must stay private:
+
+```text
+tools/ai-marketing/search-console-reports/
+data/marketing-employee/seo-growth/
+```
+
+The public repository contains only implementation code and website output. Production logs use irreversible query hashes rather than exact GSC queries.
+
+## GitHub Actions
+
+### Daily SEO Production
+
+`.github/workflows/daily-blog.yml` is the only scheduled workflow allowed to create or materially refresh an SEO page. It runs once daily, validates credentials and deterministic tests, then performs at most one evidence-backed action. It may also decide that no publication is justified.
+
+A manual dispatch supports:
+
+- `dry_run=true`: exercise the real private GSC and Gemini pipeline without changing the site;
+- `force=true`: bypass cooldowns only for a supervised diagnostic run.
+
+Failures open or update one repository health issue. A later successful run closes it.
+
+### SEO production validation
+
+`.github/workflows/seo-growth-engine-ci.yml` has two layers:
+
+- deterministic tests plus a strict production build;
+- a credentialed same-repository smoke test that verifies real Search Console access, current Gemini access, live Google Search grounding, the critic/repair loop, and the renderer without publishing.
+
+### Pages deployment
+
+`.github/workflows/deploy.yml` blocks success when source/built JSON-LD is invalid, required pages are missing, critical internal routes or links fail, deployment fails, or live core pages do not return HTTP 200. The SEO production workflow additionally verifies the exact experiment marker after a content change.
+
+### Retired automatic generators
+
+The old daily hard-coded keyword publisher, daily comparison generator, daily mass-translation workflow, and fake weekly `dateModified` refresher are not part of production. Comparison or multilingual expansion should happen only when first-party evidence and a reviewed brief justify it.
+
+## Marketing dashboard
 
 ```bash
 pnpm dev
@@ -135,26 +165,17 @@ Open:
 http://localhost:5173/marketing-dashboard
 ```
 
-## Generate Data
+The separate weekly marketing-health workflow may generate sanitized audits and reports. It is not allowed to publish editorial pages.
+
+## Other local tools
 
 ```bash
-pnpm audit:site -- --url=https://youraicoach.life --max-pages=25
-pnpm keywords:generate -- --seed="AI personal trainer accountability"
-pnpm blog:create -- --keyword="fitness app that calls you"
-pnpm social:repurpose
+pnpm audit:site -- --url=https://youraicoach.life --max-pages=100
 pnpm report:weekly
-```
-
-Artifacts are written to:
-
-```text
-data/marketing-employee/
-```
-
-Dashboard snapshot is written to:
-
-```text
-public/marketing-data/index.json
+pnpm sitemap:check
+pnpm video:check
+pnpm check:links
+pnpm build
 ```
 
 ## Docker Compose
@@ -163,7 +184,7 @@ public/marketing-data/index.json
 docker compose up
 ```
 
-This starts the Vite dashboard and the worker health service. The worker health endpoint is:
+The worker health endpoint is:
 
 ```text
 http://localhost:4317/health

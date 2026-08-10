@@ -1,163 +1,228 @@
-name: Daily Blog Post
+name: Daily SEO Production
 
 on:
-  # One of these hourly checks publishes at a daily pseudo-random time between
-  # 10:00 and 17:00 UTC. The 13-minute offset avoids GitHub's busiest cron minute.
   schedule:
-    - cron: '13 10 * * *'
-    - cron: '13 11 * * *'
-    - cron: '13 12 * * *'
-    - cron: '13 13 * * *'
-    - cron: '13 14 * * *'
-    - cron: '13 15 * * *'
-    - cron: '13 16 * * *'
-  # Also allow manual trigger from GitHub UI
+    - cron: '17 8 * * *'
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Validate the full private GSC and Gemini pipeline without changing the site
+        required: false
+        default: false
+        type: boolean
+      force:
+        description: Ignore publication cooldowns for an explicitly supervised manual run
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
   actions: write
+  issues: write
+
+concurrency:
+  group: seo-production
+  cancel-in-progress: false
 
 jobs:
-  generate-blog:
-    runs-on: ubuntu-latest
+  produce:
+    name: Evidence-driven SEO action
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      GSC_SITE_URL: sc-domain:youraicoach.life
+      SEO_GEMINI_MODEL: gemini-3.6-flash
+      SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.5-flash-lite
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+      FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.force || false }}
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout current production branch
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
+          fetch-depth: 0
 
-      - name: Select today's randomized publication time
-        id: timing
-        run: node tools/ai-marketing/publication-window.mjs --event "${{ github.event_name }}" --schedule "${{ github.event.schedule }}" --base-hour 10 --salt daily-blog
-
-      - name: Wait until the selected publication time
-        if: github.event_name == 'schedule' && steps.timing.outputs.publish == 'true'
-        run: sleep "${{ steps.timing.outputs.wait_seconds }}"
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
 
       - name: Set up Node
-        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
+          cache: pnpm
 
-      - name: Install AI marketing dependencies
-        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
-        run: cd tools/ai-marketing && npm install
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
 
-      - name: Restore private SEO publication cooldown state
-        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
-        uses: actions/cache@v4
-        with:
-          path: data/marketing-employee/seo-growth/publish-state.json
-          key: seo-growth-publish-state-${{ github.run_id }}
-          restore-keys: |
-            seo-growth-publish-state-
-
-      - name: Pull fresh Search Console data and build SEO plan
-        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
+      - name: Verify required private credentials
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          GSC_SITE_URL: sc-domain:youraicoach.life
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
         run: |
           set -euo pipefail
-          if [ -n "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ]; then
-            echo "📥 Pulling fresh 28-day Search Console query + page data..."
-            node tools/ai-marketing/search-console.mjs --days 28 --dimensions query,page --row-limit 2500 --output latest-28d.json
-          else
-            echo "⚠️ GOOGLE_SERVICE_ACCOUNT_JSON is not configured. No SEO page will be published from guessed demand."
+          [ -n "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ] || { echo "::error::GOOGLE_SERVICE_ACCOUNT_JSON is missing"; exit 1; }
+          if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${GEMINI_API_KEY_2:-}" ] && [ -z "${GEMINI_API_KEY_3:-}" ]; then
+            echo "::error::At least one Gemini API key is required"
+            exit 1
           fi
-          node tools/ai-marketing/seo-growth-engine.mjs
+          node - <<'NODE'
+          const value = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+          if (value.type !== 'service_account' || !value.client_email || !value.private_key) {
+            throw new Error('Search Console secret is not a valid service-account JSON credential');
+          }
+          console.log('Credential structure verified without printing sensitive values.');
+          NODE
 
-      - name: Apply highest-leverage GSC-backed site change
-        id: publish
-        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
+      - name: Restore private experiment and cooldown state
+        uses: actions/cache@v5
+        with:
+          path: |
+            data/marketing-employee/seo-growth/publish-state-v2.json
+            data/marketing-employee/seo-growth/experiments-v2.json
+          key: seo-production-state-v2-${{ github.run_id }}
+          restore-keys: |
+            seo-production-state-v2-
+
+      - name: Run deterministic SEO tests
+        run: pnpm test:seo-growth
+
+      - name: Pull private Search Console query and landing-page evidence
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: pnpm gsc:private
+
+      - name: Build private base opportunity plan
+        run: |
+          set -euo pipefail
+          node tools/ai-marketing/seo-growth-engine.mjs \
+            --gsc tools/ai-marketing/search-console-reports/latest-28d.json \
+            --require-gsc > /tmp/seo-base-planner.log
+          echo "Base plan completed. Exact query output stayed private."
+
+      - name: Apply senior-level value, confidence, risk, and cannibalization gates
+        run: pnpm seo:expert
+
+      - name: Verify current Gemini SDK, keys, and model fallback
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
           GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
-          GEMINI_MODEL: gemini-3.5-flash
-          CI: true
-          GITHUB_ACTIONS: true
-        run: node tools/ai-marketing/gsc-publish.mjs
+        run: pnpm seo:smoke:gemini
 
-      - name: Cool down the full target/query cluster
-        if: steps.publish.outputs.changed == 'true'
+      - name: Research, draft, critique, validate, and prepare the best action
+        id: publish
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+          SEO_PLAN_PATH: data/marketing-employee/seo-growth/expert-latest.json
         run: |
-          node <<'NODE'
-          const fs = require('fs');
-          const base = 'data/marketing-employee/seo-growth';
-          const plan = JSON.parse(fs.readFileSync(`${base}/latest.json`, 'utf8'));
-          const last = JSON.parse(fs.readFileSync(`${base}/last-publish.json`, 'utf8'));
-          const state = JSON.parse(fs.readFileSync(`${base}/publish-state.json`, 'utf8'));
-          const related = new Set([last.query, ...((last.opportunity && last.opportunity.brief && last.opportunity.brief.relatedQueries) || [])]);
-          for (const item of plan.opportunities || []) {
-            const sameRefreshTarget = last.action === 'refresh' && item.action === 'refresh' && item.targetPage && item.targetPage === last.targetPage;
-            const sameCreateCluster = last.action === 'create' && item.action === 'create' && related.has(item.query);
-            if (!sameRefreshTarget && !sameCreateCluster) continue;
-            const key = `${item.action || ''}|${item.query || ''}|${item.targetPage || ''}`;
-            state.actions[key] = {
-              at: last.at,
-              action: item.action,
-              targetPage: item.targetPage || last.url,
-              clusteredWith: last.query,
-            };
-          }
-          state.updatedAt = last.at;
-          fs.writeFileSync(`${base}/publish-state.json`, `${JSON.stringify(state, null, 2)}\n`);
-          NODE
+          set -euo pipefail
+          args=()
+          [ "$DRY_RUN" = "true" ] && args+=(--dry-run)
+          [ "$FORCE_RUN" = "true" ] && args+=(--force)
+          node tools/ai-marketing/seo-production-runner.mjs "${args[@]}"
 
-      - name: Generate a unique OG image for a new page
+      - name: Generate a production PNG social card for a new page
         if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create'
-        run: node tools/ai-marketing/gsc-publish-og.mjs
+        run: node tools/ai-marketing/seo-og-card.mjs
 
-      - name: Rebuild blog index and RSS
-        if: steps.publish.outputs.changed == 'true'
-        run: node tools/ai-marketing/rebuild-blog-index.mjs
-
-      - name: Synchronize the indexable-page sitemap
-        if: steps.publish.outputs.changed == 'true'
-        run: node tools/sync-sitemap.mjs
-
-      - name: Validate all structured data before publishing
-        if: steps.publish.outputs.changed == 'true'
-        run: node tools/validate-jsonld.mjs public
-
-      - name: Commit and push GSC-backed SEO change
+      - name: Rebuild discovery files and validate the complete site
         if: steps.publish.outputs.changed == 'true'
         run: |
-          git config user.name "IZEM Editorial"
-          git config user.email "editorial@youraicoach.life"
+          set -euo pipefail
+          node tools/ai-marketing/rebuild-blog-index.mjs
+          pnpm sitemap:sync
+          node tools/validate-jsonld.mjs public
+          pnpm build
+          node tools/validate-jsonld.mjs dist
+          node tools/check-critical-routes.mjs dist
+          pnpm check:links
 
-          # Publish only website files. Raw GSC exports and the detailed private
-          # opportunity plan remain gitignored; cooldown state persists in the
-          # GitHub Actions cache instead of the public repository.
+      - name: Commit only public website files
+        if: steps.publish.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name "IZEM SEO Production"
+          git config user.email "seo-production@youraicoach.life"
           git add public/
 
-          if git diff --staged --quiet; then
-            echo "No public website changes to commit."
-            exit 0
+          if git diff --cached --name-only | grep -E 'search-console-reports|marketing-employee/seo-growth'; then
+            echo "::error::Private SEO evidence was accidentally staged"
+            exit 1
           fi
 
-          git commit -m "seo: ${{ steps.publish.outputs.action }} ${{ steps.publish.outputs.slug }}"
-          git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
-          git push || (sleep 5 && git pull --rebase origin main && git push)
+          git diff --cached --quiet && { echo "::error::Publisher reported a change but no public file is staged"; exit 1; }
+          git commit -m "seo: ${{ steps.publish.outputs.action }} ${{ steps.publish.outputs.query_hash }}"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
 
-      - name: Trigger Pages deploy for SEO change
+      - name: Verify the exact SEO change reached the live site
         if: steps.publish.outputs.changed == 'true'
+        run: |
+          node tools/ai-marketing/verify-live-seo.mjs \
+            --url "${{ steps.publish.outputs.url }}" \
+            --marker "${{ steps.publish.outputs.marker }}"
+
+      - name: Trigger the existing video workflow for a new article
+        if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run "Deploy static content to Pages" --ref main
+        run: gh workflow run "Daily IZEM YouTube Video" --ref main -f post_slug="${{ steps.publish.outputs.slug }}"
 
-      - name: Trigger IZEM video for a newly created post
-        if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create' && steps.publish.outputs.slug != ''
+      - name: Notify search engines after verified publication
+        if: steps.publish.outputs.changed == 'true'
+        run: node tools/ai-marketing/google-indexing.mjs || true
+
+      - name: Write privacy-safe SEO run summary
+        if: always()
+        run: |
+          {
+            echo "### IZEM SEO production"
+            echo "- Dry run: ${DRY_RUN}"
+            echo "- Action: ${{ steps.publish.outputs.action || 'none' }}"
+            echo "- Query hash: ${{ steps.publish.outputs.query_hash || 'none' }}"
+            echo "- Live search grounded: ${{ steps.publish.outputs.grounded || 'false' }}"
+            echo "- Validation passed: ${{ steps.publish.outputs.validated || 'false' }}"
+            echo "- Public change: ${{ steps.publish.outputs.changed || 'false' }}"
+            if [ "${{ steps.publish.outputs.changed }}" = "true" ]; then
+              echo "- Live URL: ${{ steps.publish.outputs.url }}"
+              echo "- Deployment marker: ${{ steps.publish.outputs.marker }}"
+            fi
+            echo "- Exact Search Console queries were never printed or committed."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open or update a health issue when production fails
+        if: failure()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Triggering IZEM video for ${{ steps.publish.outputs.slug }}"
-          gh workflow run "Daily IZEM YouTube Video" --ref main -f post_slug="${{ steps.publish.outputs.slug }}"
+          set -euo pipefail
+          title="[SEO Automation] Production pipeline needs attention"
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
+          body="The privacy-safe SEO production pipeline failed on $(date -u +%Y-%m-%d). Review the workflow run: ${run_url}. No exact Search Console queries are included in this issue."
+          if [ -n "$issue" ]; then
+            gh issue comment "$issue" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body"
+          fi
 
-      - name: Ping Google sitemap
-        if: steps.publish.outputs.changed == 'true'
-        run: node tools/ai-marketing/google-indexing.mjs || true
+      - name: Close a recovered health issue
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="[SEO Automation] Production pipeline needs attention"
+          issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$issue" ]; then
+            gh issue close "$issue" --comment "The SEO production pipeline completed successfully in ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}."
+          fi

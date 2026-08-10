@@ -1,4 +1,4 @@
-name: SEO growth engine CI
+name: SEO production validation
 
 on:
   pull_request:
@@ -6,53 +6,49 @@ on:
       - 'config/seo-growth.config.json'
       - 'package.json'
       - 'pnpm-lock.yaml'
-      - 'packages/agents/**'
-      - 'packages/content/**'
-      - 'tools/ai-marketing/seo-growth-engine.mjs'
-      - 'tools/ai-marketing/seo-growth-engine.test.mjs'
-      - 'tools/ai-marketing/gsc-publish.mjs'
-      - 'tools/ai-marketing/gsc-publish-og.mjs'
-      - '.github/workflows/autonomous-marketing-employee.yml'
+      - 'tools/ai-marketing/**'
       - '.github/workflows/daily-blog.yml'
       - '.github/workflows/seo-growth-engine-ci.yml'
+      - '.github/workflows/autonomous-marketing-employee.yml'
+      - '.github/workflows/daily-comparison.yml'
+      - '.github/workflows/translate-blog.yml'
+      - '.github/workflows/weekly-refresh.yml'
+      - '.github/workflows/rebuild-blog-index.yml'
+      - 'public/seo-system-version.json'
   push:
     branches: [main]
     paths:
       - 'config/seo-growth.config.json'
       - 'package.json'
       - 'pnpm-lock.yaml'
-      - 'packages/agents/**'
-      - 'packages/content/**'
-      - 'tools/ai-marketing/seo-growth-engine.mjs'
-      - 'tools/ai-marketing/seo-growth-engine.test.mjs'
-      - 'tools/ai-marketing/gsc-publish.mjs'
-      - 'tools/ai-marketing/gsc-publish-og.mjs'
-      - '.github/workflows/autonomous-marketing-employee.yml'
+      - 'tools/ai-marketing/**'
       - '.github/workflows/daily-blog.yml'
       - '.github/workflows/seo-growth-engine-ci.yml'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
-  group: "seo-growth-engine-${{ github.ref }}"
+  group: seo-production-validation-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
+  deterministic:
+    name: Deterministic tests and production build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           version: 9
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -60,14 +56,174 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Check SEO publisher syntax
+      - name: Check production script syntax
         run: |
+          set -euo pipefail
+          node --check tools/ai-marketing/gsc-fetch-private.mjs
           node --check tools/ai-marketing/seo-growth-engine.mjs
-          node --check tools/ai-marketing/gsc-publish.mjs
-          node --check tools/ai-marketing/gsc-publish-og.mjs
+          node --check tools/ai-marketing/seo-expert-plan.mjs
+          node --check tools/ai-marketing/seo-publisher-core.mjs
+          node --check tools/ai-marketing/seo-production.mjs
+          node --check tools/ai-marketing/seo-production-runner.mjs
+          node --check tools/ai-marketing/seo-og-card.mjs
+          node --check tools/ai-marketing/seo-smoke-plan.mjs
+          node --check tools/ai-marketing/seo-grounding-smoke-plan.mjs
+          node --check tools/ai-marketing/gemini-smoke.mjs
+          node --check tools/ai-marketing/verify-live-seo.mjs
 
-      - name: Test SEO decision engine
+      - name: Test planner, clustering, sanitizer, metadata, idempotency, and grounding policy
         run: pnpm test:seo-growth
 
-      - name: Build website and TypeScript packages
+      - name: Validate current public structured data
+        run: node tools/validate-jsonld.mjs public
+
+      - name: Build production site
         run: pnpm build
+
+      - name: Validate critical production routes and links
+        run: |
+          set -euo pipefail
+          node tools/validate-jsonld.mjs dist
+          node tools/check-critical-routes.mjs dist
+          pnpm check:links
+
+  credentialed-smoke:
+    name: Live Gemini, grounding, GSC, critic, and renderer smoke
+    needs: deterministic
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      GSC_SITE_URL: sc-domain:youraicoach.life
+      SEO_GEMINI_MODEL: gemini-3.6-flash
+      SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.1-pro-preview,gemini-3.5-flash-lite
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+      GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Require at least one Gemini key
+        run: |
+          set -euo pipefail
+          if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${GEMINI_API_KEY_2:-}" ] && [ -z "${GEMINI_API_KEY_3:-}" ]; then
+            echo "::error::At least one Gemini API key is required"
+            exit 1
+          fi
+
+      - name: Verify current Gemini SDK, model access, and structured output
+        id: gemini
+        run: pnpm seo:smoke:gemini
+
+      - name: Build a public non-production grounding fixture
+        run: node tools/ai-marketing/seo-grounding-smoke-plan.mjs
+
+      - name: Prove live search grounding, draft, critic, repair, and renderer independently of GSC
+        id: grounding
+        env:
+          SEO_PLAN_PATH: /tmp/izem-seo-grounding-smoke-plan.json
+        run: node tools/ai-marketing/seo-production-runner.mjs --dry-run --force
+
+      - name: Verify the independent AI smoke was grounded and non-mutating
+        run: |
+          set -euo pipefail
+          [ "${{ steps.grounding.outputs.validated }}" = "true" ]
+          [ "${{ steps.grounding.outputs.changed }}" = "false" ]
+          [ "${{ steps.grounding.outputs.grounded }}" = "true" ]
+          if ! git diff --quiet -- public/; then
+            echo "::error::Grounding dry-run changed public website files"
+            git diff --name-only -- public/
+            exit 1
+          fi
+          echo "Independent Gemini + live grounding + editor smoke passed with ${{ steps.gemini.outputs.selected_model }}."
+
+      - name: Require the Search Console service-account secret
+        run: |
+          set -euo pipefail
+          [ -n "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ] || { echo "::error::GOOGLE_SERVICE_ACCOUNT_JSON is missing. See .github/SEO_GSC_BOOTSTRAP.md"; exit 1; }
+
+      - name: Verify real Search Console access without exposing queries
+        run: pnpm gsc:private
+
+      - name: Verify production planning against real first-party data
+        run: |
+          node tools/ai-marketing/seo-growth-engine.mjs \
+            --gsc tools/ai-marketing/search-console-reports/latest-28d.json \
+            --require-gsc > /tmp/seo-base-planner.log
+          pnpm seo:expert
+
+      - name: Build a private GSC-backed dry-run fixture
+        run: node tools/ai-marketing/seo-smoke-plan.mjs
+
+      - name: Run the full private GSC-backed production editor without changing the repo
+        id: gsc_smoke
+        env:
+          SEO_PLAN_PATH: /tmp/izem-seo-smoke-plan.json
+        run: node tools/ai-marketing/seo-production-runner.mjs --dry-run --force
+
+      - name: Prove the GSC-backed smoke was validated, grounded, and non-mutating
+        run: |
+          set -euo pipefail
+          [ "${{ steps.gsc_smoke.outputs.validated }}" = "true" ]
+          [ "${{ steps.gsc_smoke.outputs.changed }}" = "false" ]
+          [ "${{ steps.gsc_smoke.outputs.grounded }}" = "true" ]
+          if ! git diff --quiet -- public/; then
+            echo "::error::GSC dry-run changed public website files"
+            git diff --name-only -- public/
+            exit 1
+          fi
+          echo "Credentialed end-to-end smoke passed without publishing or leaking exact queries."
+
+  lockfile:
+    name: Commit reproducible dependency resolution
+    needs: [deterministic, credentialed-smoke]
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout the pull-request branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Regenerate and commit the lockfile only when necessary
+        run: |
+          set -euo pipefail
+          pnpm install --lockfile-only --no-frozen-lockfile
+          if git diff --quiet -- pnpm-lock.yaml; then
+            echo "pnpm-lock.yaml is already reproducible."
+            exit 0
+          fi
+          git config user.name "IZEM SEO Validation"
+          git config user.email "seo-validation@youraicoach.life"
+          git add pnpm-lock.yaml
+          git commit -m "chore: lock SEO production dependencies"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}

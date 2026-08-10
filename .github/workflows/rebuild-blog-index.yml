@@ -1,58 +1,50 @@
-name: Rebuild Blog Index
+name: Rebuild Source Blog Index
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'public/blog/**'
-      - '!public/blog/index.html'
-      - '!public/blog/feed.xml'
   workflow_dispatch:
 
 permissions:
   contents: write
-  actions: write
 
 concurrency:
-  group: "blog-index-${{ github.ref }}"
+  group: source-blog-index-rebuild
   cancel-in-progress: true
 
 jobs:
   rebuild:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout current main
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+          fetch-depth: 0
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: 22
 
-      - name: Rebuild blog index
-        run: node tools/ai-marketing/rebuild-blog-index.mjs
-
-      - name: Sync sitemap
-        run: node tools/sync-sitemap.mjs
-
-      - name: Commit index and sitemap rebuild
+      - name: Rebuild source blog index, RSS, and sitemap
         run: |
+          set -euo pipefail
+          node tools/ai-marketing/rebuild-blog-index.mjs
+          node tools/sync-sitemap.mjs
+          node tools/validate-jsonld.mjs public
+
+      - name: Commit only derived discovery files
+        run: |
+          set -euo pipefail
           git config user.name "IZEM Editorial"
           git config user.email "editorial@youraicoach.life"
           git add public/blog/index.html public/blog/feed.xml public/sitemap.xml
-          if git diff --staged --quiet; then
-            echo "No changes to index or sitemap"
-          else
-            git commit -m "🔄 Auto-rebuild blog index and sitemap"
-            git pull --rebase origin main || true
-            git push
+          if git diff --cached --quiet; then
+            echo "Source discovery files are already synchronized."
+            exit 0
           fi
-
-      - name: Trigger Pages deploy
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run "Deploy static content to Pages" --ref main
+          git commit -m "chore: rebuild source blog discovery files"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main

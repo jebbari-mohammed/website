@@ -2,7 +2,7 @@ name: Deploy static content to Pages
 
 on:
   push:
-    branches: ["main", "master"]
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:
@@ -10,59 +10,55 @@ permissions:
   pages: write
   id-token: write
 
-# Let an in-progress production deployment finish. New pushes replace only the
-# pending run, so rapid editorial commits cannot repeatedly cancel publication.
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
 
 jobs:
   deploy:
-    timeout-minutes: 25
+    name: Build, validate, deploy, and smoke-test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           version: 9
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: 'pnpm'
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      # Generate all derived files inside the same deployment run so a new post,
-      # the blog archive, RSS, video pages, and sitemap always reach Pages together.
-      - name: Synchronize generated site files
+      - name: Synchronize all generated discovery files
         run: |
+          set -euo pipefail
           node tools/ai-marketing/rebuild-blog-index.mjs
           pnpm video:sync
           pnpm sitemap:sync
 
-      # These broad editorial checks remain visible, but they are not allowed to
-      # block a complete, route-safe artifact from reaching production.
-      - name: Validate source content
-        id: source_quality
-        continue-on-error: true
+      - name: Validate source sitemap, video pages, and structured data
         run: |
+          set -euo pipefail
           pnpm video:check
           pnpm sitemap:check
           node tools/validate-jsonld.mjs public
 
-      - name: Build
+      - name: Build production artifact
         run: pnpm build
 
-      - name: Verify every public blog page is present in the artifact
+      - name: Verify every public blog page and required fallback exist
         run: |
           set -euo pipefail
           missing=0
@@ -75,67 +71,59 @@ jobs:
           done < <(find public/blog -type f -name '*.html' -print | sort)
           test "$missing" -eq 0
           test -f dist/404.html
+          test -f dist/seo-system-version.json
 
-      # This is the critical deployment gate. It checks only conditions that
-      # would produce a real 404: missing internal-link, sitemap, RSS, or news
-      # targets. SEO-quality warnings are handled separately and cannot block a
-      # valid page from reaching production.
-      - name: Block deployment when a route would return 404
-        run: node tools/check-critical-routes.mjs dist
-
-      - name: Validate built site
-        id: built_quality
-        continue-on-error: true
+      - name: Block broken internal routes, invalid schema, and broken links
         run: |
+          set -euo pipefail
+          node tools/check-critical-routes.mjs dist
           node tools/validate-jsonld.mjs dist
           pnpm check:links
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
         with:
-          path: './dist'
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
-      - name: Smoke-test the newest deployed blog pages
-        id: smoke_test
-        continue-on-error: true
+      - name: Smoke-test core pages and newest articles on the live domain
         run: |
           set -euo pipefail
 
-          node - <<'NODE' > /tmp/newest-blog-urls.txt
+          {
+            echo "https://youraicoach.life/"
+            echo "https://youraicoach.life/blog/"
+            echo "https://youraicoach.life/seo-system-version.json"
+            node - <<'NODE'
           const fs = require('fs');
           const xml = fs.readFileSync('public/blog/feed.xml', 'utf8');
-          const urls = [...xml.matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>[\s\S]*?<\/item>/g)]
-            .map((match) => match[1].trim())
-            .slice(0, 5);
-          if (!urls.length) throw new Error('RSS feed contains no blog items');
-          process.stdout.write(urls.join('\n'));
+          for (const match of [...xml.matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>[\s\S]*?<\/item>/g)].slice(0, 5)) {
+            console.log(match[1].trim());
+          }
           NODE
+          } | awk '!seen[$0]++' > /tmp/live-urls.txt
 
           success=0
-          for attempt in $(seq 1 12); do
+          for attempt in $(seq 1 16); do
             success=1
-            echo "Smoke-test attempt ${attempt}/12"
-
+            echo "Live smoke attempt ${attempt}/16"
             while IFS= read -r url; do
               body=$(mktemp)
-              code=$(curl -L -sS --max-time 30 -o "$body" -w '%{http_code}' "$url" || true)
-              title=$(grep -io '<title>[^<]*</title>' "$body" | head -1 | sed -E 's#</?title>##Ig' || true)
-              not_found=no
-              grep -qi 'Page not found' "$body" && not_found=yes
-              echo "$url -> HTTP ${code:-curl-error}; title=${title:-missing}; page_not_found=$not_found"
-
-              if [ "$code" != "200" ] || [ "$not_found" = "yes" ] || [ -z "$title" ]; then
+              code=$(curl -L -sS --max-time 30 -H 'Cache-Control: no-cache' -o "$body" -w '%{http_code}' "$url" || true)
+              page_not_found=no
+              grep -Eqi 'Page not found|<title>404|404 -' "$body" && page_not_found=yes
+              echo "$url -> HTTP ${code:-curl-error}; page_not_found=$page_not_found"
+              if [ "$code" != "200" ] || [ "$page_not_found" = "yes" ] || [ ! -s "$body" ]; then
                 success=0
               fi
               rm -f "$body"
-            done < /tmp/newest-blog-urls.txt
+            done < /tmp/live-urls.txt
 
             [ "$success" -eq 1 ] && break
             sleep 15
@@ -143,48 +131,14 @@ jobs:
 
           test "$success" -eq 1
 
-      # A deployment is successful when the artifact was published and the live
-      # pages passed the smoke test. Non-critical editorial findings are warnings,
-      # not a false red deployment status. Actual deploy/route failures stay red.
-      - name: Summarize deployment and quality results
-        if: always()
+      - name: Summarize verified deployment
+        if: success()
         run: |
-          critical_failure=0
-
-          echo "### GitHub Pages deployment" >> "$GITHUB_STEP_SUMMARY"
-
-          if [ "${{ steps.source_quality.outcome }}" = "failure" ]; then
-            echo "::warning::Source content quality checks found an issue. The route-safe site was still deployed; review the Validate source content logs."
-            echo "- ⚠️ Source quality checks reported an issue" >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "- ✅ Source quality checks passed" >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-          if [ "${{ steps.built_quality.outcome }}" = "failure" ]; then
-            echo "::warning::Built-site quality checks found an issue. The route-safe site was still deployed; review the Validate built site logs."
-            echo "- ⚠️ Built-site quality checks reported an issue" >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "- ✅ Built-site quality checks passed" >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-          if [ "${{ steps.deployment.outcome }}" != "success" ]; then
-            echo "::error::GitHub Pages did not deploy successfully."
-            echo "- ❌ Pages deployment failed or was skipped" >> "$GITHUB_STEP_SUMMARY"
-            critical_failure=1
-          else
-            echo "- ✅ Pages artifact deployed" >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-          if [ "${{ steps.smoke_test.outcome }}" != "success" ]; then
-            echo "::error::The public post-deployment smoke test failed or was skipped."
-            echo "- ❌ Live-page smoke test failed or was skipped" >> "$GITHUB_STEP_SUMMARY"
-            critical_failure=1
-          else
-            echo "- ✅ Newest public blog pages returned HTTP 200 and were not the 404 page" >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-          if [ "$critical_failure" -ne 0 ]; then
-            exit 1
-          fi
-
-          echo "Deployment completed successfully."
+          {
+            echo "### Verified GitHub Pages deployment"
+            echo "- ✅ Discovery files synchronized"
+            echo "- ✅ Source and built structured data valid"
+            echo "- ✅ Internal critical routes and links valid"
+            echo "- ✅ Pages artifact deployed"
+            echo "- ✅ Core pages and newest articles returned HTTP 200"
+          } >> "$GITHUB_STEP_SUMMARY"
