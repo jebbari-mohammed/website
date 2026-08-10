@@ -1,0 +1,84 @@
+name: Surface Search Console action
+
+on:
+  push:
+    branches: [agent/gsc-action-surface]
+    paths:
+      - '.github/workflows/surface-gsc-action.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: surface-search-console-action
+  cancel-in-progress: false
+
+jobs:
+  surface:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+
+    steps:
+      - name: Checkout action branch
+        uses: actions/checkout@v7
+        with:
+          ref: agent/gsc-action-surface
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Inspect Search Console ownership or request Google's FILE token
+        id: prepare
+        run: node tools/ai-marketing/gsc-url-prefix-bootstrap.mjs prepare
+
+      - name: Materialize the pending Google action or verification token
+        run: |
+          set -euo pipefail
+          status="${{ steps.prepare.outputs.status }}"
+          if [ "$status" = "api-disabled" ]; then
+            enable_url="${{ steps.prepare.outputs.enable_url }}"
+            cat > .github/SEO_GOOGLE_ACTION.md <<EOF
+# One-time Google authorization required
+
+Everything controlled by the repository is validated and the SEO production system is fail-closed. Google Site Verification is disabled in the existing service-account project.
+
+## Complete this one Google-owned step
+
+[Enable the Google Site Verification API](${enable_url})
+
+Sign into the Google account that owns that project and click **Enable**. Do not paste any key into GitHub or chat.
+
+After it is enabled, the scheduled Search Console bootstrap automatically requests Google's FILE token, deploys it, verifies `https://youraicoach.life/`, adds the Search Console URL-prefix property, proves private query+page access, activates daily GSC-backed SEO, and removes this file.
+EOF
+          elif [ "$status" = "file-ready" ]; then
+            file="public/${{ steps.prepare.outputs.verification_file }}"
+            test -f "$file"
+            test "$(tr -d '\r\n' < "$file")" = "${{ steps.prepare.outputs.verification_file }}"
+            rm -f .github/SEO_GOOGLE_ACTION.md
+          elif [ "$status" = "already-verified" ]; then
+            rm -f .github/SEO_GOOGLE_ACTION.md
+          else
+            echo "::error::Unexpected bootstrap status: $status"
+            exit 1
+          fi
+
+      - name: Commit the exact observable bootstrap state and remove this one-time workflow
+        run: |
+          set -euo pipefail
+          git config user.name "IZEM Search Console Bootstrap"
+          git config user.email "search-console-bootstrap@youraicoach.life"
+          git rm .github/workflows/surface-gsc-action.yml
+          git add -A .github public/google*.html 2>/dev/null || true
+          git diff --cached --quiet && { echo "::error::Bootstrap state produced no reviewable change"; exit 1; }
+          git commit -m "chore: surface Search Console bootstrap action"
+          git push origin HEAD:agent/gsc-action-surface
