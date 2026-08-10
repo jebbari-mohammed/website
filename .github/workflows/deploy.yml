@@ -1,4 +1,4 @@
-# Explicit redeploy after Google FILE-token validation fixes.
+# Explicit redeploy after correcting Google's FILE verification body.
 name: Deploy static content to Pages
 
 on:
