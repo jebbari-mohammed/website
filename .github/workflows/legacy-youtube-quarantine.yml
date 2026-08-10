@@ -1,0 +1,64 @@
+name: Legacy YouTube review quarantine
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/ai-marketing/quarantine-misleading-youtube-reviews.mjs'
+      - '.github/workflows/legacy-youtube-quarantine.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: legacy-youtube-review-quarantine
+  cancel-in-progress: false
+
+jobs:
+  quarantine:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      YOUTUBE_CLIENT_ID_2: ${{ secrets.YOUTUBE_CLIENT_ID_2 }}
+      YOUTUBE_CLIENT_SECRET_2: ${{ secrets.YOUTUBE_CLIENT_SECRET_2 }}
+      YOUTUBE_REFRESH_TOKEN_2: ${{ secrets.YOUTUBE_REFRESH_TOKEN_2 }}
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+
+    steps:
+      - name: Checkout cleanup branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || 'agent/legacy-seo-cleanup' }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Make misleading legacy review videos private and verify public reachability
+        run: node tools/ai-marketing/quarantine-misleading-youtube-reviews.mjs
+
+      - name: Remove the generators and state that created deceptive reviews
+        run: |
+          set -euo pipefail
+          branch="${{ github.event_name == 'pull_request' && github.head_ref || 'agent/legacy-seo-cleanup' }}"
+          git config user.name "IZEM Editorial Cleanup"
+          git config user.email "editorial-cleanup@youraicoach.life"
+          git rm .github/workflows/legacy-youtube-quarantine.yml
+          git rm -f \
+            tools/ai-marketing/daily-review-video.mjs \
+            tools/ai-marketing/daily-podcast-tts.mjs \
+            tools/ai-marketing/analyze-performance.mjs \
+            tools/ai-marketing/run-local-bot.sh \
+            tools/ai-marketing/.podcast-tts-progress.json \
+            tools/ai-marketing/.review-progress.json \
+            tools/ai-marketing/.intelligence-log.json || true
+          git add tools/ai-marketing/quarantine-misleading-youtube-reviews.mjs
+          git commit -m "seo: privatize misleading review videos and retire generators"
+          git push origin HEAD:"$branch"
