@@ -1,4 +1,4 @@
-name: GSC post-enable probe
+name: GSC post-enable completion
 
 on:
   pull_request:
@@ -8,53 +8,117 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+  issues: write
+
+concurrency:
+  group: gsc-post-enable-completion
+  cancel-in-progress: false
 
 jobs:
-  probe:
+  complete:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 25
     env:
       GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
       GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
       GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+      VERIFICATION_FILE: googlecbf3623a1a73c321.html
 
     steps:
-      - name: Checkout probe branch
+      - name: Checkout current production branch
         uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
           node-version: 22
 
-      - name: Ask Google for the exact current ownership/bootstrap state
-        id: prepare
-        run: node tools/ai-marketing/gsc-url-prefix-bootstrap.mjs prepare
-
-      - name: Require post-enable readiness
+      - name: Require the exact official Google verification file in main
         run: |
           set -euo pipefail
-          status="${{ steps.prepare.outputs.status }}"
-          case "$status" in
-            file-ready)
-              file="public/${{ steps.prepare.outputs.verification_file }}"
-              test -f "$file"
-              test "$(tr -d '\r\n' < "$file")" = "${{ steps.prepare.outputs.verification_file }}"
-              echo "Google Site Verification is enabled and returned an official FILE token."
-              ;;
-            already-verified)
-              echo "The HTTPS Search Console property is already verified for the service account."
-              ;;
-            api-disabled)
-              echo "::error::Google still reports Site Verification disabled for the service-account project."
-              echo "Owner action URL: ${{ steps.prepare.outputs.enable_url }}"
-              exit 1
-              ;;
-            *)
-              echo "::error::Unexpected bootstrap state: $status"
-              exit 1
-              ;;
-          esac
+          test -f "public/$VERIFICATION_FILE"
+          test "$(tr -d '\r\n' < "public/$VERIFICATION_FILE")" = "$VERIFICATION_FILE"
+
+      - name: Wait for deployment, verify HTTPS ownership, add Search Console, and prove query access
+        id: verify
+        run: node tools/ai-marketing/gsc-url-prefix-bootstrap.mjs verify "$VERIFICATION_FILE"
+
+      - name: Independently retrieve private query and page evidence
+        run: |
+          set -euo pipefail
+          if [ -z "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ]; then
+            export GOOGLE_SERVICE_ACCOUNT_JSON="${GOOGLE_CLOUD_JSON:-${GCP_SA_KEY:-${GOOGLE_APPLICATION_CREDENTIALS_JSON:-}}}"
+          fi
+          node tools/ai-marketing/gsc-fetch-private.mjs \
+            --site https://youraicoach.life/ \
+            --days 28 \
+            --dimensions query,page \
+            --row-limit 2500
+
+      - name: Write and validate the production-ready marker
+        run: |
+          set -euo pipefail
+          node tools/ai-marketing/mark-gsc-ready.mjs
+          node <<'NODE'
+          const marker = require('./public/seo-system-version.json');
+          if (Number(marker.version || 0) < 3) throw new Error('SEO readiness marker version is below 3');
+          if (marker.searchConsoleVerified !== true) throw new Error('Search Console readiness is not true');
+          if (marker.searchConsoleProperty !== 'https://youraicoach.life/') throw new Error('Unexpected Search Console property');
+          if (!String(marker.pipeline || '').includes('verified-url-prefix-gsc')) throw new Error('Verified GSC pipeline marker is missing');
+          console.log('Production-ready marker validated.');
+          NODE
+
+      - name: Commit readiness and remove the pending authorization notice
+        run: |
+          set -euo pipefail
+          git config user.name "IZEM Search Console Bootstrap"
+          git config user.email "search-console-bootstrap@youraicoach.life"
+          git add public/seo-system-version.json
+          git rm -f .github/SEO_GOOGLE_ACTION.md 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Production readiness was already committed."
+            exit 0
+          fi
+          git commit -m "chore: confirm live Search Console production access"
+          git fetch origin main
+          if ! git rebase origin/main; then
+            git rebase --abort || true
+            git reset --hard origin/main
+            node <<'NODE'
+            const marker = require('./public/seo-system-version.json');
+            if (Number(marker.version || 0) < 3 || marker.searchConsoleVerified !== true) {
+              throw new Error('Concurrent main update did not contain verified Search Console readiness');
+            }
+            NODE
+            test ! -e .github/SEO_GOOGLE_ACTION.md
+            echo "A concurrent bootstrap already committed the verified state."
+            exit 0
+          fi
+          git push origin HEAD:main
+
+      - name: Prove the service account remains a Search Console owner or full user
+        id: status
+        run: node tools/ai-marketing/gsc-url-prefix-bootstrap.mjs status
+
+      - name: Require final verified status
+        run: |
+          set -euo pipefail
+          [ "${{ steps.status.outputs.ready }}" = "true" ]
+          [ "${{ steps.status.outputs.status }}" = "verified" ]
+
+      - name: Close the one-time authorization issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          issue=$(gh issue list --state open --search '"[One-time Google action] Enable Site Verification API" in:title' --json number --jq '.[0].number // empty')
+          if [ -n "$issue" ]; then
+            gh issue close "$issue" --comment "Verified: Google FILE ownership succeeded, the HTTPS URL-prefix Search Console property is active, private query+page API retrieval passed, and daily GSC-backed SEO production is enabled."
+          fi
