@@ -1,0 +1,101 @@
+name: Verify corrected city relocations
+
+on:
+  push:
+    branches: [agent/city-page-relocation]
+    paths:
+      - '.github/workflows/city-page-relocation-verify.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: verify-corrected-city-relocations
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Checkout city cleanup branch
+        uses: actions/checkout@v7
+        with:
+          ref: agent/city-page-relocation
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Prove the generator is idempotent and preserves index.html
+        run: |
+          set -euo pipefail
+          before_index=$(sha256sum public/best-ai-fitness-app/index.html | awk '{print $1}')
+          node tools/ai-marketing/replace-city-doorway-pages.mjs
+          after_index=$(sha256sum public/best-ai-fitness-app/index.html | awk '{print $1}')
+          [ "$before_index" = "$after_index" ]
+          if ! git diff --quiet -- public/best-ai-fitness-app; then
+            echo "::error::Corrected generator is not idempotent"
+            git diff --name-only -- public/best-ai-fitness-app
+            exit 1
+          fi
+
+      - name: Verify exact city and maintained-index controls
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const dir = 'public/best-ai-fitness-app';
+          const cityFiles = fs.readdirSync(dir).filter((file) => file.endsWith('.html') && file !== 'index.html').sort();
+          if (cityFiles.length !== 20) throw new Error(`Expected 20 city pages, found ${cityFiles.length}`);
+          for (const file of cityFiles) {
+            const html = fs.readFileSync(path.join(dir, file), 'utf8');
+            const required = [
+              /name="robots" content="noindex, follow"/i,
+              /name="googlebot" content="noindex, follow"/i,
+              /rel="canonical" href="https:\/\/youraicoach\.life\/best-ai-fitness-app"/i,
+              /data-legacy-editorial-review="true"/i,
+              /LEGACY_SEO_QUARANTINE:city-doorway-template/i,
+              /retired its old city-template pages/i,
+            ];
+            if (!required.every((pattern) => pattern.test(html))) throw new Error(`Incomplete relocation controls in ${file}`);
+          }
+          const index = fs.readFileSync(path.join(dir, 'index.html'), 'utf8');
+          if (/The Index guide has moved/i.test(index)) throw new Error('Maintained index was replaced by the city generator');
+          if (!/We consolidated this comparison/i.test(index)) throw new Error('Maintained index content is missing');
+          console.log('Verified 20 city relocations and preserved maintained index.html.');
+          NODE
+
+      - name: Run all production integrity checks
+        run: |
+          set -euo pipefail
+          node tools/ai-marketing/legacy-content-audit.mjs --strict
+          node tools/validate-jsonld.mjs public
+          pnpm build
+          node tools/validate-jsonld.mjs dist
+          node tools/check-critical-routes.mjs dist
+          pnpm check:links
+          pnpm sitemap:check
+          node tools/sync-news-sitemap.mjs --check
+
+      - name: Remove this one-time verifier after success
+        run: |
+          set -euo pipefail
+          git config user.name "IZEM Editorial Cleanup"
+          git config user.email "editorial-cleanup@youraicoach.life"
+          git rm .github/workflows/city-page-relocation-verify.yml
+          git commit -m "chore: confirm corrected city relocation validation"
+          git push origin HEAD:agent/city-page-relocation
