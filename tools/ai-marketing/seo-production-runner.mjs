@@ -6,7 +6,8 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(filename);
 const publisher = path.join(__dirname, 'seo-production.mjs');
 
 export function evaluateRunOutput(stdout = '', status = 0) {
@@ -49,4 +50,5 @@ function main() {
   console.log(`SEO production runner verified: ${result.reason}.`);
 }
 
-main();
+const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === filename;
+if (invokedDirectly) main();
