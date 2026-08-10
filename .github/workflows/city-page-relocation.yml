@@ -56,7 +56,7 @@ jobs:
           const path = require('path');
           const dir = 'public/best-ai-fitness-app';
           const files = fs.readdirSync(dir).filter((file) => file.endsWith('.html')).sort();
-          if (files.length !== 20) throw new Error(`Expected 20 city pages, found ${files.length}`);
+          if (files.length !== 21) throw new Error(`Expected 21 city pages, found ${files.length}`);
           for (const file of files) {
             const html = fs.readFileSync(path.join(dir, file), 'utf8');
             const checks = [
@@ -69,7 +69,7 @@ jobs:
             ];
             if (!checks.every((pattern) => pattern.test(html))) throw new Error(`Incomplete relocation controls in ${file}`);
           }
-          console.log('All 20 city pages are transparent noindex canonical relocation pages.');
+          console.log('All 21 city pages are transparent noindex canonical relocation pages.');
           NODE
 
       - name: Validate production site and discovery files
