@@ -1,0 +1,12 @@
+ACTION REQUIRED BY REPOSITORY OWNER
+
+Add the encrypted GitHub Actions repository secret GOOGLE_SERVICE_ACCOUNT_JSON.
+The service-account email must have Full access to sc-domain:youraicoach.life.
+
+Secure setup:
+  bash tools/ai-marketing/bootstrap-gsc-secret.sh YOUR_GCP_PROJECT_ID
+
+Detailed guide:
+  .github/SEO_GSC_BOOTSTRAP.md
+
+Do not paste the JSON key into source control, chat, issues, or workflow logs.
