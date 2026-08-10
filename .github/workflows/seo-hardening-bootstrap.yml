@@ -40,88 +40,25 @@ jobs:
       - name: Regenerate the production lockfile
         run: pnpm install --no-frozen-lockfile
 
-      - name: Replace broad schema regex edits with typed JSON-LD mutation
+      - name: Require live search grounding and expose a verifiable output
         run: |
           node <<'NODE'
           const fs = require('fs');
-          const file = 'tools/ai-marketing/seo-publisher-core.mjs';
+          const file = 'tools/ai-marketing/seo-production.mjs';
           let source = fs.readFileSync(file, 'utf8');
 
-          if (source.includes('function syncStructuredData(')) {
-            console.log('Typed JSON-LD synchronization is already installed.');
-            process.exit(0);
-          }
+          const oldOutputs = "for (const [name, value] of Object.entries({ changed: 'false', action: 'none', slug: '', url: '', marker: '', query_hash: '', validated: 'false' })) setOutput(name, value);";
+          const newOutputs = "for (const [name, value] of Object.entries({ changed: 'false', action: 'none', slug: '', url: '', marker: '', query_hash: '', validated: 'false', grounded: 'false' })) setOutput(name, value);";
+          if (source.includes(oldOutputs)) source = source.replace(oldOutputs, newOutputs);
+          else if (!source.includes(newOutputs)) throw new Error('Could not patch SEO output initialization safely');
 
-          const start = source.indexOf('function jsonStringContent');
-          const end = source.indexOf('export function setSocialImage', start);
-          if (start < 0 || end < 0 || end <= start) {
-            throw new Error('Could not locate the metadata synchronization block safely');
-          }
+          const oldResearch = "console.log(`SERP research phase: ${research.grounded ? 'grounded' : 'conservative fallback'}.`);\n  const drafted = await createDeliverable(item, research, currentPageExcerpt(targetFile));";
+          const newResearch = "console.log(`SERP research phase: ${research.grounded ? 'grounded' : 'unavailable'}.`);\n  setOutput('grounded', research.grounded ? 'true' : 'false');\n  if (!research.grounded) {\n    throw new Error('Live Google Search grounding was unavailable; publication is skipped rather than using an ungrounded fallback');\n  }\n  const drafted = await createDeliverable(item, research, currentPageExcerpt(targetFile));";
+          if (source.includes(oldResearch)) source = source.replace(oldResearch, newResearch);
+          else if (!source.includes("setOutput('grounded', research.grounded ? 'true' : 'false')")) throw new Error('Could not patch grounded-research gate safely');
 
-          const replacement = `function schemaTypes(value) {
-            const raw = value?.['@type'];
-            return new Set((Array.isArray(raw) ? raw : [raw]).filter(Boolean).map(String));
-          }
-
-          function updateSchemaMetadata(value, metadata) {
-            if (Array.isArray(value)) {
-              return value.reduce((changed, item) => updateSchemaMetadata(item, metadata) || changed, false);
-            }
-            if (!value || typeof value !== 'object') return false;
-
-            let changed = false;
-            const types = schemaTypes(value);
-            const article = ['Article', 'BlogPosting', 'NewsArticle'].some((type) => types.has(type));
-            const page = ['WebPage', 'CollectionPage', 'AboutPage'].some((type) => types.has(type));
-
-            if (article) {
-              value.headline = metadata.title;
-              value.description = metadata.description;
-              if (metadata.dateModified) value.dateModified = metadata.dateModified;
-              changed = true;
-            } else if (page) {
-              if ('name' in value) value.name = metadata.title;
-              value.description = metadata.description;
-              if (metadata.dateModified) value.dateModified = metadata.dateModified;
-              changed = true;
-            }
-
-            for (const nested of Object.values(value)) {
-              if (nested && typeof nested === 'object') {
-                changed = updateSchemaMetadata(nested, metadata) || changed;
-              }
-            }
-            return changed;
-          }
-
-          function syncStructuredData(html, metadata) {
-            return html.replace(/<script\\b([^>]*\\btype\\s*=\\s*(["'])application\\/ld\\+json\\2[^>]*)>([\\s\\S]*?)<\\/script>/gi, (match, attributes, _quote, body) => {
-              try {
-                const data = JSON.parse(body);
-                if (!updateSchemaMetadata(data, metadata)) return match;
-                const serialized = JSON.stringify(data, null, 2).replace(/</g, '\\\\u003c');
-                return \`<script\${attributes}>\\n\${serialized}\\n</script>\`;
-              } catch {
-                return match;
-              }
-            });
-          }
-
-          export function syncArticleMetadata(html, { title, description, dateModified }) {
-            let output = setTitle(html, title);
-            output = setMetaTag(output, 'name', 'description', description);
-            output = setMetaTag(output, 'property', 'og:title', title);
-            output = setMetaTag(output, 'property', 'og:description', description);
-            output = setMetaTag(output, 'name', 'twitter:title', title);
-            output = setMetaTag(output, 'name', 'twitter:description', description);
-            return syncStructuredData(output, { title, description, dateModified });
-          }
-
-          `;
-
-          source = source.slice(0, start) + replacement + source.slice(end);
           fs.writeFileSync(file, source);
-          console.log('Typed JSON-LD synchronization installed.');
+          console.log('Grounded-research fail-closed gate installed.');
           NODE
 
       - name: Run the complete deterministic verification suite
@@ -140,6 +77,6 @@ jobs:
           git config user.name "IZEM SEO Hardening"
           git config user.email "seo-hardening@youraicoach.life"
           git rm .github/workflows/seo-hardening-bootstrap.yml
-          git add pnpm-lock.yaml tools/ai-marketing/seo-publisher-core.mjs
+          git add pnpm-lock.yaml tools/ai-marketing/seo-production.mjs
           git commit -m "chore: finalize reproducible SEO hardening"
           git push origin HEAD:agent/seo-production-hardening
