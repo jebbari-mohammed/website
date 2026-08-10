@@ -71,7 +71,7 @@ jobs:
           node --check tools/ai-marketing/gemini-smoke.mjs
           node --check tools/ai-marketing/verify-live-seo.mjs
 
-      - name: Test planner, clustering, sanitizer, metadata, idempotency, and grounding policy
+      - name: Test planner, credential discovery, clustering, sanitizer, metadata, idempotency, and grounding policy
         run: pnpm test:seo-growth
 
       - name: Validate current public structured data
@@ -98,6 +98,9 @@ jobs:
       SEO_GEMINI_MODEL: gemini-3.6-flash
       SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.1-pro-preview,gemini-3.5-flash-lite
       GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
       GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
@@ -153,10 +156,18 @@ jobs:
           fi
           echo "Independent Gemini + live grounding + editor smoke passed with ${{ steps.gemini.outputs.selected_model }}."
 
-      - name: Require the Search Console service-account secret
+      - name: Discover an existing Google service-account credential
         run: |
           set -euo pipefail
-          [ -n "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ] || { echo "::error::GOOGLE_SERVICE_ACCOUNT_JSON is missing. See .github/SEO_GSC_BOOTSTRAP.md"; exit 1; }
+          node --input-type=module - <<'NODE'
+          import { discoverCredentialSource, parseServiceAccountCredential } from './tools/ai-marketing/gsc-fetch-private.mjs';
+          const source = discoverCredentialSource(process.env);
+          if (!source) {
+            throw new Error('No existing Google service-account secret was found under GOOGLE_SERVICE_ACCOUNT_JSON, GOOGLE_CLOUD_JSON, GCP_SA_KEY, or GOOGLE_APPLICATION_CREDENTIALS_JSON');
+          }
+          parseServiceAccountCredential(process.env[source], source);
+          console.log(`Found a structurally valid Google service-account credential in ${source}.`);
+          NODE
 
       - name: Verify real Search Console access without exposing queries
         run: pnpm gsc:private
