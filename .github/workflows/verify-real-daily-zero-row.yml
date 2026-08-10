@@ -27,26 +27,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          started=$(date -u +%s)
-          gh workflow run daily-blog.yml --repo "$GITHUB_REPOSITORY" --ref main -f dry_run=true -f force=false
-
-          run_id=''
-          for attempt in $(seq 1 30); do
-            candidate=$(gh run list \
-              --repo "$GITHUB_REPOSITORY" \
-              --workflow daily-blog.yml \
-              --branch main \
-              --event workflow_dispatch \
-              --limit 10 \
-              --json databaseId,createdAt \
-              --jq --argjson started "$started" '[.[] | select((.createdAt | fromdateiso8601) >= $started)] | sort_by(.createdAt) | last | .databaseId // empty')
-            if [ -n "$candidate" ]; then
-              run_id="$candidate"
-              break
-            fi
-            sleep 2
-          done
-          [ -n "$run_id" ] || { echo "::error::Could not locate the dispatched Daily SEO Production run"; exit 1; }
+          output=$(gh workflow run daily-blog.yml --repo "$GITHUB_REPOSITORY" --ref main -f dry_run=true -f force=false 2>&1)
+          printf '%s\n' "$output"
+          run_url=$(printf '%s\n' "$output" | grep -Eo 'https://github\.com/[^[:space:]]+/actions/runs/[0-9]+' | tail -n1)
+          [ -n "$run_url" ] || { echo "::error::The dispatch command returned no workflow-run URL"; exit 1; }
+          run_id="${run_url##*/}"
+          [[ "$run_id" =~ ^[0-9]+$ ]]
           echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
           echo "Dispatched Daily SEO Production run $run_id."
 
@@ -55,7 +41,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh run watch "${{ steps.dispatch.outputs.run_id }}" --repo "$GITHUB_REPOSITORY" --exit-status --interval 5
 
-      - name: Prove the evidence gate skipped all AI and publication steps
+      - name: Prove the minimal evidence gate skipped compute, AI, and publication
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -67,12 +53,16 @@ jobs:
             | select(.name == "Evidence-driven SEO action")
             | (.steps | map({key: .name, value: .conclusion}) | from_entries) as $steps
             | $steps["Check whether Search Console production access is verified"] == "success"
+              and $steps["Verify the private Search Console credential"] == "success"
               and $steps["Pull private Search Console query and landing-page evidence"] == "success"
               and $steps["Evaluate whether private Search Console evidence is available"] == "success"
               and $steps["Report a verified zero-row no-action run"] == "success"
+              and $steps["Verify Gemini credentials only when evidence exists"] == "skipped"
+              and $steps["Restore private experiment and cooldown state"] == "skipped"
+              and $steps["Run deterministic SEO tests"] == "skipped"
               and $steps["Build private base opportunity plan"] == "skipped"
               and $steps["Verify current Gemini SDK, keys, and model fallback"] == "skipped"
               and $steps["Research, draft, critique, validate, and prepare the best action"] == "skipped"
               and $steps["Commit only public website files"] == "skipped"
           ' >/dev/null
-          echo "Real daily workflow verified: private GSC succeeded; planner, Gemini, publisher, and commit steps were skipped safely."
+          echo "Real daily workflow verified: only Search Console retrieval and the evidence gate ran; cache, tests, Gemini, planning, publishing, deployment, and commits were skipped."
