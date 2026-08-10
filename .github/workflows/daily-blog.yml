@@ -88,7 +88,7 @@ jobs:
             echo "- The Search Console bootstrap workflow will activate production automatically after verification."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Verify required private credentials
+      - name: Verify the private Search Console credential
         if: steps.gsc_ready.outputs.ready == 'true'
         run: |
           set -euo pipefail
@@ -96,31 +96,12 @@ jobs:
             echo "::error::No Google service-account credential is configured"
             exit 1
           fi
-          if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${GEMINI_API_KEY_2:-}" ] && [ -z "${GEMINI_API_KEY_3:-}" ]; then
-            echo "::error::At least one Gemini API key is required"
-            exit 1
-          fi
           node --input-type=module - <<'NODE'
           import { discoverCredentialSource, parseServiceAccountCredential } from './tools/ai-marketing/gsc-fetch-private.mjs';
           const source = discoverCredentialSource(process.env);
           parseServiceAccountCredential(process.env[source], source);
-          console.log(`Credential structure verified through ${source} without printing sensitive values.`);
+          console.log(`Search Console credential structure verified through ${source} without printing sensitive values.`);
           NODE
-
-      - name: Restore private experiment and cooldown state
-        if: steps.gsc_ready.outputs.ready == 'true'
-        uses: actions/cache@v5
-        with:
-          path: |
-            data/marketing-employee/seo-growth/publish-state-v2.json
-            data/marketing-employee/seo-growth/experiments-v2.json
-          key: seo-production-state-v2-${{ github.run_id }}
-          restore-keys: |
-            seo-production-state-v2-
-
-      - name: Run deterministic SEO tests
-        if: steps.gsc_ready.outputs.ready == 'true'
-        run: pnpm test:seo-growth
 
       - name: Pull private Search Console query and landing-page evidence
         if: steps.gsc_ready.outputs.ready == 'true'
@@ -139,10 +120,36 @@ jobs:
             echo "- Search Console ownership and private query+page API access: verified"
             echo "- Private query+page rows: ${{ steps.gsc_evidence.outputs.row_count || '0' }}"
             echo "- Public SEO change: none"
-            echo "- Gemini drafting/review calls: skipped"
+            echo "- Cache restore and deterministic production suite: skipped"
+            echo "- Gemini credential check, smoke, drafting, and review calls: skipped"
             echo "- Guessed keyword fallback: disabled"
             echo "- Evidence-driven production opens automatically as soon as Search Console returns rows."
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Verify Gemini credentials only when evidence exists
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
+        run: |
+          set -euo pipefail
+          if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${GEMINI_API_KEY_2:-}" ] && [ -z "${GEMINI_API_KEY_3:-}" ]; then
+            echo "::error::At least one Gemini API key is required when Search Console evidence exists"
+            exit 1
+          fi
+          echo "At least one Gemini credential is configured; values were not printed."
+
+      - name: Restore private experiment and cooldown state
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
+        uses: actions/cache@v5
+        with:
+          path: |
+            data/marketing-employee/seo-growth/publish-state-v2.json
+            data/marketing-employee/seo-growth/experiments-v2.json
+          key: seo-production-state-v2-${{ github.run_id }}
+          restore-keys: |
+            seo-production-state-v2-
+
+      - name: Run deterministic SEO tests
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
+        run: pnpm test:seo-growth
 
       - name: Build private base opportunity plan
         if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
