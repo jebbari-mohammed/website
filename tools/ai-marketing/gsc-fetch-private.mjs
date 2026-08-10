@@ -73,7 +73,7 @@ async function getAccessToken(credentials) {
   signer.end();
   const assertion = `${unsigned}.${base64url(signer.sign(credentials.private_key))}`;
   const body = new URLSearchParams({
-    grant_type: 'urn:ietf:params:oauth2:grant-type:jwt-bearer',
+    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
     assertion,
   });
   const response = await fetch(credentials.token_uri || 'https://oauth2.googleapis.com/token', {
