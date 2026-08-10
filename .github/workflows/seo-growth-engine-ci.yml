@@ -87,7 +87,7 @@ jobs:
           pnpm check:links
 
   credentialed-smoke:
-    name: Live GSC, Gemini, grounding, critic, and renderer smoke
+    name: Live Gemini, GSC, grounding, critic, and renderer smoke
     needs: deterministic
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
     runs-on: ubuntu-24.04
@@ -118,14 +118,21 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Require real production credentials
+      - name: Require at least one Gemini key
         run: |
           set -euo pipefail
-          [ -n "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ] || { echo "::error::GOOGLE_SERVICE_ACCOUNT_JSON is missing"; exit 1; }
           if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${GEMINI_API_KEY_2:-}" ] && [ -z "${GEMINI_API_KEY_3:-}" ]; then
             echo "::error::At least one Gemini API key is required"
             exit 1
           fi
+
+      - name: Verify current Gemini SDK, stable model, and structured output
+        run: pnpm seo:smoke:gemini
+
+      - name: Require the Search Console service-account secret
+        run: |
+          set -euo pipefail
+          [ -n "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ] || { echo "::error::GOOGLE_SERVICE_ACCOUNT_JSON is missing. See .github/SEO_GSC_BOOTSTRAP.md"; exit 1; }
 
       - name: Verify real Search Console access without exposing queries
         run: pnpm gsc:private
@@ -136,9 +143,6 @@ jobs:
             --gsc tools/ai-marketing/search-console-reports/latest-28d.json \
             --require-gsc > /tmp/seo-base-planner.log
           pnpm seo:expert
-
-      - name: Verify current Gemini model and SDK
-        run: pnpm seo:smoke:gemini
 
       - name: Build a private GSC-backed dry-run fixture
         run: node tools/ai-marketing/seo-smoke-plan.mjs
