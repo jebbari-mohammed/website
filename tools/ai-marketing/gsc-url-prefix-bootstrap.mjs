@@ -171,7 +171,7 @@ async function prepare() {
   }
 
   const target = path.join(PUBLIC, verification.filename);
-  await fs.writeFile(target, `${verification.filename}\n`, 'utf8');
+  await fs.writeFile(target, `google-site-verification: ${verification.filename}\n`, 'utf8');
   await setOutput('verification_file', verification.filename);
   console.log(`Prepared Google FILE verification token: ${verification.filename}.`);
 }
@@ -184,7 +184,7 @@ async function liveVerificationFile(filename) {
     signal: AbortSignal.timeout(30000),
   });
   const text = await response.text();
-  return response.status === 200 && text.trim() === filename;
+  return response.status === 200 && text.trim() === `google-site-verification: ${filename}`;
 }
 
 async function waitForFile(filename) {
