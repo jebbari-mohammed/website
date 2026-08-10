@@ -11,6 +11,7 @@ on:
       - 'tools/ai-marketing/seo-growth-engine.mjs'
       - 'tools/ai-marketing/seo-growth-engine.test.mjs'
       - 'tools/ai-marketing/gsc-publish.mjs'
+      - 'tools/ai-marketing/gsc-publish-og.mjs'
       - '.github/workflows/autonomous-marketing-employee.yml'
       - '.github/workflows/daily-blog.yml'
       - '.github/workflows/seo-growth-engine-ci.yml'
@@ -25,6 +26,7 @@ on:
       - 'tools/ai-marketing/seo-growth-engine.mjs'
       - 'tools/ai-marketing/seo-growth-engine.test.mjs'
       - 'tools/ai-marketing/gsc-publish.mjs'
+      - 'tools/ai-marketing/gsc-publish-og.mjs'
       - '.github/workflows/autonomous-marketing-employee.yml'
       - '.github/workflows/daily-blog.yml'
       - '.github/workflows/seo-growth-engine-ci.yml'
@@ -62,6 +64,7 @@ jobs:
         run: |
           node --check tools/ai-marketing/seo-growth-engine.mjs
           node --check tools/ai-marketing/gsc-publish.mjs
+          node --check tools/ai-marketing/gsc-publish-og.mjs
 
       - name: Test SEO decision engine
         run: pnpm test:seo-growth
