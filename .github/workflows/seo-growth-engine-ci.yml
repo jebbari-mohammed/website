@@ -64,12 +64,13 @@ jobs:
           node --check tools/ai-marketing/seo-expert-plan.mjs
           node --check tools/ai-marketing/seo-publisher-core.mjs
           node --check tools/ai-marketing/seo-production.mjs
+          node --check tools/ai-marketing/seo-production-runner.mjs
           node --check tools/ai-marketing/seo-og-card.mjs
           node --check tools/ai-marketing/seo-smoke-plan.mjs
           node --check tools/ai-marketing/gemini-smoke.mjs
           node --check tools/ai-marketing/verify-live-seo.mjs
 
-      - name: Test planner, clustering, sanitizer, metadata, and idempotency
+      - name: Test planner, clustering, sanitizer, metadata, idempotency, and grounding policy
         run: pnpm test:seo-growth
 
       - name: Validate current public structured data
@@ -146,10 +147,9 @@ jobs:
         id: smoke
         env:
           SEO_PLAN_PATH: /tmp/izem-seo-smoke-plan.json
-          SEO_REQUIRE_GROUNDING: 'true'
-        run: node tools/ai-marketing/seo-production.mjs --dry-run --force
+        run: node tools/ai-marketing/seo-production-runner.mjs --dry-run --force
 
-      - name: Prove the credentialed smoke was validated and non-mutating
+      - name: Prove the credentialed smoke was validated, grounded, and non-mutating
         run: |
           set -euo pipefail
           [ "${{ steps.smoke.outputs.validated }}" = "true" ]
