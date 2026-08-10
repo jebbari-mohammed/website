@@ -13,7 +13,9 @@ import {
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const PUBLIC = path.join(ROOT, 'public');
 const SITE = process.env.GSC_URL_PREFIX || 'https://youraicoach.life/';
+const SERVICE = 'siteverification.googleapis.com';
 const SCOPES = [
+  'https://www.googleapis.com/auth/cloud-platform',
   'https://www.googleapis.com/auth/siteverification',
   'https://www.googleapis.com/auth/webmasters',
 ];
@@ -28,7 +30,7 @@ function safe(value = '') {
     .replace(/projects\/[A-Za-z0-9._-]+/g, 'projects/[redacted]')
     .replace(/[A-Za-z0-9_-]{160,}/g, '[redacted-token]')
     .replace(/\s+/g, ' ')
-    .slice(0, 420);
+    .slice(0, 520);
 }
 
 function credentials() {
@@ -86,6 +88,52 @@ async function googleJson(url, accessToken, options = {}) {
     throw new Error(`Google API ${new URL(url).pathname} failed with HTTP ${response.status}: ${safe(payload?.error?.message || payload?.error_description || payload?.error || '')}`);
   }
   return payload;
+}
+
+async function enableSiteVerificationApi(accessToken, serviceAccount) {
+  const project = String(serviceAccount.project_id || '').trim();
+  if (!/^[a-z][a-z0-9-]{4,61}[a-z0-9]$/.test(project)) {
+    throw new Error('Service-account credential has no valid project_id for API enablement');
+  }
+  const serviceUrl = `https://serviceusage.googleapis.com/v1/projects/${encodeURIComponent(project)}/services/${SERVICE}`;
+  let current;
+  try {
+    current = await googleJson(serviceUrl, accessToken);
+  } catch (error) {
+    throw new Error(`Cannot inspect Site Verification API state: ${safe(error.message)}`);
+  }
+  if (current.state === 'ENABLED') {
+    console.log('Google Site Verification API is already enabled.');
+    return;
+  }
+
+  let operation;
+  try {
+    operation = await googleJson(`${serviceUrl}:enable`, accessToken, { method: 'POST', body: '{}' });
+  } catch (error) {
+    throw new Error(`Cannot enable Site Verification API with the existing service account: ${safe(error.message)}`);
+  }
+  const operationName = String(operation?.name || '');
+  if (operationName) {
+    for (let attempt = 1; attempt <= 24; attempt += 1) {
+      const status = await googleJson(`https://serviceusage.googleapis.com/v1/${operationName.replace(/^\//, '')}`, accessToken);
+      if (status.done) {
+        if (status.error) throw new Error(`Site Verification API enablement failed: ${safe(status.error.message || JSON.stringify(status.error))}`);
+        break;
+      }
+      if (attempt < 24) await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+  }
+
+  for (let attempt = 1; attempt <= 24; attempt += 1) {
+    const status = await googleJson(serviceUrl, accessToken);
+    if (status.state === 'ENABLED') {
+      console.log('Google Site Verification API was enabled successfully.');
+      return;
+    }
+    if (attempt < 24) await new Promise((resolve) => setTimeout(resolve, 5000));
+  }
+  throw new Error('Site Verification API did not reach ENABLED state');
 }
 
 function validateSite() {
@@ -201,6 +249,7 @@ async function main() {
   const { source, value } = credentials();
   const accessToken = await tokenFor(value);
   console.log(`Authenticated Google Site Verification through ${source}.`);
+  await enableSiteVerificationApi(accessToken, value);
   if (command === 'prepare') await prepare(accessToken);
   else if (command === 'verify') await verifyOwnership(accessToken);
   else throw new Error(`Unknown command: ${command}`);
