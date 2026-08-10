@@ -6,6 +6,7 @@ on:
     paths:
       - 'tools/ai-marketing/gsc-self-verify.mjs'
       - 'tools/ai-marketing/google-oauth-capability-probe.mjs'
+      - 'tools/ai-marketing/siteverification-quota-probe.mjs'
       - '.github/workflows/gsc-url-prefix-self-verify.yml'
   push:
     branches: [main]
@@ -28,6 +29,9 @@ env:
   GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+  GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+  GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
   YOUTUBE_CLIENT_ID_2: ${{ secrets.YOUTUBE_CLIENT_ID_2 }}
   YOUTUBE_CLIENT_SECRET_2: ${{ secrets.YOUTUBE_CLIENT_SECRET_2 }}
   YOUTUBE_REFRESH_TOKEN_2: ${{ secrets.YOUTUBE_REFRESH_TOKEN_2 }}
@@ -40,7 +44,7 @@ jobs:
     name: Prepare Google verification file on the PR branch
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 12
+    timeout-minutes: 14
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v7
@@ -58,6 +62,11 @@ jobs:
         id: oauth_probe
         continue-on-error: true
         run: node tools/ai-marketing/google-oauth-capability-probe.mjs
+
+      - name: Probe existing API-key quota projects for Site Verification
+        id: quota_probe
+        continue-on-error: true
+        run: node tools/ai-marketing/siteverification-quota-probe.mjs
 
       - name: Request the official FILE verification token
         id: token
