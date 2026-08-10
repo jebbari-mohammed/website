@@ -98,8 +98,18 @@ function normalizedIndexUrl(value) {
 
 const files = await collectFiles(distDirectory)
 const allFiles = new Set(files)
+
+function isInfrastructureHtml(file) {
+  // Google FILE verification tokens must contain only the exact token text.
+  // They are deployable control files, not branded/indexable webpages.
+  return /^google[A-Za-z0-9_-]+\.html$/.test(path.posix.basename(file))
+}
+
 const htmlFiles = files.filter(
-  (file) => file.endsWith('.html') && !file.startsWith(excludedDirectory),
+  (file) =>
+    file.endsWith('.html') &&
+    !file.startsWith(excludedDirectory) &&
+    !isInfrastructureHtml(file),
 )
 const errors = []
 let checkedLinks = 0
