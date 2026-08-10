@@ -52,4 +52,4 @@ jobs:
             exit 0
           fi
           [ "${{ steps.user_project.outputs.user_project_usable }}" = "true" ]
-          echo "Site Verification quota is available through x-goog-user-project (${ { steps.user_project.outputs.user_project_label } })."
+          echo "Site Verification quota is available through x-goog-user-project (${{ steps.user_project.outputs.user_project_label }})."
