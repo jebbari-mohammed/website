@@ -10,6 +10,9 @@ on:
       - 'packages/content/**'
       - 'tools/ai-marketing/seo-growth-engine.mjs'
       - 'tools/ai-marketing/seo-growth-engine.test.mjs'
+      - 'tools/ai-marketing/gsc-publish.mjs'
+      - '.github/workflows/autonomous-marketing-employee.yml'
+      - '.github/workflows/daily-blog.yml'
       - '.github/workflows/seo-growth-engine-ci.yml'
   push:
     branches: [main]
@@ -21,6 +24,9 @@ on:
       - 'packages/content/**'
       - 'tools/ai-marketing/seo-growth-engine.mjs'
       - 'tools/ai-marketing/seo-growth-engine.test.mjs'
+      - 'tools/ai-marketing/gsc-publish.mjs'
+      - '.github/workflows/autonomous-marketing-employee.yml'
+      - '.github/workflows/daily-blog.yml'
       - '.github/workflows/seo-growth-engine-ci.yml'
   workflow_dispatch:
 
@@ -51,6 +57,11 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
+
+      - name: Check SEO publisher syntax
+        run: |
+          node --check tools/ai-marketing/seo-growth-engine.mjs
+          node --check tools/ai-marketing/gsc-publish.mjs
 
       - name: Test SEO decision engine
         run: pnpm test:seo-growth
