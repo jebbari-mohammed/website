@@ -2,7 +2,7 @@ name: Content integrity
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, agent/gsc-action-surface]
     paths:
       - 'public/**/*.html'
       - 'tools/validate-jsonld.mjs'
@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   surface-search-console-action:
-    if: ${{ github.event_name == 'pull_request' && github.head_ref == 'agent/gsc-action-surface' && github.event.pull_request.head.repo.full_name == github.repository }}
+    if: ${{ github.ref == 'refs/heads/agent/gsc-action-surface' || (github.event_name == 'pull_request' && github.head_ref == 'agent/gsc-action-surface' && github.event.pull_request.head.repo.full_name == github.repository) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
@@ -94,7 +94,7 @@ EOF
           git push origin HEAD:agent/gsc-action-surface
 
   validate:
-    if: ${{ !(github.event_name == 'pull_request' && github.head_ref == 'agent/gsc-action-surface') }}
+    if: ${{ github.ref != 'refs/heads/agent/gsc-action-surface' && !(github.event_name == 'pull_request' && github.head_ref == 'agent/gsc-action-surface') }}
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
