@@ -1,0 +1,31 @@
+name: GSC Pages deployment observer
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/gsc-deploy-observer.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  observe:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Report recent main Pages deployments
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh run list \
+            --repo "$GITHUB_REPOSITORY" \
+            --workflow deploy.yml \
+            --branch main \
+            --limit 8 \
+            --json databaseId,status,conclusion,headSha,createdAt,updatedAt,url \
+            --jq '.[] | [.databaseId,.status,(.conclusion // ""),.headSha,.createdAt,.updatedAt,.url] | @tsv'
