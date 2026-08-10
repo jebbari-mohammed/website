@@ -1,0 +1,357 @@
+name: Harden Gemini structured output
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/harden-gemini-json-output.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: harden-gemini-structured-output
+  cancel-in-progress: false
+
+jobs:
+  harden:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+      GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+      SEO_GEMINI_MODEL: gemini-3.6-flash
+      SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.1-pro-preview,gemini-3.5-flash-lite
+
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Add balanced JSON extraction and provider fallback
+        run: |
+          set -euo pipefail
+          cat > tools/ai-marketing/model-json.mjs <<'EOF'
+          function firstBalancedJsonObject(value = '') {
+            const text = String(value);
+            let start = -1;
+            let depth = 0;
+            let inString = false;
+            let escaped = false;
+
+            for (let index = 0; index < text.length; index += 1) {
+              const character = text[index];
+              if (start < 0) {
+                if (character === '{') {
+                  start = index;
+                  depth = 1;
+                }
+                continue;
+              }
+
+              if (inString) {
+                if (escaped) escaped = false;
+                else if (character === '\\') escaped = true;
+                else if (character === '"') inString = false;
+                continue;
+              }
+
+              if (character === '"') inString = true;
+              else if (character === '{') depth += 1;
+              else if (character === '}') {
+                depth -= 1;
+                if (depth === 0) return text.slice(start, index + 1);
+              }
+            }
+            return '';
+          }
+
+          export function parseModelJson(value) {
+            const cleaned = String(value || '')
+              .trim()
+              .replace(/^```(?:json)?\s*/i, '')
+              .replace(/\s*```$/i, '');
+            const extracted = firstBalancedJsonObject(cleaned);
+            const candidates = [...new Set([cleaned, extracted].filter(Boolean))];
+            let lastError;
+
+            for (const candidate of candidates) {
+              try {
+                const parsed = JSON.parse(candidate);
+                if (!parsed || Array.isArray(parsed) || typeof parsed !== 'object') {
+                  throw new Error('top-level value is not an object');
+                }
+                return parsed;
+              } catch (error) {
+                lastError = error;
+              }
+            }
+
+            const detail = lastError?.message ? ` (${lastError.message})` : '';
+            throw new Error(`model did not return a valid JSON object${detail}`);
+          }
+          EOF
+
+          cat > tools/ai-marketing/model-json.test.mjs <<'EOF'
+          import test from 'node:test';
+          import assert from 'node:assert/strict';
+          import { parseModelJson } from './model-json.mjs';
+
+          test('parses a direct JSON object', () => {
+            assert.deepEqual(parseModelJson('{"title":"Useful guide","ok":true}'), {
+              title: 'Useful guide',
+              ok: true,
+            });
+          });
+
+          test('parses fenced JSON', () => {
+            assert.deepEqual(parseModelJson('```json\n{"answer":"yes"}\n```'), { answer: 'yes' });
+          });
+
+          test('extracts the first balanced object without being confused by braces in strings', () => {
+            const value = 'Here is the result:\n{"html":"<p>Use {braces} safely</p>","nested":{"count":2}}\nDone.';
+            assert.deepEqual(parseModelJson(value), {
+              html: '<p>Use {braces} safely</p>',
+              nested: { count: 2 },
+            });
+          });
+
+          test('rejects truncated and non-object output', () => {
+            assert.throws(() => parseModelJson('{"title":"cut off"'), /valid JSON object/);
+            assert.throws(() => parseModelJson('[1,2,3]'), /valid JSON object/);
+          });
+          EOF
+
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('tools/ai-marketing/seo-production.mjs')
+          source = path.read_text()
+
+          import_anchor = "import { runGroundedResearch } from './gemini-grounded-research.mjs';\n"
+          import_line = "import { parseModelJson } from './model-json.mjs';\n"
+          if import_line not in source:
+              if source.count(import_anchor) != 1:
+                  raise SystemExit('Expected grounded-research import exactly once')
+              source = source.replace(import_anchor, import_anchor + import_line)
+
+          old_parser = '''function parseModelJson(text) {
+            const cleaned = String(text || '').trim().replace(/^```(?:json)?\\s*/i, '').replace(/\\s*```$/i, '');
+            try {
+              return JSON.parse(cleaned);
+            } catch {
+              const first = cleaned.indexOf('{');
+              const last = cleaned.lastIndexOf('}');
+              if (first >= 0 && last > first) return JSON.parse(cleaned.slice(first, last + 1));
+              throw new Error('model did not return valid JSON');
+            }
+          }
+
+          '''
+          if old_parser in source:
+              source = source.replace(old_parser, '')
+          elif 'function parseModelJson(' in source:
+              raise SystemExit('Unexpected local parseModelJson implementation')
+
+          old_generate = '''async function generateText(prompt, { json = false, search = false, maxOutputTokens = 12000 } = {}) {
+            if (!apiKeys().length) throw new Error('No Gemini API key is configured');
+            let lastError;
+            for (const model of modelCandidates()) {
+              for (const apiKey of apiKeys()) {
+                try {
+                  const ai = new GoogleGenAI({ apiKey });
+                  const config = { maxOutputTokens };
+                  if (json) config.responseMimeType = 'application/json';
+                  if (search) config.tools = [{ googleSearch: {} }];
+                  const response = await ai.models.generateContent({ model, contents: prompt, config });
+                  const text = String(response.text || '').trim();
+                  if (!text) throw new Error('empty model response');
+                  return { text, model };
+                } catch (error) {
+                  lastError = error;
+                }
+              }
+            }
+            throw new Error(`All configured Gemini model/key combinations failed (${lastError?.message || 'unknown'})`);
+          }
+          '''
+          new_generate = '''async function generateText(prompt, {
+            json = false,
+            search = false,
+            maxOutputTokens = 12000,
+            parse = null,
+            stage = 'generation',
+          } = {}) {
+            const keys = apiKeys();
+            const models = modelCandidates();
+            if (!keys.length) throw new Error('No Gemini API key is configured');
+            let lastError;
+            let attempt = 0;
+            const available = Math.max(1, keys.length * models.length);
+            const maxAttempts = parse ? Math.min(6, available) : available;
+
+            outer: for (const model of models) {
+              for (const [keyIndex, apiKey] of keys.entries()) {
+                if (attempt >= maxAttempts) break outer;
+                attempt += 1;
+                try {
+                  const ai = new GoogleGenAI({ apiKey });
+                  const config = { maxOutputTokens };
+                  if (json) config.responseMimeType = 'application/json';
+                  if (search) config.tools = [{ googleSearch: {} }];
+                  const contents = parse && attempt > 1
+                    ? `${prompt}\n\nSTRICT STRUCTURED-OUTPUT RETRY: Return exactly one complete JSON object. Do not use markdown fences, commentary, or trailing text.`
+                    : prompt;
+                  const response = await ai.models.generateContent({ model, contents, config });
+                  const text = String(response.text || '').trim();
+                  if (!text) throw new Error('empty model response');
+                  const parsed = parse ? parse(text) : undefined;
+                  return {
+                    text,
+                    model,
+                    keySlot: keyIndex + 1,
+                    ...(parse ? { value: parsed } : {}),
+                  };
+                } catch (error) {
+                  lastError = error;
+                  if (parse) {
+                    console.warn(`${stage} structured response attempt ${attempt}/${maxAttempts} failed with ${model} key slot ${keyIndex + 1}; retrying safely.`);
+                  }
+                }
+              }
+            }
+            throw new Error(`All configured Gemini model/key combinations failed for ${stage} (${lastError?.message || 'unknown'})`);
+          }
+          '''
+          if source.count(old_generate) != 1:
+              raise SystemExit('Expected generateText implementation exactly once')
+          source = source.replace(old_generate, new_generate)
+
+          old_create = '''async function createDeliverable(item, research, currentExcerpt) {
+            const first = await generateText(draftPrompt(item, research, currentExcerpt), { json: true, maxOutputTokens: 16000 });
+            const draft = parseModelJson(first.text);
+            const second = await generateText(criticPrompt(item, research, draft), { json: true, maxOutputTokens: 16000 });
+            const revised = parseModelJson(second.text);
+            return { deliverable: revised, model: second.model || first.model };
+          }
+          '''
+          new_create = '''async function createDeliverable(item, research, currentExcerpt) {
+            const first = await generateText(draftPrompt(item, research, currentExcerpt), {
+              json: true,
+              maxOutputTokens: 16000,
+              parse: parseModelJson,
+              stage: 'draft',
+            });
+            const draft = first.value;
+            const second = await generateText(criticPrompt(item, research, draft), {
+              json: true,
+              maxOutputTokens: 16000,
+              parse: parseModelJson,
+              stage: 'critic',
+            });
+            return { deliverable: second.value, model: second.model || first.model };
+          }
+          '''
+          if source.count(old_create) != 1:
+              raise SystemExit('Expected createDeliverable implementation exactly once')
+          source = source.replace(old_create, new_create)
+
+          old_repair = '''async function repairDeliverable(item, research, deliverable, issues) {
+            const prompt = `Repair this SEO deliverable and return the full revised JSON in the same shape.\\nAction: ${item.action}\\nQuery: ${item.query}\\nValidation failures: ${issues.join('; ')}\\nSERP context: ${research.text}\\nCurrent JSON: ${JSON.stringify(deliverable)}\\nDo not explain. Return valid JSON only. Keep all claims conservative and use only the permitted HTML tags.`;
+            const response = await generateText(prompt, { json: true, maxOutputTokens: 16000 });
+            return { deliverable: parseModelJson(response.text), model: response.model };
+          }
+          '''
+          new_repair = '''async function repairDeliverable(item, research, deliverable, issues) {
+            const prompt = `Repair this SEO deliverable and return the full revised JSON in the same shape.\\nAction: ${item.action}\\nQuery: ${item.query}\\nValidation failures: ${issues.join('; ')}\\nSERP context: ${research.text}\\nCurrent JSON: ${JSON.stringify(deliverable)}\\nDo not explain. Return valid JSON only. Keep all claims conservative and use only the permitted HTML tags.`;
+            const response = await generateText(prompt, {
+              json: true,
+              maxOutputTokens: 16000,
+              parse: parseModelJson,
+              stage: 'repair',
+            });
+            return { deliverable: response.value, model: response.model };
+          }
+          '''
+          if source.count(old_repair) != 1:
+              raise SystemExit('Expected repairDeliverable implementation exactly once')
+          source = source.replace(old_repair, new_repair)
+
+          path.write_text(source)
+          PY
+
+          node - <<'NODE'
+          const fs = require('fs');
+          const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          const testFile = 'tools/ai-marketing/model-json.test.mjs';
+          let command = packageJson.scripts['test:seo-growth'];
+          if (!command.includes(testFile)) {
+            command = command.replace('node --test ', `node --test ${testFile} `);
+            packageJson.scripts['test:seo-growth'] = command;
+            fs.writeFileSync('package.json', `${JSON.stringify(packageJson, null, 2)}\n`);
+          }
+          NODE
+
+      - name: Run deterministic structured-output and SEO tests
+        run: |
+          set -euo pipefail
+          node --check tools/ai-marketing/model-json.mjs
+          node --check tools/ai-marketing/seo-production.mjs
+          pnpm test:seo-growth
+
+      - name: Re-run the live grounded writer, critic, repair, and renderer smoke
+        id: smoke
+        run: |
+          set -euo pipefail
+          pnpm seo:smoke:gemini
+          node tools/ai-marketing/seo-grounding-smoke-plan.mjs
+          SEO_PLAN_PATH=/tmp/izem-seo-grounding-smoke-plan.json \
+            node tools/ai-marketing/seo-production-runner.mjs --dry-run --force
+
+      - name: Require grounded, validated, non-mutating output
+        run: |
+          set -euo pipefail
+          [ "${{ steps.smoke.outputs.validated }}" = "true" ]
+          [ "${{ steps.smoke.outputs.changed }}" = "false" ]
+          [ "${{ steps.smoke.outputs.grounded }}" = "true" ]
+          git diff --quiet -- public/
+
+      - name: Build and validate the full production site
+        run: |
+          set -euo pipefail
+          pnpm build
+          node tools/validate-jsonld.mjs dist
+          node tools/check-critical-routes.mjs dist
+          pnpm check:links
+
+      - name: Commit the verified robustness fix to main
+        run: |
+          set -euo pipefail
+          git config user.name "IZEM SEO Validation"
+          git config user.email "seo-validation@youraicoach.life"
+          git add tools/ai-marketing/model-json.mjs tools/ai-marketing/model-json.test.mjs tools/ai-marketing/seo-production.mjs package.json
+          git diff --cached --quiet && { echo "::error::No structured-output robustness change was staged"; exit 1; }
+          git commit -m "fix: retry invalid Gemini structured output safely"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
