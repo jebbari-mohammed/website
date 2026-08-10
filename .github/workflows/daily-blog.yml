@@ -82,6 +82,32 @@ jobs:
           GITHUB_ACTIONS: true
         run: node tools/ai-marketing/gsc-publish.mjs
 
+      - name: Cool down the full target/query cluster
+        if: steps.publish.outputs.changed == 'true'
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const base = 'data/marketing-employee/seo-growth';
+          const plan = JSON.parse(fs.readFileSync(`${base}/latest.json`, 'utf8'));
+          const last = JSON.parse(fs.readFileSync(`${base}/last-publish.json`, 'utf8'));
+          const state = JSON.parse(fs.readFileSync(`${base}/publish-state.json`, 'utf8'));
+          const related = new Set([last.query, ...((last.opportunity && last.opportunity.brief && last.opportunity.brief.relatedQueries) || [])]);
+          for (const item of plan.opportunities || []) {
+            const sameRefreshTarget = last.action === 'refresh' && item.action === 'refresh' && item.targetPage && item.targetPage === last.targetPage;
+            const sameCreateCluster = last.action === 'create' && item.action === 'create' && related.has(item.query);
+            if (!sameRefreshTarget && !sameCreateCluster) continue;
+            const key = `${item.action || ''}|${item.query || ''}|${item.targetPage || ''}`;
+            state.actions[key] = {
+              at: last.at,
+              action: item.action,
+              targetPage: item.targetPage || last.url,
+              clusteredWith: last.query,
+            };
+          }
+          state.updatedAt = last.at;
+          fs.writeFileSync(`${base}/publish-state.json`, `${JSON.stringify(state, null, 2)}\n`);
+          NODE
+
       - name: Rebuild blog index and RSS
         if: steps.publish.outputs.changed == 'true'
         run: node tools/ai-marketing/rebuild-blog-index.mjs
