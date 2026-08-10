@@ -1,0 +1,78 @@
+name: Verify real daily zero-row production
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-real-daily-zero-row.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: verify-real-daily-zero-row-production
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - name: Dispatch the exact production workflow as a dry run
+        id: dispatch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          started=$(date -u +%s)
+          gh workflow run daily-blog.yml --repo "$GITHUB_REPOSITORY" --ref main -f dry_run=true -f force=false
+
+          run_id=''
+          for attempt in $(seq 1 30); do
+            candidate=$(gh run list \
+              --repo "$GITHUB_REPOSITORY" \
+              --workflow daily-blog.yml \
+              --branch main \
+              --event workflow_dispatch \
+              --limit 10 \
+              --json databaseId,createdAt \
+              --jq --argjson started "$started" '[.[] | select((.createdAt | fromdateiso8601) >= $started)] | sort_by(.createdAt) | last | .databaseId // empty')
+            if [ -n "$candidate" ]; then
+              run_id="$candidate"
+              break
+            fi
+            sleep 2
+          done
+          [ -n "$run_id" ] || { echo "::error::Could not locate the dispatched Daily SEO Production run"; exit 1; }
+          echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+          echo "Dispatched Daily SEO Production run $run_id."
+
+      - name: Require the real workflow to complete successfully
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh run watch "${{ steps.dispatch.outputs.run_id }}" --repo "$GITHUB_REPOSITORY" --exit-status --interval 5
+
+      - name: Prove the evidence gate skipped all AI and publication steps
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          run_id="${{ steps.dispatch.outputs.run_id }}"
+          jobs=$(gh run view "$run_id" --repo "$GITHUB_REPOSITORY" --json jobs)
+          echo "$jobs" | jq -e '
+            .jobs[]
+            | select(.name == "Evidence-driven SEO action")
+            | (.steps | map({key: .name, value: .conclusion}) | from_entries) as $steps
+            | $steps["Check whether Search Console production access is verified"] == "success"
+              and $steps["Pull private Search Console query and landing-page evidence"] == "success"
+              and $steps["Evaluate whether private Search Console evidence is available"] == "success"
+              and $steps["Report a verified zero-row no-action run"] == "success"
+              and $steps["Build private base opportunity plan"] == "skipped"
+              and $steps["Verify current Gemini SDK, keys, and model fallback"] == "skipped"
+              and $steps["Research, draft, critique, validate, and prepare the best action"] == "skipped"
+              and $steps["Commit only public website files"] == "skipped"
+          ' >/dev/null
+          echo "Real daily workflow verified: private GSC succeeded; planner, Gemini, publisher, and commit steps were skipped safely."
