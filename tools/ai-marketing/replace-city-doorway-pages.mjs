@@ -1,4 +1,24 @@
-<!DOCTYPE html>
+#!/usr/bin/env node
+
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+const ROOT = path.resolve('public/best-ai-fitness-app');
+const TARGET = 'https://youraicoach.life/best-ai-fitness-app';
+const EXPECTED_CITY_PAGES = 20;
+const CITY_NAMES = {
+  'new-york': 'New York',
+  'los-angeles': 'Los Angeles',
+  'mexico-city': 'Mexico City',
+  'so-paulo': 'São Paulo',
+};
+
+function cityName(slug) {
+  return CITY_NAMES[slug] || slug.split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+}
+
+function page(city) {
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,7 +27,7 @@
   <meta name="description" content="IZEM consolidated this older city-specific page into one maintained AI fitness app guide with clearer product information and editorial oversight.">
   <meta name="robots" content="noindex, follow">
   <meta name="googlebot" content="noindex, follow">
-  <link rel="canonical" href="https://youraicoach.life/best-ai-fitness-app">
+  <link rel="canonical" href="${TARGET}">
   <meta http-equiv="refresh" content="2; url=/best-ai-fitness-app">
   <!-- LEGACY_SEO_QUARANTINE:city-doorway-template -->
   <style>
@@ -18,10 +38,36 @@
   <main class="card">
     <aside data-legacy-editorial-review="true">
       <div class="eyebrow">Editorial consolidation</div>
-      <h1>The Riyadh guide has moved</h1>
+      <h1>The ${city} guide has moved</h1>
       <p>IZEM retired its old city-template pages. The product is not meaningfully different by city, so one maintained guide is more useful and less repetitive than separate local pages.</p>
       <a href="/best-ai-fitness-app">Open the maintained Best AI Fitness App guide</a>
     </aside>
   </main>
 </body>
 </html>
+`;
+}
+
+const entries = await fs.readdir(ROOT, { withFileTypes: true });
+const files = entries
+  .filter((entry) => entry.isFile() && entry.name.endsWith('.html') && entry.name !== 'index.html')
+  .map((entry) => entry.name)
+  .sort();
+
+if (files.length !== EXPECTED_CITY_PAGES) {
+  throw new Error(`Expected exactly ${EXPECTED_CITY_PAGES} reviewed city pages, found ${files.length}`);
+}
+
+let changed = 0;
+for (const file of files) {
+  const slug = file.replace(/\.html$/, '');
+  const target = path.join(ROOT, file);
+  const next = page(cityName(slug));
+  const current = await fs.readFile(target, 'utf8');
+  if (current !== next) {
+    await fs.writeFile(target, next, 'utf8');
+    changed += 1;
+  }
+}
+
+console.log(`City doorway replacement complete: ${files.length} city pages checked, ${changed} replaced; maintained index.html untouched.`);
