@@ -129,9 +129,17 @@ export async function runGroundedResearch({
   if (!Array.isArray(apiKeys) || !apiKeys.length) throw new Error('No Gemini API key is configured');
   if (!Array.isArray(models) || !models.length) throw new Error('No Gemini model is configured');
 
+  // Gemini 2.5 Search grounding is billed and quota-managed separately from
+  // Gemini 3 grounding. Use it only for SERP research while keeping the actual
+  // drafting/critic model ladder on the newer Gemini 3 family.
+  const researchModels = [...new Set([
+    'gemini-2.5-flash',
+    ...models.filter(Boolean),
+    'gemini-2.5-flash-lite',
+  ])];
   const failures = [];
   const interactionDeniedKeys = new Set();
-  for (const model of [...new Set(models.filter(Boolean))]) {
+  for (const model of researchModels) {
     const modelFailures = [];
     const legacyTransport = modelUsesGenerateContent(model);
     for (let index = 0; index < apiKeys.length; index += 1) {
