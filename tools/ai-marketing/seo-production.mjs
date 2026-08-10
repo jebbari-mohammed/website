@@ -479,7 +479,7 @@ function appendExperiment(record) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  for (const [name, value] of Object.entries({ changed: 'false', action: 'none', slug: '', url: '', marker: '', query_hash: '', validated: 'false' })) setOutput(name, value);
+  for (const [name, value] of Object.entries({ changed: 'false', action: 'none', slug: '', url: '', marker: '', query_hash: '', validated: 'false', grounded: 'false' })) setOutput(name, value);
   const plan = readJson(args.plan, null);
   assertFreshPlan(plan);
   const state = readJson(args.state, { version: 2, actions: {} });
@@ -499,7 +499,11 @@ async function main() {
   }
 
   const research = args.noResearch ? { text: 'Live SERP research disabled for this run.', grounded: false, model: '' } : await researchOpportunity(item);
-  console.log(`SERP research phase: ${research.grounded ? 'grounded' : 'conservative fallback'}.`);
+  console.log(`SERP research phase: ${research.grounded ? 'grounded' : 'unavailable'}.`);
+  setOutput('grounded', research.grounded ? 'true' : 'false');
+  if (!research.grounded) {
+    throw new Error('Live Google Search grounding was unavailable; publication is skipped rather than using an ungrounded fallback');
+  }
   const drafted = await createDeliverable(item, research, currentPageExcerpt(targetFile));
   const checked = await validateWithRepair(item, research, drafted.deliverable, drafted.model);
   let result;
