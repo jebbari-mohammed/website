@@ -4,10 +4,17 @@ import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
-const DEFAULT_SITE = 'sc-domain:youraicoach.life';
+const DEFAULT_SITE = 'https://youraicoach.life/';
 const DEFAULT_OUTPUT = path.resolve('tools/ai-marketing/search-console-reports/latest-28d.json');
+const CREDENTIAL_NAMES = [
+  'GOOGLE_SERVICE_ACCOUNT_JSON',
+  'GOOGLE_CLOUD_JSON',
+  'GCP_SA_KEY',
+  'GOOGLE_APPLICATION_CREDENTIALS_JSON',
+];
 
 function parseArgs(argv) {
   const args = {
@@ -42,48 +49,72 @@ function base64url(value) {
   return Buffer.from(value).toString('base64url');
 }
 
-function loadCredentials() {
-  const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-  if (!raw) throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is missing');
-  let credentials;
+function safe(value = '') {
+  return String(value)
+    .replace(/AIza[0-9A-Za-z_-]{20,}/g, '[redacted-api-key]')
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[redacted-email]')
+    .replace(/projects\/[A-Za-z0-9._-]+/g, 'projects/[redacted]')
+    .replace(/[A-Za-z0-9_-]{160,}/g, '[redacted-token]')
+    .replace(/\s+/g, ' ')
+    .slice(0, 420);
+}
+
+export function discoverCredentialSource(env = process.env) {
+  return CREDENTIAL_NAMES.find((name) => String(env[name] || '').trim()) || '';
+}
+
+export function parseServiceAccountCredential(raw, sourceName = 'Google credential') {
+  let value;
   try {
-    credentials = JSON.parse(raw);
+    value = JSON.parse(raw);
   } catch {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is not valid JSON');
+    throw new Error(`${sourceName} is not valid JSON`);
   }
-  if (credentials.type !== 'service_account' || !credentials.client_email || !credentials.private_key) {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is not a valid service-account credential');
+  if (value.type !== 'service_account' || !value.client_email || !value.private_key) {
+    throw new Error(`${sourceName} is not valid service-account JSON`);
   }
-  return credentials;
+  return {
+    ...value,
+    private_key: String(value.private_key).replace(/\\n/g, '\n').replace(/\r\n/g, '\n'),
+  };
+}
+
+function loadCredentials() {
+  const source = discoverCredentialSource();
+  if (!source) throw new Error(`No Google service-account JSON is configured. Checked ${CREDENTIAL_NAMES.join(', ')}`);
+  return { source, value: parseServiceAccountCredential(process.env[source], source) };
 }
 
 async function getAccessToken(credentials) {
   const now = Math.floor(Date.now() / 1000);
-  const header = base64url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }));
+  const tokenUri = credentials.token_uri || 'https://oauth2.googleapis.com/token';
+  const header = base64url(JSON.stringify({
+    alg: 'RS256',
+    typ: 'JWT',
+    ...(credentials.private_key_id ? { kid: credentials.private_key_id } : {}),
+  }));
   const claim = base64url(JSON.stringify({
     iss: credentials.client_email,
     scope: SCOPE,
-    aud: credentials.token_uri || 'https://oauth2.googleapis.com/token',
-    iat: now,
-    exp: now + 3600,
+    aud: tokenUri,
+    iat: now - 60,
+    exp: now + 3540,
   }));
   const unsigned = `${header}.${claim}`;
-  const signer = crypto.createSign('RSA-SHA256');
-  signer.update(unsigned);
-  signer.end();
-  const assertion = `${unsigned}.${base64url(signer.sign(credentials.private_key))}`;
-  const body = new URLSearchParams({
-    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-    assertion,
-  });
-  const response = await fetch(credentials.token_uri || 'https://oauth2.googleapis.com/token', {
+  const signature = crypto.sign('RSA-SHA256', Buffer.from(unsigned), crypto.createPrivateKey(credentials.private_key));
+  const response = await fetch(tokenUri, {
     method: 'POST',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    body,
+    body: new URLSearchParams({
+      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+      assertion: `${unsigned}.${base64url(signature)}`,
+    }).toString(),
     signal: AbortSignal.timeout(30000),
   });
   const payload = await response.json().catch(() => ({}));
-  if (!response.ok || !payload.access_token) throw new Error(`Google OAuth token request failed with HTTP ${response.status}`);
+  if (!response.ok || !payload.access_token) {
+    throw new Error(`Google OAuth failed with HTTP ${response.status}: ${safe(payload.error_description || payload.error || '')}`);
+  }
   return payload.access_token;
 }
 
@@ -111,11 +142,14 @@ async function fetchSearchConsole(accessToken, args) {
     body: JSON.stringify(body),
     signal: AbortSignal.timeout(60000),
   });
+  const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const category = response.status === 403 ? 'credential lacks Search Console property access' : `HTTP ${response.status}`;
+    const message = safe(payload?.error?.message || payload?.error_description || payload?.error || '');
+    const category = response.status === 403
+      ? `credential lacks Search Console property access${message ? `: ${message}` : ''}`
+      : `HTTP ${response.status}${message ? `: ${message}` : ''}`;
     throw new Error(`Search Console query failed: ${category}`);
   }
-  const payload = await response.json();
   return {
     site: args.site,
     startDate: body.startDate,
@@ -129,8 +163,8 @@ async function fetchSearchConsole(accessToken, args) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const credentials = loadCredentials();
-  const accessToken = await getAccessToken(credentials);
+  const credential = loadCredentials();
+  const accessToken = await getAccessToken(credential.value);
   const report = await fetchSearchConsole(accessToken, args);
   if (args.requireRows && report.rows.length === 0) throw new Error('Search Console returned zero query+page rows');
   await fs.mkdir(path.dirname(args.output), { recursive: true });
@@ -139,11 +173,15 @@ async function main() {
     clicks: sum.clicks + Number(row.clicks || 0),
     impressions: sum.impressions + Number(row.impressions || 0),
   }), { clicks: 0, impressions: 0 });
-  console.log(`Private GSC pull verified: ${report.rows.length} rows, ${Math.round(totals.clicks)} clicks, ${Math.round(totals.impressions)} impressions.`);
+  console.log(`Private GSC pull verified through ${credential.source}: ${report.rows.length} rows, ${Math.round(totals.clicks)} clicks, ${Math.round(totals.impressions)} impressions.`);
   console.log(`Period: ${report.startDate} to ${report.endDate}. Exact queries were not printed.`);
 }
 
-main().catch((error) => {
-  console.error(`Private GSC pull failed: ${error instanceof Error ? error.message : String(error)}`);
-  process.exitCode = 1;
-});
+const filename = fileURLToPath(import.meta.url);
+const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === filename;
+if (invokedDirectly) {
+  main().catch((error) => {
+    console.error(`Private GSC pull failed: ${safe(error instanceof Error ? error.message : String(error))}`);
+    process.exitCode = 1;
+  });
+}
