@@ -31,12 +31,6 @@ function safeFailure(error) {
   return `${status ? `status=${status}; ` : ''}${message}`;
 }
 
-function setOutput(name, value) {
-  if (!process.env.GITHUB_OUTPUT) return;
-  const { appendFileSync } = require('node:fs');
-  appendFileSync(process.env.GITHUB_OUTPUT, `${name}=${String(value).replace(/\r?\n/g, ' ')}\n`);
-}
-
 async function main() {
   const apiKeys = keys();
   if (!apiKeys.length) throw new Error('No Gemini API key is configured');
