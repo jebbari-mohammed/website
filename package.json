@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -14,7 +18,7 @@
     "sitemap:check": "node tools/sync-sitemap.mjs --check",
     "lint": "eslint .",
     "preview": "vite preview",
-    "gsc": "node tools/ai-marketing/search-console.mjs",
+    "gsc": "node tools/ai-marketing/gsc-fetch-private.mjs",
     "gsc:private": "node tools/ai-marketing/gsc-fetch-private.mjs --require-rows",
     "seo:plan": "node tools/ai-marketing/seo-growth-engine.mjs",
     "seo:plan:strict": "node tools/ai-marketing/seo-growth-engine.mjs --require-gsc",
