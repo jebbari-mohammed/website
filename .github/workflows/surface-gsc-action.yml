@@ -1,8 +1,8 @@
 name: Surface Search Console action
 
 on:
-  push:
-    branches: [agent/gsc-action-surface]
+  pull_request:
+    branches: [main]
     paths:
       - '.github/workflows/surface-gsc-action.yml'
   workflow_dispatch:
@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   surface:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
@@ -28,7 +29,7 @@ jobs:
       - name: Checkout action branch
         uses: actions/checkout@v7
         with:
-          ref: agent/gsc-action-surface
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || 'agent/gsc-action-surface' }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -75,10 +76,11 @@ EOF
       - name: Commit the exact observable bootstrap state and remove this one-time workflow
         run: |
           set -euo pipefail
+          branch="${{ github.event_name == 'pull_request' && github.head_ref || 'agent/gsc-action-surface' }}"
           git config user.name "IZEM Search Console Bootstrap"
           git config user.email "search-console-bootstrap@youraicoach.life"
           git rm .github/workflows/surface-gsc-action.yml
           git add -A .github public/google*.html 2>/dev/null || true
           git diff --cached --quiet && { echo "::error::Bootstrap state produced no reviewable change"; exit 1; }
           git commit -m "chore: surface Search Console bootstrap action"
-          git push origin HEAD:agent/gsc-action-surface
+          git push origin HEAD:"$branch"
