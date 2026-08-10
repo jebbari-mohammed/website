@@ -5,6 +5,7 @@ import path from 'node:path';
 
 const ROOT = path.resolve('public/best-ai-fitness-app');
 const TARGET = 'https://youraicoach.life/best-ai-fitness-app';
+const EXPECTED_CITY_PAGES = 21;
 const CITY_NAMES = {
   'new-york': 'New York',
   'los-angeles': 'Los Angeles',
@@ -53,7 +54,10 @@ const files = entries
   .map((entry) => entry.name)
   .sort();
 
-if (!files.length) throw new Error('No city HTML pages were found');
+if (files.length !== EXPECTED_CITY_PAGES) {
+  throw new Error(`Expected exactly ${EXPECTED_CITY_PAGES} reviewed city pages, found ${files.length}`);
+}
+
 let changed = 0;
 for (const file of files) {
   const slug = file.replace(/\.html$/, '');
@@ -67,6 +71,3 @@ for (const file of files) {
 }
 
 console.log(`City doorway replacement complete: ${files.length} pages checked, ${changed} replaced.`);
-if (files.length !== 20) {
-  throw new Error(`Expected exactly 20 reviewed city pages, found ${files.length}`);
-}
