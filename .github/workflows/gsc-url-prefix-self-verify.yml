@@ -1,0 +1,131 @@
+name: Search Console URL-prefix self-verification
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/ai-marketing/gsc-self-verify.mjs'
+      - '.github/workflows/gsc-url-prefix-self-verify.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/google*.html'
+      - 'tools/ai-marketing/gsc-self-verify.mjs'
+      - '.github/workflows/gsc-url-prefix-self-verify.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gsc-url-prefix-self-verification
+  cancel-in-progress: false
+
+env:
+  GSC_URL_PREFIX: https://youraicoach.life/
+  GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+  GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+  GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+
+jobs:
+  prepare:
+    name: Prepare Google verification file on the PR branch
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Request the official FILE verification token
+        id: token
+        run: node tools/ai-marketing/gsc-self-verify.mjs prepare
+
+      - name: Validate and commit only the public verification file
+        run: |
+          set -euo pipefail
+          file="public/${{ steps.token.outputs.verification_file }}"
+          test -f "$file"
+          test "$(tr -d '\r\n' < "$file")" = "${{ steps.token.outputs.verification_file }}"
+          unexpected=$(git status --short | awk '{print $2}' | grep -v -F "$file" || true)
+          if [ -n "$unexpected" ]; then
+            echo "::error::Unexpected files changed during verification preparation"
+            echo "$unexpected"
+            exit 1
+          fi
+          if git diff --quiet -- "$file" && git ls-files --error-unmatch "$file" >/dev/null 2>&1; then
+            echo "The current service-account verification file is already committed."
+            exit 0
+          fi
+          git config user.name "IZEM Search Console Bootstrap"
+          git config user.email "search-console-bootstrap@youraicoach.life"
+          git add "$file"
+          git commit -m "chore: add Google Search Console verification file"
+          git push origin HEAD:${{ github.head_ref }}
+
+  verify:
+    name: Verify ownership and prove live Search Console access
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Wait for Pages, verify ownership, add Search Console property, and query analytics
+        run: node tools/ai-marketing/gsc-self-verify.mjs verify
+
+      - name: Prove the production GSC client returns private query+page evidence
+        env:
+          GSC_SITE_URL: https://youraicoach.life/
+        run: pnpm gsc:private
+
+      - name: Mark the production system verified and remove bootstrap-only files
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('fs');
+          const file = 'public/seo-system-version.json';
+          const value = JSON.parse(fs.readFileSync(file, 'utf8'));
+          value.version = 3;
+          value.pipeline = 'verified-url-prefix-gsc-expert-plan-grounded-two-pass-editor';
+          value.searchConsoleProperty = 'https://youraicoach.life/';
+          value.searchConsoleVerified = true;
+          value.updatedAt = new Date().toISOString().slice(0, 10);
+          fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
+          NODE
+          git config user.name "IZEM Search Console Bootstrap"
+          git config user.email "search-console-bootstrap@youraicoach.life"
+          git rm .github/workflows/gsc-url-prefix-self-verify.yml
+          git rm -f .github/SEO_GSC_BLOCKER.md .github/SEO_GSC_SETUP_REQUIRED.txt .github/SEO_GSC_SETUP_REQUIRED.txt 2>/dev/null || true
+          git add public/seo-system-version.json
+          git commit -m "chore: confirm live Search Console production access"
+          git push origin HEAD:main
