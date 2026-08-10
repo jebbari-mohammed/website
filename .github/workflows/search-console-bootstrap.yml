@@ -132,7 +132,7 @@ EOF
           set -euo pipefail
           file="public/${{ steps.prepare.outputs.verification_file }}"
           test -f "$file"
-          test "$(tr -d '\r\n' < "$file")" = "${{ steps.prepare.outputs.verification_file }}"
+          test "$(tr -d '\r\n' < "$file")" = "google-site-verification: ${{ steps.prepare.outputs.verification_file }}"
           git config user.name "IZEM Search Console Bootstrap"
           git config user.email "search-console-bootstrap@youraicoach.life"
           git add "$file"
