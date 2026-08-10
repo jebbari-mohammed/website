@@ -126,8 +126,26 @@ jobs:
         if: steps.gsc_ready.outputs.ready == 'true'
         run: pnpm gsc
 
-      - name: Build private base opportunity plan
+      - name: Evaluate whether private Search Console evidence is available
+        id: gsc_evidence
         if: steps.gsc_ready.outputs.ready == 'true'
+        run: pnpm gsc:evidence
+
+      - name: Report a verified zero-row no-action run
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available != 'true'
+        run: |
+          {
+            echo "### Verified Search Console, awaiting evidence"
+            echo "- Search Console ownership and private query+page API access: verified"
+            echo "- Private query+page rows: ${{ steps.gsc_evidence.outputs.row_count || '0' }}"
+            echo "- Public SEO change: none"
+            echo "- Gemini drafting/review calls: skipped"
+            echo "- Guessed keyword fallback: disabled"
+            echo "- Evidence-driven production opens automatically as soon as Search Console returns rows."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build private base opportunity plan
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
         run: |
           set -euo pipefail
           node tools/ai-marketing/seo-growth-engine.mjs \
@@ -136,16 +154,16 @@ jobs:
           echo "Base plan completed. Exact query output stayed private."
 
       - name: Apply senior-level value, confidence, risk, and cannibalization gates
-        if: steps.gsc_ready.outputs.ready == 'true'
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
         run: pnpm seo:expert
 
       - name: Verify current Gemini SDK, keys, and model fallback
-        if: steps.gsc_ready.outputs.ready == 'true'
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
         run: pnpm seo:smoke:gemini
 
       - name: Research, draft, critique, validate, and prepare the best action
         id: publish
-        if: steps.gsc_ready.outputs.ready == 'true'
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
         env:
           SEO_PLAN_PATH: data/marketing-employee/seo-growth/expert-latest.json
         run: |
@@ -214,6 +232,8 @@ jobs:
           {
             echo "### IZEM SEO production"
             echo "- Search Console: verified URL-prefix property"
+            echo "- Private query+page rows: ${{ steps.gsc_evidence.outputs.row_count || '0' }}"
+            echo "- Evidence available: ${{ steps.gsc_evidence.outputs.evidence_available || 'false' }}"
             echo "- Dry run: ${DRY_RUN}"
             echo "- Action: ${{ steps.publish.outputs.action || 'none' }}"
             echo "- Query hash: ${{ steps.publish.outputs.query_hash || 'none' }}"
