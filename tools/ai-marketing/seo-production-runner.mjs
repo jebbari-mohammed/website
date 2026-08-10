@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { spawnSync } from 'node:child_process';
+import { appendFileSync } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
@@ -43,8 +44,7 @@ function main() {
   }
 
   if (process.env.GITHUB_OUTPUT) {
-    const line = `grounded=${result.grounded ? 'true' : 'false'}\n`;
-    await import('node:fs').then(({ appendFileSync }) => appendFileSync(process.env.GITHUB_OUTPUT, line));
+    appendFileSync(process.env.GITHUB_OUTPUT, `grounded=${result.grounded ? 'true' : 'false'}\n`);
   }
   console.log(`SEO production runner verified: ${result.reason}.`);
 }
