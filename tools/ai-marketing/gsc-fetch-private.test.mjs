@@ -31,7 +31,10 @@ test('blank credential values are ignored', () => {
 test('service-account parser validates structure and normalizes escaped newlines', () => {
   const parsed = parseServiceAccountCredential(valid, 'test credential');
   assert.equal(parsed.type, 'service_account');
-  assert.match(parsed.private_key, /BEGIN PRIVATE KEY\nnot-a-real-key/);
+  assert.equal(
+    parsed.private_key,
+    '-----BEGIN PRIVATE KEY-----\nnot-a-real-key\n-----END PRIVATE KEY-----\n',
+  );
   assert.throws(() => parseServiceAccountCredential('{bad', 'test credential'), /not valid JSON/);
   assert.throws(() => parseServiceAccountCredential('{"type":"authorized_user"}', 'test credential'), /not valid service-account JSON/);
 });
