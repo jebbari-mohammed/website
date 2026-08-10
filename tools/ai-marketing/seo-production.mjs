@@ -20,6 +20,7 @@ import {
   syncArticleMetadata,
   validateGeneratedContent,
 } from './seo-publisher-core.mjs';
+import { runGroundedResearch } from './gemini-grounded-research.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../..');
@@ -235,10 +236,18 @@ function safeFaq(value) {
 async function researchOpportunity(item) {
   const prompt = `Research the live Google search landscape for a fitness/AI coaching query.\n\nQuery: ${item.query}\nIntent: ${item.brief?.intent || 'informational'}\nCurrent target: ${item.targetPage || 'none'}\n\nUse Google Search. Return a concise private editorial brief covering: dominant intent; formats and SERP features; what top results do well; missing or weak angles; what would constitute genuine information gain; freshness/source expectations; and risks of overlap. Do not copy competitor wording. Do not recommend invented statistics, testimonials, medical claims, or unverified competitor prices/features.`;
   try {
-    const response = await generateText(prompt, { search: true, maxOutputTokens: 4500 });
+    const response = await runGroundedResearch({
+      prompt,
+      apiKeys: apiKeys(),
+      models: modelCandidates(),
+      maxOutputTokens: 4500,
+      thinkingLevel: 'medium',
+    });
+    console.log(`Grounded research completed with ${response.model} using key slot ${response.keySlot}.`);
     return { text: response.text.slice(0, 12000), model: response.model, grounded: true };
-  } catch {
-    return { text: 'Live Google Search research was unavailable. Use only the supplied GSC evidence, current page context, product facts, and conservative claims.', model: '', grounded: false };
+  } catch (error) {
+    console.warn(`Grounded SERP research unavailable: ${safeError(error)}`);
+    return { text: '', model: '', grounded: false };
   }
 }
 
