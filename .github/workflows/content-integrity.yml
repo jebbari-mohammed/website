@@ -2,7 +2,7 @@ name: Content integrity
 
 on:
   push:
-    branches: [main, master, agent/legacy-seo-cleanup-v2]
+    branches: [main, master]
     paths:
       - 'public/**/*.html'
       - 'tools/validate-jsonld.mjs'
@@ -15,91 +15,21 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: "content-integrity-${{ github.ref }}"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
-  legacy-cleanup:
-    if: ${{ github.ref == 'refs/heads/agent/legacy-seo-cleanup-v2' }}
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-    steps:
-      - name: Checkout cleanup branch
-        uses: actions/checkout@v7
-        with:
-          ref: agent/legacy-seo-cleanup-v2
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          version: 9
-
-      - name: Set up Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Apply the precise reviewed quarantine
-        run: |
-          set -euo pipefail
-          node tools/ai-marketing/legacy-content-audit.mjs --apply --report /tmp/legacy-before.json
-          node tools/ai-marketing/rebuild-blog-index.mjs
-          pnpm sitemap:sync
-          node tools/sync-news-sitemap.mjs
-          node tools/ai-marketing/legacy-content-audit.mjs --strict --report /tmp/legacy-after.json
-
-      - name: Validate the exact production result
-        run: |
-          set -euo pipefail
-          node tools/validate-jsonld.mjs public
-          pnpm build
-          node tools/validate-jsonld.mjs dist
-          node tools/check-critical-routes.mjs dist
-          pnpm check:links
-          pnpm sitemap:check
-          node tools/sync-news-sitemap.mjs --check
-          node - <<'NODE'
-          const fs = require('fs');
-          const before = JSON.parse(fs.readFileSync('/tmp/legacy-before.json', 'utf8'));
-          const after = JSON.parse(fs.readFileSync('/tmp/legacy-after.json', 'utf8'));
-          if (after.highRiskIndexable !== 0) throw new Error('High-risk pages remain indexable');
-          console.log(`Verified ${after.filesScanned} pages; quarantined ${before.changed}; high-risk indexable remaining: 0.`);
-          if (process.env.GITHUB_STEP_SUMMARY) {
-            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Precise legacy cleanup\n- HTML pages scanned: ${after.filesScanned}\n- Pages quarantined: ${before.changed}\n- High-risk indexable pages remaining: 0\n- Source/build/schema/routes/links/sitemaps: passed\n`);
-          }
-          NODE
-
-      - name: Restore the normal integrity workflow and commit the verified public result
-        run: |
-          set -euo pipefail
-          git fetch origin main
-          git checkout origin/main -- .github/workflows/content-integrity.yml
-          git rm -f .github/workflows/legacy-seo-quarantine-v2.yml 2>/dev/null || true
-          git config user.name "IZEM Editorial Cleanup"
-          git config user.email "editorial-cleanup@youraicoach.life"
-          git add public tools/ai-marketing/legacy-content-audit.mjs tools/sync-news-sitemap.mjs .github/workflows/content-integrity.yml
-          git diff --cached --quiet && { echo "::error::Cleanup produced no reviewed changes"; exit 1; }
-          git commit -m "seo: quarantine deceptive legacy pages precisely"
-          git push origin HEAD:agent/legacy-seo-cleanup-v2
-
   validate:
-    if: ${{ github.ref != 'refs/heads/agent/legacy-seo-cleanup-v2' }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Set up Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v4
         with:
           node-version: 22
 
