@@ -4,6 +4,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
 const DEFAULT_SITE = 'sc-domain:youraicoach.life';
@@ -62,7 +63,10 @@ export function parseServiceAccountCredential(raw, sourceName = 'configured Goog
   if (credentials.type !== 'service_account' || !credentials.client_email || !credentials.private_key) {
     throw new Error(`${sourceName} is not a valid service-account credential`);
   }
-  return credentials;
+  return {
+    ...credentials,
+    private_key: String(credentials.private_key).replace(/\\n/g, '\n').replace(/\r\n/g, '\n'),
+  };
 }
 
 function loadCredentials() {
@@ -76,33 +80,57 @@ function loadCredentials() {
   };
 }
 
+function safeGoogleMessage(payload, status) {
+  const code = typeof payload?.error === 'string' ? payload.error : `http_${status}`;
+  const description = typeof payload?.error_description === 'string' ? payload.error_description : '';
+  const sanitized = `${code}${description ? `: ${description}` : ''}`
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[redacted-email]')
+    .replace(/projects\/[A-Za-z0-9._-]+/g, 'projects/[redacted]')
+    .replace(/AIza[0-9A-Za-z_-]{20,}/g, '[redacted-api-key]')
+    .replace(/[A-Za-z0-9_-]{200,}/g, '[redacted-token]')
+    .replace(/\s+/g, ' ')
+    .slice(0, 420);
+  return sanitized || `http_${status}`;
+}
+
 async function getAccessToken(credentials) {
   const now = Math.floor(Date.now() / 1000);
-  const header = base64url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }));
+  const header = base64url(JSON.stringify({
+    alg: 'RS256',
+    typ: 'JWT',
+    ...(credentials.private_key_id ? { kid: credentials.private_key_id } : {}),
+  }));
+  const tokenUri = credentials.token_uri || 'https://oauth2.googleapis.com/token';
   const claim = base64url(JSON.stringify({
     iss: credentials.client_email,
     scope: SCOPE,
-    aud: credentials.token_uri || 'https://oauth2.googleapis.com/token',
-    iat: now,
-    exp: now + 3600,
+    aud: tokenUri,
+    iat: now - 60,
+    exp: now + 3540,
   }));
   const unsigned = `${header}.${claim}`;
-  const signer = crypto.createSign('RSA-SHA256');
-  signer.update(unsigned);
-  signer.end();
-  const assertion = `${unsigned}.${base64url(signer.sign(credentials.private_key))}`;
+  let privateKey;
+  try {
+    privateKey = crypto.createPrivateKey(credentials.private_key);
+  } catch {
+    throw new Error('Configured Google service-account private key cannot be parsed');
+  }
+  const signature = crypto.sign('RSA-SHA256', Buffer.from(unsigned), privateKey);
+  const assertion = `${unsigned}.${base64url(signature)}`;
   const body = new URLSearchParams({
-    grant_type: 'urn:ietf:params:oauth2:grant-type:jwt-bearer',
+    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
     assertion,
   });
-  const response = await fetch(credentials.token_uri || 'https://oauth2.googleapis.com/token', {
+  const response = await fetch(tokenUri, {
     method: 'POST',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    body,
+    body: body.toString(),
     signal: AbortSignal.timeout(30000),
   });
   const payload = await response.json().catch(() => ({}));
-  if (!response.ok || !payload.access_token) throw new Error(`Google OAuth token request failed with HTTP ${response.status}`);
+  if (!response.ok || !payload.access_token) {
+    throw new Error(`Google OAuth token request failed (${safeGoogleMessage(payload, response.status)})`);
+  }
   return payload.access_token;
 }
 
@@ -131,7 +159,13 @@ async function fetchSearchConsole(accessToken, args) {
     signal: AbortSignal.timeout(60000),
   });
   if (!response.ok) {
-    const category = response.status === 403 ? 'credential lacks Search Console property access' : `HTTP ${response.status}`;
+    const payload = await response.json().catch(() => ({}));
+    const message = typeof payload?.error?.message === 'string'
+      ? payload.error.message.replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[redacted-email]').slice(0, 320)
+      : '';
+    const category = response.status === 403
+      ? `credential lacks Search Console property access${message ? `: ${message}` : ''}`
+      : `HTTP ${response.status}${message ? `: ${message}` : ''}`;
     throw new Error(`Search Console query failed: ${category}`);
   }
   const payload = await response.json();
@@ -162,7 +196,8 @@ async function main() {
   console.log(`Period: ${report.startDate} to ${report.endDate}. Exact queries were not printed.`);
 }
 
-const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname;
+const filename = fileURLToPath(import.meta.url);
+const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === filename;
 if (invokedDirectly) {
   main().catch((error) => {
     console.error(`Private GSC pull failed: ${error instanceof Error ? error.message : String(error)}`);
