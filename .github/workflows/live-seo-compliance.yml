@@ -1,0 +1,59 @@
+name: Live SEO compliance
+
+on:
+  schedule:
+    - cron: '41 5 * * 0'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/ai-marketing/verify-live-seo-compliance.mjs'
+      - '.github/workflows/live-seo-compliance.yml'
+      - 'public/best-ai-fitness-app/*.html'
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: live-seo-compliance
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Verify the live site, all city relocations, sitemaps, marker, and removed videos
+        run: node tools/ai-marketing/verify-live-seo-compliance.mjs
+
+      - name: Open or update one compliance issue on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          title="[SEO Compliance] Live cleanup needs attention"
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          body="The live SEO compliance check failed. Review ${run_url}. This check covers all city relocations, representative legacy quarantine, normal/News sitemaps, the SEO system marker, and removed misleading YouTube reviews."
+          issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$issue" ]; then gh issue comment "$issue" --body "$body"; else gh issue create --title "$title" --body "$body"; fi
+
+      - name: Close a recovered compliance issue
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="[SEO Compliance] Live cleanup needs attention"
+          issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$issue" ]; then
+            gh issue close "$issue" --comment "Live SEO compliance recovered in ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}."
+          fi
