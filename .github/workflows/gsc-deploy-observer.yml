@@ -1,4 +1,4 @@
-# Recheck after sitemap and page-quality verification-file exclusions.
+# Observe explicit corrected Pages redeploy for the Google FILE token.
 name: GSC Pages deployment observer
 
 on:
