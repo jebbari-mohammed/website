@@ -521,6 +521,20 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   for (const [name, value] of Object.entries({ changed: 'false', action: 'none', slug: '', url: '', marker: '', query_hash: '', validated: 'false', grounded: 'false' })) setOutput(name, value);
   const plan = readJson(args.plan, null);
+  const verifiedZeroRowPlan = Boolean(
+    plan &&
+    Number(plan.summary?.gscRows || 0) === 0 &&
+    Array.isArray(plan.opportunities) &&
+    plan.opportunities.length === 0 &&
+    plan.source?.gscReport &&
+    Array.isArray(plan.source?.dimensions) &&
+    plan.source.dimensions.includes('query') &&
+    plan.source.dimensions.includes('page')
+  );
+  if (verifiedZeroRowPlan) {
+    console.log('No eligible automatic CREATE/REFRESH action cleared freshness, confidence, value, cooldown, and idempotency gates. Search Console returned zero private query+page evidence rows, so no demand was guessed.');
+    return;
+  }
   assertFreshPlan(plan);
   const state = readJson(args.state, { version: 2, actions: {} });
   const item = selectOpportunity(plan, state, args.force);

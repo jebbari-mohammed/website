@@ -28,14 +28,15 @@
     "seo:publish:dry": "node tools/ai-marketing/seo-production-runner.mjs --dry-run",
     "seo:smoke:gemini": "node tools/ai-marketing/gemini-smoke.mjs",
     "seo:audit:legacy": "node tools/ai-marketing/legacy-content-audit.mjs --strict",
-    "test:seo-growth": "node --test tools/ai-marketing/model-json.test.mjs tools/ai-marketing/gsc-fetch-private.test.mjs tools/ai-marketing/seo-growth-engine.test.mjs tools/ai-marketing/seo-publisher-core.test.mjs tools/ai-marketing/seo-structured-data.test.mjs tools/ai-marketing/seo-expert-plan.test.mjs tools/ai-marketing/gemini-grounded-research.test.mjs tools/ai-marketing/seo-production-runner.test.mjs",
+    "test:seo-growth": "node --test tools/ai-marketing/gsc-evidence-gate.test.mjs tools/ai-marketing/model-json.test.mjs tools/ai-marketing/gsc-fetch-private.test.mjs tools/ai-marketing/seo-growth-engine.test.mjs tools/ai-marketing/seo-publisher-core.test.mjs tools/ai-marketing/seo-structured-data.test.mjs tools/ai-marketing/seo-expert-plan.test.mjs tools/ai-marketing/gemini-grounded-research.test.mjs tools/ai-marketing/seo-production-runner.test.mjs",
     "worker:dev": "tsx apps/worker/src/serve.ts",
     "audit:site": "tsx apps/worker/src/cli.ts audit:site",
     "keywords:generate": "tsx apps/worker/src/cli.ts keywords:generate",
     "blog:create": "tsx apps/worker/src/cli.ts blog:create",
     "social:repurpose": "tsx apps/worker/src/cli.ts social:repurpose",
     "report:weekly": "tsx apps/worker/src/cli.ts report:weekly",
-    "test:marketing": "tsx --test \"packages/**/*.test.ts\""
+    "test:marketing": "tsx --test \"packages/**/*.test.ts\"",
+    "gsc:evidence": "node tools/ai-marketing/gsc-evidence-gate.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.14.0",
