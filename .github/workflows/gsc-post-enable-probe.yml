@@ -1,0 +1,60 @@
+name: GSC post-enable probe
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/gsc-post-enable-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+
+    steps:
+      - name: Checkout probe branch
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Ask Google for the exact current ownership/bootstrap state
+        id: prepare
+        run: node tools/ai-marketing/gsc-url-prefix-bootstrap.mjs prepare
+
+      - name: Require post-enable readiness
+        run: |
+          set -euo pipefail
+          status="${{ steps.prepare.outputs.status }}"
+          case "$status" in
+            file-ready)
+              file="public/${{ steps.prepare.outputs.verification_file }}"
+              test -f "$file"
+              test "$(tr -d '\r\n' < "$file")" = "${{ steps.prepare.outputs.verification_file }}"
+              echo "Google Site Verification is enabled and returned an official FILE token."
+              ;;
+            already-verified)
+              echo "The HTTPS Search Console property is already verified for the service account."
+              ;;
+            api-disabled)
+              echo "::error::Google still reports Site Verification disabled for the service-account project."
+              echo "Owner action URL: ${{ steps.prepare.outputs.enable_url }}"
+              exit 1
+              ;;
+            *)
+              echo "::error::Unexpected bootstrap state: $status"
+              exit 1
+              ;;
+          esac
