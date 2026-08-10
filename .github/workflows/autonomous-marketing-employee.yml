@@ -112,9 +112,11 @@ jobs:
           git config user.name "IZEM Marketing Agent"
           git config user.email "marketing-agent@youraicoach.life"
 
-          # Force add generated planning/report data. Raw Search Console exports are
-          # intentionally not committed.
+          # Keep ordinary dashboard/report artifacts, but do not publish the raw
+          # GSC-derived opportunity queue in this public repository. Exact search
+          # queries stay private to the workflow runner.
           git add -f data/marketing-employee/
+          git reset -- data/marketing-employee/seo-growth/ || true
           git add -f public/marketing-data/
 
           if git diff --staged --quiet; then
