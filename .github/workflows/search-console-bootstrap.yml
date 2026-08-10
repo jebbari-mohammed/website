@@ -137,6 +137,10 @@ EOF
           fi
           node tools/ai-marketing/gsc-fetch-private.mjs --site https://youraicoach.life/ --days 28 --dimensions query,page --row-limit 2500
 
+      - name: Update the verified production readiness marker
+        if: steps.prepare.outputs.ready == 'true' || steps.verify.outputs.ready == 'true'
+        run: node tools/ai-marketing/mark-gsc-ready.mjs
+
       - name: Commit the verified production marker
         if: steps.prepare.outputs.ready == 'true' || steps.verify.outputs.ready == 'true'
         run: |
