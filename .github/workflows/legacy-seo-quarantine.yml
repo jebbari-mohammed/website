@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'tools/ai-marketing/legacy-content-audit.mjs'
+      - 'tools/sync-news-sitemap.mjs'
       - '.github/workflows/legacy-seo-quarantine.yml'
   workflow_dispatch:
 
@@ -48,6 +49,7 @@ jobs:
           node tools/ai-marketing/legacy-content-audit.mjs --apply --report /tmp/legacy-seo-before.json
           node tools/ai-marketing/rebuild-blog-index.mjs
           pnpm sitemap:sync
+          node tools/sync-news-sitemap.mjs
 
       - name: Prove no high-risk legacy page remains indexable
         run: |
@@ -75,6 +77,7 @@ jobs:
           node tools/check-critical-routes.mjs dist
           pnpm check:links
           pnpm sitemap:check
+          node tools/sync-news-sitemap.mjs --check
 
       - name: Commit quarantined pages and remove this one-time workflow
         run: |
@@ -83,7 +86,7 @@ jobs:
           git config user.name "IZEM Editorial Cleanup"
           git config user.email "editorial-cleanup@youraicoach.life"
           git rm .github/workflows/legacy-seo-quarantine.yml
-          git add public tools/ai-marketing/legacy-content-audit.mjs
+          git add public tools/ai-marketing/legacy-content-audit.mjs tools/sync-news-sitemap.mjs
           if git diff --cached --quiet; then
             echo "::error::Legacy audit produced no reviewable changes"
             exit 1
