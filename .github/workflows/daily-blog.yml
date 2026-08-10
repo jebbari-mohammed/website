@@ -51,7 +51,7 @@ jobs:
           version: 9
 
       - name: Set up Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -128,7 +128,7 @@ jobs:
           args=()
           [ "$DRY_RUN" = "true" ] && args+=(--dry-run)
           [ "$FORCE_RUN" = "true" ] && args+=(--force)
-          node tools/ai-marketing/seo-production.mjs "${args[@]}"
+          node tools/ai-marketing/seo-production-runner.mjs "${args[@]}"
 
       - name: Generate a production PNG social card for a new page
         if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create'
@@ -190,6 +190,7 @@ jobs:
             echo "- Dry run: ${DRY_RUN}"
             echo "- Action: ${{ steps.publish.outputs.action || 'none' }}"
             echo "- Query hash: ${{ steps.publish.outputs.query_hash || 'none' }}"
+            echo "- Live search grounded: ${{ steps.publish.outputs.grounded || 'false' }}"
             echo "- Validation passed: ${{ steps.publish.outputs.validated || 'false' }}"
             echo "- Public change: ${{ steps.publish.outputs.changed || 'false' }}"
             if [ "${{ steps.publish.outputs.changed }}" = "true" ]; then
