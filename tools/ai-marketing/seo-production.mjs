@@ -21,6 +21,7 @@ import {
   validateGeneratedContent,
 } from './seo-publisher-core.mjs';
 import { runGroundedResearch } from './gemini-grounded-research.mjs';
+import { parseModelJson } from './model-json.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../..');
@@ -111,38 +112,54 @@ function modelCandidates() {
   ].filter(Boolean))];
 }
 
-function parseModelJson(text) {
-  const cleaned = String(text || '').trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
-  try {
-    return JSON.parse(cleaned);
-  } catch {
-    const first = cleaned.indexOf('{');
-    const last = cleaned.lastIndexOf('}');
-    if (first >= 0 && last > first) return JSON.parse(cleaned.slice(first, last + 1));
-    throw new Error('model did not return valid JSON');
-  }
-}
-
-async function generateText(prompt, { json = false, search = false, maxOutputTokens = 12000 } = {}) {
-  if (!apiKeys().length) throw new Error('No Gemini API key is configured');
+async function generateText(prompt, {
+  json = false,
+  search = false,
+  maxOutputTokens = 12000,
+  parse = null,
+  stage = 'generation',
+} = {}) {
+  const keys = apiKeys();
+  const models = modelCandidates();
+  if (!keys.length) throw new Error('No Gemini API key is configured');
   let lastError;
-  for (const model of modelCandidates()) {
-    for (const apiKey of apiKeys()) {
+  let attempt = 0;
+  const available = Math.max(1, keys.length * models.length);
+  const maxAttempts = parse ? Math.min(6, available) : available;
+
+  outer: for (const model of models) {
+    for (const [keyIndex, apiKey] of keys.entries()) {
+      if (attempt >= maxAttempts) break outer;
+      attempt += 1;
       try {
         const ai = new GoogleGenAI({ apiKey });
         const config = { maxOutputTokens };
         if (json) config.responseMimeType = 'application/json';
         if (search) config.tools = [{ googleSearch: {} }];
-        const response = await ai.models.generateContent({ model, contents: prompt, config });
+        const contents = parse && attempt > 1
+          ? `${prompt}
+
+STRICT STRUCTURED-OUTPUT RETRY: Return exactly one complete JSON object. Do not use markdown fences, commentary, or trailing text.`
+          : prompt;
+        const response = await ai.models.generateContent({ model, contents, config });
         const text = String(response.text || '').trim();
         if (!text) throw new Error('empty model response');
-        return { text, model };
+        const parsed = parse ? parse(text) : undefined;
+        return {
+          text,
+          model,
+          keySlot: keyIndex + 1,
+          ...(parse ? { value: parsed } : {}),
+        };
       } catch (error) {
         lastError = error;
+        if (parse) {
+          console.warn(`${stage} structured response attempt ${attempt}/${maxAttempts} failed with ${model} key slot ${keyIndex + 1}; retrying safely.`);
+        }
       }
     }
   }
-  throw new Error(`All configured Gemini model/key combinations failed (${lastError?.message || 'unknown'})`);
+  throw new Error(`All configured Gemini model/key combinations failed for ${stage} (${lastError?.message || 'unknown'})`);
 }
 
 function dateAgeDays(iso) {
@@ -277,17 +294,31 @@ function criticPrompt(item, research, draft) {
 }
 
 async function createDeliverable(item, research, currentExcerpt) {
-  const first = await generateText(draftPrompt(item, research, currentExcerpt), { json: true, maxOutputTokens: 16000 });
-  const draft = parseModelJson(first.text);
-  const second = await generateText(criticPrompt(item, research, draft), { json: true, maxOutputTokens: 16000 });
-  const revised = parseModelJson(second.text);
-  return { deliverable: revised, model: second.model || first.model };
+  const first = await generateText(draftPrompt(item, research, currentExcerpt), {
+    json: true,
+    maxOutputTokens: 16000,
+    parse: parseModelJson,
+    stage: 'draft',
+  });
+  const draft = first.value;
+  const second = await generateText(criticPrompt(item, research, draft), {
+    json: true,
+    maxOutputTokens: 16000,
+    parse: parseModelJson,
+    stage: 'critic',
+  });
+  return { deliverable: second.value, model: second.model || first.model };
 }
 
 async function repairDeliverable(item, research, deliverable, issues) {
   const prompt = `Repair this SEO deliverable and return the full revised JSON in the same shape.\nAction: ${item.action}\nQuery: ${item.query}\nValidation failures: ${issues.join('; ')}\nSERP context: ${research.text}\nCurrent JSON: ${JSON.stringify(deliverable)}\nDo not explain. Return valid JSON only. Keep all claims conservative and use only the permitted HTML tags.`;
-  const response = await generateText(prompt, { json: true, maxOutputTokens: 16000 });
-  return { deliverable: parseModelJson(response.text), model: response.model };
+  const response = await generateText(prompt, {
+    json: true,
+    maxOutputTokens: 16000,
+    parse: parseModelJson,
+    stage: 'repair',
+  });
+  return { deliverable: response.value, model: response.model };
 }
 
 async function validateWithRepair(item, research, initial, initialModel) {
