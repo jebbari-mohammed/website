@@ -8,6 +8,12 @@ import process from 'node:process';
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
 const DEFAULT_SITE = 'sc-domain:youraicoach.life';
 const DEFAULT_OUTPUT = path.resolve('tools/ai-marketing/search-console-reports/latest-28d.json');
+const CREDENTIAL_ENV_NAMES = [
+  'GOOGLE_SERVICE_ACCOUNT_JSON',
+  'GOOGLE_CLOUD_JSON',
+  'GCP_SA_KEY',
+  'GOOGLE_APPLICATION_CREDENTIALS_JSON',
+];
 
 function parseArgs(argv) {
   const args = {
@@ -42,19 +48,32 @@ function base64url(value) {
   return Buffer.from(value).toString('base64url');
 }
 
-function loadCredentials() {
-  const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-  if (!raw) throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is missing');
+export function discoverCredentialSource(env = process.env) {
+  return CREDENTIAL_ENV_NAMES.find((name) => typeof env[name] === 'string' && env[name].trim()) || '';
+}
+
+export function parseServiceAccountCredential(raw, sourceName = 'configured Google credential') {
   let credentials;
   try {
     credentials = JSON.parse(raw);
   } catch {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is not valid JSON');
+    throw new Error(`${sourceName} is not valid JSON`);
   }
   if (credentials.type !== 'service_account' || !credentials.client_email || !credentials.private_key) {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is not a valid service-account credential');
+    throw new Error(`${sourceName} is not a valid service-account credential`);
   }
   return credentials;
+}
+
+function loadCredentials() {
+  const sourceName = discoverCredentialSource();
+  if (!sourceName) {
+    throw new Error(`No Google service-account JSON is configured. Checked: ${CREDENTIAL_ENV_NAMES.join(', ')}`);
+  }
+  return {
+    credentials: parseServiceAccountCredential(process.env[sourceName], sourceName),
+    sourceName,
+  };
 }
 
 async function getAccessToken(credentials) {
@@ -73,7 +92,7 @@ async function getAccessToken(credentials) {
   signer.end();
   const assertion = `${unsigned}.${base64url(signer.sign(credentials.private_key))}`;
   const body = new URLSearchParams({
-    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+    grant_type: 'urn:ietf:params:oauth2:grant-type:jwt-bearer',
     assertion,
   });
   const response = await fetch(credentials.token_uri || 'https://oauth2.googleapis.com/token', {
@@ -129,7 +148,7 @@ async function fetchSearchConsole(accessToken, args) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const credentials = loadCredentials();
+  const { credentials, sourceName } = loadCredentials();
   const accessToken = await getAccessToken(credentials);
   const report = await fetchSearchConsole(accessToken, args);
   if (args.requireRows && report.rows.length === 0) throw new Error('Search Console returned zero query+page rows');
@@ -139,11 +158,14 @@ async function main() {
     clicks: sum.clicks + Number(row.clicks || 0),
     impressions: sum.impressions + Number(row.impressions || 0),
   }), { clicks: 0, impressions: 0 });
-  console.log(`Private GSC pull verified: ${report.rows.length} rows, ${Math.round(totals.clicks)} clicks, ${Math.round(totals.impressions)} impressions.`);
+  console.log(`Private GSC pull verified through ${sourceName}: ${report.rows.length} rows, ${Math.round(totals.clicks)} clicks, ${Math.round(totals.impressions)} impressions.`);
   console.log(`Period: ${report.startDate} to ${report.endDate}. Exact queries were not printed.`);
 }
 
-main().catch((error) => {
-  console.error(`Private GSC pull failed: ${error instanceof Error ? error.message : String(error)}`);
-  process.exitCode = 1;
-});
+const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname;
+if (invokedDirectly) {
+  main().catch((error) => {
+    console.error(`Private GSC pull failed: ${error instanceof Error ? error.message : String(error)}`);
+    process.exitCode = 1;
+  });
+}
