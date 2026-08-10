@@ -5,7 +5,7 @@ import path from 'node:path';
 
 const ROOT = path.resolve('public/best-ai-fitness-app');
 const TARGET = 'https://youraicoach.life/best-ai-fitness-app';
-const EXPECTED_CITY_PAGES = 21;
+const EXPECTED_CITY_PAGES = 20;
 const CITY_NAMES = {
   'new-york': 'New York',
   'los-angeles': 'Los Angeles',
@@ -50,7 +50,7 @@ function page(city) {
 
 const entries = await fs.readdir(ROOT, { withFileTypes: true });
 const files = entries
-  .filter((entry) => entry.isFile() && entry.name.endsWith('.html'))
+  .filter((entry) => entry.isFile() && entry.name.endsWith('.html') && entry.name !== 'index.html')
   .map((entry) => entry.name)
   .sort();
 
@@ -70,4 +70,4 @@ for (const file of files) {
   }
 }
 
-console.log(`City doorway replacement complete: ${files.length} pages checked, ${changed} replaced.`);
+console.log(`City doorway replacement complete: ${files.length} city pages checked, ${changed} replaced; maintained index.html untouched.`);
