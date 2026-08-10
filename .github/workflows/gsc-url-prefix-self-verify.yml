@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'tools/ai-marketing/gsc-self-verify.mjs'
+      - 'tools/ai-marketing/google-oauth-capability-probe.mjs'
       - '.github/workflows/gsc-url-prefix-self-verify.yml'
   push:
     branches: [main]
@@ -27,13 +28,19 @@ env:
   GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+  YOUTUBE_CLIENT_ID_2: ${{ secrets.YOUTUBE_CLIENT_ID_2 }}
+  YOUTUBE_CLIENT_SECRET_2: ${{ secrets.YOUTUBE_CLIENT_SECRET_2 }}
+  YOUTUBE_REFRESH_TOKEN_2: ${{ secrets.YOUTUBE_REFRESH_TOKEN_2 }}
+  YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+  YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+  YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
 
 jobs:
   prepare:
     name: Prepare Google verification file on the PR branch
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v7
@@ -46,6 +53,11 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 22
+
+      - name: Probe existing authenticated user OAuth capabilities
+        id: oauth_probe
+        continue-on-error: true
+        run: node tools/ai-marketing/google-oauth-capability-probe.mjs
 
       - name: Request the official FILE verification token
         id: token
@@ -125,7 +137,7 @@ jobs:
           git config user.name "IZEM Search Console Bootstrap"
           git config user.email "search-console-bootstrap@youraicoach.life"
           git rm .github/workflows/gsc-url-prefix-self-verify.yml
-          git rm -f .github/SEO_GSC_BLOCKER.md .github/SEO_GSC_SETUP_REQUIRED.txt .github/SEO_GSC_SETUP_REQUIRED.txt 2>/dev/null || true
+          git rm -f .github/SEO_GSC_BLOCKER.md .github/SEO_GSC_SETUP_REQUIRED.txt 2>/dev/null || true
           git add public/seo-system-version.json
           git commit -m "chore: confirm live Search Console production access"
           git push origin HEAD:main
