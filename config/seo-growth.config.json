@@ -1,0 +1,54 @@
+{
+  "brand": "IZEM",
+  "siteUrl": "https://youraicoach.life",
+  "gscSite": "sc-domain:youraicoach.life",
+  "gscReportDir": "tools/ai-marketing/search-console-reports",
+  "audience": "People who want personalized fitness guidance and stronger accountability, especially when consistency, schedule friction, nutrition, or adapting workouts around real life is the problem.",
+  "coreTopics": [
+    "AI fitness coaching",
+    "workout accountability",
+    "proactive coaching calls",
+    "workout consistency",
+    "adaptive workout planning",
+    "meal planning and nutrition coaching",
+    "gym equipment-aware workouts",
+    "daily review and weekly adaptation",
+    "AI personal trainer comparisons"
+  ],
+  "topicTerms": [
+    "ai fitness workout gym accountability coach coaching trainer training call calls voice reminder consistency plan plans adaptive meal meals nutrition food recovery equipment scan scanning progress personal"
+  ],
+  "blockedTopicTerms": [
+    "casino gambling crypto loan payday politics celebrity gossip porn drugs"
+  ],
+  "highValuePatterns": [
+    "accountability",
+    "fitness.*call",
+    "workout.*call",
+    "workout.*consisten",
+    "ai.*fitness",
+    "ai.*trainer",
+    "adaptive.*workout",
+    "meal.*workout",
+    "miss.*workout",
+    "review.*day"
+  ],
+  "conversionPages": [
+    "https://youraicoach.life/izem-ai-fitness-coach/",
+    "https://youraicoach.life/fitness-app-that-calls-you/",
+    "https://youraicoach.life/features/ai-voice-calls",
+    "https://youraicoach.life/features/ai-workout-generator",
+    "https://youraicoach.life/features/ai-meal-planner",
+    "https://youraicoach.life/workout-consistency-calculator/"
+  ],
+  "thresholds": {
+    "minImpressions": 8,
+    "minCreateImpressions": 12,
+    "refreshMinPosition": 4,
+    "refreshMaxPosition": 20,
+    "createMaxPosition": 45,
+    "minTopicFit": 0.16,
+    "cannibalizationMinPageImpressions": 3,
+    "cannibalizationMinTotalImpressions": 10
+  }
+}
