@@ -61,24 +61,48 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           POSTIZ_API_KEY: ${{ secrets.POSTIZ_API_KEY }}
-          
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+
           # Configurations
           MARKETING_LLM_PROVIDER: gemini
           GEMINI_MODEL: gemini-3.5-flash
+          GSC_SITE_URL: sc-domain:youraicoach.life
           CI: true
         run: |
+          set -euo pipefail
+
+          echo "📥 Pulling fresh Google Search Console data..."
+          if [ -n "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ]; then
+            pnpm gsc -- --days 28 --dimensions query,page --row-limit 2500 --output latest-28d.json
+          else
+            echo "⚠️ GOOGLE_SERVICE_ACCOUNT_JSON is not configured. The SEO planner will refuse to guess demand."
+          fi
+
+          echo "🧠 Building a GSC-driven SEO growth plan..."
+          pnpm seo:plan
+
+          echo "🧪 Testing SEO decision logic..."
+          pnpm test:seo-growth
+
           echo "🔍 Running Site Audit..."
           pnpm audit:site
-          
-          echo "📈 Generating Keyword Roadmap..."
+
+          echo "📈 Generating the secondary heuristic keyword roadmap..."
           pnpm keywords:generate
-          
-          echo "✍️ Creating Blog Draft..."
-          pnpm blog:create
-          
-          echo "📱 Repurposing Content for Socials..."
-          pnpm social:repurpose -- --postiz=true
-          
+
+          echo "🎯 Selecting the highest-leverage GSC-backed action..."
+          TOP_QUERY=$(node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('data/marketing-employee/seo-growth/latest.json','utf8')); const x=(p.opportunities||[]).find(o=>['refresh','create','merge'].includes(o.action)); if(x) process.stdout.write(x.query||'');")
+
+          if [ -n "$TOP_QUERY" ]; then
+            echo "✍️ Creating a brief-aware draft for: $TOP_QUERY"
+            pnpm blog:create -- --keyword="$TOP_QUERY"
+
+            echo "📱 Repurposing the selected content for socials..."
+            pnpm social:repurpose -- --postiz=true
+          else
+            echo "✅ No high-confidence GSC-backed CREATE/REFRESH/MERGE action today. Skipping content generation instead of publishing filler."
+          fi
+
           echo "📊 Generating Weekly Summary..."
           pnpm report:weekly
 
@@ -87,16 +111,17 @@ jobs:
         run: |
           git config user.name "IZEM Marketing Agent"
           git config user.email "marketing-agent@youraicoach.life"
-          
-          # Force add the generated files because data/ and public/marketing-data/ are gitignored locally
+
+          # Force add generated planning/report data. Raw Search Console exports are
+          # intentionally not committed.
           git add -f data/marketing-employee/
           git add -f public/marketing-data/
-          
+
           if git diff --staged --quiet; then
             echo "No changes to commit today."
           else
             git commit -m "🤖 Auto-run: Generated marketing drafts & dashboard snapshot [skip ci]"
-            
+
             # Pull latest remote changes to prevent conflicts, then push
             git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
             git push || (sleep 5 && git pull --rebase origin main && git push)
