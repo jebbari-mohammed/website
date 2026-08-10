@@ -1,0 +1,172 @@
+name: Search Console bootstrap
+
+on:
+  schedule:
+    - cron: '7 7 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/ai-marketing/gsc-url-prefix-bootstrap.mjs'
+      - '.github/workflows/search-console-bootstrap.yml'
+      - 'public/google*.html'
+
+permissions:
+  contents: write
+  actions: write
+  issues: write
+
+concurrency:
+  group: search-console-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+      GSC_SITE_URL: https://youraicoach.life/
+
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Inspect ownership or prepare Google's official verification file
+        id: prepare
+        run: node tools/ai-marketing/gsc-url-prefix-bootstrap.mjs prepare
+
+      - name: Record the one-time owner-authorized API enablement when pending
+        if: steps.prepare.outputs.status == 'api-disabled'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          title="[One-time Google action] Enable Site Verification API"
+          enable_url="${{ steps.prepare.outputs.enable_url }}"
+          body=$(cat <<EOF
+The SEO system is fully fail-closed and ready, but Google Site Verification is disabled in the existing service-account project.
+
+Enable it once while signed into the Google account that owns the project:
+
+${enable_url}
+
+After it is enabled, this scheduled workflow will automatically:
+
+1. request Google's official FILE verification token;
+2. deploy the token through GitHub Pages;
+3. verify `https://youraicoach.life/` for the service account;
+4. add the URL-prefix Search Console property;
+5. prove private query+page API access;
+6. enable daily GSC-backed SEO production.
+
+No credential needs to be pasted into GitHub, chat, or this issue.
+EOF
+          )
+          issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$issue" ]; then
+            gh issue edit "$issue" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body"
+          fi
+          {
+            echo "### Search Console bootstrap"
+            echo "- Status: pending one-time Site Verification API enablement"
+            echo "- Direct action: ${enable_url}"
+            echo "- Website changes: none"
+            echo "- SEO publication while pending: disabled"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit Google's verification file to main
+        if: steps.prepare.outputs.status == 'file-ready'
+        run: |
+          set -euo pipefail
+          file="public/${{ steps.prepare.outputs.verification_file }}"
+          test -f "$file"
+          test "$(tr -d '\r\n' < "$file")" = "${{ steps.prepare.outputs.verification_file }}"
+          git config user.name "IZEM Search Console Bootstrap"
+          git config user.email "search-console-bootstrap@youraicoach.life"
+          git add "$file"
+          if git diff --cached --quiet; then
+            echo "The current Google verification file is already committed."
+          else
+            git commit -m "chore: add Google Search Console verification file"
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main
+          fi
+
+      - name: Ensure GitHub Pages deploys the verification file
+        if: steps.prepare.outputs.status == 'file-ready'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run "Deploy static content to Pages" --ref main || true
+
+      - name: Verify ownership, add the property, and prove query access
+        id: verify
+        if: steps.prepare.outputs.status == 'file-ready'
+        run: node tools/ai-marketing/gsc-url-prefix-bootstrap.mjs verify "${{ steps.prepare.outputs.verification_file }}"
+
+      - name: Confirm real private Search Console retrieval
+        if: steps.prepare.outputs.ready == 'true' || steps.verify.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          if [ -z "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ]; then
+            export GOOGLE_SERVICE_ACCOUNT_JSON="${GOOGLE_CLOUD_JSON:-${GCP_SA_KEY:-${GOOGLE_APPLICATION_CREDENTIALS_JSON:-}}}"
+          fi
+          node tools/ai-marketing/gsc-fetch-private.mjs --site https://youraicoach.life/ --days 28 --dimensions query,page --row-limit 2500
+
+      - name: Commit the verified production marker
+        if: steps.prepare.outputs.ready == 'true' || steps.verify.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- public/seo-system-version.json; then
+            echo "Search Console production marker is already current."
+            exit 0
+          fi
+          git config user.name "IZEM Search Console Bootstrap"
+          git config user.email "search-console-bootstrap@youraicoach.life"
+          git add public/seo-system-version.json
+          git commit -m "chore: confirm live Search Console production access"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
+
+      - name: Close the bootstrap issue after successful verification
+        if: steps.prepare.outputs.ready == 'true' || steps.verify.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="[One-time Google action] Enable Site Verification API"
+          issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$issue" ]; then
+            gh issue close "$issue" --comment "Search Console URL-prefix ownership and private query+page API access are now verified. The daily SEO production pipeline is enabled."
+          fi
+          {
+            echo "### Search Console bootstrap"
+            echo "- ✅ HTTPS ownership verified"
+            echo "- ✅ Search Console property active"
+            echo "- ✅ Private query+page API access verified"
+            echo "- ✅ Daily evidence-driven SEO production enabled"
+          } >> "$GITHUB_STEP_SUMMARY"
