@@ -8,12 +8,8 @@ on:
       - 'pnpm-lock.yaml'
       - 'tools/ai-marketing/**'
       - '.github/workflows/daily-blog.yml'
+      - '.github/workflows/search-console-bootstrap.yml'
       - '.github/workflows/seo-growth-engine-ci.yml'
-      - '.github/workflows/autonomous-marketing-employee.yml'
-      - '.github/workflows/daily-comparison.yml'
-      - '.github/workflows/translate-blog.yml'
-      - '.github/workflows/weekly-refresh.yml'
-      - '.github/workflows/rebuild-blog-index.yml'
       - 'public/seo-system-version.json'
   push:
     branches: [main]
@@ -23,7 +19,9 @@ on:
       - 'pnpm-lock.yaml'
       - 'tools/ai-marketing/**'
       - '.github/workflows/daily-blog.yml'
+      - '.github/workflows/search-console-bootstrap.yml'
       - '.github/workflows/seo-growth-engine-ci.yml'
+      - 'public/seo-system-version.json'
   workflow_dispatch:
 
 permissions:
@@ -54,12 +52,13 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Check production script syntax
         run: |
           set -euo pipefail
           node --check tools/ai-marketing/gsc-fetch-private.mjs
+          node --check tools/ai-marketing/gsc-url-prefix-bootstrap.mjs
           node --check tools/ai-marketing/seo-growth-engine.mjs
           node --check tools/ai-marketing/seo-expert-plan.mjs
           node --check tools/ai-marketing/seo-publisher-core.mjs
@@ -71,7 +70,7 @@ jobs:
           node --check tools/ai-marketing/gemini-smoke.mjs
           node --check tools/ai-marketing/verify-live-seo.mjs
 
-      - name: Test planner, clustering, sanitizer, metadata, idempotency, and grounding policy
+      - name: Test credentials, planner, clustering, sanitizer, metadata, idempotency, and grounding policy
         run: pnpm test:seo-growth
 
       - name: Validate current public structured data
@@ -80,24 +79,29 @@ jobs:
       - name: Build production site
         run: pnpm build
 
-      - name: Validate critical production routes and links
+      - name: Validate critical production routes, discovery files, and links
         run: |
           set -euo pipefail
           node tools/validate-jsonld.mjs dist
           node tools/check-critical-routes.mjs dist
           pnpm check:links
+          pnpm sitemap:check
+          node tools/sync-news-sitemap.mjs --check
 
   credentialed-smoke:
-    name: Live Gemini, grounding, GSC, critic, and renderer smoke
+    name: Live Gemini, grounding, and conditional GSC smoke
     needs: deterministic
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
-      GSC_SITE_URL: sc-domain:youraicoach.life
+      GSC_SITE_URL: https://youraicoach.life/
       SEO_GEMINI_MODEL: gemini-3.6-flash
       SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.1-pro-preview,gemini-3.5-flash-lite
       GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
       GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
@@ -117,7 +121,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Require at least one Gemini key
         run: |
@@ -146,22 +150,47 @@ jobs:
           [ "${{ steps.grounding.outputs.validated }}" = "true" ]
           [ "${{ steps.grounding.outputs.changed }}" = "false" ]
           [ "${{ steps.grounding.outputs.grounded }}" = "true" ]
-          if ! git diff --quiet -- public/; then
-            echo "::error::Grounding dry-run changed public website files"
-            git diff --name-only -- public/
-            exit 1
-          fi
+          git diff --quiet -- public/
           echo "Independent Gemini + live grounding + editor smoke passed with ${{ steps.gemini.outputs.selected_model }}."
 
-      - name: Require the Search Console service-account secret
+      - name: Read Search Console bootstrap status
+        id: gsc_ready
         run: |
-          set -euo pipefail
-          [ -n "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ] || { echo "::error::GOOGLE_SERVICE_ACCOUNT_JSON is missing. See .github/SEO_GSC_BOOTSTRAP.md"; exit 1; }
+          node - <<'NODE'
+          const fs = require('fs');
+          const value = JSON.parse(fs.readFileSync('public/seo-system-version.json', 'utf8'));
+          const ready = value.searchConsoleVerified === true && value.searchConsoleProperty === 'https://youraicoach.life/';
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `ready=${ready ? 'true' : 'false'}\n`);
+          NODE
 
-      - name: Verify real Search Console access without exposing queries
-        run: pnpm gsc:private
+      - name: Record pending GSC bootstrap without failing unrelated code
+        if: steps.gsc_ready.outputs.ready != 'true'
+        run: |
+          {
+            echo "### Search Console credentialed smoke"
+            echo "- Status: pending verified HTTPS ownership"
+            echo "- Gemini + live Google Search + writer/critic/repair/renderer: passed"
+            echo "- GSC publication: fail-closed and skipped"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Verify real Search Console API access without exposing queries
+        if: steps.gsc_ready.outputs.ready == 'true'
+        run: pnpm gsc
+
+      - name: Count available private query+page rows
+        id: rows
+        if: steps.gsc_ready.outputs.ready == 'true'
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const report = JSON.parse(fs.readFileSync('tools/ai-marketing/search-console-reports/latest-28d.json', 'utf8'));
+          const count = Array.isArray(report.rows) ? report.rows.length : 0;
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `count=${count}\n`);
+          console.log(`Private query+page rows available: ${count}.`);
+          NODE
 
       - name: Verify production planning against real first-party data
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.rows.outputs.count != '0'
         run: |
           node tools/ai-marketing/seo-growth-engine.mjs \
             --gsc tools/ai-marketing/search-console-reports/latest-28d.json \
@@ -169,40 +198,43 @@ jobs:
           pnpm seo:expert
 
       - name: Build a private GSC-backed dry-run fixture
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.rows.outputs.count != '0'
         run: node tools/ai-marketing/seo-smoke-plan.mjs
 
       - name: Run the full private GSC-backed production editor without changing the repo
         id: gsc_smoke
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.rows.outputs.count != '0'
         env:
           SEO_PLAN_PATH: /tmp/izem-seo-smoke-plan.json
         run: node tools/ai-marketing/seo-production-runner.mjs --dry-run --force
 
       - name: Prove the GSC-backed smoke was validated, grounded, and non-mutating
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.rows.outputs.count != '0'
         run: |
           set -euo pipefail
           [ "${{ steps.gsc_smoke.outputs.validated }}" = "true" ]
           [ "${{ steps.gsc_smoke.outputs.changed }}" = "false" ]
           [ "${{ steps.gsc_smoke.outputs.grounded }}" = "true" ]
-          if ! git diff --quiet -- public/; then
-            echo "::error::GSC dry-run changed public website files"
-            git diff --name-only -- public/
-            exit 1
-          fi
-          echo "Credentialed end-to-end smoke passed without publishing or leaking exact queries."
+          git diff --quiet -- public/
+          echo "Credentialed GSC-backed end-to-end smoke passed without publishing or leaking exact queries."
+
+      - name: Confirm verified API access while a new property has no rows yet
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.rows.outputs.count == '0'
+        run: |
+          echo "Search Console API access is verified; no query+page evidence is available yet, so publication remains correctly inactive." >> "$GITHUB_STEP_SUMMARY"
 
   lockfile:
-    name: Commit reproducible dependency resolution
+    name: Verify reproducible dependency resolution
     needs: [deterministic, credentialed-smoke]
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Checkout the pull-request branch
+      - name: Checkout pull-request branch
         uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6
@@ -214,16 +246,5 @@ jobs:
         with:
           node-version: 22
 
-      - name: Regenerate and commit the lockfile only when necessary
-        run: |
-          set -euo pipefail
-          pnpm install --lockfile-only --no-frozen-lockfile
-          if git diff --quiet -- pnpm-lock.yaml; then
-            echo "pnpm-lock.yaml is already reproducible."
-            exit 0
-          fi
-          git config user.name "IZEM SEO Validation"
-          git config user.email "seo-validation@youraicoach.life"
-          git add pnpm-lock.yaml
-          git commit -m "chore: lock SEO production dependencies"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+      - name: Verify the committed lockfile
+        run: pnpm install --frozen-lockfile
