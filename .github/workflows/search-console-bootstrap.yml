@@ -1,4 +1,4 @@
-# Explicit trigger: verify Search Console or publish the one-time Google authorization action.
+# Explicit trigger after owner enablement: 2026-08-11.
 name: Search Console bootstrap
 
 on:
