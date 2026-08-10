@@ -1,0 +1,97 @@
+name: City-page relocation cleanup
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/ai-marketing/replace-city-doorway-pages.mjs'
+      - '.github/workflows/city-page-relocation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: city-page-relocation
+  cancel-in-progress: false
+
+jobs:
+  relocate:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Checkout cleanup branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || 'agent/city-page-relocation' }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Replace all reviewed city doorway pages
+        run: |
+          set -euo pipefail
+          node tools/ai-marketing/replace-city-doorway-pages.mjs
+          pnpm sitemap:sync
+          node tools/sync-news-sitemap.mjs
+
+      - name: Prove every city page is a transparent noindex relocation
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const dir = 'public/best-ai-fitness-app';
+          const files = fs.readdirSync(dir).filter((file) => file.endsWith('.html')).sort();
+          if (files.length !== 20) throw new Error(`Expected 20 city pages, found ${files.length}`);
+          for (const file of files) {
+            const html = fs.readFileSync(path.join(dir, file), 'utf8');
+            const checks = [
+              /name="robots" content="noindex, follow"/i,
+              /name="googlebot" content="noindex, follow"/i,
+              /rel="canonical" href="https:\/\/youraicoach\.life\/best-ai-fitness-app"/i,
+              /data-legacy-editorial-review="true"/i,
+              /LEGACY_SEO_QUARANTINE:city-doorway-template/i,
+              /retired its old city-template pages/i,
+            ];
+            if (!checks.every((pattern) => pattern.test(html))) throw new Error(`Incomplete relocation controls in ${file}`);
+          }
+          console.log('All 20 city pages are transparent noindex canonical relocation pages.');
+          NODE
+
+      - name: Validate production site and discovery files
+        run: |
+          set -euo pipefail
+          node tools/ai-marketing/legacy-content-audit.mjs --strict
+          node tools/validate-jsonld.mjs public
+          pnpm build
+          node tools/validate-jsonld.mjs dist
+          node tools/check-critical-routes.mjs dist
+          pnpm check:links
+          pnpm sitemap:check
+          node tools/sync-news-sitemap.mjs --check
+
+      - name: Commit the verified relocation set and remove this one-time workflow
+        run: |
+          set -euo pipefail
+          branch="${{ github.event_name == 'pull_request' && github.head_ref || 'agent/city-page-relocation' }}"
+          git config user.name "IZEM Editorial Cleanup"
+          git config user.email "editorial-cleanup@youraicoach.life"
+          git rm .github/workflows/city-page-relocation.yml
+          git add public/best-ai-fitness-app public/sitemap.xml public/news-sitemap.xml tools/ai-marketing/replace-city-doorway-pages.mjs
+          git diff --cached --quiet && { echo "::error::No relocation changes were staged"; exit 1; }
+          git commit -m "seo: replace city doorway pages with transparent relocations"
+          git push origin HEAD:"$branch"
