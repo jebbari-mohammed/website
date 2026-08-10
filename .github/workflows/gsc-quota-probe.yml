@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'tools/ai-marketing/siteverification-quota-probe.mjs'
+      - 'tools/ai-marketing/siteverification-user-project-probe.mjs'
       - '.github/workflows/gsc-quota-probe.yml'
   workflow_dispatch:
 
@@ -15,7 +16,7 @@ jobs:
   probe:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 12
     env:
       GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
       GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
@@ -34,12 +35,21 @@ jobs:
         with:
           node-version: 22
 
-      - name: Probe every existing API-key quota project
-        id: quota
+      - name: Probe API-key query-parameter quota
+        id: key_quota
+        continue-on-error: true
         run: node tools/ai-marketing/siteverification-quota-probe.mjs
 
-      - name: Require a usable quota project
+      - name: Probe x-goog-user-project quota
+        id: user_project
+        run: node tools/ai-marketing/siteverification-user-project-probe.mjs
+
+      - name: Require a supported quota path
         run: |
           set -euo pipefail
-          [ "${{ steps.quota.outputs.quota_usable }}" = "true" ]
-          echo "Site Verification quota is available through API-key slot ${{ steps.quota.outputs.quota_key_slot }}."
+          if [ "${{ steps.key_quota.outputs.quota_usable }}" = "true" ]; then
+            echo "Site Verification quota is available through API-key slot ${{ steps.key_quota.outputs.quota_key_slot }}."
+            exit 0
+          fi
+          [ "${{ steps.user_project.outputs.user_project_usable }}" = "true" ]
+          echo "Site Verification quota is available through x-goog-user-project (${ { steps.user_project.outputs.user_project_label } })."
