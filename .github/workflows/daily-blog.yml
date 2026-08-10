@@ -31,11 +31,18 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     env:
-      GSC_SITE_URL: sc-domain:youraicoach.life
+      GSC_SITE_URL: https://youraicoach.life/
       SEO_GEMINI_MODEL: gemini-3.6-flash
-      SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.5-flash-lite
+      SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.1-pro-preview,gemini-3.5-flash-lite
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
       FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.force || false }}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+      GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
 
     steps:
       - name: Checkout current production branch
@@ -57,30 +64,51 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Check whether Search Console production access is verified
+        id: gsc_ready
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const value = JSON.parse(fs.readFileSync('public/seo-system-version.json', 'utf8'));
+          const ready = value.searchConsoleVerified === true && value.searchConsoleProperty === 'https://youraicoach.life/';
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `ready=${ready ? 'true' : 'false'}\n`);
+          console.log(`Search Console production readiness: ${ready ? 'verified' : 'pending bootstrap'}.`);
+          NODE
+
+      - name: Report a safe no-action run while Search Console is pending
+        if: steps.gsc_ready.outputs.ready != 'true'
+        run: |
+          {
+            echo "### IZEM SEO production"
+            echo "- Search Console: pending one-time ownership bootstrap"
+            echo "- Public SEO change: none"
+            echo "- Guessed keyword fallback: disabled"
+            echo "- The Search Console bootstrap workflow will activate production automatically after verification."
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify required private credentials
-        env:
-          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
-          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+        if: steps.gsc_ready.outputs.ready == 'true'
         run: |
           set -euo pipefail
-          [ -n "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ] || { echo "::error::GOOGLE_SERVICE_ACCOUNT_JSON is missing"; exit 1; }
+          if [ -z "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ] && [ -z "${GOOGLE_CLOUD_JSON:-}" ] && [ -z "${GCP_SA_KEY:-}" ] && [ -z "${GOOGLE_APPLICATION_CREDENTIALS_JSON:-}" ]; then
+            echo "::error::No Google service-account credential is configured"
+            exit 1
+          fi
           if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${GEMINI_API_KEY_2:-}" ] && [ -z "${GEMINI_API_KEY_3:-}" ]; then
             echo "::error::At least one Gemini API key is required"
             exit 1
           fi
-          node - <<'NODE'
-          const value = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
-          if (value.type !== 'service_account' || !value.client_email || !value.private_key) {
-            throw new Error('Search Console secret is not a valid service-account JSON credential');
-          }
-          console.log('Credential structure verified without printing sensitive values.');
+          node --input-type=module - <<'NODE'
+          import { discoverCredentialSource, parseServiceAccountCredential } from './tools/ai-marketing/gsc-fetch-private.mjs';
+          const source = discoverCredentialSource(process.env);
+          parseServiceAccountCredential(process.env[source], source);
+          console.log(`Credential structure verified through ${source} without printing sensitive values.`);
           NODE
 
       - name: Restore private experiment and cooldown state
+        if: steps.gsc_ready.outputs.ready == 'true'
         uses: actions/cache@v5
         with:
           path: |
@@ -91,14 +119,15 @@ jobs:
             seo-production-state-v2-
 
       - name: Run deterministic SEO tests
+        if: steps.gsc_ready.outputs.ready == 'true'
         run: pnpm test:seo-growth
 
       - name: Pull private Search Console query and landing-page evidence
-        env:
-          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-        run: pnpm gsc:private
+        if: steps.gsc_ready.outputs.ready == 'true'
+        run: pnpm gsc
 
       - name: Build private base opportunity plan
+        if: steps.gsc_ready.outputs.ready == 'true'
         run: |
           set -euo pipefail
           node tools/ai-marketing/seo-growth-engine.mjs \
@@ -107,21 +136,17 @@ jobs:
           echo "Base plan completed. Exact query output stayed private."
 
       - name: Apply senior-level value, confidence, risk, and cannibalization gates
+        if: steps.gsc_ready.outputs.ready == 'true'
         run: pnpm seo:expert
 
       - name: Verify current Gemini SDK, keys, and model fallback
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
-          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+        if: steps.gsc_ready.outputs.ready == 'true'
         run: pnpm seo:smoke:gemini
 
       - name: Research, draft, critique, validate, and prepare the best action
         id: publish
+        if: steps.gsc_ready.outputs.ready == 'true'
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
-          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
           SEO_PLAN_PATH: data/marketing-employee/seo-growth/expert-latest.json
         run: |
           set -euo pipefail
@@ -140,11 +165,14 @@ jobs:
           set -euo pipefail
           node tools/ai-marketing/rebuild-blog-index.mjs
           pnpm sitemap:sync
+          node tools/sync-news-sitemap.mjs
           node tools/validate-jsonld.mjs public
           pnpm build
           node tools/validate-jsonld.mjs dist
           node tools/check-critical-routes.mjs dist
           pnpm check:links
+          pnpm sitemap:check
+          node tools/sync-news-sitemap.mjs --check
 
       - name: Commit only public website files
         if: steps.publish.outputs.changed == 'true'
@@ -153,12 +181,10 @@ jobs:
           git config user.name "IZEM SEO Production"
           git config user.email "seo-production@youraicoach.life"
           git add public/
-
           if git diff --cached --name-only | grep -E 'search-console-reports|marketing-employee/seo-growth'; then
             echo "::error::Private SEO evidence was accidentally staged"
             exit 1
           fi
-
           git diff --cached --quiet && { echo "::error::Publisher reported a change but no public file is staged"; exit 1; }
           git commit -m "seo: ${{ steps.publish.outputs.action }} ${{ steps.publish.outputs.query_hash }}"
           git fetch origin main
@@ -172,7 +198,7 @@ jobs:
             --url "${{ steps.publish.outputs.url }}" \
             --marker "${{ steps.publish.outputs.marker }}"
 
-      - name: Trigger the existing video workflow for a new article
+      - name: Trigger the existing article video workflow for a new page
         if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -183,10 +209,11 @@ jobs:
         run: node tools/ai-marketing/google-indexing.mjs || true
 
       - name: Write privacy-safe SEO run summary
-        if: always()
+        if: always() && steps.gsc_ready.outputs.ready == 'true'
         run: |
           {
             echo "### IZEM SEO production"
+            echo "- Search Console: verified URL-prefix property"
             echo "- Dry run: ${DRY_RUN}"
             echo "- Action: ${{ steps.publish.outputs.action || 'none' }}"
             echo "- Query hash: ${{ steps.publish.outputs.query_hash || 'none' }}"
@@ -200,8 +227,8 @@ jobs:
             echo "- Exact Search Console queries were never printed or committed."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Open or update a health issue when production fails
-        if: failure()
+      - name: Open or update a health issue when verified production fails
+        if: failure() && steps.gsc_ready.outputs.ready == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -209,20 +236,16 @@ jobs:
           title="[SEO Automation] Production pipeline needs attention"
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
-          body="The privacy-safe SEO production pipeline failed on $(date -u +%Y-%m-%d). Review the workflow run: ${run_url}. No exact Search Console queries are included in this issue."
-          if [ -n "$issue" ]; then
-            gh issue comment "$issue" --body "$body"
-          else
-            gh issue create --title "$title" --body "$body"
-          fi
+          body="The privacy-safe SEO production pipeline failed on $(date -u +%Y-%m-%d). Review ${run_url}. No exact Search Console queries are included."
+          if [ -n "$issue" ]; then gh issue comment "$issue" --body "$body"; else gh issue create --title "$title" --body "$body"; fi
 
-      - name: Close a recovered health issue
-        if: success()
+      - name: Close a recovered production health issue
+        if: success() && steps.gsc_ready.outputs.ready == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           title="[SEO Automation] Production pipeline needs attention"
           issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
           if [ -n "$issue" ]; then
-            gh issue close "$issue" --comment "The SEO production pipeline completed successfully in ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}."
+            gh issue close "$issue" --comment "The verified GSC-backed SEO production pipeline recovered in ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}."
           fi
