@@ -1,0 +1,73 @@
+name: SEO growth engine CI
+
+on:
+  pull_request:
+    paths:
+      - 'config/seo-growth.config.json'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'packages/agents/**'
+      - 'packages/content/**'
+      - 'tools/ai-marketing/seo-growth-engine.mjs'
+      - 'tools/ai-marketing/seo-growth-engine.test.mjs'
+      - 'tools/ai-marketing/gsc-publish.mjs'
+      - 'tools/ai-marketing/gsc-publish-og.mjs'
+      - '.github/workflows/autonomous-marketing-employee.yml'
+      - '.github/workflows/daily-blog.yml'
+      - '.github/workflows/seo-growth-engine-ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'config/seo-growth.config.json'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'packages/agents/**'
+      - 'packages/content/**'
+      - 'tools/ai-marketing/seo-growth-engine.mjs'
+      - 'tools/ai-marketing/seo-growth-engine.test.mjs'
+      - 'tools/ai-marketing/gsc-publish.mjs'
+      - 'tools/ai-marketing/gsc-publish-og.mjs'
+      - '.github/workflows/autonomous-marketing-employee.yml'
+      - '.github/workflows/daily-blog.yml'
+      - '.github/workflows/seo-growth-engine-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "seo-growth-engine-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Check SEO publisher syntax
+        run: |
+          node --check tools/ai-marketing/seo-growth-engine.mjs
+          node --check tools/ai-marketing/gsc-publish.mjs
+          node --check tools/ai-marketing/gsc-publish-og.mjs
+
+      - name: Test SEO decision engine
+        run: pnpm test:seo-growth
+
+      - name: Build website and TypeScript packages
+        run: pnpm build

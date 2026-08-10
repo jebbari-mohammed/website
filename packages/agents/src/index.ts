@@ -21,6 +21,39 @@ function assertAllowed(decision: ReturnType<typeof evaluatePolicy>) {
   }
 }
 
+type SeoGrowthOpportunity = {
+  action?: string;
+  query?: string;
+  targetPage?: string;
+  currentPages?: string[];
+  reason?: string;
+  metrics?: {
+    clicks?: number;
+    impressions?: number;
+    ctr?: number;
+    position?: number;
+  };
+  brief?: {
+    intent?: string;
+    relatedQueries?: string[];
+    contentAngle?: string;
+    mustDo?: string[];
+    qualityGates?: string[];
+    internalLinks?: Array<{ url?: string; title?: string }>;
+  };
+};
+
+async function loadSeoGrowthOpportunity(keyword: string): Promise<SeoGrowthOpportunity | undefined> {
+  const latestPlanPath = path.resolve('data/marketing-employee/seo-growth/latest.json');
+  try {
+    const payload = JSON.parse(await fs.readFile(latestPlanPath, 'utf8')) as { opportunities?: SeoGrowthOpportunity[] };
+    return payload.opportunities?.find((item) => item.query?.toLowerCase() === keyword.toLowerCase());
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException)?.code === 'ENOENT') return undefined;
+    throw error;
+  }
+}
+
 export async function executeSiteAudit(input: { url?: string; maxPages?: number }) {
   const policy = await loadPolicy();
   const decision = evaluatePolicy(policy, 'crawl_site', 'low');
@@ -68,13 +101,32 @@ export async function executeBlogDraft(input: { keyword?: string }) {
   const roadmap = await loadLatestRoadmap();
   const keyword = input.keyword || roadmap?.calendar[0]?.keyword || 'fitness app that calls you';
   const idea = roadmap?.clusters.flatMap((cluster) => cluster.keywords).find((item) => item.keyword === keyword);
-  const draft = await createBlogDraft({ keyword, intent: idea?.intent }, policy);
+  const seoOpportunity = await loadSeoGrowthOpportunity(keyword);
+  const internalLinkUrls = seoOpportunity?.brief?.internalLinks
+    ?.map((item) => item.url)
+    .filter((url): url is string => Boolean(url));
+  const draft = await createBlogDraft({
+    keyword,
+    intent: idea?.intent,
+    internalLinkUrls,
+    seoBrief: seoOpportunity ? {
+      action: seoOpportunity.action,
+      targetPage: seoOpportunity.targetPage,
+      currentPages: seoOpportunity.currentPages,
+      whyNow: seoOpportunity.reason,
+      metrics: seoOpportunity.metrics,
+      relatedQueries: seoOpportunity.brief?.relatedQueries,
+      contentAngle: seoOpportunity.brief?.contentAngle,
+      mustDo: seoOpportunity.brief?.mustDo,
+      qualityGates: seoOpportunity.brief?.qualityGates,
+    } : undefined,
+  }, policy);
   const jsonPath = await saveRecord('drafts', draft);
   const markdownPath = await saveMarkdown('drafts', draft.id, blogDraftToMarkdown(draft));
   await logAction({
     agent: 'content_writer',
     action: 'generate_blog_draft',
-    inputSummary: `Keyword: ${keyword}`,
+    inputSummary: `Keyword: ${keyword}${seoOpportunity?.action ? ` | SEO action: ${seoOpportunity.action}` : ''}`,
     outputSummary: `Draft ${draft.title}. JSON: ${jsonPath}`,
     riskLevel: draft.validation.riskLevel,
     approvalRequired: decision.approvalRequired || draft.validation.approvalRequired,

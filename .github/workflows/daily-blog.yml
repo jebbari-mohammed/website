@@ -40,60 +40,124 @@ jobs:
         if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
-      - name: Install dependencies
+      - name: Install AI marketing dependencies
         if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         run: cd tools/ai-marketing && npm install
 
-      - name: Generate daily blog post
+      - name: Restore private SEO publication cooldown state
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
+        uses: actions/cache@v4
+        with:
+          path: data/marketing-employee/seo-growth/publish-state.json
+          key: seo-growth-publish-state-${{ github.run_id }}
+          restore-keys: |
+            seo-growth-publish-state-
+
+      - name: Pull fresh Search Console data and build SEO plan
+        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GSC_SITE_URL: sc-domain:youraicoach.life
+        run: |
+          set -euo pipefail
+          if [ -n "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ]; then
+            echo "📥 Pulling fresh 28-day Search Console query + page data..."
+            node tools/ai-marketing/search-console.mjs --days 28 --dimensions query,page --row-limit 2500 --output latest-28d.json
+          else
+            echo "⚠️ GOOGLE_SERVICE_ACCOUNT_JSON is not configured. No SEO page will be published from guessed demand."
+          fi
+          node tools/ai-marketing/seo-growth-engine.mjs
+
+      - name: Apply highest-leverage GSC-backed site change
+        id: publish
         if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
           GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+          GEMINI_MODEL: gemini-3.5-flash
           CI: true
           GITHUB_ACTIONS: true
-        run: node tools/ai-marketing/daily-blog.mjs
+        run: node tools/ai-marketing/gsc-publish.mjs
+
+      - name: Cool down the full target/query cluster
+        if: steps.publish.outputs.changed == 'true'
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const base = 'data/marketing-employee/seo-growth';
+          const plan = JSON.parse(fs.readFileSync(`${base}/latest.json`, 'utf8'));
+          const last = JSON.parse(fs.readFileSync(`${base}/last-publish.json`, 'utf8'));
+          const state = JSON.parse(fs.readFileSync(`${base}/publish-state.json`, 'utf8'));
+          const related = new Set([last.query, ...((last.opportunity && last.opportunity.brief && last.opportunity.brief.relatedQueries) || [])]);
+          for (const item of plan.opportunities || []) {
+            const sameRefreshTarget = last.action === 'refresh' && item.action === 'refresh' && item.targetPage && item.targetPage === last.targetPage;
+            const sameCreateCluster = last.action === 'create' && item.action === 'create' && related.has(item.query);
+            if (!sameRefreshTarget && !sameCreateCluster) continue;
+            const key = `${item.action || ''}|${item.query || ''}|${item.targetPage || ''}`;
+            state.actions[key] = {
+              at: last.at,
+              action: item.action,
+              targetPage: item.targetPage || last.url,
+              clusteredWith: last.query,
+            };
+          }
+          state.updatedAt = last.at;
+          fs.writeFileSync(`${base}/publish-state.json`, `${JSON.stringify(state, null, 2)}\n`);
+          NODE
+
+      - name: Generate a unique OG image for a new page
+        if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create'
+        run: node tools/ai-marketing/gsc-publish-og.mjs
+
+      - name: Rebuild blog index and RSS
+        if: steps.publish.outputs.changed == 'true'
+        run: node tools/ai-marketing/rebuild-blog-index.mjs
 
       - name: Synchronize the indexable-page sitemap
-        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
+        if: steps.publish.outputs.changed == 'true'
         run: node tools/sync-sitemap.mjs
 
       - name: Validate all structured data before publishing
-        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
+        if: steps.publish.outputs.changed == 'true'
         run: node tools/validate-jsonld.mjs public
 
-      - name: Commit and push
-        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
+      - name: Commit and push GSC-backed SEO change
+        if: steps.publish.outputs.changed == 'true'
         run: |
           git config user.name "IZEM Editorial"
           git config user.email "editorial@youraicoach.life"
-          git add -A
+
+          # Publish only website files. Raw GSC exports and the detailed private
+          # opportunity plan remain gitignored; cooldown state persists in the
+          # GitHub Actions cache instead of the public repository.
+          git add public/
+
           if git diff --staged --quiet; then
-            echo "::error::Daily Blog Post generated no file changes. Check the keyword queue, progress file, and Gemini output."
-            exit 1
+            echo "No public website changes to commit."
+            exit 0
           fi
-          git commit -m "Daily blog post $(date +%Y-%m-%d)"
-          # Pull latest changes (in case you pushed manually), then push
+
+          git commit -m "seo: ${{ steps.publish.outputs.action }} ${{ steps.publish.outputs.slug }}"
           git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
           git push || (sleep 5 && git pull --rebase origin main && git push)
 
-      - name: Trigger Pages deploy for new post
-        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
+      - name: Trigger Pages deploy for SEO change
+        if: steps.publish.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh workflow run "Deploy static content to Pages" --ref main
 
-      - name: Trigger IZEM video for new post
-        if: github.event_name != 'schedule' || steps.timing.outputs.publish == 'true'
+      - name: Trigger IZEM video for a newly created post
+        if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create' && steps.publish.outputs.slug != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          POST_SLUG=$(node -e "const fs = require('fs'); const progress = JSON.parse(fs.readFileSync('tools/ai-marketing/.daily-progress.json', 'utf8')); const post = progress.generated && progress.generated[progress.generated.length - 1]; if (!post || !post.slug) { console.error('No generated post slug found in daily progress file.'); process.exit(1); } process.stdout.write(post.slug);")
-          echo "Triggering IZEM video for ${POST_SLUG}"
-          gh workflow run "Daily IZEM YouTube Video" --ref main -f post_slug="${POST_SLUG}"
+          echo "Triggering IZEM video for ${{ steps.publish.outputs.slug }}"
+          gh workflow run "Daily IZEM YouTube Video" --ref main -f post_slug="${{ steps.publish.outputs.slug }}"
 
       - name: Ping Google sitemap
-        if: success() && (github.event_name != 'schedule' || steps.timing.outputs.publish == 'true')
+        if: steps.publish.outputs.changed == 'true'
         run: node tools/ai-marketing/google-indexing.mjs || true

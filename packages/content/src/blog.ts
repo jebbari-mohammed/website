@@ -3,10 +3,28 @@ import type { AutonomyPolicy, BlogDraft, KeywordIdea } from '../../core/src/inde
 import { createLlmClient } from '../../core/src/index.js';
 import { slugify, validateContent } from './validation.js';
 
+type SeoBriefContext = {
+  action?: string;
+  targetPage?: string;
+  currentPages?: string[];
+  whyNow?: string;
+  metrics?: {
+    clicks?: number;
+    impressions?: number;
+    ctr?: number;
+    position?: number;
+  };
+  relatedQueries?: string[];
+  contentAngle?: string;
+  mustDo?: string[];
+  qualityGates?: string[];
+};
+
 type BlogInput = {
   keyword: string;
   intent?: KeywordIdea['intent'];
   internalLinkUrls?: string[];
+  seoBrief?: SeoBriefContext;
 };
 
 function titleCase(value: string): string {
@@ -16,6 +34,24 @@ function titleCase(value: string): string {
 function truncate(value: string, max: number): string {
   if (value.length <= max) return value;
   return `${value.slice(0, max - 1).trim()}`;
+}
+
+function formatBriefForPrompt(brief?: SeoBriefContext): string {
+  if (!brief) return 'No live Search Console brief is attached. Keep the draft conservative and do not invent demand signals.';
+  const metrics = brief.metrics
+    ? `${brief.metrics.clicks ?? 0} clicks, ${brief.metrics.impressions ?? 0} impressions, ${((brief.metrics.ctr ?? 0) * 100).toFixed(2)}% CTR, average position ${(brief.metrics.position ?? 0).toFixed(1)}`
+    : 'not available';
+  return [
+    `SEO action: ${brief.action || 'unknown'}`,
+    `Existing target page: ${brief.targetPage || 'none'}`,
+    `Current/competing pages: ${(brief.currentPages || []).join(', ') || 'none'}`,
+    `Why now: ${brief.whyNow || 'not specified'}`,
+    `Current GSC metrics: ${metrics}`,
+    `Same-page query cluster: ${(brief.relatedQueries || []).join('; ') || 'none'}`,
+    `Content angle: ${brief.contentAngle || 'not specified'}`,
+    `Must-do requirements: ${(brief.mustDo || []).join(' | ') || 'none'}`,
+    `Quality gates: ${(brief.qualityGates || []).join(' | ') || 'none'}`,
+  ].join('\n');
 }
 
 function deterministicDraft(input: BlogInput, policy: AutonomyPolicy): Omit<BlogDraft, 'id' | 'createdAt' | 'validation'> {
@@ -94,7 +130,16 @@ export async function createBlogDraft(input: BlogInput, policy: AutonomyPolicy):
   const llm = createLlmClient();
 
   if (llm.provider !== 'none') {
-    const prompt = `Create a concise, high-quality SEO blog draft for IZEM.
+    const briefContext = formatBriefForPrompt(input.seoBrief);
+    const actionRules = input.seoBrief?.action === 'refresh'
+      ? 'This is a REFRESH task. Write improvements for the existing page. Do not propose a new near-duplicate URL. Preserve useful unique material and strengthen the direct answer, missing subtopics, title/snippet angle, examples, and internal links.'
+      : input.seoBrief?.action === 'merge'
+        ? 'This is a MERGE task. Write a consolidation draft for the strongest canonical page. Do not recommend deleting or redirecting URLs without a separate backlink/unique-content review.'
+        : input.seoBrief?.action === 'create'
+          ? 'This is a CREATE task. Cover the entire same-intent query cluster on one substantial page rather than producing one URL per keyword wording.'
+          : 'This is a general draft. Avoid assuming a new URL is needed.';
+
+    const prompt = `Create a concise, high-quality SEO content draft for IZEM.
 
 Target keyword: ${input.keyword}
 Intent: ${input.intent || 'informational'}
@@ -103,20 +148,34 @@ Positioning: ${policy.brandVoice.positioning}
 Avoid: ${policy.brandVoice.avoidedPhrases.join(', ')}
 Blocked claims: ${policy.brandVoice.bannedClaims.join(', ')}
 
-Return markdown sections only. Do not invent statistics, studies, testimonials, or personal experience.`;
+LIVE SEO BRIEF
+${briefContext}
+
+ACTION-SPECIFIC RULE
+${actionRules}
+
+Requirements:
+- Front-load the useful answer instead of writing a generic SEO introduction.
+- Satisfy related same-intent queries naturally in the same page.
+- Include at least one useful first-party element such as a decision framework, checklist, transparent methodology, or IZEM-specific workflow when the brief requires it.
+- Do not invent statistics, studies, testimonials, rankings, medical outcomes, competitor features, or competitor prices.
+- If a factual claim needs evidence, flag it for verification instead of making it up.
+- Do not keyword-stuff and do not repeat the same advice under multiple headings.
+
+Return markdown sections only.`;
 
     const body = await llm.generate(
       [
-        { role: 'system', content: 'You write careful SEO content with no unsupported claims.' },
+        { role: 'system', content: 'You write careful people-first SEO content grounded in the supplied Search Console brief, with no unsupported claims and no scaled-content shortcuts.' },
         { role: 'user', content: prompt },
       ],
-      { temperature: 0.35, maxTokens: 2400 }
+      { temperature: 0.3, maxTokens: 3200 }
     );
 
     if (!body.startsWith('LLM provider is not configured')) {
       base.sections = [
         {
-          heading: 'LLM-Assisted Draft Body',
+          heading: input.seoBrief?.action === 'refresh' ? 'GSC-Guided Refresh Draft' : 'GSC-Guided Draft Body',
           body,
         },
         ...base.sections,
