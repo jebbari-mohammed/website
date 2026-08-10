@@ -17,9 +17,9 @@ concurrency:
 jobs:
   bootstrap:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 35
     steps:
-      - name: Checkout hardening branch
+      - name: Checkout the hardening branch
         uses: actions/checkout@v7
         with:
           ref: agent/seo-production-hardening
@@ -37,41 +37,28 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Update the lockfile with the current production SDK
+      - name: Regenerate the production lockfile
         run: pnpm install --no-frozen-lockfile
 
-      - name: Replace broad JSON-LD regex mutation with typed JSON parsing
+      - name: Replace broad schema regex edits with typed JSON-LD mutation
         run: |
           node <<'NODE'
           const fs = require('fs');
           const file = 'tools/ai-marketing/seo-publisher-core.mjs';
           let source = fs.readFileSync(file, 'utf8');
-          const oldBlock = `function jsonStringContent(value) {
-            return JSON.stringify(String(value)).slice(1, -1);
+
+          if (source.includes('function syncStructuredData(')) {
+            console.log('Typed JSON-LD synchronization is already installed.');
+            process.exit(0);
           }
 
-          export function syncArticleMetadata(html, { title, description, dateModified }) {
-            let output = setTitle(html, title);
-            output = setMetaTag(output, 'name', 'description', description);
-            output = setMetaTag(output, 'property', 'og:title', title);
-            output = setMetaTag(output, 'property', 'og:description', description);
-            output = setMetaTag(output, 'name', 'twitter:title', title);
-            output = setMetaTag(output, 'name', 'twitter:description', description);
-            const escapedTitle = jsonStringContent(title);
-            const escapedDescription = jsonStringContent(description);
-            output = output.replace(/("headline"\\s*:\\s*")[^"\\\\]*(?:\\\\.[^"\\\\]*)*(")/g, \`$1\${escapedTitle}$2\`);
-            output = output.replace(/("description"\\s*:\\s*")[^"\\\\]*(?:\\\\.[^"\\\\]*)*(")/g, \`$1\${escapedDescription}$2\`);
-            if (dateModified) {
-              if (/"dateModified"\\s*:/.test(output)) {
-                output = output.replace(/("dateModified"\\s*:\\s*")[^"]+("\\s*)/g, \`$1\${dateModified}$2\`);
-              } else {
-                output = output.replace(/("datePublished"\\s*:\\s*"[^"]+"\\s*,?)/, \`$1\\n        "dateModified": "\${dateModified}",\`);
-              }
-            }
-            return output;
-          }`;
+          const start = source.indexOf('function jsonStringContent');
+          const end = source.indexOf('export function setSocialImage', start);
+          if (start < 0 || end < 0 || end <= start) {
+            throw new Error('Could not locate the metadata synchronization block safely');
+          }
 
-          const newBlock = `function schemaTypeSet(value) {
+          const replacement = `function schemaTypes(value) {
             const raw = value?.['@type'];
             return new Set((Array.isArray(raw) ? raw : [raw]).filter(Boolean).map(String));
           }
@@ -83,16 +70,16 @@ jobs:
             if (!value || typeof value !== 'object') return false;
 
             let changed = false;
-            const types = schemaTypeSet(value);
+            const types = schemaTypes(value);
             const article = ['Article', 'BlogPosting', 'NewsArticle'].some((type) => types.has(type));
-            const page = ['WebPage', 'CollectionPage', 'AboutPage', 'FAQPage'].some((type) => types.has(type));
+            const page = ['WebPage', 'CollectionPage', 'AboutPage'].some((type) => types.has(type));
 
             if (article) {
               value.headline = metadata.title;
               value.description = metadata.description;
               if (metadata.dateModified) value.dateModified = metadata.dateModified;
               changed = true;
-            } else if (page && !types.has('FAQPage')) {
+            } else if (page) {
               if ('name' in value) value.name = metadata.title;
               value.description = metadata.description;
               if (metadata.dateModified) value.dateModified = metadata.dateModified;
@@ -100,7 +87,9 @@ jobs:
             }
 
             for (const nested of Object.values(value)) {
-              if (nested && typeof nested === 'object') changed = updateSchemaMetadata(nested, metadata) || changed;
+              if (nested && typeof nested === 'object') {
+                changed = updateSchemaMetadata(nested, metadata) || changed;
+              }
             }
             return changed;
           }
@@ -126,17 +115,16 @@ jobs:
             output = setMetaTag(output, 'name', 'twitter:title', title);
             output = setMetaTag(output, 'name', 'twitter:description', description);
             return syncStructuredData(output, { title, description, dateModified });
-          }`;
-
-          if (!source.includes(oldBlock)) {
-            throw new Error('Expected metadata block was not found; refusing a fuzzy patch');
           }
-          source = source.replace(oldBlock, newBlock);
+
+          `;
+
+          source = source.slice(0, start) + replacement + source.slice(end);
           fs.writeFileSync(file, source);
-          console.log('Typed JSON-LD metadata synchronization installed.');
+          console.log('Typed JSON-LD synchronization installed.');
           NODE
 
-      - name: Run deterministic tests and strict production build
+      - name: Run the complete deterministic verification suite
         run: |
           set -euo pipefail
           pnpm test:seo-growth
@@ -146,15 +134,12 @@ jobs:
           node tools/check-critical-routes.mjs dist
           pnpm check:links
 
-      - name: Commit the generated lockfile and typed metadata fix
+      - name: Commit reproducible dependencies and remove this one-time bootstrap
         run: |
           set -euo pipefail
           git config user.name "IZEM SEO Hardening"
           git config user.email "seo-hardening@youraicoach.life"
+          git rm .github/workflows/seo-hardening-bootstrap.yml
           git add pnpm-lock.yaml tools/ai-marketing/seo-publisher-core.mjs
-          if git diff --cached --quiet; then
-            echo "Bootstrap produced no file changes."
-            exit 0
-          fi
-          git commit -m "chore: lock SEO production dependencies"
+          git commit -m "chore: finalize reproducible SEO hardening"
           git push origin HEAD:agent/seo-production-hardening
