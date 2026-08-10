@@ -67,6 +67,7 @@ jobs:
           node --check tools/ai-marketing/seo-production-runner.mjs
           node --check tools/ai-marketing/seo-og-card.mjs
           node --check tools/ai-marketing/seo-smoke-plan.mjs
+          node --check tools/ai-marketing/seo-grounding-smoke-plan.mjs
           node --check tools/ai-marketing/gemini-smoke.mjs
           node --check tools/ai-marketing/verify-live-seo.mjs
 
@@ -87,15 +88,15 @@ jobs:
           pnpm check:links
 
   credentialed-smoke:
-    name: Live Gemini, GSC, grounding, critic, and renderer smoke
+    name: Live Gemini, grounding, GSC, critic, and renderer smoke
     needs: deterministic
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       GSC_SITE_URL: sc-domain:youraicoach.life
       SEO_GEMINI_MODEL: gemini-3.6-flash
-      SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.5-flash-lite
+      SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.1-pro-preview,gemini-3.5-flash-lite
       GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
@@ -126,8 +127,31 @@ jobs:
             exit 1
           fi
 
-      - name: Verify current Gemini SDK, stable model, and structured output
+      - name: Verify current Gemini SDK, model access, and structured output
+        id: gemini
         run: pnpm seo:smoke:gemini
+
+      - name: Build a public non-production grounding fixture
+        run: node tools/ai-marketing/seo-grounding-smoke-plan.mjs
+
+      - name: Prove live search grounding, draft, critic, repair, and renderer independently of GSC
+        id: grounding
+        env:
+          SEO_PLAN_PATH: /tmp/izem-seo-grounding-smoke-plan.json
+        run: node tools/ai-marketing/seo-production-runner.mjs --dry-run --force
+
+      - name: Verify the independent AI smoke was grounded and non-mutating
+        run: |
+          set -euo pipefail
+          [ "${{ steps.grounding.outputs.validated }}" = "true" ]
+          [ "${{ steps.grounding.outputs.changed }}" = "false" ]
+          [ "${{ steps.grounding.outputs.grounded }}" = "true" ]
+          if ! git diff --quiet -- public/; then
+            echo "::error::Grounding dry-run changed public website files"
+            git diff --name-only -- public/
+            exit 1
+          fi
+          echo "Independent Gemini + live grounding + editor smoke passed with ${{ steps.gemini.outputs.selected_model }}."
 
       - name: Require the Search Console service-account secret
         run: |
@@ -147,20 +171,20 @@ jobs:
       - name: Build a private GSC-backed dry-run fixture
         run: node tools/ai-marketing/seo-smoke-plan.mjs
 
-      - name: Run grounded two-pass production editor without changing the repo
-        id: smoke
+      - name: Run the full private GSC-backed production editor without changing the repo
+        id: gsc_smoke
         env:
           SEO_PLAN_PATH: /tmp/izem-seo-smoke-plan.json
         run: node tools/ai-marketing/seo-production-runner.mjs --dry-run --force
 
-      - name: Prove the credentialed smoke was validated, grounded, and non-mutating
+      - name: Prove the GSC-backed smoke was validated, grounded, and non-mutating
         run: |
           set -euo pipefail
-          [ "${{ steps.smoke.outputs.validated }}" = "true" ]
-          [ "${{ steps.smoke.outputs.changed }}" = "false" ]
-          [ "${{ steps.smoke.outputs.grounded }}" = "true" ]
+          [ "${{ steps.gsc_smoke.outputs.validated }}" = "true" ]
+          [ "${{ steps.gsc_smoke.outputs.changed }}" = "false" ]
+          [ "${{ steps.gsc_smoke.outputs.grounded }}" = "true" ]
           if ! git diff --quiet -- public/; then
-            echo "::error::Dry-run changed public website files"
+            echo "::error::GSC dry-run changed public website files"
             git diff --name-only -- public/
             exit 1
           fi
