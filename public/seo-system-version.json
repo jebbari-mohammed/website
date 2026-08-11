@@ -3,7 +3,7 @@
   "pipeline": "verified-url-prefix-gsc-expert-plan-grounded-two-pass-editor",
   "privacy": "query-hash-only-public-logs",
   "deploymentVerification": "live-page-marker",
-  "updatedAt": "2026-08-10",
+  "updatedAt": "2026-08-11",
   "searchConsoleProperty": "https://youraicoach.life/",
   "searchConsoleVerified": true
 }
