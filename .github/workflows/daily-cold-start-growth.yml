@@ -1,0 +1,181 @@
+name: Daily Cold-Start SEO Growth
+
+on:
+  schedule:
+    - cron: '47 9 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Select and validate the next cold-start action without changing the website
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: seo-production
+  cancel-in-progress: false
+
+jobs:
+  improve:
+    name: Improve the site when GSC has no evidence yet
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      GSC_SITE_URL: https://youraicoach.life/
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+
+    steps:
+      - name: Checkout current production branch
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Require verified Search Console production access
+        id: ready
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('fs');
+          const marker = JSON.parse(fs.readFileSync('public/seo-system-version.json', 'utf8'));
+          const ready = marker.searchConsoleVerified === true && marker.searchConsoleProperty === 'https://youraicoach.life/';
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `ready=${ready ? 'true' : 'false'}\n`);
+          if (!ready) console.log('Search Console is not production-ready; cold-start changes are withheld.');
+          NODE
+
+      - name: Pull private Search Console evidence
+        if: steps.ready.outputs.ready == 'true'
+        run: pnpm gsc
+
+      - name: Decide whether evidence mode or cold-start mode owns today
+        id: evidence
+        if: steps.ready.outputs.ready == 'true'
+        run: pnpm gsc:evidence
+
+      - name: Leave evidence-backed work to the senior production workflow
+        if: steps.evidence.outputs.evidence_available == 'true'
+        run: |
+          {
+            echo "### Cold-start SEO growth"
+            echo "- Mode: evidence-backed"
+            echo "- Private GSC rows: ${{ steps.evidence.outputs.row_count }}"
+            echo "- Cold-start change: skipped"
+            echo "- Reason: Daily SEO Production owns GSC-backed decisions."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Test deterministic cold-start selection and idempotency
+        if: steps.ready.outputs.ready == 'true' && steps.evidence.outputs.evidence_available != 'true'
+        run: pnpm test:cold-start
+
+      - name: Strengthen the weakest relevant internal-link relationship
+        id: growth
+        if: steps.ready.outputs.ready == 'true' && steps.evidence.outputs.evidence_available != 'true'
+        run: |
+          set -euo pipefail
+          args=()
+          [ "$DRY_RUN" = "true" ] && args+=(--dry-run)
+          node tools/ai-marketing/cold-start-growth.mjs "${args[@]}"
+
+      - name: Run a live technical audit when the deterministic link backlog is exhausted
+        if: steps.ready.outputs.ready == 'true' && steps.evidence.outputs.evidence_available != 'true' && steps.growth.outputs.action == 'none'
+        run: pnpm audit:site -- --url=https://youraicoach.life --max-pages=100
+
+      - name: Validate the complete website after a cold-start improvement
+        if: steps.growth.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          node tools/ai-marketing/legacy-content-audit.mjs --strict
+          node tools/validate-jsonld.mjs public
+          pnpm sitemap:check
+          node tools/sync-news-sitemap.mjs --check
+          pnpm build
+          node tools/validate-jsonld.mjs dist
+          node tools/check-critical-routes.mjs dist
+          pnpm check:links
+
+      - name: Commit only the exact HTML files selected by the engine
+        if: steps.growth.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          IFS=',' read -ra files <<< "${{ steps.growth.outputs.files }}"
+          [ "${#files[@]}" -gt 0 ]
+          for file in "${files[@]}"; do
+            [[ "$file" =~ ^public/.+\.html$ ]] || { echo "::error::Unexpected cold-start file: $file"; exit 1; }
+            test -f "$file"
+            git add "$file"
+          done
+          git diff --cached --quiet && { echo "::error::Cold-start engine reported a change but staged nothing"; exit 1; }
+          git config user.name "IZEM Cold-Start SEO"
+          git config user.email "cold-start-seo@youraicoach.life"
+          git commit -m "seo: strengthen internal links ${{ steps.growth.outputs.target_hash }}"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
+
+      - name: Verify the exact internal-link marker reached the live source page
+        if: steps.growth.outputs.changed == 'true'
+        run: |
+          node tools/ai-marketing/verify-live-seo.mjs \
+            --url "${{ steps.growth.outputs.source_url }}" \
+            --marker "${{ steps.growth.outputs.marker }}"
+
+      - name: Report the daily cold-start growth action
+        if: always() && steps.ready.outputs.ready == 'true' && steps.evidence.outputs.evidence_available != 'true'
+        run: |
+          {
+            echo "### Daily cold-start SEO growth"
+            echo "- Search Console rows: ${{ steps.evidence.outputs.row_count || '0' }}"
+            echo "- Mode: deterministic site improvement"
+            echo "- Action: ${{ steps.growth.outputs.action || 'technical-audit' }}"
+            echo "- Public change: ${{ steps.growth.outputs.changed || 'false' }}"
+            echo "- Target: ${{ steps.growth.outputs.target_url || 'site-wide audit' }}"
+            echo "- Source pages: ${{ steps.growth.outputs.source_urls || 'none' }}"
+            echo "- Gemini/API drafting cost: none"
+            echo "- Forced filler article: none"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open or update one health issue on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          title="[SEO Automation] Cold-start growth needs attention"
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
+          body="The deterministic cold-start SEO workflow failed. Review ${run_url}. No private Search Console query is included."
+          if [ -n "$issue" ]; then gh issue comment "$issue" --body "$body"; else gh issue create --title "$title" --body "$body"; fi
+
+      - name: Close a recovered cold-start health issue
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="[SEO Automation] Cold-start growth needs attention"
+          issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$issue" ]; then
+            gh issue close "$issue" --comment "Cold-start SEO growth recovered in ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}."
+          fi
