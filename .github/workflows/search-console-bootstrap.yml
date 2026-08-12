@@ -10,6 +10,7 @@ on:
       - 'tools/ai-marketing/gsc-url-prefix-bootstrap.mjs'
       - 'tools/ai-marketing/gsc-fetch-private.mjs'
       - 'tools/ai-marketing/gsc-evidence-gate.mjs'
+      - 'tools/ai-marketing/gsc-index-inspection.mjs'
       - 'public/seo-system-version.json'
       - '.github/workflows/search-console-bootstrap.yml'
 
@@ -76,6 +77,10 @@ jobs:
         id: evidence
         run: pnpm gsc:evidence
 
+      - name: Inspect Google index status for priority URLs
+        id: index
+        run: node tools/ai-marketing/gsc-index-inspection.mjs
+
       - name: Summarize Search Console health without exposing queries
         run: |
           {
@@ -84,6 +89,11 @@ jobs:
             echo "- Property: https://youraicoach.life/"
             echo "- Private query+page rows: ${{ steps.evidence.outputs.row_count || '0' }}"
             echo "- Evidence-backed publisher available: ${{ steps.evidence.outputs.evidence_available || 'false' }}"
+            echo "- Priority URLs inspected: ${{ steps.index.outputs.inspected_count || '0' }}"
+            echo "- Priority URLs indexed: ${{ steps.index.outputs.indexed_count || '0' }}"
+            echo "- Priority URLs not indexed: ${{ steps.index.outputs.not_indexed_count || '0' }}"
+            echo "- Priority URLs unknown: ${{ steps.index.outputs.unknown_count || '0' }}"
+            echo "- URL Inspection API errors: ${{ steps.index.outputs.api_error_count || '0' }}"
             echo "- Exact queries: private and not printed"
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -95,7 +105,7 @@ jobs:
           set -euo pipefail
           title="[SEO Automation] Search Console health check failed"
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          body="Search Console ownership, marker, or private query+page retrieval failed. Review ${run_url}. No private query is included."
+          body="Search Console ownership, marker, private query+page retrieval, or priority URL index inspection failed. Review ${run_url}. No private query is included."
           issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
           if [ -n "$issue" ]; then
             gh issue comment "$issue" --body "$body"
