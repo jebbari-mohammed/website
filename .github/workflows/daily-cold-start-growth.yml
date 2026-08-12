@@ -1,8 +1,7 @@
-name: Daily Cold-Start SEO Growth
+name: Manual Cold-Start SEO Maintenance
 
+# Manual-only fallback. Daily SEO decisions are owned by the ChatGPT senior SEO lead.
 on:
-  schedule:
-    - cron: '47 9 * * *'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -80,11 +79,11 @@ jobs:
         if: steps.evidence.outputs.evidence_available == 'true'
         run: |
           {
-            echo "### Cold-start SEO growth"
+            echo "### Cold-start SEO maintenance"
             echo "- Mode: evidence-backed"
             echo "- Private GSC rows: ${{ steps.evidence.outputs.row_count }}"
             echo "- Cold-start change: skipped"
-            echo "- Reason: Daily SEO Production owns GSC-backed decisions."
+            echo "- Reason: the ChatGPT senior SEO lead owns evidence-backed decisions."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Test deterministic cold-start selection and idempotency
@@ -185,11 +184,11 @@ jobs:
             --url "${{ steps.growth.outputs.source_url }}" \
             --marker "${{ steps.growth.outputs.marker }}"
 
-      - name: Report the daily cold-start growth action
+      - name: Report the manual cold-start maintenance action
         if: always() && steps.ready.outputs.ready == 'true' && steps.evidence.outputs.evidence_available != 'true'
         run: |
           {
-            echo "### Daily cold-start SEO growth"
+            echo "### Manual cold-start SEO maintenance"
             echo "- Search Console rows: ${{ steps.evidence.outputs.row_count || '0' }}"
             echo "- Mode: deterministic site improvement"
             echo "- Action: ${{ steps.growth.outputs.action || 'technical-audit' }}"

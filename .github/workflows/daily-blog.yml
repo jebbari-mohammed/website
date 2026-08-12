@@ -1,17 +1,16 @@
-name: Daily SEO Production
+name: Manual SEO Production Fallback (Gemini)
 
+# Manual-only fallback. The scheduled ChatGPT senior SEO lead owns production decisions.
 on:
-  schedule:
-    - cron: '17 8 * * *'
   workflow_dispatch:
     inputs:
       dry_run:
-        description: Validate the full private GSC and Gemini pipeline without changing the site
+        description: Validate the full private GSC and Gemini fallback pipeline without changing the site
         required: false
         default: false
         type: boolean
       force:
-        description: Ignore publication cooldowns for an explicitly supervised manual run
+        description: Ignore publication cooldowns for an explicitly supervised manual fallback run
         required: false
         default: false
         type: boolean
@@ -81,11 +80,11 @@ jobs:
         if: steps.gsc_ready.outputs.ready != 'true'
         run: |
           {
-            echo "### IZEM SEO production"
+            echo "### IZEM SEO production fallback"
             echo "- Search Console: pending one-time ownership bootstrap"
             echo "- Public SEO change: none"
             echo "- Guessed keyword fallback: disabled"
-            echo "- The Search Console bootstrap workflow will activate production automatically after verification."
+            echo "- The Search Console health workflow will expose production evidence after verification."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify the private Search Console credential
@@ -123,7 +122,7 @@ jobs:
             echo "- Cache restore and deterministic production suite: skipped"
             echo "- Gemini credential check, smoke, drafting, and review calls: skipped"
             echo "- Guessed keyword fallback: disabled"
-            echo "- Evidence-driven production opens automatically as soon as Search Console returns rows."
+            echo "- This manual fallback can be run after Search Console returns rows."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify Gemini credentials only when evidence exists
@@ -131,7 +130,7 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${GEMINI_API_KEY_2:-}" ] && [ -z "${GEMINI_API_KEY_3:-}" ]; then
-            echo "::error::At least one Gemini API key is required when Search Console evidence exists"
+            echo "::error::At least one Gemini API key is required for this optional manual fallback"
             exit 1
           fi
           echo "At least one Gemini credential is configured; values were not printed."
@@ -237,7 +236,7 @@ jobs:
         if: always() && steps.gsc_ready.outputs.ready == 'true'
         run: |
           {
-            echo "### IZEM SEO production"
+            echo "### IZEM SEO production fallback"
             echo "- Search Console: verified URL-prefix property"
             echo "- Private query+page rows: ${{ steps.gsc_evidence.outputs.row_count || '0' }}"
             echo "- Evidence available: ${{ steps.gsc_evidence.outputs.evidence_available || 'false' }}"
@@ -260,10 +259,10 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          title="[SEO Automation] Production pipeline needs attention"
+          title="[SEO Automation] Production fallback needs attention"
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
-          body="The privacy-safe SEO production pipeline failed on $(date -u +%Y-%m-%d). Review ${run_url}. No exact Search Console queries are included."
+          body="The optional privacy-safe SEO production fallback failed on $(date -u +%Y-%m-%d). Review ${run_url}. No exact Search Console queries are included."
           if [ -n "$issue" ]; then gh issue comment "$issue" --body "$body"; else gh issue create --title "$title" --body "$body"; fi
 
       - name: Close a recovered production health issue
@@ -271,8 +270,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          title="[SEO Automation] Production pipeline needs attention"
+          title="[SEO Automation] Production fallback needs attention"
           issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
           if [ -n "$issue" ]; then
-            gh issue close "$issue" --comment "The verified GSC-backed SEO production pipeline recovered in ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}."
+            gh issue close "$issue" --comment "The optional GSC-backed SEO production fallback recovered in ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}."
           fi

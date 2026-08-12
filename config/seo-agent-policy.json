@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "effectiveDate": "2026-08-12",
+  "owner": "ChatGPT senior SEO lead",
+  "site": "https://youraicoach.life",
+  "phase": {
+    "name": "cold_start_exploration",
+    "minimumReviewWindowDays": 30,
+    "exitCondition": "Rebalance only after Search Console has enough stable query and landing-page data to identify repeatable winners."
+  },
+  "defaultAction": "create_new_search_entry",
+  "portfolioMix": {
+    "newSearchEntries": {
+      "target": 0.7,
+      "minimum": 0.65,
+      "maximum": 0.75
+    },
+    "discoveryAndArchitecture": {
+      "target": 0.17,
+      "minimum": 0.15,
+      "maximum": 0.2
+    },
+    "technicalTrustConversionAndExistingUrlWork": {
+      "target": 0.13,
+      "minimum": 0.1,
+      "maximum": 0.15
+    }
+  },
+  "limits": {
+    "maxMaterialSeoChangesPerDay": 1,
+    "maxNewSearchEntriesPerDay": 1,
+    "targetNewSearchEntriesPerWeek": 5
+  },
+  "newPageRequirements": [
+    "new_non_overlapping_intent",
+    "attainable_live_serp",
+    "izem_business_relevance",
+    "concrete_information_gain",
+    "supportable_safe_claims",
+    "indexable_self_canonical",
+    "contextual_internal_links",
+    "discovery_files_updated",
+    "production_validation_passed"
+  ],
+  "cooldownsDays": {
+    "newPageMaterialRewriteMinimum": 21,
+    "newPageMaterialRewritePreferred": 30,
+    "titleSnippetExperimentMinimum": 14,
+    "titleSnippetExperimentPreferred": 28,
+    "internalLinkExperimentMinimum": 14,
+    "internalLinkExperimentPreferred": 21
+  },
+  "exceptions": [
+    "deployment_or_ci_blocker",
+    "indexability_or_crawl_blocker",
+    "canonical_or_rendering_error",
+    "schema_or_safety_error",
+    "legal_or_factual_correction",
+    "strong_gsc_near_ranking_opportunity",
+    "strong_gsc_ctr_opportunity",
+    "mature_experiment_review",
+    "no_safe_new_keyword_passes_gates"
+  ],
+  "dependencies": {
+    "githubCopilotRequired": false,
+    "geminiRequired": false,
+    "externalLlmApiRequired": false
+  },
+  "firstPartyEvidenceWorkflow": "Search Console health check",
+  "notes": [
+    "The portfolio mix is evaluated across a representative month, not forced mechanically every day.",
+    "A valid expert decision can still be no change.",
+    "Do not repeatedly modify the same URL before its evaluation window matures."
+  ]
+}
