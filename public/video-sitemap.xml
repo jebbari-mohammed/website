@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/IUbk03nx8yM/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/IUbk03nx8yM/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Weekly Fitness Check-In Template (Free)</video:title>
+      <video:description>Use IZEM’s free weekly fitness check-in template to review planned vs completed workouts, identify the real blocker, and generate a copyable plan for next week.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/IUbk03nx8yM</video:player_loc>
+      <video:publication_date>2026-08-12T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/3ckCKrIUZ2I/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/3ckCKrIUZ2I/hqdefault.jpg</video:thumbnail_loc>

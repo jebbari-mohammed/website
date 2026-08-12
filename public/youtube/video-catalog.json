@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "IUbk03nx8yM",
+      "title": "Weekly Fitness Check-In Template (Free)",
+      "description": "Use IZEM’s free weekly fitness check-in template to review planned vs completed workouts, identify the real blocker, and generate a copyable plan for next week.",
+      "uploadDate": "2026-08-12",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/weekly-fitness-check-in-template",
+          "relativePath": "blog/weekly-fitness-check-in-template.html",
+          "title": "Weekly Fitness Check-In Template (Free)"
+        }
+      ]
+    },
+    {
       "id": "3ckCKrIUZ2I",
       "title": "Build Muscle and Lose Fat: Ultimate Body Recomposition Guide",
       "description": "Learn how to lose fat and build muscle at the same time. This comprehensive body recomposition guide explains the science, nutrition, and training.",
