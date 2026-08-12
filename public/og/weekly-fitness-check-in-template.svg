@@ -1,0 +1,24 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Weekly Fitness Check-In Template</title>
+  <desc id="desc">IZEM weekly fitness check-in framework: Plan, Proof, Problem, Pivot.</desc>
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="1120" y2="600" gradientUnits="userSpaceOnUse"><stop stop-color="#06101F"/><stop offset="1" stop-color="#101B36"/></linearGradient>
+    <linearGradient id="accent" x1="230" y1="170" x2="980" y2="470" gradientUnits="userSpaceOnUse"><stop stop-color="#22D3EE"/><stop offset="0.55" stop-color="#34D399"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient>
+    <filter id="glow" x="-100" y="-100" width="1400" height="830" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="60"/></filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="210" cy="100" r="165" fill="#22D3EE" fill-opacity="0.13" filter="url(#glow)"/>
+  <circle cx="1020" cy="530" r="190" fill="#8B5CF6" fill-opacity="0.15" filter="url(#glow)"/>
+  <circle cx="620" cy="330" r="210" fill="#34D399" fill-opacity="0.07" filter="url(#glow)"/>
+  <rect x="74" y="70" width="1052" height="490" rx="36" fill="#0A1429" fill-opacity="0.92" stroke="#FFFFFF" stroke-opacity="0.12"/>
+  <text x="126" y="132" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="3">IZEM</text>
+  <text x="126" y="210" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="850">Weekly fitness check-in</text>
+  <text x="126" y="266" fill="#C7D2FE" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Review. Adjust. Recommit.</text>
+  <g><rect x="126" y="326" width="214" height="134" rx="22" fill="#101C35" stroke="#22D3EE" stroke-opacity="0.55"/><circle cx="162" cy="365" r="18" fill="#22D3EE"/><text x="156" y="372" fill="#06101F" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="900">1</text><text x="192" y="372" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800">Plan</text><text x="150" y="416" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="18">What was intended?</text></g>
+  <g><rect x="365" y="326" width="214" height="134" rx="22" fill="#101C35" stroke="#43D7C6" stroke-opacity="0.55"/><circle cx="401" cy="365" r="18" fill="#43D7C6"/><text x="395" y="372" fill="#06101F" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="900">2</text><text x="431" y="372" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800">Proof</text><text x="389" y="416" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="18">What happened?</text></g>
+  <g><rect x="604" y="326" width="214" height="134" rx="22" fill="#101C35" stroke="#6ED98D" stroke-opacity="0.55"/><circle cx="640" cy="365" r="18" fill="#6ED98D"/><text x="634" y="372" fill="#06101F" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="900">3</text><text x="670" y="372" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800">Problem</text><text x="628" y="416" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="18">What kept repeating?</text></g>
+  <g><rect x="843" y="326" width="214" height="134" rx="22" fill="#101C35" stroke="#8B5CF6" stroke-opacity="0.62"/><circle cx="879" cy="365" r="18" fill="#8B5CF6"/><text x="873" y="372" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="900">4</text><text x="909" y="372" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800">Pivot</text><text x="867" y="416" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="18">What changes next?</text></g>
+  <path d="M340 393H365M579 393H604M818 393H843" stroke="url(#accent)" stroke-width="5" stroke-linecap="round"/>
+  <text x="600" y="520" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="750">Free, private, no-signup template</text>
+  <text x="600" y="550" text-anchor="middle" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="17">Generate one realistic adjustment for the next seven days</text>
+</svg>
