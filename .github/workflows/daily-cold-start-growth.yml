@@ -12,6 +12,7 @@ on:
         type: boolean
 
 permissions:
+  actions: write
   contents: write
   issues: write
 
@@ -117,6 +118,7 @@ jobs:
           pnpm check:links
 
       - name: Commit only the exact HTML files selected by the engine
+        id: commit
         if: steps.growth.outputs.changed == 'true'
         run: |
           set -euo pipefail
@@ -134,6 +136,47 @@ jobs:
           git fetch origin main
           git rebase origin/main
           git push origin HEAD:main
+          pushed_sha=$(git rev-parse HEAD)
+          echo "pushed_sha=$pushed_sha" >> "$GITHUB_OUTPUT"
+          echo "Cold-start commit pushed: $pushed_sha"
+
+      - name: Deploy the workflow-authored SEO commit to Pages
+        if: steps.growth.outputs.changed == 'true' && steps.commit.outputs.pushed_sha != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PUSHED_SHA: ${{ steps.commit.outputs.pushed_sha }}
+        run: |
+          set -euo pipefail
+
+          # A push made by GITHUB_TOKEN does not recursively trigger the push-based
+          # Pages workflow. Dispatch it explicitly, then wait for the run tied to
+          # the exact cold-start commit before checking the live site.
+          gh workflow run deploy.yml --ref main
+
+          run_id=""
+          for attempt in $(seq 1 20); do
+            run_id=$(gh run list \
+              --workflow deploy.yml \
+              --branch main \
+              --event workflow_dispatch \
+              --limit 10 \
+              --json databaseId,headSha,createdAt \
+              --jq ".[] | select(.headSha == \"${PUSHED_SHA}\") | .databaseId" \
+              | head -n 1)
+            if [ -n "$run_id" ]; then
+              break
+            fi
+            echo "Waiting for Pages deployment run for ${PUSHED_SHA} (${attempt}/20)..."
+            sleep 3
+          done
+
+          if [ -z "$run_id" ]; then
+            echo "::error::Could not find the dispatched Pages deployment for ${PUSHED_SHA}."
+            exit 1
+          fi
+
+          echo "Waiting for Pages deployment run ${run_id} for ${PUSHED_SHA}."
+          gh run watch "$run_id" --exit-status
 
       - name: Verify the exact internal-link marker reached the live source page
         if: steps.growth.outputs.changed == 'true'
