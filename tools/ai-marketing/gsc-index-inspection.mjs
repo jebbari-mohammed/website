@@ -8,6 +8,7 @@ import { discoverCredentialSource, parseServiceAccountCredential } from './gsc-f
 
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
 const SITE = process.env.GSC_SITE_URL || 'https://youraicoach.life/';
+const SITE_ORIGIN = new URL(SITE).origin;
 const OUTPUT = path.resolve(process.env.GSC_INDEX_OUTPUT || 'tools/ai-marketing/search-console-reports/index-inspection-latest.json');
 const DEFAULT_URLS = [
   'https://youraicoach.life/',
@@ -45,9 +46,7 @@ function inspectionUrls() {
   if (urls.length > 25) throw new Error('Index inspection is intentionally capped at 25 URLs per run');
   for (const value of urls) {
     const url = new URL(value);
-    if (!value.startsWith(SITE) || url.origin !== new URL(SITE).origin) {
-      throw new Error(`Inspection URL is outside the Search Console property: ${url.origin}`);
-    }
+    if (url.origin !== SITE_ORIGIN) throw new Error(`Inspection URL is outside the Search Console property: ${url.origin}`);
   }
   return urls;
 }
@@ -73,7 +72,7 @@ async function getAccessToken(credentials) {
     method: 'POST',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth2:grant-type:jwt-bearer',
+      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
       assertion: `${unsigned}.${base64url(signature)}`,
     }).toString(),
     signal: AbortSignal.timeout(30000),
@@ -180,9 +179,7 @@ async function main() {
     console.log(`- ${pathname(item.url)}: inspection error=${item.error}`);
   }
 
-  if (apiErrors.length > 0) {
-    throw new Error(`URL Inspection API failed for ${apiErrors.length}/${urls.length} configured URL(s)`);
-  }
+  if (apiErrors.length > 0) throw new Error(`URL Inspection API failed for ${apiErrors.length}/${urls.length} configured URL(s)`);
 }
 
 main().catch((error) => {
