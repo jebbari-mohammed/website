@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/uT-PWUSP-bk/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/uT-PWUSP-bk/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Workout Accountability Agreement Template (Free)</video:title>
+      <video:description>Build a free workout accountability agreement with clear workout commitments, check-ins, fallback rules, and a review date. Copy the finished template in seconds.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/uT-PWUSP-bk</video:player_loc>
+      <video:publication_date>2026-08-13T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/IUbk03nx8yM/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/IUbk03nx8yM/hqdefault.jpg</video:thumbnail_loc>
