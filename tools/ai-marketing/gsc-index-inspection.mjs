@@ -13,11 +13,15 @@ const OUTPUT = path.resolve(process.env.GSC_INDEX_OUTPUT || 'tools/ai-marketing/
 const DEFAULT_URLS = [
   'https://youraicoach.life/',
   'https://youraicoach.life/ai-fitness-coach',
+  'https://youraicoach.life/izem-ai-fitness-coach/',
   'https://youraicoach.life/best-ai-fitness-app',
   'https://youraicoach.life/workout-consistency-calculator',
   'https://youraicoach.life/blog/accountability-apps-for-working-out',
   'https://youraicoach.life/blog/gym-machines-vs-free-weights',
   'https://youraicoach.life/blog/strength-training-after-40-guide',
+  'https://youraicoach.life/blog/weekly-fitness-check-in-template',
+  'https://youraicoach.life/blog/workout-accountability-agreement-template',
+  'https://youraicoach.life/blog/ai-personal-trainer-that-actually-works',
 ];
 
 function base64url(value) {
@@ -72,7 +76,7 @@ async function getAccessToken(credentials) {
     method: 'POST',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+      grant_type: 'urn:ietf:params:oauth-bearer:jwt-bearer',
       assertion: `${unsigned}.${base64url(signature)}`,
     }).toString(),
     signal: AbortSignal.timeout(30000),
