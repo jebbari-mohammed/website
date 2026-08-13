@@ -76,7 +76,7 @@ async function getAccessToken(credentials) {
     method: 'POST',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth-bearer:jwt-bearer',
+      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
       assertion: `${unsigned}.${base64url(signature)}`,
     }).toString(),
     signal: AbortSignal.timeout(30000),
