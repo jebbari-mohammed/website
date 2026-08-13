@@ -3,6 +3,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 
 const SITE = process.env.GSC_SITE_URL || 'https://youraicoach.life/';
 const SITE_ORIGIN = new URL(SITE).origin;
@@ -68,7 +69,7 @@ async function recentExperimentTargets(limit = MAX_RECENT_EXPERIMENT_URLS) {
   return targets;
 }
 
-async function main() {
+export async function buildInspectionTargets() {
   const coreUrls = [...new Set(CORE_URLS.map(normalizeUrl))];
   const experimentTargets = await recentExperimentTargets();
   const urls = [...new Set([...coreUrls, ...experimentTargets.map((item) => item.url)])];
@@ -77,6 +78,12 @@ async function main() {
   if (urls.length > MAX_INSPECTION_URLS) {
     throw new Error(`Generated ${urls.length} inspection targets, above the intentional cap of ${MAX_INSPECTION_URLS}`);
   }
+
+  return { urls, coreUrls, experimentTargets };
+}
+
+async function main() {
+  const { urls, coreUrls, experimentTargets } = await buildInspectionTargets();
 
   await setOutput('urls', urls.join(','));
   await setOutput('url_count', urls.length);
@@ -89,7 +96,10 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(`Failed to build GSC inspection targets: ${error instanceof Error ? error.message : String(error)}`);
-  process.exitCode = 1;
-});
+const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (invokedDirectly) {
+  main().catch((error) => {
+    console.error(`Failed to build GSC inspection targets: ${error instanceof Error ? error.message : String(error)}`);
+    process.exitCode = 1;
+  });
+}
