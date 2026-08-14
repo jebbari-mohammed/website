@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "PgLfXDmocuU",
+      "title": "Workout Accountability Calendar (Free Printable Tracker)",
+      "description": "Use IZEM’s free workout accountability calendar to plan a month, mark workouts completed or missed, track consistency, and print or save your calendar without signup.",
+      "uploadDate": "2026-08-14",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/workout-accountability-calendar",
+          "relativePath": "blog/workout-accountability-calendar.html",
+          "title": "Workout Accountability Calendar (Free Printable Tracker)"
+        }
+      ]
+    },
+    {
       "id": "uT-PWUSP-bk",
       "title": "Workout Accountability Agreement Template (Free)",
       "description": "Build a free workout accountability agreement with clear workout commitments, check-ins, fallback rules, and a review date. Copy the finished template in seconds.",

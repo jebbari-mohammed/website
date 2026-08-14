@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/PgLfXDmocuU/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/PgLfXDmocuU/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Workout Accountability Calendar (Free Printable Tracker)</video:title>
+      <video:description>Use IZEM’s free workout accountability calendar to plan a month, mark workouts completed or missed, track consistency, and print or save your calendar without signup.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/PgLfXDmocuU</video:player_loc>
+      <video:publication_date>2026-08-14T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/uT-PWUSP-bk/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/uT-PWUSP-bk/hqdefault.jpg</video:thumbnail_loc>
