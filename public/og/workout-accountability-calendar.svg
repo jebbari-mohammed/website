@@ -1,0 +1,33 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Workout Accountability Calendar</title>
+  <desc id="desc">Free IZEM monthly workout accountability calendar with planned, completed, missed, and rest-day states.</desc>
+  <defs>
+    <linearGradient id="bg" x1="80" y1="30" x2="1120" y2="610" gradientUnits="userSpaceOnUse"><stop stop-color="#07111E"/><stop offset="1" stop-color="#101A31"/></linearGradient>
+    <linearGradient id="accent" x1="260" y1="165" x2="950" y2="500" gradientUnits="userSpaceOnUse"><stop stop-color="#72E8F3"/><stop offset="0.55" stop-color="#8DFF6A"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="180" cy="100" r="170" fill="#72E8F3" fill-opacity="0.08"/>
+  <circle cx="1040" cy="540" r="210" fill="#8B5CF6" fill-opacity="0.10"/>
+  <rect x="76" y="64" width="1048" height="502" rx="34" fill="#0A1526" stroke="#FFFFFF" stroke-opacity="0.12"/>
+  <text x="128" y="126" fill="#94A3B8" font-family="Inter,Arial,sans-serif" font-size="20" font-weight="800" letter-spacing="3">IZEM</text>
+  <text x="128" y="205" fill="#F8FAFC" font-family="Inter,Arial,sans-serif" font-size="54" font-weight="850">Workout accountability calendar</text>
+  <text x="128" y="255" fill="#C7D2FE" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="700">Plan the month. Mark what happened. Adjust the next week.</text>
+  <g transform="translate(128 310)">
+    <rect width="944" height="170" rx="22" fill="#0E1B2F" stroke="#FFFFFF" stroke-opacity="0.10"/>
+    <g font-family="Inter,Arial,sans-serif" font-size="16" font-weight="700" fill="#94A3B8">
+      <text x="24" y="34">MON</text><text x="157" y="34">TUE</text><text x="290" y="34">WED</text><text x="423" y="34">THU</text><text x="556" y="34">FRI</text><text x="689" y="34">SAT</text><text x="822" y="34">SUN</text>
+    </g>
+    <g>
+      <rect x="20" y="52" width="108" height="92" rx="14" fill="#13233A"/><rect x="153" y="52" width="108" height="92" rx="14" fill="#13233A"/><rect x="286" y="52" width="108" height="92" rx="14" fill="#13233A"/><rect x="419" y="52" width="108" height="92" rx="14" fill="#13233A"/><rect x="552" y="52" width="108" height="92" rx="14" fill="#13233A"/><rect x="685" y="52" width="108" height="92" rx="14" fill="#13233A"/><rect x="818" y="52" width="108" height="92" rx="14" fill="#13233A"/>
+      <circle cx="74" cy="98" r="20" fill="#72E8F3"/><path d="M64 99l7 7 14-16" stroke="#07111E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="207" cy="98" r="20" fill="#8DFF6A"/><path d="M197 99l7 7 14-16" stroke="#07111E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="340" cy="98" r="20" fill="#F59E0B"/><path d="M330 98h20" stroke="#07111E" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="473" cy="98" r="20" fill="#8DFF6A"/><path d="M463 99l7 7 14-16" stroke="#07111E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="606" cy="98" r="20" fill="#94A3B8"/><path d="M597 98h18" stroke="#07111E" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="739" cy="98" r="20" fill="#8DFF6A"/><path d="M729 99l7 7 14-16" stroke="#07111E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="872" cy="98" r="20" fill="#72E8F3"/><path d="M862 99l7 7 14-16" stroke="#07111E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <g font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700"><text x="132" y="530" fill="#72E8F3">PLANNED</text><text x="276" y="530" fill="#8DFF6A">COMPLETED</text><text x="443" y="530" fill="#F59E0B">MISSED</text><text x="557" y="530" fill="#94A3B8">REST</text></g>
+  <text x="1070" y="530" text-anchor="end" fill="#F8FAFC" font-family="Inter,Arial,sans-serif" font-size="20" font-weight="800">Free · printable · no signup</text>
+</svg>
