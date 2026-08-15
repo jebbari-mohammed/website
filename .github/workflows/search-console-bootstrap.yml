@@ -11,6 +11,8 @@ on:
       - 'tools/ai-marketing/gsc-fetch-private.mjs'
       - 'tools/ai-marketing/gsc-evidence-gate.mjs'
       - 'tools/ai-marketing/gsc-index-inspection.mjs'
+      - 'tools/ai-marketing/gsc-encrypt-private.mjs'
+      - 'tools/ai-marketing/gsc-evidence-public.pem'
       - 'public/seo-system-version.json'
       - '.github/workflows/search-console-bootstrap.yml'
 
@@ -73,6 +75,9 @@ jobs:
       - name: Retrieve private query and page evidence
         run: pnpm gsc
 
+      - name: Emit encrypted private evidence envelope
+        run: node tools/ai-marketing/gsc-encrypt-private.mjs
+
       - name: Evaluate the private evidence state
         id: evidence
         run: pnpm gsc:evidence
@@ -94,7 +99,7 @@ jobs:
             echo "- Priority URLs not indexed: ${{ steps.index.outputs.not_indexed_count || '0' }}"
             echo "- Priority URLs unknown: ${{ steps.index.outputs.unknown_count || '0' }}"
             echo "- URL Inspection API errors: ${{ steps.index.outputs.api_error_count || '0' }}"
-            echo "- Exact queries: private and not printed"
+            echo "- Exact queries: encrypted for private SEO review; plaintext is not printed"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open or update one health issue on failure
@@ -105,7 +110,7 @@ jobs:
           set -euo pipefail
           title="[SEO Automation] Search Console health check failed"
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          body="Search Console ownership, marker, private query+page retrieval, or priority URL index inspection failed. Review ${run_url}. No private query is included."
+          body="Search Console ownership, marker, private query+page retrieval, encrypted evidence generation, or priority URL index inspection failed. Review ${run_url}. No plaintext private query is included."
           issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
           if [ -n "$issue" ]; then
             gh issue comment "$issue" --body "$body"
