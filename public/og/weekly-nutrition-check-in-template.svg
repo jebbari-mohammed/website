@@ -1,0 +1,21 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Weekly Nutrition Check-In Template</title>
+  <desc id="desc">IZEM BITE weekly nutrition reset: Baseline, Interruptions, Tweak, Execute.</desc>
+  <defs>
+    <linearGradient id="bg" x1="90" y1="50" x2="1110" y2="590" gradientUnits="userSpaceOnUse"><stop stop-color="#07110F"/><stop offset="1" stop-color="#16283A"/></linearGradient>
+    <linearGradient id="line" x1="170" y1="300" x2="1030" y2="300" gradientUnits="userSpaceOnUse"><stop stop-color="#68E0BE"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="170" cy="90" r="180" fill="#68E0BE" fill-opacity="0.11"/>
+  <circle cx="1040" cy="550" r="210" fill="#8B5CF6" fill-opacity="0.12"/>
+  <rect x="74" y="68" width="1052" height="494" rx="36" fill="#0B1714" fill-opacity="0.94" stroke="#FFFFFF" stroke-opacity="0.12"/>
+  <text x="126" y="132" fill="#93A59E" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="3">IZEM</text>
+  <text x="126" y="210" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="850">Weekly nutrition check-in</text>
+  <text x="126" y="266" fill="#C7F5E8" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="700">Find the friction. Fix one thing.</text>
+  <g><rect x="126" y="330" width="218" height="132" rx="22" fill="#10201B" stroke="#68E0BE" stroke-opacity="0.6"/><circle cx="163" cy="368" r="18" fill="#68E0BE"/><text x="156" y="375" fill="#07110F" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="900">B</text><text x="194" y="375" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">Baseline</text><text x="150" y="416" fill="#AEBDB8" font-family="Inter, Arial, sans-serif" font-size="17">What was planned?</text></g>
+  <g><rect x="372" y="330" width="218" height="132" rx="22" fill="#10201B" stroke="#70D7C1" stroke-opacity="0.58"/><circle cx="409" cy="368" r="18" fill="#70D7C1"/><text x="404" y="375" fill="#07110F" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="900">I</text><text x="440" y="375" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">Interruptions</text><text x="396" y="416" fill="#AEBDB8" font-family="Inter, Arial, sans-serif" font-size="17">What got in the way?</text></g>
+  <g><rect x="618" y="330" width="218" height="132" rx="22" fill="#10201B" stroke="#7BBECA" stroke-opacity="0.58"/><circle cx="655" cy="368" r="18" fill="#7BBECA"/><text x="649" y="375" fill="#07110F" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="900">T</text><text x="686" y="375" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">Tweak</text><text x="642" y="416" fill="#AEBDB8" font-family="Inter, Arial, sans-serif" font-size="17">Change one variable.</text></g>
+  <g><rect x="864" y="330" width="218" height="132" rx="22" fill="#10201B" stroke="#8B5CF6" stroke-opacity="0.65"/><circle cx="901" cy="368" r="18" fill="#8B5CF6"/><text x="895" y="375" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="900">E</text><text x="932" y="375" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">Execute</text><text x="888" y="416" fill="#AEBDB8" font-family="Inter, Arial, sans-serif" font-size="17">Lock the first action.</text></g>
+  <path d="M344 396H372M590 396H618M836 396H864" stroke="url(#line)" stroke-width="5" stroke-linecap="round"/>
+  <text x="600" y="520" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="750">Free • private • no signup • no calorie target</text>
+</svg>
