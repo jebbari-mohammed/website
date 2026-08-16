@@ -73,6 +73,13 @@ jobs:
       - name: Test credentials, planner, clustering, sanitizer, metadata, idempotency, and grounding policy
         run: pnpm test:seo-growth
 
+      - name: Synchronize generated discovery files exactly like production
+        run: |
+          set -euo pipefail
+          node tools/ai-marketing/rebuild-blog-index.mjs
+          pnpm video:sync
+          pnpm sitemap:sync
+
       - name: Validate current public structured data
         run: node tools/validate-jsonld.mjs public
 
@@ -89,9 +96,9 @@ jobs:
           node tools/sync-news-sitemap.mjs --check
 
   credentialed-smoke:
-    name: Live Gemini, grounding, and conditional GSC smoke
+    name: Manual Gemini, grounding, and conditional GSC smoke
     needs: deterministic
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
@@ -225,7 +232,7 @@ jobs:
 
   lockfile:
     name: Verify reproducible dependency resolution
-    needs: [deterministic, credentialed-smoke]
+    needs: deterministic
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
