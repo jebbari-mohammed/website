@@ -10,6 +10,7 @@ on:
       - 'tools/ai-marketing/verify-live-seo-compliance.mjs'
       - '.github/workflows/live-seo-compliance.yml'
       - 'public/best-ai-fitness-app/*.html'
+      - 'public/blog/ai-personal-trainer-that-actually-works.html'
 
 permissions:
   contents: read
@@ -32,7 +33,7 @@ jobs:
         with:
           node-version: 22
 
-      - name: Verify the live site, all city relocations, sitemaps, marker, and removed videos
+      - name: Verify live SEO invariants, city relocations, released rehabilitation, sitemaps, marker, and removed videos
         run: node tools/ai-marketing/verify-live-seo-compliance.mjs
 
       - name: Open or update one compliance issue on failure
@@ -43,7 +44,7 @@ jobs:
           set -euo pipefail
           title="[SEO Compliance] Live cleanup needs attention"
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          body="The live SEO compliance check failed. Review ${run_url}. This check covers all city relocations, representative legacy quarantine, normal/News sitemaps, the SEO system marker, and removed misleading YouTube reviews."
+          body="The live SEO compliance check failed. Review ${run_url}. This check covers all city relocations, the released legacy rehabilitation, normal/News sitemaps, the SEO system marker, and removed misleading YouTube reviews."
           issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
           if [ -n "$issue" ]; then gh issue comment "$issue" --body "$body"; else gh issue create --title "$title" --body "$body"; fi
 

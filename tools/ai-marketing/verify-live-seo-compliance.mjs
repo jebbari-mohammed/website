@@ -5,7 +5,7 @@ import path from 'node:path';
 
 const SITE = 'https://youraicoach.life';
 const CITY_DIR = path.resolve('public/best-ai-fitness-app');
-const REPRESENTATIVE_QUARANTINES = [
+const RELEASED_REHABILITATIONS = [
   '/blog/ai-personal-trainer-that-actually-works',
 ];
 const VIDEO_IDS = [
@@ -98,15 +98,23 @@ async function siteChecks() {
     });
   }
 
-  for (const pathname of REPRESENTATIVE_QUARANTINES) {
+  for (const pathname of RELEASED_REHABILITATIONS) {
     const page = await fetchText(`${SITE}${pathname}`);
+    const expectedCanonical = `${SITE}${pathname}`;
+    const quarantineCleared =
+      !page.text.includes('data-legacy-editorial-review="true"') &&
+      !page.text.includes('LEGACY_SEO_QUARANTINE:');
+    const sitemapIncluded = sitemap.text.includes(expectedCanonical);
     const ok = page.status === 200 &&
-      hasNoindex(page.text) &&
-      page.text.includes('data-legacy-editorial-review="true"') &&
-      page.text.includes('LEGACY_SEO_QUARANTINE:') &&
-      !sitemap.text.includes(`${SITE}${pathname}`) &&
-      !news.text.includes(`${SITE}${pathname}`);
-    checks.push({ label: pathname, ok, detail: `HTTP ${page.status}, noindex=${hasNoindex(page.text)}, quarantined=${page.text.includes('LEGACY_SEO_QUARANTINE:')}` });
+      !hasNoindex(page.text) &&
+      canonical(page.text) === expectedCanonical &&
+      quarantineCleared &&
+      sitemapIncluded;
+    checks.push({
+      label: `${pathname} rehabilitation`,
+      ok,
+      detail: `HTTP ${page.status}, indexable=${!hasNoindex(page.text)}, canonical=${canonical(page.text)}, quarantine-cleared=${quarantineCleared}, sitemap-included=${sitemapIncluded}`,
+    });
   }
 
   return checks;
@@ -138,7 +146,7 @@ async function main() {
       for (const check of last) console.log(`- ${check.ok ? 'PASS' : 'FAIL'} ${check.label}: ${check.detail}`);
       if (!failures.length) {
         if (process.env.GITHUB_STEP_SUMMARY) {
-          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Live SEO compliance\n- Homepage and SEO marker: passed\n- City relocation pages: 20/20 passed\n- Representative legacy quarantine: passed\n- Normal and News sitemaps: passed\n- Misleading YouTube reviews unavailable: ${VIDEO_IDS.length}/${VIDEO_IDS.length}\n`);
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Live SEO compliance\n- Homepage and SEO marker: passed\n- City relocation pages: 20/20 passed\n- Released legacy rehabilitation: passed\n- Normal and News sitemaps: passed\n- Misleading YouTube reviews unavailable: ${VIDEO_IDS.length}/${VIDEO_IDS.length}\n`);
         }
         console.log('Live SEO compliance passed completely.');
         return;
