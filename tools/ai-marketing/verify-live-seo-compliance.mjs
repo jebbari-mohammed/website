@@ -7,6 +7,7 @@ const SITE = 'https://youraicoach.life';
 const CITY_DIR = path.resolve('public/best-ai-fitness-app');
 const RELEASED_REHABILITATIONS = [
   '/blog/ai-personal-trainer-that-actually-works',
+  '/blog/best-app-to-track-progressive-overload-automatically',
 ];
 const VIDEO_IDS = [
   'FeHyZads8i8',
@@ -146,7 +147,7 @@ async function main() {
       for (const check of last) console.log(`- ${check.ok ? 'PASS' : 'FAIL'} ${check.label}: ${check.detail}`);
       if (!failures.length) {
         if (process.env.GITHUB_STEP_SUMMARY) {
-          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Live SEO compliance\n- Homepage and SEO marker: passed\n- City relocation pages: 20/20 passed\n- Released legacy rehabilitation: passed\n- Normal and News sitemaps: passed\n- Misleading YouTube reviews unavailable: ${VIDEO_IDS.length}/${VIDEO_IDS.length}\n`);
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Live SEO compliance\n- Homepage and SEO marker: passed\n- City relocation pages: 20/20 passed\n- Released legacy rehabilitations: ${RELEASED_REHABILITATIONS.length}/${RELEASED_REHABILITATIONS.length} passed\n- Normal and News sitemaps: passed\n- Misleading YouTube reviews unavailable: ${VIDEO_IDS.length}/${VIDEO_IDS.length}\n`);
         }
         console.log('Live SEO compliance passed completely.');
         return;
