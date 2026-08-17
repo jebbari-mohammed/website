@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Workout Accountability Checklist</title>
+  <desc id="desc">IZEM checklist graphic with seven workout accountability decisions.</desc>
+  <rect width="1200" height="630" fill="#081019"/>
+  <rect x="72" y="68" width="1056" height="494" rx="28" fill="#101B2A" stroke="#42C7C3" stroke-opacity=".42" stroke-width="2"/>
+  <text x="118" y="142" fill="#42C7C3" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">IZEM</text>
+  <text x="118" y="222" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="850">Workout Accountability</text>
+  <text x="118" y="292" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="850">Checklist</text>
+  <text x="122" y="356" fill="#D1DBE7" font-family="Inter, Arial, sans-serif" font-size="28">7 setup decisions before the week starts</text>
+  <g transform="translate(120 407)" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="750">
+    <rect x="0" y="0" width="30" height="30" rx="7" fill="#42C7C3"/>
+    <path d="M8 15.5l5.4 5.4L23 9.5" fill="none" stroke="#051414" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="48" y="24" fill="#EAF0F7">Goal</text>
+    <rect x="168" y="0" width="30" height="30" rx="7" fill="#42C7C3"/>
+    <path d="M176 15.5l5.4 5.4L191 9.5" fill="none" stroke="#051414" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="216" y="24" fill="#EAF0F7">Call window</text>
+    <rect x="412" y="0" width="30" height="30" rx="7" fill="#42C7C3"/>
+    <path d="M420 15.5l5.4 5.4L435 9.5" fill="none" stroke="#051414" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="460" y="24" fill="#EAF0F7">Fallback</text>
+    <rect x="610" y="0" width="30" height="30" rx="7" fill="#42C7C3"/>
+    <path d="M618 15.5l5.4 5.4L633 9.5" fill="none" stroke="#051414" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="658" y="24" fill="#EAF0F7">Review</text>
+  </g>
+  <text x="122" y="504" fill="#9CE8DC" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700">Calls, day reviews, and weekly adaptation.</text>
+</svg>
