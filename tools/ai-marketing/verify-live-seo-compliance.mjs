@@ -9,6 +9,7 @@ const RELEASED_REHABILITATIONS = [
   '/blog/ai-personal-trainer-that-actually-works',
   '/blog/best-app-to-track-progressive-overload-automatically',
   '/blog/best-workout-app-with-meal-planning-included',
+  '/blog/ai-workout-generator-beginners',
 ];
 const VIDEO_IDS = [
   'FeHyZads8i8',
