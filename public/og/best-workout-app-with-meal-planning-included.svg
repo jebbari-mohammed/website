@@ -1,51 +1,25 @@
-<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Best Workout Apps With Meal Plans</title>
+  <desc id="desc">IZEM FUEL scorecard for comparing workout and meal-planning apps.</desc>
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#060B1D"/>
-      <stop offset="100%" style="stop-color:#0C1A3D"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#00D4FF"/>
-      <stop offset="100%" style="stop-color:#7C5CFC"/>
-    </linearGradient>
-    <linearGradient id="glow" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:0.15"/>
-      <stop offset="100%" style="stop-color:#7C5CFC;stop-opacity:0"/>
-    </linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse"><stop stop-color="#06101F"/><stop offset="1" stop-color="#111C37"/></linearGradient>
+    <linearGradient id="accent" x1="120" y1="150" x2="1060" y2="500" gradientUnits="userSpaceOnUse"><stop stop-color="#22D3EE"/><stop offset=".55" stop-color="#34D399"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient>
+    <filter id="blur" x="-200" y="-200" width="1600" height="1000"><feGaussianBlur stdDeviation="70"/></filter>
   </defs>
-
-  <!-- Background -->
   <rect width="1200" height="630" fill="url(#bg)"/>
-
-  <!-- Glow blob top-right -->
-  <ellipse cx="1050" cy="80" rx="280" ry="180" fill="url(#glow)" opacity="0.6"/>
-
-  <!-- Grid lines (subtle) -->
-  <line x1="0" y1="210" x2="1200" y2="210" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="0" y1="420" x2="1200" y2="420" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="400" y1="0" x2="400" y2="630" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="800" y1="0" x2="800" y2="630" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-
-  <!-- Top accent bar -->
-  <rect x="0" y="0" width="1200" height="6" fill="url(#accent)"/>
-
-  <!-- Category pill -->
-  <rect x="60" y="60" width="170" height="40" rx="20" fill="rgba(0,212,255,0.12)" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
-  <text x="80" y="84" font-family="system-ui,-apple-system,sans-serif" font-size="18" font-weight="600" fill="#00D4FF">AI Fitness</text>
-
-  <!-- Title -->
-  <text x="60" y="204" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Finding an App That Actually Builds</text>
-    <text x="60" y="276" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Muscle and Plans Meals</text>
-
-  <!-- Bottom bar -->
-  <rect x="0" y="560" width="1200" height="70" fill="rgba(0,0,0,0.3)"/>
-
-  <!-- Logo -->
-  <text x="60" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="800" fill="#F8FAFC">⚡ IZEM</text>
-
-  <!-- Domain -->
-  <text x="1140" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#475569" text-anchor="end">youraicoach.life</text>
-
-  <!-- Decorative accent line -->
-  <rect x="60" y="372" width="80" height="4" rx="2" fill="url(#accent)"/>
+  <circle cx="160" cy="100" r="180" fill="#22D3EE" fill-opacity=".14" filter="url(#blur)"/>
+  <circle cx="1030" cy="520" r="210" fill="#8B5CF6" fill-opacity=".16" filter="url(#blur)"/>
+  <rect x="70" y="64" width="1060" height="502" rx="34" fill="#0A1429" fill-opacity=".92" stroke="#FFFFFF" stroke-opacity=".12"/>
+  <text x="120" y="124" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="3">IZEM</text>
+  <text x="120" y="205" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="50" font-weight="850">Best workout apps with meal plans</text>
+  <text x="120" y="259" fill="#C7D2FE" font-family="Inter, Arial, sans-serif" font-size="31" font-weight="700">Choose the workflow, not the feature list</text>
+  <g>
+    <rect x="120" y="322" width="218" height="140" rx="22" fill="#101C35" stroke="#22D3EE" stroke-opacity=".55"/><text x="146" y="365" fill="#22D3EE" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="900">F</text><text x="181" y="365" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="800">Fitness</text><text x="146" y="405" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="17">Training depth</text><text x="146" y="432" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="17">and next steps</text>
+    <rect x="365" y="322" width="218" height="140" rx="22" fill="#101C35" stroke="#43D7C6" stroke-opacity=".55"/><text x="391" y="365" fill="#43D7C6" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="900">U</text><text x="429" y="365" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="800">Unified</text><text x="391" y="405" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="17">One coherent</text><text x="391" y="432" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="17">goal + profile</text>
+    <rect x="610" y="322" width="218" height="140" rx="22" fill="#101C35" stroke="#6ED98D" stroke-opacity=".55"/><text x="636" y="365" fill="#6ED98D" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="900">E</text><text x="673" y="365" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="800">Editability</text><text x="636" y="405" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="17">Meals, workouts,</text><text x="636" y="432" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="17">preferences</text>
+    <rect x="855" y="322" width="218" height="140" rx="22" fill="#101C35" stroke="#8B5CF6" stroke-opacity=".62"/><text x="881" y="365" fill="#A78BFA" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="900">L</text><text x="916" y="365" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="800">Life loop</text><text x="881" y="405" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="17">What happens</text><text x="881" y="432" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="17">after a miss?</text>
+  </g>
+  <path d="M338 392H365M583 392H610M828 392H855" stroke="url(#accent)" stroke-width="5" stroke-linecap="round"/>
+  <text x="600" y="520" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="750">Free 0–8 FUEL scorecard inside</text>
+  <text x="600" y="550" text-anchor="middle" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="17">Source-checked comparison · youraicoach.life</text>
 </svg>
