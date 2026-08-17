@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "k4CiJzRSJFg",
+      "title": "Workout Accountability Checklist: 7 Decisions Before the Week Starts",
+      "description": "Use this workout accountability checklist to set the goal, training days, call window, fallback workout, review loop, and weekly adaptation before motivation fades.",
+      "uploadDate": "2026-08-17",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/workout-accountability-checklist",
+          "relativePath": "blog/workout-accountability-checklist.html",
+          "title": "Workout Accountability Checklist: 7 Decisions Before the Week Starts"
+        }
+      ]
+    },
+    {
       "id": "zxN2tR64Ol0",
       "title": "Weekly Nutrition Check-In Template (Free)",
       "description": "Use IZEM’s free weekly nutrition check-in template to review meal-planning friction, identify one practical adjustment, and create a copyable plan for next week.",
@@ -203,11 +216,6 @@
       "description": "Discover how a smart AI workout generator helps gym beginners build confidence, save money, and get customized training plans without the high pressure.",
       "uploadDate": "2026-08-02",
       "sources": [
-        {
-          "canonical": "https://youraicoach.life/blog/ai-workout-generator-beginners",
-          "relativePath": "blog/ai-workout-generator-beginners.html",
-          "title": "Gym Confidence for Beginners: How AI Workout Generators Change Everything"
-        },
         {
           "canonical": "https://youraicoach.life/blog/ar/ai-workout-generator-beginners",
           "relativePath": "blog/ar/ai-workout-generator-beginners.html",
@@ -487,11 +495,6 @@
       "uploadDate": "2026-07-24",
       "sources": [
         {
-          "canonical": "https://youraicoach.life/blog/best-workout-app-with-meal-planning-included",
-          "relativePath": "blog/best-workout-app-with-meal-planning-included.html",
-          "title": "Finding an App That Actually Builds Muscle and Plans Meals"
-        },
-        {
           "canonical": "https://youraicoach.life/blog/pt/best-workout-app-with-meal-planning-included",
           "relativePath": "blog/pt/best-workout-app-with-meal-planning-included.html",
           "title": "Guia sobre apps de treino e dieta"
@@ -635,11 +638,6 @@
       "description": "Struggling to track your lifts? We review the best progressive overload apps, including AI trainers that automate your weight progression seamlessly.",
       "uploadDate": "2026-07-18",
       "sources": [
-        {
-          "canonical": "https://youraicoach.life/blog/best-app-to-track-progressive-overload-automatically",
-          "relativePath": "blog/best-app-to-track-progressive-overload-automatically.html",
-          "title": "Ditch the Gym Notebook: Best Apps for Progressive Overload"
-        },
         {
           "canonical": "https://youraicoach.life/blog/es/best-app-to-track-progressive-overload-automatically",
           "relativePath": "blog/es/best-app-to-track-progressive-overload-automatically.html",

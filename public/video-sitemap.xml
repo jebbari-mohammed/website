@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/k4CiJzRSJFg/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/k4CiJzRSJFg/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Workout Accountability Checklist: 7 Decisions Before the Week Starts</video:title>
+      <video:description>Use this workout accountability checklist to set the goal, training days, call window, fallback workout, review loop, and weekly adaptation before motivation fades.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/k4CiJzRSJFg</video:player_loc>
+      <video:publication_date>2026-08-17T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/zxN2tR64Ol0/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/zxN2tR64Ol0/hqdefault.jpg</video:thumbnail_loc>
