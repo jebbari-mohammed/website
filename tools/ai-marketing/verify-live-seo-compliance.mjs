@@ -8,6 +8,7 @@ const CITY_DIR = path.resolve('public/best-ai-fitness-app');
 const RELEASED_REHABILITATIONS = [
   '/blog/ai-personal-trainer-that-actually-works',
   '/blog/best-app-to-track-progressive-overload-automatically',
+  '/blog/best-workout-app-with-meal-planning-included',
 ];
 const VIDEO_IDS = [
   'FeHyZads8i8',
