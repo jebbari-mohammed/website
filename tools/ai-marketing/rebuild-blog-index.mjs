@@ -39,7 +39,45 @@ function escapeXml(value) {
     .replace(/'/g, '&apos;');
 }
 
-function readPostMetadata(file) {
+function normalizeDate(value) {
+  const text = String(value || '').trim();
+  if (!text) return null;
+  const datePrefix = text.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (datePrefix) return datePrefix[1];
+  const parsed = new Date(text);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return parsed.toISOString().slice(0, 10);
+}
+
+function extractAttribute(tag, name) {
+  const match = tag.match(new RegExp(`\\b${name}\\s*=\\s*["']([^"']+)["']`, 'i'));
+  return match ? match[1] : '';
+}
+
+export function extractPublishedDate(html) {
+  const jsonLdMatch = html.match(/"datePublished"\s*:\s*"([^"]+)"/i);
+  const jsonLdDate = normalizeDate(jsonLdMatch ? jsonLdMatch[1] : '');
+  if (jsonLdDate) return jsonLdDate;
+
+  for (const tag of html.match(/<meta\b[^>]*>/gi) || []) {
+    const property = extractAttribute(tag, 'property').toLowerCase();
+    const itemprop = extractAttribute(tag, 'itemprop').toLowerCase();
+    if (property === 'article:published_time' || itemprop === 'datepublished') {
+      const date = normalizeDate(extractAttribute(tag, 'content'));
+      if (date) return date;
+    }
+  }
+
+  for (const tag of html.match(/<time\b[^>]*>/gi) || []) {
+    if (extractAttribute(tag, 'itemprop').toLowerCase() !== 'datepublished') continue;
+    const date = normalizeDate(extractAttribute(tag, 'datetime'));
+    if (date) return date;
+  }
+
+  return null;
+}
+
+export function readPostMetadata(file) {
   const filePath = path.join(BLOG_DIR, file);
   const html = fs.readFileSync(filePath, 'utf-8');
   const robotsMatch = html.match(/<meta name="robots" content="([^"]+)"/i);
@@ -48,18 +86,17 @@ function readPostMetadata(file) {
   const slug = file.replace('.html', '');
   const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
   const descMatch = html.match(/<meta name="description" content="([^"]+)"/i);
-  const dateMatch = html.match(/"datePublished":\s*"([^"]+)"/);
 
   return {
     slug,
     title: cleanTitle(titleMatch ? titleMatch[1] : slug, slug),
     description: descMatch ? descMatch[1] : '',
-    date: dateMatch ? dateMatch[1] : new Date().toISOString().split('T')[0],
+    date: extractPublishedDate(html),
     noindex,
   };
 }
 
-function loadPosts() {
+export function loadPosts() {
   if (!fs.existsSync(BLOG_DIR)) {
     console.log('⚠️ Blog directory does not exist yet');
     return [];
@@ -69,14 +106,25 @@ function loadPosts() {
     .filter(f => f.endsWith('.html') && f !== 'index.html' && f !== 'feed.xml')
     .map(readPostMetadata)
     .filter(post => !post.noindex)
-    .sort((a, b) => b.date.localeCompare(a.date)); // newest first
+    .sort((a, b) => {
+      if (a.date && b.date) {
+        const dateOrder = b.date.localeCompare(a.date);
+        if (dateOrder !== 0) return dateOrder;
+      } else if (a.date) {
+        return -1;
+      } else if (b.date) {
+        return 1;
+      }
+      return a.slug.localeCompare(b.slug);
+    });
 
   return files;
 }
 
-function buildArchiveSection(posts) {
+export function buildArchiveSection(posts) {
   const cards = posts.map(post => {
-    return `            <a href="/blog/${post.slug}">${escapeHtml(post.title)} <span>${escapeHtml(post.date)}</span></a>`;
+    const date = post.date ? ` <span>${escapeHtml(post.date)}</span>` : '';
+    return `            <a href="/blog/${post.slug}">${escapeHtml(post.title)}${date}</a>`;
   }).join('\n');
 
   return `<!-- BLOG_ARCHIVE_START -->
@@ -122,15 +170,17 @@ function updateBlogIndex(posts) {
   fs.writeFileSync(INDEX_PATH, buildFallbackIndex(posts));
 }
 
-function buildRSSFeed(posts) {
-  const items = posts.map(p => `
+export function buildRSSFeed(posts, buildDate = new Date()) {
+  const items = posts.map(p => {
+    const pubDate = p.date ? `\n      <pubDate>${new Date(`${p.date}T00:00:00Z`).toUTCString()}</pubDate>` : '';
+    return `
     <item>
       <title>${escapeXml(p.title)}</title>
       <link>https://youraicoach.life/blog/${p.slug}</link>
       <guid>https://youraicoach.life/blog/${p.slug}</guid>
-      <description>${escapeXml(p.description)}</description>
-      <pubDate>${new Date(p.date).toUTCString()}</pubDate>
-    </item>`).join('');
+      <description>${escapeXml(p.description)}</description>${pubDate}
+    </item>`;
+  }).join('');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -140,7 +190,7 @@ function buildRSSFeed(posts) {
     <description>Expert insights on AI fitness coaching, workout science, and nutrition</description>
     <language>en</language>
     <atom:link href="https://youraicoach.life/blog/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>${items}
+    <lastBuildDate>${buildDate.toUTCString()}</lastBuildDate>${items}
   </channel>
 </rss>`;
 }
@@ -159,7 +209,11 @@ async function main() {
   console.log(`✅ RSS feed rebuilt with ${posts.length} posts`);
 }
 
-main().catch(err => {
-  console.error('❌ Error:', err.message);
-  process.exit(1);
-});
+const filename = fileURLToPath(import.meta.url);
+const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === filename;
+if (invokedDirectly) {
+  main().catch(err => {
+    console.error('❌ Error:', err.message);
+    process.exit(1);
+  });
+}
