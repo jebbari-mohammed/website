@@ -17,11 +17,18 @@ const DEFAULT_URLS = [
   'https://youraicoach.life/best-ai-fitness-app',
   'https://youraicoach.life/workout-consistency-calculator',
   'https://youraicoach.life/blog/accountability-apps-for-working-out',
+  'https://youraicoach.life/blog/best-accountability-app-for-gym',
   'https://youraicoach.life/blog/gym-machines-vs-free-weights',
   'https://youraicoach.life/blog/strength-training-after-40-guide',
   'https://youraicoach.life/blog/weekly-fitness-check-in-template',
   'https://youraicoach.life/blog/workout-accountability-agreement-template',
+  'https://youraicoach.life/blog/workout-accountability-calendar',
+  'https://youraicoach.life/blog/weekly-nutrition-check-in-template',
   'https://youraicoach.life/blog/ai-personal-trainer-that-actually-works',
+  'https://youraicoach.life/blog/best-app-to-track-progressive-overload-automatically',
+  'https://youraicoach.life/blog/best-workout-app-with-meal-planning-included',
+  'https://youraicoach.life/blog/ai-workout-generator-beginners',
+  'https://youraicoach.life/blog/workout-accountability-checklist',
 ];
 
 function base64url(value) {
