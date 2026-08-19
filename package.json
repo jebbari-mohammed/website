@@ -60,15 +60,16 @@
     "@vitejs/plugin-react": "^6.0.0",
     "autoprefixer": "^10.4.27",
     "eslint": "^9.39.4",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.25",
-    "globals": "^16.5.0",
-    "postcss": "^8.5.6",
-    "puppeteer": "^24.35.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "express": "^5.2.1",
+    "globals": "^17.7.0",
+    "postcss": "^8.5.16",
+    "puppeteer": "^24.43.1",
     "tailwindcss": "^3.4.19",
-    "tsx": "^4.21.0",
+    "tsx": "^4.23.0",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.48.1",
-    "vite": "^8.0.0"
+    "typescript-eslint": "^8.63.0",
+    "vite": "^8.1.3"
   }
 }
