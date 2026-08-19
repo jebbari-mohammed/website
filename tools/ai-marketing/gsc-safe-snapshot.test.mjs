@@ -64,7 +64,7 @@ test('renders landing-page aggregates while keeping exact Search Console queries
   assert.match(rendered, /Clicks: 1/);
   assert.match(rendered, /Impressions: 12/);
   assert.match(rendered, /Aggregate CTR: 8\.33%/);
-  assert.match(rendered, /Impression-weighted average position: 19\.50/);
+  assert.match(rendered, /Impression-weighted average position: 18\.83/);
   assert.match(rendered, /Landing-page aggregate \(queries removed\)/);
   assert.match(rendered, /\| \/blog\/progressive-overload-guide \| 1 \| 10 \| 10\.00% \| 21\.60 \|/);
   assert.match(rendered, /\| \/blog\/accountability-guide \| 0 \| 2 \| 0\.00% \| 5\.00 \|/);
