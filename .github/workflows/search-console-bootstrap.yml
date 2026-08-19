@@ -12,6 +12,7 @@ on:
       - 'tools/ai-marketing/gsc-evidence-gate.mjs'
       - 'tools/ai-marketing/gsc-index-inspection.mjs'
       - 'tools/ai-marketing/gsc-encrypt-private.mjs'
+      - 'tools/ai-marketing/gsc-safe-snapshot.mjs'
       - 'tools/ai-marketing/gsc-evidence-public.pem'
       - 'public/seo-system-version.json'
       - '.github/workflows/search-console-bootstrap.yml'
@@ -102,6 +103,23 @@ jobs:
             echo "- Exact queries: encrypted for private SEO review; plaintext is not printed"
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Persist latest public-safe Search Console snapshot
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          snapshot="$RUNNER_TEMP/gsc-safe-snapshot.md"
+          node tools/ai-marketing/gsc-safe-snapshot.mjs --output "$snapshot"
+
+          title="[SEO Observability] Latest Search Console safe snapshot"
+          issue=$(gh issue list --state all --limit 100 --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$issue" ]; then
+            gh issue reopen "$issue" >/dev/null 2>&1 || true
+            gh issue edit "$issue" --title "$title" --body-file "$snapshot"
+          else
+            gh issue create --title "$title" --body-file "$snapshot"
+          fi
+
       - name: Open or update one health issue on failure
         if: failure()
         env:
@@ -110,7 +128,7 @@ jobs:
           set -euo pipefail
           title="[SEO Automation] Search Console health check failed"
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          body="Search Console ownership, marker, private query+page retrieval, encrypted evidence generation, or priority URL index inspection failed. Review ${run_url}. No plaintext private query is included."
+          body="Search Console ownership, marker, private query+page retrieval, encrypted evidence generation, priority URL index inspection, or safe snapshot persistence failed. Review ${run_url}. No plaintext private query is included."
           issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
           if [ -n "$issue" ]; then
             gh issue comment "$issue" --body "$body"
