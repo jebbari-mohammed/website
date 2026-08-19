@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const DEFAULT_SEARCH_REPORT = path.join(ROOT, 'tools/ai-marketing/search-console-reports/latest-28d.json');
 const DEFAULT_INDEX_REPORT = path.join(ROOT, 'tools/ai-marketing/search-console-reports/index-inspection-latest.json');
+const MAX_LANDING_PAGES = 25;
 
 function parseArgs(argv) {
   const args = {
@@ -54,6 +55,38 @@ function pathOnly(value) {
   }
 }
 
+function landingPageAggregates(searchReport) {
+  const dimensions = Array.isArray(searchReport.dimensions) ? searchReport.dimensions : [];
+  const pageIndex = dimensions.indexOf('page');
+  if (pageIndex === -1) throw new Error('Search Analytics report must contain a page dimension');
+
+  const pages = new Map();
+  for (const row of searchReport.rows) {
+    const keys = Array.isArray(row.keys) ? row.keys : [];
+    const page = String(keys[pageIndex] || '');
+    if (!page) continue;
+    const current = pages.get(page) || { page, clicks: 0, impressions: 0, weightedPosition: 0 };
+    const impressions = number(row.impressions);
+    current.clicks += number(row.clicks);
+    current.impressions += impressions;
+    current.weightedPosition += number(row.position) * impressions;
+    pages.set(page, current);
+  }
+
+  return [...pages.values()]
+    .map((entry) => ({
+      ...entry,
+      ctr: entry.impressions > 0 ? entry.clicks / entry.impressions : 0,
+      averagePosition: entry.impressions > 0 ? entry.weightedPosition / entry.impressions : null,
+    }))
+    .sort((a, b) => (
+      b.impressions - a.impressions
+      || b.clicks - a.clicks
+      || (a.averagePosition ?? Number.POSITIVE_INFINITY) - (b.averagePosition ?? Number.POSITIVE_INFINITY)
+      || a.page.localeCompare(b.page)
+    ));
+}
+
 export function buildSafeSnapshot(searchReport, indexReport, options = {}) {
   if (!searchReport || !Array.isArray(searchReport.rows)) throw new Error('Search Analytics report rows are missing');
   const dimensions = Array.isArray(searchReport.dimensions) ? searchReport.dimensions : [];
@@ -69,6 +102,8 @@ export function buildSafeSnapshot(searchReport, indexReport, options = {}) {
   }, { clicks: 0, impressions: 0, weightedPosition: 0 });
   const ctr = totals.impressions > 0 ? totals.clicks / totals.impressions : 0;
   const averagePosition = totals.impressions > 0 ? totals.weightedPosition / totals.impressions : null;
+  const pageAggregates = landingPageAggregates(searchReport);
+  const displayedPages = pageAggregates.slice(0, MAX_LANDING_PAGES);
   const counts = indexReport.counts || {};
   const runUrl = String(options.runUrl || '');
   const generatedAt = String(options.generatedAt || new Date().toISOString());
@@ -83,10 +118,19 @@ export function buildSafeSnapshot(searchReport, indexReport, options = {}) {
     '',
     `- Reporting period: ${md(searchReport.startDate || 'unknown')} to ${md(searchReport.endDate || 'unknown')}`,
     `- Private query + landing-page rows: ${searchReport.rows.length}`,
+    `- Distinct landing pages: ${pageAggregates.length}`,
     `- Clicks: ${Math.round(totals.clicks)}`,
     `- Impressions: ${Math.round(totals.impressions)}`,
     `- Aggregate CTR: ${pct(ctr)}`,
     `- Impression-weighted average position: ${averagePosition === null ? 'n/a' : averagePosition.toFixed(2)}`,
+    '',
+    '## Landing-page aggregate (queries removed)',
+    '',
+    `Top ${displayedPages.length} public landing page${displayedPages.length === 1 ? '' : 's'} by Search Console impressions. Query strings are not included, and no query-to-page pair is exposed.`,
+    '',
+    '| Landing page | Clicks | Impressions | CTR | Avg. position |',
+    '| --- | ---: | ---: | ---: | ---: |',
+    ...displayedPages.map((entry) => `| ${md(pathOnly(entry.page))} | ${Math.round(entry.clicks)} | ${Math.round(entry.impressions)} | ${pct(entry.ctr)} | ${entry.averagePosition === null ? 'n/a' : entry.averagePosition.toFixed(2)} |`),
     '',
     '## Priority URL Inspection',
     '',
@@ -103,7 +147,7 @@ export function buildSafeSnapshot(searchReport, indexReport, options = {}) {
     '',
     '## Privacy boundary',
     '',
-    'This issue intentionally contains no Search Console query strings and no query-to-landing-page pairs. Exact rows stay in the encrypted private evidence channel; this snapshot persists only aggregate Search Analytics metrics and URL-level Google index status that the public workflow already checks.',
+    'This issue intentionally contains no Search Console query strings and no query-to-landing-page pairs. It exposes only site-wide aggregates, aggregate metrics for public landing-page URLs, and URL-level Google index status. Exact query rows stay in the encrypted private evidence channel.',
     '',
   ];
   return lines.join('\n');

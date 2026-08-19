@@ -9,18 +9,25 @@ const searchReport = {
   dimensions: ['query', 'page'],
   rows: [
     {
-      keys: ['SECRET QUERY MUST NEVER LEAK', 'https://youraicoach.life/blog/private-query-landing-page'],
+      keys: ['SECRET QUERY MUST NEVER LEAK', 'https://youraicoach.life/blog/progressive-overload-guide'],
       clicks: 1,
       impressions: 4,
       ctr: 0.25,
       position: 12,
     },
     {
-      keys: ['ANOTHER PRIVATE QUERY', 'https://youraicoach.life/blog/another-private-page'],
+      keys: ['ANOTHER PRIVATE QUERY', 'https://youraicoach.life/blog/progressive-overload-guide'],
       clicks: 0,
       impressions: 6,
       ctr: 0,
       position: 28,
+    },
+    {
+      keys: ['THIRD PRIVATE QUERY', 'https://youraicoach.life/blog/accountability-guide'],
+      clicks: 0,
+      impressions: 2,
+      ctr: 0,
+      position: 5,
     },
   ],
 };
@@ -46,23 +53,26 @@ const indexReport = {
   ],
 };
 
-test('renders aggregate Search Analytics and URL Inspection state without private queries or landing-page pairs', () => {
+test('renders landing-page aggregates while keeping exact Search Console queries private', () => {
   const rendered = buildSafeSnapshot(searchReport, indexReport, {
     runUrl: 'https://github.com/jebbari-mohammed/website/actions/runs/123',
     generatedAt: '2026-08-19T08:10:00.000Z',
   });
 
-  assert.match(rendered, /Private query \+ landing-page rows: 2/);
+  assert.match(rendered, /Private query \+ landing-page rows: 3/);
+  assert.match(rendered, /Distinct landing pages: 2/);
   assert.match(rendered, /Clicks: 1/);
-  assert.match(rendered, /Impressions: 10/);
-  assert.match(rendered, /Aggregate CTR: 10\.00%/);
-  assert.match(rendered, /Impression-weighted average position: 21\.60/);
+  assert.match(rendered, /Impressions: 12/);
+  assert.match(rendered, /Aggregate CTR: 8\.33%/);
+  assert.match(rendered, /Impression-weighted average position: 18\.83/);
+  assert.match(rendered, /Landing-page aggregate \(queries removed\)/);
+  assert.match(rendered, /\| \/blog\/progressive-overload-guide \| 1 \| 10 \| 10\.00% \| 21\.60 \|/);
+  assert.match(rendered, /\| \/blog\/accountability-guide \| 0 \| 2 \| 0\.00% \| 5\.00 \|/);
   assert.match(rendered, /weekly-fitness-check-in-template/);
   assert.match(rendered, /Submitted and indexed/);
   assert.doesNotMatch(rendered, /SECRET QUERY MUST NEVER LEAK/);
   assert.doesNotMatch(rendered, /ANOTHER PRIVATE QUERY/);
-  assert.doesNotMatch(rendered, /private-query-landing-page/);
-  assert.doesNotMatch(rendered, /another-private-page/);
+  assert.doesNotMatch(rendered, /THIRD PRIVATE QUERY/);
 });
 
 test('fails closed if private Search Analytics dimensions are incomplete', () => {
