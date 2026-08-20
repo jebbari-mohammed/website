@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@google/genai": "^2.14.0",
-    "cheerio": "^1.2.1",
+    "cheerio": "^1.2.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
     "lucide-react": "^0.577.0",
