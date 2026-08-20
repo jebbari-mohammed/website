@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "9yyU_thHiL0",
+      "title": "Progressive Overload Tracker Template (Free CSV)",
+      "description": "Use IZEM’s free progressive overload tracker template to log load, reps, effort, notes, and your next-session target. Private in-browser tool with CSV export.",
+      "uploadDate": "2026-08-20",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/progressive-overload-tracker-template",
+          "relativePath": "blog/progressive-overload-tracker-template.html",
+          "title": "Progressive Overload Tracker Template (Free CSV)"
+        }
+      ]
+    },
+    {
       "id": "k4CiJzRSJFg",
       "title": "Workout Accountability Checklist: 7 Decisions Before the Week Starts",
       "description": "Use this workout accountability checklist to set the goal, training days, call window, fallback workout, review loop, and weekly adaptation before motivation fades.",

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/9yyU_thHiL0/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/9yyU_thHiL0/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Progressive Overload Tracker Template (Free CSV)</video:title>
+      <video:description>Use IZEM’s free progressive overload tracker template to log load, reps, effort, notes, and your next-session target. Private in-browser tool with CSV export.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/9yyU_thHiL0</video:player_loc>
+      <video:publication_date>2026-08-20T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/k4CiJzRSJFg/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/k4CiJzRSJFg/hqdefault.jpg</video:thumbnail_loc>
