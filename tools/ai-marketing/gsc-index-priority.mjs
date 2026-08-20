@@ -40,24 +40,28 @@ export function buildInspectionPriority({ site, defaults = [], report = null, ma
 
   const urls = [];
   const seen = new Set();
-  const add = (value) => {
+  for (const value of defaults) {
     let url;
     try {
       url = normalizeSameOriginUrl(value, site);
-    } catch {
-      return false;
+    } catch (error) {
+      throw new Error(`Invalid fixed inspection URL: ${String(value)}`, { cause: error });
     }
-    if (!url || seen.has(url) || urls.length >= maxUrls) return false;
+    if (!url) throw new Error(`Fixed inspection URL is outside the Search Console property: ${String(value)}`);
+    if (seen.has(url)) continue;
+    if (urls.length >= maxUrls) throw new Error(`Fixed inspection priorities exceed the ${maxUrls}-URL cap`);
     seen.add(url);
     urls.push(url);
-    return true;
-  };
+  }
 
-  for (const value of defaults) add(value);
   const landingPages = searchAnalyticsLandingPages(report, site);
   let searchAnalyticsAdded = 0;
   for (const item of landingPages) {
-    if (add(item.url)) searchAnalyticsAdded += 1;
+    if (urls.length >= maxUrls) break;
+    if (seen.has(item.url)) continue;
+    seen.add(item.url);
+    urls.push(item.url);
+    searchAnalyticsAdded += 1;
   }
 
   return {
