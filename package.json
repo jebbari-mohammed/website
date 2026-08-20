@@ -31,7 +31,7 @@
     "seo:smoke:gemini": "node tools/ai-marketing/gemini-smoke.mjs",
     "seo:audit:legacy": "node tools/ai-marketing/legacy-content-audit.mjs --strict",
     "test:cold-start": "node --test tools/ai-marketing/cold-start-growth.test.mjs",
-    "test:seo-growth": "node --test tools/ai-marketing/cold-start-growth.test.mjs tools/ai-marketing/gsc-evidence-gate.test.mjs tools/ai-marketing/gsc-safe-snapshot.test.mjs tools/ai-marketing/model-json.test.mjs tools/ai-marketing/gsc-fetch-private.test.mjs tools/ai-marketing/rebuild-blog-index.test.mjs tools/ai-marketing/seo-growth-engine.test.mjs tools/ai-marketing/seo-publisher-core.test.mjs tools/ai-marketing/seo-structured-data.test.mjs tools/ai-marketing/seo-expert-plan.test.mjs tools/ai-marketing/gemini-grounded-research.test.mjs tools/ai-marketing/seo-production-runner.test.mjs",
+    "test:seo-growth": "node --test tools/ai-marketing/cold-start-growth.test.mjs tools/ai-marketing/gsc-evidence-gate.test.mjs tools/ai-marketing/gsc-safe-snapshot.test.mjs tools/ai-marketing/gsc-index-priority.test.mjs tools/ai-marketing/model-json.test.mjs tools/ai-marketing/gsc-fetch-private.test.mjs tools/ai-marketing/rebuild-blog-index.test.mjs tools/ai-marketing/seo-growth-engine.test.mjs tools/ai-marketing/seo-publisher-core.test.mjs tools/ai-marketing/seo-structured-data.test.mjs tools/ai-marketing/seo-expert-plan.test.mjs tools/ai-marketing/gemini-grounded-research.test.mjs tools/ai-marketing/seo-production-runner.test.mjs",
     "worker:dev": "tsx apps/worker/src/serve.ts",
     "audit:site": "tsx apps/worker/src/cli.ts audit:site",
     "keywords:generate": "tsx apps/worker/src/cli.ts keywords:generate",
@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@google/genai": "^2.14.0",
-    "cheerio": "^1.2.0",
+    "cheerio": "^1.2.1",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
     "lucide-react": "^0.577.0",
