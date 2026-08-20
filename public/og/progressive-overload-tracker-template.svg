@@ -1,0 +1,22 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Progressive Overload Tracker Template</title>
+  <desc id="desc">IZEM progressive overload tracker showing load, reps, effort and next-session target columns.</desc>
+  <defs>
+    <linearGradient id="bg" x1="70" y1="50" x2="1130" y2="600" gradientUnits="userSpaceOnUse"><stop stop-color="#071019"/><stop offset="1" stop-color="#13243A"/></linearGradient>
+    <linearGradient id="line" x1="210" y1="470" x2="930" y2="250" gradientUnits="userSpaceOnUse"><stop stop-color="#72E8F3"/><stop offset="1" stop-color="#8DFF6A"/></linearGradient>
+    <filter id="glow" x="-100" y="-100" width="1400" height="830" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="70"/></filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="190" cy="100" r="170" fill="#22D3EE" fill-opacity="0.12" filter="url(#glow)"/>
+  <circle cx="1040" cy="560" r="190" fill="#8DFF6A" fill-opacity="0.08" filter="url(#glow)"/>
+  <rect x="70" y="65" width="1060" height="500" rx="34" fill="#0A1524" fill-opacity="0.92" stroke="#FFFFFF" stroke-opacity="0.11"/>
+  <text x="120" y="132" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="3">IZEM</text>
+  <text x="120" y="208" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="53" font-weight="850">Progressive overload tracker</text>
+  <text x="120" y="262" fill="#C7D2FE" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">Free browser template + CSV export</text>
+  <rect x="120" y="316" width="960" height="154" rx="18" fill="#0D1A2C" stroke="#FFFFFF" stroke-opacity="0.09"/>
+  <g font-family="Inter, Arial, sans-serif"><text x="150" y="353" fill="#72E8F3" font-size="16" font-weight="800">EXERCISE</text><text x="370" y="353" fill="#72E8F3" font-size="16" font-weight="800">LOAD</text><text x="510" y="353" fill="#72E8F3" font-size="16" font-weight="800">REPS</text><text x="635" y="353" fill="#72E8F3" font-size="16" font-weight="800">EFFORT</text><text x="790" y="353" fill="#72E8F3" font-size="16" font-weight="800">NEXT TARGET</text>
+  <text x="150" y="400" fill="#F8FAFC" font-size="24" font-weight="700">Bench press</text><text x="370" y="400" fill="#F8FAFC" font-size="24" font-weight="700">80 kg</text><text x="510" y="400" fill="#F8FAFC" font-size="24" font-weight="700">8</text><text x="635" y="400" fill="#F8FAFC" font-size="24" font-weight="700">2 RIR</text><text x="790" y="400" fill="#F8FAFC" font-size="21" font-weight="700">Program target</text></g>
+  <path d="M152 441 C340 445 432 425 548 410 C678 393 766 369 928 323" stroke="url(#line)" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="928" cy="323" r="8" fill="#8DFF6A"/>
+  <text x="600" y="526" text-anchor="middle" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="21">Log reality → compare context → write the next target</text>
+</svg>
