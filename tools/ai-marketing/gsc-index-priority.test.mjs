@@ -72,6 +72,24 @@ test('keeps the hard cap and never displaces fixed priorities with dynamic pages
   assert.equal(result.searchAnalyticsAdded, 1);
 });
 
+test('fails closed when a fixed priority is outside the Search Console property', () => {
+  assert.throws(() => buildInspectionPriority({
+    site: SITE,
+    defaults: ['/', 'https://example.com/wrong-property'],
+    report: null,
+    maxUrls: 25,
+  }), /outside the Search Console property/);
+});
+
+test('fails closed when fixed priorities alone exceed the cap', () => {
+  assert.throws(() => buildInspectionPriority({
+    site: SITE,
+    defaults: ['/one', '/two', '/three'],
+    report: null,
+    maxUrls: 2,
+  }), /exceed the 2-URL cap/);
+});
+
 test('returns no dynamic candidates when the Search Analytics report lacks the page dimension', () => {
   const result = searchAnalyticsLandingPages({ dimensions: ['query'], rows: [{ keys: ['x'], impressions: 4 }] }, SITE);
   assert.deepEqual(result, []);
