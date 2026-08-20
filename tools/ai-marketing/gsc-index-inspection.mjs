@@ -5,11 +5,14 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { discoverCredentialSource, parseServiceAccountCredential } from './gsc-fetch-private.mjs';
+import { buildInspectionPriority } from './gsc-index-priority.mjs';
 
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
 const SITE = process.env.GSC_SITE_URL || 'https://youraicoach.life/';
 const SITE_ORIGIN = new URL(SITE).origin;
 const OUTPUT = path.resolve(process.env.GSC_INDEX_OUTPUT || 'tools/ai-marketing/search-console-reports/index-inspection-latest.json');
+const PRIVATE_GSC_REPORT = path.resolve(process.env.GSC_OUTPUT || 'tools/ai-marketing/search-console-reports/latest-28d.json');
+const MAX_INSPECTION_URLS = 25;
 const DEFAULT_URLS = [
   'https://youraicoach.life/',
   'https://youraicoach.life/ai-fitness-coach',
@@ -29,6 +32,7 @@ const DEFAULT_URLS = [
   'https://youraicoach.life/blog/best-workout-app-with-meal-planning-included',
   'https://youraicoach.life/blog/ai-workout-generator-beginners',
   'https://youraicoach.life/blog/workout-accountability-checklist',
+  'https://youraicoach.life/blog/progressive-overload-tracker-template',
 ];
 
 function base64url(value) {
@@ -49,17 +53,39 @@ function setOutput(name, value) {
   return fs.appendFile(process.env.GITHUB_OUTPUT, `${name}=${String(value).replace(/\r?\n/g, ' ')}\n`);
 }
 
-function inspectionUrls() {
-  const raw = String(process.env.GSC_INSPECTION_URLS || '').trim();
-  const values = raw ? raw.split(',').map((value) => value.trim()).filter(Boolean) : DEFAULT_URLS;
-  const urls = [...new Set(values.map((value) => new URL(value, SITE).href))];
-  if (urls.length === 0) throw new Error('No URLs configured for index inspection');
-  if (urls.length > 25) throw new Error('Index inspection is intentionally capped at 25 URLs per run');
-  for (const value of urls) {
-    const url = new URL(value);
-    if (url.origin !== SITE_ORIGIN) throw new Error(`Inspection URL is outside the Search Console property: ${url.origin}`);
+async function loadPrivateSearchAnalyticsReport() {
+  try {
+    return JSON.parse(await fs.readFile(PRIVATE_GSC_REPORT, 'utf8'));
+  } catch (error) {
+    console.log(`Index inspection priority: private Search Analytics report unavailable; using fixed priorities only (${safe(error instanceof Error ? error.message : String(error))}).`);
+    return null;
   }
-  return urls;
+}
+
+async function inspectionUrls() {
+  const raw = String(process.env.GSC_INSPECTION_URLS || '').trim();
+  if (raw) {
+    const values = raw.split(',').map((value) => value.trim()).filter(Boolean);
+    const urls = [...new Set(values.map((value) => new URL(value, SITE).href))];
+    if (urls.length === 0) throw new Error('No URLs configured for index inspection');
+    if (urls.length > MAX_INSPECTION_URLS) throw new Error(`Index inspection is intentionally capped at ${MAX_INSPECTION_URLS} URLs per run`);
+    for (const value of urls) {
+      const url = new URL(value);
+      if (url.origin !== SITE_ORIGIN) throw new Error(`Inspection URL is outside the Search Console property: ${url.origin}`);
+    }
+    return urls;
+  }
+
+  const report = await loadPrivateSearchAnalyticsReport();
+  const priority = buildInspectionPriority({
+    site: SITE,
+    defaults: DEFAULT_URLS,
+    report,
+    maxUrls: MAX_INSPECTION_URLS,
+  });
+  if (priority.urls.length === 0) throw new Error('No URLs configured for index inspection');
+  console.log(`Index inspection priority: ${priority.urls.length} URL(s), including ${priority.searchAnalyticsAdded} additional GSC-visible landing page(s) from ${priority.searchAnalyticsCandidates} candidate(s).`);
+  return priority.urls;
 }
 
 async function getAccessToken(credentials) {
@@ -146,7 +172,7 @@ async function main() {
   if (!source) throw new Error('No Google service-account JSON is configured');
   const credentials = parseServiceAccountCredential(process.env[source], source);
   const accessToken = await getAccessToken(credentials);
-  const urls = inspectionUrls();
+  const urls = await inspectionUrls();
   const results = [];
   const apiErrors = [];
 
