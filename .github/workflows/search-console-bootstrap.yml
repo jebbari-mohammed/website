@@ -11,6 +11,7 @@ on:
       - 'tools/ai-marketing/gsc-fetch-private.mjs'
       - 'tools/ai-marketing/gsc-evidence-gate.mjs'
       - 'tools/ai-marketing/gsc-index-inspection.mjs'
+      - 'tools/ai-marketing/gsc-index-priority.mjs'
       - 'tools/ai-marketing/gsc-encrypt-private.mjs'
       - 'tools/ai-marketing/gsc-safe-snapshot.mjs'
       - 'tools/ai-marketing/gsc-evidence-public.pem'
