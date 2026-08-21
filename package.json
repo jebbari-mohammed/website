@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@google/genai": "^2.14.0",
-    "cheerio": "^1.2.1",
+    "cheerio": "^1.2.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
     "lucide-react": "^0.577.0",
@@ -60,7 +60,7 @@
     "@vitejs/plugin-react": "^6.0.0",
     "autoprefixer": "^10.4.27",
     "eslint": "^9.39.4",
-    "eslint-plugin-react-hooks": "^9.0.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "express": "^5.2.1",
     "globals": "^17.7.0",
