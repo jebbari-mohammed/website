@@ -6,6 +6,18 @@ The ChatGPT senior SEO lead is the strategy, research, implementation-review, an
 
 Read `config/seo-agent-policy.json` before doing SEO work.
 
+## Private exact Search Console evidence
+
+Before selecting a keyword or page-level SEO action, use the newest exact Search Console query + landing-page evidence when the private handoff is healthy:
+
+1. Fetch public issue `jebbari-mohammed/website#34` and read its exact Search Console workflow-run URL, encrypted artifact name, row count, reporting period, and public-key fingerprint.
+2. Fetch that run's workflow artifacts and download the named encrypted artifact. Never treat the public-safe landing-page aggregates as a substitute for exact query/page rows when the encrypted artifact is available.
+3. Read the machine-readable private vault manifest from the connected private repository at `jebbari-mohammed/AI-Gym-Coach/.private-seo/gsc-evidence/vault.json`.
+4. Use the private vault decryptor and private key in an authorized private working directory. Verify the key fingerprint, AES-GCM authentication, query/page dimensions, row count, and reporting period.
+5. Use the decrypted query, page, clicks, impressions, CTR, and average position only for private SEO reasoning. Never paste exact rows or the private key into this public repository, public issues, public pull requests, public workflow logs, or public reports.
+6. Delete local plaintext evidence after the decision cycle.
+7. If the issue, artifact, private vault, or verification path fails, state the reduced confidence and fall back to public-safe aggregates or observation. Never guess exact queries or silently reuse stale exact rows as current evidence.
+
 ## Cold-start default
 
 Until at least 30 days of useful Search Console query/page data exist, the normal daily action is to create one new, indexable search entry targeting a new, low-competition, business-relevant intent. Across a representative month, aim for roughly:
