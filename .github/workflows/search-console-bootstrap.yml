@@ -106,7 +106,8 @@ jobs:
           NODE
 
       - name: Upload encrypted private evidence artifact
-        uses: actions/upload-artifact@v5
+        id: artifact
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.GSC_PRIVATE_ARTIFACT_NAME }}
           path: ${{ runner.temp }}/${{ env.GSC_PRIVATE_ARTIFACT_FILE }}
@@ -136,6 +137,7 @@ jobs:
             echo "- Priority URLs unknown: ${{ steps.index.outputs.unknown_count || '0' }}"
             echo "- URL Inspection API errors: ${{ steps.index.outputs.api_error_count || '0' }}"
             echo "- Encrypted exact-query artifact: $GSC_PRIVATE_ARTIFACT_NAME"
+            echo "- Encrypted artifact ID: ${{ steps.artifact.outputs.artifact-id }}"
             echo "- Encrypted artifact rows: ${{ steps.encrypted.outputs.row_count || '0' }}"
             echo "- Exact queries: encrypted for private SEO review; plaintext is not printed"
           } >> "$GITHUB_STEP_SUMMARY"
@@ -152,6 +154,9 @@ jobs:
             echo "## Private exact-query handoff"
             echo
             echo "- Encrypted artifact: \`$GSC_PRIVATE_ARTIFACT_NAME\`"
+            echo "- Artifact ID: \`${{ steps.artifact.outputs.artifact-id }}\`"
+            echo "- Artifact URL: ${{ steps.artifact.outputs.artifact-url }}"
+            echo "- Artifact SHA-256 digest: \`${{ steps.artifact.outputs.artifact-digest }}\`"
             echo "- Artifact file: \`$GSC_PRIVATE_ARTIFACT_FILE\`"
             echo "- Artifact retention: $GSC_PRIVATE_ARTIFACT_RETENTION_DAYS days"
             echo "- Envelope rows: ${{ steps.encrypted.outputs.row_count }}"
@@ -159,7 +164,7 @@ jobs:
             echo "- Public-key fingerprint: \`${{ steps.encrypted.outputs.fingerprint }}\`"
             echo "- Plaintext key and decryptor: connected private evidence vault only"
             echo
-            echo "The artifact contains ciphertext only. The private SEO process must verify fingerprint, authenticated decryption, row count, and reporting period before using exact queries."
+            echo "The artifact contains ciphertext only. The private SEO process must verify artifact digest, key fingerprint, authenticated decryption, row count, and reporting period before using exact queries."
             echo
           } >> "$snapshot"
 
