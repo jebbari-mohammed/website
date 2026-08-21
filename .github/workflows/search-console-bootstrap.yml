@@ -13,12 +13,14 @@ on:
       - 'tools/ai-marketing/gsc-index-inspection.mjs'
       - 'tools/ai-marketing/gsc-index-priority.mjs'
       - 'tools/ai-marketing/gsc-encrypt-private.mjs'
+      - 'tools/ai-marketing/gsc-encrypt-private.test.mjs'
       - 'tools/ai-marketing/gsc-safe-snapshot.mjs'
       - 'tools/ai-marketing/gsc-evidence-public.pem'
       - 'public/seo-system-version.json'
       - '.github/workflows/search-console-bootstrap.yml'
 
 permissions:
+  actions: read
   contents: read
   issues: write
 
@@ -36,6 +38,9 @@ jobs:
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
       GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
       GSC_SITE_URL: https://youraicoach.life/
+      GSC_PRIVATE_ARTIFACT_NAME: private-gsc-evidence-v1
+      GSC_PRIVATE_ARTIFACT_FILE: private-gsc-evidence.json
+      GSC_PRIVATE_ARTIFACT_RETENTION_DAYS: 14
 
     steps:
       - name: Checkout current main
@@ -78,7 +83,36 @@ jobs:
         run: pnpm gsc
 
       - name: Emit encrypted private evidence envelope
-        run: node tools/ai-marketing/gsc-encrypt-private.mjs
+        id: encrypted
+        run: |
+          set -euo pipefail
+          envelope="$RUNNER_TEMP/$GSC_PRIVATE_ARTIFACT_FILE"
+          node tools/ai-marketing/gsc-encrypt-private.mjs --output "$envelope"
+          node --input-type=module - "$envelope" <<'NODE'
+          import fs from 'node:fs';
+          const envelopePath = process.argv[2];
+          const envelope = JSON.parse(fs.readFileSync(envelopePath, 'utf8'));
+          if (envelope.version !== 1) throw new Error('Unexpected encrypted evidence envelope version');
+          if (envelope.algorithm !== 'RSA-OAEP-SHA256+AES-256-GCM') throw new Error('Unexpected encrypted evidence algorithm');
+          if (!Number.isInteger(envelope.rowCount) || envelope.rowCount < 0) throw new Error('Invalid encrypted evidence row count');
+          if (!/^[a-f0-9]{64}$/.test(envelope.publicKeySha256 || '')) throw new Error('Invalid encrypted evidence key fingerprint');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, [
+            `row_count=${envelope.rowCount}`,
+            `start_date=${envelope.reportPeriod.startDate}`,
+            `end_date=${envelope.reportPeriod.endDate}`,
+            `fingerprint=${envelope.publicKeySha256}`,
+          ].join('\n') + '\n');
+          console.log(`Encrypted artifact envelope validated: ${envelope.rowCount} row(s).`);
+          NODE
+
+      - name: Upload encrypted private evidence artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: ${{ env.GSC_PRIVATE_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/${{ env.GSC_PRIVATE_ARTIFACT_FILE }}
+          if-no-files-found: error
+          retention-days: ${{ env.GSC_PRIVATE_ARTIFACT_RETENTION_DAYS }}
+          compression-level: 0
 
       - name: Evaluate the private evidence state
         id: evidence
@@ -101,6 +135,8 @@ jobs:
             echo "- Priority URLs not indexed: ${{ steps.index.outputs.not_indexed_count || '0' }}"
             echo "- Priority URLs unknown: ${{ steps.index.outputs.unknown_count || '0' }}"
             echo "- URL Inspection API errors: ${{ steps.index.outputs.api_error_count || '0' }}"
+            echo "- Encrypted exact-query artifact: $GSC_PRIVATE_ARTIFACT_NAME"
+            echo "- Encrypted artifact rows: ${{ steps.encrypted.outputs.row_count || '0' }}"
             echo "- Exact queries: encrypted for private SEO review; plaintext is not printed"
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -111,6 +147,21 @@ jobs:
           set -euo pipefail
           snapshot="$RUNNER_TEMP/gsc-safe-snapshot.md"
           node tools/ai-marketing/gsc-safe-snapshot.mjs --output "$snapshot"
+
+          {
+            echo "## Private exact-query handoff"
+            echo
+            echo "- Encrypted artifact: \`$GSC_PRIVATE_ARTIFACT_NAME\`"
+            echo "- Artifact file: \`$GSC_PRIVATE_ARTIFACT_FILE\`"
+            echo "- Artifact retention: $GSC_PRIVATE_ARTIFACT_RETENTION_DAYS days"
+            echo "- Envelope rows: ${{ steps.encrypted.outputs.row_count }}"
+            echo "- Envelope period: ${{ steps.encrypted.outputs.start_date }} to ${{ steps.encrypted.outputs.end_date }}"
+            echo "- Public-key fingerprint: \`${{ steps.encrypted.outputs.fingerprint }}\`"
+            echo "- Plaintext key and decryptor: connected private evidence vault only"
+            echo
+            echo "The artifact contains ciphertext only. The private SEO process must verify fingerprint, authenticated decryption, row count, and reporting period before using exact queries."
+            echo
+          } >> "$snapshot"
 
           title="[SEO Observability] Latest Search Console safe snapshot"
           issue=$(gh issue list --state all --limit 100 --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
@@ -129,7 +180,7 @@ jobs:
           set -euo pipefail
           title="[SEO Automation] Search Console health check failed"
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          body="Search Console ownership, marker, private query+page retrieval, encrypted evidence generation, priority URL index inspection, or safe snapshot persistence failed. Review ${run_url}. No plaintext private query is included."
+          body="Search Console ownership, marker, private query+page retrieval, encrypted artifact generation/upload, priority URL index inspection, or safe snapshot persistence failed. Review ${run_url}. No plaintext private query is included."
           issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
           if [ -n "$issue" ]; then
             gh issue comment "$issue" --body "$body"
