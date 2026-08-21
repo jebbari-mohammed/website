@@ -1,221 +1,162 @@
 import { motion } from '../lib/motion';
-import { Check, X, Minus, Sparkles, Zap } from 'lucide-react';
+import { ArrowRight, Check, ShieldCheck, Sparkles, Zap } from 'lucide-react';
 
-const features = [
-  { name: "AI Voice Coaching Calls", us: true, fitbod: false, future: false, freeletics: false },
-  { name: "Weekly Adaptive Plan Updates", us: true, fitbod: "partial" as const, future: true, freeletics: "partial" as const },
-  { name: "Personalized Workouts", us: true, fitbod: true, future: true, freeletics: "partial" as const },
-  { name: "Personalized Meal Plans", us: true, fitbod: false, future: "partial" as const, freeletics: false },
-  { name: "Body Progress Scanning", us: true, fitbod: false, future: false, freeletics: false },
-  { name: "Camera Food Scanning", us: true, fitbod: false, future: false, freeletics: false },
-  { name: "Gym Equipment Scanning", us: true, fitbod: false, future: false, freeletics: false },
-  { name: "Progress Review Calls", us: true, fitbod: false, future: "partial" as const, freeletics: false },
-  { name: "iOS + Android", us: true, fitbod: true, future: "partial" as const, freeletics: true },
+const coachLoopChecks = [
+  {
+    label: 'Initiation',
+    question: 'Does the coach help before the workout gets skipped?',
+    answer: 'IZEM can use optional scheduled calls and check-ins to create a clear decision point before training.',
+    why: 'A plan has little value if the app waits until after the user has already drifted.',
+  },
+  {
+    label: 'Weekly plan',
+    question: 'Does it connect workouts and meals into one realistic week?',
+    answer: 'IZEM builds weekly workout and meal plans around goals, schedule, equipment, preferences, and practical constraints.',
+    why: 'Separate lists create more decisions. A connected week makes the next action easier to see.',
+  },
+  {
+    label: 'Adaptation',
+    question: 'What happens when the original plan no longer fits?',
+    answer: 'IZEM can offer exercise substitutions, smaller fallback sessions, and later weekly plan adjustments.',
+    why: 'The useful test is not whether a plan looks perfect on Sunday, but whether it survives Wednesday.',
+  },
+  {
+    label: 'Context',
+    question: 'Can the coach use relevant information instead of asking the same questions again?',
+    answer: 'Workout history, meal context, preferences, check-ins, and optional food, body-progress, and equipment scans can inform coaching.',
+    why: 'Context should reduce repetition and make the next recommendation less generic.',
+  },
+  {
+    label: 'Review',
+    question: 'Does the system close the loop after the day?',
+    answer: 'Day reviews can capture what happened, why the plan changed, and what should carry into the next week.',
+    why: 'A missed session becomes useful only when it changes the next decision.',
+  },
+  {
+    label: 'Boundaries',
+    question: 'Is the product honest about what it cannot replace?',
+    answer: 'IZEM provides general fitness and nutrition guidance. It does not diagnose injuries, provide medical care, or replace hands-on form coaching.',
+    why: 'A trustworthy coaching product should make escalation boundaries obvious before they are needed.',
+  },
 ];
 
-function CellValue({ value, isUs }: { value: boolean | string; isUs?: boolean }) {
-  if (value === true) {
-    return (
-      <div className="flex items-center justify-center">
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isUs ? 'bg-primary/20 border border-primary/50 shadow-[0_0_15px_rgba(141,255,106,0.4)]' : 'bg-emerald-500/10'}`}>
-          <Check size={18} className={isUs ? "text-primary stroke-[3]" : "text-emerald-400"} />
-        </div>
-      </div>
-    );
-  }
-  if (value === false) {
-    return (
-      <div className="flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center">
-          <X size={16} className="text-red-400/50" />
-        </div>
-      </div>
-    );
-  }
-  if (value === "partial") {
-    return (
-      <div className="flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center">
-          <Minus size={16} className="text-amber-400/70" />
-        </div>
-      </div>
-    );
-  }
-  return <span className="text-xs sm:text-sm font-bold text-textPrimary">{value}</span>;
-}
+const boundaries = [
+  'No medical diagnosis or injury rehabilitation claims',
+  'No promise that a scan is a clinical body-composition measurement',
+  'No claim that AI replaces hands-on technique coaching',
+  'Call timing and accountability settings remain user-controlled',
+];
 
 export default function Comparison() {
   return (
     <section className="py-20 sm:py-[140px] px-4 sm:px-6 relative overflow-hidden bg-[#070A0D]">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-r from-primary/15 via-[#86D7FF]/10 to-transparent blur-[160px] rounded-full pointer-events-none z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[760px] h-[760px] bg-gradient-to-r from-primary/15 via-[#86D7FF]/10 to-transparent blur-[170px] rounded-full pointer-events-none z-0" />
 
       <div className="max-w-6xl mx-auto w-full relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16"
         >
           <div className="inline-flex items-center gap-2.5 bg-[#111A22] border border-primary/40 rounded-full px-5 py-2 text-xs text-primary font-bold uppercase tracking-[2px] mb-6 backdrop-blur-xl shadow-[0_0_25px_rgba(141,255,106,0.2)]">
             <Zap size={14} className="fill-primary" />
-            The Honest Comparison
+            The Coach Loop Test
           </div>
           <h2 className="text-4xl sm:text-6xl md:text-7xl font-black font-display leading-[1.02] tracking-tight mb-6">
-            FULL COACHING SYSTEM.<br />
+            COMPARE THE COACHING LOOP.<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#D8FF86] to-[#86D7FF]">
-              NOT JUST A SIMPLE TRACKER.
+              NOT A STALE FEATURE TABLE.
             </span>
           </h2>
-          <p className="text-base sm:text-xl text-textSecondary max-w-[620px] mx-auto leading-relaxed font-sans font-normal px-2">
-            IZEM is priced as a complete AI personal trainer. You get workout plans, meal plans, 3D scans, accountability calls, and weekly adaptation in one connected system.
+          <p className="text-base sm:text-xl text-textSecondary max-w-[760px] mx-auto leading-relaxed font-sans font-normal px-2">
+            Prices and competitor features change. A more useful comparison is to test the decisions a coaching system can actually support. Below is IZEM&apos;s current first-party product scope—not a claim about what another app does or does not offer.
           </p>
         </motion.div>
 
-        {/* Mobile: Sleek Cards */}
-        <div className="block lg:hidden space-y-4">
-          {features.map((feature, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 15 }}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+          {coachLoopChecks.map((item, index) => (
+            <motion.article
+              key={item.label}
+              initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: idx * 0.03 }}
-              className="glass-card rounded-2xl p-5 border border-white/10 bg-[#111A22]/90 backdrop-blur-xl shadow-glass"
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.35, delay: index * 0.04 }}
+              className="glass-card rounded-[24px] p-6 sm:p-7 border border-white/10 bg-[#0E151B]/92 backdrop-blur-xl shadow-glass"
             >
-              <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-white/10">
-                <span className="text-sm font-bold text-textPrimary font-sans">{feature.name}</span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-primary/20 text-primary border border-primary/30">
-                  IZEM
-                </span>
-              </div>
-              <div className="grid grid-cols-4 gap-2 text-center items-center">
-                <div className="p-2 rounded-xl bg-primary/10 border border-primary/30">
-                  <span className="text-[10px] text-primary font-black block mb-1 uppercase tracking-wider">IZEM</span>
-                  <CellValue value={feature.us} isUs={true} />
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center bg-primary/15 border border-primary/40 shadow-[0_0_18px_rgba(141,255,106,0.2)]">
+                  <Check size={19} className="text-primary stroke-[3]" />
                 </div>
                 <div>
-                  <span className="text-[10px] text-textSecondary/70 font-medium block mb-1">
-                    <a href="/vs-fitbod" className="underline hover:text-primary transition-colors">Fitbod</a>
-                  </span>
-                  <CellValue value={feature.fitbod} />
-                </div>
-                <div>
-                  <span className="text-[10px] text-textSecondary/70 font-medium block mb-1">
-                    <a href="/vs-future" className="underline hover:text-primary transition-colors">Future</a>
-                  </span>
-                  <CellValue value={feature.future} />
-                </div>
-                <div>
-                  <span className="text-[10px] text-textSecondary/70 font-medium block mb-1">Freeletics</span>
-                  <CellValue value={feature.freeletics} />
+                  <p className="text-[11px] uppercase tracking-[2px] font-black text-primary mb-2">{item.label}</p>
+                  <h3 className="text-xl sm:text-2xl font-black text-textPrimary font-display leading-tight mb-3">
+                    {item.question}
+                  </h3>
+                  <p className="text-sm sm:text-base text-textPrimary/90 leading-relaxed mb-3">
+                    <strong className="text-primary">IZEM&apos;s answer:</strong> {item.answer}
+                  </p>
+                  <p className="text-sm text-textSecondary leading-relaxed">{item.why}</p>
                 </div>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
-          {/* Mobile Pricing Summary */}
-          <div className="glass-card rounded-2xl p-6 border-2 border-primary/40 bg-gradient-to-br from-[#111A22] to-[#17232D] shadow-[0_0_30px_rgba(141,255,106,0.15)]">
-            <p className="text-base font-bold text-textPrimary mb-4 font-sans text-center">Monthly Investment</p>
-            <div className="grid grid-cols-4 gap-2 text-center items-center">
-              <div className="p-2 rounded-xl bg-primary/15 border border-primary/40">
-                <span className="text-xs font-black text-primary block">$24.99</span>
-                <span className="text-[9px] text-textSecondary uppercase font-bold">IZEM</span>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mt-6 sm:mt-8 rounded-[28px] border border-[#86D7FF]/20 bg-gradient-to-br from-[#101922] to-[#10162A] p-6 sm:p-8"
+        >
+          <div className="grid lg:grid-cols-[1.15fr_.85fr] gap-7 lg:gap-10 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 text-[#86D7FF] text-xs font-black uppercase tracking-[2px] mb-4">
+                <ShieldCheck size={16} />
+                Trust before persuasion
               </div>
-              <div>
-                <span className="text-xs font-medium text-textSecondary/70 block">$15</span>
-                <span className="text-[9px] text-textSecondary/50">Fitbod</span>
+              <h3 className="text-3xl sm:text-4xl font-black font-display text-textPrimary leading-tight mb-4">
+                Verify current products at the source.
+              </h3>
+              <p className="text-textSecondary leading-relaxed mb-4">
+                We removed named competitor prices and unsupported yes/no claims from this homepage because those details can change. When comparing any fitness app, confirm current pricing, platforms, safety boundaries, and feature availability on its official product or store listing.
+              </p>
+              <p className="text-sm text-textSecondary/80 leading-relaxed">
+                IZEM&apos;s own scope is explained on the canonical product page and is reviewed under the public editorial policy.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-black/20 p-5 sm:p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Sparkles size={16} className="text-primary" />
+                <p className="text-sm font-black text-textPrimary uppercase tracking-wider">IZEM safety boundaries</p>
               </div>
-              <div>
-                <span className="text-xs font-medium text-textSecondary/70 block">$150+</span>
-                <span className="text-[9px] text-textSecondary/50">Future</span>
-              </div>
-              <div>
-                <span className="text-xs font-medium text-textSecondary/70 block">$15</span>
-                <span className="text-[9px] text-textSecondary/50">Freeletics</span>
+              <ul className="space-y-3 mb-6">
+                {boundaries.map((boundary) => (
+                  <li key={boundary} className="flex items-start gap-3 text-sm text-textSecondary leading-relaxed">
+                    <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                    <span>{boundary}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3">
+                <a
+                  href="/izem-ai-fitness-coach/"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary text-[#070A0D] font-black px-5 py-3 hover:opacity-90 transition-opacity"
+                >
+                  See how IZEM works <ArrowRight size={17} />
+                </a>
+                <a
+                  href="/editorial-policy.html"
+                  className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 text-textPrimary font-bold px-5 py-3 hover:bg-white/10 transition-colors"
+                >
+                  Editorial policy
+                </a>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Desktop: Pixel-Perfect Table Matrix */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="hidden lg:block overflow-hidden rounded-[28px] border border-white/12 bg-[#0E151B]/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
-        >
-          <table className="w-full text-left border-collapse table-fixed">
-            <colgroup>
-              <col className="w-[36%]" />
-              <col className="w-[20%]" />
-              <col className="w-[14.6%]" />
-              <col className="w-[14.6%]" />
-              <col className="w-[14.8%]" />
-            </colgroup>
-            <thead>
-              <tr className="border-b border-white/10 bg-[#111A22]/90">
-                <th className="p-6 text-sm font-bold uppercase tracking-wider text-textSecondary font-sans">Feature Matrix</th>
-                {/* IZEM Featured Column Header */}
-                <th className="p-6 text-center bg-gradient-to-b from-primary/20 to-primary/5 border-x border-primary/30 relative">
-                  <div className="absolute -top-1 inset-x-0 h-1 bg-gradient-to-r from-primary via-[#D8FF86] to-[#86D7FF]" />
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary text-[#070A0D] font-extrabold text-[11px] uppercase tracking-wider mb-2 shadow-[0_0_15px_rgba(141,255,106,0.4)]">
-                    <Sparkles size={12} /> IZEM AI
-                  </div>
-                  <div className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#86D7FF] font-display">
-                    $24.99 / mo
-                  </div>
-                </th>
-                <th className="p-6 text-center">
-                  <a href="/vs-fitbod" className="text-sm font-bold text-textPrimary hover:text-primary transition-colors block font-sans">Fitbod</a>
-                  <span className="text-xs text-textSecondary/60 font-mono">$15 / mo</span>
-                </th>
-                <th className="p-6 text-center">
-                  <a href="/vs-future" className="text-sm font-bold text-textPrimary hover:text-primary transition-colors block font-sans">Future</a>
-                  <span className="text-xs text-textSecondary/60 font-mono">$150+ / mo</span>
-                </th>
-                <th className="p-6 text-center">
-                  <span className="text-sm font-bold text-textPrimary block font-sans">Freeletics</span>
-                  <span className="text-xs text-textSecondary/60 font-mono">$15 / mo</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5">
-              {features.map((feature, idx) => (
-                <tr key={idx} className="hover:bg-white/[0.03] transition-colors group">
-                  <td className="p-5 pl-6 text-sm font-medium text-textPrimary font-sans">
-                    {feature.name}
-                  </td>
-                  {/* IZEM Featured Column Body */}
-                  <td className="p-5 text-center bg-primary/[0.04] border-x border-primary/20 group-hover:bg-primary/[0.08] transition-colors">
-                    <CellValue value={feature.us} isUs={true} />
-                  </td>
-                  <td className="p-5 text-center">
-                    <CellValue value={feature.fitbod} />
-                  </td>
-                  <td className="p-5 text-center">
-                    <CellValue value={feature.future} />
-                  </td>
-                  <td className="p-5 text-center">
-                    <CellValue value={feature.freeletics} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr className="border-t border-white/10 bg-[#111A22]/90">
-                <td className="p-6 text-sm font-bold text-textPrimary font-sans">Monthly Investment</td>
-                <td className="p-6 text-center bg-primary/10 border-x border-primary/30">
-                  <span className="text-xl font-black text-primary font-display">$24.99</span>
-                  <span className="block text-[10px] text-primary/80 font-bold uppercase tracking-wider">Best Value</span>
-                </td>
-                <td className="p-6 text-center text-sm font-semibold text-textSecondary/70 font-mono">$15</td>
-                <td className="p-6 text-center text-sm font-semibold text-textSecondary/70 font-mono">$150+</td>
-                <td className="p-6 text-center text-sm font-semibold text-textSecondary/70 font-mono">$15</td>
-              </tr>
-            </tfoot>
-          </table>
         </motion.div>
       </div>
     </section>
