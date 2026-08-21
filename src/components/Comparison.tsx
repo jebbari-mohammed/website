@@ -77,30 +77,32 @@ export default function Comparison() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
           {coachLoopChecks.map((item, index) => (
-            <motion.article
+            <motion.div
               key={item.label}
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.35, delay: index * 0.04 }}
-              className="glass-card rounded-[24px] p-6 sm:p-7 border border-white/10 bg-[#0E151B]/92 backdrop-blur-xl shadow-glass"
+              className="h-full"
             >
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center bg-primary/15 border border-primary/40 shadow-[0_0_18px_rgba(141,255,106,0.2)]">
-                  <Check size={19} className="text-primary stroke-[3]" />
+              <article className="h-full glass-card rounded-[24px] p-6 sm:p-7 border border-white/10 bg-[#0E151B]/92 backdrop-blur-xl shadow-glass">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center bg-primary/15 border border-primary/40 shadow-[0_0_18px_rgba(141,255,106,0.2)]">
+                    <Check size={19} className="text-primary stroke-[3]" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[2px] font-black text-primary mb-2">{item.label}</p>
+                    <h3 className="text-xl sm:text-2xl font-black text-textPrimary font-display leading-tight mb-3">
+                      {item.question}
+                    </h3>
+                    <p className="text-sm sm:text-base text-textPrimary/90 leading-relaxed mb-3">
+                      <strong className="text-primary">IZEM&apos;s answer:</strong> {item.answer}
+                    </p>
+                    <p className="text-sm text-textSecondary leading-relaxed">{item.why}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[11px] uppercase tracking-[2px] font-black text-primary mb-2">{item.label}</p>
-                  <h3 className="text-xl sm:text-2xl font-black text-textPrimary font-display leading-tight mb-3">
-                    {item.question}
-                  </h3>
-                  <p className="text-sm sm:text-base text-textPrimary/90 leading-relaxed mb-3">
-                    <strong className="text-primary">IZEM&apos;s answer:</strong> {item.answer}
-                  </p>
-                  <p className="text-sm text-textSecondary leading-relaxed">{item.why}</p>
-                </div>
-              </div>
-            </motion.article>
+              </article>
+            </motion.div>
           ))}
         </div>
 
