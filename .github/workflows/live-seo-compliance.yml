@@ -14,6 +14,7 @@ on:
       - 'public/blog/best-app-to-track-progressive-overload-automatically.html'
       - 'public/blog/best-workout-app-with-meal-planning-included.html'
       - 'public/blog/ai-workout-generator-beginners.html'
+      - 'public/blog/fitness-app-crowded-gyms-adapts-workout.html'
 
 permissions:
   contents: read
