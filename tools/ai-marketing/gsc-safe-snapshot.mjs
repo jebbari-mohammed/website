@@ -55,6 +55,79 @@ function pathOnly(value) {
   }
 }
 
+function parseDate(value) {
+  const timestamp = Date.parse(String(value || ''));
+  return Number.isFinite(timestamp) ? timestamp : null;
+}
+
+function attr(tag, name) {
+  const pattern = new RegExp(`\\b${name}\\s*=\\s*["']([^"']+)["']`, 'i');
+  return tag.match(pattern)?.[1] || '';
+}
+
+export function extractSourceModifiedDate(html) {
+  const candidates = [];
+  const metaTags = String(html || '').match(/<meta\b[^>]*>/gi) || [];
+  for (const tag of metaTags) {
+    if (attr(tag, 'property').toLowerCase() !== 'article:modified_time') continue;
+    const value = attr(tag, 'content');
+    const timestamp = parseDate(value);
+    if (timestamp !== null) candidates.push({ value, timestamp });
+  }
+
+  const jsonDate = /"dateModified"\s*:\s*"([^"]+)"/g;
+  let match;
+  while ((match = jsonDate.exec(String(html || ''))) !== null) {
+    const value = match[1];
+    const timestamp = parseDate(value);
+    if (timestamp !== null) candidates.push({ value, timestamp });
+  }
+
+  if (candidates.length === 0) return null;
+  candidates.sort((a, b) => b.timestamp - a.timestamp);
+  return new Date(candidates[0].timestamp).toISOString();
+}
+
+function sourceCandidates(urlValue, root = ROOT) {
+  const url = new URL(urlValue);
+  const decoded = decodeURIComponent(url.pathname);
+  const clean = decoded.replace(/^\/+/, '');
+  if (clean.split('/').some((part) => part === '..')) return [];
+  if (!clean) return [path.join(root, 'index.html')];
+  if (decoded.endsWith('/')) return [path.join(root, 'public', clean, 'index.html')];
+  return [
+    path.join(root, 'public', `${clean}.html`),
+    path.join(root, 'public', clean, 'index.html'),
+  ];
+}
+
+export async function loadSourceModifiedDates(indexResults, root = ROOT) {
+  const byPath = {};
+  for (const result of indexResults || []) {
+    const key = pathOnly(result.url);
+    for (const candidate of sourceCandidates(result.url, root)) {
+      try {
+        const html = await fs.readFile(candidate, 'utf8');
+        const modified = extractSourceModifiedDate(html);
+        if (modified) byPath[key] = modified;
+        break;
+      } catch (error) {
+        if (error?.code !== 'ENOENT') throw error;
+      }
+    }
+  }
+  return byPath;
+}
+
+export function crawlFreshness(result, sourceModified) {
+  const sourceTimestamp = parseDate(sourceModified);
+  if (sourceTimestamp === null) return 'Source date unavailable';
+  const crawlTimestamp = parseDate(result?.lastCrawlTime);
+  if (crawlTimestamp === null) return 'Discovery pending';
+  if (crawlTimestamp < sourceTimestamp) return 'Awaiting recrawl';
+  return 'Crawl current';
+}
+
 function landingPageAggregates(searchReport) {
   const dimensions = Array.isArray(searchReport.dimensions) ? searchReport.dimensions : [];
   const pageIndex = dimensions.indexOf('page');
@@ -107,6 +180,16 @@ export function buildSafeSnapshot(searchReport, indexReport, options = {}) {
   const counts = indexReport.counts || {};
   const runUrl = String(options.runUrl || '');
   const generatedAt = String(options.generatedAt || new Date().toISOString());
+  const sourceModifiedByPath = options.sourceModifiedByPath || {};
+  const crawlStates = indexReport.results.map((result) => {
+    const pagePath = pathOnly(result.url);
+    const sourceModified = sourceModifiedByPath[pagePath] || null;
+    return { result, pagePath, sourceModified, state: crawlFreshness(result, sourceModified) };
+  });
+  const crawlStateCounts = crawlStates.reduce((sum, item) => {
+    sum[item.state] = (sum[item.state] || 0) + 1;
+    return sum;
+  }, {});
 
   const lines = [
     '# Latest Search Console safe snapshot',
@@ -140,14 +223,18 @@ export function buildSafeSnapshot(searchReport, indexReport, options = {}) {
     `- Not indexed: ${number(counts.notIndexed)}`,
     `- Unknown: ${number(counts.unknown)}`,
     `- API errors: ${Array.isArray(indexReport.apiErrors) ? indexReport.apiErrors.length : 0}`,
+    `- Awaiting recrawl after a source update: ${number(crawlStateCounts['Awaiting recrawl'])}`,
+    `- Discovery pending with no crawl recorded: ${number(crawlStateCounts['Discovery pending'])}`,
     '',
-    '| URL | Verdict | Coverage | Last crawl |',
-    '| --- | --- | --- | --- |',
-    ...indexReport.results.map((result) => `| ${md(pathOnly(result.url))} | ${md(result.verdict || 'UNKNOWN')} | ${md(result.coverageState || 'Unknown')} | ${md(result.lastCrawlTime || 'none')} |`),
+    '| URL | Verdict | Coverage | Source modified | Last crawl | Crawl state |',
+    '| --- | --- | --- | --- | --- | --- |',
+    ...crawlStates.map(({ result, pagePath, sourceModified, state }) => `| ${md(pagePath)} | ${md(result.verdict || 'UNKNOWN')} | ${md(result.coverageState || 'Unknown')} | ${md(sourceModified || 'unknown')} | ${md(result.lastCrawlTime || 'none')} | ${md(state)} |`),
+    '',
+    'Crawl state compares source-backed `dateModified` / `article:modified_time` metadata with Google\'s recorded last crawl. “Awaiting recrawl” means Google\'s inspection state predates the current source version; it is not by itself an indexing failure.',
     '',
     '## Privacy boundary',
     '',
-    'This issue intentionally contains no Search Console query strings and no query-to-landing-page pairs. It exposes only site-wide aggregates, aggregate metrics for public landing-page URLs, and URL-level Google index status. Exact query rows stay in the encrypted private evidence channel.',
+    'This issue intentionally contains no Search Console query strings and no query-to-landing-page pairs. It exposes only site-wide aggregates, aggregate metrics for public landing-page URLs, URL-level Google index status, and public source modification dates. Exact query rows stay in the encrypted private evidence channel.',
     '',
   ];
   return lines.join('\n');
@@ -159,7 +246,10 @@ async function main() {
     fs.readFile(args.searchReport, 'utf8'),
     fs.readFile(args.indexReport, 'utf8'),
   ]);
-  const rendered = buildSafeSnapshot(JSON.parse(searchRaw), JSON.parse(indexRaw), { runUrl: args.runUrl });
+  const searchReport = JSON.parse(searchRaw);
+  const indexReport = JSON.parse(indexRaw);
+  const sourceModifiedByPath = await loadSourceModifiedDates(indexReport.results, ROOT);
+  const rendered = buildSafeSnapshot(searchReport, indexReport, { runUrl: args.runUrl, sourceModifiedByPath });
   if (args.output) {
     await fs.mkdir(path.dirname(args.output), { recursive: true });
     await fs.writeFile(args.output, `${rendered}\n`, { encoding: 'utf8', mode: 0o600 });
