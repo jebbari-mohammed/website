@@ -10,6 +10,7 @@ const RELEASED_REHABILITATIONS = [
   '/blog/best-app-to-track-progressive-overload-automatically',
   '/blog/best-workout-app-with-meal-planning-included',
   '/blog/ai-workout-generator-beginners',
+  '/blog/fitness-app-crowded-gyms-adapts-workout',
 ];
 const VIDEO_IDS = [
   'FeHyZads8i8',
