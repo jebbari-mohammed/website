@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Personal Trainer Cost Calculator</title>
+  <desc id="desc">IZEM social card for a personal trainer cost calculator and AI coaching comparison.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#071019"/>
+      <stop offset="58%" stop-color="#102331"/>
+      <stop offset="100%" stop-color="#22311F"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6EE7DE"/>
+      <stop offset="100%" stop-color="#FBBF24"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="8" fill="url(#accent)"/>
+  <rect x="70" y="74" width="268" height="44" rx="22" fill="#0F2B34" stroke="#6EE7DE" stroke-opacity=".42"/>
+  <text x="94" y="103" fill="#A8FFF3" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="800">FREE CALCULATOR</text>
+  <text x="70" y="214" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="68" font-weight="900">Personal Trainer</text>
+  <text x="70" y="292" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="68" font-weight="900">Cost Calculator</text>
+  <text x="70" y="360" fill="#D1DCE7" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="600">Compare sessions, online coaching, apps, and IZEM.</text>
+  <g transform="translate(742 118)">
+    <rect width="318" height="356" rx="18" fill="#101B2A" stroke="#FFFFFF" stroke-opacity=".13"/>
+    <rect x="28" y="34" width="262" height="54" rx="8" fill="#07111E"/>
+    <text x="50" y="69" fill="#A8FFF3" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">$75 x 2 x 4.33</text>
+    <rect x="28" y="112" width="262" height="54" rx="8" fill="#07111E"/>
+    <text x="50" y="147" fill="#FBBF24" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">$649.50 / month</text>
+    <rect x="28" y="190" width="262" height="54" rx="8" fill="#07111E"/>
+    <text x="50" y="225" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">IZEM: $24.99</text>
+    <rect x="28" y="268" width="262" height="54" rx="8" fill="url(#accent)"/>
+    <text x="50" y="303" fill="#061718" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="900">Choose by support</text>
+  </g>
+  <rect x="70" y="508" width="1060" height="1" fill="#FFFFFF" opacity=".12"/>
+  <text x="70" y="560" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="900">IZEM</text>
+  <text x="952" y="560" fill="#9AA9B9" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="600">youraicoach.life</text>
+</svg>
