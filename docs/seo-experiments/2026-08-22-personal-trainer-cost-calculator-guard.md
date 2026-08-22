@@ -1,6 +1,6 @@
 # SEO Experiment: Personal Trainer Cost Calculator Launch Guard
 
-- **Status:** implementation
+- **Status:** launched
 - **Launch date:** 2026-08-22
 - **Action class:** measurement / production SEO guard
 - **Protected URL:** `/blog/personal-trainer-cost-calculator`
@@ -71,6 +71,20 @@ Generalize the existing rehabilitation guard into a protected indexable-asset gu
 
 The compliance workflow now triggers whenever the calculator page changes.
 
+## Immediate launch result
+
+The post-merge Search Console health run `32593804761` completed and included the calculator in the fixed 25-URL inspection set with **0 URL Inspection API errors**.
+
+The site-wide inspection state improved to **20 indexed / 5 neutral-or-unknown / 0 API errors**. For the new calculator specifically, Google currently reports:
+
+- verdict: **NEUTRAL**;
+- coverage: **URL is unknown to Google**;
+- source modified: **2026-08-22**;
+- last crawl: **none**;
+- crawl state: **Discovery pending**.
+
+That is the expected launch baseline for a same-day URL, not a reason to rewrite the page. The next decision should measure discovery and crawl progression rather than change content.
+
 ## Hypothesis
 
 A new linkable calculator should not be materially rewritten before Google has had time to discover and test it, but its crawl/index state and critical SEO invariants should be observable immediately. Protecting the URL now will catch accidental noindex/canonical/sitemap regressions and give the next SEO cycle direct Google state without creating a second content experiment today.
@@ -79,21 +93,22 @@ A new linkable calculator should not be materially rewritten before Google has h
 
 - Calculator publication date: 2026-08-22.
 - Search Console rows for the new URL: 0 expected at launch.
-- Fixed URL Inspection coverage: calculator absent.
-- Live SEO invariant coverage: calculator absent.
+- Fixed URL Inspection coverage before this action: calculator absent.
+- Live SEO invariant coverage before this action: calculator absent.
+- First post-launch Google state: URL unknown to Google / no crawl recorded / discovery pending.
 - Production source state: indexable, self-canonical, included in sitemap.
 
 ## Target metrics
 
-1. The post-merge Search Console health run inspects the calculator with 0 API errors.
-2. The live compliance run confirms HTTP 200, indexable, self-canonical, quarantine-free, and sitemap-included.
+1. The post-merge Search Console health run inspects the calculator with 0 API errors. **Achieved.**
+2. The live compliance guard continues to enforce HTTP 200, indexable, self-canonical, quarantine-free, and sitemap-included state.
 3. Google changes the URL from unknown/discovery state to crawled/indexed over the normal discovery window.
 4. The calculator begins receiving impressions without cannibalizing the existing trainer-alternative guide.
 5. No material content rewrite before 2026-09-12 unless a factual, rendering, canonical, schema, or indexing defect appears.
 
 ## Review window
 
-- **Immediate technical review:** post-merge live compliance and URL Inspection runs.
+- **Immediate technical review:** completed for fixed URL Inspection; production invariant guard is merged and active.
 - **First discovery/index review:** 2026-08-24 or later.
 - **Earliest title/snippet review:** 14 days after first meaningful Search Console impressions.
 - **Earliest material content review:** 2026-09-12.
