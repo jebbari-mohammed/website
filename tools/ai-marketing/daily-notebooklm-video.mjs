@@ -580,10 +580,12 @@ function embedVideoInPost(post, youtubeUrl, notebookId) {
 
   if (/<!-- (NOTEBOOKLM|IZEM)_VIDEO_START -->/.test(html)) {
     html = html.replace(/<!-- (NOTEBOOKLM|IZEM)_VIDEO_START -->[\s\S]*?<!-- (NOTEBOOKLM|IZEM)_VIDEO_END -->/, block);
-  } else if (/<article[^>]*>/i.test(html)) {
-    html = html.replace(/<article[^>]*>/i, match => `${match}\n${block}`);
-  } else if (/<main[^>]*>/i.test(html)) {
-    html = html.replace(/<main[^>]*>/i, match => `${match}\n${block}`);
+  } else if (/<main\b[^>]*>\s*<article\b[^>]*>/i.test(html)) {
+    html = html.replace(/<main\b[^>]*>\s*<article\b[^>]*>/i, match => `${match}\n${block}`);
+  } else if (/<main\b[^>]*>/i.test(html)) {
+    html = html.replace(/<main\b[^>]*>/i, match => `${match}\n${block}`);
+  } else if (/<article\b[^>]*>/i.test(html)) {
+    html = html.replace(/<article\b[^>]*>/i, match => `${match}\n${block}`);
   } else if (/<h1[^>]*>[\s\S]*?<\/h1>/i.test(html)) {
     html = html.replace(/<h1[^>]*>[\s\S]*?<\/h1>/i, match => `${match}\n${block}`);
   } else {
