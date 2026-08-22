@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/2neixggBng0/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/2neixggBng0/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Personal Trainer Cost Calculator: Compare Monthly Options</video:title>
+      <video:description>Use IZEM&apos;s personal trainer cost calculator to compare in-person sessions, online coaching, fitness apps, and a premium AI coach around your real quote.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/2neixggBng0</video:player_loc>
+      <video:publication_date>2026-08-22T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/9yyU_thHiL0/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/9yyU_thHiL0/hqdefault.jpg</video:thumbnail_loc>

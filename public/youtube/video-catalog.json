@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "2neixggBng0",
+      "title": "Personal Trainer Cost Calculator: Compare Monthly Options",
+      "description": "Use IZEM's personal trainer cost calculator to compare in-person sessions, online coaching, fitness apps, and a premium AI coach around your real quote.",
+      "uploadDate": "2026-08-22",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/personal-trainer-cost-calculator",
+          "relativePath": "blog/personal-trainer-cost-calculator.html",
+          "title": "Personal Trainer Cost Calculator: Compare Monthly Options"
+        }
+      ]
+    },
+    {
       "id": "9yyU_thHiL0",
       "title": "Progressive Overload Tracker Template (Free CSV)",
       "description": "Use IZEM’s free progressive overload tracker template to log load, reps, effort, notes, and your next-session target. Private in-browser tool with CSV export.",
