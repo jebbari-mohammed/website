@@ -5,12 +5,13 @@ import path from 'node:path';
 
 const SITE = 'https://youraicoach.life';
 const CITY_DIR = path.resolve('public/best-ai-fitness-app');
-const RELEASED_REHABILITATIONS = [
+const RELEASED_INDEXABLE_ASSETS = [
   '/blog/ai-personal-trainer-that-actually-works',
   '/blog/best-app-to-track-progressive-overload-automatically',
   '/blog/best-workout-app-with-meal-planning-included',
   '/blog/ai-workout-generator-beginners',
   '/blog/fitness-app-crowded-gyms-adapts-workout',
+  '/blog/personal-trainer-cost-calculator',
 ];
 const VIDEO_IDS = [
   'FeHyZads8i8',
@@ -102,7 +103,7 @@ async function siteChecks() {
     });
   }
 
-  for (const pathname of RELEASED_REHABILITATIONS) {
+  for (const pathname of RELEASED_INDEXABLE_ASSETS) {
     const page = await fetchText(`${SITE}${pathname}`);
     const expectedCanonical = `${SITE}${pathname}`;
     const quarantineCleared =
@@ -115,7 +116,7 @@ async function siteChecks() {
       quarantineCleared &&
       sitemapIncluded;
     checks.push({
-      label: `${pathname} rehabilitation`,
+      label: `${pathname} indexable asset`,
       ok,
       detail: `HTTP ${page.status}, indexable=${!hasNoindex(page.text)}, canonical=${canonical(page.text)}, quarantine-cleared=${quarantineCleared}, sitemap-included=${sitemapIncluded}`,
     });
@@ -150,7 +151,7 @@ async function main() {
       for (const check of last) console.log(`- ${check.ok ? 'PASS' : 'FAIL'} ${check.label}: ${check.detail}`);
       if (!failures.length) {
         if (process.env.GITHUB_STEP_SUMMARY) {
-          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Live SEO compliance\n- Homepage and SEO marker: passed\n- City relocation pages: 20/20 passed\n- Released legacy rehabilitations: ${RELEASED_REHABILITATIONS.length}/${RELEASED_REHABILITATIONS.length} passed\n- Normal and News sitemaps: passed\n- Misleading YouTube reviews unavailable: ${VIDEO_IDS.length}/${VIDEO_IDS.length}\n`);
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Live SEO compliance\n- Homepage and SEO marker: passed\n- City relocation pages: 20/20 passed\n- Protected indexable search assets: ${RELEASED_INDEXABLE_ASSETS.length}/${RELEASED_INDEXABLE_ASSETS.length} passed\n- Normal and News sitemaps: passed\n- Misleading YouTube reviews unavailable: ${VIDEO_IDS.length}/${VIDEO_IDS.length}\n`);
         }
         console.log('Live SEO compliance passed completely.');
         return;
