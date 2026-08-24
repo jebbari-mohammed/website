@@ -1,8 +1,12 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
 import { buildInspectionPriority, searchAnalyticsLandingPages } from './gsc-index-priority.mjs';
 
 const SITE = 'https://youraicoach.life/';
+const HERE = path.dirname(fileURLToPath(import.meta.url));
 
 function report(rows) {
   return {
@@ -93,4 +97,10 @@ test('fails closed when fixed priorities alone exceed the cap', () => {
 test('returns no dynamic candidates when the Search Analytics report lacks the page dimension', () => {
   const result = searchAnalyticsLandingPages({ dimensions: ['query'], rows: [{ keys: ['x'], impressions: 4 }] }, SITE);
   assert.deepEqual(result, []);
+});
+
+test('fixed URL Inspection config targets the canonical workout consistency URL', () => {
+  const source = fs.readFileSync(path.join(HERE, 'gsc-index-inspection.mjs'), 'utf8');
+  assert.match(source, /'https:\/\/youraicoach\.life\/workout-consistency-calculator\/'/);
+  assert.doesNotMatch(source, /'https:\/\/youraicoach\.life\/workout-consistency-calculator'(?:,|\s)/);
 });
