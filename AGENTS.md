@@ -48,6 +48,16 @@ A new URL may be published only when all of these are true:
 - Preserve recent experiments and unrelated newer work.
 - Prefer a new non-overlapping keyword opportunity over repeatedly polishing a page that Google has not yet recrawled.
 
+### Active experiment locks
+
+Before editing any existing public page or homepage component, read `config/seo-active-experiments.json`.
+
+- If the target file is listed in an active lock, do not modify it before `lockUntil`.
+- A lock may be shortened or removed early only for a documented factual, legal, safety, rendering, indexing, canonical, or deployment correction. Record the reason in the same reviewed change.
+- New material experiments should add or refresh their target-file lock so the repository can enforce the evaluation window mechanically.
+- Do not bypass a lock merely because a new query appears or because another agent proposes a rewrite. Wait for the existing test to mature unless the documented exception is stronger than preserving attribution.
+- Pull requests and pushes touching protected targets are checked by `.github/workflows/seo-active-experiment-guard.yml`.
+
 ## Exceptions to the new-post default
 
 Technical or existing-page work may win when it has clearly higher expected value, especially when deployment, indexability, crawlability, canonicalization, rendering, schema, safety, legal accuracy, or site-wide discovery is broken; when GSC shows a strong near-ranking or CTR opportunity; when a mature experiment needs evaluation; or when no new keyword passes the publication gates.

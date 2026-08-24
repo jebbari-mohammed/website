@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-24",
+  "policy": {
+    "defaultMaterialRewriteMinimumDays": 21,
+    "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
+  },
+  "locks": [
+    {
+      "id": "progressive-overload-comparison-2026-08-16",
+      "url": "/blog/best-app-to-track-progressive-overload-automatically",
+      "files": [
+        "public/blog/best-app-to-track-progressive-overload-automatically.html"
+      ],
+      "launchedAt": "2026-08-16",
+      "lockUntil": "2026-09-06",
+      "preferredReviewAt": "2026-09-13",
+      "reason": "Material rehabilitation is awaiting Google recrawl and needs the 21-day minimum rewrite window."
+    },
+    {
+      "id": "personal-trainer-cost-calculator-2026-08-22",
+      "url": "/blog/personal-trainer-cost-calculator",
+      "files": [
+        "public/blog/personal-trainer-cost-calculator.html"
+      ],
+      "launchedAt": "2026-08-22",
+      "lockUntil": "2026-09-12",
+      "preferredReviewAt": "2026-09-21",
+      "reason": "New search asset needs a clean discovery/indexing and early Search Analytics window before a material rewrite."
+    },
+    {
+      "id": "progressive-overload-missed-target-2026-08-23",
+      "url": "/blog/cant-add-weight-progressive-overload",
+      "files": [
+        "public/blog/cant-add-weight-progressive-overload.html"
+      ],
+      "launchedAt": "2026-08-23",
+      "lockUntil": "2026-09-13",
+      "preferredReviewAt": "2026-09-21",
+      "reason": "New missed-target guide is still in discovery and should not be rewritten before the 21-day minimum."
+    },
+    {
+      "id": "workout-reminder-material-refresh-2026-08-24",
+      "url": "/blog/workout-reminder-app-that-calls-you",
+      "files": [
+        "public/blog/workout-reminder-app-that-calls-you.html"
+      ],
+      "launchedAt": "2026-08-24",
+      "lockUntil": "2026-09-14",
+      "preferredReviewAt": "2026-09-21",
+      "reason": "The August 24 material refresh reset the page experiment. Protect title, metadata, H1, and body for the 21-day minimum unless a documented exception applies."
+    }
+  ]
+}

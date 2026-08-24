@@ -1,0 +1,75 @@
+name: SEO active experiment guard
+
+on:
+  pull_request:
+    paths:
+      - 'public/**/*.html'
+      - 'src/**'
+      - 'config/seo-active-experiments.json'
+      - 'tools/ai-marketing/seo-active-experiment-guard.mjs'
+      - 'tools/ai-marketing/seo-active-experiment-guard.test.mjs'
+      - '.github/workflows/seo-active-experiment-guard.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'public/**/*.html'
+      - 'src/**'
+      - 'config/seo-active-experiments.json'
+      - 'tools/ai-marketing/seo-active-experiment-guard.mjs'
+      - 'tools/ai-marketing/seo-active-experiment-guard.test.mjs'
+      - '.github/workflows/seo-active-experiment-guard.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    name: Protect active SEO experiments
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Test experiment-lock logic
+        run: node --test tools/ai-marketing/seo-active-experiment-guard.test.mjs
+
+      - name: Verify configured target files exist
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('fs');
+          const config = JSON.parse(fs.readFileSync('config/seo-active-experiments.json', 'utf8'));
+          for (const lock of config.locks || []) {
+            for (const file of lock.files || []) {
+              if (!fs.existsSync(file)) throw new Error(`Active experiment ${lock.id} references a missing file: ${file}`);
+            }
+          }
+          console.log(`Verified ${(config.locks || []).length} active experiment lock(s).`);
+          NODE
+
+      - name: Enforce active target locks
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            node tools/ai-marketing/seo-active-experiment-guard.mjs --base "$PR_BASE_SHA" --head "$PR_HEAD_SHA"
+          elif [ "$EVENT_NAME" = "push" ]; then
+            node tools/ai-marketing/seo-active-experiment-guard.mjs --base "$PUSH_BEFORE_SHA" --head "$CURRENT_SHA"
+          else
+            node tools/ai-marketing/seo-active-experiment-guard.mjs --head HEAD
+          fi
