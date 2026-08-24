@@ -35,6 +35,7 @@ const DEFAULT_URLS = [
   'https://youraicoach.life/blog/progressive-overload-tracker-template',
   'https://youraicoach.life/blog/personal-trainer-cost-calculator',
   'https://youraicoach.life/blog/fitness-app-crowded-gyms-adapts-workout',
+  'https://youraicoach.life/blog/cant-add-weight-progressive-overload',
 ];
 
 function base64url(value) {
@@ -139,89 +140,68 @@ async function inspectUrl(accessToken, inspectionUrl) {
   });
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(`URL Inspection API HTTP ${response.status}: ${safe(payload?.error?.message || payload?.error || '')}`);
+    return {
+      url: inspectionUrl,
+      status: 'api_error',
+      httpStatus: response.status,
+      error: safe(payload.error?.message || payload.error || ''),
+    };
   }
-  const result = payload?.inspectionResult?.indexStatusResult || {};
+
+  const result = payload.inspectionResult?.indexStatusResult || {};
   return {
     url: inspectionUrl,
-    verdict: result.verdict || 'UNKNOWN',
-    coverageState: result.coverageState || 'Unknown',
-    robotsTxtState: result.robotsTxtState || 'UNKNOWN',
-    indexingState: result.indexingState || 'UNKNOWN',
-    pageFetchState: result.pageFetchState || 'UNKNOWN',
-    lastCrawlTime: result.lastCrawlTime || null,
-    crawledAs: result.crawledAs || 'UNKNOWN',
-    googleCanonical: result.googleCanonical || null,
-    userCanonical: result.userCanonical || null,
-    referringUrls: Array.isArray(result.referringUrls) ? result.referringUrls.slice(0, 5) : [],
-    sitemap: Array.isArray(result.sitemap) ? result.sitemap.slice(0, 5) : [],
+    status: 'ok',
+    verdict: result.verdict || 'VERDICT_UNSPECIFIED',
+    coverageState: result.coverageState || '',
+    robotsTxtState: result.robotsTxtState || '',
+    indexingState: result.indexingState || '',
+    pageFetchState: result.pageFetchState || '',
+    googleCanonical: result.googleCanonical || '',
+    userCanonical: result.userCanonical || '',
+    lastCrawlTime: result.lastCrawlTime || '',
+    crawledAs: result.crawledAs || '',
   };
-}
-
-function bucket(result) {
-  if (result.verdict === 'PASS') return 'indexed';
-  if (result.verdict === 'FAIL') return 'notIndexed';
-  return 'unknown';
-}
-
-function pathname(value) {
-  const url = new URL(value);
-  return `${url.pathname}${url.search}` || '/';
 }
 
 async function main() {
-  const source = discoverCredentialSource(process.env);
-  if (!source) throw new Error('No Google service-account JSON is configured');
-  const credentials = parseServiceAccountCredential(process.env[source], source);
+  const source = discoverCredentialSource();
+  if (!source) throw new Error('No Search Console service-account credential is configured');
+  const credentials = parseServiceAccountCredential(source.raw, source.label);
   const accessToken = await getAccessToken(credentials);
   const urls = await inspectionUrls();
   const results = [];
-  const apiErrors = [];
-
-  for (const url of urls) {
-    try {
-      results.push(await inspectUrl(accessToken, url));
-    } catch (error) {
-      apiErrors.push({ url, error: safe(error instanceof Error ? error.message : String(error)) });
-    }
-  }
-
-  const counts = results.reduce((sum, result) => {
-    sum[bucket(result)] += 1;
-    return sum;
-  }, { indexed: 0, notIndexed: 0, unknown: 0 });
-
-  const report = {
+  for (const url of urls) results.push(await inspectUrl(accessToken, url));
+  const apiErrors = results.filter((result) => result.status === 'api_error');
+  const indexed = results.filter((result) => result.status === 'ok' && result.verdict === 'PASS').length;
+  const notIndexed = results.filter((result) => result.status === 'ok' && result.verdict === 'FAIL').length;
+  const unknown = results.filter((result) => result.status === 'ok' && !['PASS', 'FAIL'].includes(result.verdict)).length;
+  const output = {
     site: SITE,
-    inspectedAt: new Date().toISOString(),
+    fetchedAt: new Date().toISOString(),
     requested: urls.length,
     inspected: results.length,
-    apiErrors,
-    counts,
+    indexed,
+    notIndexed,
+    unknown,
+    apiErrors: apiErrors.length,
     results,
   };
   await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
-  await fs.writeFile(OUTPUT, `${JSON.stringify(report, null, 2)}\n`, { encoding: 'utf8', mode: 0o600 });
-
-  await setOutput('requested_count', urls.length);
-  await setOutput('inspected_count', results.length);
-  await setOutput('indexed_count', counts.indexed);
-  await setOutput('not_indexed_count', counts.notIndexed);
-  await setOutput('unknown_count', counts.unknown);
-  await setOutput('api_error_count', apiErrors.length);
-
-  console.log(`GSC index inspection: ${counts.indexed}/${results.length} inspected URLs indexed; ${counts.notIndexed} not indexed; ${counts.unknown} unknown; ${apiErrors.length} API error(s).`);
-  for (const result of results) {
-    console.log(`- ${pathname(result.url)}: verdict=${result.verdict}; coverage=${safe(result.coverageState)}; crawl=${result.lastCrawlTime || 'none'}`);
-  }
-  for (const item of apiErrors) {
-    console.log(`- ${pathname(item.url)}: inspection error=${item.error}`);
-  }
-
-  if (apiErrors.length > 0) throw new Error(`URL Inspection API failed for ${apiErrors.length}/${urls.length} configured URL(s)`);
+  await fs.writeFile(OUTPUT, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
+  await Promise.all([
+    setOutput('inspected_count', results.length),
+    setOutput('indexed_count', indexed),
+    setOutput('not_indexed_count', notIndexed),
+    setOutput('unknown_count', unknown),
+    setOutput('api_error_count', apiErrors.length),
+  ]);
+  console.log(`URL Inspection checked ${results.length} URL(s): ${indexed} indexed, ${notIndexed} not indexed, ${unknown} neutral/unknown, ${apiErrors.length} API error(s).`);
+  for (const item of apiErrors) console.warn(`Inspection API error for ${item.url}: HTTP ${item.httpStatus} ${item.error}`);
+  if (apiErrors.length) process.exitCode = 1;
 }
 
 main().catch((error) => {
-  console.error(`GSC index inspection failed: ${safe(error instanceof Error ? error.message : String(error))}`);
+  console.error(`URL Inspection failed: ${error instanceof Error ? error.message : String(error)}`);
   process.exitCode = 1;
 });
