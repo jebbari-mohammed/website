@@ -35,6 +35,7 @@ const DEFAULT_URLS = [
   'https://youraicoach.life/blog/progressive-overload-tracker-template',
   'https://youraicoach.life/blog/personal-trainer-cost-calculator',
   'https://youraicoach.life/blog/fitness-app-crowded-gyms-adapts-workout',
+  'https://youraicoach.life/blog/cant-add-weight-progressive-overload',
 ];
 
 function base64url(value) {

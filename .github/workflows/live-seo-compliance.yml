@@ -16,6 +16,7 @@ on:
       - 'public/blog/ai-workout-generator-beginners.html'
       - 'public/blog/fitness-app-crowded-gyms-adapts-workout.html'
       - 'public/blog/personal-trainer-cost-calculator.html'
+      - 'public/blog/cant-add-weight-progressive-overload.html'
 
 permissions:
   contents: read
