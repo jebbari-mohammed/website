@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-24",
+  "updatedAt": "2026-08-25",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -49,6 +49,17 @@
       "lockUntil": "2026-09-14",
       "preferredReviewAt": "2026-09-21",
       "reason": "The August 24 material refresh reset the page experiment. Protect title, metadata, H1, and body for the 21-day minimum unless a documented exception applies."
+    },
+    {
+      "id": "gym-accountability-material-refresh-2026-08-25",
+      "url": "/blog/best-accountability-app-for-gym",
+      "files": [
+        "public/blog/best-accountability-app-for-gym.html"
+      ],
+      "launchedAt": "2026-08-25",
+      "lockUntil": "2026-09-15",
+      "preferredReviewAt": "2026-09-22",
+      "reason": "The August 25 title, H1, comparison landscape, FAQ, and internal-link refresh needs a clean Google recrawl and 21-day minimum evaluation window before another material rewrite."
     }
   ]
 }
