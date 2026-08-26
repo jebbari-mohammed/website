@@ -18,6 +18,17 @@
       "reason": "Material rehabilitation is awaiting Google recrawl and needs the 21-day minimum rewrite window."
     },
     {
+      "id": "workout-meal-planning-rehabilitation-2026-08-17",
+      "url": "/blog/best-workout-app-with-meal-planning-included",
+      "files": [
+        "public/blog/best-workout-app-with-meal-planning-included.html"
+      ],
+      "launchedAt": "2026-08-17",
+      "lockUntil": "2026-09-07",
+      "preferredReviewAt": "2026-09-16",
+      "reason": "The August 17 FUEL-method rehabilitation is now crawled and has grown from 2 launch impressions to 6. Its original experiment explicitly forbids material rewrites before September 7; protect the clean evaluation window."
+    },
+    {
       "id": "personal-trainer-cost-calculator-2026-08-22",
       "url": "/blog/personal-trainer-cost-calculator",
       "files": [
