@@ -18,6 +18,7 @@ const DEFAULT_URLS = [
   'https://youraicoach.life/ai-fitness-coach',
   'https://youraicoach.life/izem-ai-fitness-coach/',
   'https://youraicoach.life/best-ai-fitness-app',
+  'https://youraicoach.life/features/ai-workout-generator',
   'https://youraicoach.life/workout-consistency-calculator/',
   'https://youraicoach.life/blog/accountability-apps-for-working-out',
   'https://youraicoach.life/blog/best-accountability-app-for-gym',
