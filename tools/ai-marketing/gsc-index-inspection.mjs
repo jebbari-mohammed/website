@@ -18,6 +18,7 @@ const DEFAULT_URLS = [
   'https://youraicoach.life/ai-fitness-coach',
   'https://youraicoach.life/izem-ai-fitness-coach/',
   'https://youraicoach.life/best-ai-fitness-app',
+  'https://youraicoach.life/features/ai-workout-generator',
   'https://youraicoach.life/workout-consistency-calculator/',
   'https://youraicoach.life/blog/accountability-apps-for-working-out',
   'https://youraicoach.life/blog/best-accountability-app-for-gym',
@@ -110,7 +111,9 @@ async function getAccessToken(credentials) {
   const signature = crypto.sign('RSA-SHA256', Buffer.from(unsigned), crypto.createPrivateKey(credentials.private_key));
   const response = await fetch(tokenUri, {
     method: 'POST',
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+    },
     body: new URLSearchParams({
       grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
       assertion: `${unsigned}.${base64url(signature)}`,
