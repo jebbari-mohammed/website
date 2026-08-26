@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-25",
+  "updatedAt": "2026-08-26",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -60,6 +60,17 @@
       "lockUntil": "2026-09-15",
       "preferredReviewAt": "2026-09-22",
       "reason": "The August 25 title, H1, comparison landscape, FAQ, and internal-link refresh needs a clean Google recrawl and 21-day minimum evaluation window before another material rewrite."
+    },
+    {
+      "id": "ai-workout-generator-first-click-observation-2026-08-26",
+      "url": "/features/ai-workout-generator",
+      "files": [
+        "public/features/ai-workout-generator.html"
+      ],
+      "launchedAt": "2026-08-26",
+      "lockUntil": "2026-09-16",
+      "preferredReviewAt": "2026-09-23",
+      "reason": "The broad AI workout generator feature page produced IZEM's first verified organic click, including a top-10 exact-intent impression. Preserve the current winning version while the signal matures instead of rewriting it from a one-click sample."
     }
   ]
 }
