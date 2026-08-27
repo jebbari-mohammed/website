@@ -2,7 +2,8 @@ name: Search Console health check
 
 on:
   schedule:
-    - cron: '7 7 * * *'
+    # Leave a wide morning buffer because GitHub scheduled workflows can be delayed under load.
+    - cron: '37 5 * * *'
   workflow_dispatch:
   push:
     branches: [main]
