@@ -46,6 +46,61 @@ test('allows the protected target after the lock window expires', () => {
   assert.deepEqual(violations, []);
 });
 
+test('allows a target when its lock is introduced by the same launch change', () => {
+  const launchConfig = {
+    version: 1,
+    locks: [
+      ...config.locks,
+      {
+        id: 'new-voice-test',
+        url: '/blog/voice-coaching',
+        files: ['public/blog/voice-coaching.html'],
+        launchedAt: '2026-08-27',
+        lockUntil: '2026-09-17',
+        preferredReviewAt: '2026-09-24',
+        reason: 'Protect the newly launched test after this change.',
+      },
+    ],
+  };
+  const violations = findActiveLockViolations(
+    ['public/blog/voice-coaching.html', 'config/seo-active-experiments.json'],
+    launchConfig,
+    new Date('2026-08-27T12:00:00Z'),
+    { enforceLockIds: new Set(['reminder-test']) },
+  );
+  assert.deepEqual(violations, []);
+});
+
+test('still blocks a pre-existing target when the same change introduces another lock', () => {
+  const launchConfig = {
+    version: 1,
+    locks: [
+      ...config.locks,
+      {
+        id: 'new-voice-test',
+        url: '/blog/voice-coaching',
+        files: ['public/blog/voice-coaching.html'],
+        launchedAt: '2026-08-27',
+        lockUntil: '2026-09-17',
+        preferredReviewAt: '2026-09-24',
+        reason: 'Protect the newly launched test after this change.',
+      },
+    ],
+  };
+  const violations = findActiveLockViolations(
+    [
+      'public/blog/workout-reminder-app-that-calls-you.html',
+      'public/blog/voice-coaching.html',
+      'config/seo-active-experiments.json',
+    ],
+    launchConfig,
+    new Date('2026-08-27T12:00:00Z'),
+    { enforceLockIds: new Set(['reminder-test']) },
+  );
+  assert.equal(violations.length, 1);
+  assert.equal(violations[0].id, 'reminder-test');
+});
+
 test('fails configuration validation for duplicate lock ids', () => {
   assert.throws(
     () => validateConfig({ version: 1, locks: [config.locks[0], config.locks[0]] }),
