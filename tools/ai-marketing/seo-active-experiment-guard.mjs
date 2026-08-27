@@ -67,14 +67,23 @@ export function validateConfig(config) {
   return config;
 }
 
-export function findActiveLockViolations(changedFiles, config, now = new Date()) {
+export function findActiveLockViolations(changedFiles, config, now = new Date(), options = {}) {
   validateConfig(config);
   const instant = now instanceof Date ? now : new Date(now);
   if (Number.isNaN(instant.getTime())) throw new Error('Guard received an invalid current time');
   const changed = new Set(changedFiles.map((file) => String(file).trim()).filter(Boolean));
+  const enforceLockIds = options.enforceLockIds == null
+    ? null
+    : new Set(Array.from(options.enforceLockIds, (id) => String(id)));
   const violations = [];
 
   for (const lock of config.locks) {
+    // A lock introduced by this same change is the launch boundary, not an
+    // already-active experiment. It starts protecting the target on the next
+    // change. Pre-existing locks remain enforced even when the config file is
+    // also edited in the current PR.
+    if (enforceLockIds && !enforceLockIds.has(lock.id)) continue;
+
     const unlock = new Date(`${lock.lockUntil}T23:59:59.999Z`);
     if (instant > unlock) continue;
     const touched = lock.files.filter((file) => changed.has(file));
@@ -107,11 +116,37 @@ function changedFilesBetween(base, head) {
     .filter(Boolean);
 }
 
+function lockIdsAtBase(base, configPath) {
+  if (!base || /^0+$/.test(base)) return null;
+
+  const relativeConfig = path.relative(ROOT, configPath).split(path.sep).join('/');
+  if (relativeConfig.startsWith('../') || path.isAbsolute(relativeConfig)) {
+    // A custom config outside the repository cannot be reconstructed from Git.
+    // Preserve the conservative historical behavior and enforce every lock.
+    return null;
+  }
+
+  let raw;
+  try {
+    raw = git(['show', `${base}:${relativeConfig}`]);
+  } catch (error) {
+    const stderr = String(error?.stderr || '');
+    if (/does not exist in|exists on disk, but not in|Path .* does not exist/i.test(stderr)) return new Set();
+    throw new Error(`Could not read the active-experiment config at base ${base}: ${error instanceof Error ? error.message : String(error)}`);
+  }
+
+  const baseConfig = validateConfig(JSON.parse(raw));
+  return new Set(baseConfig.locks.map((lock) => lock.id));
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = validateConfig(JSON.parse(fs.readFileSync(args.config, 'utf8')));
   const changedFiles = changedFilesBetween(args.base, args.head);
-  const violations = findActiveLockViolations(changedFiles, config, new Date(args.now));
+  const baseLockIds = lockIdsAtBase(args.base, args.config);
+  const violations = findActiveLockViolations(changedFiles, config, new Date(args.now), {
+    enforceLockIds: baseLockIds,
+  });
 
   if (violations.length) {
     console.error(`SEO active-experiment guard blocked ${violations.length} protected target(s).`);
@@ -124,7 +159,13 @@ async function main() {
     return;
   }
 
-  console.log(`SEO active-experiment guard passed for ${changedFiles.length} changed file(s); no protected target was modified inside its lock window.`);
+  const introduced = baseLockIds
+    ? config.locks.filter((lock) => !baseLockIds.has(lock.id)).map((lock) => lock.id)
+    : [];
+  if (introduced.length) {
+    console.log(`SEO active-experiment guard accepted ${introduced.length} newly introduced launch lock(s): ${introduced.join(', ')}.`);
+  }
+  console.log(`SEO active-experiment guard passed for ${changedFiles.length} changed file(s); no pre-existing protected target was modified inside its lock window.`);
 }
 
 const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
