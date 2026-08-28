@@ -93,6 +93,17 @@
       "lockUntil": "2026-09-17",
       "preferredReviewAt": "2026-09-24",
       "reason": "The August 27 rehabilitation replaces unsupported voice-vs-chatbot claims with an intent-specific framework for voice notes, spoken cues, live voice chat, and proactive calls. Preserve the new title, H1, body, schema, and internal-link package for the 21-day minimum."
+    },
+    {
+      "id": "fallback-workouts-busy-days-rehabilitation-2026-08-27",
+      "url": "/blog/fitness-app-with-fallback-workouts-busy-days",
+      "files": [
+        "public/blog/fitness-app-with-fallback-workouts-busy-days.html"
+      ],
+      "launchedAt": "2026-08-27",
+      "lockUntil": "2026-09-17",
+      "preferredReviewAt": "2026-09-24",
+      "reason": "The August 27 evening rehabilitation converts a legacy noindex fallback-workout page into an indexable support asset for busy-day fallback sessions. Preserve the new title, metadata, body, schema, and internal-link package for the 21-day minimum."
     }
   ]
 }
