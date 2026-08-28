@@ -13,6 +13,7 @@ const RELEASED_INDEXABLE_ASSETS = [
   '/blog/fitness-app-crowded-gyms-adapts-workout',
   '/blog/personal-trainer-cost-calculator',
   '/blog/cant-add-weight-progressive-overload',
+  '/blog/fitness-app-with-fallback-workouts-busy-days',
 ];
 const VIDEO_IDS = [
   'FeHyZads8i8',
