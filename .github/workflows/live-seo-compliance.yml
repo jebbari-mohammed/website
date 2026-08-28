@@ -17,6 +17,7 @@ on:
       - 'public/blog/fitness-app-crowded-gyms-adapts-workout.html'
       - 'public/blog/personal-trainer-cost-calculator.html'
       - 'public/blog/cant-add-weight-progressive-overload.html'
+      - 'public/blog/fitness-app-with-fallback-workouts-busy-days.html'
 
 permissions:
   contents: read
