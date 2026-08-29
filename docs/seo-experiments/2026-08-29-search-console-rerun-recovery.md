@@ -1,6 +1,6 @@
 # SEO Experiment: Search Console Rerun Recovery
 
-- **Status:** launched
+- **Status:** completed successfully; reliability observation remains open
 - **Launch date:** 2026-08-29
 - **Action class:** first-party evidence reliability / SEO observability
 - **Owner:** ChatGPT senior SEO lead
@@ -38,42 +38,60 @@ Private authenticated decryption verified:
 - exact rows: **76**;
 - exact queries remained inside the private evidence boundary.
 
-The page-level aggregate is materially unchanged from the prior snapshot, so the fresh evidence does not justify overriding any active content experiment lock.
+The fresh Search Analytics aggregate remains **114 impressions, 1 click, 0.88% CTR, 17 landing pages, and weighted average position 59.63**. The page-level aggregate is materially unchanged from the prior snapshot, so the evidence does not justify overriding any active content experiment lock.
+
+## Recovery result
+
+The re-run completed successfully end to end:
+
+- Search Console ownership/API access: verified;
+- private evidence gate: 76 query + page rows available;
+- priority URLs inspected: 25;
+- indexed: 24;
+- explicitly not indexed: 0;
+- unknown/neutral: 1;
+- URL Inspection API errors: 0;
+- public-safe issue #34 refreshed to the August 1–28 reporting period;
+- exact queries remained private.
+
+The rerun also surfaced a useful crawl-state change that the stale morning snapshot could not show: Google crawled `/blog/best-app-to-track-progressive-overload-automatically` on **2026-08-29T01:32:52Z**, so the August 16 rehabilitation is now in Google's crawl state. The page remains protected through September 6, and the newly crawled version should accumulate Search Analytics evidence before another material edit.
+
+Four monitored pages still await Google recrawl after source changes: the gym-machines-vs-free-weights article, the AI personal-trainer rehabilitation, the fallback-workout rehabilitation, and the beginner AI-workout-generator article. Awaiting recrawl is an observation state, not an indexing failure.
 
 ## Opportunity shortlist
 
 1. **9.8/10 — recover same-day GSC evidence with a deterministic workflow re-run — chosen.** Highest confidence, no cannibalization, no public crawl churn, immediate feedback, and foundational to every later ranking decision.
-2. **8.9/10 — optimize `/blog/workout-reminder-app-that-calls-you`.** Strongest near-ranking unlocked-on-evidence candidate at 11 impressions and average position 20, but it is intentionally locked through September 14 after its August 24 material refresh.
+2. **8.9/10 — optimize `/blog/workout-reminder-app-that-calls-you`.** Strongest near-ranking candidate at 11 impressions and average position 20, but it is intentionally locked through September 14 after its August 24 material refresh.
 3. **8.7/10 — optimize `/blog/best-workout-app-with-meal-planning-included`.** 14 impressions at average position 32.86, but its rehabilitation is protected through September 7.
-4. **8.5/10 — refine `/blog/best-app-to-track-progressive-overload-automatically`.** Highest current impressions at 27, but the August 16 version still awaits recrawl and is protected through September 6.
+4. **8.6/10 — evaluate the newly recrawled progressive-overload comparison.** It leads the site at 27 impressions and is now crawl-current, but the fresh crawl happened only today and the page is protected through September 6. The correct next step is measurement, not an immediate rewrite.
 5. **7.4/10 — expand the comparison hub after an early Fitbod first-page impression.** Interesting but based on one impression; the existing comparison hub already has clear methodology, category organization, internal links, and a product CTA.
 
 ## Hypothesis
 
 When GitHub's scheduled event is delayed or missing before the SEO decision window, re-running the last known-good Search Console job can safely restore same-day first-party evidence without manufacturing a repository mutation or weakening experiment discipline.
 
-## Target metrics
+## Target metrics and outcome
 
-1. A fresh encrypted artifact exists on the recovery date.
-2. The decrypted report advances the reporting endpoint to the newest available day.
-3. Private query + page evidence remains encrypted outside the authorized private working context.
-4. URL Inspection completes with zero API errors.
-5. No public page, title, H1, schema, canonical, robots directive, sitemap URL, or internal link is changed solely to refresh evidence.
-6. No active SEO experiment lock is overridden because of stale morning evidence.
+1. **Fresh encrypted artifact on recovery date — achieved.**
+2. **Reporting endpoint advances to newest available day — achieved, August 28.**
+3. **Private query + page evidence remains protected — achieved.**
+4. **URL Inspection completes with zero API errors — achieved.**
+5. **No public SEO mutation solely to refresh evidence — achieved.**
+6. **No active experiment lock overridden — achieved.**
 
 ## Expected direction
 
-- Same-day evidence availability: increase.
-- Search Console decision confidence: increase.
-- Public crawl/content churn caused by observability: remain zero.
-- Exact-query leakage: remain zero.
-- Experiment contamination: decrease.
+- Same-day evidence availability: increased for this run.
+- Search Console decision confidence: increased.
+- Public crawl/content churn caused by observability: remained zero.
+- Exact-query leakage: remained zero.
+- Experiment contamination: avoided.
 
 ## Review window
 
-- **Immediate:** confirm the re-run completes URL Inspection and updates the public-safe snapshot.
 - **Next scheduled-run review:** 2026-08-30.
 - **Reliability review:** after several additional scheduled runs, rather than reacting to one delayed event.
+- **Progressive-overload earliest material-edit date:** 2026-09-06; evaluate post-recrawl Search Analytics before changing it.
 
 If scheduled runs repeatedly fail to arrive before the daily decision window, evaluate a more durable evidence-delivery architecture. Do not keep making small cron adjustments without evidence that a different minute materially improves GitHub's scheduling reliability.
 
