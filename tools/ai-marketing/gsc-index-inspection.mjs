@@ -23,7 +23,7 @@ const DEFAULT_URLS = [
   'https://youraicoach.life/blog/accountability-apps-for-working-out',
   'https://youraicoach.life/blog/best-accountability-app-for-gym',
   'https://youraicoach.life/blog/gym-machines-vs-free-weights',
-  'https://youraicoach.life/blog/strength-training-after-40-guide',
+  'https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines',
   'https://youraicoach.life/blog/weekly-fitness-check-in-template',
   'https://youraicoach.life/blog/workout-accountability-agreement-template',
   'https://youraicoach.life/blog/weekly-nutrition-check-in-template',

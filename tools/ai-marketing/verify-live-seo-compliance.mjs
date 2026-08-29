@@ -14,6 +14,7 @@ const RELEASED_INDEXABLE_ASSETS = [
   '/blog/personal-trainer-cost-calculator',
   '/blog/cant-add-weight-progressive-overload',
   '/blog/fitness-app-with-fallback-workouts-busy-days',
+  '/blog/workout-app-exercise-substitutions-busy-machines',
 ];
 const VIDEO_IDS = [
   'FeHyZads8i8',
