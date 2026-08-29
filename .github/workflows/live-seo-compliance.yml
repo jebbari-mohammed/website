@@ -18,6 +18,7 @@ on:
       - 'public/blog/personal-trainer-cost-calculator.html'
       - 'public/blog/cant-add-weight-progressive-overload.html'
       - 'public/blog/fitness-app-with-fallback-workouts-busy-days.html'
+      - 'public/blog/workout-app-exercise-substitutions-busy-machines.html'
 
 permissions:
   contents: read
