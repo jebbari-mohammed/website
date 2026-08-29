@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-27",
+  "updatedAt": "2026-08-29",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -104,6 +104,17 @@
       "lockUntil": "2026-09-17",
       "preferredReviewAt": "2026-09-24",
       "reason": "The August 27 evening rehabilitation converts a legacy noindex fallback-workout page into an indexable support asset for busy-day fallback sessions. Preserve the new title, metadata, body, schema, and internal-link package for the 21-day minimum."
+    },
+    {
+      "id": "busy-machine-substitution-refresh-2026-08-29",
+      "url": "/blog/workout-app-exercise-substitutions-busy-machines",
+      "files": [
+        "public/blog/workout-app-exercise-substitutions-busy-machines.html"
+      ],
+      "launchedAt": "2026-08-29",
+      "lockUntil": "2026-09-19",
+      "preferredReviewAt": "2026-09-26",
+      "reason": "The August 29 refresh targets workout-app exercise substitution intent with updated title metadata, a clearer busy-machine decision table, contextual links, and blog-index discovery. Preserve the refreshed page for a clean 21-day evaluation window."
     }
   ]
 }

@@ -34,8 +34,9 @@
   <text x="80" y="84" font-family="system-ui,-apple-system,sans-serif" font-size="18" font-weight="600" fill="#00D4FF">AI Fitness</text>
 
   <!-- Title -->
-  <text x="60" y="204" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Stop Waiting for the Lat Pulldown:</text>
-    <text x="60" y="276" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Best Apps for On-the-Fly Swaps</text>
+  <text x="60" y="204" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Workout App With</text>
+    <text x="60" y="276" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Exercise Substitutions</text>
+    <text x="60" y="348" font-family="system-ui,-apple-system,sans-serif" font-size="42" font-weight="700" fill="#BFEAF0">For busy gyms and taken machines</text>
 
   <!-- Bottom bar -->
   <rect x="0" y="560" width="1200" height="70" fill="rgba(0,0,0,0.3)"/>
@@ -47,5 +48,5 @@
   <text x="1140" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#475569" text-anchor="end">youraicoach.life</text>
 
   <!-- Decorative accent line -->
-  <rect x="60" y="372" width="80" height="4" rx="2" fill="url(#accent)"/>
+  <rect x="60" y="414" width="80" height="4" rx="2" fill="url(#accent)"/>
 </svg>
