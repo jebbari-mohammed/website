@@ -22,6 +22,8 @@ Public-safe observations:
 
 Live SERP review showed the workout-and-meal-plan space is active but not fully answered by the exact IZEM angle. Current visible pages include Strongr Fastr's combined workout and meal planner, TRL/ACTIVE's workout-app-with-meal-planning article, Apple's TrainAI listing, and Budy's AI workout-and-meal planner page. The common pattern is plan generation plus nutrition targets. The gap IZEM can own is what happens after the plan drifts: missed sessions, messy meals, busy gyms, proactive calls, day reviews, and weekly adaptation.
 
+A second same-day review found the broader live market continuing to emphasize connected workout + nutrition workflows and adaptation rather than static one-time plans. Current examples include Rizin's weekly Autopilot adjustments, Lumer's next-day adaptation after logged reality, Milo's plan changes after skipped sessions or messages, and FitRoutine's workout + meal + recovery planning. This supports measuring the newly rehabilitated Plan Drift Audit rather than publishing another overlapping page today.
+
 ## Opportunity Score
 
 Keyword/action: **adaptive workout and meal plan app**
@@ -47,14 +49,28 @@ The primary workout + meal-planning page remains protected. This page is framed 
 - Refreshed the OG image to match the Plan Drift Audit hook.
 - Added an active experiment lock through 2026-09-20, preferred review 2026-09-27.
 
+## Same-Day Measurement Guard
+
+Because this rehabilitation removed a legacy `noindex`, the most valuable second action today is technical measurement rather than another content change.
+
+- Added the target URL to the fixed Search Console URL Inspection set so its pre/post-rehabilitation Google crawl state is measured even before it earns Search Analytics impressions.
+- Reallocated the fixed slot from `/blog/weekly-nutrition-check-in-template`, which is crawl-current and has no current landing-page impressions. It remains indexable and can re-enter inspection automatically through adaptive GSC prioritization if it gains visibility.
+- Added the target URL to the live SEO compliance protected-asset set. It must remain HTTP 200, indexable, self-canonical, free of legacy quarantine markers, and present in the sitemap.
+- Added the target file to the compliance workflow trigger so a future regression to `noindex`, wrong canonical, quarantine markup, or sitemap exclusion is checked after deployment.
+
+This measurement change does not alter the target page's title, H1, copy, schema, canonical, robots directive, internal links, or experiment lock.
+
 ## Hypothesis
 
 Publishing the adaptive workout-and-meal support asset should help Google understand IZEM's combined coaching cluster while giving backlink outreach a clearer non-comparison hook. The page should earn impressions adjacent to workout + meal planning and adaptive-app intent without materially cannibalizing `/blog/best-workout-app-with-meal-planning-included`.
+
+The measurement hypothesis is that direct URL Inspection plus live compliance guards will distinguish normal recrawl lag from a genuine indexing/canonical regression without contaminating the content experiment.
 
 ## Target Metrics
 
 - Target page remains HTTP 200, self-canonical, indexable, sitemap-listed, and free of legacy quarantine markers.
 - Google crawls the post-rehabilitation version after 2026-08-30.
+- URL Inspection completes with zero API errors and reports the target URL directly.
 - Relevant impressions begin without a drop in the locked workout + meal-planning comparison page.
 - Internal-link flow from the meal-planner feature page and existing cluster links supports discovery.
 
