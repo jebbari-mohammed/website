@@ -19,6 +19,7 @@ on:
       - 'public/blog/cant-add-weight-progressive-overload.html'
       - 'public/blog/fitness-app-with-fallback-workouts-busy-days.html'
       - 'public/blog/workout-app-exercise-substitutions-busy-machines.html'
+      - 'public/blog/adaptive-workout-and-meal-plan-app.html'
 
 permissions:
   contents: read
