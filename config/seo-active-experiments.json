@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-29",
+  "updatedAt": "2026-08-30",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -115,6 +115,17 @@
       "lockUntil": "2026-09-19",
       "preferredReviewAt": "2026-09-26",
       "reason": "The August 29 refresh targets workout-app exercise substitution intent with updated title metadata, a clearer busy-machine decision table, contextual links, and blog-index discovery. Preserve the refreshed page for a clean 21-day evaluation window."
+    },
+    {
+      "id": "adaptive-workout-meal-plan-rehabilitation-2026-08-30",
+      "url": "/blog/adaptive-workout-and-meal-plan-app",
+      "files": [
+        "public/blog/adaptive-workout-and-meal-plan-app.html"
+      ],
+      "launchedAt": "2026-08-30",
+      "lockUntil": "2026-09-20",
+      "preferredReviewAt": "2026-09-27",
+      "reason": "The August 30 rehabilitation removes legacy noindex quarantine from the adaptive workout-and-meal page, refreshes metadata and trust language, and positions the Plan Drift Audit as a distinct support asset for workout + meal-planning intent. Preserve it for a clean 21-day evaluation window."
     }
   ]
 }

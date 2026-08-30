@@ -6,7 +6,7 @@
     <description>Expert insights on AI fitness coaching, workout science, and nutrition</description>
     <language>en</language>
     <atom:link href="https://youraicoach.life/blog/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sat, 29 Aug 2026 15:21:29 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2026 15:14:26 GMT</lastBuildDate>
     <item>
       <title>Fitness App With Fallback Workouts for Busy Days</title>
       <link>https://youraicoach.life/blog/fitness-app-with-fallback-workouts-busy-days</link>
@@ -265,6 +265,13 @@
       <guid>https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines</guid>
       <description>When a gym machine is taken, use the Keep-the-Job Swap Card to choose exercise substitutions that preserve the workout goal, equipment context, and progression.</description>
       <pubDate>Tue, 07 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Adaptive Workout and Meal Plan App: Calls, Reviews, Weekly Changes</title>
+      <link>https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app</link>
+      <guid>https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app</guid>
+      <description>Use the Plan Drift Audit to choose an adaptive workout and meal plan app that changes after missed sessions, messy meals, busy gyms, and daily reviews.</description>
+      <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Why IZEM&apos;s AI Coach Can Be Better Than a Human Personal Trainer</title>

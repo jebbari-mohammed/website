@@ -1,50 +1,21 @@
-<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#060B1D"/>
-      <stop offset="100%" style="stop-color:#0C1A3D"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#00D4FF"/>
-      <stop offset="100%" style="stop-color:#7C5CFC"/>
-    </linearGradient>
-    <linearGradient id="glow" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:0.15"/>
-      <stop offset="100%" style="stop-color:#7C5CFC;stop-opacity:0"/>
-    </linearGradient>
-  </defs>
-
-  <!-- Background -->
-  <rect width="1200" height="630" fill="url(#bg)"/>
-
-  <!-- Glow blob top-right -->
-  <ellipse cx="1050" cy="80" rx="280" ry="180" fill="url(#glow)" opacity="0.6"/>
-
-  <!-- Grid lines (subtle) -->
-  <line x1="0" y1="210" x2="1200" y2="210" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="0" y1="420" x2="1200" y2="420" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="400" y1="0" x2="400" y2="630" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="800" y1="0" x2="800" y2="630" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-
-  <!-- Top accent bar -->
-  <rect x="0" y="0" width="1200" height="6" fill="url(#accent)"/>
-
-  <!-- Category pill -->
-  <rect x="60" y="60" width="170" height="40" rx="20" fill="rgba(0,212,255,0.12)" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
-  <text x="80" y="84" font-family="system-ui,-apple-system,sans-serif" font-size="18" font-weight="600" fill="#00D4FF">AI Fitness</text>
-
-  <!-- Title -->
-  <text x="60" y="240" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Adaptive Workout and Meal Plan App</text>
-
-  <!-- Bottom bar -->
-  <rect x="0" y="560" width="1200" height="70" fill="rgba(0,0,0,0.3)"/>
-
-  <!-- Logo -->
-  <text x="60" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="800" fill="#F8FAFC">⚡ IZEM</text>
-
-  <!-- Domain -->
-  <text x="1140" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#475569" text-anchor="end">youraicoach.life</text>
-
-  <!-- Decorative accent line -->
-  <rect x="60" y="336" width="80" height="4" rx="2" fill="url(#accent)"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Adaptive Workout and Meal Plan App</title>
+  <desc id="desc">IZEM social card showing the Plan Drift Audit for workouts, meals, reviews, and weekly changes.</desc>
+  <rect width="1200" height="630" fill="#081019"/>
+  <rect x="72" y="68" width="1056" height="494" rx="28" fill="#101B2A" stroke="#42C7C3" stroke-opacity=".42" stroke-width="2"/>
+  <text x="118" y="140" fill="#42C7C3" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">IZEM</text>
+  <text x="118" y="222" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="62" font-weight="850">Adaptive Workout</text>
+  <text x="118" y="292" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="62" font-weight="850">and Meal Plan App</text>
+  <text x="122" y="356" fill="#D1DBE7" font-family="Inter, Arial, sans-serif" font-size="28">The Plan Drift Audit for real-life coaching</text>
+  <g transform="translate(122 410)" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="750">
+    <rect x="0" y="0" width="204" height="46" rx="8" fill="#15352F" stroke="#42C7C3" stroke-opacity=".28"/>
+    <text x="22" y="30" fill="#EAF0F7">Missed sessions</text>
+    <rect x="230" y="0" width="174" height="46" rx="8" fill="#15352F" stroke="#42C7C3" stroke-opacity=".28"/>
+    <text x="252" y="30" fill="#EAF0F7">Messy meals</text>
+    <rect x="430" y="0" width="150" height="46" rx="8" fill="#15352F" stroke="#42C7C3" stroke-opacity=".28"/>
+    <text x="452" y="30" fill="#EAF0F7">Reviews</text>
+    <rect x="606" y="0" width="194" height="46" rx="8" fill="#15352F" stroke="#42C7C3" stroke-opacity=".28"/>
+    <text x="628" y="30" fill="#EAF0F7">Weekly changes</text>
+  </g>
+  <text x="122" y="514" fill="#9CE8DC" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700">Calls, scans, meals, and workouts in one loop.</text>
 </svg>
