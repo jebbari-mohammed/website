@@ -60,6 +60,16 @@ Because this rehabilitation removed a legacy `noindex`, the most valuable second
 
 This measurement change does not alter the target page's title, H1, copy, schema, canonical, robots directive, internal links, or experiment lock.
 
+## Post-Change Measurement Baseline
+
+The first post-guard production checks completed successfully on 2026-08-30:
+
+- Live SEO compliance passed **40/40** checks on the first attempt. The adaptive page returned HTTP 200, was indexable, self-canonical, quarantine-free, and present in the sitemap.
+- Search Console health run `33332368346` retrieved **83 private query + landing-page rows, 129 impressions, 1 click**, period 2026-08-02 through 2026-08-29, and completed URL Inspection with **0 API errors**.
+- Direct URL Inspection for the adaptive page returned **NEUTRAL — URL is unknown to Google — no crawl recorded**.
+
+Because the live page is technically healthy and was only made indexable earlier the same day, this is classified as **discovery pending**, not a technical indexing failure. Do not respond with another rewrite, canonical change, or additional speculative SEO URL. The next decision depends on whether Google discovers/crawls the current version during the protected experiment window.
+
 ## Hypothesis
 
 Publishing the adaptive workout-and-meal support asset should help Google understand IZEM's combined coaching cluster while giving backlink outreach a clearer non-comparison hook. The page should earn impressions adjacent to workout + meal planning and adaptive-app intent without materially cannibalizing `/blog/best-workout-app-with-meal-planning-included`.
