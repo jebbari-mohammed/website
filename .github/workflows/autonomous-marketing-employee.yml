@@ -64,6 +64,11 @@ jobs:
             exit 0
           fi
           git commit -m "chore: weekly marketing health report"
+          # The audit/report commands append to this tracked local log, but the
+          # weekly workflow intentionally publishes only sanitized artifacts.
+          # Discard that transient worktree mutation before rebasing so it
+          # cannot block an otherwise successful report publication.
+          git restore --worktree -- data/marketing-employee/logs/audit-trail.jsonl 2>/dev/null || true
           git fetch origin main
           git rebase origin/main
           git push origin HEAD:main
