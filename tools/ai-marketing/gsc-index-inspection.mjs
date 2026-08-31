@@ -37,6 +37,7 @@ const DEFAULT_URLS = [
   'https://youraicoach.life/blog/personal-trainer-cost-calculator',
   'https://youraicoach.life/blog/fitness-app-crowded-gyms-adapts-workout',
   'https://youraicoach.life/blog/cant-add-weight-progressive-overload',
+  'https://youraicoach.life/blog/best-body-progress-scanning-app',
 ];
 
 function base64url(value) {
