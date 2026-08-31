@@ -71,3 +71,31 @@ Do not materially rewrite the target page before 2026-09-21 unless correcting a 
 - **Earliest useful Search Analytics review:** 2026-09-14 if meaningful impressions exist.
 - **Material rewrite lock:** 2026-09-21.
 - **Preferred first content decision:** 2026-09-28.
+
+## Same-Day Measurement Guard
+
+A second material content edit is intentionally avoided on 2026-08-31. The separate technical action is to add this refreshed URL to the live SEO compliance protected-asset set and make future edits to the page trigger that check.
+
+### Measurement hypothesis
+
+If the refreshed page remains HTTP 200, indexable, self-canonical, sitemap-listed, and free of legacy quarantine markers while Google is given time to recrawl it, then any short-term ranking delay is more likely to be normal crawl/evaluation latency than a deployment or canonical defect.
+
+### Measurement baseline
+
+- Pre-refresh Search Analytics: 1 public-safe impression at a weak average position.
+- Current source modification date: 2026-08-31.
+- Page and feature-page intents are deliberately separated: the blog URL is a buyer/evaluation guide, while `/features/body-scanning` explains IZEM's first-party scanning feature and now links contextually to the guide.
+- The Search Console URL Inspection system retains adaptive slots for GSC-visible landing pages, so this URL does not need to consume a new permanent fixed slot unless adaptive monitoring proves unreliable.
+
+### Technical targets
+
+- Live compliance: HTTP 200, indexable, self-canonical, sitemap-listed, quarantine-free.
+- Future edits to `public/blog/best-body-progress-scanning-app.html` automatically trigger live compliance validation.
+- Google recrawl date advances to 2026-08-31 or later without a canonical/indexing regression.
+- No material body-progress content edit before the existing 2026-09-21 lock unless a documented exception applies.
+
+### Earliest measurement review
+
+- **Technical/live check:** immediately after this guard is deployed.
+- **Google crawl-state check:** next successful Search Console URL Inspection run that includes the GSC-visible target.
+- **Ranking decision:** unchanged — no earlier than 2026-09-14 for meaningful Search Analytics evidence, with the material-edit lock through 2026-09-21.
