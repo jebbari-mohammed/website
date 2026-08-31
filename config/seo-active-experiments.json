@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-30",
+  "updatedAt": "2026-08-31",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -126,6 +126,17 @@
       "lockUntil": "2026-09-20",
       "preferredReviewAt": "2026-09-27",
       "reason": "The August 30 rehabilitation removes legacy noindex quarantine from the adaptive workout-and-meal page, refreshes metadata and trust language, and positions the Plan Drift Audit as a distinct support asset for workout + meal-planning intent. Preserve it for a clean 21-day evaluation window."
+    },
+    {
+      "id": "body-progress-scanning-scorecard-refresh-2026-08-31",
+      "url": "/blog/best-body-progress-scanning-app",
+      "files": [
+        "public/blog/best-body-progress-scanning-app.html"
+      ],
+      "launchedAt": "2026-08-31",
+      "lockUntil": "2026-09-21",
+      "preferredReviewAt": "2026-09-28",
+      "reason": "The August 31 material refresh replaces stale 2024 metadata and unsupported legacy body-scan claims with a current Scan-to-Coaching Scorecard, safe trend language, and clearer product fit. Preserve it for a clean 21-day evaluation window."
     }
   ]
 }

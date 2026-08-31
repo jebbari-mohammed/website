@@ -1,51 +1,52 @@
-<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Best Body Progress Scanning App</title>
+  <desc id="desc">IZEM scorecard for choosing a body progress scanning app that connects scans to coaching decisions.</desc>
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#060B1D"/>
-      <stop offset="100%" style="stop-color:#0C1A3D"/>
+      <stop offset="0%" stop-color="#07100F"/>
+      <stop offset="55%" stop-color="#13211F"/>
+      <stop offset="100%" stop-color="#1E2F29"/>
     </linearGradient>
     <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#00D4FF"/>
-      <stop offset="100%" style="stop-color:#7C5CFC"/>
-    </linearGradient>
-    <linearGradient id="glow" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:0.15"/>
-      <stop offset="100%" style="stop-color:#7C5CFC;stop-opacity:0"/>
+      <stop offset="0%" stop-color="#55D6B7"/>
+      <stop offset="100%" stop-color="#C6E36D"/>
     </linearGradient>
   </defs>
 
-  <!-- Background -->
   <rect width="1200" height="630" fill="url(#bg)"/>
-
-  <!-- Glow blob top-right -->
-  <ellipse cx="1050" cy="80" rx="280" ry="180" fill="url(#glow)" opacity="0.6"/>
-
-  <!-- Grid lines (subtle) -->
-  <line x1="0" y1="210" x2="1200" y2="210" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="0" y1="420" x2="1200" y2="420" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="400" y1="0" x2="400" y2="630" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="800" y1="0" x2="800" y2="630" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-
-  <!-- Top accent bar -->
   <rect x="0" y="0" width="1200" height="6" fill="url(#accent)"/>
 
-  <!-- Category pill -->
-  <rect x="60" y="60" width="170" height="40" rx="20" fill="rgba(0,212,255,0.12)" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
-  <text x="80" y="84" font-family="system-ui,-apple-system,sans-serif" font-size="18" font-weight="600" fill="#00D4FF">AI Fitness</text>
+  <g opacity="0.12" stroke="#EAF6F1" stroke-width="1">
+    <path d="M0 158H1200"/>
+    <path d="M0 315H1200"/>
+    <path d="M0 472H1200"/>
+    <path d="M300 0V630"/>
+    <path d="M600 0V630"/>
+    <path d="M900 0V630"/>
+  </g>
 
-  <!-- Title -->
-  <text x="60" y="204" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Ditch the Scale: Best Body Progress</text>
-    <text x="60" y="276" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Scanning Apps of 2024</text>
+  <rect x="64" y="58" width="266" height="42" rx="21" fill="rgba(85,214,183,0.12)" stroke="rgba(85,214,183,0.35)"/>
+  <text x="86" y="85" font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="18" font-weight="700" fill="#AEF2D9">SCAN-TO-COACHING</text>
 
-  <!-- Bottom bar -->
-  <rect x="0" y="560" width="1200" height="70" fill="rgba(0,0,0,0.3)"/>
+  <text x="64" y="190" font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="60" font-weight="850" fill="#F8FAFC">Best Body Progress</text>
+  <text x="64" y="264" font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="60" font-weight="850" fill="#F8FAFC">Scanning App</text>
+  <text x="64" y="330" font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="34" font-weight="650" fill="#D2DED8">Choose the app that turns scans</text>
+  <text x="64" y="376" font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="34" font-weight="650" fill="#D2DED8">into better workouts and meals</text>
 
-  <!-- Logo -->
-  <text x="60" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="800" fill="#F8FAFC">⚡ IZEM</text>
+  <g transform="translate(770 144)">
+    <rect x="0" y="0" width="318" height="318" rx="18" fill="rgba(16,32,27,0.9)" stroke="rgba(255,255,255,0.14)"/>
+    <circle cx="159" cy="86" r="42" fill="none" stroke="#55D6B7" stroke-width="9"/>
+    <path d="M100 250C108 176 121 142 159 142C197 142 210 176 218 250" fill="none" stroke="#55D6B7" stroke-width="11" stroke-linecap="round"/>
+    <path d="M72 258H246" stroke="#C6E36D" stroke-width="8" stroke-linecap="round"/>
+    <path d="M76 222C112 208 130 210 158 218C190 228 211 222 242 204" fill="none" stroke="#EAF6F1" stroke-width="5" stroke-linecap="round" opacity="0.74"/>
+    <g fill="#55D6B7">
+      <circle cx="72" cy="222" r="7"/>
+      <circle cx="158" cy="218" r="7"/>
+      <circle cx="242" cy="204" r="7"/>
+    </g>
+  </g>
 
-  <!-- Domain -->
-  <text x="1140" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#475569" text-anchor="end">youraicoach.life</text>
-
-  <!-- Decorative accent line -->
-  <rect x="60" y="372" width="80" height="4" rx="2" fill="url(#accent)"/>
+  <rect x="0" y="554" width="1200" height="76" fill="rgba(0,0,0,0.28)"/>
+  <text x="64" y="602" font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="28" font-weight="850" fill="#F8FAFC">IZEM</text>
+  <text x="1136" y="602" font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="20" fill="#A9BDB5" text-anchor="end">youraicoach.life</text>
 </svg>
