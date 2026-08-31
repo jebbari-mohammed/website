@@ -16,6 +16,7 @@ const RELEASED_INDEXABLE_ASSETS = [
   '/blog/fitness-app-with-fallback-workouts-busy-days',
   '/blog/workout-app-exercise-substitutions-busy-machines',
   '/blog/adaptive-workout-and-meal-plan-app',
+  '/blog/best-body-progress-scanning-app',
 ];
 const VIDEO_IDS = [
   'FeHyZads8i8',
