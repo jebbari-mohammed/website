@@ -7,9 +7,9 @@
 
 ## Evidence Used
 
-The public Search Console handoff in issue #34 was current at the start of this run and pointed to workflow run `33332368346`, encrypted artifact `private-gsc-evidence-v1`, 83 private query plus landing-page rows, period 2026-08-02 through 2026-08-29, and public-key fingerprint `56ec78e9ac6187e930cbb4f9e0cea1dad84791287120ce9360a1afcb457352de`.
+The first public Search Console handoff used for the content decision pointed to workflow run `33332368346`, encrypted artifact `private-gsc-evidence-v1`, 83 private query plus landing-page rows, period 2026-08-02 through 2026-08-29, and public-key fingerprint `56ec78e9ac6187e930cbb4f9e0cea1dad84791287120ce9360a1afcb457352de`.
 
-The connected private vault was not mounted at `/Users/Apple/Documents/AI-Gym-Coach/.private-seo/gsc-evidence/vault.json`, and no alternate `vault.json` path was found under `/Users/Apple`. Exact query rows were therefore unavailable for this run. This decision uses the public-safe landing-page aggregate, live SERP review, repository history, and local page inspection.
+A same-day recovery rerun of the verified Search Console job completed after the content launch and advanced the reporting period to **2026-08-03 through 2026-08-30**. It again returned **83 private query+landing-page rows, 129 impressions, and 1 click**. URL Inspection checked 25 priority URLs with **24 indexed, 0 not indexed, 1 neutral/unknown, and 0 API errors**. The encrypted artifact ID is `9750847441`; exact query plaintext was not printed.
 
 Public-safe observations:
 
@@ -21,9 +21,9 @@ Public-safe observations:
 
 ## Live SERP Review
 
-Live review for body progress scanning and body-scan app variants showed active current demand. Visible results include recent app-comparison pages for body scanning and measurement tools, progress-photo and body-measurement app lists, app-store listings for progress-photo trackers, AI body-scan comparison pages, and smart-scale comparison articles.
+Live review for body progress scanning and body-scan app variants showed active current demand. Visible results include photo-based AI body analyzers, progress-photo and measurement trackers, 3D scanners, and apps that connect longitudinal body tracking to coaching decisions.
 
-Most results focus on app lists, measurements, progress photos, or smart scales. The gap IZEM can own is the decision after the scan: whether the visual trend should change workouts, meals, reviews, or accountability timing.
+Most results focus on app lists, measurements, progress photos, or scan estimates. A smaller group connects the scan to training or habit changes. The gap IZEM can test is the decision after the scan: whether the visual trend should change workouts, meals, reviews, or accountability timing.
 
 ## Opportunity Score
 
@@ -38,7 +38,7 @@ Keyword/action: **best body progress scanning app**
 - Cannibalization risk: -1
 - **Total: 20/30**
 
-This is not the largest current cluster. It wins the evening slot because it combines first-party visibility with high trust debt on an indexable page, and it supports IZEM's broader scan/context/adaptation narrative without touching locked URLs.
+This is not the largest current cluster. It won the content slot because it combined first-party visibility with high trust debt on an indexable page, and it supports IZEM's broader scan/context/adaptation narrative without touching locked URLs.
 
 ## Change
 
@@ -74,7 +74,7 @@ Do not materially rewrite the target page before 2026-09-21 unless correcting a 
 
 ## Same-Day Measurement Guard
 
-A second material content edit is intentionally avoided on 2026-08-31. The separate technical action is to add this refreshed URL to the live SEO compliance protected-asset set and make future edits to the page trigger that check.
+A second material content edit is intentionally avoided on 2026-08-31. The separate technical action is to protect this refreshed URL in live production checks and give it a fixed Search Console URL Inspection slot.
 
 ### Measurement hypothesis
 
@@ -85,17 +85,19 @@ If the refreshed page remains HTTP 200, indexable, self-canonical, sitemap-liste
 - Pre-refresh Search Analytics: 1 public-safe impression at a weak average position.
 - Current source modification date: 2026-08-31.
 - Page and feature-page intents are deliberately separated: the blog URL is a buyer/evaluation guide, while `/features/body-scanning` explains IZEM's first-party scanning feature and now links contextually to the guide.
-- The Search Console URL Inspection system retains adaptive slots for GSC-visible landing pages, so this URL does not need to consume a new permanent fixed slot unless adaptive monitoring proves unreliable.
+- The recovered 2026-08-31 URL Inspection run used 23 fixed URLs plus 2 adaptive GSC-visible URLs. The body-progress guide was **not** selected adaptively despite its early impression, so relying on adaptive inspection would not provide a dependable post-refresh crawl baseline.
+- Adding the body-progress guide as the 24th fixed URL preserves one adaptive inspection slot under the 25-URL cap.
 
 ### Technical targets
 
 - Live compliance: HTTP 200, indexable, self-canonical, sitemap-listed, quarantine-free.
 - Future edits to `public/blog/best-body-progress-scanning-app.html` automatically trigger live compliance validation.
+- Search Console URL Inspection directly measures the target on each health run while this experiment matures.
 - Google recrawl date advances to 2026-08-31 or later without a canonical/indexing regression.
 - No material body-progress content edit before the existing 2026-09-21 lock unless a documented exception applies.
 
 ### Earliest measurement review
 
 - **Technical/live check:** immediately after this guard is deployed.
-- **Google crawl-state check:** next successful Search Console URL Inspection run that includes the GSC-visible target.
+- **Google crawl-state check:** first successful Search Console health run after the fixed inspection target lands.
 - **Ranking decision:** unchanged — no earlier than 2026-09-14 for meaningful Search Analytics evidence, with the material-edit lock through 2026-09-21.
