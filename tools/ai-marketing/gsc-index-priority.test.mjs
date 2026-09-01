@@ -104,3 +104,10 @@ test('fixed URL Inspection config targets the canonical workout consistency URL'
   assert.match(source, /'https:\/\/youraicoach\.life\/workout-consistency-calculator\/'/);
   assert.doesNotMatch(source, /'https:\/\/youraicoach\.life\/workout-consistency-calculator'(?:,|\s)/);
 });
+
+test('URL Inspection uses conservative bounded concurrency instead of a serial 25-URL loop', () => {
+  const source = fs.readFileSync(path.join(HERE, 'gsc-index-inspection.mjs'), 'utf8');
+  assert.match(source, /const INSPECTION_CONCURRENCY = 5;/);
+  assert.match(source, /Promise\.all\(Array\.from\(\{ length: concurrency \}, \(\) => worker\(\)\)\)/);
+  assert.doesNotMatch(source, /results\.push\(await inspectUrl\(accessToken, url\)\)/);
+});
