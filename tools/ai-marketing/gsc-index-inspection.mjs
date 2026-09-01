@@ -13,6 +13,7 @@ const SITE_ORIGIN = new URL(SITE).origin;
 const OUTPUT = path.resolve(process.env.GSC_INDEX_OUTPUT || 'tools/ai-marketing/search-console-reports/index-inspection-latest.json');
 const PRIVATE_GSC_REPORT = path.resolve(process.env.GSC_OUTPUT || 'tools/ai-marketing/search-console-reports/latest-28d.json');
 const MAX_INSPECTION_URLS = 25;
+const INSPECTION_CONCURRENCY = 5;
 const DEFAULT_URLS = [
   'https://youraicoach.life/',
   'https://youraicoach.life/ai-fitness-coach',
@@ -161,6 +162,34 @@ async function inspectUrl(accessToken, inspectionUrl) {
   };
 }
 
+async function inspectUrls(accessToken, urls) {
+  const resultsByIndex = new Array(urls.length);
+  const errorsByIndex = new Array(urls.length);
+  let nextIndex = 0;
+
+  async function worker() {
+    while (true) {
+      const index = nextIndex;
+      nextIndex += 1;
+      if (index >= urls.length) return;
+      const url = urls[index];
+      try {
+        resultsByIndex[index] = await inspectUrl(accessToken, url);
+      } catch (error) {
+        errorsByIndex[index] = { url, error: safe(error instanceof Error ? error.message : String(error)) };
+      }
+    }
+  }
+
+  const concurrency = Math.min(INSPECTION_CONCURRENCY, urls.length);
+  await Promise.all(Array.from({ length: concurrency }, () => worker()));
+  return {
+    results: resultsByIndex.filter(Boolean),
+    apiErrors: errorsByIndex.filter(Boolean),
+    concurrency,
+  };
+}
+
 function bucket(result) {
   if (result.verdict === 'PASS') return 'indexed';
   if (result.verdict === 'FAIL') return 'notIndexed';
@@ -178,16 +207,8 @@ async function main() {
   const credentials = parseServiceAccountCredential(process.env[source], source);
   const accessToken = await getAccessToken(credentials);
   const urls = await inspectionUrls();
-  const results = [];
-  const apiErrors = [];
-
-  for (const url of urls) {
-    try {
-      results.push(await inspectUrl(accessToken, url));
-    } catch (error) {
-      apiErrors.push({ url, error: safe(error instanceof Error ? error.message : String(error)) });
-    }
-  }
+  const { results, apiErrors, concurrency } = await inspectUrls(accessToken, urls);
+  console.log(`Index inspection execution: bounded concurrency=${concurrency}.`);
 
   const counts = results.reduce((sum, result) => {
     sum[bucket(result)] += 1;
