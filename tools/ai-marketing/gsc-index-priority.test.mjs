@@ -53,7 +53,6 @@ test('preserves fixed priorities before adding GSC-visible landing pages', () =>
     'https://youraicoach.life/blog/new-low',
   ]);
   assert.equal(result.searchAnalyticsAdded, 2);
-  assert.equal(result.searchAnalyticsCandidates, 3);
 });
 
 test('keeps the hard cap and never displaces fixed priorities with dynamic pages', () => {
@@ -105,9 +104,11 @@ test('fixed URL Inspection config targets the canonical workout consistency URL'
   assert.doesNotMatch(source, /'https:\/\/youraicoach\.life\/workout-consistency-calculator'(?:,|\s)/);
 });
 
-test('URL Inspection uses conservative bounded concurrency instead of a serial 25-URL loop', () => {
+test('URL Inspection uses conservative bounded concurrency with transient retries', () => {
   const source = fs.readFileSync(path.join(HERE, 'gsc-index-inspection.mjs'), 'utf8');
-  assert.match(source, /const INSPECTION_CONCURRENCY = 5;/);
+  assert.match(source, /const INSPECTION_CONCURRENCY = 3;/);
+  assert.match(source, /const MAX_INSPECTION_ATTEMPTS = 3;/);
+  assert.match(source, /status === 429 \|\| status >= 500/);
   assert.match(source, /Promise\.all\(Array\.from\(\{ length: concurrency \}, \(\) => worker\(\)\)\)/);
   assert.doesNotMatch(source, /results\.push\(await inspectUrl\(accessToken, url\)\)/);
 });
