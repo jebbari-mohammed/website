@@ -27,7 +27,7 @@ const DEFAULT_URLS = [
   'https://youraicoach.life/blog/gym-machines-vs-free-weights',
   'https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines',
   'https://youraicoach.life/blog/weekly-fitness-check-in-template',
-  'https://youraicoach.life/blog/workout-accountability-agreement-template',
+  'https://youraicoach.life/blog/daily-fitness-check-in-app',
   'https://youraicoach.life/blog/adaptive-workout-and-meal-plan-app',
   'https://youraicoach.life/blog/ai-personal-trainer-that-actually-works',
   'https://youraicoach.life/blog/fitness-app-with-fallback-workouts-busy-days',
