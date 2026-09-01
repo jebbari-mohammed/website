@@ -1,0 +1,46 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Daily Fitness Check-In App</title>
+  <desc id="desc">IZEM Call, Answer, Adjust, Remember framework for daily fitness check-ins.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#081019"/>
+      <stop offset="0.62" stop-color="#102332"/>
+      <stop offset="1" stop-color="#1C2D2A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="120" y1="470" x2="1080" y2="470" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#42C7C3"/>
+      <stop offset="0.55" stop-color="#F59E0B"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <path d="M80 106H1120" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="1"/>
+  <path d="M80 520H1120" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="1"/>
+  <text x="86" y="76" fill="#FCD34D" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800" letter-spacing="2">IZEM DAILY ACCOUNTABILITY</text>
+  <text x="86" y="180" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="850">Daily fitness</text>
+  <text x="86" y="250" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="850">check-in app</text>
+  <text x="86" y="312" fill="#D1DBE7" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="650">Calls, answers, adjustments, and coach memory</text>
+  <g>
+    <rect x="86" y="374" width="225" height="112" rx="18" fill="#101B2A" stroke="#42C7C3" stroke-opacity="0.55"/>
+    <text x="116" y="424" fill="#42C7C3" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="850">CALL</text>
+    <text x="116" y="458" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="18">Interrupt the drift</text>
+  </g>
+  <g>
+    <rect x="345" y="374" width="225" height="112" rx="18" fill="#101B2A" stroke="#F59E0B" stroke-opacity="0.58"/>
+    <text x="375" y="424" fill="#F59E0B" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="850">ANSWER</text>
+    <text x="375" y="458" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="18">Choose the next step</text>
+  </g>
+  <g>
+    <rect x="604" y="374" width="225" height="112" rx="18" fill="#101B2A" stroke="#34D399" stroke-opacity="0.58"/>
+    <text x="634" y="424" fill="#34D399" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="850">ADJUST</text>
+    <text x="634" y="458" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="18">Shrink, swap, or move</text>
+  </g>
+  <g>
+    <rect x="863" y="374" width="225" height="112" rx="18" fill="#101B2A" stroke="#8B5CF6" stroke-opacity="0.62"/>
+    <text x="893" y="424" fill="#C4B5FD" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="850">REMEMBER</text>
+    <text x="893" y="458" fill="#AEBBCC" font-family="Inter, Arial, sans-serif" font-size="18">Carry context forward</text>
+  </g>
+  <path d="M311 430H345M570 430H604M829 430H863" stroke="url(#accent)" stroke-width="5" stroke-linecap="round"/>
+  <text x="86" y="572" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="750">youraicoach.life</text>
+  <text x="1120" y="572" text-anchor="end" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="20">Proactive AI fitness coach</text>
+</svg>
