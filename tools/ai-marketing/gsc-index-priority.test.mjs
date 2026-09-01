@@ -53,6 +53,7 @@ test('preserves fixed priorities before adding GSC-visible landing pages', () =>
     'https://youraicoach.life/blog/new-low',
   ]);
   assert.equal(result.searchAnalyticsAdded, 2);
+  assert.equal(result.searchAnalyticsCandidates, 3);
 });
 
 test('keeps the hard cap and never displaces fixed priorities with dynamic pages', () => {
