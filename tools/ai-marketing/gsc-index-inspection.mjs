@@ -13,7 +13,8 @@ const SITE_ORIGIN = new URL(SITE).origin;
 const OUTPUT = path.resolve(process.env.GSC_INDEX_OUTPUT || 'tools/ai-marketing/search-console-reports/index-inspection-latest.json');
 const PRIVATE_GSC_REPORT = path.resolve(process.env.GSC_OUTPUT || 'tools/ai-marketing/search-console-reports/latest-28d.json');
 const MAX_INSPECTION_URLS = 25;
-const INSPECTION_CONCURRENCY = 5;
+const INSPECTION_CONCURRENCY = 3;
+const MAX_INSPECTION_ATTEMPTS = 3;
 const DEFAULT_URLS = [
   'https://youraicoach.life/',
   'https://youraicoach.life/ai-fitness-coach',
@@ -57,6 +58,18 @@ function safe(value = '') {
 function setOutput(name, value) {
   if (!process.env.GITHUB_OUTPUT) return Promise.resolve();
   return fs.appendFile(process.env.GITHUB_OUTPUT, `${name}=${String(value).replace(/\r?\n/g, ' ')}\n`);
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isRetryableInspectionStatus(status) {
+  return status === 429 || status >= 500;
+}
+
+function inspectionRetryDelay(attempt) {
+  return (750 * (2 ** (attempt - 1))) + Math.floor(Math.random() * 250);
 }
 
 async function loadPrivateSearchAnalyticsReport() {
@@ -128,38 +141,58 @@ async function getAccessToken(credentials) {
 }
 
 async function inspectUrl(accessToken, inspectionUrl) {
-  const response = await fetch('https://searchconsole.googleapis.com/v1/urlInspection/index:inspect', {
-    method: 'POST',
-    headers: {
-      authorization: `Bearer ${accessToken}`,
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      inspectionUrl,
-      siteUrl: SITE,
-      languageCode: 'en-US',
-    }),
-    signal: AbortSignal.timeout(45000),
-  });
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(`URL Inspection API HTTP ${response.status}: ${safe(payload?.error?.message || payload?.error || '')}`);
+  for (let attempt = 1; attempt <= MAX_INSPECTION_ATTEMPTS; attempt += 1) {
+    let response;
+    try {
+      response = await fetch('https://searchconsole.googleapis.com/v1/urlInspection/index:inspect', {
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          inspectionUrl,
+          siteUrl: SITE,
+          languageCode: 'en-US',
+        }),
+        signal: AbortSignal.timeout(45000),
+      });
+    } catch (error) {
+      if (attempt >= MAX_INSPECTION_ATTEMPTS) throw error;
+      const delay = inspectionRetryDelay(attempt);
+      console.log(`URL Inspection transient network error; retrying attempt ${attempt + 1}/${MAX_INSPECTION_ATTEMPTS} after ${delay}ms.`);
+      await sleep(delay);
+      continue;
+    }
+
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      if (isRetryableInspectionStatus(response.status) && attempt < MAX_INSPECTION_ATTEMPTS) {
+        const delay = inspectionRetryDelay(attempt);
+        console.log(`URL Inspection transient HTTP ${response.status}; retrying attempt ${attempt + 1}/${MAX_INSPECTION_ATTEMPTS} after ${delay}ms.`);
+        await sleep(delay);
+        continue;
+      }
+      throw new Error(`URL Inspection API HTTP ${response.status}: ${safe(payload?.error?.message || payload?.error || '')}`);
+    }
+
+    const result = payload?.inspectionResult?.indexStatusResult || {};
+    return {
+      url: inspectionUrl,
+      verdict: result.verdict || 'UNKNOWN',
+      coverageState: result.coverageState || 'Unknown',
+      robotsTxtState: result.robotsTxtState || 'UNKNOWN',
+      indexingState: result.indexingState || 'UNKNOWN',
+      pageFetchState: result.pageFetchState || 'UNKNOWN',
+      lastCrawlTime: result.lastCrawlTime || null,
+      crawledAs: result.crawledAs || 'UNKNOWN',
+      googleCanonical: result.googleCanonical || null,
+      userCanonical: result.userCanonical || null,
+      referringUrls: Array.isArray(result.referringUrls) ? result.referringUrls.slice(0, 5) : [],
+      sitemap: Array.isArray(result.sitemap) ? result.sitemap.slice(0, 5) : [],
+    };
   }
-  const result = payload?.inspectionResult?.indexStatusResult || {};
-  return {
-    url: inspectionUrl,
-    verdict: result.verdict || 'UNKNOWN',
-    coverageState: result.coverageState || 'Unknown',
-    robotsTxtState: result.robotsTxtState || 'UNKNOWN',
-    indexingState: result.indexingState || 'UNKNOWN',
-    pageFetchState: result.pageFetchState || 'UNKNOWN',
-    lastCrawlTime: result.lastCrawlTime || null,
-    crawledAs: result.crawledAs || 'UNKNOWN',
-    googleCanonical: result.googleCanonical || null,
-    userCanonical: result.userCanonical || null,
-    referringUrls: Array.isArray(result.referringUrls) ? result.referringUrls.slice(0, 5) : [],
-    sitemap: Array.isArray(result.sitemap) ? result.sitemap.slice(0, 5) : [],
-  };
+  throw new Error('URL Inspection exhausted retry attempts');
 }
 
 async function inspectUrls(accessToken, urls) {
@@ -208,7 +241,7 @@ async function main() {
   const accessToken = await getAccessToken(credentials);
   const urls = await inspectionUrls();
   const { results, apiErrors, concurrency } = await inspectUrls(accessToken, urls);
-  console.log(`Index inspection execution: bounded concurrency=${concurrency}.`);
+  console.log(`Index inspection execution: bounded concurrency=${concurrency}; transient attempts=${MAX_INSPECTION_ATTEMPTS}.`);
 
   const counts = results.reduce((sum, result) => {
     sum[bucket(result)] += 1;
