@@ -21,6 +21,7 @@ on:
       - 'public/blog/workout-app-exercise-substitutions-busy-machines.html'
       - 'public/blog/adaptive-workout-and-meal-plan-app.html'
       - 'public/blog/best-body-progress-scanning-app.html'
+      - 'public/blog/daily-fitness-check-in-app.html'
 
 permissions:
   contents: read
