@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/7ybKilC5od4/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/7ybKilC5od4/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Workout Accountability Call Script: 3-Minute Template</video:title>
+      <video:description>Use this workout accountability call script to turn a reminder into a real answer: start, choose a fallback, reschedule honestly, review, and adapt next week.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/7ybKilC5od4</video:player_loc>
+      <video:publication_date>2026-09-02T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/eLIbe0ed8E4/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/eLIbe0ed8E4/hqdefault.jpg</video:thumbnail_loc>
