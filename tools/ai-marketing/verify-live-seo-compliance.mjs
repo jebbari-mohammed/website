@@ -18,6 +18,7 @@ const RELEASED_INDEXABLE_ASSETS = [
   '/blog/adaptive-workout-and-meal-plan-app',
   '/blog/best-body-progress-scanning-app',
   '/blog/daily-fitness-check-in-app',
+  '/blog/workout-accountability-call-script',
 ];
 const VIDEO_IDS = [
   'FeHyZads8i8',

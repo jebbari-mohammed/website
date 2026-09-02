@@ -22,6 +22,7 @@ on:
       - 'public/blog/adaptive-workout-and-meal-plan-app.html'
       - 'public/blog/best-body-progress-scanning-app.html'
       - 'public/blog/daily-fitness-check-in-app.html'
+      - 'public/blog/workout-accountability-call-script.html'
 
 permissions:
   contents: read
