@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-31",
+  "updatedAt": "2026-09-02",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -148,6 +148,17 @@
       "lockUntil": "2026-09-22",
       "preferredReviewAt": "2026-09-29",
       "reason": "The September 1 launch targets daily fitness check-in app intent with a distinct Call, Answer, Adjust framework supporting the active call and accountability cluster. Preserve the new title, metadata, body, schema, and internal-link package for a clean 21-day evaluation window."
+    },
+    {
+      "id": "workout-accountability-call-script-launch-2026-09-02",
+      "url": "/blog/workout-accountability-call-script",
+      "files": [
+        "public/blog/workout-accountability-call-script.html"
+      ],
+      "launchedAt": "2026-09-02",
+      "lockUntil": "2026-09-23",
+      "preferredReviewAt": "2026-09-30",
+      "reason": "The September 2 launch targets workout accountability call script/template intent with a local script builder and distinct pre-workout, fallback, partner, and review call branches. Preserve the new title, metadata, body, schema, and internal-link package for a clean 21-day evaluation window."
     }
   ]
 }
