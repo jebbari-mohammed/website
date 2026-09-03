@@ -17,6 +17,14 @@ Two independent morning schedule opportunities will materially increase the prob
 - September 3 decision window: no same-day Actions run available.
 - Latest safe snapshot: 89 private query+landing-page rows, 153 impressions, 1 click, 0.65% CTR, 17 landing pages, weighted average position 52.94, 25/25 priority URLs inspected, 0 URL Inspection API errors.
 
+## First observation — 2026-09-03
+- A scheduled Search Console health run (`33742242526`) was eventually created at 10:03:31 UTC and completed successfully at 10:04:59 UTC on the unchanged fallback-schedule production SHA.
+- This first observation did **not** satisfy the decision-window objective: the run arrived 4h26m after the 05:37 UTC primary slot and 2h26m after the 07:37 UTC fallback slot.
+- The run recovered fresh evidence for 2026-08-06 through 2026-09-02: 89 private query+landing-page rows, 153 impressions, 1 click, 0.65% CTR, 17 landing pages, and weighted average position 52.94.
+- URL Inspection completed 25/25 with 22 indexed, 0 explicitly not indexed, 3 neutral/unknown, and 0 final API errors.
+- There was no overlap-related failure, no plaintext-query leakage, and no public SEO/content mutation.
+- Treat this as one data point only. Do not move the cron slots again before the planned seven-day review unless a separate deterministic failure is discovered.
+
 ## Target metrics
 - At least one successful Search Console health run available before the daily SEO decision window on >= 6 of the next 7 days.
 - Zero final URL Inspection API errors.
