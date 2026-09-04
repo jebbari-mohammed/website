@@ -25,6 +25,12 @@ Two independent morning schedule opportunities will materially increase the prob
 - There was no overlap-related failure, no plaintext-query leakage, and no public SEO/content mutation.
 - Treat this as one data point only. Do not move the cron slots again before the planned seven-day review unless a separate deterministic failure is discovered.
 
+## Second observation — 2026-09-04
+- At the September 4 SEO decision window (08:07 UTC), GitHub reported zero Actions workflow runs created on 2026-09-04, even though both the 05:37 UTC primary slot and 07:37 UTC fallback slot had passed.
+- Therefore day two also did **not** satisfy the decision-window objective. No deterministic workflow failure is visible yet because neither scheduled run had been created by the decision window.
+- The freshest verified Search Console evidence remains the successful September 3 run covering 2026-08-06 through 2026-09-02: 89 private query+landing-page rows, 153 impressions, 1 click, 0.65% CTR, 17 landing pages, weighted average position 52.94, with 25/25 priority URLs inspected and 0 final API errors.
+- Per the experiment rule, do not move the cron slots or add a third schedule before the planned seven-day review unless a separate deterministic failure is discovered. Today’s SEO decision should therefore reduce confidence and avoid speculative public ranking changes based on stale evidence.
+
 ## Target metrics
 - At least one successful Search Console health run available before the daily SEO decision window on >= 6 of the next 7 days.
 - Zero final URL Inspection API errors.
