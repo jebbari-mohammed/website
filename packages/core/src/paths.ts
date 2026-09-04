@@ -8,6 +8,6 @@ export const paths = {
   repoRoot,
   config: path.join(repoRoot, 'config', 'autonomy.policy.json'),
   dataDir: path.join(repoRoot, 'data', 'marketing-employee'),
-  publicDataDir: path.join(repoRoot, 'public', 'marketing-data'),
+  publicDataDir: path.join(repoRoot, 'data', 'marketing-employee'),
   docsDir: path.join(repoRoot, 'docs'),
 };
