@@ -82,23 +82,51 @@ export function normalizeSiteUrl(value = '', siteOrigin = SITE_ORIGIN) {
   }
 }
 
+function pathIsInside(root, candidate) {
+  const relative = path.relative(root, candidate);
+  return relative === '' || (relative !== '..' && !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative));
+}
+
 export function resolvePublicFile(urlValue, publicDir, siteOrigin = SITE_ORIGIN) {
   const normalized = normalizeSiteUrl(urlValue, siteOrigin);
   if (!normalized) return '';
-  const pathname = new URL(normalized).pathname;
-  const relative = decodeURIComponent(pathname).replace(/^\/+/, '').replace(/\/$/, '');
+
+  let relative;
+  try {
+    const pathname = decodeURIComponent(new URL(normalized).pathname);
+    relative = pathname.replace(/^\/+/, '').replace(/\/$/, '');
+  } catch {
+    return '';
+  }
+
+  if (relative.includes('\0') || relative.split(/[\\/]+/).some((segment) => segment === '.' || segment === '..')) {
+    return '';
+  }
+
+  const root = path.resolve(publicDir);
   const candidates = [];
 
   if (!relative) {
-    candidates.push(path.join(publicDir, 'index.html'));
+    candidates.push(path.resolve(root, 'index.html'));
   } else if (/\.html?$/i.test(relative)) {
-    candidates.push(path.join(publicDir, relative));
+    candidates.push(path.resolve(root, relative));
   } else {
-    candidates.push(path.join(publicDir, `${relative}.html`));
-    candidates.push(path.join(publicDir, relative, 'index.html'));
+    candidates.push(path.resolve(root, `${relative}.html`));
+    candidates.push(path.resolve(root, relative, 'index.html'));
   }
 
-  return candidates.find((file) => fs.existsSync(file)) || '';
+  for (const candidate of candidates) {
+    if (!pathIsInside(root, candidate) || !fs.existsSync(candidate)) continue;
+    try {
+      const realRoot = fs.realpathSync(root);
+      const realCandidate = fs.realpathSync(candidate);
+      if (!pathIsInside(realRoot, realCandidate)) continue;
+    } catch {
+      continue;
+    }
+    return candidate;
+  }
+  return '';
 }
 
 export function sanitizeGeneratedHtml(value = '') {

@@ -32,6 +32,19 @@ test('normalizes www and maps extensionless and .html URLs', () => {
   assert.equal(resolvePublicFile('https://evil.example/about', dir), '');
 });
 
+test('public file resolver cannot escape the public directory through encoded traversal', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'seo-core-boundary-'));
+  const publicDir = path.join(root, 'public');
+  fs.mkdirSync(publicDir, { recursive: true });
+  fs.writeFileSync(path.join(publicDir, 'safe.html'), '<html>safe</html>');
+  fs.writeFileSync(path.join(root, 'outside.html'), '<html>outside</html>');
+
+  assert.equal(resolvePublicFile('https://youraicoach.life/safe', publicDir), path.join(publicDir, 'safe.html'));
+  assert.equal(resolvePublicFile('https://youraicoach.life/%252e%252e/outside.html', publicDir), '');
+  assert.equal(resolvePublicFile('https://youraicoach.life/%2e%2e/outside.html', publicDir), '');
+  assert.equal(resolvePublicFile('https://youraicoach.life/%252e%252e%255coutside.html', publicDir), '');
+});
+
 test('sanitizer removes executable and external-link markup while preserving useful tags', () => {
   const input = '<script>alert(1)</script><h2 style="x">Guide</h2><p onclick="x">Read <a href="https://evil.example">this</a>.</p><iframe src=x></iframe>';
   const output = sanitizeGeneratedHtml(input);
