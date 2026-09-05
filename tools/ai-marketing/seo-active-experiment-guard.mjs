@@ -101,6 +101,66 @@ export function findActiveLockViolations(changedFiles, config, now = new Date(),
   return violations;
 }
 
+export function findActiveLockMutationViolations(baseConfig, headConfig, now = new Date()) {
+  if (!baseConfig) return [];
+  validateConfig(baseConfig);
+  validateConfig(headConfig);
+
+  const instant = now instanceof Date ? now : new Date(now);
+  if (Number.isNaN(instant.getTime())) throw new Error('Guard received an invalid current time');
+
+  const headById = new Map(headConfig.locks.map((lock) => [String(lock.id), lock]));
+  const violations = [];
+
+  for (const baseLock of baseConfig.locks) {
+    const baseUnlock = new Date(`${baseLock.lockUntil}T23:59:59.999Z`);
+    if (instant > baseUnlock) continue;
+
+    const headLock = headById.get(String(baseLock.id));
+    if (!headLock) {
+      violations.push({
+        id: baseLock.id,
+        url: baseLock.url,
+        type: 'removed',
+        detail: `active lock was removed before ${baseLock.lockUntil}`,
+      });
+      continue;
+    }
+
+    const headUnlock = new Date(`${headLock.lockUntil}T23:59:59.999Z`);
+    if (headUnlock < baseUnlock) {
+      violations.push({
+        id: baseLock.id,
+        url: baseLock.url,
+        type: 'shortened',
+        detail: `lockUntil changed from ${baseLock.lockUntil} to ${headLock.lockUntil}`,
+      });
+    }
+
+    if (headLock.url !== baseLock.url) {
+      violations.push({
+        id: baseLock.id,
+        url: baseLock.url,
+        type: 'retargeted',
+        detail: `protected URL changed from ${baseLock.url} to ${headLock.url}`,
+      });
+    }
+
+    const headFiles = new Set(headLock.files.map(String));
+    const removedFiles = baseLock.files.filter((file) => !headFiles.has(String(file)));
+    if (removedFiles.length) {
+      violations.push({
+        id: baseLock.id,
+        url: baseLock.url,
+        type: 'files-removed',
+        detail: `protected file(s) removed from the lock: ${removedFiles.join(', ')}`,
+      });
+    }
+  }
+
+  return violations;
+}
+
 function changedFilesBetween(base, head) {
   let resolvedBase = base;
   if (!resolvedBase || /^0+$/.test(resolvedBase)) {
@@ -116,13 +176,13 @@ function changedFilesBetween(base, head) {
     .filter(Boolean);
 }
 
-function lockIdsAtBase(base, configPath) {
+function configAtBase(base, configPath) {
   if (!base || /^0+$/.test(base)) return null;
 
   const relativeConfig = path.relative(ROOT, configPath).split(path.sep).join('/');
   if (relativeConfig.startsWith('../') || path.isAbsolute(relativeConfig)) {
     // A custom config outside the repository cannot be reconstructed from Git.
-    // Preserve the conservative historical behavior and enforce every lock.
+    // Preserve the conservative historical behavior and enforce every head lock.
     return null;
   }
 
@@ -131,20 +191,33 @@ function lockIdsAtBase(base, configPath) {
     raw = git(['show', `${base}:${relativeConfig}`]);
   } catch (error) {
     const stderr = String(error?.stderr || '');
-    if (/does not exist in|exists on disk, but not in|Path .* does not exist/i.test(stderr)) return new Set();
+    if (/does not exist in|exists on disk, but not in|Path .* does not exist/i.test(stderr)) return { version: 1, locks: [] };
     throw new Error(`Could not read the active-experiment config at base ${base}: ${error instanceof Error ? error.message : String(error)}`);
   }
 
-  const baseConfig = validateConfig(JSON.parse(raw));
-  return new Set(baseConfig.locks.map((lock) => lock.id));
+  return validateConfig(JSON.parse(raw));
 }
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = validateConfig(JSON.parse(fs.readFileSync(args.config, 'utf8')));
   const changedFiles = changedFilesBetween(args.base, args.head);
-  const baseLockIds = lockIdsAtBase(args.base, args.config);
-  const violations = findActiveLockViolations(changedFiles, config, new Date(args.now), {
+  const baseConfig = configAtBase(args.base, args.config);
+  const baseLockIds = baseConfig ? new Set(baseConfig.locks.map((lock) => lock.id)) : null;
+  const instant = new Date(args.now);
+
+  const mutationViolations = findActiveLockMutationViolations(baseConfig, config, instant);
+  if (mutationViolations.length) {
+    console.error(`SEO active-experiment guard blocked ${mutationViolations.length} active lock weakening mutation(s).`);
+    for (const violation of mutationViolations) {
+      console.error(`- ${violation.url} (${violation.id}): ${violation.detail}`);
+    }
+    console.error('Active locks are immutable in normal PRs until their lock window expires. This prevents deleting, shortening, retargeting, or dropping protected files to bypass experiment attribution.');
+    process.exitCode = 1;
+    return;
+  }
+
+  const violations = findActiveLockViolations(changedFiles, config, instant, {
     enforceLockIds: baseLockIds,
   });
 
@@ -154,7 +227,7 @@ async function main() {
       console.error(`- ${violation.url} is locked through ${violation.lockUntil}; touched: ${violation.files.join(', ')}`);
       console.error(`  Reason: ${violation.reason}`);
     }
-    console.error('If this is a genuine factual, legal, safety, rendering, indexing, canonical, or deployment correction, update the lock intentionally with a documented reason in the same reviewed change.');
+    console.error('If this is a genuine factual, legal, safety, rendering, indexing, canonical, or deployment correction, use an explicitly reviewed governance override rather than weakening the lock definition in the same change.');
     process.exitCode = 1;
     return;
   }
@@ -165,7 +238,7 @@ async function main() {
   if (introduced.length) {
     console.log(`SEO active-experiment guard accepted ${introduced.length} newly introduced launch lock(s): ${introduced.join(', ')}.`);
   }
-  console.log(`SEO active-experiment guard passed for ${changedFiles.length} changed file(s); no pre-existing protected target was modified inside its lock window.`);
+  console.log(`SEO active-experiment guard passed for ${changedFiles.length} changed file(s); no pre-existing protected target or active lock definition was weakened inside its lock window.`);
 }
 
 const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
