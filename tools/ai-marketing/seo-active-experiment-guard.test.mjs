@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { findActiveLockViolations, validateConfig } from './seo-active-experiment-guard.mjs';
+import {
+  findActiveLockMutationViolations,
+  findActiveLockViolations,
+  validateConfig,
+} from './seo-active-experiment-guard.mjs';
 
 const config = {
   version: 1,
@@ -99,6 +103,86 @@ test('still blocks a pre-existing target when the same change introduces another
   );
   assert.equal(violations.length, 1);
   assert.equal(violations[0].id, 'reminder-test');
+});
+
+test('blocks removal of a pre-existing active lock', () => {
+  const violations = findActiveLockMutationViolations(
+    config,
+    { version: 1, locks: [] },
+    new Date('2026-09-05T12:00:00Z'),
+  );
+  assert.equal(violations.length, 1);
+  assert.equal(violations[0].type, 'removed');
+});
+
+test('blocks shortening a pre-existing active lock', () => {
+  const headConfig = {
+    version: 1,
+    locks: [{ ...config.locks[0], lockUntil: '2026-09-05' }],
+  };
+  const violations = findActiveLockMutationViolations(
+    config,
+    headConfig,
+    new Date('2026-09-05T12:00:00Z'),
+  );
+  assert.equal(violations.length, 1);
+  assert.equal(violations[0].type, 'shortened');
+});
+
+test('blocks removing protected files or retargeting an active lock', () => {
+  const baseConfig = {
+    version: 1,
+    locks: [{
+      ...config.locks[0],
+      files: [
+        'public/blog/workout-reminder-app-that-calls-you.html',
+        'src/components/ReminderCTA.tsx',
+      ],
+    }],
+  };
+  const headConfig = {
+    version: 1,
+    locks: [{
+      ...config.locks[0],
+      url: '/blog/different-page',
+      files: ['public/blog/workout-reminder-app-that-calls-you.html'],
+    }],
+  };
+  const violations = findActiveLockMutationViolations(
+    baseConfig,
+    headConfig,
+    new Date('2026-09-05T12:00:00Z'),
+  );
+  assert.deepEqual(violations.map((item) => item.type).sort(), ['files-removed', 'retargeted']);
+});
+
+test('allows strengthening an active lock and adding protected files', () => {
+  const headConfig = {
+    version: 1,
+    locks: [{
+      ...config.locks[0],
+      lockUntil: '2026-09-20',
+      files: [
+        ...config.locks[0].files,
+        'src/components/ReminderCTA.tsx',
+      ],
+    }],
+  };
+  const violations = findActiveLockMutationViolations(
+    config,
+    headConfig,
+    new Date('2026-09-05T12:00:00Z'),
+  );
+  assert.deepEqual(violations, []);
+});
+
+test('allows lock mutations after the original lock window expires', () => {
+  const violations = findActiveLockMutationViolations(
+    config,
+    { version: 1, locks: [] },
+    new Date('2026-09-15T00:00:00Z'),
+  );
+  assert.deepEqual(violations, []);
 });
 
 test('fails configuration validation for duplicate lock ids', () => {
