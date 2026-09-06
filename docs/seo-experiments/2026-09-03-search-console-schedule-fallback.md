@@ -31,6 +31,20 @@ Two independent morning schedule opportunities will materially increase the prob
 - The freshest verified Search Console evidence remains the successful September 3 run covering 2026-08-06 through 2026-09-02: 89 private query+landing-page rows, 153 impressions, 1 click, 0.65% CTR, 17 landing pages, weighted average position 52.94, with 25/25 priority URLs inspected and 0 final API errors.
 - Per the experiment rule, do not move the cron slots or add a third schedule before the planned seven-day review unless a separate deterministic failure is discovered. Today’s SEO decision should therefore reduce confidence and avoid speculative public ranking changes based on stale evidence.
 
+## Third observation — 2026-09-05
+- The scheduled Search Console health run (`33963153658`) was created at 11:22:21 UTC and completed successfully at 11:23:41 UTC.
+- The run was healthy end-to-end: private query+page retrieval, encrypted evidence artifact, evidence gate, URL Inspection, safe summary, and safe snapshot persistence all succeeded.
+- It still missed the morning decision objective by a wide margin: creation occurred 5h45m after the 05:37 UTC primary slot and 3h45m after the 07:37 UTC fallback slot.
+- The recovered 2026-08-08 through 2026-09-04 window contained 92 private query+landing-page rows, 174 impressions, 1 click, 0.57% CTR, 17 landing pages, and weighted average position 48.91.
+- URL Inspection completed 25/25 with 22 indexed, 0 explicitly not indexed, 3 neutral/unknown, and 0 final API errors.
+- The strongest public landing-page signal was `/features/ai-workout-generator` at 22 impressions, 1 click, 4.55% CTR, and average position 14.82. Its active experiment remains locked through 2026-09-16, so this improving signal is evidence to preserve the current version rather than rewrite it.
+
+## Fourth observation — 2026-09-06
+- At the September 6 SEO decision window (approximately 08:45 UTC), GitHub reported zero workflow runs created on 2026-09-06 even though both scheduled slots had passed.
+- Day four therefore also fails the before-decision-window target. The freshest verified first-party snapshot remains the successful September 5 run.
+- No separate deterministic workflow failure is visible. Preserve the experiment unchanged until the planned September 10 review instead of adding more cron slots mid-test.
+- Because same-day Search Console data is unavailable, reduce confidence for ranking/content changes. Favor observation and non-overlapping technical work; do not rewrite active ranking experiments from yesterday’s aggregate data alone.
+
 ## Target metrics
 - At least one successful Search Console health run available before the daily SEO decision window on >= 6 of the next 7 days.
 - Zero final URL Inspection API errors.
