@@ -105,6 +105,15 @@ test('fixed URL Inspection config targets the canonical workout consistency URL'
   assert.doesNotMatch(source, /'https:\/\/youraicoach\.life\/workout-consistency-calculator'(?:,|\s)/);
 });
 
+test('fixed URL Inspection prioritizes the active daily-review refresh while preserving an adaptive slot', () => {
+  const source = fs.readFileSync(path.join(HERE, 'gsc-index-inspection.mjs'), 'utf8');
+  assert.match(source, /'https:\/\/youraicoach\.life\/blog\/fitness-app-that-reviews-your-day'/);
+  assert.doesNotMatch(source, /'https:\/\/youraicoach\.life\/blog\/workout-accountability-checklist'/);
+  const fixed = source.match(/const DEFAULT_URLS = \[([\s\S]*?)\];/)?.[1]
+    .match(/'https:\/\/youraicoach\.life[^']*'/g) || [];
+  assert.equal(fixed.length, 24);
+});
+
 test('URL Inspection uses conservative bounded concurrency with transient retries', () => {
   const source = fs.readFileSync(path.join(HERE, 'gsc-index-inspection.mjs'), 'utf8');
   assert.match(source, /const INSPECTION_CONCURRENCY = 3;/);

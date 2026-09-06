@@ -34,7 +34,7 @@ const DEFAULT_URLS = [
   'https://youraicoach.life/blog/best-app-to-track-progressive-overload-automatically',
   'https://youraicoach.life/blog/best-workout-app-with-meal-planning-included',
   'https://youraicoach.life/blog/ai-workout-generator-beginners',
-  'https://youraicoach.life/blog/workout-accountability-checklist',
+  'https://youraicoach.life/blog/fitness-app-that-reviews-your-day',
   'https://youraicoach.life/blog/progressive-overload-tracker-template',
   'https://youraicoach.life/blog/personal-trainer-cost-calculator',
   'https://youraicoach.life/blog/fitness-app-crowded-gyms-adapts-workout',

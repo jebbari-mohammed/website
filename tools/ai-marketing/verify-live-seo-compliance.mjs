@@ -19,6 +19,7 @@ const RELEASED_INDEXABLE_ASSETS = [
   '/blog/best-body-progress-scanning-app',
   '/blog/daily-fitness-check-in-app',
   '/blog/workout-accountability-call-script',
+  '/blog/fitness-app-that-reviews-your-day',
 ];
 const VIDEO_IDS = [
   'FeHyZads8i8',
