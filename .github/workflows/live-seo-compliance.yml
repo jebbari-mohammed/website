@@ -23,6 +23,7 @@ on:
       - 'public/blog/best-body-progress-scanning-app.html'
       - 'public/blog/daily-fitness-check-in-app.html'
       - 'public/blog/workout-accountability-call-script.html'
+      - 'public/blog/fitness-app-that-reviews-your-day.html'
 
 permissions:
   contents: read
