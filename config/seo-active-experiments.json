@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-02",
+  "updatedAt": "2026-09-06",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -159,6 +159,17 @@
       "lockUntil": "2026-09-23",
       "preferredReviewAt": "2026-09-30",
       "reason": "The September 2 launch targets workout accountability call script/template intent with a local script builder and distinct pre-workout, fallback, partner, and review call branches. Preserve the new title, metadata, body, schema, and internal-link package for a clean 21-day evaluation window."
+    },
+    {
+      "id": "daily-review-fitness-app-rejuvenation-2026-09-06",
+      "url": "/blog/fitness-app-that-reviews-your-day",
+      "files": [
+        "public/blog/fitness-app-that-reviews-your-day.html"
+      ],
+      "launchedAt": "2026-09-06",
+      "lockUntil": "2026-09-27",
+      "preferredReviewAt": "2026-10-04",
+      "reason": "Material rejuvenation targeting decaying Search Console visibility (-19 impressions, -3 clicks). Updated introduction and first H2 with 2026 closed-loop coaching, behavioral science on subjective drift, and habit infrastructure. Preserve for clean 21-day evaluation window."
     }
   ]
 }
