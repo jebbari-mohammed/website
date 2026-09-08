@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from '../lib/motion';
-import { Dumbbell, Utensils, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, HeartPulse, Activity } from 'lucide-react';
+import { Dumbbell, Utensils, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, HeartPulse, Activity, type LucideIcon } from 'lucide-react';
 
 interface ShowcaseTab {
   id: 'workout' | 'nutrition' | 'chat';
@@ -10,7 +10,7 @@ interface ShowcaseTab {
   headline: string;
   description: string;
   features: {
-    icon: any;
+    icon: LucideIcon;
     title: string;
     desc: string;
   }[];

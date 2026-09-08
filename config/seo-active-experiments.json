@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-06",
+  "updatedAt": "2026-09-08",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -170,6 +170,17 @@
       "lockUntil": "2026-09-27",
       "preferredReviewAt": "2026-10-04",
       "reason": "Material rejuvenation targeting decaying Search Console visibility (-19 impressions, -3 clicks). Updated introduction and first H2 with 2026 closed-loop coaching, behavioral science on subjective drift, and habit infrastructure. Preserve for clean 21-day evaluation window."
+    },
+    {
+      "id": "body-recomposition-planner-refresh-2026-09-08",
+      "url": "/blog/body-recomposition-guide-lose-fat-gain-muscle",
+      "files": [
+        "public/blog/body-recomposition-guide-lose-fat-gain-muscle.html"
+      ],
+      "launchedAt": "2026-09-08",
+      "lockUntil": "2026-09-29",
+      "preferredReviewAt": "2026-10-06",
+      "reason": "September 8 material refresh converts a generic legacy body recomposition guide into an evidence-backed planner with a readiness/protein builder, safer claims, updated schema, and stronger links into IZEM calls, meal planning, scanning, and review loops. Preserve for a clean 21-day evaluation window."
     }
   ]
 }
