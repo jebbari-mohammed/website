@@ -1,79 +1,67 @@
 import { motion } from '../lib/motion';
 
-interface StatItemProps {
-  value: string;
-  suffix?: string;
-  label: string;
-  sublabel: string;
-  delay: number;
-}
-
-function StatItem({ value, suffix, label, sublabel, delay }: StatItemProps) {
-  const isAnimatable = !isNaN(Number(value));
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay }}
-      className="text-center group"
-    >
-      <div className="text-4xl sm:text-5xl md:text-7xl font-black font-display tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#D8FF86] to-secondary mb-2 drop-shadow-[0_0_20px_rgba(141,255,106,0.25)]">
-        {isAnimatable ? Number(value).toLocaleString() : value}
-        {suffix && <span className="text-2xl sm:text-3xl md:text-5xl">{suffix}</span>}
-      </div>
-      <p className="text-sm sm:text-lg font-bold text-textPrimary mb-1 font-sans">{label}</p>
-      <p className="text-xs sm:text-sm text-textSecondary font-normal px-2">{sublabel}</p>
-    </motion.div>
-  );
-}
+const stats = [
+  {
+    value: '$24.99',
+    unit: '/mo',
+    label: 'Predictable Pricing',
+    detail: 'Complete AI personal trainer at a fraction of in-person coaching rates.',
+  },
+  {
+    value: '100%',
+    unit: '',
+    label: 'Adaptive Programming',
+    detail: 'Workouts, weights, reps, and meals recalculate when your schedule shifts.',
+  },
+  {
+    value: '60 FPS',
+    unit: '',
+    label: 'Video Guidance',
+    detail: 'HD exercise form cues and cooking walkthroughs on every workout day.',
+  },
+  {
+    value: '24/7',
+    unit: '',
+    label: 'Biometric Intelligence',
+    detail: 'Remembers prior sessions, Apple Health metrics, and real-life constraints.',
+  },
+];
 
 export default function Stats() {
   return (
-    <section className="py-16 sm:py-[120px] px-4 sm:px-6 relative overflow-hidden">
-      {/* Background gradients */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/10 to-secondary/10 blur-[160px] rounded-full pointer-events-none" />
-
-      <div className="max-w-5xl mx-auto w-full relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10 sm:mb-16"
-        >
-          <h2 className="text-4xl sm:text-5xl md:text-7xl font-black font-display leading-[1.05] tracking-tight">
-            BY THE<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#D8FF86] to-secondary">NUMBERS.</span>
-          </h2>
-        </motion.div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-6">
-          <StatItem value="$24.99" label="Monthly Plan" sublabel="Premium AI coaching" delay={0} />
-          <StatItem value="7" label="Day Reviews" sublabel="Accountability all week" delay={0.1} />
-          <StatItem value="3" label="Scan Types" sublabel="Food, body, equipment" delay={0.2} />
-          <StatItem value="1" label="Adaptive Plan" sublabel="Workouts and meals together" delay={0.3} />
+    <section className="py-16 sm:py-24 px-4 sm:px-6 border-y border-white/[0.06] bg-[#05080C]/90">
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6">
+          {stats.map((stat, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: idx * 0.08 }}
+              className="p-6 sm:p-7 rounded-2xl specular-card flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-baseline gap-1 mb-2 font-mono">
+                  <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#C8FF7E]">
+                    {stat.value}
+                  </span>
+                  {stat.unit && (
+                    <span className="text-base sm:text-lg font-bold text-textSecondary font-sans">
+                      {stat.unit}
+                    </span>
+                  )}
+                </div>
+                <h4 className="text-sm sm:text-base font-bold text-textPrimary mb-1">
+                  {stat.label}
+                </h4>
+              </div>
+              <p className="text-xs sm:text-sm text-textSecondary leading-relaxed mt-2 font-normal">
+                {stat.detail}
+              </p>
+            </motion.div>
+          ))}
         </div>
-
-        {/* Bottom highlight */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-10 sm:mt-16 text-center"
-        >
-          <div className="inline-flex flex-col sm:flex-row items-center gap-2 sm:gap-3 bg-[#111A22] border border-white/10 rounded-2xl sm:rounded-full px-5 sm:px-6 py-3 backdrop-blur-md shadow-glass">
-            <span className="text-xs sm:text-sm text-textSecondary font-medium">Built as a coach, not a tracker:</span>
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
-              <span className="text-xs sm:text-sm font-bold text-red-400 line-through">Passive logs</span>
-              <span className="text-textSecondary/40">·</span>
-              <span className="text-xs sm:text-sm font-bold text-red-400 line-through">Generic plans</span>
-              <span className="text-textSecondary/40">·</span>
-              <span className="text-xs sm:text-sm font-bold text-red-400 line-through">No follow-up</span>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

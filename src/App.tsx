@@ -1,30 +1,30 @@
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
-import CallLoop from './components/CallLoop';
-import WhyDifferent from './components/WhyDifferent';
-import HowItWorks from './components/HowItWorks';
-import Features from './components/Features';
+import EcosystemStrip from './components/EcosystemStrip';
+import ProductShowcase from './components/ProductShowcase';
+import VoiceCallSection from './components/VoiceCallSection';
+import CorePillars from './components/CorePillars';
+import TrainerCostCalculator from './components/TrainerCostCalculator';
 import Comparison from './components/Comparison';
 import Stats from './components/Stats';
-import Trust from './components/Trust';
-import PrivacySection from './components/PrivacySection';
+import TrustAndPrivacy from './components/TrustAndPrivacy';
 import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="bg-bgPrimary min-h-screen text-textPrimary selection:bg-primary selection:text-white">
+    <div className="bg-[#05080C] min-h-screen text-textPrimary selection:bg-primary selection:text-[#070A0D] font-sans antialiased">
       <Navigation />
       <main>
         <Hero />
-        <CallLoop />
-        <WhyDifferent />
-        <HowItWorks />
-        <Features />
+        <EcosystemStrip />
+        <ProductShowcase />
+        <VoiceCallSection />
+        <CorePillars />
+        <TrainerCostCalculator />
         <Comparison />
         <Stats />
-        <Trust />
-        <PrivacySection />
+        <TrustAndPrivacy />
         <FinalCTA />
       </main>
       <Footer />

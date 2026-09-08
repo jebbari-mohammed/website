@@ -1,165 +1,135 @@
 import { motion } from '../lib/motion';
-import { ArrowRight, Check, ShieldCheck, Sparkles, Zap } from 'lucide-react';
+import { Check, X, ArrowRight, ShieldCheck, Zap, Sparkles } from 'lucide-react';
 
-const coachLoopChecks = [
-  {
-    label: 'Initiation',
-    question: 'Does the coach help before the workout gets skipped?',
-    answer: 'IZEM can use optional scheduled calls and check-ins to create a clear decision point before training.',
-    why: 'A plan has little value if the app waits until after the user has already drifted.',
-  },
-  {
-    label: 'Weekly plan',
-    question: 'Does it connect workouts and meals into one realistic week?',
-    answer: 'IZEM builds weekly workout and meal plans around goals, schedule, equipment, preferences, and practical constraints.',
-    why: 'Separate lists create more decisions. A connected week makes the next action easier to see.',
-  },
-  {
-    label: 'Adaptation',
-    question: 'What happens when the original plan no longer fits?',
-    answer: 'IZEM can offer exercise substitutions, smaller fallback sessions, and later weekly plan adjustments.',
-    why: 'The useful test is not whether a plan looks perfect on Sunday, but whether it survives Wednesday.',
-  },
-  {
-    label: 'Context',
-    question: 'Can the coach use relevant information instead of asking the same questions again?',
-    answer: 'Workout history, meal context, preferences, check-ins, and optional food, body-progress, and equipment scans can inform coaching.',
-    why: 'Context should reduce repetition and make the next recommendation less generic.',
-  },
-  {
-    label: 'Review',
-    question: 'Does the system close the loop after the day?',
-    answer: 'Day reviews can capture what happened, why the plan changed, and what should carry into the next week.',
-    why: 'A missed session becomes useful only when it changes the next decision.',
-  },
-  {
-    label: 'Boundaries',
-    question: 'Is the product honest about what it cannot replace?',
-    answer: 'IZEM provides general fitness and nutrition guidance. It does not diagnose injuries, provide medical care, or replace hands-on form coaching.',
-    why: 'A trustworthy coaching product should make escalation boundaries obvious before they are needed.',
-  },
+const trackerDrawbacks = [
+  'Waits for you to manually log sets after the workout',
+  'Shows graphs and charts but leaves the next decision up to you',
+  'Rigid templates that break as soon as you miss a day',
+  'Disconnected workout and nutrition trackers that do not coordinate',
+  'Silent notifications that get swiped away and ignored',
 ];
 
-const boundaries = [
-  'No medical diagnosis or injury rehabilitation claims',
-  'No promise that a scan is a clinical body-composition measurement',
-  'No claim that AI replaces hands-on technique coaching',
-  'Call timing and accountability settings remain user-controlled',
+const izemAdvantages = [
+  'Proactive scheduled phone calls before workouts to build real consistency',
+  '60 FPS video form demos with exact technique and setup cues',
+  'Automatic weekly volume and exercise adaptations when life gets busy',
+  'Unified workout & meal planning with smart social macro banking',
+  'Apple Health sync to protect joints and adapt to fatigue in real time',
 ];
 
 export default function Comparison() {
   return (
-    <section className="py-20 sm:py-[140px] px-4 sm:px-6 relative overflow-hidden bg-[#070A0D]">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[760px] h-[760px] bg-gradient-to-r from-primary/15 via-[#86D7FF]/10 to-transparent blur-[170px] rounded-full pointer-events-none z-0" />
-
-      <div className="max-w-6xl mx-auto w-full relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 sm:mb-16"
-        >
-          <div className="inline-flex items-center gap-2.5 bg-[#111A22] border border-primary/40 rounded-full px-5 py-2 text-xs text-primary font-bold uppercase tracking-[2px] mb-6 backdrop-blur-xl shadow-[0_0_25px_rgba(141,255,106,0.2)]">
-            <Zap size={14} className="fill-primary" />
-            The Coach Loop Test
-          </div>
-          <h2 className="text-4xl sm:text-6xl md:text-7xl font-black font-display leading-[1.02] tracking-tight mb-6">
-            COMPARE THE COACHING LOOP.<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#D8FF86] to-[#86D7FF]">
-              NOT A STALE FEATURE TABLE.
-            </span>
-          </h2>
-          <p className="text-base sm:text-xl text-textSecondary max-w-[760px] mx-auto leading-relaxed font-sans font-normal px-2">
-            Prices and competitor features change. A more useful comparison is to test the decisions a coaching system can actually support. Below is IZEM&apos;s current first-party product scope—not a claim about what another app does or does not offer.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
-          {coachLoopChecks.map((item, index) => (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.35, delay: index * 0.04 }}
-              className="h-full"
-            >
-              <article className="h-full glass-card rounded-[24px] p-6 sm:p-7 border border-white/10 bg-[#0E151B]/92 backdrop-blur-xl shadow-glass">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center bg-primary/15 border border-primary/40 shadow-[0_0_18px_rgba(141,255,106,0.2)]">
-                    <Check size={19} className="text-primary stroke-[3]" />
-                  </div>
-                  <div>
-                    <p className="text-[11px] uppercase tracking-[2px] font-black text-primary mb-2">{item.label}</p>
-                    <h3 className="text-xl sm:text-2xl font-black text-textPrimary font-display leading-tight mb-3">
-                      {item.question}
-                    </h3>
-                    <p className="text-sm sm:text-base text-textPrimary/90 leading-relaxed mb-3">
-                      <strong className="text-primary">IZEM&apos;s answer:</strong> {item.answer}
-                    </p>
-                    <p className="text-sm text-textSecondary leading-relaxed">{item.why}</p>
-                  </div>
-                </div>
-              </article>
-            </motion.div>
-          ))}
-        </div>
-
+    <section id="comparison" className="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden bg-[#070A0D]">
+      <div className="max-w-6xl mx-auto w-full">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mt-6 sm:mt-8 rounded-[28px] border border-[#86D7FF]/20 bg-gradient-to-br from-[#101922] to-[#10162A] p-6 sm:p-8"
+          className="text-center max-w-3xl mx-auto mb-14 sm:mb-16"
         >
-          <div className="grid lg:grid-cols-[1.15fr_.85fr] gap-7 lg:gap-10 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 text-[#86D7FF] text-xs font-black uppercase tracking-[2px] mb-4">
-                <ShieldCheck size={16} />
-                Trust before persuasion
-              </div>
-              <h3 className="text-3xl sm:text-4xl font-black font-display text-textPrimary leading-tight mb-4">
-                Verify current products at the source.
-              </h3>
-              <p className="text-textSecondary leading-relaxed mb-4">
-                We removed named competitor prices and unsupported yes/no claims from this homepage because those details can change. When comparing any fitness app, confirm current pricing, platforms, safety boundaries, and feature availability on its official product or store listing.
-              </p>
-              <p className="text-sm text-textSecondary/80 leading-relaxed">
-                IZEM&apos;s own scope is explained on the canonical product page and is reviewed under the public editorial policy.
-              </p>
-            </div>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.1] text-xs font-semibold text-primary mb-4">
+            <Zap size={13} className="text-primary fill-primary" />
+            <span>TRACKER VS. COACH</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-textPrimary leading-tight mb-4">
+            A Tracker Records. A Coach Responds.
+          </h2>
+          <p className="text-base sm:text-lg text-textSecondary font-normal leading-relaxed">
+            Logging data does not build muscle or burn fat—taking the right action does. Compare how IZEM differs from traditional fitness apps.
+          </p>
+        </motion.div>
 
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-5 sm:p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Sparkles size={16} className="text-primary" />
-                <p className="text-sm font-black text-textPrimary uppercase tracking-wider">IZEM safety boundaries</p>
+        {/* Side-by-Side Comparison Card */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12">
+          {/* Traditional Trackers */}
+          <div className="rounded-3xl p-7 sm:p-9 bg-[#0B0F15]/90 border border-white/[0.08] shadow-xl flex flex-col justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.08] text-xs font-bold text-textSecondary uppercase tracking-wider mb-5">
+                Traditional Fitness Trackers
               </div>
-              <ul className="space-y-3 mb-6">
-                {boundaries.map((boundary) => (
-                  <li key={boundary} className="flex items-start gap-3 text-sm text-textSecondary leading-relaxed">
-                    <Check size={16} className="text-primary shrink-0 mt-0.5" />
-                    <span>{boundary}</span>
+              <h3 className="text-xl sm:text-2xl font-bold text-textPrimary mb-4">
+                Passive Logging & Disconnected Tools
+              </h3>
+              <p className="text-sm text-textSecondary leading-relaxed mb-6">
+                Most apps are passive digital spreadsheets. They record when you succeed and stay silent when you struggle.
+              </p>
+
+              <ul className="space-y-4">
+                {trackerDrawbacks.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-sm text-textSecondary leading-relaxed">
+                    <div className="w-5 h-5 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 shrink-0 mt-0.5">
+                      <X size={12} strokeWidth={2.5} />
+                    </div>
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
-              <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3">
-                <a
-                  href="/izem-ai-fitness-coach/"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary text-[#070A0D] font-black px-5 py-3 hover:opacity-90 transition-opacity"
-                >
-                  See how IZEM works <ArrowRight size={17} />
-                </a>
-                <a
-                  href="/editorial-policy.html"
-                  className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 text-textPrimary font-bold px-5 py-3 hover:bg-white/10 transition-colors"
-                >
-                  Editorial policy
-                </a>
-              </div>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-white/[0.06] text-xs text-textSecondary/70">
+              Leaves you to plan workouts, count macros, and find motivation alone.
             </div>
           </div>
-        </motion.div>
+
+          {/* IZEM AI Fitness Coach */}
+          <div className="rounded-3xl p-7 sm:p-9 specular-card border-2 border-primary/40 shadow-[0_20px_60px_rgba(141,255,106,0.18)] flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-56 h-56 bg-primary/[0.1] blur-3xl pointer-events-none" />
+
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/15 border border-primary/30 text-xs font-bold text-primary uppercase tracking-wider mb-5 shadow-sm">
+                <Sparkles size={12} />
+                <span>IZEM AI Personal Trainer</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-textPrimary mb-4">
+                Active Guidance & Real Accountability
+              </h3>
+              <p className="text-sm text-textSecondary leading-relaxed mb-6">
+                An intelligent partner that monitors your recovery, calls your phone, and recalibrates your training when life shifts.
+              </p>
+
+              <ul className="space-y-4">
+                {izemAdvantages.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-sm text-textPrimary font-medium leading-relaxed">
+                    <div className="w-5 h-5 rounded-full bg-primary/25 border border-primary/50 flex items-center justify-center text-primary shrink-0 mt-0.5 shadow-sm">
+                      <Check size={12} strokeWidth={3} />
+                    </div>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-white/[0.08]">
+              <a
+                href="/izem-ai-fitness-coach/"
+                className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full text-sm font-bold bg-primary text-[#070A0D] hover:bg-[#A3FF85] hover:scale-[1.01] transition-all shadow-[0_0_25px_rgba(141,255,106,0.3)]"
+              >
+                <span>Experience the Difference</span>
+                <ArrowRight size={16} />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Trust & Boundary Banner */}
+        <div className="rounded-2xl p-5 sm:p-6 bg-[#0E151B]/80 border border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <ShieldCheck size={20} className="text-primary shrink-0" />
+            <p className="text-xs sm:text-sm text-textSecondary">
+              <strong className="text-textPrimary">Responsible guidance:</strong> IZEM provides fitness and nutritional coaching. It does not replace medical care or diagnose injuries. Call times remain 100% under your control.
+            </p>
+          </div>
+          <div className="shrink-0">
+            <a
+              href="/editorial-policy.html"
+              className="text-xs font-semibold text-primary hover:underline whitespace-nowrap"
+            >
+              Read Editorial Policy →
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );

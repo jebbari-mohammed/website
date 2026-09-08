@@ -69,7 +69,16 @@ function createMotionElement(tagName: string) {
 
 export const motion = {
   a: createMotionElement('a'),
+  article: createMotionElement('article'),
   div: createMotionElement('div'),
+  footer: createMotionElement('footer'),
+  h1: createMotionElement('h1'),
+  h2: createMotionElement('h2'),
+  h3: createMotionElement('h3'),
+  h4: createMotionElement('h4'),
+  header: createMotionElement('header'),
   nav: createMotionElement('nav'),
   p: createMotionElement('p'),
+  section: createMotionElement('section'),
+  span: createMotionElement('span'),
 };

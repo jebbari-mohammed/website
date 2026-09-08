@@ -1,87 +1,155 @@
 export default function Footer() {
-    return (
-        <footer className="bg-[#070A0D] border-t border-white/10 pt-[60px] pb-8 px-6">
-            <div className="max-w-7xl mx-auto w-full">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
-                    <div className="md:col-span-5">
-                        <div className="flex items-center gap-2.5 mb-3">
-                            <img
-                                src="/images/izem-app-logo-192.png"
-                                alt=""
-                                width="32"
-                                height="32"
-                                loading="lazy"
-                                decoding="async"
-                                className="w-8 h-8 rounded-xl object-cover shadow-[0_0_15px_rgba(45,224,205,0.35)]"
-                            />
-                            <span className="text-xl font-black font-display tracking-wider text-textPrimary">IZEM</span>
-                        </div>
-                        <p className="text-sm text-textSecondary leading-[1.7] max-w-[300px]">
-                            Premium AI personal training with weekly workouts, practical meals, food/body/equipment scans, daily reviews, coach memory, optional calls, and weekly plan adaptation.
-                            <br /><br />
-                            <span className="text-[11px] opacity-70">
-                                <strong>Note:</strong> We are a consumer fitness application, not affiliated with the B2B consulting firm youraicoach.ai.
-                            </span>
-                            <br />
-                            <span className="text-[11px] opacity-70 block mt-2">
-                                <strong>Location:</strong> Casablanca, Morocco
-                            </span>
-                        </p>
-                    </div>
-
-                    <div className="md:col-span-2">
-                        <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Product</h4>
-                        <div className="flex flex-col gap-2.5">
-                            <a href="/izem-ai-fitness-coach/" className="text-sm text-textSecondary hover:text-primary transition-colors">IZEM AI Fitness Coach</a>
-                            <a href="/features/ai-workout-generator" className="text-sm text-textSecondary hover:text-primary transition-colors">Workout Plans</a>
-                            <a href="/features/ai-meal-planner" className="text-sm text-textSecondary hover:text-primary transition-colors">Meal Plans</a>
-                            <a href="/features/body-scanning" className="text-sm text-textSecondary hover:text-primary transition-colors">Body Scanning</a>
-                        </div>
-                    </div>
-
-                    <div className="md:col-span-2">
-                        <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Guides</h4>
-                        <div className="flex flex-col gap-2.5">
-                            <a href="/izem-ai-fitness-coach/" className="text-sm text-textSecondary hover:text-primary transition-colors font-medium text-primary">IZEM AI Fitness Coach</a>
-                            <a href="/fitness-app-that-calls-you/" className="text-sm text-textSecondary hover:text-primary transition-colors font-medium text-primary">Fitness App That Calls You</a>
-                            <a href="/features/ai-voice-calls" className="text-sm text-textSecondary hover:text-primary transition-colors">AI Voice Calls</a>
-                            <a href="/best-ai-fitness-app" className="text-sm text-textSecondary hover:text-primary transition-colors">Best AI Fitness App</a>
-                            <a href="/tools/" className="text-sm text-textSecondary hover:text-primary transition-colors">Free Fitness Calculators</a>
-                            <a href="/blog/" className="text-sm text-textSecondary hover:text-primary transition-colors">Blog</a>
-                            <a href="/glossary/" className="text-sm text-textSecondary hover:text-primary transition-colors">Glossary</a>
-                        </div>
-                    </div>
-
-                    <div className="md:col-span-2">
-                        <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Legal & Story</h4>
-                        <div className="flex flex-col gap-2.5">
-                            <a href="/about.html" className="text-sm text-textSecondary hover:text-primary transition-colors font-medium text-primary">About IZEM</a>
-                            <a href="/privacy-policy.html" className="text-sm text-textSecondary hover:text-primary transition-colors">Privacy Policy</a>
-                            <a href="/terms.html" className="text-sm text-textSecondary hover:text-primary transition-colors">Terms of Service</a>
-                            <a href="#delete" className="text-sm text-textSecondary hover:text-primary transition-colors">Data Deletion</a>
-                        </div>
-                    </div>
-
-                    <div className="md:col-span-1">
-                        <h4 className="text-[13px] font-bold uppercase tracking-[1px] text-textSecondary/70 mb-4 font-sans">Support</h4>
-                        <div className="flex flex-col gap-2.5">
-                            <a href="mailto:support@youraicoach.life" className="text-sm text-textSecondary hover:text-primary transition-colors">Contact Us</a>
-                            <a href="mailto:support@youraicoach.life" className="text-sm text-textSecondary hover:text-primary transition-colors">Support</a>
-                            <a href="#data" className="text-sm text-textSecondary hover:text-primary transition-colors">Data Policy</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-[13px] text-textSecondary/70 font-sans">© 2026 IZEM. All rights reserved.</p>
-                    <div className="flex gap-4 flex-wrap">
-                        <a href="/about.html" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">About Us</a>
-                        <a href="/privacy-policy.html" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">Privacy Policy</a>
-                        <a href="/terms.html" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">Terms of Service</a>
-                        <a href="mailto:support@youraicoach.life" className="text-[13px] text-textSecondary/70 hover:text-textPrimary transition-colors">support@youraicoach.life</a>
-                    </div>
-                </div>
+  return (
+    <footer className="bg-[#050709] border-t border-white/[0.07] pt-16 pb-12 px-4 sm:px-8">
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 mb-14">
+          {/* Brand Col */}
+          <div className="md:col-span-4 lg:col-span-4">
+            <div className="flex items-center gap-2.5 mb-4">
+              <img
+                src="/images/izem-app-logo-192.png"
+                alt="IZEM App Logo"
+                width="32"
+                height="32"
+                loading="lazy"
+                decoding="async"
+                className="w-8 h-8 rounded-xl object-cover shadow-[0_0_12px_rgba(141,255,106,0.3)]"
+              />
+              <span className="text-xl font-bold tracking-tight text-textPrimary">IZEM</span>
             </div>
-        </footer>
-    );
+            <p className="text-sm text-textSecondary leading-relaxed max-w-sm mb-4">
+              Premium AI personal training combining weekly adaptive workouts, precision nutrition, computer vision scans, daily check-ins, and proactive voice calls.
+            </p>
+            <p className="text-xs text-textSecondary/60 leading-normal">
+              <strong>Location:</strong> Casablanca, Morocco<br />
+              <strong>Entity:</strong> Consumer fitness app, not affiliated with youraicoach.ai.
+            </p>
+          </div>
+
+          {/* Product Links */}
+          <div className="md:col-span-2 lg:col-span-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
+              Product
+            </h4>
+            <ul className="flex flex-col gap-2.5 text-sm">
+              <li>
+                <a href="/izem-ai-fitness-coach/" className="text-textSecondary hover:text-primary transition-colors">
+                  AI Fitness Coach
+                </a>
+              </li>
+              <li>
+                <a href="/features/ai-workout-generator" className="text-textSecondary hover:text-primary transition-colors">
+                  Workout Generator
+                </a>
+              </li>
+              <li>
+                <a href="/features/ai-meal-planner" className="text-textSecondary hover:text-primary transition-colors">
+                  AI Meal Planner
+                </a>
+              </li>
+              <li>
+                <a href="/features/ai-voice-calls" className="text-textSecondary hover:text-primary transition-colors">
+                  AI Voice Calls
+                </a>
+              </li>
+              <li>
+                <a href="/features/body-scanning" className="text-textSecondary hover:text-primary transition-colors">
+                  Body Scanning
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Guides & Tools */}
+          <div className="md:col-span-3 lg:col-span-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
+              Guides & Tools
+            </h4>
+            <ul className="flex flex-col gap-2.5 text-sm">
+              <li>
+                <a href="/fitness-app-that-calls-you/" className="text-textSecondary hover:text-primary transition-colors">
+                  Fitness App That Calls You
+                </a>
+              </li>
+              <li>
+                <a href="/best-ai-fitness-app" className="text-textSecondary hover:text-primary transition-colors">
+                  Best AI Fitness Apps
+                </a>
+              </li>
+              <li>
+                <a href="/tools/" className="text-textSecondary hover:text-primary transition-colors">
+                  Free Fitness Calculators
+                </a>
+              </li>
+              <li>
+                <a href="/workout-consistency-calculator/" className="text-textSecondary hover:text-primary transition-colors">
+                  Consistency Calculator
+                </a>
+              </li>
+              <li>
+                <a href="/blog/" className="text-textSecondary hover:text-primary transition-colors">
+                  Coaching Blog & Insights
+                </a>
+              </li>
+              <li>
+                <a href="/glossary/" className="text-textSecondary hover:text-primary transition-colors">
+                  Fitness Glossary
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal & Support */}
+          <div className="md:col-span-3 lg:col-span-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
+              Trust & Company
+            </h4>
+            <ul className="flex flex-col gap-2.5 text-sm">
+              <li>
+                <a href="/about.html" className="text-textSecondary hover:text-primary transition-colors">
+                  About Mohammed Jebbari & IZEM
+                </a>
+              </li>
+              <li>
+                <a href="/editorial-policy.html" className="text-textSecondary hover:text-primary transition-colors">
+                  Editorial Standards
+                </a>
+              </li>
+              <li>
+                <a href="/privacy-policy.html" className="text-textSecondary hover:text-primary transition-colors">
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="/terms.html" className="text-textSecondary hover:text-primary transition-colors">
+                  Terms of Service
+                </a>
+              </li>
+              <li>
+                <a href="#delete" className="text-textSecondary hover:text-primary transition-colors">
+                  Data Deletion
+                </a>
+              </li>
+              <li>
+                <a href="mailto:support@youraicoach.life" className="text-textSecondary hover:text-primary transition-colors">
+                  support@youraicoach.life
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom copyright */}
+        <div className="border-t border-white/[0.06] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-textSecondary/60">
+          <p>© 2026 IZEM AI Fitness Coach. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <a href="/privacy-policy.html" className="hover:text-textPrimary transition-colors">Privacy</a>
+            <a href="/terms.html" className="hover:text-textPrimary transition-colors">Terms</a>
+            <a href="/editorial-policy.html" className="hover:text-textPrimary transition-colors">Editorial</a>
+            <a href="/sitemap.xml" className="hover:text-textPrimary transition-colors">Sitemap</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 }

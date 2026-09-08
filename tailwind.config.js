@@ -35,8 +35,8 @@ export default {
             },
             fontFamily: {
                 sans: ['"Hanken Grotesk"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                display: ['Anton', 'Jost', 'sans-serif'],
-                condensed: ['Jost', 'Anton', 'ui-sans-serif', 'sans-serif'],
+                display: ['"Hanken Grotesk"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                condensed: ['"Hanken Grotesk"', 'Inter', 'ui-sans-serif', 'sans-serif'],
                 mono: ['"JetBrains Mono"', 'monospace'],
             },
             boxShadow: {
