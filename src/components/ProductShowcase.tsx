@@ -169,7 +169,8 @@ export default function ProductShowcase() {
                   loop
                   muted
                   playsInline
-                  preload="auto"
+                  loading="lazy"
+                  preload="metadata"
                   className="w-full h-full object-cover"
                 />
               </div>
