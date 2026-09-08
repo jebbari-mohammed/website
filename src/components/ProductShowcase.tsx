@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from '../lib/motion';
 import { Dumbbell, Utensils, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, HeartPulse, Activity } from 'lucide-react';
 
@@ -104,7 +104,32 @@ const tabs: ShowcaseTab[] = [
 
 export default function ProductShowcase() {
   const [activeTab, setActiveTab] = useState<ShowcaseTab['id']>('workout');
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const videoFrameRef = useRef<HTMLDivElement>(null);
   const current = tabs.find((t) => t.id === activeTab) || tabs[0];
+
+  useEffect(() => {
+    const frame = videoFrameRef.current;
+    if (!frame) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setShouldLoadVideo(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoadVideo(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '320px 0px' },
+    );
+
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section id="showcase" className="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden bg-[#070A0D]/60 border-t border-white/[0.06]">
@@ -161,17 +186,24 @@ export default function ProductShowcase() {
               {/* Backlight halo */}
               <div className="absolute inset-4 bg-gradient-to-tr from-primary/20 via-transparent to-secondary/20 blur-3xl opacity-70 rounded-[50px] -z-10" />
 
-              <div className="relative rounded-[36px] overflow-hidden aspect-[800/1260] shadow-[0_30px_80px_rgba(0,0,0,0.95),0_0_40px_rgba(141,255,106,0.15)]">
-                <video
-                  key={current.videoSrc}
-                  src={current.videoSrc}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  className="w-full h-full object-cover"
-                />
+              <div
+                ref={videoFrameRef}
+                className="relative rounded-[36px] overflow-hidden aspect-[800/1260] shadow-[0_30px_80px_rgba(0,0,0,0.95),0_0_40px_rgba(141,255,106,0.15)] bg-[#0B1017]"
+              >
+                {shouldLoadVideo ? (
+                  <video
+                    key={current.videoSrc}
+                    src={current.videoSrc}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div aria-hidden="true" className="w-full h-full bg-gradient-to-br from-white/[0.03] to-primary/[0.04]" />
+                )}
               </div>
             </div>
           </div>
