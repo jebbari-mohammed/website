@@ -45,6 +45,19 @@ Two independent morning schedule opportunities will materially increase the prob
 - No separate deterministic workflow failure is visible. Preserve the experiment unchanged until the planned September 10 review instead of adding more cron slots mid-test.
 - Because same-day Search Console data is unavailable, reduce confidence for ranking/content changes. Favor observation and non-overlapping technical work; do not rewrite active ranking experiments from yesterday’s aggregate data alone.
 
+## Additional observation — 2026-09-08
+- The scheduled Search Console health run (`34225113796`) was created at 12:16:00 UTC and completed successfully at 12:17:26 UTC.
+- The run was healthy, but creation occurred 6h39m after the 05:37 UTC primary slot and 4h39m after the 07:37 UTC fallback slot, so it did **not** satisfy the morning decision-window objective.
+- The recovered 2026-08-11 through 2026-09-07 window contained 101 private query+landing-page rows, 202 impressions, 1 click, 0.50% CTR, 21 landing pages, and weighted average position 42.79.
+- URL Inspection completed 25/25 with 22 indexed, 0 explicitly not indexed, 3 neutral/unknown, and 0 final API errors.
+- `/features/ai-workout-generator` remained the strongest near-page-one asset at 30 impressions, 1 click, 3.33% CTR, and average position 13.73. Preserve its active experiment rather than changing an improving URL from delayed evidence.
+
+## Decision-window observation — 2026-09-09
+- At 08:12 UTC, GitHub reported zero workflow runs created on 2026-09-09 even though both the 05:37 UTC primary slot and 07:37 UTC fallback slot had passed.
+- Fresh same-day Search Console evidence is therefore unavailable for today's SEO decision. Use the September 8 successful snapshot only as delayed context, not as justification for a new ranking-page mutation.
+- This is another failure of the before-decision-window target. Do not add another cron slot one day before the precommitted review; preserve the experiment through the 2026-09-10 decision date.
+- If the formal review confirms the target was missed, prefer a freshness-gated recovery architecture rather than accumulating more scheduled triggers.
+
 ## Target metrics
 - At least one successful Search Console health run available before the daily SEO decision window on >= 6 of the next 7 days.
 - Zero final URL Inspection API errors.
