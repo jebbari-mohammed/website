@@ -2,10 +2,11 @@ name: Search Console health check
 
 on:
   schedule:
-    # Primary morning run. GitHub scheduled workflows can be delayed or dropped under load.
-    - cron: '37 5 * * *'
-    # Independent fallback before the SEO decision window; concurrency prevents overlapping work.
-    - cron: '37 7 * * *'
+    # Evidence-derived primary window. GitHub scheduled workflows can be delayed or dropped under load;
+    # this earlier slot preserves several hours of latency buffer before the SEO decision window.
+    - cron: '37 0 * * *'
+    # Independent fallback using the same two-run ceiling as before; concurrency prevents overlap.
+    - cron: '37 2 * * *'
   workflow_dispatch:
   push:
     branches: [main]
