@@ -58,6 +58,42 @@ Two independent morning schedule opportunities will materially increase the prob
 - This is another failure of the before-decision-window target. Do not add another cron slot one day before the precommitted review; preserve the experiment through the 2026-09-10 decision date.
 - If the formal review confirms the target was missed, prefer a freshness-gated recovery architecture rather than accumulating more scheduled triggers.
 
+## Formal review — 2026-09-10
+- At 08:15 UTC, GitHub reported zero workflow runs created on 2026-09-10 even though both configured schedule slots had passed.
+- The seven-day experiment therefore failed its primary availability objective by a wide margin. Multiple observed runs were healthy once created, but GitHub created them several hours late; the failure mode is scheduler latency rather than Search Console/API execution.
+- The most recent healthy scheduled run (`34351151632`) was created on 2026-09-09 at 12:27:45 UTC, 6h50m after the 05:37 primary slot and 4h50m after the 07:37 fallback slot. It recovered the 2026-08-12 through 2026-09-08 window with 101 private query+landing-page rows, 199 impressions, 1 click, 0.50% CTR, weighted average position 42.12, and 25/25 URL Inspection requests with 0 API errors.
+- GitHub's own documentation states that scheduled workflows may be delayed during high load and can be dropped. Because both existing slots use minute 37 already, the remaining controllable variable with the best evidence is lead time rather than adding more schedules.
+
+## Replacement decision — 2026-09-10
+- Retire the 05:37/07:37 UTC pair and move the same two-run ceiling to 00:37/02:37 UTC.
+- This is not a third trigger and does not increase the maximum scheduled-run count. It preserves the existing `search-console-health` concurrency group with `cancel-in-progress: true`.
+- The new primary slot provides about 7h38m of lead time before the observed ~08:15 UTC SEO decision window; the fallback provides about 5h38m.
+- Using the worst observed delay in this experiment (~6h50m), the 00:37 primary would still be expected to appear around 07:27 UTC. Using the worst observed delay from the fallback slot (~4h50m), the 02:37 fallback would also land around 07:27 UTC. These are evidence-derived buffers, not guarantees.
+- Do not alter Search Console retrieval, encryption, URL Inspection, safe snapshot, or ranking content as part of this timing correction.
+
+## Replacement hypothesis
+Moving the existing two scheduled opportunities earlier will materially improve the probability of fresh first-party evidence being available before the SEO decision window without increasing workflow frequency or changing SEO evidence semantics.
+
+## Replacement baseline
+- Old schedule: 05:37 and 07:37 UTC.
+- Repeated creation delays of roughly 2h26m to 6h50m were observed.
+- September 10 decision window: no same-day Search Console run.
+- Latest safe snapshot (September 9 run): 101 private query+landing-page rows, 199 impressions, 1 click, 0.50% CTR, 21 landing pages, weighted average position 42.12; 25/25 priority URLs inspected with 0 API errors.
+
+## Replacement target metrics
+- Fresh successful Search Console evidence available before the daily SEO decision window on >= 6 of the next 7 days.
+- Zero final URL Inspection API errors.
+- No plaintext query leakage.
+- No overlap-related duplicate execution failures.
+- No increase above two configured daily schedule opportunities.
+- No public SEO/content mutation caused by the reliability change.
+
+## Replacement expected direction
+Higher same-day evidence availability; unchanged rankings/content because the intervention changes timing only.
+
+## Replacement earliest review date
+2026-09-17, after seven daily opportunities on the earlier schedule.
+
 ## Target metrics
 - At least one successful Search Console health run available before the daily SEO decision window on >= 6 of the next 7 days.
 - Zero final URL Inspection API errors.
@@ -73,7 +109,8 @@ Higher same-day evidence availability and fewer manual recovery runs; unchanged 
 
 ## Risks
 - When both schedules execute normally, the workflow may run twice in one morning. This adds modest CI/API usage but does not change site content. The existing concurrency group prevents overlapping executions.
-- If GitHub experiences a broader scheduler outage, both schedules can still be delayed or dropped; this experiment reduces single-slot fragility rather than guaranteeing delivery.
+- If GitHub experiences a broader scheduler outage, both schedules can still be delayed or dropped; timing earlier creates buffer but cannot guarantee delivery.
+- Earlier execution does not make Search Console itself more current; Google notes that Search Console reporting can lag. The purpose is to have the latest available evidence ready before the SEO decision, not to eliminate Google reporting latency.
 
 ## Follow-up rule
-If same-day evidence availability remains unreliable after the seven-day window, prefer a true freshness-gated recovery architecture rather than adding more cron slots.
+Review the 00:37/02:37 UTC timing on 2026-09-17. If availability still misses the target, stop treating cron timing as the primary lever and design a different recovery path tied to an independent repository event or external scheduler; do not accumulate more cron entries.
