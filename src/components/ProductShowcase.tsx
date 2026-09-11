@@ -113,8 +113,8 @@ export default function ProductShowcase() {
     if (!frame) return;
 
     if (typeof IntersectionObserver === 'undefined') {
-      setShouldLoadVideo(true);
-      return;
+      const fallbackTimer = window.setTimeout(() => setShouldLoadVideo(true), 0);
+      return () => window.clearTimeout(fallbackTimer);
     }
 
     const observer = new IntersectionObserver(
