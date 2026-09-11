@@ -94,6 +94,15 @@ Higher same-day evidence availability; unchanged rankings/content because the in
 ## Replacement earliest review date
 2026-09-17, after seven daily opportunities on the earlier schedule.
 
+## Replacement observation — 2026-09-11
+- The first full day on the 00:37/02:37 UTC schedule met the before-decision-window objective.
+- Scheduled run `34565035883` was created at 05:11:59 UTC and completed successfully, while scheduled run `34574446014` was created at 07:27:14 UTC and completed successfully at 07:28:50 UTC.
+- Both runs were delayed by GitHub relative to their nominal slots, but the added lead time absorbed that latency and delivered fresh evidence before the approximately 08:15 UTC SEO decision window.
+- The latest run recovered the 2026-08-14 through 2026-09-10 window with 99 private query+landing-page rows, 209 impressions, 1 click, 0.48% CTR, 24 landing pages, and weighted average position 34.69.
+- URL Inspection completed 25/25 with 22 indexed, 0 explicitly not indexed, 3 neutral/unknown, and 0 final API errors. There was no plaintext-query leakage or overlap-related failure.
+- `/features/ai-workout-generator` strengthened to 37 impressions, 1 click, 2.70% CTR, and average position 13.03. Preserve its active experiment through 2026-09-16 rather than modifying an improving near-page-one URL.
+- Count this as day 1 of 7 toward the replacement target; do not change the schedule again before the 2026-09-17 review unless a separate deterministic failure appears.
+
 ## Target metrics
 - At least one successful Search Console health run available before the daily SEO decision window on >= 6 of the next 7 days.
 - Zero final URL Inspection API errors.
