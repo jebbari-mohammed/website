@@ -167,6 +167,15 @@
       "lockUntil": "2026-10-03",
       "preferredReviewAt": "2026-10-10",
       "reason": "The September 12 launch supports the AI workout-generator cluster with a distinct comparison intent and Generator Ceiling Test, without editing the locked feature page that owns the current click signal. Preserve for a clean 21-day discovery and early Search Console window."
+    },
+    {
+      "id": "ai-voice-calls-feature-refresh-2026-09-12",
+      "url": "/features/ai-voice-calls",
+      "files": ["public/features/ai-voice-calls.html"],
+      "launchedAt": "2026-09-12",
+      "lockUntil": "2026-10-03",
+      "preferredReviewAt": "2026-10-10",
+      "reason": "The September 12 refresh supports the strongest private call/reminder cluster with safer call-based coaching language, FAQ schema, a Call Timing Fit Test, and contextual links into the accountability cluster. Preserve for a clean 21-day evaluation window."
     }
   ]
 }
