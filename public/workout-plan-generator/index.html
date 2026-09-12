@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Workout Plan Generator — Weekly Gym Plan | IZEM</title>
+  <meta name="description" content="Build a free weekly workout plan from your goal, training days, equipment, experience, and session length. Get exercises, sets, reps, rest, and progression.">
+  <link rel="canonical" href="https://youraicoach.life/workout-plan-generator/">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta property="og:title" content="Free Workout Plan Generator — Weekly Gym Plan | IZEM">
+  <meta property="og:description" content="Choose your goal, equipment, experience, training days, and session length. Get a complete weekly workout plan instantly—free and no sign-up required.">
+  <meta property="og:url" content="https://youraicoach.life/workout-plan-generator/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IZEM">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Free Workout Plan Generator | IZEM">
+  <meta name="twitter:description" content="Generate a complete weekly workout plan with exercises, sets, reps, rest, and a progression rule.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "IZEM Free Workout Plan Generator",
+        "url": "https://youraicoach.life/workout-plan-generator/",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Any",
+        "description": "A free browser-based workout plan generator that creates a weekly training plan from goal, equipment, experience, training days, and session length.",
+        "featureList": [
+          "2 to 6 training days per week",
+          "Goal-based sets and rep ranges",
+          "Full gym, dumbbell, or bodyweight equipment options",
+          "Session-length-aware exercise count",
+          "Progression guidance",
+          "Copyable weekly plan"
+        ],
+        "datePublished": "2026-09-12",
+        "dateModified": "2026-09-12",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "IZEM",
+          "url": "https://youraicoach.life"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://youraicoach.life/"},
+          {"@type": "ListItem", "position": 2, "name": "Free fitness tools", "item": "https://youraicoach.life/tools/"},
+          {"@type": "ListItem", "position": 3, "name": "Workout Plan Generator", "item": "https://youraicoach.life/workout-plan-generator/"}
+        ]
+      }
+    ]
+  }
+  </script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{color-scheme:dark}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#060B1D;color:#E7EEF8;line-height:1.65}
+    a{color:#86D7FF;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .nav{position:sticky;top:0;z-index:30;background:rgba(6,11,29,.94);border-bottom:1px solid rgba(255,255,255,.09);backdrop-filter:blur(14px);padding:15px 22px}
+    .nav-in{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{color:#F8FAFC;font-weight:900;letter-spacing:.02em}
+    .nav-links{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem}
+    .nav-links a{color:#A8B6CA}
+    .hero{background:radial-gradient(circle at 82% 5%,rgba(0,212,255,.18),transparent 36%),linear-gradient(145deg,#071020 0%,#0B1730 54%,#0C252D 100%);border-bottom:1px solid rgba(255,255,255,.08)}
+    .hero-in{max-width:1120px;margin:0 auto;padding:58px 22px 44px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(141,255,106,.28);background:rgba(141,255,106,.08);color:#D8FF86;border-radius:999px;padding:7px 12px;font-size:.78rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px}
+    h1{max-width:940px;font-size:clamp(2.3rem,5vw,4.5rem);line-height:1.02;color:#F8FAFC;letter-spacing:-.035em;margin-bottom:20px}
+    .lead{max-width:790px;color:#C7D3E2;font-size:clamp(1.05rem,2vw,1.26rem);margin-bottom:20px}
+    .trust{display:flex;gap:10px;flex-wrap:wrap}
+    .pill{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);border-radius:999px;padding:7px 10px;color:#AFC0D3;font-size:.86rem}
+    main{max-width:1120px;margin:0 auto;padding:42px 22px 84px}
+    .builder{display:grid;grid-template-columns:minmax(300px,.75fr) minmax(0,1.25fr);gap:26px;align-items:start}
+    .panel{background:#0B1730;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px;box-shadow:0 18px 45px rgba(0,0,0,.18)}
+    .panel h2{font-size:1.45rem;line-height:1.2;color:#F8FAFC;margin-bottom:8px}
+    .panel-intro{color:#93A6BC;font-size:.95rem;margin-bottom:22px}
+    .field{margin-bottom:17px}
+    label{display:block;color:#DCE6F2;font-weight:760;font-size:.92rem;margin-bottom:7px}
+    select{width:100%;padding:12px 13px;background:#071020;border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#F8FAFC;font-size:1rem;outline:none}
+    select:focus{border-color:#00D4FF;box-shadow:0 0 0 3px rgba(0,212,255,.08)}
+    select option{background:#071020;color:#F8FAFC}
+    .hint{font-size:.82rem;color:#7F93AA;margin-top:5px}
+    .generate,.secondary-btn{width:100%;border:0;border-radius:11px;padding:13px 16px;font-size:.98rem;font-weight:900;cursor:pointer}
+    .generate{background:linear-gradient(135deg,#00D4FF,#8DFF6A);color:#04111A;margin-top:4px}
+    .secondary-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#E8F0F8;margin-top:10px}
+    .output{min-height:400px}
+    .empty{height:100%;min-height:355px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px dashed rgba(255,255,255,.14);border-radius:13px;padding:32px;background:rgba(255,255,255,.025)}
+    .empty strong{font-size:1.3rem;color:#F8FAFC;margin-bottom:8px}
+    .empty p{max-width:520px;color:#8FA2B8}
+    .plan-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
+    .plan-kicker{color:#8DFF6A;font-size:.78rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+    .plan-title{font-size:1.55rem;color:#F8FAFC;font-weight:900;line-height:1.15}
+    .plan-summary{color:#9DB0C5;font-size:.9rem;margin-top:5px}
+    .plan-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .small-btn{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#E5EDF6;border-radius:9px;padding:9px 11px;font-weight:800;cursor:pointer}
+    .days{display:grid;gap:12px}
+    .day{border:1px solid rgba(255,255,255,.1);background:#081225;border-radius:12px;overflow:hidden}
+    .day h3{display:flex;justify-content:space-between;gap:16px;background:rgba(255,255,255,.035);padding:13px 15px;color:#F8FAFC;font-size:1rem}
+    .day h3 span{color:#7F93AA;font-size:.83rem;font-weight:600}
+    .exercise{display:grid;grid-template-columns:minmax(150px,1.5fr) .7fr .7fr;gap:10px;padding:11px 15px;border-top:1px solid rgba(255,255,255,.065);align-items:center}
+    .exercise:first-of-type{border-top:0}
+    .exercise strong{color:#EAF2FA}
+    .exercise span{color:#9DB0C5;font-size:.9rem}
+    .progression{margin-top:16px;border:1px solid rgba(141,255,106,.2);background:rgba(141,255,106,.055);border-radius:12px;padding:16px}
+    .progression h3{color:#D8FF86;font-size:1rem;margin-bottom:6px}
+    .progression p{color:#C5D2DE;font-size:.93rem}
+    .content{max-width:860px;margin-top:54px}
+    .content h2{font-size:clamp(1.55rem,3vw,2.25rem);line-height:1.15;color:#F8FAFC;margin:42px 0 14px}
+    .content h3{font-size:1.15rem;color:#F8FAFC;margin:26px 0 8px}
+    .content p,.content li{color:#C3D0DE}
+    .content p{margin-bottom:17px}
+    .content ul,.content ol{padding-left:22px;margin:14px 0 24px}
+    .content li{margin-bottom:9px}
+    .answer{background:#0B1730;border:1px solid rgba(0,212,255,.19);border-radius:12px;padding:20px;margin-top:14px}
+    .answer p{margin:0;color:#E8F0F8}
+    table{width:100%;border-collapse:collapse;margin:20px 0 28px;background:#0B1730;border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden}
+    th,td{text-align:left;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top}
+    th{color:#F8FAFC;background:rgba(255,255,255,.04)}
+    td{color:#BDCADA}
+    .related{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+    .related a{display:block;border:1px solid rgba(255,255,255,.1);background:#0B1730;border-radius:12px;padding:17px;color:#F8FAFC;font-weight:800}
+    .related span{display:block;color:#879AAF;font-weight:500;font-size:.86rem;margin-top:5px}
+    .cta{margin-top:42px;background:linear-gradient(145deg,rgba(0,212,255,.11),rgba(141,255,106,.07));border:1px solid rgba(0,212,255,.2);border-radius:16px;padding:24px}
+    .cta h2{margin:0 0 8px}
+    .cta-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .cta-link{display:inline-flex;padding:11px 15px;border-radius:10px;font-weight:850}
+    .cta-primary{background:#00D4FF;color:#05101D}
+    .cta-secondary{border:1px solid rgba(255,255,255,.14);color:#EAF2FA;background:rgba(255,255,255,.05)}
+    .health{margin-top:28px;color:#8699AE;font-size:.86rem}
+    @media(max-width:820px){.builder{grid-template-columns:1fr}.output{min-height:0}.related{grid-template-columns:1fr}.plan-head{display:block}.plan-actions{margin-top:12px}}
+    @media(max-width:560px){.exercise{grid-template-columns:1fr 1fr}.exercise strong{grid-column:1/-1}.nav-links{display:none}.hero-in{padding-top:42px}h1{font-size:2.45rem}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-in">
+      <a class="brand" href="/">⚡ IZEM</a>
+      <div class="nav-links">
+        <a href="/tools/">Free tools</a>
+        <a href="/features/ai-workout-generator">AI workout generator</a>
+        <a href="/blog/">Guides</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-in">
+      <div class="eyebrow">Free · instant · no sign-up</div>
+      <h1>Build a workout plan you can actually follow.</h1>
+      <p class="lead">Choose your goal, equipment, experience, training days, and session length. This free workout plan generator turns those constraints into a complete week with exercises, sets, reps, rest, and a simple progression rule.</p>
+      <div class="trust">
+        <span class="pill">2–6 training days</span>
+        <span class="pill">Gym, dumbbells, or bodyweight</span>
+        <span class="pill">Runs in your browser</span>
+        <span class="pill">No account required</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="builder" aria-label="Workout plan generator">
+      <form class="panel" id="plan-form">
+        <h2>Build your week</h2>
+        <p class="panel-intro">Pick the version of your week you can repeat consistently—not your perfect week.</p>
+
+        <div class="field">
+          <label for="goal">Main goal</label>
+          <select id="goal">
+            <option value="muscle">Build muscle</option>
+            <option value="strength">Get stronger</option>
+            <option value="general">General fitness</option>
+            <option value="fatloss">Support fat loss</option>
+          </select>
+          <div class="hint">Your goal changes rep ranges, rest, and progression guidance.</div>
+        </div>
+
+        <div class="field">
+          <label for="experience">Experience</label>
+          <select id="experience">
+            <option value="beginner">Beginner — under ~1 year of consistent training</option>
+            <option value="intermediate">Intermediate — ~1–3 years</option>
+            <option value="advanced">Advanced — 3+ years</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="days">Training days per week</label>
+          <select id="days">
+            <option value="2">2 days</option>
+            <option value="3" selected>3 days</option>
+            <option value="4">4 days</option>
+            <option value="5">5 days</option>
+            <option value="6">6 days</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="equipment">Equipment</label>
+          <select id="equipment">
+            <option value="gym">Full gym</option>
+            <option value="dumbbells">Dumbbells + bench</option>
+            <option value="bodyweight">Bodyweight only</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="duration">Time per session</label>
+          <select id="duration">
+            <option value="20">20 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="45" selected>45 minutes</option>
+            <option value="60">60 minutes</option>
+          </select>
+          <div class="hint">Shorter sessions use fewer movements so the plan stays realistic.</div>
+        </div>
+
+        <button class="generate" type="submit">Generate my weekly plan</button>
+        <button class="secondary-btn" id="variation" type="button">Generate another variation</button>
+      </form>
+
+      <section class="panel output" id="output" aria-live="polite">
+        <div class="empty" id="empty-state">
+          <strong>Your weekly plan will appear here.</strong>
+          <p>Use the builder to get a complete training week—not just a list of random exercises.</p>
+        </div>
+        <div id="plan" hidden></div>
+      </section>
+    </section>
+
+    <article class="content">
+      <div class="answer">
+        <p><strong>What this generator does:</strong> it uses transparent training rules to turn your answers into a starter program. It is intentionally rules-based, not a hidden “AI” prompt. IZEM’s <a href="/features/ai-workout-generator">AI workout generator</a> is the adaptive version designed to change the plan over time using your actual workouts, schedule, recovery, and feedback.</p>
+      </div>
+
+      <h2>How the free workout plan generator works</h2>
+      <p>A useful plan needs more than an exercise list. The generator first chooses a weekly split that fits the number of days you selected, then fills each session with movement patterns that match your equipment. Your goal and experience change the working sets, rep range, rest guidance, and progression rule.</p>
+
+      <table>
+        <thead><tr><th>Your input</th><th>What changes in the plan</th></tr></thead>
+        <tbody>
+          <tr><td>Training days</td><td>The weekly split: full-body, upper/lower, or push/pull/legs-style structure.</td></tr>
+          <tr><td>Equipment</td><td>The exercise choices. Bodyweight plans do not assume barbells or machines.</td></tr>
+          <tr><td>Session length</td><td>How many movements appear in each workout.</td></tr>
+          <tr><td>Main goal</td><td>Rep ranges, rest guidance, and how you progress.</td></tr>
+          <tr><td>Experience</td><td>Working-set volume and exercise complexity.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>How to use the generated plan</h2>
+      <ol>
+        <li><strong>Start easier than your maximum.</strong> Leave roughly 2–3 good reps in reserve on most working sets while you learn the plan.</li>
+        <li><strong>Keep the same core movements long enough to measure progress.</strong> Constantly changing exercises makes it harder to tell whether you are improving.</li>
+        <li><strong>Progress only when the current prescription is controlled.</strong> Reach the top of the rep range with solid technique before adding a small amount of load or a harder variation.</li>
+        <li><strong>Adjust the plan when real life changes.</strong> If your equipment, schedule, recovery, or goal changes, rebuild the week instead of forcing an outdated plan.</li>
+      </ol>
+
+      <h2>Free generator vs. an adaptive AI workout coach</h2>
+      <p>This page solves the first job: creating a sensible weekly structure from the constraints you know today. It does not watch what actually happened in your workouts. That distinction matters.</p>
+      <p>An adaptive coach can use completed sessions, missed workouts, exercise swaps, recovery feedback, schedule changes, and progress to decide what the next week should look like. If that is the job you need, see how <a href="/features/ai-workout-generator">IZEM’s adaptive workout planning</a> works.</p>
+
+      <h2>Related free tools and guides</h2>
+      <div class="related">
+        <a href="/workout-consistency-calculator/">Workout consistency calculator<span>Find where your plan usually breaks before the workout starts.</span></a>
+        <a href="/1rm-calculator/">1RM calculator<span>Estimate a one-rep max and training ranges from a submaximal set.</span></a>
+        <a href="/blog/ai-workout-generator-beginners">Beginner AI workout-generator guide<span>What beginners should check before trusting a generated program.</span></a>
+      </div>
+
+      <section class="cta">
+        <h2>Want the plan to adapt after you start?</h2>
+        <p>IZEM is built around the next step: workouts, meal planning, scans, reviews, memory, and optional accountability calls in one coaching loop.</p>
+        <div class="cta-actions">
+          <a class="cta-link cta-primary" href="/features/ai-workout-generator">See adaptive workout planning</a>
+          <a class="cta-link cta-secondary" href="/izem-ai-fitness-coach/">Explore IZEM</a>
+        </div>
+      </section>
+
+      <p class="health"><strong>Health note:</strong> this tool provides general fitness planning, not medical advice or rehabilitation. If you have an injury, medical condition, are pregnant, or have been told to restrict exercise, use appropriate professional guidance. Stop a movement that causes sharp or unusual pain.</p>
+    </article>
+  </main>
+
+  <script>
+    const EXERCISES = {
+      gym: {
+        squat:["Back squat","Leg press","Hack squat"],
+        hinge:["Romanian deadlift","Trap-bar deadlift","45° back extension"],
+        single:["Bulgarian split squat","Walking lunge","Step-up"],
+        hpush:["Barbell bench press","Dumbbell bench press","Machine chest press"],
+        hpull:["Chest-supported row","Cable row","Barbell row"],
+        vpush:["Overhead press","Dumbbell shoulder press","Machine shoulder press"],
+        vpull:["Lat pulldown","Assisted pull-up","Pull-up"],
+        biceps:["Dumbbell curl","Cable curl","EZ-bar curl"],
+        triceps:["Cable pressdown","Overhead cable extension","Close-grip push-up"],
+        calves:["Standing calf raise","Seated calf raise","Leg-press calf raise"],
+        core:["Cable crunch","Dead bug","Plank"]
+      },
+      dumbbells: {
+        squat:["Goblet squat","Double-dumbbell squat","Dumbbell front squat"],
+        hinge:["Dumbbell Romanian deadlift","Dumbbell hip thrust","Dumbbell good morning"],
+        single:["Dumbbell split squat","Dumbbell reverse lunge","Dumbbell step-up"],
+        hpush:["Dumbbell bench press","Incline dumbbell press","Dumbbell floor press"],
+        hpull:["One-arm dumbbell row","Chest-supported dumbbell row","Dumbbell seal row"],
+        vpush:["Dumbbell shoulder press","Arnold press","Half-kneeling dumbbell press"],
+        vpull:["Dumbbell pullover","Renegade row","One-arm dumbbell row"],
+        biceps:["Alternating dumbbell curl","Hammer curl","Incline dumbbell curl"],
+        triceps:["Dumbbell skull crusher","Overhead dumbbell extension","Close-grip dumbbell press"],
+        calves:["Dumbbell standing calf raise","Single-leg calf raise","Seated dumbbell calf raise"],
+        core:["Dead bug","Weighted sit-up","Side plank"]
+      },
+      bodyweight: {
+        squat:["Bodyweight squat","Tempo squat","Assisted pistol squat"],
+        hinge:["Single-leg hip hinge","Glute bridge","Single-leg glute bridge"],
+        single:["Reverse lunge","Split squat","Step-up"],
+        hpush:["Push-up","Incline push-up","Feet-elevated push-up"],
+        hpull:["Table/inverted row","Towel isometric row","Prone W raise"],
+        vpush:["Pike push-up","Elevated pike push-up","Wall handstand hold"],
+        vpull:["Doorway lat isometric","Prone lat pull-down","Scapular pull-up if a bar is available"],
+        biceps:["Towel curl isometric","Self-resisted curl","Reverse tabletop hold"],
+        triceps:["Diamond push-up","Bench/chair close-grip push-up","Bodyweight triceps extension"],
+        calves:["Single-leg calf raise","Tempo calf raise","Bent-knee calf raise"],
+        core:["Dead bug","Side plank","Hollow-body hold"]
+      }
+    };
+
+    const SPLITS = {
+      2:[["Full body A","full"],["Full body B","full"]],
+      3:[["Full body A","full"],["Full body B","full"],["Full body C","full"]],
+      4:[["Upper A","upper"],["Lower A","lower"],["Upper B","upper"],["Lower B","lower"]],
+      5:[["Upper","upper"],["Lower","lower"],["Push","push"],["Pull","pull"],["Legs","lower"]],
+      6:[["Push A","push"],["Pull A","pull"],["Legs A","lower"],["Push B","push"],["Pull B","pull"],["Legs B","lower"]]
+    };
+
+    const PATTERNS = {
+      full:["squat","hpush","hpull","hinge","vpush","vpull","core"],
+      upper:["hpush","hpull","vpush","vpull","biceps","triceps","core"],
+      lower:["squat","hinge","single","calves","core","squat","hinge"],
+      push:["hpush","vpush","hpush","triceps","vpush","core","triceps"],
+      pull:["hpull","vpull","hinge","biceps","hpull","core","biceps"]
+    };
+
+    let variation = 0;
+
+    function prescription(goal, experience, index){
+      const baseSets = experience === "beginner" ? 2 : experience === "advanced" ? 4 : 3;
+      const compound = index < 3;
+      if(goal === "strength"){
+        return {sets: compound ? Math.max(3,baseSets) : Math.max(2,baseSets-1), reps: compound ? "4–6" : "6–10", rest: compound ? "2–3 min" : "90–120 sec"};
+      }
+      if(goal === "muscle"){
+        return {sets: baseSets, reps: compound ? "6–10" : "10–15", rest: compound ? "90–120 sec" : "60–90 sec"};
+      }
+      if(goal === "fatloss"){
+        return {sets: Math.max(2,baseSets-1), reps: compound ? "8–12" : "10–15", rest: "60–90 sec"};
+      }
+      return {sets: Math.max(2,baseSets-1), reps: "8–12", rest: "60–90 sec"};
+    }
+
+    function progressionText(goal){
+      if(goal === "strength") return "When you complete every work set at the top of the rep range with stable technique and 1–3 reps still in reserve, add a small amount of load next time. If form breaks down, keep the load or reduce it.";
+      if(goal === "muscle") return "Use double progression: keep the same load until you can hit the top of the rep range on all sets with controlled technique, then add a small amount of load and build the reps back up.";
+      if(goal === "fatloss") return "Keep strength work progressive while treating nutrition and overall activity as separate parts of fat-loss management. Add reps or a small amount of load before adding more exercises.";
+      return "Add reps inside the listed range first. When every set is controlled at the top of the range, use a slightly harder variation or a small amount of additional load.";
+    }
+
+    function labelGoal(goal){
+      return {muscle:"Build muscle",strength:"Get stronger",general:"General fitness",fatloss:"Support fat loss"}[goal];
+    }
+
+    function maxExercises(minutes){
+      return minutes <= 20 ? 4 : minutes <= 30 ? 5 : minutes <= 45 ? 6 : 7;
+    }
+
+    function chooseExercise(equipment, pattern, dayIndex, exerciseIndex){
+      const pool = EXERCISES[equipment][pattern] || EXERCISES[equipment].core;
+      return pool[(dayIndex + exerciseIndex + variation) % pool.length];
+    }
+
+    function buildPlan(){
+      const goal = document.getElementById("goal").value;
+      const experience = document.getElementById("experience").value;
+      const days = Number(document.getElementById("days").value);
+      const equipment = document.getElementById("equipment").value;
+      const duration = Number(document.getElementById("duration").value);
+      const limit = maxExercises(duration);
+      const split = SPLITS[days];
+
+      const workouts = split.map(([name,focus], dayIndex) => {
+        const patterns = PATTERNS[focus].slice(0,limit);
+        return {
+          name,
+          exercises:patterns.map((pattern,exerciseIndex) => ({
+            name:chooseExercise(equipment,pattern,dayIndex,exerciseIndex),
+            ...prescription(goal,experience,exerciseIndex)
+          }))
+        };
+      });
+
+      renderPlan({goal,experience,days,equipment,duration,workouts});
+    }
+
+    function renderPlan(plan){
+      const planEl = document.getElementById("plan");
+      document.getElementById("empty-state").hidden = true;
+      planEl.hidden = false;
+
+      const equipmentName = {gym:"full gym",dumbbells:"dumbbells + bench",bodyweight:"bodyweight only"}[plan.equipment];
+      const daysHtml = plan.workouts.map((day,index) => `
+        <section class="day">
+          <h3>Day ${index+1} · ${day.name}<span>${plan.duration} min target</span></h3>
+          ${day.exercises.map(ex => `
+            <div class="exercise">
+              <strong>${ex.name}</strong>
+              <span>${ex.sets} sets × ${ex.reps}</span>
+              <span>Rest ${ex.rest}</span>
+            </div>`).join("")}
+        </section>`).join("");
+
+      planEl.innerHTML = `
+        <div class="plan-head">
+          <div>
+            <div class="plan-kicker">Your generated week</div>
+            <div class="plan-title">${plan.days}-day ${labelGoal(plan.goal).toLowerCase()} plan</div>
+            <div class="plan-summary">${plan.experience} · ${equipmentName} · ${plan.duration} min/session</div>
+          </div>
+          <div class="plan-actions">
+            <button class="small-btn" id="copy-plan" type="button">Copy plan</button>
+          </div>
+        </div>
+        <div class="days">${daysHtml}</div>
+        <div class="progression">
+          <h3>Progression rule</h3>
+          <p>${progressionText(plan.goal)}</p>
+        </div>`;
+
+      document.getElementById("copy-plan").addEventListener("click", () => copyPlan(plan));
+    }
+
+    async function copyPlan(plan){
+      const equipmentName = {gym:"Full gym",dumbbells:"Dumbbells + bench",bodyweight:"Bodyweight only"}[plan.equipment];
+      const lines = [
+        `IZEM ${plan.days}-day workout plan`,
+        `${labelGoal(plan.goal)} · ${plan.experience} · ${equipmentName} · ${plan.duration} min/session`,
+        ""
+      ];
+      plan.workouts.forEach((day,index) => {
+        lines.push(`Day ${index+1} — ${day.name}`);
+        day.exercises.forEach(ex => lines.push(`- ${ex.name}: ${ex.sets} sets × ${ex.reps}, rest ${ex.rest}`));
+        lines.push("");
+      });
+      lines.push(`Progression: ${progressionText(plan.goal)}`);
+      try{
+        await navigator.clipboard.writeText(lines.join("\n"));
+        const btn = document.getElementById("copy-plan");
+        btn.textContent = "Copied";
+        setTimeout(() => { btn.textContent = "Copy plan"; }, 1500);
+      }catch{
+        alert("Copy is unavailable in this browser. Select the plan text and copy it manually.");
+      }
+    }
+
+    document.getElementById("plan-form").addEventListener("submit", event => {
+      event.preventDefault();
+      buildPlan();
+    });
+
+    document.getElementById("variation").addEventListener("click", () => {
+      variation += 1;
+      buildPlan();
+    });
+
+    buildPlan();
+  </script>
+</body>
+</html>

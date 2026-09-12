@@ -176,6 +176,15 @@
       "lockUntil": "2026-10-03",
       "preferredReviewAt": "2026-10-10",
       "reason": "The September 12 refresh supports the strongest private call/reminder cluster with safer call-based coaching language, FAQ schema, a Call Timing Fit Test, and contextual links into the accountability cluster. Preserve for a clean 21-day evaluation window."
+    },
+    {
+      "id": "free-workout-plan-generator-launch-2026-09-12",
+      "url": "/workout-plan-generator/",
+      "files": ["public/workout-plan-generator/index.html"],
+      "launchedAt": "2026-09-12",
+      "lockUntil": "2026-10-03",
+      "preferredReviewAt": "2026-10-10",
+      "reason": "The September 12 launch creates a distinct free workout-plan-builder utility with goal, equipment, experience, training-day, session-length, sets, reps, rest, and progression output. Preserve the initial version for a clean 21-day discovery and early Search Console window while protecting the existing AI-workout-generator feature page from overlap."
     }
   ]
 }
