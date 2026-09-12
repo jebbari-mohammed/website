@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "jIBGvRVpHCk",
+      "title": "AI Workout Generator vs Workout Planner",
+      "description": "Compare an AI workout generator with an adaptive workout planner. Use the Generator Ceiling Test to see when you need weekly coaching, memory, and calls.",
+      "uploadDate": "2026-09-12",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/ai-workout-generator-vs-workout-planner",
+          "relativePath": "blog/ai-workout-generator-vs-workout-planner.html",
+          "title": "AI Workout Generator vs Workout Planner"
+        }
+      ]
+    },
+    {
       "id": "7ybKilC5od4",
       "title": "Workout Accountability Call Script: 3-Minute Template",
       "description": "Use this workout accountability call script to turn a reminder into a real answer: start, choose a fallback, reschedule honestly, review, and adapt next week.",

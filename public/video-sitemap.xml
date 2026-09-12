@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/jIBGvRVpHCk/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/jIBGvRVpHCk/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>AI Workout Generator vs Workout Planner</video:title>
+      <video:description>Compare an AI workout generator with an adaptive workout planner. Use the Generator Ceiling Test to see when you need weekly coaching, memory, and calls.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/jIBGvRVpHCk</video:player_loc>
+      <video:publication_date>2026-09-12T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/7ybKilC5od4/</loc>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/7ybKilC5od4/hqdefault.jpg</video:thumbnail_loc>
