@@ -12,6 +12,12 @@ Launch a new, genuinely interactive search-entry asset at `/workout-plan-generat
 - The private exact-query handoff was verified against the encrypted artifact digest, key fingerprint, authenticated decryption, row count, dimensions, and reporting period. Exact queries and query-to-page pairs remain private and are not recorded here.
 - The workout-generator cluster contains the site's strongest verified organic signal. The existing feature page is protected through 2026-09-16 and is not modified by this launch.
 
+## Governance exception
+
+Three other material SEO changes had already landed on 2026-09-12 before this senior review, which exceeds the policy's normal one-material-change-per-day limit. This launch is not being treated as an invisible fourth routine experiment. It uses the policy's documented `strong_gsc_near_ranking_opportunity` exception because `/features/ai-workout-generator` is the site's only verified organic-click asset and currently sits at average position 13.13, while the new utility targets a distinct builder job-to-be-done instead of rewriting that protected page.
+
+The exception is narrow: no protected target is modified, no existing experiment lock is shortened, the new URL has a distinct intent and canonical, deterministic production validation must pass, and the existing feature page is a cannibalization guardrail. If the new page weakens the feature page's established visibility rather than expanding cluster impressions, consolidation becomes the preferred next action.
+
 ## SERP finding
 
 Current results for free workout-plan-generator intent are utility-first. Multiple ranking pages let the searcher choose goal, equipment, training days, experience and/or session length, then return a complete plan with exercises, sets, reps, rest, and progression. That task is materially different from IZEM's existing feature explainer, beginner guide, and generator-vs-planner comparison.
