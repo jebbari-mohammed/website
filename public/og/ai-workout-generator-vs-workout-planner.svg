@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">AI Workout Generator vs Workout Planner</title>
+  <desc id="desc">IZEM comparison card showing a one-time generator output beside an adaptive weekly planning loop.</desc>
+  <rect width="1200" height="630" fill="#090F12"/>
+  <path d="M0 0h1200v630H0z" fill="url(#bg)"/>
+  <rect x="72" y="72" width="1056" height="486" rx="8" fill="#111A1D" stroke="#2B3A37" stroke-width="2"/>
+  <text x="112" y="138" fill="#57D2C8" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800">IZEM</text>
+  <text x="112" y="212" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="900">AI Workout Generator</text>
+  <text x="112" y="284" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="900">vs Workout Planner</text>
+  <text x="112" y="348" fill="#D4DEDB" font-family="Inter, Arial, sans-serif" font-size="30">The first workout is easy. The next week is the test.</text>
+  <g transform="translate(112 410)">
+    <rect width="306" height="92" rx="8" fill="#172222" stroke="#314642"/>
+    <text x="22" y="36" fill="#F0B765" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="800">Generator</text>
+    <text x="22" y="68" fill="#D4DEDB" font-family="Inter, Arial, sans-serif" font-size="20">Creates a first draft</text>
+  </g>
+  <g transform="translate(452 410)">
+    <rect width="306" height="92" rx="8" fill="#172222" stroke="#314642"/>
+    <text x="22" y="36" fill="#F0B765" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="800">Planner</text>
+    <text x="22" y="68" fill="#D4DEDB" font-family="Inter, Arial, sans-serif" font-size="20">Adapts after feedback</text>
+  </g>
+  <g transform="translate(792 410)">
+    <rect width="286" height="92" rx="8" fill="#172222" stroke="#57D2C8"/>
+    <text x="22" y="36" fill="#57D2C8" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="800">Coach loop</text>
+    <text x="22" y="68" fill="#D4DEDB" font-family="Inter, Arial, sans-serif" font-size="20">Calls, reviews, adapts</text>
+  </g>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#090F12"/>
+      <stop offset=".6" stop-color="#10211F"/>
+      <stop offset="1" stop-color="#241B12"/>
+    </linearGradient>
+  </defs>
+</svg>

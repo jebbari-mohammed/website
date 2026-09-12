@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-11",
+  "updatedAt": "2026-09-12",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -158,6 +158,15 @@
       "lockUntil": "2026-10-02",
       "preferredReviewAt": "2026-10-09",
       "reason": "The September 11 material refresh expands the AI meal-planner feature into a workout-aware, macro/schedule/food-scan and weekly-adaptation search asset, with refreshed title, metadata, visible FAQs, structured data, and supporting discovery links. Preserve the new version for a clean 21-day evaluation window."
+    },
+    {
+      "id": "ai-workout-generator-vs-planner-launch-2026-09-12",
+      "url": "/blog/ai-workout-generator-vs-workout-planner",
+      "files": ["public/blog/ai-workout-generator-vs-workout-planner.html"],
+      "launchedAt": "2026-09-12",
+      "lockUntil": "2026-10-03",
+      "preferredReviewAt": "2026-10-10",
+      "reason": "The September 12 launch supports the AI workout-generator cluster with a distinct comparison intent and Generator Ceiling Test, without editing the locked feature page that owns the current click signal. Preserve for a clean 21-day discovery and early Search Console window."
     }
   ]
 }
