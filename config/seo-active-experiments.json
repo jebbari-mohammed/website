@@ -1,19 +1,19 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-12",
+  "updatedAt": "2026-09-13",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
   },
   "locks": [
     {
-      "id": "progressive-overload-comparison-2026-08-16",
+      "id": "progressive-overload-comparison-refresh-2026-09-13",
       "url": "/blog/best-app-to-track-progressive-overload-automatically",
       "files": ["public/blog/best-app-to-track-progressive-overload-automatically.html"],
-      "launchedAt": "2026-08-16",
-      "lockUntil": "2026-09-06",
-      "preferredReviewAt": "2026-09-13",
-      "reason": "Material rehabilitation is awaiting Google recrawl and needs the 21-day minimum rewrite window."
+      "launchedAt": "2026-09-13",
+      "lockUntil": "2026-10-04",
+      "preferredReviewAt": "2026-10-11",
+      "reason": "The September 13 comparison refresh expands the progressive-overload app matrix to cover the current SERP shortlist, updates source-check metadata, and adds a relevant internal link to the workout-plan generator. Preserve for a clean 21-day evaluation window."
     },
     {
       "id": "workout-meal-planning-rehabilitation-2026-08-17",
