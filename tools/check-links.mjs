@@ -2,6 +2,7 @@ import { readdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
 
 import { load } from 'cheerio'
+import { THEME } from './brand-theme.mjs'
 
 const siteOrigin = 'https://youraicoach.life'
 const distDirectory = path.resolve('dist')
@@ -17,6 +18,7 @@ const brandAssets = [
   'favicon.ico',
   'apple-touch-icon.png',
   'site.webmanifest',
+  'izem-theme.css',
 ]
 const knownDeadUrls = [
   'https://apps.apple.com/app/your-ai-coach',
@@ -155,7 +157,9 @@ for (const htmlFile of htmlFiles) {
     ['shortcut favicon', 'link[rel="shortcut icon"][href="/favicon.ico"]'],
     ['Apple touch icon', 'link[rel="apple-touch-icon"][href="/apple-touch-icon.png"]'],
     ['web app manifest', 'link[rel="manifest"][href="/site.webmanifest"]'],
-    ['brand theme colour', 'meta[name="theme-color"][content="#20D5D9"]'],
+    ['brand theme colour', `meta[name="theme-color"][content="${THEME.background}"]`],
+    ['theme-colour declaration', 'meta[name="theme-color"]'],
+    ['green/black stylesheet', 'link[rel="stylesheet"][href="/izem-theme.css"][data-izem-theme="green-black-v1"]'],
   ]
   for (const [label, selector] of requiredHeadElements) {
     if ($(selector).length !== 1) errors.push(`${htmlFile}: must have exactly one ${label}`)
