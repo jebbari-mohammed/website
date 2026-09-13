@@ -25,6 +25,15 @@
       "reason": "The August 17 FUEL-method rehabilitation is now crawled and has grown from 2 launch impressions to 6. Its original experiment explicitly forbids material rewrites before September 7; protect the clean evaluation window."
     },
     {
+      "id": "workout-meal-planning-coupling-refresh-2026-09-13",
+      "url": "/blog/best-workout-app-with-meal-planning-included",
+      "files": ["public/blog/best-workout-app-with-meal-planning-included.html"],
+      "launchedAt": "2026-09-13",
+      "lockUntil": "2026-10-04",
+      "preferredReviewAt": "2026-10-11",
+      "reason": "The September 13 refresh targets current workout-app-with-meal-planning impressions by aligning title metadata with included-meal-plan intent, adding FAQ schema, adding the Plan-Coupling Test, refreshing source-check evidence, and strengthening calculator/internal links. Preserve for a clean 21-day evaluation window."
+    },
+    {
       "id": "personal-trainer-cost-calculator-2026-08-22",
       "url": "/blog/personal-trainer-cost-calculator",
       "files": ["public/blog/personal-trainer-cost-calculator.html"],
