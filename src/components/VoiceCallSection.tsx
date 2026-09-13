@@ -25,7 +25,7 @@ const scenarios: CallScenario[] = [
     dialogue: [
       {
         speaker: 'coach',
-        text: 'Hey! Your Chest & Shoulders session starts in 15 minutes. Apple Health shows your recovery is solid today. Ready to head out?',
+        text: 'Hey! Your Chest & Shoulders session starts in 15 minutes. With Health coaching enabled, your recent context supports the planned session. Ready to head out?',
       },
       {
         speaker: 'user',
@@ -127,7 +127,7 @@ export default function VoiceCallSection() {
               </p>
             </div>
             <div className="mt-4 pt-4 border-t border-white/[0.06] text-[11px] text-textSecondary/70 flex items-center gap-1.5">
-              <Sliders size={12} className="text-primary" /> 100% User Configurable
+              <Sliders size={12} className="text-primary" /> User-controlled scheduling
             </div>
           </div>
 
@@ -157,7 +157,7 @@ export default function VoiceCallSection() {
                 Fallback Over Failure
               </h3>
               <p className="text-xs sm:text-sm text-textSecondary leading-relaxed">
-                Tired or low on time? Don't skip. The coach instantly swaps your session into a 15–20 min fallback plan so you keep your momentum.
+                Tired or low on time? Ask the coach to propose a shorter alternative, then review and confirm the plan change.
               </p>
             </div>
             <div className="mt-4 pt-4 border-t border-white/[0.06] text-[11px] text-textSecondary/70 flex items-center gap-1.5">

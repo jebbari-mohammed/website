@@ -52,7 +52,7 @@ export default function FinalCTA() {
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-textSecondary/70 font-medium">
             <span className="flex items-center gap-1.5">
               <CheckCircle2 size={14} className="text-primary" />
-              $24.99/month premium tier
+              Storefront price shown before purchase
             </span>
             <span className="flex items-center gap-1.5">
               <CheckCircle2 size={14} className="text-primary" />

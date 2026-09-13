@@ -2,28 +2,28 @@ import { motion } from '../lib/motion';
 
 const stats = [
   {
-    value: '$24.99',
-    unit: '/mo',
-    label: 'Predictable Pricing',
-    detail: 'Complete AI personal trainer at a fraction of in-person coaching rates.',
+    value: '7-day',
+    unit: 'trial',
+    label: 'Introductory Access',
+    detail: 'Eligible storefront accounts can try the membership before renewal. Current terms appear before purchase.',
   },
   {
-    value: '100%',
+    value: 'Weekly',
     unit: '',
     label: 'Adaptive Programming',
-    detail: 'Workouts, weights, reps, and meals recalculate when your schedule shifts.',
+    detail: 'Workout and meal plans can be reviewed as your schedule, feedback, and preferences change.',
   },
   {
-    value: '60 FPS',
+    value: 'Video',
     unit: '',
     label: 'Video Guidance',
-    detail: 'HD exercise form cues and cooking walkthroughs on every workout day.',
+    detail: 'Exercise and recipe references help explain planned movements and meals when available.',
   },
   {
-    value: '24/7',
+    value: 'Optional',
     unit: '',
-    label: 'Biometric Intelligence',
-    detail: 'Remembers prior sessions, Apple Health metrics, and real-life constraints.',
+    label: 'Health Context',
+    detail: 'A separate consent can share a minimized Apple Health summary for relevant coaching sessions.',
   },
 ];
 

@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ai.gym.coach",
+      "sha256_cert_fingerprints": [
+        "3C:AB:23:8E:38:5C:14:EA:66:20:42:D2:F3:EC:E6:B8:2A:25:3C:DC:06:DB:DC:64:0E:29:DB:BA:08:04:30:94",
+        "38:FC:A3:7E:C2:C0:A8:4F:60:59:65:BD:BC:00:1A:6A:43:96:A3:83:74:CC:A9:59:7F:60:4C:04:E7:AE:0D:2A"
+      ]
+    }
+  }
+]

@@ -23,7 +23,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.1] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12)] text-xs font-semibold text-textSecondary mb-6 backdrop-blur-xl"
             >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-textPrimary font-medium">AI Personal Trainer</span>
+              <span className="text-textPrimary font-medium">Adult-only AI Fitness Coach</span>
               <span className="text-white/20">•</span>
               <span className="text-primary font-medium">Adaptive & Proactive</span>
               <span className="text-white/20 hidden sm:inline">•</span>
@@ -87,7 +87,7 @@ export default function Hero() {
             >
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 size={15} className="text-primary" />
-                <span>100% Adaptive Plans</span>
+                <span>Adaptive Plans</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 size={15} className="text-primary" />
@@ -99,12 +99,12 @@ export default function Hero() {
               </div>
               <div className="flex items-center gap-1.5">
                 <Shield size={15} className="text-secondary" />
-                <span>$24.99/mo • Cancel anytime</span>
+                <span>Storefront price shown before purchase</span>
               </div>
             </motion.div>
           </div>
 
-          {/* Right Column: 60 FPS iPhone Video Showcase with Interactive Switcher */}
+          {/* Right Column: iPhone product video showcase with interactive switcher */}
           <div className="lg:col-span-5 flex flex-col items-center">
             {/* Sleek Segmented Switcher for Hero Videos */}
             <div className="mb-4 inline-flex p-1 rounded-full bg-[#0E141B]/95 backdrop-blur-2xl border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_10px_30px_rgba(0,0,0,0.5)]">
@@ -188,7 +188,7 @@ export default function Hero() {
                   {/* Floating Chip 1: Video Guidance */}
                   <div className="absolute -top-3 -right-4 sm:-right-6 bg-[#0E151B]/95 backdrop-blur-xl border border-white/[0.14] rounded-2xl px-3.5 py-2 shadow-2xl flex items-center gap-2 hidden sm:flex">
                     <Sparkles size={13} className="text-primary" />
-                    <span className="text-[11px] font-semibold text-textPrimary">⚡ 60 FPS Form Guides</span>
+                    <span className="text-[11px] font-semibold text-textPrimary">⚡ Exercise Video Guides</span>
                   </div>
 
                   {/* Floating Chip 2: Macro Banking */}

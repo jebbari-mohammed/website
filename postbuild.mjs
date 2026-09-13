@@ -7,7 +7,6 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = path.resolve(__dirname, 'dist');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
-const GOOGLE_TAG_ID = 'G-3W49ZGG4NS';
 const PUBLISHER_NAME = 'Mohammed Jebbari';
 const PUBLISHER_ATTRIBUTION_MARKER = 'data-izem-publisher';
 const BRAND_ICON_MARKER = 'data-izem-brand-icons';
@@ -39,14 +38,6 @@ const BRAND_ICON_TAGS = `<link ${BRAND_ICON_MARKER}="true" rel="icon" type="imag
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#20D5D9">`;
 const NAVIGATION_LOGO = `<img data-izem-navigation-logo="true" src="${BRAND_LOGO_PATH}" alt="" width="30" height="30" style="display:inline-block;width:30px;height:30px;margin-right:8px;border-radius:9px;object-fit:cover;vertical-align:middle;box-shadow:0 6px 18px rgba(20,210,220,.2)">`;
-const GOOGLE_TAG = `<!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${GOOGLE_TAG_ID}');
-    </script>`;
 
 function findHtmlFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -60,27 +51,6 @@ function findHtmlFiles(dir) {
 function tagAttribute(tag, name) {
   const match = tag.match(new RegExp(`\\b${name}\\s*=\\s*(["'])(.*?)\\1`, 'i'));
   return match?.[2] || '';
-}
-
-function injectGoogleTag() {
-  const htmlFiles = findHtmlFiles(DIST_DIR);
-  let changed = 0;
-
-  for (const file of htmlFiles) {
-    const html = fs.readFileSync(file, 'utf-8');
-    if (html.includes(GOOGLE_TAG_ID)) continue;
-
-    const nextHtml = html.replace(/<head(\s[^>]*)?>/i, match => `${match}\n    ${GOOGLE_TAG}`);
-    if (nextHtml === html) {
-      console.warn(`⚠️ Could not find <head> in ${path.relative(DIST_DIR, file)}`);
-      continue;
-    }
-
-    fs.writeFileSync(file, nextHtml);
-    changed += 1;
-  }
-
-  console.log(`✅ Google tag present in ${htmlFiles.length} HTML files (${changed} updated).`);
 }
 
 function injectBrandAssets() {
@@ -152,7 +122,6 @@ function injectPublisherAttribution() {
 }
 
 function injectSiteMetadata() {
-  injectGoogleTag();
   injectBrandAssets();
   injectPublisherAttribution();
 }
@@ -213,11 +182,11 @@ async function preRender() {
       process.exit(0);
     } catch (err) {
       console.warn('⚠️ Pre-rendering skipped (expected in sandboxed environment):', err.message);
-      console.log('ℹ️ Proceeding with static html deployment and injecting Google tag...');
+      console.log('ℹ️ Proceeding with static HTML deployment and injecting brand metadata...');
       try {
         injectSiteMetadata();
       } catch (injectErr) {
-        console.error('❌ Failed to inject Google tag:', injectErr);
+        console.error('❌ Failed to inject brand metadata:', injectErr);
       }
       if (server && typeof server.close === 'function') {
         server.close();

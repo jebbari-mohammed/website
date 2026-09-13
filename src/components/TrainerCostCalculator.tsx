@@ -9,11 +9,6 @@ export default function TrainerCostCalculator() {
   const monthlyTrainerCost = sessionsPerWeek * 4.33 * sessionRate;
   const yearlyTrainerCost = monthlyTrainerCost * 12;
 
-  const izemMonthly = 24.99;
-  const izemYearly = izemMonthly * 12;
-
-  const annualSavings = Math.round(yearlyTrainerCost - izemYearly);
-
   return (
     <section className="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden bg-[#05080C]">
       {/* Background ambient light */}
@@ -30,7 +25,7 @@ export default function TrainerCostCalculator() {
             Personal Trainer vs. IZEM AI Coach
           </h2>
           <p className="text-base sm:text-lg text-textSecondary font-normal leading-relaxed">
-            See how much you save every year while getting 10x more daily accountability, nutrition planning, and 24/7 adaptation.
+            Compare membership cost with the coaching budget you enter. This is a planning estimate, not a promise of savings or results.
           </p>
         </div>
 
@@ -102,7 +97,7 @@ export default function TrainerCostCalculator() {
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
-                  <span className="text-textSecondary">24/7 Plan adaptation when travel or meetings hit</span>
+                  <span className="text-textSecondary">Plan changes when travel or meetings affect your schedule</span>
                   <div className="flex items-center gap-4">
                     <span className="text-red-400 text-xs flex items-center gap-1">
                       <X size={13} /> Trainer
@@ -137,11 +132,11 @@ export default function TrainerCostCalculator() {
                       <Sparkles size={10} /> IZEM COACH
                     </div>
                     <p className="text-2xl sm:text-3xl font-extrabold text-primary font-mono">
-                      $24.99
-                      <span className="text-xs font-normal text-textSecondary">/mo</span>
+                      Store
+                      <span className="text-xs font-normal text-textSecondary"> price</span>
                     </p>
-                    <p className="text-[11px] text-primary/80 mt-1 font-mono">
-                      $299.88/year
+                    <p className="text-[11px] text-primary/80 mt-1">
+                      Shown before purchase
                     </p>
                   </div>
                 </div>
@@ -149,10 +144,10 @@ export default function TrainerCostCalculator() {
                 {/* Big Annual Savings Readout */}
                 <div className="pt-6 text-center">
                   <p className="text-xs font-bold uppercase tracking-widest text-textSecondary mb-1">
-                    Your Projected Annual Savings
+                    Your Estimated Trainer Budget
                   </p>
                   <p className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#C8FF7E] to-secondary font-mono">
-                    +${annualSavings.toLocaleString()}
+                    ${Math.round(yearlyTrainerCost).toLocaleString()}
                     <span className="text-sm font-sans font-medium text-textSecondary"> / year</span>
                   </p>
                   <p className="text-xs text-textSecondary mt-2">
@@ -166,7 +161,7 @@ export default function TrainerCostCalculator() {
                   href="/izem-ai-fitness-coach/"
                   className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full text-sm font-bold bg-primary text-[#070A0D] hover:bg-[#A3FF85] transition-all shadow-[0_0_20px_rgba(141,255,106,0.3)]"
                 >
-                  <span>Start Coaching for $24.99/mo</span>
+                  <span>Explore IZEM Coaching</span>
                   <ArrowRight size={16} />
                 </a>
               </div>

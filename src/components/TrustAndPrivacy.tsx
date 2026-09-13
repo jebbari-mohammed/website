@@ -4,13 +4,13 @@ import { Lock, Smartphone, Ban, Trash2, ShieldCheck, AlertCircle } from 'lucide-
 const trustPillars = [
   {
     icon: Lock,
-    title: 'Data Encrypted',
-    desc: 'All fitness, nutrition, and personal data is encrypted in transit and at rest via Google Firebase enterprise security.',
+    title: 'Protected Data',
+    desc: 'Network requests use HTTPS/TLS, and protected cloud records use authenticated access controls. See the Privacy Policy for details.',
   },
   {
     icon: Smartphone,
-    title: 'Ephemeral Camera Scans',
-    desc: 'Food and body progress camera scans are processed strictly for real-time analysis and are not retained as stored photos.',
+    title: 'Clear Photo Controls',
+    desc: 'Body progress photos stay in the encrypted on-device vault. Optional analysis follows the retention described in the Privacy Policy.',
   },
   {
     icon: Ban,
@@ -37,7 +37,7 @@ export default function TrustAndPrivacy() {
             Your Health Data Stays Yours.
           </h2>
           <p className="text-base sm:text-lg text-textSecondary font-normal leading-relaxed">
-            We believe in complete transparency. No predatory tracking, no hidden photo retention, and full control over your account.
+            We believe in clear controls, no ad-network sale of health data, and plain-language disclosure of photo handling and account deletion.
           </p>
         </div>
 
@@ -75,13 +75,13 @@ export default function TrustAndPrivacy() {
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary mb-3">
                 <Trash2 size={16} />
-                <span>Instant Account Deletion</span>
+                <span>In-App Account Deletion</span>
               </div>
               <h3 className="text-xl font-bold text-textPrimary mb-3">
-                Delete everything anytime in one tap.
+                Start account deletion from the app.
               </h3>
               <p className="text-xs sm:text-sm text-textSecondary leading-relaxed mb-4">
-                You do not need to send awkward support tickets to remove your data. Open the app, go to Profile → Settings → Delete Account to immediately purge your profile, workouts, and meals.
+                Open the app, go to Profile → Settings → Delete Account to start deletion of your profile, workouts, and meals. Limited records or backups may remain for the periods described in the Privacy Policy.
               </p>
               <p className="text-xs text-textSecondary/80">
                 You can also email <a href="mailto:support@youraicoach.life" className="text-primary hover:underline">support@youraicoach.life</a> with "Data Deletion Request" and we will confirm completion within 30 days.

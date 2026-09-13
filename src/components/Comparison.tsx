@@ -11,10 +11,10 @@ const trackerDrawbacks = [
 
 const izemAdvantages = [
   'Proactive scheduled phone calls before workouts to build real consistency',
-  '60 FPS video form demos with exact technique and setup cues',
+  'Exercise video references with practical setup cues',
   'Automatic weekly volume and exercise adaptations when life gets busy',
   'Unified workout & meal planning with smart social macro banking',
-  'Apple Health sync to protect joints and adapt to fatigue in real time',
+  'Optional, separately consented Apple Health context for relevant coaching',
 ];
 
 export default function Comparison() {

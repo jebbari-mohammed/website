@@ -1,10 +1,10 @@
 import { Heart, Shield, Lock, EyeOff, CheckCircle2, Smartphone } from 'lucide-react';
 
 const verifiedPillars = [
-  { name: 'Apple HealthKit', icon: Heart, badge: 'Biometrics' },
-  { name: 'Google Firebase', icon: Lock, badge: '256-Bit SSL' },
-  { name: 'Ephemeral Scans', icon: EyeOff, badge: 'Zero Photo Storage' },
-  { name: 'No Ad Networks', icon: Shield, badge: '100% Private' },
+  { name: 'Apple HealthKit', icon: Heart, badge: 'Optional' },
+  { name: 'Google Firebase', icon: Lock, badge: 'Protected transport' },
+  { name: 'User-Controlled Scans', icon: EyeOff, badge: 'Clear retention' },
+  { name: 'No Ad Networks', icon: Shield, badge: 'No ad targeting' },
 ];
 
 const securityBadges = [
@@ -24,7 +24,7 @@ export default function EcosystemStrip() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
             <span className="text-[11px] font-bold uppercase tracking-widest text-textSecondary/80">
-              Verified Standards
+              Product safeguards
             </span>
           </div>
 

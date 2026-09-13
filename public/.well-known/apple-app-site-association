@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "6SUDVC57MM.com.ai.gym.coach",
+        "paths": [
+          "/app/*",
+          "/app"
+        ]
+      }
+    ]
+  }
+}

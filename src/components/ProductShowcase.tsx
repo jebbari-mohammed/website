@@ -25,12 +25,12 @@ const tabs: ShowcaseTab[] = [
     badge: 'Dynamic Hypertrophy',
     videoSrc: '/videos/izem-workout-nutrition-dark-web.mp4',
     headline: 'Workouts designed for your real gym, not an ideal world.',
-    description: 'Every session is mathematically calibrated to your available equipment, fatigue levels, and recovery history with embedded 60 FPS video demonstrations.',
+    description: 'Sessions use the equipment, schedule, experience, and feedback you provide, with video references when available.',
     features: [
       {
         icon: Dumbbell,
-        title: '60 FPS Form Demonstrations',
-        desc: 'Crystal-clear execution videos for every exercise with exact cueing on setup, joint angles, and bar path.',
+        title: 'Exercise Demonstrations',
+        desc: 'Video references and practical setup cues help you understand planned movements. Stop if a movement causes pain.',
       },
       {
         icon: Activity,
@@ -40,7 +40,7 @@ const tabs: ShowcaseTab[] = [
       {
         icon: Flame,
         title: 'Double Progression Protocol',
-        desc: 'Automatic rep and weight incrementation based on verified bar velocity and previous set RPE targets.',
+        desc: 'Progression suggestions use logged performance and effort feedback; you remain in control of every load change.',
       },
     ],
     ctaText: 'Explore Adaptive Workouts',
@@ -76,15 +76,15 @@ const tabs: ShowcaseTab[] = [
   {
     id: 'chat',
     title: 'Coach Intelligence & Calls',
-    badge: '24/7 Context Memory',
+    badge: 'Consent-Based Context',
     videoSrc: '/videos/izem-coach-chat-dark-web.mp4',
-    headline: 'An AI coach that knows your biometrics and calls your phone.',
-    description: 'Not a dumb chatbot. IZEM monitors Apple Health data, adjusts your workouts when lower back fatigue spikes, and schedules real voice calls.',
+    headline: 'An AI coach that can use your chosen context and call your phone.',
+    description: 'IZEM can use logged training context and, after separate consent, a minimized Apple Health summary. Plan changes still require an explicit user action.',
     features: [
       {
         icon: HeartPulse,
-        title: 'Apple Health & Biometrics Sync',
-        desc: 'Monitors resting heart rate and HRV. Automatically drops axial load when recovery drops below baseline.',
+        title: 'Optional Apple Health Context',
+        desc: 'The Health dashboard stays on-device. Relevant coaching can use a minimized summary only after separate, revocable consent.',
       },
       {
         icon: MessageSquare,
@@ -152,7 +152,7 @@ export default function ProductShowcase() {
             Experience the Coaching Engine.
           </h2>
           <p className="text-base sm:text-lg text-textSecondary font-normal leading-relaxed">
-            See the actual 60 FPS interface in action. Select a capability to inspect how IZEM handles training, nutrition, and biometric coaching.
+            See the current interface in action. Select a capability to inspect how IZEM handles training, nutrition, and optional Health-informed coaching.
           </p>
         </motion.div>
 

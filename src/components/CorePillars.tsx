@@ -115,7 +115,7 @@ export default function CorePillars() {
                 Scan your food, gym floor, and physique trends.
               </p>
               <p className="text-sm text-textSecondary leading-relaxed mb-6">
-                Point your camera at gym machines to see if they fit your routine, scan meal plates for instant macro estimation, and track visual body composition privately.
+                Point your camera at gym equipment for workout context, estimate a meal from an optional photo, or track visual progress. Camera analysis can be incomplete or wrong and stays under your control.
               </p>
 
               {/* Micro-UI: Camera Recognition Overlay */}
