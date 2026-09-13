@@ -185,6 +185,15 @@
       "lockUntil": "2026-10-03",
       "preferredReviewAt": "2026-10-10",
       "reason": "The September 12 launch creates a distinct free workout-plan-builder utility with goal, equipment, experience, training-day, session-length, sets, reps, rest, and progression output. Preserve the initial version for a clean 21-day discovery and early Search Console window while protecting the existing AI-workout-generator feature page from overlap."
+    },
+    {
+      "id": "adhd-workout-accountability-rejuvenation-2026-09-13",
+      "url": "/blog/adhd-workout-accountability-app",
+      "files": ["public/blog/adhd-workout-accountability-app.html"],
+      "launchedAt": "2026-09-13",
+      "lockUntil": "2026-10-04",
+      "preferredReviewAt": "2026-10-11",
+      "reason": "Material rejuvenation targeting decaying Search Console visibility (-11 impressions from peak 16 down to 5). Updated introduction and first H2 with 2026 neurodivergent exercise science, point-of-performance execution, and voice call body doubling. Preserve for a clean 21-day evaluation window."
     }
   ]
 }
