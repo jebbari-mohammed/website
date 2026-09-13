@@ -73,6 +73,8 @@ jobs:
           test "$missing" -eq 0
           test -f dist/404.html
           test -f dist/seo-system-version.json
+          test -f dist/.well-known/apple-app-site-association
+          test -f dist/.well-known/assetlinks.json
 
       - name: Block broken internal routes, invalid schema, and broken links
         run: |
@@ -88,6 +90,7 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: dist
+          include-hidden-files: true
 
       - name: Deploy to GitHub Pages
         id: deployment
@@ -101,6 +104,8 @@ jobs:
             echo "https://youraicoach.life/"
             echo "https://youraicoach.life/blog/"
             echo "https://youraicoach.life/seo-system-version.json"
+            echo "https://youraicoach.life/.well-known/apple-app-site-association"
+            echo "https://youraicoach.life/.well-known/assetlinks.json"
             node - <<'NODE'
           const fs = require('fs');
           const xml = fs.readFileSync('public/blog/feed.xml', 'utf8');
