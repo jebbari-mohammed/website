@@ -8,7 +8,9 @@
   --izem-text: #F5F7F5;
   --izem-muted: #B4BDB7;
 }
-html, body { background-color: var(--izem-background); }
+@media screen {
+  html, body { background-color: var(--izem-background); }
+}
 :where(button, input, select, textarea, progress) { accent-color: var(--izem-primary); }
 :where(a, button, input, select, textarea, summary):focus-visible {
   outline: 2px solid var(--izem-primary);
