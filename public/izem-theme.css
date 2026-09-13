@@ -1,0 +1,21 @@
+/* IZEM's shared visual theme. Editorial copy and search metadata are unchanged. */
+:root {
+  color-scheme: dark;
+  --izem-primary: #8DFF6A;
+  --izem-secondary: #D8FF86;
+  --izem-background: #070A0D;
+  --izem-surface: #111714;
+  --izem-text: #F5F7F5;
+  --izem-muted: #B4BDB7;
+}
+html, body { background-color: var(--izem-background); }
+:where(button, input, select, textarea, progress) { accent-color: var(--izem-primary); }
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--izem-primary);
+  outline-offset: 4px;
+}
+::selection { background: #8DFF6A; color: #070A0D; }
+/* Prevent the legacy tools hub's fixed 400px grid minimum from overflowing phones. */
+@media (max-width: 600px) {
+  .calc-grid { grid-template-columns: minmax(0, 1fr); }
+}
