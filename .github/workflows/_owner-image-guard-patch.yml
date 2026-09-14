@@ -31,117 +31,94 @@ jobs:
           marker = "const DEFAULT_CONFIG = path.join(ROOT, 'config/seo-active-experiments.json');\n"
           insert = r'''
 
-          function normalizeOwnerImagePolicyThumbnailReferences(content) {
-            return String(content ?? '')
-              .replace(
-                /https?:\/\/(?:i\.ytimg\.com|img\.youtube\.com)\/vi\/([A-Za-z0-9_-]+)\/(?:maxresdefault|sddefault|hqdefault|mqdefault|default)\.jpg(?:\?[^"'\s<>]*)?/gi,
-                (_match, videoId) => `__IZEM_SAFE_VIDEO_THUMBNAIL__:${videoId}`,
-              )
-              .replace(
-                /https:\/\/youraicoach\.life\/youtube\/thumbnails\/([A-Za-z0-9_-]+)\.svg/gi,
-                (_match, videoId) => `__IZEM_SAFE_VIDEO_THUMBNAIL__:${videoId}`,
-              );
-          }
+function normalizeOwnerImagePolicyThumbnailReferences(content) {
+  return String(content ?? '')
+    .replace(
+      /https?:\/\/(?:i\.ytimg\.com|img\.youtube\.com)\/vi\/([A-Za-z0-9_-]+)\/(?:maxresdefault|sddefault|hqdefault|mqdefault|default)\.jpg(?:\?[^"'\s<>]*)?/gi,
+      (_match, videoId) => `__IZEM_SAFE_VIDEO_THUMBNAIL__:${videoId}`,
+    )
+    .replace(
+      /https:\/\/youraicoach\.life\/youtube\/thumbnails\/([A-Za-z0-9_-]+)\.svg/gi,
+      (_match, videoId) => `__IZEM_SAFE_VIDEO_THUMBNAIL__:${videoId}`,
+    );
+}
 
-          export function isOwnerImagePolicyThumbnailReplacement(baseContent, headContent) {
-            const base = String(baseContent ?? '');
-            const head = String(headContent ?? '');
-            const remotePattern = /https?:\/\/(?:i\.ytimg\.com|img\.youtube\.com)\/vi\/[A-Za-z0-9_-]+\/(?:maxresdefault|sddefault|hqdefault|mqdefault|default)\.jpg(?:\?[^"'\s<>]*)?/i;
-            const safePattern = /https:\/\/youraicoach\.life\/youtube\/thumbnails\/[A-Za-z0-9_-]+\.svg/i;
-            if (!remotePattern.test(base) || remotePattern.test(head) || !safePattern.test(head)) return false;
-            return normalizeOwnerImagePolicyThumbnailReferences(base) === normalizeOwnerImagePolicyThumbnailReferences(head);
-          }
-          '''
+export function isOwnerImagePolicyThumbnailReplacement(baseContent, headContent) {
+  const base = String(baseContent ?? '');
+  const head = String(headContent ?? '');
+  const remotePattern = /https?:\/\/(?:i\.ytimg\.com|img\.youtube\.com)\/vi\/[A-Za-z0-9_-]+\/(?:maxresdefault|sddefault|hqdefault|mqdefault|default)\.jpg(?:\?[^"'\s<>]*)?/i;
+  const safePattern = /https:\/\/youraicoach\.life\/youtube\/thumbnails\/[A-Za-z0-9_-]+\.svg/i;
+  if (!remotePattern.test(base) || remotePattern.test(head) || !safePattern.test(head)) return false;
+  return normalizeOwnerImagePolicyThumbnailReferences(base) === normalizeOwnerImagePolicyThumbnailReferences(head);
+}
+'''
           if 'isOwnerImagePolicyThumbnailReplacement' not in guard:
               if marker not in guard:
                   raise SystemExit('DEFAULT_CONFIG marker not found')
               guard = guard.replace(marker, marker + insert, 1)
 
-          old = """  const enforceLockIds = options.enforceLockIds == null
-            ? null
-            : new Set(Array.from(options.enforceLockIds, (id) => String(id)));
-          const violations = [];
-          """
-          new = """  const enforceLockIds = options.enforceLockIds == null
-            ? null
-            : new Set(Array.from(options.enforceLockIds, (id) => String(id)));
-          const ignoreFiles = new Set(Array.from(options.ignoreFiles || [], (file) => String(file)));
-          const violations = [];
-          """
+          marker = "    : new Set(Array.from(options.enforceLockIds, (id) => String(id)));\n"
+          addition = "  const ignoreFiles = new Set(Array.from(options.ignoreFiles || [], (file) => String(file)));\n"
           if 'const ignoreFiles = new Set' not in guard:
-              if old not in guard:
-                  raise SystemExit('enforceLockIds block not found')
-              guard = guard.replace(old, new, 1)
+              if marker not in guard:
+                  raise SystemExit('enforceLockIds marker not found')
+              guard = guard.replace(marker, marker + addition, 1)
 
           old = "const touched = lock.files.filter((file) => changed.has(file));"
           new = "const touched = lock.files.filter((file) => changed.has(file) && !ignoreFiles.has(String(file)));"
           if new not in guard:
               if old not in guard:
-                  raise SystemExit('touched block not found')
+                  raise SystemExit('touched marker not found')
               guard = guard.replace(old, new, 1)
 
           marker = "function configAtBase(base, configPath) {"
-          helpers = r'''
-          function fileAtRef(ref, file) {
-            if (!ref || /^0+$/.test(ref)) return null;
-            try {
-              return git(['show', `${ref}:${file}`]);
-            } catch {
-              return null;
-            }
-          }
+          helpers = r'''function fileAtRef(ref, file) {
+  if (!ref || /^0+$/.test(ref)) return null;
+  try {
+    return git(['show', `${ref}:${file}`]);
+  } catch {
+    return null;
+  }
+}
 
-          function ownerImagePolicySafetyOverrideFiles(base, head, changedFiles) {
-            const allowed = new Set();
-            for (const file of changedFiles) {
-              if (!String(file).startsWith('public/') || !String(file).endsWith('.html')) continue;
-              const baseContent = fileAtRef(base, file);
-              const headContent = fileAtRef(head, file);
-              if (baseContent == null || headContent == null) continue;
-              if (isOwnerImagePolicyThumbnailReplacement(baseContent, headContent)) allowed.add(String(file));
-            }
-            return allowed;
-          }
+function ownerImagePolicySafetyOverrideFiles(base, head, changedFiles) {
+  const allowed = new Set();
+  for (const file of changedFiles) {
+    if (!String(file).startsWith('public/') || !String(file).endsWith('.html')) continue;
+    const baseContent = fileAtRef(base, file);
+    const headContent = fileAtRef(head, file);
+    if (baseContent == null || headContent == null) continue;
+    if (isOwnerImagePolicyThumbnailReplacement(baseContent, headContent)) allowed.add(String(file));
+  }
+  return allowed;
+}
 
-          '''
+'''
           if 'function ownerImagePolicySafetyOverrideFiles' not in guard:
               if marker not in guard:
                   raise SystemExit('configAtBase marker not found')
               guard = guard.replace(marker, helpers + marker, 1)
 
-          old = """  const baseLockIds = baseConfig ? new Set(baseConfig.locks.map((lock) => lock.id)) : null;
-            const instant = new Date(args.now);
-          """
-          new = """  const baseLockIds = baseConfig ? new Set(baseConfig.locks.map((lock) => lock.id)) : null;
-            const instant = new Date(args.now);
-            const ownerImageSafetyOverrideFiles = ownerImagePolicySafetyOverrideFiles(args.base, args.head, changedFiles);
-          """
+          marker = "  const instant = new Date(args.now);\n"
+          addition = "  const ownerImageSafetyOverrideFiles = ownerImagePolicySafetyOverrideFiles(args.base, args.head, changedFiles);\n"
           if 'const ownerImageSafetyOverrideFiles = ' not in guard:
-              if old not in guard:
-                  raise SystemExit('baseLockIds block not found')
-              guard = guard.replace(old, new, 1)
+              if marker not in guard:
+                  raise SystemExit('instant marker not found')
+              guard = guard.replace(marker, marker + addition, 1)
 
-          old = """  const violations = findActiveLockViolations(changedFiles, config, instant, {
-            enforceLockIds: baseLockIds,
-          });
-          """
-          new = """  const violations = findActiveLockViolations(changedFiles, config, instant, {
-            enforceLockIds: baseLockIds,
-            ignoreFiles: ownerImageSafetyOverrideFiles,
-          });
-          """
+          marker = "    enforceLockIds: baseLockIds,\n"
+          addition = "    ignoreFiles: ownerImageSafetyOverrideFiles,\n"
           if 'ignoreFiles: ownerImageSafetyOverrideFiles' not in guard:
-              if old not in guard:
-                  raise SystemExit('findActiveLockViolations invocation not found')
-              guard = guard.replace(old, new, 1)
+              if marker not in guard:
+                  raise SystemExit('guard invocation marker not found')
+              guard = guard.replace(marker, marker + addition, 1)
 
-          marker = """  const introduced = baseLockIds
-          """
+          marker = "  const introduced = baseLockIds\n"
           notice = """  if (ownerImageSafetyOverrideFiles.size) {
-            console.log(`SEO active-experiment guard accepted a narrowly scoped owner-image safety correction in ${ownerImageSafetyOverrideFiles.size} protected HTML file(s). Only exact YouTube-thumbnail URL replacements are exempt; any other content change remains blocked.`);
-          }
+    console.log(`SEO active-experiment guard accepted a narrowly scoped owner-image safety correction in ${ownerImageSafetyOverrideFiles.size} protected HTML file(s). Only exact YouTube-thumbnail URL replacements are exempt; any other content change remains blocked.`);
+  }
 
-          """
+"""
           if 'narrowly scoped owner-image safety correction' not in guard:
               if marker not in guard:
                   raise SystemExit('introduced marker not found')
@@ -151,58 +128,90 @@ jobs:
 
           test_path = Path('tools/ai-marketing/seo-active-experiment-guard.test.mjs')
           tests = test_path.read_text()
-          old = """  findActiveLockMutationViolations,
-            findActiveLockViolations,
-            validateConfig,
-          """
-          new = """  findActiveLockMutationViolations,
-            findActiveLockViolations,
-            isOwnerImagePolicyThumbnailReplacement,
-            validateConfig,
-          """
+          marker = "  findActiveLockViolations,\n"
+          addition = "  isOwnerImagePolicyThumbnailReplacement,\n"
           if 'isOwnerImagePolicyThumbnailReplacement,' not in tests:
-              if old not in tests:
+              if marker not in tests:
                   raise SystemExit('test import marker not found')
-              tests = tests.replace(old, new, 1)
+              tests = tests.replace(marker, marker + addition, 1)
 
           block = r'''
 
-          test('recognizes an exact remote YouTube thumbnail to verified IZEM artwork safety replacement', () => {
-            const base = '<img src="https://i.ytimg.com/vi/abc_123/hqdefault.jpg"><meta property="og:image" content="https://img.youtube.com/vi/abc_123/hqdefault.jpg">';
-            const head = '<img src="https://youraicoach.life/youtube/thumbnails/abc_123.svg"><meta property="og:image" content="https://youraicoach.life/youtube/thumbnails/abc_123.svg">';
-            assert.equal(isOwnerImagePolicyThumbnailReplacement(base, head), true);
-          });
+test('recognizes an exact remote YouTube thumbnail to verified IZEM artwork safety replacement', () => {
+  const base = '<img src="https://i.ytimg.com/vi/abc_123/hqdefault.jpg"><meta property="og:image" content="https://img.youtube.com/vi/abc_123/hqdefault.jpg">';
+  const head = '<img src="https://youraicoach.life/youtube/thumbnails/abc_123.svg"><meta property="og:image" content="https://youraicoach.life/youtube/thumbnails/abc_123.svg">';
+  assert.equal(isOwnerImagePolicyThumbnailReplacement(base, head), true);
+});
 
-          test('rejects a thumbnail safety override when any protected copy changes too', () => {
-            const base = '<h1>Original title</h1><img src="https://i.ytimg.com/vi/abc_123/hqdefault.jpg">';
-            const head = '<h1>Changed title</h1><img src="https://youraicoach.life/youtube/thumbnails/abc_123.svg">';
-            assert.equal(isOwnerImagePolicyThumbnailReplacement(base, head), false);
-          });
+test('rejects a thumbnail safety override when any protected copy changes too', () => {
+  const base = '<h1>Original title</h1><img src="https://i.ytimg.com/vi/abc_123/hqdefault.jpg">';
+  const head = '<h1>Changed title</h1><img src="https://youraicoach.life/youtube/thumbnails/abc_123.svg">';
+  assert.equal(isOwnerImagePolicyThumbnailReplacement(base, head), false);
+});
 
-          test('allows only explicitly prevalidated safety files while keeping other locked targets blocked', () => {
-            const protectedFile = 'public/blog/workout-reminder-app-that-calls-you.html';
-            const ignored = findActiveLockViolations(
-              [protectedFile],
-              config,
-              new Date('2026-08-25T12:00:00Z'),
-              { ignoreFiles: new Set([protectedFile]) },
-            );
-            assert.deepEqual(ignored, []);
+test('allows only explicitly prevalidated safety files while keeping other locked targets blocked', () => {
+  const protectedFile = 'public/blog/workout-reminder-app-that-calls-you.html';
+  const ignored = findActiveLockViolations(
+    [protectedFile],
+    config,
+    new Date('2026-08-25T12:00:00Z'),
+    { ignoreFiles: new Set([protectedFile]) },
+  );
+  assert.deepEqual(ignored, []);
 
-            const normal = findActiveLockViolations(
-              [protectedFile],
-              config,
-              new Date('2026-08-25T12:00:00Z'),
-            );
-            assert.equal(normal.length, 1);
-          });
-          '''
+  const normal = findActiveLockViolations(
+    [protectedFile],
+    config,
+    new Date('2026-08-25T12:00:00Z'),
+  );
+  assert.equal(normal.length, 1);
+});
+'''
           if "recognizes an exact remote YouTube thumbnail" not in tests:
               tests += block
           test_path.write_text(tests)
 
           doc = Path('docs/seo-experiments/2026-09-14-owner-video-thumbnail-safety-correction.md')
-          doc.write_text('''# Owner image-policy safety correction — video thumbnails\n\n## Decision\n\nReplace every unverifiable YouTube-hosted thumbnail used by the website with a self-hosted, people-free IZEM title card. This is a mandatory owner-safety correction, not a ranking-copy experiment.\n\n## Evidence and scope\n\n- The video catalog contains 51 dedicated watch pages.\n- The existing video sync pipeline used `i.ytimg.com` thumbnails in visible blog cards, the video hub, watch-page social metadata, VideoObject markup, and the video sitemap.\n- Those third-party images are mutable and were not individually verifiable under the owner requirement.\n- The new generated artwork is 1280×720 SVG containing only geometric shapes, a dumbbell glyph, a play glyph, IZEM branding, and the video title. It contains no people, raster image elements, scripts, foreign objects, external image references, or data URLs.\n- All 51 generated cards were rendered together and visually reviewed before publication; every card is people-free.\n\n## Experiment-lock governance\n\nSome pages carrying video cards are active SEO experiments. Their ranking copy, titles, H1s, canonicals, dates, structured-content semantics, and internal links are not being changed. The only protected-page difference is an exact remote YouTube-thumbnail URL to the corresponding self-hosted safe artwork URL.\n\nThe active-experiment guard receives a narrowly scoped safety override that accepts only this exact semantic no-op replacement. If any additional protected copy changes in the same file, normalization no longer matches and the guard still blocks the PR. Active lock definitions are unchanged.\n\n## Hypothesis and measurement\n\n**Hypothesis:** self-hosted, visually verified people-free video artwork will satisfy the mandatory owner image policy while preserving video discoverability and active SEO experiment attribution.\n\n**Baseline:** 51 catalog videos relied on unverifiable third-party YouTube thumbnail URLs; the owner-image guard blocked only one known local photograph.\n\n**Targets:**\n\n- zero `i.ytimg.com` or `img.youtube.com` references in public HTML/XML;\n- 51/51 catalog videos have unique self-hosted people-free artwork;\n- deterministic video sync remains current;\n- VideoObject/video-sitemap checks and production build remain green;\n- no material organic visibility regression attributable to artwork replacement.\n\n**Expected direction:** neutral ranking impact, materially lower publishing-policy risk.\n\n**Earliest technical review:** immediately after CI/deploy.\n\n**First search/media safety review:** 2026-09-21.\n''')
+          doc.write_text('''# Owner image-policy safety correction — video thumbnails
+
+## Decision
+
+Replace every unverifiable YouTube-hosted thumbnail used by the website with a self-hosted, people-free IZEM title card. This is a mandatory owner-safety correction, not a ranking-copy experiment.
+
+## Evidence and scope
+
+- The video catalog contains 51 dedicated watch pages.
+- The existing video sync pipeline used `i.ytimg.com` thumbnails in visible blog cards, the video hub, watch-page social metadata, VideoObject markup, and the video sitemap.
+- Those third-party images are mutable and were not individually verifiable under the owner requirement.
+- The new generated artwork is 1280×720 SVG containing only geometric shapes, a dumbbell glyph, a play glyph, IZEM branding, and the video title. It contains no people, raster image elements, scripts, foreign objects, external image references, or data URLs.
+- All 51 generated cards were rendered together and visually reviewed before publication; every card is people-free.
+
+## Experiment-lock governance
+
+Some pages carrying video cards are active SEO experiments. Their ranking copy, titles, H1s, canonicals, dates, structured-content semantics, and internal links are not being changed. The only protected-page difference is an exact remote YouTube-thumbnail URL to the corresponding self-hosted safe artwork URL.
+
+The active-experiment guard receives a narrowly scoped safety override that accepts only this exact semantic no-op replacement. If any additional protected copy changes in the same file, normalization no longer matches and the guard still blocks the PR. Active lock definitions are unchanged.
+
+## Hypothesis and measurement
+
+**Hypothesis:** self-hosted, visually verified people-free video artwork will satisfy the mandatory owner image policy while preserving video discoverability and active SEO experiment attribution.
+
+**Baseline:** 51 catalog videos relied on unverifiable third-party YouTube thumbnail URLs; the owner-image guard blocked only one known local photograph.
+
+**Targets:**
+
+- zero `i.ytimg.com` or `img.youtube.com` references in public HTML/XML;
+- 51/51 catalog videos have unique self-hosted people-free artwork;
+- deterministic video sync remains current;
+- VideoObject/video-sitemap checks and production build remain green;
+- no material organic visibility regression attributable to artwork replacement.
+
+**Expected direction:** neutral ranking impact, materially lower publishing-policy risk.
+
+**Earliest technical review:** immediately after CI/deploy.
+
+**First search/media safety review:** 2026-09-21.
+''')
           PY
 
       - name: Run focused governance and image-policy tests
