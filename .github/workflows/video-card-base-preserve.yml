@@ -1,0 +1,50 @@
+name: Base-preserving video-card regeneration
+
+on:
+  push:
+    branches:
+      - seo/owner-video-thumbnails-2026-09-14
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    if: contains(github.event.head_commit.message, 'base-preserving video-card regeneration')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: seo/owner-video-thumbnails-2026-09-14
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Restore base article markup then apply only safe thumbnail migration
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout origin/main -- public/blog
+          pnpm video:sync
+          pnpm check:owner-images
+          pnpm video:check
+          node tools/validate-jsonld.mjs public
+          pnpm sitemap:check
+          pnpm test:seo-growth
+          pnpm build
+          pnpm check:links
+          if grep -RInE 'https?://(i\.ytimg\.com|img\.youtube\.com)/' public --include='*.html' --include='*.xml' --include='*.json' --include='*.svg'; then exit 1; fi
+      - name: Commit base-preserving regenerated output
+        run: |
+          set -euo pipefail
+          git config user.name "IZEM Editorial"
+          git config user.email "editorial@youraicoach.life"
+          git add -A
+          git commit -m "fix(images): minimize article thumbnail migration diff"
+          git push origin HEAD:seo/owner-video-thumbnails-2026-09-14
