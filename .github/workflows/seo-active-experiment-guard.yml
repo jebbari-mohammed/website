@@ -6,6 +6,7 @@ on:
       - 'public/**/*.html'
       - 'src/**'
       - 'config/seo-active-experiments.json'
+      - 'config/seo-safety-overrides.json'
       - 'tools/ai-marketing/seo-active-experiment-guard.mjs'
       - 'tools/ai-marketing/seo-active-experiment-guard.test.mjs'
       - '.github/workflows/seo-active-experiment-guard.yml'
@@ -15,6 +16,7 @@ on:
       - 'public/**/*.html'
       - 'src/**'
       - 'config/seo-active-experiments.json'
+      - 'config/seo-safety-overrides.json'
       - 'tools/ai-marketing/seo-active-experiment-guard.mjs'
       - 'tools/ai-marketing/seo-active-experiment-guard.test.mjs'
       - '.github/workflows/seo-active-experiment-guard.yml'
@@ -53,6 +55,16 @@ jobs:
             for (const file of lock.files || []) {
               if (!fs.existsSync(file)) throw new Error(`Active experiment ${lock.id} references a missing file: ${file}`);
             }
+          }
+          const overridePath = 'config/seo-safety-overrides.json';
+          if (fs.existsSync(overridePath)) {
+            const overrides = JSON.parse(fs.readFileSync(overridePath, 'utf8'));
+            for (const override of overrides.overrides || []) {
+              for (const file of override.files || []) {
+                if (!fs.existsSync(file)) throw new Error(`SEO safety override ${override.id} references a missing file: ${file}`);
+              }
+            }
+            console.log(`Verified ${(overrides.overrides || []).length} SEO safety override(s).`);
           }
           console.log(`Verified ${(config.locks || []).length} active experiment lock(s).`);
           NODE
