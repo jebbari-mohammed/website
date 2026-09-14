@@ -1,0 +1,247 @@
+name: Owner image policy sync
+
+on:
+  push:
+    branches:
+      - seo/owner-image-youtube-thumbnails-2026-09-14
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Patch video artwork pipeline
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          repo = Path('.')
+          sync_path = repo / 'tools/sync-video-pages.mjs'
+          sync = sync_path.read_text()
+
+          old = """function thumbnailUrl(videoId) {
+            return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+          }
+          """
+          new = r'''function thumbnailPath(videoId) {
+            return `/youtube/thumbnails/${videoId}.svg`
+          }
+
+          function thumbnailUrl(videoId) {
+            return `${siteOrigin}${thumbnailPath(videoId)}`
+          }
+
+          function replaceUnverifiedYouTubeThumbnails(html) {
+            return html
+              .replace(
+                /https:\/\/i\.ytimg\.com\/vi\/([A-Za-z0-9_-]+)\/(?:maxresdefault|sddefault|hqdefault|mqdefault|default)\.jpg(?:\?[^"'\s<>]*)?/gi,
+                (_match, videoId) => thumbnailUrl(videoId),
+              )
+              .replace(
+                /https:\/\/img\.youtube\.com\/vi\/([A-Za-z0-9_-]+)\/(?:maxresdefault|sddefault|hqdefault|mqdefault|default)\.jpg(?:\?[^"'\s<>]*)?/gi,
+                (_match, videoId) => thumbnailUrl(videoId),
+              )
+          }
+
+          function thumbnailTitleLines(value, maxCharacters = 32, maxLines = 3) {
+            const words = String(value || '').trim().split(/\s+/).filter(Boolean)
+            const lines = []
+            for (const word of words) {
+              if (!lines.length) {
+                lines.push(word)
+                continue
+              }
+              const current = lines[lines.length - 1]
+              if (`${current} ${word}`.length <= maxCharacters) {
+                lines[lines.length - 1] = `${current} ${word}`
+              } else if (lines.length < maxLines) {
+                lines.push(word)
+              } else {
+                lines[maxLines - 1] = `${lines[maxLines - 1]}…`
+                break
+              }
+            }
+            return lines.slice(0, maxLines)
+          }
+
+          function renderVideoThumbnail(video) {
+            const lines = thumbnailTitleLines(video.title)
+            const titleMarkup = lines
+              .map(
+                (line, index) =>
+                  `  <text x="92" y="${316 + index * 68}" fill="#F5FFF1" font-family="Arial, Helvetica, sans-serif" font-size="50" font-weight="800">${xmlEscape(line)}</text>`,
+              )
+              .join('\n')
+
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+            <title id="title">${xmlEscape(video.title)} — IZEM video guide</title>
+            <desc id="desc">People-free IZEM fitness video artwork with a dumbbell icon, play symbol, and the video title.</desc>
+            <defs>
+              <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#050806"/><stop offset="1" stop-color="#0C1710"/></linearGradient>
+              <radialGradient id="glow" cx="0.78" cy="0.3" r="0.64"><stop offset="0" stop-color="#8DFF6A" stop-opacity="0.2"/><stop offset="1" stop-color="#8DFF6A" stop-opacity="0"/></radialGradient>
+            </defs>
+            <rect width="1280" height="720" fill="url(#bg)"/>
+            <rect width="1280" height="720" fill="url(#glow)"/>
+            <g opacity="0.11" stroke="#8DFF6A" stroke-width="1"><path d="M0 120H1280M0 240H1280M0 360H1280M0 480H1280M0 600H1280"/><path d="M160 0V720M320 0V720M480 0V720M640 0V720M800 0V720M960 0V720M1120 0V720"/></g>
+            <g transform="translate(92 82)" fill="none" stroke="#8DFF6A" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><path d="M22 90h44m100 0h44"/><rect x="66" y="63" width="28" height="54" rx="7"/><rect x="138" y="63" width="28" height="54" rx="7"/><path d="M94 90h44"/></g>
+            <text x="92" y="230" fill="#8DFF6A" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="800" letter-spacing="6">IZEM VIDEO GUIDE</text>
+          ${titleMarkup}
+            <g transform="translate(1015 108)"><circle cx="80" cy="80" r="70" fill="#8DFF6A" opacity="0.13"/><circle cx="80" cy="80" r="54" fill="none" stroke="#8DFF6A" stroke-width="3" opacity="0.78"/><path d="M66 50l46 30-46 30z" fill="#8DFF6A"/></g>
+            <rect x="92" y="600" width="1096" height="2" fill="#8DFF6A" opacity="0.24"/>
+            <text x="92" y="652" fill="#8DA094" font-family="Arial, Helvetica, sans-serif" font-size="23" letter-spacing="2">YOURAICOACH.LIFE</text>
+          </svg>
+          `
+          }
+          '''
+          if old not in sync:
+              raise SystemExit('Expected thumbnailUrl block not found')
+          sync = sync.replace(old, new, 1)
+
+          old = "function transformArticle(html, videoMap) {\n  let next = html.replace("
+          new = "function transformArticle(html, videoMap) {\n  let next = replaceUnverifiedYouTubeThumbnails(html).replace("
+          if old not in sync:
+              raise SystemExit('Expected transformArticle block not found')
+          sync = sync.replace(old, new, 1)
+
+          old = "  let next = removeArticleVideoSchema(html)"
+          new = "  let next = removeArticleVideoSchema(replaceUnverifiedYouTubeThumbnails(html))"
+          if old not in sync:
+              raise SystemExit('Expected transformHub block not found')
+          sync = sync.replace(old, new, 1)
+
+          old = """for (const video of videos) {
+            await applyExpected(path.join(youtubeDirectory, video.id, 'index.html'), renderWatchPage(video), changedFiles)
+          }
+          """
+          new = """for (const video of videos) {
+            await applyExpected(path.join(youtubeDirectory, 'thumbnails', `${video.id}.svg`), renderVideoThumbnail(video), changedFiles)
+            await applyExpected(path.join(youtubeDirectory, video.id, 'index.html'), renderWatchPage(video), changedFiles)
+          }
+          """
+          if old not in sync:
+              raise SystemExit('Expected watch-page output loop not found')
+          sync = sync.replace(old, new, 1)
+          sync_path.write_text(sync)
+
+          daily_path = repo / 'tools/ai-marketing/daily-notebooklm-video.mjs'
+          daily = daily_path.read_text()
+          old = 'https://i.ytimg.com/vi/${videoId}/hqdefault.jpg'
+          new = '${SITE_URL}/youtube/thumbnails/${videoId}.svg'
+          if old not in daily:
+              raise SystemExit('Expected daily NotebookLM thumbnail URL not found')
+          daily_path.write_text(daily.replace(old, new))
+
+          guard_path = repo / 'tools/check-owner-image-policy.mjs'
+          guard_path.write_text(r'''#!/usr/bin/env node
+
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { fileURLToPath } from 'node:url';
+
+          const HERE = path.dirname(fileURLToPath(import.meta.url));
+          const ROOT = path.resolve(HERE, '..');
+          const PUBLIC_DIR = path.join(ROOT, 'public');
+          const SAFE_VIDEO_THUMBNAIL_DIR = path.join(PUBLIC_DIR, 'youtube', 'thumbnails');
+
+          const BLOCKED_VISUAL_REFERENCES = [
+            '/images/hero-premium.png',
+            'https://i.ytimg.com/',
+            'http://i.ytimg.com/',
+            'https://img.youtube.com/',
+            'http://img.youtube.com/',
+          ];
+
+          function walk(dir, predicate) {
+            if (!fs.existsSync(dir)) return [];
+            const files = [];
+            for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+              const full = path.join(dir, entry.name);
+              if (entry.isDirectory()) files.push(...walk(full, predicate));
+              else if (entry.isFile() && predicate(entry.name)) files.push(full);
+            }
+            return files;
+          }
+
+          const publicTextFiles = walk(PUBLIC_DIR, (name) => /\.(?:html|xml)$/i.test(name));
+          const violations = [];
+          for (const file of publicTextFiles) {
+            const content = fs.readFileSync(file, 'utf8');
+            for (const blocked of BLOCKED_VISUAL_REFERENCES) {
+              if (!content.includes(blocked)) continue;
+              violations.push({ file: path.relative(ROOT, file).split(path.sep).join('/'), blocked });
+            }
+          }
+
+          const thumbnailFiles = walk(SAFE_VIDEO_THUMBNAIL_DIR, (name) => name.endsWith('.svg'));
+          for (const file of thumbnailFiles) {
+            const svg = fs.readFileSync(file, 'utf8');
+            const unsafeSvg = /<(?:image|foreignObject|script)\b/i.test(svg) || /(?:href|xlink:href)\s*=\s*["']\s*(?:https?:|data:)/i.test(svg);
+            if (unsafeSvg) {
+              violations.push({ file: path.relative(ROOT, file).split(path.sep).join('/'), blocked: 'external/raster/script content inside generated video artwork' });
+            }
+          }
+
+          if (violations.length) {
+            console.error(`Owner image policy check failed: ${violations.length} unsafe visual reference(s) found.`);
+            for (const violation of violations) console.error(`- ${violation.file}: ${violation.blocked}`);
+            console.error('Use a visually verified people-free asset, or a clearly fully/modestly covered human visual explicitly accepted by the owner.');
+            process.exitCode = 1;
+          } else {
+            console.log(`Owner image policy check passed: ${publicTextFiles.length} public HTML/XML file(s) and ${thumbnailFiles.length} generated people-free video thumbnail(s) checked.`);
+          }
+          ''')
+          PY
+
+      - name: Generate policy-safe video pages and thumbnails
+        run: node tools/sync-video-pages.mjs
+
+      - name: Verify owner image policy and deterministic video output
+        shell: bash
+        run: |
+          set -euo pipefail
+          node tools/check-owner-image-policy.mjs
+          node tools/sync-video-pages.mjs --check
+          if grep -R -n -E 'https?://(i\.ytimg\.com|img\.youtube\.com)/' public; then
+            echo 'Unverified YouTube image host remains in public output.' >&2
+            exit 1
+          fi
+          node - <<'NODE'
+          const fs = require('fs');
+          const catalog = JSON.parse(fs.readFileSync('public/youtube/video-catalog.json', 'utf8'));
+          const files = fs.readdirSync('public/youtube/thumbnails').filter((name) => name.endsWith('.svg'));
+          if (files.length < catalog.videos.length) throw new Error(`Expected at least ${catalog.videos.length} safe thumbnails, found ${files.length}`);
+          console.log(`Safe video artwork verified for ${catalog.videos.length} catalog videos.`);
+          NODE
+
+      - name: Upload thumbnails for owner-policy visual review
+        uses: actions/upload-artifact@v4
+        with:
+          name: owner-policy-video-thumbnails
+          path: public/youtube/thumbnails/*.svg
+          if-no-files-found: error
+          retention-days: 2
+
+      - name: Commit synchronized outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'IZEM SEO Bot'
+          git config user.email 'seo-bot@youraicoach.life'
+          git add tools/sync-video-pages.mjs tools/ai-marketing/daily-notebooklm-video.mjs tools/check-owner-image-policy.mjs public/
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+            exit 0
+          fi
+          git commit -m 'fix(images): replace unverified YouTube thumbnails'
+          git push origin HEAD:${GITHUB_REF_NAME}
