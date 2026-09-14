@@ -252,8 +252,10 @@ function transformArticle(html, videoMap) {
   })
   next = next.replace(/<a\b[^>]*data-izem-video-card\s*=\s*(["'])true\1[^>]*>[\s\S]*?<\/a>/gi, (card) => {
     const id = attribute(card, 'data-video-id') || ''
-    const video = videoMap.get(id)
-    return video ? renderArticleVideoCard(video) : card
+    if (!videoMap.has(id)) return card
+    return card.replace(/(<img\b[^>]*\bsrc\s*=\s*)(["'])[^"']*\2/i, (_match, prefix, quote) =>
+      `${prefix}${quote}${thumbnailUrl(id)}${quote}`,
+    )
   })
   next = removeArticleVideoSchema(next)
   return next
