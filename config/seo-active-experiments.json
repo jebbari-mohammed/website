@@ -7,6 +7,15 @@
   },
   "locks": [
     {
+      "id": "accountability-apps-scorecard-refresh-2026-09-14",
+      "url": "/blog/accountability-apps-for-working-out",
+      "files": ["public/blog/accountability-apps-for-working-out.html"],
+      "launchedAt": "2026-09-14",
+      "lockUntil": "2026-10-05",
+      "preferredReviewAt": "2026-10-12",
+      "reason": "The September 14 refresh targets verified accountability-app impressions by retitling the page around calls vs reminders, adding the Accountability Mechanism Scorecard, clarifying active-vs-passive intervention timing, and strengthening private-call/daily-check-in internal links. Preserve for a clean 21-day evaluation window."
+    },
+    {
       "id": "progressive-overload-comparison-refresh-2026-09-13",
       "url": "/blog/best-app-to-track-progressive-overload-automatically",
       "files": ["public/blog/best-app-to-track-progressive-overload-automatically.html"],
