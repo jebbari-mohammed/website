@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   findActiveLockMutationViolations,
   findActiveLockViolations,
+  isOwnerImagePolicyThumbnailReplacement,
   validateConfig,
 } from './seo-active-experiment-guard.mjs';
 
@@ -200,4 +201,34 @@ test('fails configuration validation for unsupported protected paths', () => {
     }),
     /unsupported path/,
   );
+});
+
+test('recognizes an exact remote YouTube thumbnail to verified IZEM artwork safety replacement', () => {
+  const base = '<img src="https://i.ytimg.com/vi/abc_123/hqdefault.jpg"><meta property="og:image" content="https://img.youtube.com/vi/abc_123/hqdefault.jpg">';
+  const head = '<img src="https://youraicoach.life/youtube/thumbnails/abc_123.svg"><meta property="og:image" content="https://youraicoach.life/youtube/thumbnails/abc_123.svg">';
+  assert.equal(isOwnerImagePolicyThumbnailReplacement(base, head), true);
+});
+
+test('rejects a thumbnail safety override when any protected copy changes too', () => {
+  const base = '<h1>Original title</h1><img src="https://i.ytimg.com/vi/abc_123/hqdefault.jpg">';
+  const head = '<h1>Changed title</h1><img src="https://youraicoach.life/youtube/thumbnails/abc_123.svg">';
+  assert.equal(isOwnerImagePolicyThumbnailReplacement(base, head), false);
+});
+
+test('allows only explicitly prevalidated safety files while keeping other locked targets blocked', () => {
+  const protectedFile = 'public/blog/workout-reminder-app-that-calls-you.html';
+  const ignored = findActiveLockViolations(
+    [protectedFile],
+    config,
+    new Date('2026-08-25T12:00:00Z'),
+    { ignoreFiles: new Set([protectedFile]) },
+  );
+  assert.deepEqual(ignored, []);
+
+  const normal = findActiveLockViolations(
+    [protectedFile],
+    config,
+    new Date('2026-08-25T12:00:00Z'),
+  );
+  assert.equal(normal.length, 1);
 });
