@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import {
   findActiveLockMutationViolations,
   findActiveLockViolations,
+  isOwnerImagePolicyThumbnailOnlyChange,
   validateConfig,
+  validateSafetyOverrideConfig,
 } from './seo-active-experiment-guard.mjs';
 
 const config = {
@@ -199,5 +201,52 @@ test('fails configuration validation for unsupported protected paths', () => {
       locks: [{ ...config.locks[0], files: ['data/private.json'] }],
     }),
     /unsupported path/,
+  );
+});
+
+test('accepts an exact owner-image remote-to-local thumbnail URL migration', () => {
+  const base = '<a><img src="https://i.ytimg.com/vi/abc123/hqdefault.jpg" alt="Keep this exact copy"></a>\n';
+  const head = '<a><img src="https://youraicoach.life/youtube/abc123/thumbnail.svg" alt="Keep this exact copy"></a>\n';
+  assert.equal(isOwnerImagePolicyThumbnailOnlyChange(base, head), true);
+});
+
+test('rejects owner-image override when protected copy changes with the thumbnail', () => {
+  const base = '<a><img src="https://i.ytimg.com/vi/abc123/hqdefault.jpg" alt="Original copy"></a>\n';
+  const head = '<a><img src="https://youraicoach.life/youtube/abc123/thumbnail.svg" alt="Changed copy"></a>\n';
+  assert.equal(isOwnerImagePolicyThumbnailOnlyChange(base, head), false);
+});
+
+test('rejects owner-image override when the video id changes', () => {
+  const base = '<img src="https://i.ytimg.com/vi/abc123/hqdefault.jpg" alt="Same">\n';
+  const head = '<img src="https://youraicoach.life/youtube/different/thumbnail.svg" alt="Same">\n';
+  assert.equal(isOwnerImagePolicyThumbnailOnlyChange(base, head), false);
+});
+
+test('validates narrowly scoped owner-image safety override config', () => {
+  assert.doesNotThrow(() => validateSafetyOverrideConfig({
+    version: 1,
+    overrides: [{
+      id: 'owner-thumbnails',
+      kind: 'owner-image-policy-thumbnail-migration',
+      reason: 'Mandatory owner image policy correction for remote thumbnails.',
+      expiresAt: '2026-09-16',
+      files: ['public/blog/example.html'],
+    }],
+  }));
+});
+
+test('rejects broad or unsupported safety override scope', () => {
+  assert.throws(
+    () => validateSafetyOverrideConfig({
+      version: 1,
+      overrides: [{
+        id: 'too-broad',
+        kind: 'owner-image-policy-thumbnail-migration',
+        reason: 'This reason is sufficiently specific but the file scope is not.',
+        expiresAt: '2026-09-16',
+        files: ['public/**/*.html'],
+      }],
+    }),
+    /only target exact English public\/blog HTML files/,
   );
 });
