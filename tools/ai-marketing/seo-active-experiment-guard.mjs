@@ -10,6 +10,27 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '../..');
 const DEFAULT_CONFIG = path.join(ROOT, 'config/seo-active-experiments.json');
 
+function normalizeOwnerImagePolicyThumbnailReferences(content) {
+  return String(content ?? '')
+    .replace(
+      /https?:\/\/(?:i\.ytimg\.com|img\.youtube\.com)\/vi\/([A-Za-z0-9_-]+)\/(?:maxresdefault|sddefault|hqdefault|mqdefault|default)\.jpg(?:\?[^"'\s<>]*)?/gi,
+      (_match, videoId) => `__IZEM_SAFE_VIDEO_THUMBNAIL__:${videoId}`,
+    )
+    .replace(
+      /https:\/\/youraicoach\.life\/youtube\/thumbnails\/([A-Za-z0-9_-]+)\.svg/gi,
+      (_match, videoId) => `__IZEM_SAFE_VIDEO_THUMBNAIL__:${videoId}`,
+    );
+}
+
+export function isOwnerImagePolicyThumbnailReplacement(baseContent, headContent) {
+  const base = String(baseContent ?? '');
+  const head = String(headContent ?? '');
+  const remotePattern = /https?:\/\/(?:i\.ytimg\.com|img\.youtube\.com)\/vi\/[A-Za-z0-9_-]+\/(?:maxresdefault|sddefault|hqdefault|mqdefault|default)\.jpg(?:\?[^"'\s<>]*)?/i;
+  const safePattern = /https:\/\/youraicoach\.life\/youtube\/thumbnails\/[A-Za-z0-9_-]+\.svg/i;
+  if (!remotePattern.test(base) || remotePattern.test(head) || !safePattern.test(head)) return false;
+  return normalizeOwnerImagePolicyThumbnailReferences(base) === normalizeOwnerImagePolicyThumbnailReferences(head);
+}
+
 function parseArgs(argv) {
   const args = {
     config: DEFAULT_CONFIG,
@@ -75,6 +96,7 @@ export function findActiveLockViolations(changedFiles, config, now = new Date(),
   const enforceLockIds = options.enforceLockIds == null
     ? null
     : new Set(Array.from(options.enforceLockIds, (id) => String(id)));
+  const ignoreFiles = new Set(Array.from(options.ignoreFiles || [], (file) => String(file)));
   const violations = [];
 
   for (const lock of config.locks) {
@@ -86,7 +108,7 @@ export function findActiveLockViolations(changedFiles, config, now = new Date(),
 
     const unlock = new Date(`${lock.lockUntil}T23:59:59.999Z`);
     if (instant > unlock) continue;
-    const touched = lock.files.filter((file) => changed.has(file));
+    const touched = lock.files.filter((file) => changed.has(file) && !ignoreFiles.has(String(file)));
     if (!touched.length) continue;
     violations.push({
       id: lock.id,
@@ -176,6 +198,27 @@ function changedFilesBetween(base, head) {
     .filter(Boolean);
 }
 
+function fileAtRef(ref, file) {
+  if (!ref || /^0+$/.test(ref)) return null;
+  try {
+    return git(['show', `${ref}:${file}`]);
+  } catch {
+    return null;
+  }
+}
+
+function ownerImagePolicySafetyOverrideFiles(base, head, changedFiles) {
+  const allowed = new Set();
+  for (const file of changedFiles) {
+    if (!String(file).startsWith('public/') || !String(file).endsWith('.html')) continue;
+    const baseContent = fileAtRef(base, file);
+    const headContent = fileAtRef(head, file);
+    if (baseContent == null || headContent == null) continue;
+    if (isOwnerImagePolicyThumbnailReplacement(baseContent, headContent)) allowed.add(String(file));
+  }
+  return allowed;
+}
+
 function configAtBase(base, configPath) {
   if (!base || /^0+$/.test(base)) return null;
 
@@ -205,6 +248,7 @@ async function main() {
   const baseConfig = configAtBase(args.base, args.config);
   const baseLockIds = baseConfig ? new Set(baseConfig.locks.map((lock) => lock.id)) : null;
   const instant = new Date(args.now);
+  const ownerImageSafetyOverrideFiles = ownerImagePolicySafetyOverrideFiles(args.base, args.head, changedFiles);
 
   const mutationViolations = findActiveLockMutationViolations(baseConfig, config, instant);
   if (mutationViolations.length) {
@@ -219,6 +263,7 @@ async function main() {
 
   const violations = findActiveLockViolations(changedFiles, config, instant, {
     enforceLockIds: baseLockIds,
+    ignoreFiles: ownerImageSafetyOverrideFiles,
   });
 
   if (violations.length) {
@@ -230,6 +275,10 @@ async function main() {
     console.error('If this is a genuine factual, legal, safety, rendering, indexing, canonical, or deployment correction, use an explicitly reviewed governance override rather than weakening the lock definition in the same change.');
     process.exitCode = 1;
     return;
+  }
+
+  if (ownerImageSafetyOverrideFiles.size) {
+    console.log(`SEO active-experiment guard accepted a narrowly scoped owner-image safety correction in ${ownerImageSafetyOverrideFiles.size} protected HTML file(s). Only exact YouTube-thumbnail URL replacements are exempt; any other content change remains blocked.`);
   }
 
   const introduced = baseLockIds

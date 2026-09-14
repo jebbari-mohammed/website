@@ -132,8 +132,74 @@ function youtubeUrl(videoId) {
   return `https://www.youtube.com/watch?v=${videoId}`
 }
 
+function thumbnailPath(videoId) {
+  return `/youtube/thumbnails/${videoId}.svg`
+}
+
 function thumbnailUrl(videoId) {
-  return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+  return `${siteOrigin}${thumbnailPath(videoId)}`
+}
+
+function replaceUnverifiedYouTubeThumbnails(html) {
+  return html
+    .replace(
+      /https:\/\/i\.ytimg\.com\/vi\/([A-Za-z0-9_-]+)\/(?:maxresdefault|sddefault|hqdefault|mqdefault|default)\.jpg(?:\?[^"'\s<>]*)?/gi,
+      (_match, videoId) => thumbnailUrl(videoId),
+    )
+    .replace(
+      /https:\/\/img\.youtube\.com\/vi\/([A-Za-z0-9_-]+)\/(?:maxresdefault|sddefault|hqdefault|mqdefault|default)\.jpg(?:\?[^"'\s<>]*)?/gi,
+      (_match, videoId) => thumbnailUrl(videoId),
+    )
+}
+
+function thumbnailTitleLines(value, maxCharacters = 32, maxLines = 3) {
+  const words = String(value || '').trim().split(/\s+/).filter(Boolean)
+  const lines = []
+  for (const word of words) {
+    if (!lines.length) {
+      lines.push(word)
+      continue
+    }
+    const current = lines[lines.length - 1]
+    if (`${current} ${word}`.length <= maxCharacters) {
+      lines[lines.length - 1] = `${current} ${word}`
+    } else if (lines.length < maxLines) {
+      lines.push(word)
+    } else {
+      lines[maxLines - 1] = `${lines[maxLines - 1]}…`
+      break
+    }
+  }
+  return lines.slice(0, maxLines)
+}
+
+function renderVideoThumbnail(video) {
+  const lines = thumbnailTitleLines(video.title)
+  const titleMarkup = lines
+    .map(
+      (line, index) =>
+        `  <text x="92" y="${316 + index * 68}" fill="#F5FFF1" font-family="Arial, Helvetica, sans-serif" font-size="50" font-weight="800">${xmlEscape(line)}</text>`,
+    )
+    .join('\n')
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">${xmlEscape(video.title)} — IZEM video guide</title>
+  <desc id="desc">People-free IZEM fitness video artwork with a dumbbell icon, play symbol, and the video title.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#050806"/><stop offset="1" stop-color="#0C1710"/></linearGradient>
+    <radialGradient id="glow" cx="0.78" cy="0.3" r="0.64"><stop offset="0" stop-color="#8DFF6A" stop-opacity="0.2"/><stop offset="1" stop-color="#8DFF6A" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect width="1280" height="720" fill="url(#glow)"/>
+  <g opacity="0.11" stroke="#8DFF6A" stroke-width="1"><path d="M0 120H1280M0 240H1280M0 360H1280M0 480H1280M0 600H1280"/><path d="M160 0V720M320 0V720M480 0V720M640 0V720M800 0V720M960 0V720M1120 0V720"/></g>
+  <g transform="translate(92 82)" fill="none" stroke="#8DFF6A" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><path d="M22 90h44m100 0h44"/><rect x="66" y="63" width="28" height="54" rx="7"/><rect x="138" y="63" width="28" height="54" rx="7"/><path d="M94 90h44"/></g>
+  <text x="92" y="230" fill="#8DFF6A" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="800" letter-spacing="6">IZEM VIDEO GUIDE</text>
+${titleMarkup}
+  <g transform="translate(1015 108)"><circle cx="80" cy="80" r="70" fill="#8DFF6A" opacity="0.13"/><circle cx="80" cy="80" r="54" fill="none" stroke="#8DFF6A" stroke-width="3" opacity="0.78"/><path d="M66 50l46 30-46 30z" fill="#8DFF6A"/></g>
+  <rect x="92" y="600" width="1096" height="2" fill="#8DFF6A" opacity="0.24"/>
+  <text x="92" y="652" fill="#8DA094" font-family="Arial, Helvetica, sans-serif" font-size="23" letter-spacing="2">YOURAICOACH.LIFE</text>
+</svg>
+`
 }
 
 function renderArticleVideoCard(video) {
@@ -185,7 +251,7 @@ function removeArticleVideoSchema(html) {
 }
 
 function transformArticle(html, videoMap) {
-  let next = html.replace(/<iframe\b[^>]*src\s*=\s*(["'])https:\/\/www\.youtube\.com\/embed\/[^"']+\1[^>]*>\s*<\/iframe>/gi, (iframe) => {
+  let next = replaceUnverifiedYouTubeThumbnails(html).replace(/<iframe\b[^>]*src\s*=\s*(["'])https:\/\/www\.youtube\.com\/embed\/[^"']+\1[^>]*>\s*<\/iframe>/gi, (iframe) => {
     const id = videoIdFromEmbed(attribute(iframe, 'src'))
     const video = videoMap.get(id)
     return video ? renderArticleVideoCard(video) : iframe
@@ -228,7 +294,7 @@ ${JSON.stringify(
 }
 
 function transformHub(html, videos) {
-  let next = removeArticleVideoSchema(html)
+  let next = removeArticleVideoSchema(replaceUnverifiedYouTubeThumbnails(html))
   next = next.replace(/\s*<script\b[^>]*data-izem-video-catalog=["']true["'][^>]*>[\s\S]*?<\/script>/gi, '')
   next = next.replace(/<\/head>/i, `${renderHubSchema(videos)}\n</head>`)
   const feed = `<!-- IZEM_VIDEO_FEED_START -->
@@ -472,6 +538,7 @@ const hubHtml = await readFile(youtubeHubPath, 'utf8')
 await applyExpected(youtubeHubPath, transformHub(hubHtml, videos), changedFiles)
 
 for (const video of videos) {
+  await applyExpected(path.join(youtubeDirectory, 'thumbnails', `${video.id}.svg`), renderVideoThumbnail(video), changedFiles)
   await applyExpected(path.join(youtubeDirectory, video.id, 'index.html'), renderWatchPage(video), changedFiles)
 }
 
