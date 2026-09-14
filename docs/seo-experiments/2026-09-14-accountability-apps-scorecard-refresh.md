@@ -8,7 +8,7 @@ Refresh the existing `/blog/accountability-apps-for-working-out` page instead of
 
 - Verified private Search Console handoff from issue #34:
   - artifact `private-gsc-evidence-v1`
-  - GitHub artifact digest matched `sha256:625a4bfa6bc7b8de182a051a0991770d4d289ff8cd48f653ec593fabdf50cccd`
+  - GitHub artifact digest matched `sha256:523bcaa88a06ffae905fe2a0c8fcbeb0b0fc692ab62d23015f19e2191d59eba8`
   - decrypted 104 authenticated query/page rows
   - reporting period `2026-08-17` to `2026-09-13`
   - public-key fingerprint `56ec78e9ac6187e930cbb4f9e0cea1dad84791287120ce9360a1afcb457352de`
