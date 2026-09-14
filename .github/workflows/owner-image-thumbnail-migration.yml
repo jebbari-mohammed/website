@@ -279,9 +279,38 @@ jobs:
           pnpm video:check
           node tools/validate-jsonld.mjs public
           pnpm sitemap:check
-          pnpm check:links
           pnpm test:seo-growth
           pnpm build
+          pnpm check:links
+
+      - name: Create visual review contact sheet
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'
+          import path from 'node:path'
+          import puppeteer from 'puppeteer'
+
+          const catalog = JSON.parse(fs.readFileSync('public/youtube/video-catalog.json', 'utf8'))
+          const cards = catalog.videos.map((video) => {
+            const svg = fs.readFileSync(path.join('public', 'youtube', video.id, 'thumbnail.svg'))
+            const data = `data:image/svg+xml;base64,${svg.toString('base64')}`
+            return `<figure><img src="${data}" alt=""><figcaption>${video.id}</figcaption></figure>`
+          }).join('')
+          const html = `<!doctype html><meta charset="utf-8"><style>body{margin:20px;background:#111;color:#fff;font:12px system-ui}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}figure{margin:0;background:#222;padding:6px;border-radius:8px}img{display:block;width:100%;aspect-ratio:16/9}figcaption{padding:4px 2px 0;color:#ccc}</style><div class="grid">${cards}</div>`
+          const browser = await puppeteer.launch({headless:true,args:['--no-sandbox']})
+          const page = await browser.newPage()
+          await page.setViewport({width:1600,height:1200,deviceScaleFactor:1})
+          await page.setContent(html, {waitUntil:'load'})
+          await page.screenshot({path:'owner-thumbnail-review.png', fullPage:true})
+          await browser.close()
+          NODE
+
+      - name: Upload visual review contact sheet
+        uses: actions/upload-artifact@v4
+        with:
+          name: owner-thumbnail-visual-review
+          path: owner-thumbnail-review.png
+          retention-days: 7
 
       - name: Ensure remote YouTube thumbnails are gone
         run: |
@@ -298,5 +327,6 @@ jobs:
           git config user.email "editorial@youraicoach.life"
           git rm .github/workflows/owner-image-thumbnail-migration.yml
           git add -A
+          git reset owner-thumbnail-review.png
           git commit -m "fix(images): own all video thumbnails [owner-thumbnail-migration]"
           git push origin HEAD:seo/owner-video-thumbnails-2026-09-14
