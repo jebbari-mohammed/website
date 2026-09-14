@@ -9,10 +9,13 @@ import { fileURLToPath } from 'node:url';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '../..');
 const DEFAULT_CONFIG = path.join(ROOT, 'config/seo-active-experiments.json');
+const DEFAULT_SAFETY_OVERRIDES = path.join(ROOT, 'config/seo-safety-overrides.json');
+const OWNER_THUMBNAIL_OVERRIDE_KIND = 'owner-image-policy-thumbnail-migration';
 
 function parseArgs(argv) {
   const args = {
     config: DEFAULT_CONFIG,
+    safetyOverrides: DEFAULT_SAFETY_OVERRIDES,
     base: '',
     head: 'HEAD',
     now: new Date().toISOString(),
@@ -22,6 +25,8 @@ function parseArgs(argv) {
     const item = argv[index];
     if (item === '--config') args.config = path.resolve(argv[++index]);
     else if (item.startsWith('--config=')) args.config = path.resolve(item.slice(9));
+    else if (item === '--safety-overrides') args.safetyOverrides = path.resolve(argv[++index]);
+    else if (item.startsWith('--safety-overrides=')) args.safetyOverrides = path.resolve(item.slice(19));
     else if (item === '--base') args.base = argv[++index];
     else if (item.startsWith('--base=')) args.base = item.slice(7);
     else if (item === '--head') args.head = argv[++index];
@@ -39,6 +44,14 @@ function git(args) {
     encoding: 'utf8',
     maxBuffer: 20 * 1024 * 1024,
   }).trim();
+}
+
+function gitRaw(args) {
+  return execFileSync('git', args, {
+    cwd: ROOT,
+    encoding: 'utf8',
+    maxBuffer: 20 * 1024 * 1024,
+  });
 }
 
 export function validateConfig(config) {
@@ -65,6 +78,50 @@ export function validateConfig(config) {
     }
   }
   return config;
+}
+
+export function validateSafetyOverrideConfig(config) {
+  if (!config || Number(config.version) !== 1) throw new Error('SEO safety override config version must be 1');
+  if (!Array.isArray(config.overrides)) throw new Error('SEO safety override config must contain an overrides array');
+
+  const ids = new Set();
+  for (const override of config.overrides) {
+    if (!override?.id || ids.has(override.id)) throw new Error('Every SEO safety override needs a unique id');
+    ids.add(override.id);
+    if (override.kind !== OWNER_THUMBNAIL_OVERRIDE_KIND) {
+      throw new Error(`SEO safety override ${override.id} has unsupported kind: ${override.kind || '(missing)'}`);
+    }
+    if (!override.reason || String(override.reason).trim().length < 20) {
+      throw new Error(`SEO safety override ${override.id} needs a specific reason`);
+    }
+    if (!Array.isArray(override.files) || override.files.length === 0) {
+      throw new Error(`SEO safety override ${override.id} needs at least one exact protected file`);
+    }
+    const seenFiles = new Set();
+    for (const file of override.files) {
+      const normalized = String(file);
+      if (!/^public\/blog\/[^/]+\.html$/.test(normalized)) {
+        throw new Error(`SEO safety override ${override.id} may only target exact English public/blog HTML files: ${normalized}`);
+      }
+      if (seenFiles.has(normalized)) throw new Error(`SEO safety override ${override.id} repeats file: ${normalized}`);
+      seenFiles.add(normalized);
+    }
+    const expiresAt = new Date(`${override.expiresAt}T23:59:59.999Z`);
+    if (!override.expiresAt || Number.isNaN(expiresAt.getTime())) {
+      throw new Error(`SEO safety override ${override.id} has an invalid expiresAt`);
+    }
+  }
+  return config;
+}
+
+export function isOwnerImagePolicyThumbnailOnlyChange(baseText, headText) {
+  let replacements = 0;
+  const remoteThumbnail = /https:\/\/(?:i\.ytimg\.com|img\.youtube\.com)\/vi\/([^/"'?#]+)\/(?:hqdefault|maxresdefault|sddefault|mqdefault|default)\.jpg/g;
+  const expected = String(baseText).replace(remoteThumbnail, (_match, videoId) => {
+    replacements += 1;
+    return `https://youraicoach.life/youtube/${videoId}/thumbnail.svg`;
+  });
+  return replacements > 0 && expected === String(headText);
 }
 
 export function findActiveLockViolations(changedFiles, config, now = new Date(), options = {}) {
@@ -198,9 +255,73 @@ function configAtBase(base, configPath) {
   return validateConfig(JSON.parse(raw));
 }
 
+function safetyOverridesFromFile(filePath) {
+  if (!fs.existsSync(filePath)) return { version: 1, overrides: [] };
+  return validateSafetyOverrideConfig(JSON.parse(fs.readFileSync(filePath, 'utf8')));
+}
+
+function fileAtRef(ref, file) {
+  if (!ref || /^0+$/.test(ref)) return null;
+  try {
+    return gitRaw(['show', `${ref}:${file}`]);
+  } catch {
+    return null;
+  }
+}
+
+function approvedOwnerThumbnailFiles(overrideConfig, now, base, head) {
+  const instant = now instanceof Date ? now : new Date(now);
+  const approved = new Map();
+  const rejected = [];
+
+  for (const override of overrideConfig.overrides) {
+    const expires = new Date(`${override.expiresAt}T23:59:59.999Z`);
+    if (instant > expires) continue;
+
+    for (const file of override.files) {
+      const baseText = fileAtRef(base, file);
+      const headText = fileAtRef(head, file);
+      if (baseText == null || headText == null) {
+        rejected.push({ overrideId: override.id, file, reason: 'file could not be read at both base and head refs' });
+        continue;
+      }
+      if (!isOwnerImagePolicyThumbnailOnlyChange(baseText, headText)) {
+        rejected.push({ overrideId: override.id, file, reason: 'diff is not an exact remote-to-local thumbnail URL migration' });
+        continue;
+      }
+      approved.set(file, override.id);
+    }
+  }
+
+  return { approved, rejected };
+}
+
+function applySafetyOverrides(violations, overrideConfig, now, base, head) {
+  if (!violations.length || !base || /^0+$/.test(base)) {
+    return { remaining: violations, accepted: [], rejected: [] };
+  }
+
+  const { approved, rejected } = approvedOwnerThumbnailFiles(overrideConfig, now, base, head);
+  const accepted = [];
+  const remaining = [];
+
+  for (const violation of violations) {
+    const blockedFiles = [];
+    for (const file of violation.files) {
+      const overrideId = approved.get(file);
+      if (overrideId) accepted.push({ overrideId, lockId: violation.id, url: violation.url, file });
+      else blockedFiles.push(file);
+    }
+    if (blockedFiles.length) remaining.push({ ...violation, files: blockedFiles });
+  }
+
+  return { remaining, accepted, rejected };
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = validateConfig(JSON.parse(fs.readFileSync(args.config, 'utf8')));
+  const safetyOverrides = safetyOverridesFromFile(args.safetyOverrides);
   const changedFiles = changedFilesBetween(args.base, args.head);
   const baseConfig = configAtBase(args.base, args.config);
   const baseLockIds = baseConfig ? new Set(baseConfig.locks.map((lock) => lock.id)) : null;
@@ -220,10 +341,28 @@ async function main() {
   const violations = findActiveLockViolations(changedFiles, config, instant, {
     enforceLockIds: baseLockIds,
   });
+  const safetyResult = applySafetyOverrides(violations, safetyOverrides, instant, args.base, args.head);
 
-  if (violations.length) {
-    console.error(`SEO active-experiment guard blocked ${violations.length} protected target(s).`);
-    for (const violation of violations) {
+  if (safetyResult.accepted.length) {
+    const grouped = new Map();
+    for (const item of safetyResult.accepted) {
+      if (!grouped.has(item.overrideId)) grouped.set(item.overrideId, []);
+      grouped.get(item.overrideId).push(item.file);
+    }
+    for (const [overrideId, files] of grouped) {
+      console.log(`SEO safety governance override ${overrideId} accepted ${files.length} thumbnail-URL-only protected-file correction(s).`);
+    }
+  }
+  if (safetyResult.rejected.length) {
+    for (const item of safetyResult.rejected) {
+      if (!changedFiles.includes(item.file)) continue;
+      console.error(`SEO safety governance override ${item.overrideId} rejected ${item.file}: ${item.reason}.`);
+    }
+  }
+
+  if (safetyResult.remaining.length) {
+    console.error(`SEO active-experiment guard blocked ${safetyResult.remaining.length} protected target(s).`);
+    for (const violation of safetyResult.remaining) {
       console.error(`- ${violation.url} is locked through ${violation.lockUntil}; touched: ${violation.files.join(', ')}`);
       console.error(`  Reason: ${violation.reason}`);
     }
