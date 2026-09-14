@@ -133,7 +133,67 @@ function youtubeUrl(videoId) {
 }
 
 function thumbnailUrl(videoId) {
-  return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+  return `${siteOrigin}${watchPath(videoId)}thumbnail.svg`
+}
+
+function wrapThumbnailTitle(value, maxChars = 30, maxLines = 3) {
+  const words = String(value || 'IZEM video guide').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean)
+  const lines = []
+  let current = ''
+
+  for (const word of words) {
+    const candidate = current ? `${current} ${word}` : word
+    if (!current || candidate.length <= maxChars) {
+      current = candidate
+      continue
+    }
+    lines.push(current)
+    current = word
+  }
+  if (current) lines.push(current)
+
+  if (lines.length > maxLines) {
+    const visible = lines.slice(0, maxLines)
+    const last = visible[maxLines - 1]
+    visible[maxLines - 1] = `${last.slice(0, Math.max(1, maxChars - 1)).trimEnd()}…`
+    return visible
+  }
+  return lines.length ? lines : ['IZEM video guide']
+}
+
+function renderThumbnail(video) {
+  const lines = wrapThumbnailTitle(video.title)
+  const titleLines = lines
+    .map((line, index) => `<tspan x="96" dy="${index === 0 ? 0 : 78}">${xmlEscape(line)}</tspan>`)
+    .join('')
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" role="img" aria-labelledby="title desc">
+  <title id="title">${xmlEscape(video.title)}</title>
+  <desc id="desc">People-free IZEM video guide thumbnail using typography and abstract fitness-tech graphics.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#060B1D"/>
+      <stop offset="1" stop-color="#0F2A24"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8DFF6A"/>
+      <stop offset="1" stop-color="#86D7FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <circle cx="1110" cy="120" r="220" fill="#8DFF6A" opacity="0.08"/>
+  <circle cx="1160" cy="620" r="300" fill="#86D7FF" opacity="0.07"/>
+  <path d="M760 590 C860 500 940 520 1030 420 S1170 290 1240 330" fill="none" stroke="url(#accent)" stroke-width="16" stroke-linecap="round" opacity="0.42"/>
+  <rect x="96" y="78" width="250" height="58" rx="29" fill="#111C2A" stroke="#8DFF6A" stroke-opacity="0.55"/>
+  <text x="221" y="116" fill="#D8FF86" font-family="system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="26" font-weight="800" text-anchor="middle" letter-spacing="2">IZEM VIDEO GUIDE</text>
+  <text x="96" y="286" fill="#F8FAFC" font-family="system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="68" font-weight="850">${titleLines}</text>
+  <g transform="translate(1030 475)">
+    <circle cx="0" cy="0" r="86" fill="#8DFF6A" opacity="0.96"/>
+    <path d="M-20 -35 L44 0 L-20 35 Z" fill="#060B1D"/>
+  </g>
+  <rect x="96" y="602" width="360" height="6" rx="3" fill="url(#accent)"/>
+  <text x="96" y="652" fill="#AEBBCC" font-family="system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="28" font-weight="650">youraicoach.life</text>
+</svg>
+`
 }
 
 function renderArticleVideoCard(video) {
@@ -189,6 +249,11 @@ function transformArticle(html, videoMap) {
     const id = videoIdFromEmbed(attribute(iframe, 'src'))
     const video = videoMap.get(id)
     return video ? renderArticleVideoCard(video) : iframe
+  })
+  next = next.replace(/<a\b[^>]*data-izem-video-card\s*=\s*(["'])true\1[^>]*>[\s\S]*?<\/a>/gi, (card) => {
+    const id = attribute(card, 'data-video-id') || ''
+    const video = videoMap.get(id)
+    return video ? renderArticleVideoCard(video) : card
   })
   next = removeArticleVideoSchema(next)
   return next
@@ -472,6 +537,7 @@ const hubHtml = await readFile(youtubeHubPath, 'utf8')
 await applyExpected(youtubeHubPath, transformHub(hubHtml, videos), changedFiles)
 
 for (const video of videos) {
+  await applyExpected(path.join(youtubeDirectory, video.id, 'thumbnail.svg'), renderThumbnail(video), changedFiles)
   await applyExpected(path.join(youtubeDirectory, video.id, 'index.html'), renderWatchPage(video), changedFiles)
 }
 
