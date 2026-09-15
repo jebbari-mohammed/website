@@ -1,8 +1,6 @@
 name: Daily IZEM YouTube Video
 
 on:
-  # Triggered whenever a new English blog post is pushed to main.
-  # Also allows manual trigger from GitHub UI.
   push:
     branches: [main]
     paths:
@@ -11,30 +9,30 @@ on:
   workflow_dispatch:
     inputs:
       post_slug:
-        description: "Optional blog slug to process, for example ai-coach-better-than-human-personal-trainer"
-        required: false
-        type: string
-      video_id:
-        description: "Optional existing YouTube video id to update metadata only"
-        required: false
+        description: "Blog slug to process, for example workout-app-for-nurses-12-hour-shifts"
+        required: true
         type: string
 
 permissions:
   contents: write
-  actions: write
+
+concurrency:
+  group: izem-video-publisher
+  cancel-in-progress: false
 
 jobs:
   generate-izem-video:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout full history
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
           fetch-depth: 0
 
-      - name: Detect new blog post from push
+      - name: Detect exactly one newly added English blog post
         id: detect-post
         if: github.event_name == 'push'
         env:
@@ -42,117 +40,139 @@ jobs:
           AFTER_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          if [ -z "${BEFORE_SHA}" ] || [ "${BEFORE_SHA}" = "0000000000000000000000000000000000000000" ]; then
+          if [ -z "${BEFORE_SHA:-}" ] || [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
             echo "slug=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-
           ADDED_POSTS=$(git diff --name-status "$BEFORE_SHA" "$AFTER_SHA" \
             | awk '$1 == "A" && $2 ~ /^public\/blog\/[^/]+\.html$/ && $2 != "public/blog/index.html" {print $2}')
-
           COUNT=$(printf '%s\n' "$ADDED_POSTS" | sed '/^$/d' | wc -l | tr -d ' ')
           if [ "$COUNT" -eq 0 ]; then
-            echo "No newly added top-level English blog post in this push."
             echo "slug=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           if [ "$COUNT" -gt 1 ]; then
-            echo "::error::Expected one new blog post, found $COUNT: $ADDED_POSTS"
+            echo "::error::Expected at most one new top-level English blog post per push, found $COUNT"
+            printf '%s\n' "$ADDED_POSTS"
             exit 1
           fi
-
           POST_FILE=$(printf '%s\n' "$ADDED_POSTS" | sed -n '1p')
           POST_SLUG=$(basename "$POST_FILE" .html)
           echo "Detected new blog post: $POST_SLUG"
           echo "slug=$POST_SLUG" >> "$GITHUB_OUTPUT"
 
-      - name: Stop when push has no new blog post
+      - name: Stop cleanly when a push only edits an existing article
         if: github.event_name == 'push' && steps.detect-post.outputs.slug == ''
-        run: echo "Skipping video generation because this push did not add a new top-level English blog post."
+        run: echo "No newly added English blog post; video generation is not required."
+
+      - name: Set up pnpm
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
 
       - name: Set up Node
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 22
+          cache: pnpm
 
       - name: Set up Python
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
-      - name: Install video tooling
+      - name: Install deterministic dependencies
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         run: |
+          set -euo pipefail
+          pnpm install --frozen-lockfile
           python -m pip install --upgrade pip
           python -m pip install "notebooklm-py"
+          sudo apt-get update -y
+          sudo apt-get install -y ffmpeg
 
-      - name: Ensure the article has deterministic object-only visuals
+      - name: Enforce the global weekly new-post ceiling
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        run: node tools/ai-marketing/weekly-publish-guard.mjs
+
+      - name: Ensure deterministic object-only article visuals
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         env:
           POST_SLUG: ${{ github.event_name == 'push' && steps.detect-post.outputs.slug || github.event.inputs.post_slug }}
         run: |
           set -euo pipefail
-          if [ -n "${POST_SLUG:-}" ]; then
-            node tools/ai-marketing/generate-object-blog-visuals.mjs --slug "$POST_SLUG"
-            node tools/ai-marketing/blog-media-policy.mjs --file "public/blog/${POST_SLUG}.html"
-          else
-            echo "No post slug supplied; skipping article visual generation."
-          fi
+          node tools/ai-marketing/generate-object-blog-visuals.mjs --slug "$POST_SLUG"
+          node tools/ai-marketing/blog-media-policy.mjs --file "public/blog/${POST_SLUG}.html"
 
-      - name: Generate video, publish to YouTube, and embed on site
+      - name: Generate, visually validate, publish, and attach the video
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         env:
           NOTEBOOKLM_AUTH_JSON: ${{ secrets.NOTEBOOKLM_AUTH_JSON }}
           NOTEBOOKLM_HOME: ${{ runner.temp }}/notebooklm
           NOTEBOOKLM_PROFILE: github-actions
           NOTEBOOKLM_POST_SLUG: ${{ github.event_name == 'push' && steps.detect-post.outputs.slug || github.event.inputs.post_slug }}
-          YOUTUBE_UPDATE_VIDEO_ID: ${{ github.event.inputs.video_id }}
           YOUTUBE_CLIENT_ID_2: ${{ secrets.YOUTUBE_CLIENT_ID_2 }}
           YOUTUBE_CLIENT_SECRET_2: ${{ secrets.YOUTUBE_CLIENT_SECRET_2 }}
           YOUTUBE_REFRESH_TOKEN_2: ${{ secrets.YOUTUBE_REFRESH_TOKEN_2 }}
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+          VIDEO_SAFETY_GEMINI_MODEL: gemini-3.5-flash
         run: node tools/ai-marketing/daily-notebooklm-video.mjs
 
-      - name: Build dedicated video pages and refresh sitemaps
+      - name: Build dedicated video pages and refresh discovery files
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         run: |
+          set -euo pipefail
           node tools/sync-video-pages.mjs
           node tools/sync-sitemap.mjs
 
-      - name: Re-check the final article media policy after video embedding
+      - name: Re-check final article media policy
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         env:
           POST_SLUG: ${{ github.event_name == 'push' && steps.detect-post.outputs.slug || github.event.inputs.post_slug }}
+        run: node tools/ai-marketing/blog-media-policy.mjs --file "public/blog/${POST_SLUG}.html"
+
+      - name: Validate final structured data and video artifacts
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         run: |
           set -euo pipefail
-          if [ -n "${POST_SLUG:-}" ] && [ -f "public/blog/${POST_SLUG}.html" ]; then
-            node tools/ai-marketing/blog-media-policy.mjs --file "public/blog/${POST_SLUG}.html"
-          fi
+          node tools/validate-jsonld.mjs public
+          node tools/sync-video-pages.mjs --check
+          node tools/sync-sitemap.mjs --check
 
-      - name: Validate all structured data before publishing
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
-        run: node tools/validate-jsonld.mjs public
-
-      - name: Commit and push website video embed
+      - name: Commit the completed article release atomically
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         run: |
+          set -euo pipefail
           git config user.name "IZEM Editorial"
           git config user.email "editorial@youraicoach.life"
           git add public tools/ai-marketing/.notebooklm-video-progress.json
           if git diff --staged --quiet; then
-            echo "No IZEM video website changes to commit."
+            echo "No completed video/article changes to commit."
             exit 0
           fi
-          git commit -m "Publish IZEM video $(date +%Y-%m-%d)"
-          git pull --rebase origin main || (git rebase --abort && sleep 5 && git pull --rebase origin main)
-          git push || (sleep 5 && git pull --rebase origin main && git push)
+          git commit -m "seo: complete article video release $(date -u +%Y-%m-%d)"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
 
-      - name: Trigger Pages deploy for video embed
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run "Deploy static content to Pages" --ref main
+      - name: Summarize completed media release
+        if: success() && (github.event_name != 'push' || steps.detect-post.outputs.slug != '')
+        run: |
+          {
+            echo "### IZEM article media release"
+            echo "- ✅ Weekly publishing ceiling checked"
+            echo "- ✅ Deterministic object-only article visuals validated"
+            echo "- ✅ NotebookLM video generated or an existing matching YouTube video reused"
+            echo "- ✅ Sampled video frames passed the zero-human policy before any new upload"
+            echo "- ✅ YouTube video attached through the established /youtube/<id>/ method"
+            echo "- ✅ Video pages, sitemap, and structured data validated"
+            echo "- ✅ Completed article release pushed to main"
+          } >> "$GITHUB_STEP_SUMMARY"
