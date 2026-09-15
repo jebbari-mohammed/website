@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-15",
+  "brand": "IZEM",
+  "siteUrl": "https://youraicoach.life",
+  "positioning": "AI fitness coach and accountability software",
+  "verifiedFacts": [
+    "IZEM is an AI fitness coach built around personalized workout planning, practical meal planning, progress review, adaptation, and accountability.",
+    "IZEM can use proactive two-way voice calls for accountability before workouts and for day review.",
+    "IZEM can adapt training around schedule, equipment, training level, goals, recovery, consistency, and plan changes.",
+    "IZEM supports product features for food, body-progress, and gym-equipment scanning. These are not medical diagnostic tools.",
+    "IZEM is coaching software and should not be represented as a doctor, dietitian, physiotherapist, or guaranteed replacement for a qualified professional."
+  ],
+  "contentRules": {
+    "pricing": "Never state an exact price in generated editorial or video content unless the current price was verified from a canonical first-party pricing source during the same run.",
+    "medical": "Do not claim diagnosis, treatment, medical outcomes, guaranteed results, or replacement of a qualified professional.",
+    "competitors": "Never invent competitor pricing, features, rankings, reviews, tests, or outcomes.",
+    "experience": "Never fabricate first-hand testing, user testimonials, studies, experts, or statistics."
+  },
+  "visualPolicy": {
+    "policy": "objects-only-v1",
+    "humansAllowed": false,
+    "forbidden": [
+      "people",
+      "faces",
+      "bodies",
+      "hands",
+      "body parts",
+      "silhouettes",
+      "avatars",
+      "portraits",
+      "human outlines",
+      "transformation photos",
+      "stock fitness models"
+    ],
+    "preferred": [
+      "gym equipment",
+      "phones and devices",
+      "people-free app UI",
+      "food and ingredients",
+      "calendars",
+      "checklists",
+      "charts",
+      "flowcharts",
+      "comparison diagrams",
+      "typography",
+      "abstract shapes"
+    ]
+  }
+}
