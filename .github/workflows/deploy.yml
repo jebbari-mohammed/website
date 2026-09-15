@@ -26,7 +26,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Gate incomplete newly-created blog posts
+      - name: Gate incomplete article releases
         id: gate
         env:
           BEFORE_SHA: ${{ github.event.before }}
@@ -34,45 +34,46 @@ jobs:
         run: |
           set -euo pipefail
           echo "ready=true" >> "$GITHUB_OUTPUT"
-
-          if [ "${{ github.event_name }}" != "push" ]; then
-            echo "Manual deployment request: normal validation will decide readiness."
-            exit 0
-          fi
-
-          if [ -z "${BEFORE_SHA:-}" ] || [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
-            exit 0
-          fi
-
-          ADDED_POSTS=$(git diff --name-status "$BEFORE_SHA" "$AFTER_SHA" \
-            | awk '$1 == "A" && $2 ~ /^public\/blog\/[^/]+\.html$/ && $2 != "public/blog/index.html" {print $2}')
-
-          if [ -z "$ADDED_POSTS" ]; then
-            exit 0
-          fi
-
-          node tools/ai-marketing/weekly-publish-guard.mjs
-
           blocked=0
+
+          # Any article that has entered the strict object-only pipeline is not
+          # release-ready until the established IZEM video block is attached.
           while IFS= read -r post; do
             [ -z "$post" ] && continue
-            if ! grep -q '<!-- IZEM_VIDEO_START -->' "$post"; then
-              echo "Deployment deferred: $post is waiting for its NotebookLM/YouTube release."
+            if grep -q 'data-owner-visual-policy="objects-only-v1"' "$post" \
+              && ! grep -q '<!-- IZEM_VIDEO_START -->' "$post"; then
+              echo "Deployment deferred: $post is waiting for its validated NotebookLM/YouTube video."
               blocked=1
             fi
-            if ! grep -q 'data-owner-visual-policy="objects-only-v1"' "$post"; then
-              echo "Deployment deferred: $post is waiting for deterministic object-only visuals."
-              blocked=1
+          done < <(find public/blog -maxdepth 1 -type f -name '*.html' ! -name 'index.html' -print | sort)
+
+          if [ "${{ github.event_name }}" = "push" ] \
+            && [ -n "${BEFORE_SHA:-}" ] \
+            && [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]; then
+            ADDED_POSTS=$(git diff --name-status "$BEFORE_SHA" "$AFTER_SHA" \
+              | awk '$1 == "A" && $2 ~ /^public\/blog\/[^/]+\.html$/ && $2 != "public/blog/index.html" {print $2}')
+            if [ -n "$ADDED_POSTS" ]; then
+              node tools/ai-marketing/weekly-publish-guard.mjs
+              while IFS= read -r post; do
+                [ -z "$post" ] && continue
+                if ! grep -q '<!-- IZEM_VIDEO_START -->' "$post"; then
+                  echo "Deployment deferred: newly-created $post has no final video block yet."
+                  blocked=1
+                fi
+                if ! grep -q 'data-owner-visual-policy="objects-only-v1"' "$post"; then
+                  echo "Deployment deferred: newly-created $post has no deterministic object-only visual policy marker yet."
+                  blocked=1
+                fi
+              done <<< "$ADDED_POSTS"
             fi
-          done <<< "$ADDED_POSTS"
+          fi
 
           if [ "$blocked" -eq 1 ]; then
             echo "ready=false" >> "$GITHUB_OUTPUT"
             {
               echo "### Deployment intentionally deferred"
-              echo "A new article was pushed to main but its media release is not complete yet."
-              echo "The Daily IZEM YouTube Video workflow will add deterministic object-only visuals, generate/validate/upload the NotebookLM video, attach it, and push a release-ready commit."
-              echo "Nothing incomplete was deployed."
+              echo "At least one new strict article is still inside the transactional media pipeline."
+              echo "Nothing incomplete was deployed. The article becomes eligible only after object-only visuals and the validated NotebookLM/YouTube video are attached."
             } >> "$GITHUB_STEP_SUMMARY"
           fi
 
