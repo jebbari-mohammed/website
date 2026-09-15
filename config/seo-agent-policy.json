@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "effectiveDate": "2026-08-12",
+  "version": 2,
+  "effectiveDate": "2026-09-15",
   "owner": "ChatGPT senior SEO lead",
   "site": "https://youraicoach.life",
   "phase": {
@@ -29,7 +29,8 @@
   "limits": {
     "maxMaterialSeoChangesPerDay": 1,
     "maxNewSearchEntriesPerDay": 1,
-    "targetNewSearchEntriesPerWeek": 5
+    "maxNewTopLevelEnglishBlogPostsPerRolling7Days": 3,
+    "weeklyPublishingIsQuota": false
   },
   "newPageRequirements": [
     "new_non_overlapping_intent",
@@ -37,11 +38,38 @@
     "izem_business_relevance",
     "concrete_information_gain",
     "supportable_safe_claims",
+    "human_edited_non_template_prose",
     "indexable_self_canonical",
     "contextual_internal_links",
     "discovery_files_updated",
     "production_validation_passed"
   ],
+  "writingPolicy": {
+    "name": "human_edited_non_template_prose",
+    "reference": "https://github.com/blader/humanizer",
+    "goal": "Remove generic AI-writing tells and mass-produced cadence while preserving verified facts, citations, SEO intent, product truth, and safety constraints.",
+    "detectorGuarantee": false,
+    "requiredFinalPass": true,
+    "preserveEvidence": true,
+    "forbidInventedFirstHandExperience": true,
+    "avoidPatterns": [
+      "canned_openers_and_closers",
+      "repeated_not_x_but_y_constructions",
+      "forced_triads",
+      "repeated_sentence_openings",
+      "overly_symmetrical_paragraphs",
+      "dramatic_one_line_closers",
+      "inflated_significance",
+      "vague_unsourced_authority",
+      "excessive_sales_language",
+      "stock_ai_vocabulary",
+      "forced_question_headings",
+      "manufactured_frameworks",
+      "em_dash_heavy_prose",
+      "chatbot_residue",
+      "keyword_stuffing"
+    ]
+  },
   "cooldownsDays": {
     "newPageMaterialRewriteMinimum": 21,
     "newPageMaterialRewritePreferred": 30,
@@ -70,6 +98,8 @@
   "notes": [
     "The portfolio mix is evaluated across a representative month, not forced mechanically every day.",
     "A valid expert decision can still be no change.",
+    "At most three excellent new top-level English blog posts may be published in a rolling seven-day period; this is a ceiling, not a target.",
+    "The human-writing policy is for editorial quality and naturalness. It does not claim or guarantee that AI detectors will classify content as human.",
     "Do not repeatedly modify the same URL before its evaluation window matures."
   ]
 }
