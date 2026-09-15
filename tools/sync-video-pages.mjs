@@ -1,4 +1,4 @@
-import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -128,10 +128,6 @@ function watchUrl(videoId) {
   return `${siteOrigin}${watchPath(videoId)}`
 }
 
-function youtubeUrl(videoId) {
-  return `https://www.youtube.com/watch?v=${videoId}`
-}
-
 function thumbnailPath(videoId) {
   return `/youtube/thumbnails/${videoId}.svg`
 }
@@ -212,32 +208,22 @@ function renderArticleVideoCard(video) {
 }
 
 function stripVideoObjects(value) {
-  if (Array.isArray(value)) {
-    return value.map(stripVideoObjects).filter((item) => item !== undefined)
-  }
+  if (Array.isArray(value)) return value.map(stripVideoObjects).filter((item) => item !== undefined)
   if (!value || typeof value !== 'object') return value
-
   const type = value['@type']
-  if (type === 'VideoObject' || (Array.isArray(type) && type.includes('VideoObject'))) {
-    return undefined
-  }
-
+  if (type === 'VideoObject' || (Array.isArray(type) && type.includes('VideoObject'))) return undefined
   const next = {}
   for (const [key, child] of Object.entries(value)) {
     const stripped = stripVideoObjects(child)
     if (stripped !== undefined) next[key] = stripped
   }
-
   if (Array.isArray(next['@graph']) && next['@graph'].length === 0) return undefined
   return next
 }
 
 function removeArticleVideoSchema(html) {
   return html.replace(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi, (full, attributes, body) => {
-    if ((attribute(`<script ${attributes}>`, 'type') || '').toLowerCase() !== 'application/ld+json') {
-      return full
-    }
-
+    if ((attribute(`<script ${attributes}>`, 'type') || '').toLowerCase() !== 'application/ld+json') return full
     try {
       const data = JSON.parse(body.trim())
       if (!JSON.stringify(data).includes('"VideoObject"')) return full
@@ -270,8 +256,7 @@ function renderHubCard(video) {
 
 function renderHubSchema(videos) {
   return `<script data-izem-video-catalog="true" type="application/ld+json">
-${JSON.stringify(
-  {
+${JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'IZEM AI Fitness Video Guides',
@@ -279,81 +264,44 @@ ${JSON.stringify(
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: videos.length,
-      itemListElement: videos.map((video, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        url: watchUrl(video.id),
-        name: video.title,
-      })),
+      itemListElement: videos.map((video, index) => ({ '@type': 'ListItem', position: index + 1, url: watchUrl(video.id), name: video.title })),
     },
-  },
-  null,
-  2,
-)}
+  }, null, 2)}
     </script>`
 }
 
 function transformHub(html, videos) {
   let next = removeArticleVideoSchema(replaceUnverifiedYouTubeThumbnails(html))
   next = next.replace(/\s*<script\b[^>]*data-izem-video-catalog=["']true["'][^>]*>[\s\S]*?<\/script>/gi, '')
-  next = next.replace(/<\/head>/i, `${renderHubSchema(videos)}\n</head>`)
-  const feed = `<!-- IZEM_VIDEO_FEED_START -->
+  const markerStart = '<!-- IZEM_VIDEO_FEED_START -->'
+  const markerEnd = '<!-- IZEM_VIDEO_FEED_END -->'
+  const oldMarkerStart = '<!-- NOTEBOOKLM_VIDEO_FEED_START -->'
+  const oldMarkerEnd = '<!-- NOTEBOOKLM_VIDEO_FEED_END -->'
+  next = next.replaceAll(oldMarkerStart, markerStart).replaceAll(oldMarkerEnd, markerEnd)
+  const cards = videos.slice(0, 24).map(renderHubCard).join('\n')
+  const section = `${markerStart}
     <section style="margin:24px 0 44px">
-        <h2>All IZEM Video Guides</h2>
-        <p style="color:#94A3B8;margin-bottom:20px">Each video has a dedicated watch page with a transcript-ready summary and related reading.</p>
-        <div class="izem-video-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
-${videos.map(renderHubCard).join('\n')}
-        </div>
+      <h2>Latest IZEM Videos</h2>
+      <p style="color:#9BA9C8">People-free video cards open dedicated IZEM watch pages with the related guide.</p>
+      <div class="izem-video-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+${cards}
+      </div>
     </section>
-    <!-- IZEM_VIDEO_FEED_END -->`
-  return next
-    .replace(/<!-- IZEM_VIDEO_FEED_START -->[\s\S]*?<!-- IZEM_VIDEO_FEED_END -->/, feed)
-    .replace(/^[ \t]+$/gm, '')
+    ${markerEnd}`
+  const markerPattern = new RegExp(`${markerStart}[\\s\\S]*?${markerEnd}`)
+  if (markerPattern.test(next)) next = next.replace(markerPattern, section)
+  else if (next.includes('<h2>What We Cover</h2>')) next = next.replace('<h2>What We Cover</h2>', `${section}\n\n    <h2>What We Cover</h2>`)
+  else next = next.replace(/<\/main>/i, `${section}\n</main>`)
+  return next.replace(/<\/head>/i, `${renderHubSchema(videos)}\n</head>`)
 }
 
 function renderWatchPage(video) {
-  const canonical = watchUrl(video.id)
   const title = htmlEscape(video.title)
   const description = htmlEscape(video.description)
-  const metaDescription = htmlEscape(`Watch ${video.title} on IZEM. ${video.description}`.slice(0, 300))
-  const sources = video.sources.slice(0, 12)
-  const schema = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'VideoObject',
-        '@id': `${canonical}#video`,
-        name: video.title,
-        description: video.description,
-        thumbnailUrl: [thumbnailUrl(video.id)],
-        uploadDate: googleVideoDateTime(video.uploadDate),
-        embedUrl: `https://www.youtube.com/embed/${video.id}`,
-        url: canonical,
-        inLanguage: 'en',
-        isFamilyFriendly: true,
-        publisher: {
-          '@type': 'Organization',
-          name: 'IZEM',
-          url: siteOrigin,
-          logo: {
-            '@type': 'ImageObject',
-            url: `${siteOrigin}/images/izem-app-logo-512.png`,
-            width: 512,
-            height: 512,
-          },
-        },
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteOrigin}/` },
-          { '@type': 'ListItem', position: 2, name: 'Videos', item: `${siteOrigin}/youtube/` },
-          { '@type': 'ListItem', position: 3, name: video.title, item: canonical },
-        ],
-      },
-    ],
-  }
-
+  const uploadDate = googleVideoDateTime(video.uploadDate)
+  const primarySource = video.sources[0]
+  const articleLink = primarySource ? `<a class="article-link" href="${htmlEscape(primarySource.canonical)}">Read the related guide: ${htmlEscape(primarySource.title || video.title)}</a>` : ''
+  const sourceItems = video.sources.map((source) => `<li><a href="${htmlEscape(source.canonical)}">${htmlEscape(source.title || source.canonical)}</a></li>`).join('\n')
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -361,70 +309,59 @@ function renderWatchPage(video) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>${title} | IZEM Video</title>
-  <meta name="description" content="${metaDescription}">
+  <meta name="description" content="Watch ${title} on IZEM. ${description}">
   <meta name="robots" content="index, follow, max-video-preview:-1, max-image-preview:large">
   <meta name="publisher" content="Mohammed Jebbari">
-  <link rel="canonical" href="${canonical}">
+  <link rel="canonical" href="${watchUrl(video.id)}">
   <meta property="og:type" content="video.other">
   <meta property="og:title" content="${title}">
-  <meta property="og:description" content="${metaDescription}">
-  <meta property="og:url" content="${canonical}">
+  <meta property="og:description" content="Watch ${title} on IZEM. ${description}">
+  <meta property="og:url" content="${watchUrl(video.id)}">
   <meta property="og:image" content="${thumbnailUrl(video.id)}">
   <meta property="og:video" content="https://www.youtube.com/embed/${video.id}">
   <meta name="twitter:card" content="player">
   <meta name="twitter:title" content="${title}">
-  <meta name="twitter:description" content="${metaDescription}">
+  <meta name="twitter:description" content="Watch ${title} on IZEM. ${description}">
   <meta name="twitter:image" content="${thumbnailUrl(video.id)}">
   <meta name="twitter:player" content="https://www.youtube.com/embed/${video.id}">
   <meta name="twitter:player:width" content="1280">
   <meta name="twitter:player:height" content="720">
   <script type="application/ld+json">
-${JSON.stringify(schema, null, 2)}
+${JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'VideoObject', '@id': `${watchUrl(video.id)}#video`, name: video.title, description: video.description,
+        thumbnailUrl: [thumbnailUrl(video.id)], uploadDate, embedUrl: `https://www.youtube.com/embed/${video.id}`, url: watchUrl(video.id), inLanguage: 'en', isFamilyFriendly: true,
+        publisher: { '@type': 'Organization', name: 'IZEM', url: siteOrigin, logo: { '@type': 'ImageObject', url: `${siteOrigin}/images/izem-app-logo-512.png`, width: 512, height: 512 } },
+      },
+      { '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteOrigin}/` },
+        { '@type': 'ListItem', position: 2, name: 'Videos', item: `${siteOrigin}/youtube/` },
+        { '@type': 'ListItem', position: 3, name: video.title, item: watchUrl(video.id) },
+      ] },
+    ],
+  }, null, 2)}
   </script>
-  <style>
-    *{box-sizing:border-box}body{margin:0;background:#060B1D;color:#E2E8F0;font:17px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:#00D4FF}.nav{padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.1);background:#080E22}.nav div{max-width:1040px;margin:auto;display:flex;justify-content:space-between;gap:20px}.nav a{text-decoration:none;font-weight:700}.wrap{max-width:1040px;margin:auto;padding:34px 24px 72px}h1{max-width:900px;margin:0 0 22px;color:#F8FAFC;font-size:clamp(2rem,5vw,3.6rem);line-height:1.08}.player{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:16px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.35)}.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.summary{max-width:820px;margin:24px 0;color:#CBD5E1;font-size:1.08rem}.meta{color:#94A3B8;font-size:.92rem}.related{margin-top:38px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12)}.related li{margin:8px 0}.cta{display:inline-block;margin-top:22px;padding:12px 18px;border-radius:10px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:#fff;text-decoration:none;font-weight:800}
-  </style>
+  <style>body{margin:0;background:#050806;color:#F5FFF1;font-family:Inter,Arial,sans-serif}.wrap{max-width:980px;margin:auto;padding:42px 22px 80px}.brand{color:#8DFF6A;font-weight:900;text-decoration:none}.crumbs{color:#8DA094;font-size:.9rem;margin:24px 0}.crumbs a,.sources a{color:#9CE8DC}.player{position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:#020402;border:1px solid rgba(141,255,106,.2)}iframe{width:100%;height:100%;border:0}h1{font-size:clamp(2rem,6vw,3.5rem);line-height:1.05;margin:28px 0 14px}.lede{color:#B8C8BA;font-size:1.1rem;line-height:1.7}.article-link{display:inline-block;margin:22px 0;padding:12px 16px;background:#8DFF6A;color:#071006;text-decoration:none;border-radius:10px;font-weight:800}.sources{margin-top:34px;border-top:1px solid rgba(255,255,255,.08);padding-top:22px;color:#B8C8BA}.sources li{margin:8px 0}</style>
 </head>
-<body>
-  <nav class="nav"><div><a href="/" style="display:flex;align-items:center;gap:9px"><img data-izem-navigation-logo="true" src="/images/izem-app-logo-192.png" alt="" width="32" height="32" style="display:block;width:32px;height:32px;border-radius:10px;object-fit:cover">IZEM</a><a href="/youtube/">All video guides</a></div></nav>
-  <main class="wrap">
-    <h1>${title}</h1>
-    <div class="player" data-primary-video="true">
-      <iframe src="https://www.youtube.com/embed/${video.id}" title="${title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    </div>
-    <p class="summary">${description}</p>
-    <p class="meta">Published ${htmlEscape(video.uploadDate.slice(0, 10))} · Presented by Mohammed Jebbari for IZEM</p>
-    <a class="cta" href="${youtubeUrl(video.id)}" rel="noopener">Watch directly on YouTube</a>
-    <section class="related" aria-labelledby="related-reading">
-      <h2 id="related-reading">Related IZEM reading</h2>
-      <ul>
-${sources.map((source) => `        <li><a href="${htmlEscape(new URL(source.canonical).pathname)}">${htmlEscape(source.title)}</a></li>`).join('\n')}
-      </ul>
-    </section>
-  </main>
-</body>
-</html>
+<body><main class="wrap"><a class="brand" href="/">IZEM</a><div class="crumbs"><a href="/">Home</a> / <a href="/youtube/">Videos</a> / ${title}</div><h1>${title}</h1><p class="lede">${description}</p><div class="player"><iframe src="https://www.youtube.com/embed/${video.id}" title="${title}" loading="eager" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>${articleLink}<section class="sources"><h2>Related guides</h2><ul>${sourceItems || '<li><a href="/blog/">Browse the IZEM blog</a></li>'}</ul></section></main></body></html>
 `
 }
 
 function renderVideoSitemap(videos) {
-  const entries = videos
-    .map(
-      (video) => `  <url>
+  const entries = videos.map((video) => `  <url>
     <loc>${xmlEscape(watchUrl(video.id))}</loc>
     <video:video>
       <video:thumbnail_loc>${xmlEscape(thumbnailUrl(video.id))}</video:thumbnail_loc>
       <video:title>${xmlEscape(video.title)}</video:title>
-      <video:description>${xmlEscape(video.description.slice(0, 2048))}</video:description>
-      <video:player_loc allow_embed="yes">${xmlEscape(`https://www.youtube.com/embed/${video.id}`)}</video:player_loc>
+      <video:description>${xmlEscape(video.description)}</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/${video.id}</video:player_loc>
       <video:publication_date>${xmlEscape(googleVideoDateTime(video.uploadDate))}</video:publication_date>
       <video:family_friendly>yes</video:family_friendly>
       <video:uploader info="${siteOrigin}/about">Mohammed Jebbari</video:uploader>
     </video:video>
-  </url>`,
-    )
-    .join('\n')
-
+  </url>`).join('\n')
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
 ${entries}
@@ -433,22 +370,13 @@ ${entries}
 }
 
 async function readJson(file, fallback) {
-  try {
-    return JSON.parse(await readFile(file, 'utf8'))
-  } catch {
-    return fallback
-  }
+  try { return JSON.parse(await readFile(file, 'utf8')) } catch { return fallback }
 }
 
 async function applyExpected(file, expected, changedFiles) {
   let current = ''
-  try {
-    current = await readFile(file, 'utf8')
-  } catch {
-    // The generated file does not exist yet.
-  }
+  try { current = await readFile(file, 'utf8') } catch {}
   if (current === expected) return
-
   changedFiles.push(path.relative(projectRoot, file))
   if (!checkOnly) {
     await mkdir(path.dirname(file), { recursive: true })
@@ -456,10 +384,36 @@ async function applyExpected(file, expected, changedFiles) {
   }
 }
 
+async function pruneStaleGeneratedVideos(activeIds, changedFiles) {
+  const staleIds = []
+  let entries = []
+  try { entries = await readdir(youtubeDirectory, { withFileTypes: true }) } catch { return }
+
+  for (const entry of entries) {
+    if (!entry.isDirectory() || entry.name === 'thumbnails' || activeIds.has(entry.name)) continue
+    const watchPage = path.join(youtubeDirectory, entry.name, 'index.html')
+    let html = ''
+    try { html = await readFile(watchPage, 'utf8') } catch { continue }
+    if (!html.includes(generatedMarker)) continue
+    staleIds.push(entry.name)
+    changedFiles.push(path.relative(projectRoot, path.join(youtubeDirectory, entry.name)))
+    if (!checkOnly) await rm(path.join(youtubeDirectory, entry.name), { recursive: true, force: true })
+  }
+
+  for (const id of staleIds) {
+    const thumbnail = path.join(youtubeDirectory, 'thumbnails', `${id}.svg`)
+    let svg = ''
+    try { svg = await readFile(thumbnail, 'utf8') } catch { continue }
+    if (!/People-free IZEM fitness video artwork/i.test(svg)) continue
+    changedFiles.push(path.relative(projectRoot, thumbnail))
+    if (!checkOnly) await rm(thumbnail, { force: true })
+  }
+
+  if (staleIds.length) console.log(`${checkOnly ? 'Detected' : 'Pruned'} ${staleIds.length} stale generated video page(s): ${staleIds.join(', ')}`)
+}
+
 const allHtmlFiles = await collectHtmlFiles(publicDirectory)
-const articleFiles = allHtmlFiles.filter(
-  (file) => !file.relativePath.startsWith('blog/drafts/') && !file.relativePath.startsWith('youtube/'),
-)
+const articleFiles = allHtmlFiles.filter((file) => !file.relativePath.startsWith('blog/drafts/') && !file.relativePath.startsWith('youtube/'))
 const existingCatalog = await readJson(catalogPath, { videos: [] })
 const existingVideos = new Map((existingCatalog.videos || []).map((video) => [video.id, video]))
 const discovered = new Map()
@@ -476,57 +430,42 @@ for (const file of articleFiles) {
     const id = videoIdFromEmbed(attribute(iframe, 'src'))
     if (id) candidates.push({ id, iframeTitle: stripVideoSuffix(decodeEntities(attribute(iframe, 'title') || '')) })
   }
-
   for (const match of html.matchAll(/<a\b[^>]*data-izem-video-card\s*=\s*(["'])true\1[^>]*>/gi)) {
     const id = attribute(match[0], 'data-video-id') || ''
     if (id) candidates.push({ id, iframeTitle: '' })
   }
 
   for (const candidate of candidates) {
-    const source = {
-      ...page,
-      title: candidate.iframeTitle || page.title || `IZEM video ${candidate.id}`,
-    }
+    const source = { ...page, title: candidate.iframeTitle || page.title || `IZEM video ${candidate.id}` }
     const sources = discovered.get(candidate.id) || []
     if (!sources.some((item) => item.relativePath === source.relativePath)) sources.push(source)
     discovered.set(candidate.id, sources)
   }
 }
 
-for (const existing of existingVideos.values()) {
-  if (!discovered.has(existing.id)) {
-    discovered.set(existing.id, existing.sources || [])
-  }
-}
-
+// IMPORTANT: the article graph is the source of truth. Historical catalog items
+// that are no longer referenced by an article are intentionally NOT resurrected.
 const videos = [...discovered.entries()]
   .map(([id, sources]) => {
-    const sortedSources = [...sources].sort(
-      (left, right) => sourcePriority(left) - sourcePriority(right) || left.relativePath.localeCompare(right.relativePath),
-    )
+    const sortedSources = [...sources].sort((left, right) => sourcePriority(left) - sourcePriority(right) || left.relativePath.localeCompare(right.relativePath))
     const preferred = sortedSources[0] || {}
     const existing = existingVideos.get(id) || {}
     const title = stripVideoSuffix(existing.title || preferred.title || `IZEM video ${id}`)
-    const description =
-      existing.description || preferred.description || `Watch ${title} from IZEM and explore the related fitness coaching guide.`
+    const description = existing.description || preferred.description || `Watch ${title} from IZEM and explore the related fitness coaching guide.`
     const uploadDate = existing.uploadDate || preferred.date || new Date().toISOString().slice(0, 10)
     return {
-      id,
-      title,
-      description,
-      uploadDate,
+      id, title, description, uploadDate,
       sources: sortedSources.map((source) => ({
         canonical: source.canonical || existing.sources?.find((item) => item.relativePath === source.relativePath)?.canonical,
         relativePath: source.relativePath,
-        title: stripVideoSuffix(
-          existing.sources?.find((item) => item.relativePath === source.relativePath)?.title || source.title || title,
-        ),
+        title: stripVideoSuffix(existing.sources?.find((item) => item.relativePath === source.relativePath)?.title || source.title || title),
       })).filter((source) => source.canonical),
     }
   })
   .sort((left, right) => right.uploadDate.localeCompare(left.uploadDate) || left.title.localeCompare(right.title))
 
 const videoMap = new Map(videos.map((video) => [video.id, video]))
+const activeIds = new Set(videos.map((video) => video.id))
 const changedFiles = []
 
 for (const file of articleFiles) {
@@ -542,6 +481,7 @@ for (const video of videos) {
   await applyExpected(path.join(youtubeDirectory, video.id, 'index.html'), renderWatchPage(video), changedFiles)
 }
 
+await pruneStaleGeneratedVideos(activeIds, changedFiles)
 await applyExpected(catalogPath, `${JSON.stringify({ videos }, null, 2)}\n`, changedFiles)
 await applyExpected(videoSitemapPath, renderVideoSitemap(videos), changedFiles)
 
