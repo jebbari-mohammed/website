@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from '../lib/motion';
-import { Dumbbell, Utensils, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, HeartPulse, Activity, ShoppingBasket, ShieldCheck, type LucideIcon } from 'lucide-react';
+import { Dumbbell, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, HeartPulse, Activity, ShoppingBasket, ShieldCheck, type LucideIcon } from 'lucide-react';
 
 interface ShowcaseTab {
   id: 'workout' | 'nutrition' | 'chat';
