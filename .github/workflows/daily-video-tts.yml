@@ -6,6 +6,7 @@ on:
     paths:
       - 'public/blog/*.html'
       - '!public/blog/index.html'
+      - 'data/marketing-employee/video-repair-request.json'
   workflow_dispatch:
     inputs:
       post_slug:
@@ -32,7 +33,7 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Detect exactly one newly added English blog post
+      - name: Resolve the article that needs video processing
         id: detect-post
         if: github.event_name == 'push'
         env:
@@ -44,26 +45,53 @@ jobs:
             echo "slug=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+
           ADDED_POSTS=$(git diff --name-status "$BEFORE_SHA" "$AFTER_SHA" \
             | awk '$1 == "A" && $2 ~ /^public\/blog\/[^/]+\.html$/ && $2 != "public/blog/index.html" {print $2}')
-          COUNT=$(printf '%s\n' "$ADDED_POSTS" | sed '/^$/d' | wc -l | tr -d ' ')
-          if [ "$COUNT" -eq 0 ]; then
-            echo "slug=" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          if [ "$COUNT" -gt 1 ]; then
-            echo "::error::Expected at most one new top-level English blog post per push, found $COUNT"
-            printf '%s\n' "$ADDED_POSTS"
+          NEW_COUNT=$(printf '%s\n' "$ADDED_POSTS" | sed '/^$/d' | wc -l | tr -d ' ')
+          REPAIR_CHANGED=$(git diff --name-only "$BEFORE_SHA" "$AFTER_SHA" -- data/marketing-employee/video-repair-request.json | sed '/^$/d' | wc -l | tr -d ' ')
+
+          if [ "$NEW_COUNT" -gt 1 ]; then
+            echo "::error::Expected at most one new top-level English blog post per push, found $NEW_COUNT"
             exit 1
           fi
-          POST_FILE=$(printf '%s\n' "$ADDED_POSTS" | sed -n '1p')
-          POST_SLUG=$(basename "$POST_FILE" .html)
-          echo "Detected new blog post: $POST_SLUG"
-          echo "slug=$POST_SLUG" >> "$GITHUB_OUTPUT"
+          if [ "$NEW_COUNT" -eq 1 ] && [ "$REPAIR_CHANGED" -gt 0 ]; then
+            echo "::error::A new article and a video-repair request changed in the same push. Split them into separate releases."
+            exit 1
+          fi
 
-      - name: Stop cleanly when a push only edits an existing article
+          if [ "$NEW_COUNT" -eq 1 ]; then
+            POST_FILE=$(printf '%s\n' "$ADDED_POSTS" | sed -n '1p')
+            POST_SLUG=$(basename "$POST_FILE" .html)
+            echo "Detected new blog post: $POST_SLUG"
+            echo "slug=$POST_SLUG" >> "$GITHUB_OUTPUT"
+            echo "mode=new" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ "$REPAIR_CHANGED" -gt 0 ]; then
+            POST_SLUG=$(node - <<'NODE'
+          const fs = require('fs');
+          const file = 'data/marketing-employee/video-repair-request.json';
+          if (!fs.existsSync(file)) process.exit(2);
+          const value = JSON.parse(fs.readFileSync(file, 'utf8'));
+          const slug = String(value.slug || '');
+          if (!/^[a-z0-9][a-z0-9-]{1,119}$/.test(slug)) throw new Error('video repair request contains an invalid slug');
+          if (!fs.existsSync(`public/blog/${slug}.html`)) throw new Error(`video repair target does not exist: ${slug}`);
+          process.stdout.write(slug);
+          NODE
+            )
+            echo "Detected explicit video repair request: $POST_SLUG"
+            echo "slug=$POST_SLUG" >> "$GITHUB_OUTPUT"
+            echo "mode=repair" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "slug=" >> "$GITHUB_OUTPUT"
+
+      - name: Stop cleanly when a push needs no video work
         if: github.event_name == 'push' && steps.detect-post.outputs.slug == ''
-        run: echo "No newly added English blog post; video generation is not required."
+        run: echo "No new article or explicit video-repair request; video generation is not required."
 
       - name: Set up pnpm
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
@@ -168,10 +196,11 @@ jobs:
         run: |
           {
             echo "### IZEM article media release"
+            echo "- Mode: ${{ steps.detect-post.outputs.mode || 'manual' }}"
             echo "- ✅ Weekly publishing ceiling checked"
             echo "- ✅ Deterministic object-only article visuals validated"
-            echo "- ✅ NotebookLM video generated or an existing matching YouTube video reused"
-            echo "- ✅ Sampled video frames passed the zero-human policy before any new upload"
+            echo "- ✅ NotebookLM video generated or a previously validated matching video reused"
+            echo "- ✅ New uploads passed uniform full-duration zero-human frame validation"
             echo "- ✅ YouTube video attached through the established /youtube/<id>/ method"
             echo "- ✅ Video pages, sitemap, and structured data validated"
             echo "- ✅ Completed article release pushed to main"
