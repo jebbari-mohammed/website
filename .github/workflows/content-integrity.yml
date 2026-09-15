@@ -14,6 +14,7 @@ on:
       - 'tools/ai-marketing/video-human-safety.mjs'
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
+      - '.github/workflows/daily-video-tts.yml'
       - '.github/workflows/content-integrity.yml'
   pull_request:
     paths:
@@ -27,6 +28,7 @@ on:
       - 'tools/ai-marketing/video-human-safety.mjs'
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
+      - '.github/workflows/daily-video-tts.yml'
       - '.github/workflows/content-integrity.yml'
   workflow_dispatch:
 
