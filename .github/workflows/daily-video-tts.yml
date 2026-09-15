@@ -88,6 +88,19 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install "notebooklm-py"
 
+      - name: Ensure the article has deterministic object-only visuals
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        env:
+          POST_SLUG: ${{ github.event_name == 'push' && steps.detect-post.outputs.slug || github.event.inputs.post_slug }}
+        run: |
+          set -euo pipefail
+          if [ -n "${POST_SLUG:-}" ]; then
+            node tools/ai-marketing/generate-object-blog-visuals.mjs --slug "$POST_SLUG"
+            node tools/ai-marketing/blog-media-policy.mjs --file "public/blog/${POST_SLUG}.html"
+          else
+            echo "No post slug supplied; skipping article visual generation."
+          fi
+
       - name: Generate video, publish to YouTube, and embed on site
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         env:
@@ -109,6 +122,16 @@ jobs:
         run: |
           node tools/sync-video-pages.mjs
           node tools/sync-sitemap.mjs
+
+      - name: Re-check the final article media policy after video embedding
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        env:
+          POST_SLUG: ${{ github.event_name == 'push' && steps.detect-post.outputs.slug || github.event.inputs.post_slug }}
+        run: |
+          set -euo pipefail
+          if [ -n "${POST_SLUG:-}" ] && [ -f "public/blog/${POST_SLUG}.html" ]; then
+            node tools/ai-marketing/blog-media-policy.mjs --file "public/blog/${POST_SLUG}.html"
+          fi
 
       - name: Validate all structured data before publishing
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''

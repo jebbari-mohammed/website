@@ -49,12 +49,13 @@ jobs:
           pnpm video:sync
           pnpm sitemap:sync
 
-      - name: Validate source sitemap, video pages, and structured data
+      - name: Validate source sitemap, video pages, structured data, and blog media
         run: |
           set -euo pipefail
           pnpm video:check
           pnpm sitemap:check
           node tools/validate-jsonld.mjs public
+          node tools/ai-marketing/blog-media-policy.mjs --check-all
 
       - name: Build production artifact
         run: pnpm build
@@ -144,6 +145,7 @@ jobs:
             echo "### Verified GitHub Pages deployment"
             echo "- ✅ Discovery files synchronized"
             echo "- ✅ Source and built structured data valid"
+            echo "- ✅ Object-only media policy validated for marked blog articles"
             echo "- ✅ Internal critical routes and links valid"
             echo "- ✅ Pages artifact deployed"
             echo "- ✅ Core pages and newest articles returned HTTP 200"

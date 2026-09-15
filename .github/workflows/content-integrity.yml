@@ -5,12 +5,18 @@ on:
     branches: [main, master]
     paths:
       - 'public/**/*.html'
+      - 'public/blog/assets/**'
       - 'tools/validate-jsonld.mjs'
+      - 'tools/ai-marketing/blog-media-policy.mjs'
+      - 'tools/ai-marketing/generate-object-blog-visuals.mjs'
       - '.github/workflows/content-integrity.yml'
   pull_request:
     paths:
       - 'public/**/*.html'
+      - 'public/blog/assets/**'
       - 'tools/validate-jsonld.mjs'
+      - 'tools/ai-marketing/blog-media-policy.mjs'
+      - 'tools/ai-marketing/generate-object-blog-visuals.mjs'
       - '.github/workflows/content-integrity.yml'
   workflow_dispatch:
 
@@ -33,5 +39,13 @@ jobs:
         with:
           node-version: 22
 
+      - name: Syntax-check blog media automation
+        run: |
+          node --check tools/ai-marketing/blog-media-policy.mjs
+          node --check tools/ai-marketing/generate-object-blog-visuals.mjs
+
       - name: Validate structured data in every public HTML page
         run: node tools/validate-jsonld.mjs public
+
+      - name: Enforce object-only media on marked blog articles
+        run: node tools/ai-marketing/blog-media-policy.mjs --check-all
