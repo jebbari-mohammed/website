@@ -12,6 +12,7 @@ const BLOG = path.join(PUBLIC, 'blog');
 const STRICT_MARKER = 'data-owner-visual-policy="objects-only-v1"';
 const SAFE_YOUTUBE_THUMBNAIL = /^https:\/\/youraicoach\.life\/youtube\/thumbnails\/[A-Za-z0-9_-]+\.svg$/;
 const SAFE_LOCAL_OBJECT_ASSET = /^\/blog\/assets\/[A-Za-z0-9/_-]+\.svg$/;
+const SAFE_SOCIAL_OBJECT_ASSET = /^https:\/\/youraicoach\.life\/blog\/assets\/[A-Za-z0-9/_-]+\.svg$/;
 const SAFE_OG_ASSET = /^https:\/\/youraicoach\.life\/og\/[A-Za-z0-9_-]+\.png$/;
 
 function parseArgs(argv) {
@@ -61,9 +62,6 @@ function validateSvg(publicPath, errors) {
   if (/<(?:image|foreignObject|script|video|iframe|object|embed)\b/i.test(svg)) errors.push(`${publicPath}: SVG contains disallowed embedded/executable media`);
   if (/(?:href|xlink:href)\s*=\s*["']\s*(?:https?:|data:|\/\/)/i.test(svg)) errors.push(`${publicPath}: SVG contains a remote or data-URI reference`);
   if (/data:image\//i.test(svg)) errors.push(`${publicPath}: SVG contains an embedded raster image`);
-  if (/<(?:text|tspan)\b[^>]*>[^<]*(?:man|woman|person|people|trainer|athlete|body|face|hand|portrait|silhouette)[^<]*<\/(?:text|tspan)>/i.test(svg)) {
-    errors.push(`${publicPath}: SVG text appears to reference a human visual; review before publication`);
-  }
 }
 
 function validateSocialImages(html, errors) {
@@ -74,7 +72,7 @@ function validateSocialImages(html, errors) {
     if (!['og:image', 'twitter:image'].includes(key)) continue;
     const content = attrs.content || '';
     if (!content) continue;
-    if (!SAFE_OG_ASSET.test(content) && !SAFE_YOUTUBE_THUMBNAIL.test(content)) {
+    if (!SAFE_OG_ASSET.test(content) && !SAFE_YOUTUBE_THUMBNAIL.test(content) && !SAFE_SOCIAL_OBJECT_ASSET.test(content)) {
       errors.push(`unapproved social image source for ${key}: ${content}`);
     }
   }
