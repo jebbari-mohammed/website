@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: izem-video-publisher
@@ -176,6 +177,7 @@ jobs:
           node tools/sync-sitemap.mjs --check
 
       - name: Commit the completed article release atomically
+        id: commit
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         run: |
           set -euo pipefail
@@ -184,12 +186,55 @@ jobs:
           git add public tools/ai-marketing/.notebooklm-video-progress.json
           if git diff --staged --quiet; then
             echo "No completed video/article changes to commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git commit -m "seo: complete article video release $(date -u +%Y-%m-%d)"
           git fetch origin main
           git rebase origin/main
           git push origin HEAD:main
+          pushed_sha=$(git rev-parse HEAD)
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "pushed_sha=$pushed_sha" >> "$GITHUB_OUTPUT"
+          echo "Completed media release pushed: $pushed_sha"
+
+      - name: Deploy the completed media release to Pages
+        if: steps.commit.outputs.changed == 'true' && steps.commit.outputs.pushed_sha != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PUSHED_SHA: ${{ steps.commit.outputs.pushed_sha }}
+        run: |
+          set -euo pipefail
+
+          # Pushes authored with GITHUB_TOKEN do not recursively start the push-based
+          # Pages workflow. Dispatch deployment explicitly and bind verification to
+          # the exact completed media-release commit.
+          gh workflow run deploy.yml --ref main
+
+          run_id=""
+          for attempt in $(seq 1 30); do
+            run_id=$(gh run list \
+              --workflow deploy.yml \
+              --branch main \
+              --event workflow_dispatch \
+              --limit 15 \
+              --json databaseId,headSha,createdAt \
+              --jq ".[] | select(.headSha == \"${PUSHED_SHA}\") | .databaseId" \
+              | head -n 1)
+            if [ -n "$run_id" ]; then
+              break
+            fi
+            echo "Waiting for Pages deployment run for ${PUSHED_SHA} (${attempt}/30)..."
+            sleep 3
+          done
+
+          if [ -z "$run_id" ]; then
+            echo "::error::Could not find the dispatched Pages deployment for ${PUSHED_SHA}."
+            exit 1
+          fi
+
+          echo "Waiting for Pages deployment run ${run_id} for ${PUSHED_SHA}."
+          gh run watch "$run_id" --exit-status
 
       - name: Summarize completed media release
         if: success() && (github.event_name != 'push' || steps.detect-post.outputs.slug != '')
@@ -203,5 +248,9 @@ jobs:
             echo "- ✅ New uploads passed uniform full-duration zero-human frame validation"
             echo "- ✅ YouTube video attached through the established /youtube/<id>/ method"
             echo "- ✅ Video pages, sitemap, and structured data validated"
-            echo "- ✅ Completed article release pushed to main"
+            if [ "${{ steps.commit.outputs.changed }}" = "true" ]; then
+              echo "- ✅ Completed article release pushed to main and exact commit deployed to Pages"
+            else
+              echo "- ✅ No repository delta remained; no deployment handoff was required"
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
