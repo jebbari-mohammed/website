@@ -1,30 +1,26 @@
 import { motion } from '../lib/motion';
-import { Phone, Brain, Utensils, Camera, ArrowRight, Sparkles, Activity } from 'lucide-react';
+import { Phone, Brain, Utensils, Camera, ArrowRight, Sparkles, Activity, CheckCircle2 } from 'lucide-react';
 
 export default function CorePillars() {
   return (
     <section id="features" className="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden bg-[#05080C]">
-      {/* Background ambient light */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-primary/[0.04] blur-[180px] rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto w-full">
-        {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.1] text-xs font-semibold text-primary mb-4">
             <Sparkles size={13} className="text-primary" />
-            <span>THE FOUR COACHING PILLARS</span>
+            <span>FOUR CONNECTED COACHING PILLARS</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-textPrimary leading-tight mb-4">
-            A Coach That Acts, Not a Tracker That Waits.
+            The Value Is in the Connection Between Features.
           </h2>
           <p className="text-base sm:text-lg text-textSecondary font-normal leading-relaxed">
-            Everything connects into a closed coaching loop. Workouts, nutrition, scans, and daily check-ins inform every single recommendation.
+            Workouts, nutrition, scans, progress and coach conversations can use the same profile. That is the difference between a collection of tools and a coaching loop.
           </p>
         </div>
 
-        {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
-          {/* Bento Card 1 (Large Feature Card): Proactive Voice Accountability */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -43,39 +39,24 @@ export default function CorePillars() {
               </div>
 
               <h3 className="text-2xl sm:text-3xl font-bold text-textPrimary mb-2 tracking-tight">
-                Proactive Voice Calls
+                Live Voice Calls in Both Directions
               </h3>
               <p className="text-base font-semibold text-primary mb-3 leading-snug">
-                A coach that calls your phone, not another silent notification to swipe away.
+                Premium members can call the coach, and optional coach-initiated calls can support workout and review moments.
               </p>
               <p className="text-sm text-textSecondary leading-relaxed mb-6">
-                IZEM schedules real phone calls 15 minutes before your planned gym session to verify your readiness, and calls again at night to review completed sets and nutritional adherence.
+                The call can use relevant coaching context such as today’s workout, recent training, current meals and saved preferences. Eligible non-subscribers can receive one complimentary onboarding coach call capped at 5 minutes before deciding whether to join.
               </p>
 
-              {/* Micro-UI: Interactive Incoming Call Simulation */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-[#090D13]/90 border border-white/[0.1] shadow-inner mb-6">
-                <div className="flex items-center justify-between gap-4 mb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary text-xs font-bold animate-pulse">
-                      📞
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-textPrimary">IZEM AI Coach</p>
-                      <p className="text-[11px] text-textSecondary">Incoming call • 5:45 PM Leg Day Check-in</p>
-                    </div>
-                  </div>
-                  {/* Audio Waveform Graphic */}
-                  <div className="flex items-center gap-1">
-                    <span className="w-1 h-3 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.1s' }} />
-                    <span className="w-1 h-5 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.3s' }} />
-                    <span className="w-1 h-7 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.15s' }} />
-                    <span className="w-1 h-4 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
-                    <span className="w-1 h-6 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
-                  </div>
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#090D13]/90 border border-white/[0.1] shadow-inner mb-6 grid sm:grid-cols-2 gap-3">
+                <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-3">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-primary mb-1">You call the coach</p>
+                  <p className="text-xs text-textSecondary">Ask about today’s workout, a meal change or the plan you already have.</p>
                 </div>
-                <p className="text-xs text-textSecondary/80 bg-white/[0.03] p-2.5 rounded-lg border border-white/[0.05]">
-                  <span className="text-primary font-semibold">Sample call preview:</span> "Your workout starts in 20 minutes. Last week's squats were completed at 225 lbs. Let's aim for 230 lbs on your first two working sets."
-                </p>
+                <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-3">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-secondary mb-1">Coach calls you</p>
+                  <p className="text-xs text-textSecondary">When enabled and eligible, proactive calls can support accountability around your schedule.</p>
+                </div>
               </div>
             </div>
 
@@ -84,13 +65,12 @@ export default function CorePillars() {
                 href="/fitness-app-that-calls-you/"
                 className="inline-flex items-center gap-2 text-sm font-semibold text-textPrimary group-hover:text-primary transition-colors"
               >
-                <span>Read voice calling guide</span>
+                <span>Read how voice calling works</span>
                 <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
           </motion.div>
 
-          {/* Bento Card 2: Multimodal Camera Scans */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -109,25 +89,22 @@ export default function CorePillars() {
               </div>
 
               <h3 className="text-2xl font-bold text-textPrimary mb-2 tracking-tight">
-                Multimodal Camera Scans
+                Food, Equipment & Body-Progress Scans
               </h3>
               <p className="text-sm sm:text-base font-semibold text-secondary mb-3 leading-snug">
-                Scan your food, gym floor, and physique trends.
+                Optional camera tools add context without pretending the camera is a medical device.
               </p>
               <p className="text-sm text-textSecondary leading-relaxed mb-6">
-                Point your camera at gym equipment for workout context, estimate a meal from an optional photo, or track visual progress. Camera analysis can be incomplete or wrong and stays under your control.
+                Use a meal photo for calorie/macro estimates, identify gym equipment for general setup and exercise ideas, or create approximate body-progress baselines. Scan output can be incomplete or wrong and should be treated as coaching context.
               </p>
 
-              {/* Micro-UI: Camera Recognition Overlay */}
               <div className="p-3.5 rounded-2xl bg-[#090D13]/90 border border-white/[0.08] space-y-2 mb-6">
-                <div className="flex items-center justify-between text-xs p-2 rounded-lg bg-white/[0.03] border border-white/[0.05]">
-                  <span className="text-textPrimary font-medium">📸 Plate Scan</span>
-                  <span className="text-primary font-mono font-bold">42g Protein • 610 kcal</span>
-                </div>
-                <div className="flex items-center justify-between text-xs p-2 rounded-lg bg-white/[0.03] border border-white/[0.05]">
-                  <span className="text-textPrimary font-medium">🏋️ Machine Scan</span>
-                  <span className="text-secondary font-mono font-bold">Chest Press (Subbed)</span>
-                </div>
+                {['Food photo → estimated calories/macros', 'Equipment photo → identification + exercise ideas', 'Body progress → approximate visual baseline/trend'].map((text) => (
+                  <div key={text} className="flex items-start gap-2 text-xs p-2 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+                    <CheckCircle2 size={14} className="text-secondary mt-0.5 shrink-0" />
+                    <span className="text-textSecondary">{text}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -142,7 +119,6 @@ export default function CorePillars() {
             </div>
           </motion.div>
 
-          {/* Bento Card 3: Real-World Macro Banking */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -161,29 +137,22 @@ export default function CorePillars() {
               </div>
 
               <h3 className="text-2xl font-bold text-textPrimary mb-2 tracking-tight">
-                Real-World Macro Banking
+                Meal Plans, Meal Changes & Grocery Lists
               </h3>
               <p className="text-sm sm:text-base font-semibold text-primary mb-3 leading-snug">
-                Hit 150g+ protein without giving up social dinners.
+                Dietary preferences and allergies are real plan inputs, not marketing footnotes.
               </p>
               <p className="text-sm text-textSecondary leading-relaxed mb-6">
-                Have a steakhouse or birthday dinner planned? IZEM banks calories from earlier meals so you can enjoy dinner out while keeping your weekly recomposition on target.
+                IZEM can build meal plans around your diet preference, allergies, meal count and calorie/macro targets. Supported meals can be replaced, logged meals stay visible to the coach, and the active plan produces a grocery list.
               </p>
 
-              {/* Micro-UI: Dynamic Macro Ring */}
-              <div className="p-4 rounded-2xl bg-[#090D13]/90 border border-white/[0.08] mb-6">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs text-textSecondary">Dinner Banked Allowance</span>
-                  <span className="text-xs font-mono font-bold text-primary">+650 kcal</span>
-                </div>
-                <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden flex">
-                  <div className="h-full bg-primary" style={{ width: '65%' }} />
-                  <div className="h-full bg-secondary" style={{ width: '35%' }} />
-                </div>
-                <div className="flex justify-between text-[11px] text-textSecondary/70 mt-2 font-mono">
-                  <span>Protein: 154g / 160g</span>
-                  <span className="text-primary">Deficit Preserved</span>
-                </div>
+              <div className="p-4 rounded-2xl bg-[#090D13]/90 border border-white/[0.08] mb-6 space-y-2">
+                {['Diet preferences + allergies', 'Calories + macro targets', 'Meal replacement + meal logging', 'Generated grocery list'].map((text) => (
+                  <div key={text} className="flex items-center gap-2 text-xs text-textSecondary">
+                    <CheckCircle2 size={14} className="text-primary shrink-0" />
+                    <span>{text}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -198,7 +167,6 @@ export default function CorePillars() {
             </div>
           </motion.div>
 
-          {/* Bento Card 4: Weekly Training Adaptation */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -217,26 +185,29 @@ export default function CorePillars() {
               </div>
 
               <h3 className="text-2xl sm:text-3xl font-bold text-textPrimary mb-2 tracking-tight">
-                Weekly Training Adaptation
+                Training History the Coach Can Actually Use
               </h3>
               <p className="text-base font-semibold text-secondary mb-3 leading-snug">
-                When your week breaks, your plan adapts—it doesn't fail.
+                Sets, reps, load, partial completion and effort feedback are more useful than invented telemetry.
               </p>
               <p className="text-sm text-textSecondary leading-relaxed mb-6">
-                Missed Wednesday? Running on 4 hours of sleep? Gym equipment occupied? IZEM recalculates volume, offers biomechanical exercise substitutions, and keeps progressive overload moving forward.
+                IZEM records what you complete and can use that history for progression, review and supported plan changes. If a workout is only partially completed, the system can represent it as partial instead of pretending the entire session happened.
               </p>
 
-              {/* Micro-UI: Progression & Adaptation Bar */}
               <div className="p-4 sm:p-5 rounded-2xl bg-[#090D13]/90 border border-white/[0.08] mb-6">
-                <div className="flex items-center justify-between text-xs mb-2">
+                <div className="flex items-center justify-between text-xs mb-3">
                   <span className="text-textSecondary flex items-center gap-1.5 font-medium">
-                    <Activity size={14} className="text-primary" /> Double Progression Engine
+                    <Activity size={14} className="text-primary" /> Logged training evidence
                   </span>
-                  <span className="text-primary font-mono font-bold">+5 lbs next session</span>
+                  <span className="text-primary font-semibold">Used for future coaching</span>
                 </div>
-                <div className="p-2.5 rounded-lg bg-white/[0.03] border border-white/[0.05] text-xs text-textSecondary flex items-center justify-between">
-                  <span>Bar velocity: 0.62 m/s (Clean lockouts)</span>
-                  <span className="text-textPrimary font-semibold">RPE 7.5 ✓</span>
+                <div className="grid sm:grid-cols-2 gap-2.5">
+                  {['Sets / reps / load', 'Full or partial completion', 'Workout history', 'Difficulty / effort feedback'].map((text) => (
+                    <div key={text} className="p-2.5 rounded-lg bg-white/[0.03] border border-white/[0.05] text-xs text-textSecondary flex items-center gap-2">
+                      <CheckCircle2 size={14} className="text-primary shrink-0" />
+                      <span>{text}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -246,7 +217,7 @@ export default function CorePillars() {
                 href="/features/ai-workout-generator"
                 className="inline-flex items-center gap-2 text-sm font-semibold text-textPrimary group-hover:text-secondary transition-colors"
               >
-                <span>See AI workout generator</span>
+                <span>See AI workout planning</span>
                 <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
