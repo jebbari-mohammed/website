@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from '../lib/motion';
-import { Dumbbell, Utensils, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, HeartPulse, Activity, type LucideIcon } from 'lucide-react';
+import { Dumbbell, Utensils, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, HeartPulse, Activity, ShoppingBasket, ShieldCheck, type LucideIcon } from 'lucide-react';
 
 interface ShowcaseTab {
   id: 'workout' | 'nutrition' | 'chat';
@@ -22,10 +22,10 @@ const tabs: ShowcaseTab[] = [
   {
     id: 'workout',
     title: 'Adaptive Workouts',
-    badge: 'Dynamic Hypertrophy',
+    badge: 'Real Training Data',
     videoSrc: '/videos/izem-workout-nutrition-dark-web.mp4',
     headline: 'Workouts designed for your real gym, not an ideal world.',
-    description: 'Sessions use the equipment, schedule, experience, and feedback you provide, with video references when available.',
+    description: 'Sessions use the equipment, schedule, experience, session length and feedback you provide, with video references when available.',
     features: [
       {
         icon: Dumbbell,
@@ -34,13 +34,13 @@ const tabs: ShowcaseTab[] = [
       },
       {
         icon: Activity,
-        title: 'Smart Exercise Substitutions',
-        desc: 'Gym machine taken? Tap once to swap into biomechanically equivalent dumbbell, cable, or bodyweight alternatives.',
+        title: 'Exercise Substitutions',
+        desc: 'When an exercise does not fit your equipment or situation, supported swaps aim to preserve the intended muscle group and movement pattern.',
       },
       {
         icon: Flame,
-        title: 'Double Progression Protocol',
-        desc: 'Progression suggestions use logged performance and effort feedback; you remain in control of every load change.',
+        title: 'Sets, Reps & Load History',
+        desc: 'Log working sets, repetitions, load and effort so future coaching can use what you actually completed instead of guessing.',
       },
     ],
     ctaText: 'Explore Adaptive Workouts',
@@ -48,26 +48,26 @@ const tabs: ShowcaseTab[] = [
   },
   {
     id: 'nutrition',
-    title: 'Precision Nutrition',
-    badge: 'Flexible Macro Banking',
+    title: 'Personalized Nutrition',
+    badge: 'Plans + Grocery List',
     videoSrc: '/videos/izem-workout-nutrition-dark-web.mp4',
-    headline: 'Hit your body recomposition goals without bland diets.',
-    description: 'IZEM builds custom meal plans around your cuisine, budget, and daily training demands with built-in macro banking for social dinners.',
+    headline: 'A meal plan that stays connected to the rest of your coaching.',
+    description: 'IZEM can build meal plans around your dietary preferences, allergies, meal count and calorie/macro targets, then keep meals, logs and grocery items in the same workflow.',
     features: [
       {
-        icon: Utensils,
-        title: 'Calorie & Macro Banking',
-        desc: 'Have a client steakhouse dinner or weekend party? IZEM rebalances earlier meals to keep you in your macro deficit.',
+        icon: ShoppingBasket,
+        title: 'Generated Grocery List',
+        desc: 'The active meal plan produces a grocery list you can use and update inside the nutrition experience.',
       },
       {
         icon: CheckCircle,
-        title: 'Cooking Video Guides',
-        desc: 'Quick, high-protein recipe breakdowns tailored to your cooking experience and kitchen equipment.',
+        title: 'Supported Meal Changes',
+        desc: 'Replace or adjust supported meals while keeping your preferences, allergies and nutrition targets in context.',
       },
       {
         icon: HeartPulse,
-        title: 'Visual Camera Scans',
-        desc: 'Scan your plate with your camera for rapid estimation of protein, carbs, fats, and total calories.',
+        title: 'Food Photo Estimates',
+        desc: 'Scan a plate for estimated calories and macros. The result is an estimate, so ingredient labels still matter for allergies and medical diets.',
       },
     ],
     ctaText: 'See the AI Meal Planner',
@@ -75,26 +75,26 @@ const tabs: ShowcaseTab[] = [
   },
   {
     id: 'chat',
-    title: 'Coach Intelligence & Calls',
-    badge: 'Consent-Based Context',
+    title: 'Coach Chat & Calls',
+    badge: 'Shared Coaching Context',
     videoSrc: '/videos/izem-coach-chat-dark-web.mp4',
-    headline: 'An AI coach that can use your chosen context and call your phone.',
-    description: 'IZEM can use logged training context and, after separate consent, a minimized Apple Health summary. Plan changes still require an explicit user action.',
+    headline: 'Chat with the coach, call it, or let it call you when you enable that flow.',
+    description: 'IZEM can use relevant workout, meal, progress and saved coaching context during supported conversations. Larger plan changes still stay under user control.',
     features: [
       {
-        icon: HeartPulse,
-        title: 'Optional Apple Health Context',
-        desc: 'The Health dashboard stays on-device. Relevant coaching can use a minimized summary only after separate, revocable consent.',
-      },
-      {
         icon: MessageSquare,
-        title: 'Biomechanical Technique Cues',
-        desc: 'Ask about hamstring activation or bench setup and get personalized anatomical focus points for next session.',
+        title: 'Continuing AI Coach Chat',
+        desc: 'Text conversations can use current plans, logged progress and useful saved preferences instead of treating every message as a fresh account.',
       },
       {
         icon: Phone,
-        title: 'Proactive Voice Accountability',
-        desc: 'Schedule a real voice call 15 minutes before gym time to review workout intensity targets and lock in focus.',
+        title: 'User-Initiated & Proactive Calls',
+        desc: 'Premium members can start a live coach call, while optional coach-initiated calls can support workout reminders and review moments when enabled.',
+      },
+      {
+        icon: ShieldCheck,
+        title: 'Optional Apple Health Context',
+        desc: 'On supported iPhones, a bounded Health summary can support relevant coaching only after separate permission and consent.',
       },
     ],
     ctaText: 'How Voice Calls Work',
@@ -133,11 +133,9 @@ export default function ProductShowcase() {
 
   return (
     <section id="showcase" className="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden bg-[#070A0D]/60 border-t border-white/[0.06]">
-      {/* Background ambient light */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-primary/[0.04] blur-[180px] rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto w-full">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -149,14 +147,13 @@ export default function ProductShowcase() {
             ✦ INTERACTIVE PRODUCT SHOWCASE
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-textPrimary leading-tight mb-4">
-            Experience the Coaching Engine.
+            See the Connected Coaching System.
           </h2>
           <p className="text-base sm:text-lg text-textSecondary font-normal leading-relaxed">
-            See the current interface in action. Select a capability to inspect how IZEM handles training, nutrition, and optional Health-informed coaching.
+            Select a capability to see how training, nutrition and coach conversations fit together instead of living in separate apps.
           </p>
         </motion.div>
 
-        {/* Tab Switcher */}
         <div className="flex justify-center mb-12 sm:mb-16">
           <div className="inline-flex p-1.5 rounded-full bg-[#0B1017]/90 backdrop-blur-2xl border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_15px_35px_rgba(0,0,0,0.6)] max-w-full overflow-x-auto">
             {tabs.map((tab) => {
@@ -178,12 +175,9 @@ export default function ProductShowcase() {
           </div>
         </div>
 
-        {/* Interactive Content Grid */}
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Video Preview on Left */}
           <div className="lg:col-span-5 flex justify-center">
             <div className="relative w-full max-w-[320px] sm:max-w-[350px]">
-              {/* Backlight halo */}
               <div className="absolute inset-4 bg-gradient-to-tr from-primary/20 via-transparent to-secondary/20 blur-3xl opacity-70 rounded-[50px] -z-10" />
 
               <div
@@ -208,7 +202,6 @@ export default function ProductShowcase() {
             </div>
           </div>
 
-          {/* Feature Breakdown on Right */}
           <div className="lg:col-span-7">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-bold text-primary uppercase tracking-wider mb-4 shadow-sm">
               <span>●</span>
@@ -223,7 +216,6 @@ export default function ProductShowcase() {
               {current.description}
             </p>
 
-            {/* Sub-feature points */}
             <div className="space-y-4 mb-8">
               {current.features.map((item, idx) => {
                 const Icon = item.icon;
@@ -250,7 +242,6 @@ export default function ProductShowcase() {
               })}
             </div>
 
-            {/* Action CTA Link */}
             <div>
               <a
                 href={current.ctaLink}
