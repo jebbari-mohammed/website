@@ -215,21 +215,27 @@ jobs:
           git rebase origin/main
           git push origin HEAD:main
 
-      - name: Verify the exact SEO change reached the live site
-        if: steps.publish.outputs.changed == 'true'
+      - name: Trigger transactional media completion for a new page
+        if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run "Daily IZEM YouTube Video" --ref main -f post_slug="${{ steps.publish.outputs.slug }}"
+          {
+            echo "### New-page release handoff"
+            echo "The article source is committed, but Pages deployment is intentionally deferred until the object-only visuals and validated NotebookLM/YouTube video are attached."
+            echo "The media workflow now owns final release."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Verify an existing-page refresh reached the live site
+        if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action != 'create'
         run: |
           node tools/ai-marketing/verify-live-seo.mjs \
             --url "${{ steps.publish.outputs.url }}" \
             --marker "${{ steps.publish.outputs.marker }}"
 
-      - name: Trigger the existing article video workflow for a new page
-        if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run "Daily IZEM YouTube Video" --ref main -f post_slug="${{ steps.publish.outputs.slug }}"
-
-      - name: Notify search engines after verified publication
-        if: steps.publish.outputs.changed == 'true'
+      - name: Check discovery files after a verified existing-page refresh
+        if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action != 'create'
         run: node tools/ai-marketing/google-indexing.mjs || true
 
       - name: Write privacy-safe SEO run summary
@@ -247,8 +253,13 @@ jobs:
             echo "- Validation passed: ${{ steps.publish.outputs.validated || 'false' }}"
             echo "- Public change: ${{ steps.publish.outputs.changed || 'false' }}"
             if [ "${{ steps.publish.outputs.changed }}" = "true" ]; then
-              echo "- Live URL: ${{ steps.publish.outputs.url }}"
+              echo "- Target URL: ${{ steps.publish.outputs.url }}"
               echo "- Deployment marker: ${{ steps.publish.outputs.marker }}"
+              if [ "${{ steps.publish.outputs.action }}" = "create" ]; then
+                echo "- Release status: pending transactional media completion (not prematurely deployed)"
+              else
+                echo "- Release status: existing-page refresh verified live"
+              fi
             fi
             echo "- Exact Search Console queries were never printed or committed."
           } >> "$GITHUB_STEP_SUMMARY"
