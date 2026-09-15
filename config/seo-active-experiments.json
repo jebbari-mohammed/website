@@ -221,6 +221,15 @@
       "lockUntil": "2026-10-06",
       "preferredReviewAt": "2026-10-13",
       "reason": "The September 15 material refresh replaces overconfident legacy solo-training copy with a safer No-Partner Accountability Ladder, fixes the misplaced video block, updates metadata/schema, and strengthens internal links into accountability, calls, agreement, check-in, equipment, and consistency resources. Preserve for a clean 21-day evaluation window."
+    },
+    {
+      "id": "nurse-shift-workout-plan-launch-2026-09-15",
+      "url": "/blog/workout-app-for-nurses-12-hour-shifts",
+      "files": ["public/blog/workout-app-for-nurses-12-hour-shifts.html"],
+      "launchedAt": "2026-09-15",
+      "lockUntil": "2026-10-06",
+      "preferredReviewAt": "2026-10-13",
+      "reason": "The September 15 launch targets workout-app-for-nurses and 12-hour shift intent with a shift-proof sequence framework, object-only visuals, safe recovery language, and a NotebookLM/YouTube video embed. Preserve for a clean 21-day discovery and early Search Console window."
     }
   ]
 }
