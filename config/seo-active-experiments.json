@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-13",
+  "updatedAt": "2026-09-15",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -212,6 +212,15 @@
       "lockUntil": "2026-10-04",
       "preferredReviewAt": "2026-10-11",
       "reason": "Material rejuvenation targeting decaying Search Console visibility (-11 impressions from peak 16 down to 5). Updated introduction and first H2 with 2026 neurodivergent exercise science, point-of-performance execution, and voice call body doubling. Preserve for a clean 21-day evaluation window."
+    },
+    {
+      "id": "solo-workout-accountability-ladder-refresh-2026-09-15",
+      "url": "/blog/workout-accountability-ideas-alone",
+      "files": ["public/blog/workout-accountability-ideas-alone.html"],
+      "launchedAt": "2026-09-15",
+      "lockUntil": "2026-10-06",
+      "preferredReviewAt": "2026-10-13",
+      "reason": "The September 15 material refresh replaces overconfident legacy solo-training copy with a safer No-Partner Accountability Ladder, fixes the misplaced video block, updates metadata/schema, and strengthens internal links into accountability, calls, agreement, check-in, equipment, and consistency resources. Preserve for a clean 21-day evaluation window."
     }
   ]
 }
