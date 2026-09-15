@@ -26,7 +26,7 @@ Until at least 30 days of useful Search Console query/page data exist, the norma
 - 15–20% discovery and architecture work such as internal links, hubs, sitemap/indexing fixes, and orphan-page repair.
 - 10–15% technical, trust, conversion, or existing-page optimization work.
 
-This is a portfolio target, not permission to publish filler. A no-change decision remains valid when no safe opportunity passes the gates.
+This is a portfolio target, not permission to publish filler. A no-change decision remains valid when no safe opportunity passes the gates. Publish at most three excellent new top-level English blog posts in any rolling seven-day period. Three is a ceiling, not a quota; publish zero when no opportunity is strong enough.
 
 ## New-page gates
 
@@ -38,6 +38,28 @@ A new URL may be published only when all of these are true:
 4. The page adds concrete information gain: a framework, decision tree, calculator, template, checklist, worked example, comparison method, original product explanation, useful table, or another real utility.
 5. Claims are supportable, health language is careful, and no studies, prices, testing, testimonials, outcomes, or competitor details are fabricated.
 6. The page is indexable, self-canonical, included in discovery files, linked contextually from relevant pages, and validated before release.
+
+## Human writing and anti-template editorial pass
+
+Every new English article and every material editorial rewrite must receive a final natural-language pass inspired by the open-source `blader/humanizer` approach (`https://github.com/blader/humanizer`). The purpose is to remove generic AI-writing tells and make the prose read like careful human editing while preserving every supported fact, citation, SEO intent, and safety constraint. This is a writing-quality rule, not a promise to defeat AI detectors.
+
+Apply these rules after research and fact-checking, before publication:
+
+- Preserve verified names, numbers, dates, quotations, citations, product facts, competitor facts, and medically sensitive qualifications. Never “humanize” by changing evidence.
+- Never invent first-hand experience, testing, interviews, emotions, testimonials, personal stories, credentials, or user outcomes to sound human.
+- Remove canned openings and closers such as “let’s dive in,” “in today’s world,” “in conclusion,” “honestly,” and similar stage-setting filler.
+- Avoid formulaic contrast constructions such as repeated “not X, but Y,” “it’s not about X; it’s about Y,” and fake objections used only for rhythm.
+- Avoid forced groups of three, repeated sentence openings, overly symmetrical paragraphs/cards, dramatic one-line closers, and tidy slogan-like aphorisms unless the content genuinely calls for them.
+- Avoid inflated significance, vague authority (“experts say,” “research shows”) without a named source, excessive sales language, and stock AI vocabulary when a simpler word is clearer.
+- Prefer concrete nouns and verbs, natural contractions where appropriate, and varied sentence and paragraph length. Let some paragraphs be short and others carry a fuller thought.
+- Use headings because they help the reader, not to manufacture a rigid template. Do not force every H2 to be a question, and do not repeat the heading in the first sentence.
+- Use bullets, tables, bold text, frameworks, and acronyms only when they materially improve comprehension. Do not manufacture a framework just to create “information gain.”
+- Avoid em-dash-heavy prose and decorative punctuation patterns. Prefer normal punctuation unless a specific editorial reason requires otherwise.
+- Remove chatbot residue, drafting commentary, knowledge-cutoff disclaimers, references to “the prompt,” and meta commentary about the writing process.
+- Do not keyword-stuff. Use the target wording where it is natural, then write semantically around the topic like a knowledgeable editor.
+- After the rewrite, perform a second read specifically for repeated cadence, generic filler, over-clean symmetry, unsupported certainty, and any factual drift introduced during editing.
+
+The final test is not whether a detector labels the text “human.” The final test is whether a real reader gets a specific, useful, credible answer that does not feel mass-produced.
 
 ## Experiment discipline
 
