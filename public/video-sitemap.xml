@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/G3iHBdX87os/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/G3iHBdX87os.svg</video:thumbnail_loc>
+      <video:title>Workout App for Nurses on 12-Hour Shifts</video:title>
+      <video:description>Need a workout app that fits 12-hour nursing shifts? Use a shift-proof training system that adapts to nights, days off, missed sessions, and limited energy.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/G3iHBdX87os</video:player_loc>
+      <video:publication_date>2026-09-15T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/jIBGvRVpHCk/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/jIBGvRVpHCk.svg</video:thumbnail_loc>

@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "G3iHBdX87os",
+      "title": "Workout App for Nurses on 12-Hour Shifts",
+      "description": "Need a workout app that fits 12-hour nursing shifts? Use a shift-proof training system that adapts to nights, days off, missed sessions, and limited energy.",
+      "uploadDate": "2026-09-15",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/workout-app-for-nurses-12-hour-shifts",
+          "relativePath": "blog/workout-app-for-nurses-12-hour-shifts.html",
+          "title": "Workout App for Nurses on 12-Hour Shifts"
+        }
+      ]
+    },
+    {
       "id": "jIBGvRVpHCk",
       "title": "AI Workout Generator vs Workout Planner",
       "description": "Compare an AI workout generator with an adaptive workout planner. Use the Generator Ceiling Test to see when you need weekly coaching, memory, and calls.",
