@@ -6,17 +6,27 @@ on:
     paths:
       - 'public/**/*.html'
       - 'public/blog/assets/**'
+      - 'data/brand/product-facts.json'
       - 'tools/validate-jsonld.mjs'
       - 'tools/ai-marketing/blog-media-policy.mjs'
       - 'tools/ai-marketing/generate-object-blog-visuals.mjs'
+      - 'tools/ai-marketing/weekly-publish-guard.mjs'
+      - 'tools/ai-marketing/video-human-safety.mjs'
+      - 'tools/ai-marketing/product-facts-contract.mjs'
+      - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
       - '.github/workflows/content-integrity.yml'
   pull_request:
     paths:
       - 'public/**/*.html'
       - 'public/blog/assets/**'
+      - 'data/brand/product-facts.json'
       - 'tools/validate-jsonld.mjs'
       - 'tools/ai-marketing/blog-media-policy.mjs'
       - 'tools/ai-marketing/generate-object-blog-visuals.mjs'
+      - 'tools/ai-marketing/weekly-publish-guard.mjs'
+      - 'tools/ai-marketing/video-human-safety.mjs'
+      - 'tools/ai-marketing/product-facts-contract.mjs'
+      - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
       - '.github/workflows/content-integrity.yml'
   workflow_dispatch:
 
@@ -29,20 +39,45 @@ concurrency:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout full history
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
 
-      - name: Syntax-check blog media automation
+      - name: Syntax-check SEO safety automation
         run: |
+          set -euo pipefail
           node --check tools/ai-marketing/blog-media-policy.mjs
           node --check tools/ai-marketing/generate-object-blog-visuals.mjs
+          node --check tools/ai-marketing/weekly-publish-guard.mjs
+          node --check tools/ai-marketing/video-human-safety.mjs
+          node --check tools/ai-marketing/product-facts-contract.mjs
+          node --check tools/ai-marketing/daily-notebooklm-video.mjs
+          node --check tools/ai-marketing/daily-notebooklm-video-v2.mjs
+
+      - name: Enforce weekly creation ceiling
+        run: node tools/ai-marketing/weekly-publish-guard.mjs
+
+      - name: Validate canonical product-facts contract
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const file = 'data/brand/product-facts.json';
+          const value = JSON.parse(fs.readFileSync(file, 'utf8'));
+          if (value?.brand !== 'IZEM') throw new Error('product-facts.json brand must be IZEM');
+          if (!Array.isArray(value?.verifiedFacts) || value.verifiedFacts.length < 3) throw new Error('product-facts.json requires verifiedFacts');
+          if (value?.visualPolicy?.humansAllowed !== false) throw new Error('product-facts.json must explicitly forbid humans');
+          if (!value?.contentRules?.pricing?.includes('Never state an exact price')) throw new Error('pricing verification policy is missing');
+          console.log('Canonical product-facts JSON shape passed.');
+          NODE
+          node tools/ai-marketing/product-facts-contract.mjs
 
       - name: Validate structured data in every public HTML page
         run: node tools/validate-jsonld.mjs public

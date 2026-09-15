@@ -1,4 +1,3 @@
-# Explicit redeploy after correcting Google's FILE verification body.
 name: Deploy static content to Pages
 
 on:
@@ -16,8 +15,72 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  release-gate:
+    name: Check whether this commit is release-ready
+    runs-on: ubuntu-24.04
+    outputs:
+      ready: ${{ steps.gate.outputs.ready }}
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Gate incomplete article releases
+        id: gate
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+          blocked=0
+
+          # Any article that has entered the strict object-only pipeline is not
+          # release-ready until the established IZEM video block is attached.
+          while IFS= read -r post; do
+            [ -z "$post" ] && continue
+            if grep -q 'data-owner-visual-policy="objects-only-v1"' "$post" \
+              && ! grep -q '<!-- IZEM_VIDEO_START -->' "$post"; then
+              echo "Deployment deferred: $post is waiting for its validated NotebookLM/YouTube video."
+              blocked=1
+            fi
+          done < <(find public/blog -maxdepth 1 -type f -name '*.html' ! -name 'index.html' -print | sort)
+
+          if [ "${{ github.event_name }}" = "push" ] \
+            && [ -n "${BEFORE_SHA:-}" ] \
+            && [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]; then
+            ADDED_POSTS=$(git diff --name-status "$BEFORE_SHA" "$AFTER_SHA" \
+              | awk '$1 == "A" && $2 ~ /^public\/blog\/[^/]+\.html$/ && $2 != "public/blog/index.html" {print $2}')
+            if [ -n "$ADDED_POSTS" ]; then
+              node tools/ai-marketing/weekly-publish-guard.mjs
+              while IFS= read -r post; do
+                [ -z "$post" ] && continue
+                if ! grep -q '<!-- IZEM_VIDEO_START -->' "$post"; then
+                  echo "Deployment deferred: newly-created $post has no final video block yet."
+                  blocked=1
+                fi
+                if ! grep -q 'data-owner-visual-policy="objects-only-v1"' "$post"; then
+                  echo "Deployment deferred: newly-created $post has no deterministic object-only visual policy marker yet."
+                  blocked=1
+                fi
+              done <<< "$ADDED_POSTS"
+            fi
+          fi
+
+          if [ "$blocked" -eq 1 ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Deployment intentionally deferred"
+              echo "At least one new strict article is still inside the transactional media pipeline."
+              echo "Nothing incomplete was deployed. The article becomes eligible only after object-only visuals and the validated NotebookLM/YouTube video are attached."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
   deploy:
     name: Build, validate, deploy, and smoke-test
+    needs: release-gate
+    if: needs.release-gate.outputs.ready == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     environment:
@@ -27,6 +90,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6
@@ -52,6 +117,7 @@ jobs:
       - name: Validate source sitemap, video pages, structured data, and blog media
         run: |
           set -euo pipefail
+          node tools/ai-marketing/weekly-publish-guard.mjs
           pnpm video:check
           pnpm sitemap:check
           node tools/validate-jsonld.mjs public
@@ -100,7 +166,6 @@ jobs:
       - name: Smoke-test core pages and newest articles on the live domain
         run: |
           set -euo pipefail
-
           {
             echo "https://youraicoach.life/"
             echo "https://youraicoach.life/blog/"
@@ -110,9 +175,7 @@ jobs:
             node - <<'NODE'
           const fs = require('fs');
           const xml = fs.readFileSync('public/blog/feed.xml', 'utf8');
-          for (const match of [...xml.matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>[\s\S]*?<\/item>/g)].slice(0, 5)) {
-            console.log(match[1].trim());
-          }
+          for (const match of [...xml.matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>[\s\S]*?<\/item>/g)].slice(0, 5)) console.log(match[1].trim());
           NODE
           } | awk '!seen[$0]++' > /tmp/live-urls.txt
 
@@ -126,16 +189,12 @@ jobs:
               page_not_found=no
               grep -Eqi 'Page not found|<title>404|404 -' "$body" && page_not_found=yes
               echo "$url -> HTTP ${code:-curl-error}; page_not_found=$page_not_found"
-              if [ "$code" != "200" ] || [ "$page_not_found" = "yes" ] || [ ! -s "$body" ]; then
-                success=0
-              fi
+              if [ "$code" != "200" ] || [ "$page_not_found" = "yes" ] || [ ! -s "$body" ]; then success=0; fi
               rm -f "$body"
             done < /tmp/live-urls.txt
-
             [ "$success" -eq 1 ] && break
             sleep 15
           done
-
           test "$success" -eq 1
 
       - name: Summarize verified deployment
@@ -143,9 +202,10 @@ jobs:
         run: |
           {
             echo "### Verified GitHub Pages deployment"
+            echo "- ✅ No incomplete new-article release was deployed"
             echo "- ✅ Discovery files synchronized"
             echo "- ✅ Source and built structured data valid"
-            echo "- ✅ Object-only media policy validated for marked blog articles"
+            echo "- ✅ Strict object-only media policy validated"
             echo "- ✅ Internal critical routes and links valid"
             echo "- ✅ Pages artifact deployed"
             echo "- ✅ Core pages and newest articles returned HTTP 200"
