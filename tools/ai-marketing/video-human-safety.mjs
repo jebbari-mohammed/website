@@ -5,7 +5,10 @@ import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
 import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { GoogleGenAI } from '@google/genai';
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
 
 function parseJson(text) {
   const clean = String(text || '').trim();
@@ -19,26 +22,36 @@ function parseJson(text) {
   }
 }
 
-function sampleFrames(videoPath, directory) {
-  const pattern = path.join(directory, 'frame-%02d.jpg');
-  execFileSync('ffmpeg', [
-    '-hide_banner',
-    '-loglevel',
-    'error',
-    '-y',
-    '-i',
+function videoDurationSeconds(videoPath) {
+  const value = execFileSync('ffprobe', [
+    '-v', 'error',
+    '-show_entries', 'format=duration',
+    '-of', 'default=noprint_wrappers=1:nokey=1',
     videoPath,
-    '-vf',
-    'fps=1/5,scale=640:-2',
-    '-frames:v',
-    '12',
-    pattern,
-  ], { stdio: 'inherit' });
+  ], { encoding: 'utf8' }).trim();
+  const duration = Number(value);
+  if (!Number.isFinite(duration) || duration <= 0) throw new Error(`Could not determine video duration: ${value}`);
+  return duration;
+}
 
-  return fs.readdirSync(directory)
-    .filter((name) => /^frame-\d+\.jpg$/.test(name))
-    .sort()
-    .map((name) => path.join(directory, name));
+function sampleFrames(videoPath, directory, count = 14) {
+  const duration = videoDurationSeconds(videoPath);
+  const frames = [];
+  for (let index = 0; index < count; index += 1) {
+    const ratio = count === 1 ? 0.5 : index / (count - 1);
+    const timestamp = Math.max(0, Math.min(duration - 0.05, ratio * Math.max(0.05, duration - 0.05)));
+    const output = path.join(directory, `frame-${String(index + 1).padStart(2, '0')}.jpg`);
+    execFileSync('ffmpeg', [
+      '-hide_banner', '-loglevel', 'error', '-y',
+      '-ss', timestamp.toFixed(3),
+      '-i', videoPath,
+      '-frames:v', '1',
+      '-vf', 'scale=640:-2',
+      output,
+    ], { stdio: 'inherit' });
+    if (fs.existsSync(output) && fs.statSync(output).size > 1000) frames.push(output);
+  }
+  return frames;
 }
 
 export async function assertVideoIsPeopleFree(videoPath, options = {}) {
@@ -51,24 +64,24 @@ export async function assertVideoIsPeopleFree(videoPath, options = {}) {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'izem-video-safety-'));
   try {
     const frames = sampleFrames(videoPath, directory);
-    if (!frames.length) throw new Error('Could not extract frames for people-free video validation.');
+    if (frames.length < 8) throw new Error(`Only ${frames.length} usable video frames were extracted; failing closed.`);
 
     const ai = new GoogleGenAI({ apiKey });
     const parts = [
       {
         text: `You are a strict visual-safety classifier for a website whose owner forbids ANY human depiction in generated blog/video media.
 
-Inspect every supplied video frame. A frame is UNSAFE if it contains or depicts any human or human-like person, including: a real person, face, head, torso, full body, arms, legs, hands, fingers, body parts, silhouette, human outline, avatar, portrait, cartoon person, illustrated person, stick figure, trainer, athlete, crowd, before/after body, or humanoid character clearly representing a person.
+The supplied images are uniformly sampled across the FULL duration of one generated video. Mark the video UNSAFE if any frame contains or depicts any human or human-like person, including: real people, faces, heads, torsos, full bodies, arms, legs, hands, fingers, body parts, silhouettes, human outlines, avatars, portraits, cartoon people, illustrated people, stick figures, trainers, athletes, crowds, before/after bodies, or humanoid characters clearly representing people.
 
 Objects such as phones, dumbbells, barbells, food, charts, app UI without people, text, abstract shapes, rooms, equipment, and non-humanoid icons are allowed.
 
-Be conservative. If uncertain whether something is a human depiction, mark it unsafe.
+Be conservative: uncertainty means unsafe.
 
 Return JSON only in exactly this shape:
 {"safe":true,"containsHuman":false,"reason":"short explanation","unsafeFrameHints":[]}`,
       },
       ...frames.flatMap((frame, index) => [
-        { text: `Frame ${index + 1}:` },
+        { text: `Uniform sample ${index + 1} of ${frames.length}:` },
         { inlineData: { mimeType: 'image/jpeg', data: fs.readFileSync(frame).toString('base64') } },
       ]),
     ];
@@ -84,7 +97,7 @@ Return JSON only in exactly this shape:
       throw new Error(`NotebookLM video blocked by people-free policy: ${String(verdict?.reason || 'human depiction detected').slice(0, 500)}`);
     }
 
-    console.log(`People-free video validation passed across ${frames.length} sampled frame(s) using ${model}.`);
+    console.log(`People-free video validation passed across ${frames.length} uniform full-duration sample(s) using ${model}.`);
     return verdict;
   } finally {
     fs.rmSync(directory, { recursive: true, force: true });
@@ -97,7 +110,7 @@ async function main() {
   await assertVideoIsPeopleFree(videoPath);
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname)) {
+if (process.argv[1] && path.resolve(process.argv[1]) === path.join(HERE, 'video-human-safety.mjs')) {
   main().catch((error) => {
     console.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
