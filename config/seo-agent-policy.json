@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "effectiveDate": "2026-09-15",
   "owner": "ChatGPT senior SEO lead",
   "site": "https://youraicoach.life",
@@ -32,8 +32,39 @@
     "maxNewTopLevelEnglishBlogPostsPerRolling7Days": 3,
     "weeklyPublishingIsQuota": false
   },
+  "opportunitySelection": {
+    "goal": "Maximize qualified organic traffic and downstream conversions over time, not merely the number of easy keywords ranked.",
+    "highTrafficBias": true,
+    "avoidTinyKeywordTrap": true,
+    "rule": "Do not choose an obscure low-volume long-tail merely because it looks easy when a broader, meaningfully higher-demand query with strong IZEM fit and realistically attainable competition is available.",
+    "demandEvidenceSources": [
+      "private_search_console_query_page_evidence_when_available",
+      "live_google_serp_and_query_language",
+      "google_autocomplete_and_related_search_behavior_when_available",
+      "competitor_visibility_and_brand_demand",
+      "credible_third_party_volume_estimates_when_available",
+      "reddit_forums_reviews_for_problem_frequency_not_as_volume_proof"
+    ],
+    "scoreWeights": {
+      "searchDemandAndTrafficPotential": 0.3,
+      "rankingAttainability": 0.25,
+      "productFitAndCommercialIntent": 0.2,
+      "informationGain": 0.1,
+      "topicalAuthorityAndCannibalizationFit": 0.1,
+      "conversionPathQuality": 0.05
+    },
+    "selectionRules": [
+      "Prefer a keyword with materially higher credible demand when ranking feasibility remains realistic.",
+      "A tiny keyword may win only when conversion intent is exceptional or it strategically supports a larger topic cluster.",
+      "Never equate competitor brand search volume with the volume of an alternative or comparison query.",
+      "Never invent search volume. If reliable volume is unavailable, label demand confidence and use multiple corroborating signals.",
+      "Treat Search Console impressions as first-party demand evidence, but interpret them together with average position and page age.",
+      "Choose the best achievable traffic opportunity, not simply the easiest query."
+    ]
+  },
   "newPageRequirements": [
     "new_non_overlapping_intent",
+    "meaningful_search_demand_or_strong_gsc_signal",
     "attainable_live_serp",
     "izem_business_relevance",
     "concrete_information_gain",
@@ -99,6 +130,7 @@
     "The portfolio mix is evaluated across a representative month, not forced mechanically every day.",
     "A valid expert decision can still be no change.",
     "At most three excellent new top-level English blog posts may be published in a rolling seven-day period; this is a ceiling, not a target.",
+    "Future keyword selection should bias toward the highest credible traffic opportunity we can realistically rank for, while preserving intent, product fit, information gain, and conversion quality.",
     "The human-writing policy is for editorial quality and naturalness. It does not claim or guarantee that AI detectors will classify content as human.",
     "Do not repeatedly modify the same URL before its evaluation window matures."
   ]
