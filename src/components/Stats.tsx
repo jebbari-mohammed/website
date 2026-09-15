@@ -2,22 +2,22 @@ import { motion } from '../lib/motion';
 
 const stats = [
   {
+    value: '7-day',
+    unit: 'free trial',
+    label: 'Eligible Storefront Accounts',
+    detail: 'The app surfaces the free trial only when the store returns a zero-price introductory offer and confirms that account is eligible.',
+  },
+  {
     value: '1 call',
     unit: 'up to 5 min',
     label: 'Complimentary Onboarding Call',
-    detail: 'Eligible non-subscribers can receive one onboarding coach call before joining. An unanswered ring may be retried.',
+    detail: 'Instead of starting the trial immediately, an eligible non-subscriber can test one coach call first. An unanswered ring may be retried.',
   },
   {
-    value: 'You call',
-    unit: '',
-    label: 'Premium Live Coach Calls',
-    detail: 'Premium members can start a live coach call. Current call allowances and membership terms are controlled by the app storefront and account eligibility.',
-  },
-  {
-    value: 'Sets + reps',
-    unit: '+ load',
-    label: 'Training History',
-    detail: 'Workouts can record what you actually completed, including partial sessions, so later coaching has real training evidence to use.',
+    value: '350',
+    unit: 'min / month',
+    label: 'IZEM Elite Voice Coaching',
+    detail: 'The current Elite paywall advertises up to 350 live voice-coaching minutes each month, with focused calls up to 15 minutes.',
   },
   {
     value: 'Optional',
