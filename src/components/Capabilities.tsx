@@ -5,13 +5,10 @@ import {
   Camera,
   CheckCircle2,
   Dumbbell,
-  MessageSquare,
   Phone,
   ShieldCheck,
-  ShoppingBasket,
   SlidersHorizontal,
   Utensils,
-  Weight,
   type LucideIcon,
 } from 'lucide-react';
 
