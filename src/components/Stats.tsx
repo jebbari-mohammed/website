@@ -2,28 +2,28 @@ import { motion } from '../lib/motion';
 
 const stats = [
   {
-    value: '7-day',
-    unit: 'trial',
-    label: 'Introductory Access',
-    detail: 'Eligible storefront accounts can try the membership before renewal. Current terms appear before purchase.',
+    value: '1 call',
+    unit: 'up to 5 min',
+    label: 'Complimentary Onboarding Call',
+    detail: 'Eligible non-subscribers can receive one onboarding coach call before joining. An unanswered ring may be retried.',
   },
   {
-    value: 'Weekly',
+    value: 'You call',
     unit: '',
-    label: 'Adaptive Programming',
-    detail: 'Workout and meal plans can be reviewed as your schedule, feedback, and preferences change.',
+    label: 'Premium Live Coach Calls',
+    detail: 'Premium members can start a live coach call. Current call allowances and membership terms are controlled by the app storefront and account eligibility.',
   },
   {
-    value: 'Video',
-    unit: '',
-    label: 'Video Guidance',
-    detail: 'Exercise and recipe references help explain planned movements and meals when available.',
+    value: 'Sets + reps',
+    unit: '+ load',
+    label: 'Training History',
+    detail: 'Workouts can record what you actually completed, including partial sessions, so later coaching has real training evidence to use.',
   },
   {
     value: 'Optional',
     unit: '',
-    label: 'Health Context',
-    detail: 'A separate consent can share a minimized Apple Health summary for relevant coaching sessions.',
+    label: 'Apple Health Context',
+    detail: 'On supported iPhones, separate permission can provide steps, exercise, sleep, workouts, resting heart rate, HRV and body-mass context when available.',
   },
 ];
 
