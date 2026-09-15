@@ -28,16 +28,39 @@ Until at least 30 days of useful Search Console query/page data exist, the norma
 
 This is a portfolio target, not permission to publish filler. A no-change decision remains valid when no safe opportunity passes the gates. Publish at most three excellent new top-level English blog posts in any rolling seven-day period. Three is a ceiling, not a quota; publish zero when no opportunity is strong enough.
 
+## Keyword selection: traffic first, but only when attainable
+
+Future content should bias toward the highest credible traffic opportunity IZEM can realistically rank for. Do not choose a tiny long-tail query merely because it looks easy if a broader, materially higher-demand query has strong product fit and attainable competition.
+
+For every new-page candidate, evaluate:
+
+- **Search demand / traffic potential (30%)**: use private Search Console evidence when available, live Google behavior, credible third-party estimates when available, competitor visibility, and corroborating demand signals. Never invent volume.
+- **Ranking attainability (25%)**: inspect the live SERP, domain strength of ranking pages, freshness, content quality, and whether there is a real task gap IZEM can fill.
+- **Product fit + commercial intent (20%)**: prefer queries where IZEM genuinely solves the searcher's problem and can convert qualified traffic.
+- **Information gain (10%)**: the page must add a useful framework, original product explanation, decision method, calculator, checklist, worked example, or other concrete value.
+- **Topical authority + cannibalization fit (10%)**: strengthen topics where the site can build authority without creating near-duplicates.
+- **Conversion path quality (5%)**: there should be a natural next step from the query to a relevant product action.
+
+Important rules:
+
+- Prefer higher-demand queries when ranking feasibility remains realistic.
+- A tiny keyword can still win when conversion intent is unusually strong or it clearly supports a larger cluster, but this should be the exception.
+- Never treat the broad search volume of a competitor brand as proof that an “alternative,” “vs,” or other narrower modifier has the same traffic.
+- Reddit, forums, and reviews prove that a problem is real; they do not by themselves prove search volume.
+- Search Console impressions are strong first-party evidence, but interpret them together with average position, page age, and whether Google has actually tested the page.
+- Optimize for qualified organic traffic and revenue over time, not merely the count of keywords that are easy to rank.
+
 ## New-page gates
 
 A new URL may be published only when all of these are true:
 
 1. The intent is meaningfully different from every existing indexable IZEM URL.
-2. Live SERP review shows attainable competition or a clear task gap.
-3. The query is relevant to IZEM’s accountability, adaptive training, meal planning, coaching, or consistency value.
-4. The page adds concrete information gain: a framework, decision tree, calculator, template, checklist, worked example, comparison method, original product explanation, useful table, or another real utility.
-5. Claims are supportable, health language is careful, and no studies, prices, testing, testimonials, outcomes, or competitor details are fabricated.
-6. The page is indexable, self-canonical, included in discovery files, linked contextually from relevant pages, and validated before release.
+2. There is meaningful search demand or a strong Search Console signal, with demand confidence stated when exact volume is unavailable.
+3. Live SERP review shows attainable competition or a clear task gap.
+4. The query is relevant to IZEM’s accountability, adaptive training, meal planning, coaching, or consistency value.
+5. The page adds concrete information gain: a framework, decision tree, calculator, template, checklist, worked example, comparison method, original product explanation, useful table, or another real utility.
+6. Claims are supportable, health language is careful, and no studies, prices, testing, testimonials, outcomes, or competitor details are fabricated.
+7. The page is indexable, self-canonical, included in discovery files, linked contextually from relevant pages, and validated before release.
 
 ## Human writing and anti-template editorial pass
 
