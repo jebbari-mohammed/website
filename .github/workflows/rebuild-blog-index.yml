@@ -1,6 +1,14 @@
 name: Rebuild Source Blog Index
 
 on:
+  # Keep discovery files synchronized whenever a real blog article is added or
+  # updated. Exclude the generated index itself to prevent a commit loop.
+  push:
+    branches: [main]
+    paths:
+      - 'public/blog/*.html'
+      - '!public/blog/index.html'
+      - '.github/workflows/rebuild-blog-index.yml'
   workflow_dispatch:
 
 permissions:
