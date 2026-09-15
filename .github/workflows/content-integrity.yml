@@ -12,6 +12,8 @@ on:
       - 'tools/ai-marketing/generate-object-blog-visuals.mjs'
       - 'tools/ai-marketing/weekly-publish-guard.mjs'
       - 'tools/ai-marketing/video-human-safety.mjs'
+      - 'tools/ai-marketing/product-facts-contract.mjs'
+      - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
       - '.github/workflows/content-integrity.yml'
   pull_request:
     paths:
@@ -23,6 +25,8 @@ on:
       - 'tools/ai-marketing/generate-object-blog-visuals.mjs'
       - 'tools/ai-marketing/weekly-publish-guard.mjs'
       - 'tools/ai-marketing/video-human-safety.mjs'
+      - 'tools/ai-marketing/product-facts-contract.mjs'
+      - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
       - '.github/workflows/content-integrity.yml'
   workflow_dispatch:
 
@@ -54,6 +58,7 @@ jobs:
           node --check tools/ai-marketing/generate-object-blog-visuals.mjs
           node --check tools/ai-marketing/weekly-publish-guard.mjs
           node --check tools/ai-marketing/video-human-safety.mjs
+          node --check tools/ai-marketing/product-facts-contract.mjs
           node --check tools/ai-marketing/daily-notebooklm-video.mjs
           node --check tools/ai-marketing/daily-notebooklm-video-v2.mjs
 
@@ -70,8 +75,9 @@ jobs:
           if (!Array.isArray(value?.verifiedFacts) || value.verifiedFacts.length < 3) throw new Error('product-facts.json requires verifiedFacts');
           if (value?.visualPolicy?.humansAllowed !== false) throw new Error('product-facts.json must explicitly forbid humans');
           if (!value?.contentRules?.pricing?.includes('Never state an exact price')) throw new Error('pricing verification policy is missing');
-          console.log('Canonical product-facts contract passed.');
+          console.log('Canonical product-facts JSON shape passed.');
           NODE
+          node tools/ai-marketing/product-facts-contract.mjs
 
       - name: Validate structured data in every public HTML page
         run: node tools/validate-jsonld.mjs public
