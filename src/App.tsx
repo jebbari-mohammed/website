@@ -2,6 +2,7 @@ import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import EcosystemStrip from './components/EcosystemStrip';
 import ProductShowcase from './components/ProductShowcase';
+import Capabilities from './components/Capabilities';
 import VoiceCallSection from './components/VoiceCallSection';
 import CorePillars from './components/CorePillars';
 import TrainerCostCalculator from './components/TrainerCostCalculator';
@@ -19,6 +20,7 @@ function App() {
         <Hero />
         <EcosystemStrip />
         <ProductShowcase />
+        <Capabilities />
         <VoiceCallSection />
         <CorePillars />
         <TrainerCostCalculator />

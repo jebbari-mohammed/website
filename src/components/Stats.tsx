@@ -3,27 +3,27 @@ import { motion } from '../lib/motion';
 const stats = [
   {
     value: '7-day',
-    unit: 'trial',
-    label: 'Introductory Access',
-    detail: 'Eligible storefront accounts can try the membership before renewal. Current terms appear before purchase.',
+    unit: 'free trial',
+    label: 'Eligible Storefront Accounts',
+    detail: 'The app surfaces the free trial only when the store returns a zero-price introductory offer and confirms that account is eligible.',
   },
   {
-    value: 'Weekly',
-    unit: '',
-    label: 'Adaptive Programming',
-    detail: 'Workout and meal plans can be reviewed as your schedule, feedback, and preferences change.',
+    value: '1 call',
+    unit: 'up to 5 min',
+    label: 'Complimentary Onboarding Call',
+    detail: 'Instead of starting the trial immediately, an eligible non-subscriber can test one coach call first. An unanswered ring may be retried.',
   },
   {
-    value: 'Video',
-    unit: '',
-    label: 'Video Guidance',
-    detail: 'Exercise and recipe references help explain planned movements and meals when available.',
+    value: '350',
+    unit: 'min / month',
+    label: 'IZEM Elite Voice Coaching',
+    detail: 'The current Elite paywall advertises up to 350 live voice-coaching minutes each month, with focused calls up to 15 minutes.',
   },
   {
     value: 'Optional',
     unit: '',
-    label: 'Health Context',
-    detail: 'A separate consent can share a minimized Apple Health summary for relevant coaching sessions.',
+    label: 'Apple Health Context',
+    detail: 'On supported iPhones, separate permission can provide steps, exercise, sleep, workouts, resting heart rate, HRV and body-mass context when available.',
   },
 ];
 
