@@ -28,10 +28,10 @@ const groups: CapabilityGroup[] = [
     summary: 'One coach can use your training, nutrition, progress and saved coaching context instead of treating every conversation like a blank slate.',
     items: [
       'AI text chat plus live two-way voice conversations.',
-      'Premium members can start a coach call; eligible non-subscribers get one complimentary onboarding coach call capped at 5 minutes.',
-      'Optional proactive calls can happen around planned workouts and review moments when enabled.',
+      'Premium members can start a coach call; optional coach-initiated calls can support workouts and review moments when enabled.',
+      'The current Elite paywall advertises up to 350 live voice-coaching minutes each month, with focused calls up to 15 minutes.',
       'Coach context can include today’s workout, meal plan, logged meals, recent performance, prior supported call summaries and useful saved preferences.',
-      'A user-controlled coaching-intensity setting changes tone and directness without pretending there are personalities that are not actually available.',
+      'A user-controlled coaching-intensity setting changes tone, directness, pacing and emotional intensity.',
     ],
   },
   {
@@ -90,13 +90,13 @@ const groups: CapabilityGroup[] = [
 const truthNotes = [
   {
     icon: ShieldCheck,
-    title: 'No fake social proof',
-    text: 'IZEM does not need invented reviews, download counts, before-and-after results or guaranteed outcomes. Public claims should be tied to the product that actually exists.',
+    title: '7-day trial when eligible',
+    text: 'The app reads the introductory offer from the storefront and only shows the free trial when the store confirms a zero-price one-week offer and that account is eligible.',
   },
   {
     icon: SlidersHorizontal,
-    title: 'Storefront terms are authoritative',
-    text: 'The website currently references a $24.99/month premium membership. Exact price, renewal terms, eligibility, call allowances and any annual offer shown in the App Store or Google Play at purchase time control.',
+    title: 'One free call before subscribing',
+    text: 'At the end of onboarding, a non-member can choose the 7-day trial or test one complimentary coach call first. The connected test call is capped at 5 minutes.',
   },
   {
     icon: Brain,
@@ -124,7 +124,7 @@ export default function Capabilities() {
             What IZEM Actually Does Today.
           </h2>
           <p className="text-base sm:text-lg text-textSecondary leading-relaxed">
-            Specific capabilities, stated plainly. No fabricated reviews, no imaginary telemetry, and no credit for features that are only ideas. Availability can still vary by platform, account and current membership terms.
+            Specific capabilities, stated plainly. Availability can vary by platform, account and current storefront terms, so the app remains the authority for purchase eligibility and billing details.
           </p>
         </motion.div>
 
