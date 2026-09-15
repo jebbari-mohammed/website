@@ -1,0 +1,6 @@
+{
+  "requestId": "2026-09-15-hardened-video-smoke-001",
+  "slug": "workout-app-for-nurses-12-hour-shifts",
+  "reason": "Replace the pre-hardening article video with a NotebookLM video that passes the objects-only prompt and uniform full-duration zero-human frame validation.",
+  "requestedAt": "2026-09-15T15:13:00Z"
+}
