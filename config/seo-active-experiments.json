@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-15",
+  "updatedAt": "2026-09-16",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -230,6 +230,15 @@
       "lockUntil": "2026-10-06",
       "preferredReviewAt": "2026-10-13",
       "reason": "The September 15 launch targets workout-app-for-nurses and 12-hour shift intent with a shift-proof sequence framework, object-only visuals, safe recovery language, and a NotebookLM/YouTube video embed. Preserve for a clean 21-day discovery and early Search Console window."
+    },
+    {
+      "id": "best-ai-fitness-app-current-facts-refresh-2026-09-16",
+      "url": "/best-ai-fitness-app",
+      "files": ["public/best-ai-fitness-app.html", "public/izem-ai-fitness-coach/index.html"],
+      "launchedAt": "2026-09-16",
+      "lockUntil": "2026-10-07",
+      "preferredReviewAt": "2026-10-14",
+      "reason": "The September 16 refresh targets the broad best-AI-fitness-app impression cluster by broadening the title/H1, adding current IZEM product boundaries from the September 15 first-party source, clarifying trial/price/call eligibility, and adding a contextual internal link from the product-facts page. Preserve for a clean 21-day evaluation window."
     }
   ]
 }
