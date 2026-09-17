@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-16",
+  "updatedAt": "2026-09-17",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -239,6 +239,15 @@
       "lockUntil": "2026-10-07",
       "preferredReviewAt": "2026-10-14",
       "reason": "The September 16 refresh targets the broad best-AI-fitness-app impression cluster by broadening the title/H1, adding current IZEM product boundaries from the September 15 first-party source, clarifying trial/price/call eligibility, and adding a contextual internal link from the product-facts page. Preserve for a clean 21-day evaluation window."
+    },
+    {
+      "id": "personal-trainer-alternative-fit-test-refresh-2026-09-17",
+      "url": "/blog/personal-trainer-alternative-phone-call-accountability",
+      "files": ["public/blog/personal-trainer-alternative-phone-call-accountability.html"],
+      "launchedAt": "2026-09-17",
+      "lockUntil": "2026-10-08",
+      "preferredReviewAt": "2026-10-15",
+      "reason": "The September 17 refresh targets verified personal-trainer-alternative visibility inside the stronger accountability/calls cluster by reframing the existing URL around the Coach Replacement Fit Test, human-vs-online-vs-tracker-vs-AI comparison, and one-week alternative trial. Preserve for a clean 21-day evaluation window."
     }
   ]
 }
