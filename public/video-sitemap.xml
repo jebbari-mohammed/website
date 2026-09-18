@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/8THinvK3ZjI/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/8THinvK3ZjI.svg</video:thumbnail_loc>
+      <video:title>6 Best Fitbod Alternatives in 2026: Choose by Why You’re Switching</video:title>
+      <video:description>Compare Gravl, Alpha Progression, Hevy, Boostcamp, Ladder and IZEM as Fitbod alternatives. Pick the right app based on what you actually want to change.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/8THinvK3ZjI</video:player_loc>
+      <video:publication_date>2026-09-18T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/0xvyOIurB0w/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/0xvyOIurB0w.svg</video:thumbnail_loc>
