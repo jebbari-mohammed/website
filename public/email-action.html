@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="description" content="Complete a secure IZEM account action.">
+  <title>IZEM · Secure account action</title>
+  <link rel="stylesheet" href="/email-action.css">
+  <script type="module" src="/email-action.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="IZEM home"><span>IZEM</span> / ACCOUNT SECURITY</a>
+  </header>
+
+  <main class="page-shell">
+    <section class="action-card" aria-labelledby="action-title" aria-describedby="action-message">
+      <div id="status-icon" class="status-icon status-icon--loading" aria-hidden="true">
+        <span id="status-glyph">…</span>
+      </div>
+      <p id="action-kicker" class="kicker">Secure account action</p>
+      <h1 id="action-title">Checking your link</h1>
+      <p id="action-message" class="message" aria-live="polite">
+        One moment while IZEM checks that this link is valid.
+      </p>
+
+      <div id="action-controls" class="controls"></div>
+      <p id="action-error" class="inline-error" role="alert" hidden></p>
+      <p id="action-note" class="note" hidden></p>
+
+      <noscript>
+        <p class="inline-error">JavaScript is required to complete this secure account action.</p>
+      </noscript>
+    </section>
+
+    <p class="privacy-note">IZEM never asks for your current password on an email-verification page.</p>
+  </main>
+
+  <footer>
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/support.html">Support</a>
+    <a href="mailto:support@youraicoach.life">Contact</a>
+  </footer>
+</body>
+</html>
