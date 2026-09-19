@@ -125,7 +125,7 @@ export default function VoiceCallSection() {
               <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-mono font-bold text-sm mb-4">02</div>
               <h3 className="text-base font-bold text-textPrimary mb-2">The Conversation Has Context</h3>
               <p className="text-xs sm:text-sm text-textSecondary leading-relaxed">
-                Supported calls can use relevant current-plan, meal, progress and saved coaching context. On supported iPhones, minimized Apple Health context is separate and consent-based.
+                Supported calls can use relevant current-plan, meal, progress and saved coaching context. Voice calls do not receive Apple Health context in this release; separately consented Health context is limited to supported text coaching and requested workout changes.
               </p>
             </div>
             <div className="mt-4 pt-4 border-t border-white/[0.06] text-[11px] text-textSecondary/70 flex items-center gap-1.5">

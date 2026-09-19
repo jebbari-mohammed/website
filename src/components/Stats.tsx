@@ -9,15 +9,15 @@ const stats = [
   },
   {
     value: '1 call',
-    unit: 'up to 5 min',
+    unit: 'exactly 3 min',
     label: 'Complimentary Onboarding Call',
-    detail: 'Instead of starting the trial immediately, an eligible non-subscriber can test one coach call first. An unanswered ring may be retried.',
+    detail: 'Instead of starting the trial immediately, an eligible non-subscriber can test one coach call first. The connected call is hard-limited to three minutes; an unanswered ring may be retried.',
   },
   {
-    value: '350',
+    value: '300',
     unit: 'min / month',
     label: 'IZEM Elite Voice Coaching',
-    detail: 'The current Elite paywall advertises up to 350 live voice-coaching minutes each month, with focused calls up to 15 minutes.',
+    detail: 'A paid monthly subscription includes up to 300 live voice-coaching minutes per usage cycle, with individual calls capped at 15 minutes.',
   },
   {
     value: 'Optional',

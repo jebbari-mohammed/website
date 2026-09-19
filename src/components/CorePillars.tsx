@@ -45,7 +45,7 @@ export default function CorePillars() {
                 Premium members can call the coach, and optional coach-initiated calls can support workout and review moments.
               </p>
               <p className="text-sm text-textSecondary leading-relaxed mb-6">
-                The call can use relevant coaching context such as today’s workout, recent training, current meals and saved preferences. Eligible non-subscribers can receive one complimentary onboarding coach call capped at 5 minutes before deciding whether to join.
+                The call can use relevant non-Health coaching context such as today’s workout, recent training, current meals and saved preferences. Eligible non-subscribers can receive one complimentary onboarding coach call hard-limited to exactly three minutes before deciding whether to join.
               </p>
 
               <div className="p-4 sm:p-5 rounded-2xl bg-[#090D13]/90 border border-white/[0.1] shadow-inner mb-6 grid sm:grid-cols-2 gap-3">

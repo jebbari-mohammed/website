@@ -29,7 +29,7 @@ const groups: CapabilityGroup[] = [
     items: [
       'AI text chat plus live two-way voice conversations.',
       'Premium members can start a coach call; optional coach-initiated calls can support workouts and review moments when enabled.',
-      'The current Elite paywall advertises up to 350 live voice-coaching minutes each month, with focused calls up to 15 minutes.',
+      'A paid monthly subscription includes up to 300 live voice-coaching minutes per usage cycle, with individual calls capped at 15 minutes.',
       'Coach context can include today’s workout, meal plan, logged meals, recent performance, prior supported call summaries and useful saved preferences.',
       'A user-controlled coaching-intensity setting changes tone, directness, pacing and emotional intensity.',
     ],
@@ -96,7 +96,7 @@ const truthNotes = [
   {
     icon: SlidersHorizontal,
     title: 'One free call before subscribing',
-    text: 'At the end of onboarding, a non-member can choose the 7-day trial or test one complimentary coach call first. The connected test call is capped at 5 minutes.',
+    text: 'At the end of onboarding, a non-member can choose the 7-day trial or test one complimentary coach call first. The connected test call is hard-limited to exactly three minutes.',
   },
   {
     icon: Brain,

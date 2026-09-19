@@ -25,9 +25,10 @@ Public storefront availability can vary during release and rollout. Use the actu
 - IZEM includes AI text chat and live two-way coach calls.
 - Premium members can start a live coach call from the app.
 - Optional coach-initiated calls can support planned-workout accountability and review moments when the account, platform, allowance, and call preferences permit.
-- The current IZEM Elite paywall advertises up to 350 live voice-coaching minutes each month, with focused calls up to 15 minutes.
-- Eligible non-subscribers can receive one complimentary onboarding coach call. That connected test-call entitlement is available once and the session is capped at 5 minutes; an unanswered ring may be retried.
-- Supported coaching context can include the user's current profile and goals, equipment and schedule, today's workout and meal plan, logged meals, recent performance, useful saved memories, previous supported call summaries, recent changes, body-scan context, and separately consented Apple Health context when available.
+- A paid monthly subscription includes up to 300 live voice-coaching minutes per usage cycle, with individual calls capped at 15 minutes.
+- Eligible non-subscribers can receive one complimentary onboarding coach call. That connected test-call entitlement is available once and is hard-limited to exactly three minutes; an unanswered ring may be retried.
+- Supported text coaching context can include the user's current profile and goals, equipment and schedule, today's workout and meal plan, logged meals, recent performance, useful saved memories, previous supported call summaries, recent changes, body-scan context, and separately consented Apple Health context when available.
+- Voice calls use relevant non-Health coaching context and do not receive Apple Health context in this release.
 - IZEM has a user-controlled coaching-intensity setting that changes the coach's tone, directness, pacing, and emotional intensity.
 
 ### Workout planning and execution
@@ -73,7 +74,7 @@ Apple Health access is read-only. Missing or denied Health data is not treated a
 - At the end of onboarding, the current product offers two paths: start the 7-day free trial when the storefront confirms eligibility, or test one complimentary coach call first.
 - The app does not hardcode trial eligibility. It reads the store's introductory offer and surfaces the free-trial CTA only when the offer price is zero and that store account is confirmed eligible.
 - The public website currently references a $24.99/month premium membership. The storefront shown to the user is authoritative for the exact current price, currency, renewal period, eligibility, any annual option, and final purchase terms.
-- The current Elite paywall advertises up to 350 live voice-coaching minutes each month, with focused calls up to 15 minutes.
+- A paid monthly subscription includes up to 300 live voice-coaching minutes per usage cycle, with individual calls capped at 15 minutes.
 
 Do not claim that every account is eligible for the 7-day trial. Do not claim unlimited calling when the current product advertises a defined monthly allowance.
 

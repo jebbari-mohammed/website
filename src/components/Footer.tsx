@@ -131,6 +131,11 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <a href="/support.html" className="text-textSecondary hover:text-primary transition-colors">
+                  Support
+                </a>
+              </li>
+              <li>
                 <a href="mailto:support@youraicoach.life" className="text-textSecondary hover:text-primary transition-colors">
                   support@youraicoach.life
                 </a>

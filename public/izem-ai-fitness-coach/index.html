@@ -60,8 +60,8 @@
           "AI text chat using relevant plans, progress, and saved coaching context",
           "Live two-way coach calls that premium members can initiate",
           "Optional coach-initiated accountability and review calls when enabled and eligible",
-          "Up to 350 live voice-coaching minutes per month on the current IZEM Elite paywall, with focused calls up to 15 minutes",
-          "One complimentary onboarding coach call capped at 5 minutes for eligible non-subscribers",
+          "Up to 300 live voice-coaching minutes per monthly subscription usage cycle, with individual calls capped at 15 minutes",
+          "One complimentary onboarding coach call hard-limited to exactly three minutes for eligible non-subscribers",
           "A 7-day free trial shown when the storefront confirms eligibility for the zero-price introductory offer",
           "User-controlled coaching intensity",
           "Optional read-only Apple Health context after separate permission, including available steps, exercise minutes, sleep, workouts, resting heart rate, HRV, and body mass"
@@ -89,12 +89,12 @@
           {
             "@type": "Question",
             "name": "Can I test IZEM without starting the trial?",
-            "acceptedAnswer": {"@type": "Answer", "text": "At the end of onboarding, an eligible non-member can choose to test one complimentary coach call instead. That connected test-call entitlement is available once and is capped at 5 minutes; an unanswered ring may be retried."}
+            "acceptedAnswer": {"@type": "Answer", "text": "At the end of onboarding, an eligible non-member can choose to test one complimentary coach call instead. That connected test-call entitlement is available once and is hard-limited to exactly three minutes; an unanswered ring may be retried."}
           },
           {
             "@type": "Question",
             "name": "How much live voice coaching does IZEM Elite include?",
-            "acceptedAnswer": {"@type": "Answer", "text": "The current IZEM Elite paywall advertises up to 350 live voice-coaching minutes each month, with focused calls up to 15 minutes. Current account and storefront terms remain authoritative."}
+            "acceptedAnswer": {"@type": "Answer", "text": "A paid monthly subscription includes up to 300 live voice-coaching minutes per usage cycle, with individual calls capped at 15 minutes. Current account and storefront terms remain authoritative."}
           },
           {
             "@type": "Question",
@@ -166,9 +166,9 @@
     </div>
     <div class="proof">
       <div><strong>7-day trial</strong><span>Shown when the storefront confirms that account is eligible for the free introductory offer.</span></div>
-      <div><strong>350 min/month</strong><span>Current Elite paywall allowance for live voice coaching; focused calls up to 15 minutes.</span></div>
+      <div><strong>300 min/month</strong><span>Paid live voice-coaching allowance per monthly usage cycle; individual calls are capped at 15 minutes.</span></div>
       <div><strong>Training + nutrition</strong><span>Weekly workouts, set logging, meal plans, allergies, meal changes and grocery lists.</span></div>
-      <div><strong>Chat + context</strong><span>AI text chat, live calls, progress, scans and separately consented Health context.</span></div>
+      <div><strong>Chat + context</strong><span>AI text chat can use separately consented Health context; live calls use non-Health coaching context in this release.</span></div>
     </div>
   </div>
 </header>
@@ -183,16 +183,16 @@
   <p>After onboarding, IZEM is a members-only product rather than a permanent free tier. The current onboarding flow gives an eligible non-member two ways to evaluate it:</p>
   <div class="feature-grid">
     <div class="feature"><h3>Start the 7-day free trial</h3><p>The app reads the introductory offer from the storefront. It shows the free-trial CTA only when the offer is zero-price and that specific store account is confirmed eligible.</p></div>
-    <div class="feature"><h3>Test one free coach call first</h3><p>Instead of starting the trial immediately, an eligible non-member can test one complimentary onboarding coach call. The connected call is capped at 5 minutes; an unanswered ring may be retried.</p></div>
+    <div class="feature"><h3>Test one free coach call first</h3><p>Instead of starting the trial immediately, an eligible non-member can test one complimentary onboarding coach call. The connected call is hard-limited to exactly three minutes; an unanswered ring may be retried.</p></div>
   </div>
   <p>The public website currently references a <strong>$24.99/month</strong> premium membership. The final App Store or Google Play offer shown to the user is authoritative for exact price, currency, renewal period, trial eligibility, annual options and purchase terms.</p>
 
   <h2 id="coach">AI chat and live coach calls</h2>
-  <p>IZEM includes continuing AI text chat and live two-way voice conversations. Supported conversations can use relevant context such as the current workout, meal plan, logged meals, recent performance, useful saved preferences, previous supported call summaries, recent changes and separately consented Health context when available.</p>
+  <p>IZEM includes continuing AI text chat and live two-way voice conversations. Supported conversations can use relevant context such as the current workout, meal plan, logged meals, recent performance, useful saved preferences, previous supported call summaries and recent changes. Separately consented Apple Health context is limited to supported text coaching and requested workout changes; voice calls do not receive Apple Health context in this release.</p>
   <div class="feature-grid">
     <div class="feature"><h3>You can call the coach</h3><p>Premium members can start a live coach call from the app instead of waiting for the coach to call first.</p></div>
     <div class="feature"><h3>The coach can call you</h3><p>Optional coach-initiated calls can support planned-workout accountability and review moments when the account, platform, allowance and call preferences permit.</p></div>
-    <div class="feature"><h3>Up to 350 voice minutes/month</h3><p>The current IZEM Elite paywall advertises up to 350 live voice-coaching minutes each month, with focused calls up to 15 minutes.</p></div>
+    <div class="feature"><h3>Up to 300 voice minutes/month</h3><p>A paid monthly subscription includes up to 300 live voice-coaching minutes per usage cycle, with individual calls capped at 15 minutes.</p></div>
     <div class="feature"><h3>Coach intensity control</h3><p>A user-controlled setting changes tone, directness, pacing and emotional intensity.</p></div>
     <div class="feature"><h3>Coach memory and continuity</h3><p>Useful saved preferences, current plans, recent performance and prior supported call summaries can provide continuity instead of treating every conversation as a blank slate.</p></div>
     <div class="feature"><h3>Changes remain controlled</h3><p>Supported exercise, workout-day and meal changes can be handled through coaching flows. Larger or destructive changes should be previewed and confirmed before they are committed.</p></div>
@@ -240,7 +240,7 @@
   <p>On supported iPhones, Apple Health is optional and permission-based. IZEM can read a bounded overview after the user separately chooses to allow access. When available, supported categories include:</p>
   <p><span class="tag">Steps</span><span class="tag">Exercise minutes</span><span class="tag">Sleep</span><span class="tag">Workouts</span><span class="tag">Resting heart rate</span><span class="tag">HRV</span><span class="tag">Body mass</span></p>
   <p>Health access is read-only. Missing or denied data is not treated as zero. A minimized Health summary can support relevant coaching only after separate consent.</p>
-  <div class="note"><p><strong>Health boundary:</strong> Apple Health context supports general fitness coaching. It is not diagnosis, treatment, emergency monitoring or medical advice.</p></div>
+  <div class="note"><p><strong>Health boundary:</strong> Apple Health context supports general fitness coaching in supported text and requested-workout flows. Voice calls do not receive Apple Health context in this release. Health context is not diagnosis, treatment, emergency monitoring or medical advice.</p></div>
 
   <h2>The connected coaching loop</h2>
   <p><strong>plan → train → log/scan → talk → review → adapt</strong></p>
@@ -267,13 +267,13 @@
   <p>Yes, for store accounts that the current storefront confirms are eligible for the zero-price one-week introductory offer.</p>
 
   <h3>Can I test the AI call before subscribing?</h3>
-  <p>Yes. At the end of onboarding, an eligible non-member can choose one complimentary coach test call instead of starting the trial immediately. The connected call is capped at 5 minutes.</p>
+  <p>Yes. At the end of onboarding, an eligible non-member can choose one complimentary coach test call instead of starting the trial immediately. The connected call is hard-limited to exactly three minutes.</p>
 
   <h3>Can I call the coach myself?</h3>
   <p>Yes. Premium members can start a live coach call. Optional coach-initiated calls can also support planned workouts and review moments when enabled and eligible.</p>
 
   <h3>How many voice minutes are included?</h3>
-  <p>The current IZEM Elite paywall advertises up to 350 live voice-coaching minutes each month, with focused calls up to 15 minutes.</p>
+  <p>A paid monthly subscription includes up to 300 live voice-coaching minutes per usage cycle, with individual calls capped at 15 minutes.</p>
 
   <h3>Does IZEM track sets, reps and load?</h3>
   <p>Yes. It supports set-by-set repetitions and load tracking, workout history, effort feedback, and full or partial workout logging.</p>

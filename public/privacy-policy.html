@@ -1,406 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Privacy Policy – IZEM</title>
-    <meta name="description" content="Privacy Policy for IZEM – AI-powered fitness app." />
-    <link rel="canonical" href="https://youraicoach.life/privacy-policy.html" />
-    <meta name="robots" content="index, follow" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet" />
-    <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        :root {
-            --bg: #060B1D;
-            --bg2: #0C1232;
-            --cyan: #00D4FF;
-            --purple: #7C5CFC;
-            --text: #F8FAFC;
-            --text2: #94A3B8;
-            --text3: #64748B;
-            --border: rgba(255, 255, 255, 0.08);
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.7;
-        }
-
-        nav {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 14px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(6, 11, 29, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 700;
-            font-size: 16px;
-        }
-
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 9px;
-            background: linear-gradient(135deg, var(--cyan), var(--purple));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .back-btn {
-            color: var(--text2);
-            text-decoration: none;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .back-btn:hover {
-            color: var(--cyan);
-        }
-
-        .page-hero {
-            padding: 80px 24px 48px;
-            border-bottom: 1px solid var(--border);
-            background: linear-gradient(180deg, rgba(0, 212, 255, 0.04), transparent);
-        }
-
-        .page-hero .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .page-label {
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--cyan);
-            margin-bottom: 12px;
-        }
-
-        h1 {
-            font-size: clamp(28px, 4vw, 42px);
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 12px;
-        }
-
-        .meta {
-            font-size: 14px;
-            color: var(--text3);
-        }
-
-        main {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 56px 24px 80px;
-        }
-
-        h2 {
-            font-size: 20px;
-            font-weight: 700;
-            margin: 40px 0 14px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        h3 {
-            font-size: 16px;
-            font-weight: 600;
-            margin: 24px 0 10px;
-            color: var(--cyan);
-        }
-
-        p {
-            color: var(--text2);
-            margin-bottom: 14px;
-            font-size: 15px;
-        }
-
-        ul,
-        ol {
-            color: var(--text2);
-            padding-left: 20px;
-            margin-bottom: 14px;
-            font-size: 15px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        a {
-            color: var(--cyan);
-        }
-
-        .highlight-box {
-            background: rgba(0, 212, 255, 0.06);
-            border: 1px solid rgba(0, 212, 255, 0.15);
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin: 20px 0;
-        }
-
-        .highlight-box p {
-            color: var(--text);
-            margin: 0;
-        }
-
-        .warning-box {
-            background: rgba(239, 68, 68, 0.06);
-            border: 1px solid rgba(239, 68, 68, 0.15);
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin: 20px 0;
-        }
-
-        .warning-box p {
-            color: var(--text2);
-            margin: 0;
-        }
-
-        footer {
-            background: var(--bg2);
-            border-top: 1px solid var(--border);
-            padding: 28px 24px;
-            text-align: center;
-        }
-
-        footer p {
-            color: var(--text3);
-            font-size: 13px;
-        }
-
-        footer a {
-            color: var(--text2);
-            text-decoration: none;
-            margin: 0 12px;
-            font-size: 13px;
-        }
-
-        footer a:hover {
-            color: var(--cyan);
-        }
-    </style>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "IZEM AI Fitness Coach",
-    "url": "https://youraicoach.life/privacy-policy.html",
-    "description": "Proactive AI personal trainer for workout planning, meal planning, AI scans, and voice call accountability."
-  }
-  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="izem-ai-consent-version" content="2026-09-19">
+  <meta name="izem-health-coaching-policy-version" content="health-coaching-2026-09-v4">
+  <meta name="description" content="IZEM privacy policy for adult-only AI fitness coaching, memberships, calls, visual analysis, and optional Apple Health coaching.">
+  <link rel="canonical" href="https://youraicoach.life/privacy-policy.html">
+  <title>Privacy Policy · IZEM</title>
+  <link rel="stylesheet" href="/legal.css">
 </head>
-
 <body>
-    <nav>
-        <a href="/" class="logo">
-            <div class="logo-icon">⚡</div>IZEM
-        </a>
-        <a href="/" class="back-btn">← Back to Home</a>
-    </nav>
-
-    <div class="page-hero">
-        <div class="container">
-            <div class="page-label">Legal</div>
-            <h1>Privacy Policy</h1>
-            <p class="meta">Last updated: March 1, 2026 &nbsp;·&nbsp; Effective: March 1, 2026</p>
-        </div>
-    </div>
-
+  <header class="topbar"><div class="shell">
+    <a class="brand" href="/"><span>IZEM</span> / TRUST</a>
+    <nav aria-label="Legal navigation"><a href="/terms.html">Terms</a><a href="/support.html">Support</a></nav>
+  </div></header>
+  <div class="shell">
+    <section class="hero">
+      <div class="eyebrow">Privacy, in plain language</div>
+      <h1>Your data should stay yours.</h1>
+      <p class="lede">This policy explains what IZEM collects, when it uses a paid third-party AI service for coaching, and which controls remain in your hands.</p>
+      <p class="meta">Effective July 22, 2026 · Last updated September 19, 2026</p>
+    </section>
     <main>
-  <div class="geo-summary" style="background:rgba(0,212,255,.06);border-left:4px solid #00D4FF;padding:16px 20px;border-radius:0 10px 10px 0;margin:20px 0;font-size:1.05rem;color:#F1F5F9;">
-    <strong>AI Key Takeaway:</strong> IZEM is an all-in-one proactive AI fitness coach combining automated workout plans, personalized nutrition/meal plans, food/body computer vision scans, and daily voice call accountability.
-  </div>
+      <section class="card notice">
+        <h2>Important before you continue</h2>
+        <p>IZEM is an adult-only service. You must be 18 or older. Before personal information is sent to a paid third-party AI processor for coaching, IZEM asks for a separate, versioned permission in the app. You can revoke it in Profile at any time; AI features then stop until you choose again.</p>
+      </section>
 
-        <div class="highlight-box">
-            <p>IZEM ("we", "us", "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application on iOS and Android.</p>
+      <section class="card"><h2>1. Scope and who to contact</h2>
+        <p>This policy applies to the IZEM mobile app and IZEM’s public legal and support pages. IZEM provides adult-only, AI-assisted fitness and general wellness coaching. When this policy says “IZEM,” “we,” or “us,” it means the IZEM service identified in the app and on this site.</p>
+        <p>For a privacy request, account-deletion issue, or question about this policy, email <a href="mailto:support@youraicoach.life">support@youraicoach.life</a> from the address associated with your account when possible. We may need to verify account ownership before acting on a request.</p>
+      </section>
+
+      <section class="card"><h2>2. Information IZEM processes</h2>
+        <div class="grid">
+          <p class="mini"><strong>Account and eligibility</strong>Name if you provide one, email, sign-in provider, adult-age confirmation, account and device identifiers, active-device state, consent versions, membership entitlement, and account-security state.</p>
+          <p class="mini"><strong>Coaching profile and results</strong>Goals, training experience, equipment, schedule, body measurements you enter, food preferences, allergies or exclusions you report, plans, grocery items, workout and meal logs, progress records, scan analyses, feedback, settings, and choices or confirmations you make.</p>
+          <p class="mini"><strong>Content you choose to send</strong>Coach-chat messages, voice input, reports, and photos selected for chat, meal, equipment, movement, or body-scan analysis. If you separately enable “Use Health with my coach,” this can also include the selected minimized Apple Health summary described below.</p>
+          <p class="mini"><strong>Membership and operations</strong>Store product and entitlement events, trial or introductory-offer information shown by the storefront, restore and transfer status, transaction identifiers, usage and quota counters, push/VoIP tokens, call schedule and delivery state, call-duration and engagement totals, request receipts, security events, app/build/device details, and scrubbed diagnostics.</p>
         </div>
+        <p>We receive information directly from you; from Apple, Google, or another sign-in provider you choose; from the App Store, Google Play, and RevenueCat for purchases; and from your device for permissions, notifications, calls, and diagnostics. If you connect Apple Health, the app reads selected categories locally for the on-device dashboard. The dashboard is not uploaded. A separate, default-off, versioned category choice is required before a smaller summary can support coaching. Our infrastructure providers may also process ordinary network information such as IP address and request timing to deliver and secure the service.</p>
+        <p>We use these categories to authenticate accounts, enforce adult and consent requirements, provide and personalize features you request, validate membership, deliver calls and notifications, maintain continuity, respond to support, secure the service, prevent fraud and duplicate use, measure service cost and reliability, and comply with law. We do not sell personal information, use it for cross-app tracking, run advertising in IZEM, or use personal information for targeted advertising.</p>
+        <p>IZEM may use observable workout-completion patterns and coarse call-engagement signals—such as call duration, turn balance, or an early end—to make coaching less repetitive and lower pressure when an approach is not landing. These signals are not used to diagnose you or treated as proof of your mood, personality, motive, or intent, and they are never used for advertising or cross-app tracking.</p>
+      </section>
 
-        <h2>1. Information We Collect</h2>
-        <h3>Account Information</h3>
+      <section class="card"><h2>3. AI coaching, voice, and visual analysis</h2>
+        <p>When you grant the separate in-app AI-processing permission and use an AI feature, relevant information—such as your coaching profile, prompt, selected photo, live voice audio, or plan context—is sent to a paid third-party AI API service. IZEM uses this service to create and adjust workout or meal plans at your request, answer coach chats, power live voice coaching, and analyze photos you select for meal, equipment, movement, chat, or body-progress features.</p>
+        <p>IZEM uses paid production API credentials for all release traffic. Google Gemini’s paid-service terms say prompts and outputs are not used to improve its products, while its current abuse-monitoring policy says prompts, context, and outputs may be retained for up to 55 days for safety, security, and required legal or regulatory disclosures; flagged content may be reviewed by authorized personnel. IZEM does not opt into sharing AI logs, datasets, or feedback for provider product improvement.</p>
+        <p>Raw photos are transmitted for the selected analysis but are not retained in IZEM’s database or cloud storage. The resulting estimates and coaching analysis may remain in your account until you delete the available record or your account. Meal-photo estimates cannot verify ingredients, allergens, cross-contact, dietary or religious compliance, or food safety. Body and movement results are approximate visual estimates—not identity, diagnosis, body-composition measurement, injury assessment, or proof of health or ability.</p>
+        <p>Live coach audio is sent after you answer or start a call. Every answered live voice call uses Inworld through IZEM’s managed worker. There is no fallback voice provider. IZEM does not retain a raw voice recording on its servers. For ordinary calls, IZEM may retain a bounded coaching summary or validated memory, call-continuity state, aggregate engagement, usage, and safety records. Voice calls do not receive Apple Health context in this release.</p>
+        <p>IZEM stores account data needed to make the product work, including plans, conversation records, scan analyses, bounded thread summaries, and carefully validated coaching memories. Raw selected photos and raw voice recordings are not retained by IZEM servers. A normal assistant reply may reflect a minimized Health pattern and remain in chat. If you directly ask what Apple Health shows, that saved reply may repeat the single relevant rounded aggregate with uncertainty. A workout change remains only after you explicitly request and confirm it; Health-marked turns are excluded from future model history, thread summaries, and coach memory. Before membership or analysis, you may choose to keep one optional front-and-side body-scan pair encrypted in the app’s backup-excluded private storage on your device with an account-scoped, non-migrating device key. That pair is not uploaded or analyzed until membership is active and you separately choose “Analyze saved photos.” Temporary decrypted files are removed after each attempt; the encrypted pair is removed after successful analysis, when you delete it, when you sign out, or when you delete the account.</p>
+        <p>To show a photo or voice note back inside its chat, the app may keep an account-scoped copy in the device’s non-backed-up cache; those copies may be evicted by the operating system and are removed when you sign out or delete the account. If you use Sign in with Apple, IZEM stores a server-only Apple refresh credential solely so the app can revoke its Apple authorization when you delete the account; the credential is never exposed to the app and is removed with the account.</p>
+      </section>
+
+      <section class="card"><h2>4. Apple Health is optional and separately controlled</h2>
+        <p>If you connect Apple Health, IZEM requests read-only access to the categories you select, which may include steps, Apple Exercise Time, sleep analysis, workouts, resting heart rate, heart-rate variability (SDNN), and body mass. The dashboard is built on your iPhone from bounded recent aggregates. IZEM does not upload or retain the dashboard, use it for ads or analytics, or write to Apple Health. Missing data is shown as unavailable—not as zero.</p>
+        <h3>“Use Health with my coach”</h3>
+        <p>This is a separate, default-off permission governed by policy version <strong>health-coaching-2026-09-v4</strong>. If you explicitly enable it, IZEM creates a minimized coaching summary on your iPhone using only the categories you select. It can contain rounded seven-day activity, exercise, sleep, and workout patterns; sample coverage and freshness; qualitative resting-heart-rate and HRV bands compared with your own baseline; a rounded latest recorded sleep duration; and, only if separately enabled, a coarse body-weight range. It does not contain raw samples, routes, source devices, identifiers, exact measurement timestamps, exact heart-rate/HRV/weight values, HealthKit permission states, or a readiness score.</p>
+        <p>The coach may use this summary only for relevant coach chats you start or a workout suggestion or adjustment you explicitly request. Voice calls do not receive Apple Health context in this release. The summary is never used for the one-time onboarding test call, while any call is ringing, for nutrition changes, or to change a plan automatically.</p>
+        <p>For a user-initiated coach chat or an explicitly requested workout suggestion or adjustment, an IZEM Firebase Cloud Function rechecks the current account, membership, AI permission, Health-coaching permission, selected categories, rollout, and paid-AI configuration, converts the summary into bounded coaching context in memory, and sends it to the paid third-party AI service. The server-managed Inworld voice path does not accept this Health summary in this release. IZEM does not write the summary, its snapshot identifier, or a content hash to its database, request receipts, logs, analytics, crash reports, support exports, thread summaries, or coach memory. IZEM stores only the versioned category authorization and coarse provenance—a boolean indicating that an otherwise ordinary reply or confirmed plan change used Health context.</p>
+        <p>IZEM may keep only the minimized summary in encrypted, device-only Keychain storage so it is ready without delaying a request or an answered scheduled call. A summary up to 12 hours old is treated as current; a summary more than 12 and no more than 36 hours old is explicitly treated as stale; after 36 hours it is never used and is deleted the next time IZEM checks it. Turning off Health coaching blocks new process-local use immediately and attempts to remove both the server permission and encrypted cache. Disconnecting Apple Health, signing out, and deleting your account also trigger this cleanup. If every cleanup step cannot be confirmed, the app tells you to reopen the Health screen and retry rather than claiming completion.</p>
+        <p>The paid third-party AI service processes chat and requested workout context; its paid-service terms say prompts and outputs are not used to improve its products, and its abuse-monitoring policy permits retention for up to 55 days. Answered calls use Inworld for live audio, but Inworld does not receive the selected Apple Health summary in this release. Provider processing and retention are separate from the on-device dashboard. Turning Health coaching off blocks future Health use once the server and encrypted-storage cleanup is confirmed. It cannot undo a provider’s disclosed retention, remove an existing Health-influenced chat reply, or reverse a workout change you already confirmed. Apple Health context is for general fitness and wellness guidance—not diagnosis, a readiness score, medical clearance, emergency care, or a replacement for a clinician. Apple controls the underlying HealthKit permission in the Health app. Revoking or disconnecting IZEM does not delete records held by Apple Health.</p>
+      </section>
+
+      <section class="card"><h2>5. Membership, trials, restores, and the onboarding test call</h2>
+        <p>After onboarding, IZEM is a members-only service except for account, purchase, privacy, support, and other controls that must remain accessible. If offered, an eligible adult may choose one complimentary onboarding test call instead of immediately starting a membership. It is not a free tier. IZEM records the test-call eligibility, schedule, delivery, answer, connection, completion, and retry state needed to enforce one connected test per eligible account and prevent bypass. Every connected test session is hard-limited to exactly three minutes by the server, regardless of country; an unanswered ring may remain retryable under the product rules. The authorized duration, provider, and actual duration may be kept as content-free test-call funnel records; audio and conversation content are not included in those records.</p>
+        <p>Membership purchases are processed by Apple or Google. RevenueCat supplies storefront presentation and entitlement events, and IZEM’s server independently validates the entitlement before opening protected features. We may process product identifier, store, environment, purchase and expiration time, renewal or grace state, transaction/application-user identifiers, restore result, refund, cancellation, billing issue, and transfer events. We do not receive your full payment-card number. Deleting your IZEM account does not cancel an App Store or Google Play subscription.</p>
+      </section>
+
+      <section class="card"><h2>6. Calls, notifications, and device delivery</h2>
+        <p>If you enable coach calls or notifications, IZEM processes your preferences, schedule and time zone, device ownership marker, push or VoIP token, delivery attempts, answer/end state, and limited call diagnostics. On iOS, Apple Push Notification service, PushKit, and CallKit deliver and present eligible calls. On Android, Google Firebase Cloud Messaging and Twilio may act as parallel call-delivery channels; Twilio supplies a short account-and-device-bound ringing connection and is not the AI media relay once the coaching session begins. Microphone content is processed only after you answer or initiate the coaching session.</p>
+        <p>You can change eligible notification and call preferences in the app and can also revoke system permissions in device settings. Delivery is not guaranteed and may fail because of connectivity, device state, provider availability, operating-system policy, or revoked permissions. IZEM is not an emergency communication service.</p>
+      </section>
+
+      <section class="card"><h2>7. Service providers</h2>
+        <p>IZEM requires service providers that receive personal information to handle it consistently with this policy and provide the same or equivalent protection.</p>
         <ul>
-            <li>Name and email address (from email sign-up or social login)</li>
-            <li>Profile photo (if provided by Google, Apple, or Facebook sign-in)</li>
-            <li>Unique user identifier</li>
+          <li><strong>Google Firebase and Google Cloud:</strong> Google account sign-in if selected, authentication, Firestore data storage, Cloud Functions and Tasks, Android push delivery, abuse protection, security, and service reliability. IZEM does not use Firebase Analytics in the release app.</li>
+          <li><strong>Google Gemini paid API:</strong> relevant profile, chat, selected photo, and plan content for the non-voice AI features you permit. The paid-service and abuse-monitoring terms above apply to this processor.</li>
+          <li><strong>Inworld:</strong> live audio after answer, selected voice, bounded coaching and session context, generated speech, and content-free usage diagnostics for every live coach call. IZEM connects through its server-managed worker and does not retain a raw call recording.</li>
+          <li><strong>RevenueCat and Apple / Google Play:</strong> subscription presentation, purchase processing, entitlement validation, restores, and billing management. IZEM does not receive your full payment card number.</li>
+          <li><strong>Apple:</strong> Sign in with Apple if selected, App Store billing, iOS push/VoIP delivery and call presentation, and the optional on-device HealthKit access you control.</li>
+          <li><strong>Twilio:</strong> Android voice registration and short call-delivery signaling used to ring the account-and-device-bound app. The substantive AI coaching audio uses the separate AI connection described above.</li>
+          <li><strong>Sentry:</strong> limited crash and performance diagnostics, configured to avoid message, photo, audio, Health, and direct prompt content.</li>
+          <li><strong>YouTube:</strong> optional embedded and external exercise or cooking videos. If you choose to play or open one, YouTube may receive network, device, and video-interaction information under Google’s own privacy terms. IZEM uses privacy-enhanced embeds where available and does not use video activity for advertising or cross-app tracking.</li>
         </ul>
-        <h3>Fitness Profile Data</h3>
-        <ul>
-            <li>Age, gender, height, weight</li>
-            <li>Fitness goals (e.g. build muscle, lose fat)</li>
-            <li>Fitness level and training location preference</li>
-            <li>Training days per week and session duration</li>
-            <li>Dietary preferences and restrictions</li>
-            <li>Any injuries or physical limitations you choose to disclose</li>
-        </ul>
-        <h3>Usage Data</h3>
-        <ul>
-            <li>Workout completions and streak count</li>
-            <li>App activity and feature usage</li>
-            <li>AI chat messages (used to generate responses only)</li>
-            <li>In-app purchases and subscription status</li>
-        </ul>
-        <h3>Camera / Image Data</h3>
-        <div class="highlight-box">
-            <p>🔒 <strong>Important:</strong> If you use the optional body scan or food scan features, images captured
-                by your camera are sent directly to our AI provider (Google Gemini) for real-time analysis only.
-                <strong>We do not store, save, or retain any images from your camera.</strong> They are immediately
-                discarded after analysis.</p>
-        </div>
-        <h3>Device Information</h3>
-        <ul>
-            <li>Device type and operating system (iOS/Android)</li>
-            <li>Push notification token (if you enable notifications)</li>
-        </ul>
+      </section>
 
-        <h2>2. How We Use Your Information</h2>
-        <ul>
-            <li>To create and personalise your AI-generated workout and meal plans</li>
-            <li>To authenticate your account securely</li>
-            <li>To track your fitness progress, streaks, and milestones</li>
-            <li>To power AI chat coaching responses</li>
-            <li>To send optional push notifications (workout reminders, motivational quotes)</li>
-            <li>To process subscription payments and manage your account</li>
-            <li>To improve our AI models and app features</li>
-            <li>To respond to support requests</li>
-            <li>To comply with legal obligations</li>
-        </ul>
+      <section class="card"><h2>8. Why we process information</h2>
+        <p>Where applicable law requires a legal basis, IZEM processes information as needed to perform the service you request and administer membership; with your consent for personal AI processing, local Apple Health access, the separate Apple Health coaching disclosure, camera, microphone, and notifications; for legitimate interests in securing, debugging, and improving a members-only service without advertising or tracking; and as needed to meet legal obligations or protect users, IZEM, and providers. Withdrawing consent stops the future feature that depends on it but does not make prior lawful processing invalid.</p>
+      </section>
 
-        <h2>3. AI Processing Disclosure</h2>
-        <p>IZEM uses <strong>Google Gemini AI</strong> to generate personalized workout plans, meal plans, and
-            coaching responses. When you interact with AI features:</p>
-        <ul>
-            <li>Your fitness profile data is sent to Gemini to generate personalized plans</li>
-            <li>Camera images (body/food scans) are sent to Gemini for real-time analysis and are not stored</li>
-            <li>Chat messages are processed by Gemini to generate responses</li>
-            <li>All AI processing is subject to <a href="https://policies.google.com/privacy" target="_blank">Google's
-                    Privacy Policy</a></li>
-        </ul>
+      <section class="card"><h2>9. Retention and deletion</h2>
+        <p>We keep account and coaching records while your account is active or until you remove them through available product controls. Older conversation content may be summarized into a bounded thread summary and the older raw messages may be pruned as part of storage controls. Confirmed workouts, meals, plans, progress, scan analyses, and ordinary coaching records remain until removed through an available control, replaced under the feature’s normal lifecycle, or deleted with the account.</p>
+        <p>Scrubbed crash diagnostics retained directly by IZEM expire after 30 days. Content-free AI operational telemetry retained directly by IZEM also expires after 30 days. Message-feedback receipts and the corresponding bounded safety/quality record expire after 180 days. Short-lived request locks, idempotency receipts, notification jobs, and session records expire or are deleted under their operational lifecycle. Security, purchase, tax, fraud-prevention, dispute, or legal records may be retained longer only where reasonably necessary or required by law. To prevent deletion-and-recreation from resetting a one-time complimentary call or introductory-trial benefit, IZEM retains the minimum durable benefit tombstone while that anti-abuse purpose remains necessary. On account deletion, the raw Firebase user ID is removed from those tombstones; complimentary-call tombstones retain only the already-pseudonymous claim key and consumption state, and trial tombstones retain the store period key and claimed state.</p>
+        <p>Account deletion creates a server-side barrier against new account writes, revokes linked Sign in with Apple authorization where applicable, removes IZEM-held account records and server-owned device/call identifiers, and clears account-scoped sensitive local caches. Some deletion work completes asynchronously and is retried if interrupted. If a server-managed voice session already started immediately before deletion, IZEM keeps only the bounded account and call-control records needed to stop and account for that session until its fixed window closes—no more than the current 15-minute member-call limit, and exactly three minutes for an onboarding test call. Cleanup then retries automatically. This delay does not issue or extend a session or copy Health, transcript, photo, or other coaching content into the cleanup record. IZEM rejects any replacement voice session during that interval. Deletion cannot remove information already held temporarily by a provider under its disclosed retention rules, cancel storefront billing, or delete records held by Apple Health.</p>
+      </section>
 
-        <h2>4. Third-Party Services</h2>
-        <ul>
-            <li><strong>Firebase (Google):</strong> Authentication and data storage — <a
-                    href="https://firebase.google.com/support/privacy" target="_blank">Privacy Policy</a></li>
-            <li><strong>Google Sign-In:</strong> Optional social login — <a href="https://policies.google.com/privacy"
-                    target="_blank">Privacy Policy</a></li>
-            <li><strong>Apple Sign-In:</strong> Optional social login — <a href="https://www.apple.com/legal/privacy/"
-                    target="_blank">Privacy Policy</a></li>
-            <li><strong>Facebook Login:</strong> Optional social login — <a href="https://www.facebook.com/policy.php"
-                    target="_blank">Privacy Policy</a></li>
-            <li><strong>Google Gemini AI:</strong> AI plan generation and camera analysis — <a
-                    href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a></li>
-            <li><strong>Expo / React Native:</strong> App framework</li>
-        </ul>
+      <section class="card"><h2>10. Your choices and privacy rights</h2>
+        <p>You can (a) revoke AI processing in Profile, (b) turn off “Use Health with my coach” without disconnecting the local dashboard, (c) disconnect Apple Health, (d) start a new chat thread, and (e) restore or manage purchases through the storefront. You can delete your IZEM account from Profile. Revocation stops future processing but cannot recall information already within a provider’s disclosed retention period, remove an existing chat reply, or reverse a workout change you confirmed. Deleting an IZEM account does not cancel an App Store or Google Play subscription; manage that separately in the storefront. It also cannot delete Apple Health records.</p>
+        <p>Depending on where you live, you may have rights to request access, correction, deletion, restriction, portability, or an explanation of personal information we hold; object to certain processing; withdraw consent; appeal a denied request; or complain to your local privacy authority. These rights can have lawful exceptions. Email <a href="mailto:support@youraicoach.life">support@youraicoach.life</a> to make a request. We will verify identity, respond under the law that applies, and will not discriminate against you for exercising a privacy right.</p>
+        <p>To report an unsafe response, use the message report action or contact support. The public legal and support pages do not include advertising or analytics scripts.</p>
+      </section>
 
-        <h2>5. Data Sharing</h2>
-        <p>We do <strong>not sell</strong> your personal information. We do not share your data with third parties
-            except:</p>
-        <ul>
-            <li>With service providers listed above (strictly for operating the app)</li>
-            <li>If required by law, court order, or governmental authority</li>
-            <li>To protect the rights, safety, or property of users or the public</li>
-            <li>With your explicit consent</li>
-        </ul>
+      <section class="card"><h2>11. Security and international processing</h2>
+        <p>IZEM uses Firebase security rules, App Check, server-side entitlement and consent checks, encrypted device storage for sensitive local tokens, and transport encryption. No online service can promise absolute security. Data may be processed in countries where our providers operate, subject to their safeguards and applicable law.</p>
+      </section>
 
-        <h2>6. Data Storage and Security</h2>
-        <p>Your data is stored in <strong>Google Firebase</strong>, which uses industry-standard encryption at rest and
-            in transit. We implement reasonable administrative, technical, and physical security measures to protect
-            your information.</p>
-        <p>No system is 100% secure. If you believe your account has been compromised, contact us immediately at <a
-                href="mailto:support@youraicoach.life">support@youraicoach.life</a>.</p>
-
-        <h2>7. Data Retention</h2>
-        <p>We retain your personal data for as long as your account is active. When you delete your account:</p>
-        <ul>
-            <li>All personal data is permanently deleted from our systems</li>
-            <li>Workout and meal plans are removed</li>
-            <li>Firebase Authentication account is deleted</li>
-            <li>Deletion is completed within <strong>30 days</strong></li>
-        </ul>
-
-        <h2>8. Your Rights</h2>
-        <p>Depending on your location, you may have the following rights:</p>
-        <ul>
-            <li><strong>Access:</strong> Request a copy of the personal data we hold about you</li>
-            <li><strong>Correction:</strong> Request correction of inaccurate data</li>
-            <li><strong>Deletion:</strong> Request deletion of your account and all associated data</li>
-            <li><strong>Portability:</strong> Request your data in a portable format</li>
-            <li><strong>Objection:</strong> Object to certain processing of your data</li>
-            <li><strong>Withdrawal of Consent:</strong> Withdraw consent at any time by deleting your account</li>
-        </ul>
-        <p>To exercise any of these rights, contact us at <a href="mailto:support@youraicoach.life">support@youraicoach.life</a>.
-        </p>
-
-        <h2>9. Children's Privacy</h2>
-        <p>Our app is not intended for children under the age of <strong>13</strong> (or 16 in the EU per GDPR). We do
-            not knowingly collect personal data from children. If you believe a child has provided us with personal
-            data, please contact us and we will promptly delete it.</p>
-
-        <h2>10. International Data Transfers</h2>
-        <p>Your data is stored and processed in Google Firebase data centres, which may be located outside your country
-            of residence. By using our app, you consent to the transfer of your information internationally. Google
-            employs appropriate safeguards for these transfers.</p>
-
-        <h2>11. Push Notifications</h2>
-        <p>If you opt in to push notifications, we may send workout reminders and motivational quotes. You can disable
-            notifications at any time through your device settings.</p>
-
-        <h2>12. Medical Disclaimer</h2>
-        <div class="warning-box">
-            <p>⚠️ <strong>This app provides general fitness and nutritional guidance only and does not constitute
-                    medical advice.</strong> Always consult a qualified healthcare professional before starting any new
-                exercise or diet programme, particularly if you have a medical condition, injury, or are pregnant.</p>
-        </div>
-
-        <h2>13. Changes to This Policy</h2>
-        <p>We may update this Privacy Policy from time to time. We will notify you of significant changes via the app or
-            by email. Continued use of the app after changes constitutes acceptance of the updated policy.</p>
-
-        <h2>14. Contact Us</h2>
-        <p>For any privacy-related questions, requests, or concerns:</p>
-        <ul>
-            <li><strong>Email Support:</strong> <a href="mailto:support@youraicoach.life">support@youraicoach.life</a></li>
-            <li><strong>Data Deletion:</strong> <a href="/terms.html#deletion">See data deletion instructions</a></li>
-        </ul>
+      <section class="card"><h2>12. Age limit and policy changes</h2>
+        <p>IZEM is not directed to children. You must be 18 or older to create an account or use its personal AI features. If we learn that an ineligible minor created an account, contact support so we can investigate and remove the account as appropriate.</p>
+        <p>We may update this policy when the product or law changes. The in-app AI disclosure is versioned; material changes require a new choice before AI processing resumes. The effective date above identifies the current policy.</p>
+      </section>
     </main>
-
-    <footer>
-        <p style="margin-bottom:12px">
-            <a href="/">Home</a>
-            <a href="/privacy-policy.html">Privacy Policy</a>
-            <a href="/terms.html">Terms of Service</a>
-            <a href="mailto:support@youraicoach.life">Contact</a>
-        </p>
-        <p>© 2026 IZEM. All rights reserved.</p>
-    </footer>
+    <footer class="footer"><nav><a href="/terms.html">Terms of Use</a><a href="/support.html">Support</a><a href="mailto:support@youraicoach.life">Contact</a></nav>IZEM · Adult-only AI fitness coaching · General wellness information, not medical care.</footer>
+  </div>
 </body>
-
 </html>
