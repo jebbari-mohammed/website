@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-17",
+  "updatedAt": "2026-09-19",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -248,6 +248,15 @@
       "lockUntil": "2026-10-08",
       "preferredReviewAt": "2026-10-15",
       "reason": "The September 17 refresh targets verified personal-trainer-alternative visibility inside the stronger accountability/calls cluster by reframing the existing URL around the Coach Replacement Fit Test, human-vs-online-vs-tracker-vs-AI comparison, and one-week alternative trial. Preserve for a clean 21-day evaluation window."
+    },
+    {
+      "id": "gym-coaching-accountability-refresh-2026-09-19",
+      "url": "/blog/best-accountability-app-for-gym",
+      "files": ["public/blog/best-accountability-app-for-gym.html"],
+      "launchedAt": "2026-09-19",
+      "lockUntil": "2026-10-10",
+      "preferredReviewAt": "2026-10-17",
+      "reason": "The September 19 refresh targets fresh private Search Console visibility for gym accountability and coaching-accountability phrasing by widening the title/H1 from app-only to apps-and-coaches, adding the gym-model accountability table, updating FAQ/schema, and adding a supporting internal anchor. Preserve for a clean 21-day evaluation window."
     }
   ]
 }
