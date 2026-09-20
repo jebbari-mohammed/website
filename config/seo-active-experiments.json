@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-19",
+  "updatedAt": "2026-09-20",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -266,6 +266,15 @@
       "lockUntil": "2026-10-10",
       "preferredReviewAt": "2026-10-17",
       "reason": "The September 19 refresh targets verified near-top workout-reminder and call-intent visibility by retitling the page around calls vs alarms, adding the reminder-type chooser, strengthening the One-Call Rule hook, and adding contextual links into AI voice calls and daily check-ins. Preserve for a clean 21-day CTR/ranking evaluation window."
+    },
+    {
+      "id": "gym-equipment-scanner-rejuvenation-2026-09-20",
+      "url": "/blog/gym-equipment-scanner-workout-app",
+      "files": ["public/blog/gym-equipment-scanner-workout-app.html"],
+      "launchedAt": "2026-09-20",
+      "lockUntil": "2026-10-11",
+      "preferredReviewAt": "2026-10-18",
+      "reason": "Material rejuvenation targeting decaying Search Console visibility (-8 impressions from peak 24 down to 16). Updated introduction and first H2 with 2026 on-device computer vision trends, space mapping, gym floor privacy, and closed-loop coaching adaptation. Preserve for a clean 21-day evaluation window."
     }
   ]
 }
