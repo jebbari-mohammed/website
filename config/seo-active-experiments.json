@@ -257,6 +257,15 @@
       "lockUntil": "2026-10-10",
       "preferredReviewAt": "2026-10-17",
       "reason": "The September 19 refresh targets fresh private Search Console visibility for gym accountability and coaching-accountability phrasing by widening the title/H1 from app-only to apps-and-coaches, adding the gym-model accountability table, updating FAQ/schema, and adding a supporting internal anchor. Preserve for a clean 21-day evaluation window."
+    },
+    {
+      "id": "workout-reminder-calls-vs-alarms-refresh-2026-09-19",
+      "url": "/blog/workout-reminder-app-that-calls-you",
+      "files": ["public/blog/workout-reminder-app-that-calls-you.html"],
+      "launchedAt": "2026-09-19",
+      "lockUntil": "2026-10-10",
+      "preferredReviewAt": "2026-10-17",
+      "reason": "The September 19 refresh targets verified near-top workout-reminder and call-intent visibility by retitling the page around calls vs alarms, adding the reminder-type chooser, strengthening the One-Call Rule hook, and adding contextual links into AI voice calls and daily check-ins. Preserve for a clean 21-day CTR/ranking evaluation window."
     }
   ]
 }
