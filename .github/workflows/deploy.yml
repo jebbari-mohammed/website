@@ -22,6 +22,32 @@ jobs:
     outputs:
       ready: ${{ steps.gate.outputs.ready }}
     steps:
+      - name: Record production-hosting run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          title="[Hosting Deploy] Latest production run"
+          body=$(cat <<EOF
+          Latest production-hosting workflow execution.
+
+          - Commit: \`$COMMIT_SHA\`
+          - Run: https://github.com/$REPOSITORY/actions/runs/$RUN_ID
+          - Event: ${{ github.event_name }}
+
+          This issue is an operational pointer only and contains no credentials.
+          EOF
+          )
+          existing=$(gh issue list --repo "$REPOSITORY" --state open --search "$title in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --repo "$REPOSITORY" --body "$body"
+          else
+            gh issue create --repo "$REPOSITORY" --title "$title" --body "$body"
+          fi
+
       - name: Checkout full history
         uses: actions/checkout@v7
         with:
