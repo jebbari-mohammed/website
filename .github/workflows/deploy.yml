@@ -7,10 +7,13 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 concurrency:
   group: production-hosting
-  cancel-in-progress: false
+  # Static production should publish only the newest main commit. Cancelling an
+  # older build avoids stale queued releases blocking an urgent recovery.
+  cancel-in-progress: true
 
 jobs:
   release-gate:
@@ -149,6 +152,7 @@ jobs:
         run: npm install --global firebase-tools@15.29.0
 
       - name: Select an authorized Firebase Hosting credential
+        id: firebase_auth
         env:
           FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON }}
           GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
@@ -191,6 +195,7 @@ jobs:
           echo "Selected a Firebase Hosting-authorized repository credential without exposing credential contents."
 
       - name: Deploy production artifact to Firebase Hosting
+        id: firebase_deploy
         run: |
           set -euo pipefail
           project_id=$(node -e "const fs=require('fs'); const cfg=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(cfg.projects.default || '')")
@@ -198,6 +203,7 @@ jobs:
           firebase deploy --only hosting --project "$project_id" --non-interactive
 
       - name: Smoke-test Firebase default host and production custom domain
+        id: live_smoke
         run: |
           set -euo pipefail
           project_id=$(node -e "const fs=require('fs'); const cfg=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(cfg.projects.default || '')")
@@ -252,3 +258,35 @@ jobs:
             echo "- ✅ Firebase Hosting production artifact deployed"
             echo "- ✅ Firebase default host and custom-domain core/article URLs returned HTTP 200"
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Report production-hosting failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+          COMMIT_SHA: ${{ github.sha }}
+          AUTH_OUTCOME: ${{ steps.firebase_auth.outcome }}
+          DEPLOY_OUTCOME: ${{ steps.firebase_deploy.outcome }}
+          SMOKE_OUTCOME: ${{ steps.live_smoke.outcome }}
+        run: |
+          set -euo pipefail
+          title="[Hosting Recovery] Production website deployment failed"
+          body=$(cat <<EOF
+          Production Firebase Hosting deployment did not complete successfully.
+
+          - Commit: \`$COMMIT_SHA\`
+          - Run: https://github.com/$REPOSITORY/actions/runs/$RUN_ID
+          - Firebase credential selection: $AUTH_OUTCOME
+          - Firebase deploy: $DEPLOY_OUTCOME
+          - Live smoke test: $SMOKE_OUTCOME
+
+          This issue contains no credential material. Use the linked Actions run for the failing step logs.
+          EOF
+          )
+          existing=$(gh issue list --repo "$REPOSITORY" --state open --search "$title in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "$REPOSITORY" --body "$body"
+          else
+            gh issue create --repo "$REPOSITORY" --title "$title" --body "$body"
+          fi
