@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/a_jG-ssT1tk/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/a_jG-ssT1tk.svg</video:thumbnail_loc>
+      <video:title>ChatGPT vs Fitness App for Workouts: What to Use in 2026</video:title>
+      <video:description>ChatGPT can plan and explain workouts, while connected or dedicated fitness apps can add logs, execution, adaptation and accountability. Use this 2026 decision guide.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/a_jG-ssT1tk</video:player_loc>
+      <video:publication_date>2026-09-21T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/8THinvK3ZjI/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/8THinvK3ZjI.svg</video:thumbnail_loc>
