@@ -177,14 +177,15 @@ jobs:
       - name: Deploy production artifact to Firebase Hosting
         run: |
           set -euo pipefail
-          project_id=$(node -p "require('./.firebaserc').projects.default")
+          project_id=$(node -e "const fs=require('fs'); const cfg=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(cfg.projects.default || '')")
           test -n "$project_id"
           firebase deploy --only hosting --project "$project_id" --non-interactive
 
       - name: Smoke-test Firebase default host and production custom domain
         run: |
           set -euo pipefail
-          project_id=$(node -p "require('./.firebaserc').projects.default")
+          project_id=$(node -e "const fs=require('fs'); const cfg=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(cfg.projects.default || '')")
+          test -n "$project_id"
           default_host="https://${project_id}.web.app"
 
           {
