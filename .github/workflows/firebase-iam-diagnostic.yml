@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Check existing Google Cloud credential permissions
+      - name: Inspect existing Google Cloud deploy principal
         env:
           GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
         run: |
@@ -28,33 +28,36 @@ jobs:
           key="$RUNNER_TEMP/gcloud.json"
           printf '%s' "$GOOGLE_CLOUD_JSON" > "$key"
           chmod 600 "$key"
-          node -e "const fs=require('fs');const v=JSON.parse(fs.readFileSync(process.argv[1],'utf8'));if(v.type!=='service_account'||!v.client_email||!v.private_key)process.exit(2)" "$key"
+          email="$(node -e "const fs=require('fs');const v=JSON.parse(fs.readFileSync(process.argv[1],'utf8'));if(v.type!=='service_account'||!v.client_email||!v.private_key)process.exit(2);process.stdout.write(v.client_email)" "$key")"
 
-          gcloud auth activate-service-account --key-file="$key" --quiet >/dev/null
+          gcloud auth activate-service-account --key-file="$key" --quiet >/dev/null 2>&1
           project="ai-gym-coach-13ee1"
-          token="$(gcloud auth print-access-token)"
 
-          payload='{"permissions":["resourcemanager.projects.getIamPolicy","resourcemanager.projects.setIamPolicy","firebasehosting.sites.list","firebasehosting.sites.update","firebasehosting.versions.create","firebasehosting.releases.create"]}'
-          response="$(curl -fsS -X POST \
-            -H "Authorization: Bearer $token" \
-            -H "Content-Type: application/json" \
-            -d "$payload" \
-            "https://cloudresourcemanager.googleapis.com/v1/projects/$project:testIamPermissions")"
+          if roles="$(gcloud projects get-iam-policy "$project" \
+            --flatten="bindings[].members" \
+            --filter="bindings.members:serviceAccount:$email" \
+            --format="value(bindings.role)" 2>/tmp/iam-error)"; then
+            if [ -n "$roles" ]; then
+              echo "Assigned project roles for the configured principal:"
+              printf '%s\n' "$roles"
+            else
+              echo "Assigned project roles for the configured principal: none found."
+            fi
+          else
+            echo "Project IAM policy read: denied."
+            sed -E 's/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+/[service-account]/g' /tmp/iam-error | tail -n 8
+          fi
 
-          node - "$response" <<'NODE'
-          const response = JSON.parse(process.argv[2]);
-          const allowed = new Set(response.permissions || []);
-          const checks = [
-            'resourcemanager.projects.getIamPolicy',
-            'resourcemanager.projects.setIamPolicy',
-            'firebasehosting.sites.list',
-            'firebasehosting.sites.update',
-            'firebasehosting.versions.create',
-            'firebasehosting.releases.create',
-          ];
-          for (const permission of checks) {
-            console.log(permission + '=' + (allowed.has(permission) ? 'allowed' : 'denied'));
-          }
-          NODE
+          echo "Firebase Hosting permission probe:"
+          set +e
+          GOOGLE_APPLICATION_CREDENTIALS="$key" firebase hosting:sites:list --project "$project" --json >/tmp/hosting-out 2>/tmp/hosting-error
+          status=$?
+          set -e
+          if [ "$status" -eq 0 ]; then
+            echo "firebasehosting.sites.list=allowed"
+          else
+            echo "firebasehosting.sites.list=denied"
+            sed -E 's/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+/[service-account]/g' /tmp/hosting-error | tail -n 8
+          fi
 
-          rm -f "$key"
+          rm -f "$key" /tmp/iam-error /tmp/hosting-out /tmp/hosting-error
