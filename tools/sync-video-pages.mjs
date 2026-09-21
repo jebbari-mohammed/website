@@ -263,14 +263,14 @@ function transformArticle(html, videoMap) {
 function renderHubCard(video) {
   const title = htmlEscape(video.title)
   const published = htmlEscape(String(video.uploadDate || '').slice(0, 10))
-  return \`<a class="izem-video-card" data-video-id="\${video.id}" href="\${watchPath(video.id)}" aria-label="Watch \${title}">
+  return `<a class="izem-video-card" data-video-id="${video.id}" href="${watchPath(video.id)}" aria-label="Watch ${title}">
   <span class="izem-video-thumb-wrap">
-    <img class="izem-video-thumb" src="\${thumbnailUrl(video.id)}" alt="\${title}" width="1280" height="720" loading="lazy">
+    <img class="izem-video-thumb" src="${thumbnailUrl(video.id)}" alt="${title}" width="1280" height="720" loading="lazy">
     <span class="izem-play-badge" aria-hidden="true">▶</span>
   </span>
-  <span class="izem-video-title">\${title}</span>
-  <span class="izem-video-meta">IZEM · \${published || 'Video guide'}</span>
-</a>\`
+  <span class="izem-video-title">${title}</span>
+  <span class="izem-video-meta">IZEM · ${published || 'Video guide'}</span>
+</a>`
 }
 
 function renderHubSchema(videos) {
@@ -301,21 +301,21 @@ ${JSON.stringify(
 function transformHub(html, videos) {
   let next = removeArticleVideoSchema(replaceUnverifiedYouTubeThumbnails(html))
   next = next.replace(/\s*<script\b[^>]*data-izem-video-catalog=["']true["'][^>]*>[\s\S]*?<\/script>/gi, '')
-  next = next.replace(/<\/head>/i, \`\${renderHubSchema(videos)}\n</head>\`)
-  const feed = \`<!-- IZEM_VIDEO_FEED_START -->
+  next = next.replace(/<\/head>/i, `${renderHubSchema(videos)}\n</head>`)
+  const feed = `<!-- IZEM_VIDEO_FEED_START -->
     <section class="video-library" aria-labelledby="video-library-title">
       <div class="video-library-heading">
         <div>
           <p class="section-kicker">Latest + library</p>
           <h2 id="video-library-title">All IZEM video guides</h2>
         </div>
-        <p>\${videos.length} practical videos on training, nutrition, accountability, and AI coaching.</p>
+        <p>${videos.length} practical videos on training, nutrition, accountability, and AI coaching.</p>
       </div>
       <div class="izem-video-grid">
-\${videos.map(renderHubCard).join('\n')}
+${videos.map(renderHubCard).join('\n')}
       </div>
     </section>
-    <!-- IZEM_VIDEO_FEED_END -->\`
+    <!-- IZEM_VIDEO_FEED_END -->`
   return next
     .replace(/<!-- IZEM_VIDEO_FEED_START -->[\s\S]*?<!-- IZEM_VIDEO_FEED_END -->/, feed)
     .replace(/^[ \t]+$/gm, '')
