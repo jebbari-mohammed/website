@@ -1,4 +1,4 @@
-name: Deploy static content to Pages
+name: Deploy static content to Firebase Hosting
 
 on:
   push:
@@ -7,11 +7,9 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: production-hosting
   cancel-in-progress: false
 
 jobs:
@@ -83,9 +81,6 @@ jobs:
     if: needs.release-gate.outputs.ready == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout
@@ -150,23 +145,53 @@ jobs:
           node tools/validate-jsonld.mjs dist
           pnpm check:links
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v6
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: dist
-          include-hidden-files: true
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
-
-      - name: Smoke-test core pages and newest articles on the live domain
+      - name: Configure Firebase service-account credentials
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
         run: |
           set -euo pipefail
+          credential_json=''
+          for name in GOOGLE_SERVICE_ACCOUNT_JSON GOOGLE_CLOUD_JSON GCP_SA_KEY GOOGLE_APPLICATION_CREDENTIALS_JSON; do
+            value="${!name:-}"
+            if [ -n "$value" ]; then
+              credential_json="$value"
+              break
+            fi
+          done
+          if [ -z "$credential_json" ]; then
+            echo "::error::No Firebase/Google service-account JSON secret is configured for production deployment."
+            exit 1
+          fi
+          credential_file="$RUNNER_TEMP/firebase-service-account.json"
+          printf '%s' "$credential_json" > "$credential_file"
+          chmod 600 "$credential_file"
+          node -e "JSON.parse(require('fs').readFileSync(process.argv[1], 'utf8'))" "$credential_file"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$credential_file" >> "$GITHUB_ENV"
+
+      - name: Install pinned Firebase CLI
+        run: npm install --global firebase-tools@15.29.0
+
+      - name: Deploy production artifact to Firebase Hosting
+        run: |
+          set -euo pipefail
+          project_id=$(node -p "require('./.firebaserc').projects.default")
+          test -n "$project_id"
+          firebase deploy --only hosting --project "$project_id" --non-interactive
+
+      - name: Smoke-test Firebase default host and production custom domain
+        run: |
+          set -euo pipefail
+          project_id=$(node -p "require('./.firebaserc').projects.default")
+          default_host="https://${project_id}.web.app"
+
           {
+            echo "$default_host/"
+            echo "$default_host/blog/"
+            echo "$default_host/seo-system-version.json"
+            echo "$default_host/blog/chatgpt-vs-fitness-app-workouts"
             echo "https://youraicoach.life/"
             echo "https://youraicoach.life/blog/"
             echo "https://youraicoach.life/seo-system-version.json"
@@ -180,9 +205,9 @@ jobs:
           } | awk '!seen[$0]++' > /tmp/live-urls.txt
 
           success=0
-          for attempt in $(seq 1 16); do
+          for attempt in $(seq 1 12); do
             success=1
-            echo "Live smoke attempt ${attempt}/16"
+            echo "Live smoke attempt ${attempt}/12"
             while IFS= read -r url; do
               body=$(mktemp)
               code=$(curl -L -sS --max-time 30 -H 'Cache-Control: no-cache' -o "$body" -w '%{http_code}' "$url" || true)
@@ -193,7 +218,7 @@ jobs:
               rm -f "$body"
             done < /tmp/live-urls.txt
             [ "$success" -eq 1 ] && break
-            sleep 15
+            sleep 10
           done
           test "$success" -eq 1
 
@@ -201,12 +226,12 @@ jobs:
         if: success()
         run: |
           {
-            echo "### Verified GitHub Pages deployment"
+            echo "### Verified Firebase Hosting deployment"
             echo "- ✅ No incomplete new-article release was deployed"
             echo "- ✅ Discovery files synchronized"
             echo "- ✅ Source and built structured data valid"
             echo "- ✅ Strict object-only media policy validated"
             echo "- ✅ Internal critical routes and links valid"
-            echo "- ✅ Pages artifact deployed"
-            echo "- ✅ Core pages and newest articles returned HTTP 200"
+            echo "- ✅ Firebase Hosting production artifact deployed"
+            echo "- ✅ Firebase default host and custom-domain core/article URLs returned HTTP 200"
           } >> "$GITHUB_STEP_SUMMARY"
