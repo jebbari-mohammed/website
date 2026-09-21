@@ -11,32 +11,66 @@
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
 
-    <style>
+        <style>
+        :root{color-scheme:dark;--bg:#070a08;--surface:#0d120e;--surface2:#111811;--text:#f4f6f1;--muted:#9aa397;--line:rgba(255,255,255,.09);--accent:#baff27}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#E2E8F0;line-height:1.7}
-        .nav{background:rgba(6,11,29,0.95);border-bottom:1px solid rgba(255,255,255,0.08);padding:16px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
-        .ni{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-        .nb{font-weight:800;font-size:1.1rem;color:#F8FAFC;text-decoration:none}
-        .hero{max-width:900px;margin:0 auto;padding:64px 24px 32px;text-align:center}
-        h1{font-size:2.8rem;font-weight:800;color:#F8FAFC;margin-bottom:16px;line-height:1.2}
-        .hero-sub{color:#94A3B8;font-size:1.15rem;max-width:600px;margin:0 auto 40px}
-        .yt-btn{display:inline-flex;align-items:center;gap:10px;background:#FF0000;color:white;padding:16px 32px;border-radius:12px;font-weight:700;font-size:1.1rem;text-decoration:none;transition:opacity .3s;margin-bottom:48px}
-        .yt-btn:hover{opacity:0.9}
-        .content{max-width:900px;margin:0 auto;padding:0 24px 80px}
-        .topics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin:32px 0}
-        .topic-card{background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:24px;transition:all .3s}
-        .topic-card:hover{border-color:rgba(0,212,255,0.3);transform:translateY(-2px)}
-        .topic-icon{font-size:2rem;margin-bottom:10px;display:block}
-        .topic-card h3{color:#F8FAFC;font-size:1.05rem;margin-bottom:8px}
-        .topic-card p{color:#64748B;font-size:.85rem;margin:0}
-        h2{font-size:1.8rem;font-weight:700;color:#F8FAFC;margin:48px 0 16px}
-        .desc-box{background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:24px;margin-bottom:16px}
-        .desc-box h3{color:#00D4FF;margin-bottom:10px}
-        .desc-box p{color:#94A3B8;font-size:.9rem;margin:0}
-        .desc-box code{display:block;margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:.8rem;color:#CBD5E1;font-family:monospace;line-height:1.6;white-space:pre-wrap}
-        .cta-box{margin-top:48px;padding:28px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center}
-        .cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;text-decoration:none;margin:4px}
-        a{color:#00D4FF;text-decoration:none}
+        body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 50% -20%,rgba(186,255,39,.08),transparent 42rem),var(--bg);color:var(--text);line-height:1.55}
+        a{color:inherit}
+        .nav{position:sticky;top:0;z-index:100;padding:16px 24px;border-bottom:1px solid var(--line);background:rgba(7,10,8,.9);backdrop-filter:blur(18px)}
+        .ni{max-width:1320px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:20px}
+        .nb{display:inline-flex;align-items:center;gap:10px;color:var(--text);font-size:1.05rem;font-weight:850;text-decoration:none;letter-spacing:.02em}
+        .nb img{width:36px;height:36px;border-radius:10px;object-fit:cover}
+        .nav-link{color:var(--muted);font-size:.92rem;text-decoration:none;font-weight:650}
+        .nav-link:hover{color:var(--accent)}
+        .hero{max-width:1320px;margin:0 auto;padding:72px 24px 38px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;align-items:end}
+        .eyebrow,.section-kicker{margin:0 0 10px;color:var(--accent);font-size:.76rem;font-weight:850;letter-spacing:.15em;text-transform:uppercase}
+        h1{max-width:900px;margin:0;color:var(--text);font-size:clamp(2.7rem,6vw,5.6rem);line-height:.98;letter-spacing:-.055em}
+        .hero-sub{max-width:760px;margin:22px 0 0;color:var(--muted);font-size:clamp(1rem,1.8vw,1.2rem);line-height:1.65}
+        .yt-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 20px;border-radius:999px;background:#fff;color:#111;font-weight:800;text-decoration:none;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.22);transition:transform .18s ease,box-shadow .18s ease}
+        .yt-btn:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(0,0,0,.32)}
+        .yt-dot{display:grid;place-items:center;width:28px;height:20px;border-radius:6px;background:#f00;color:#fff;font-size:.7rem;line-height:1}
+        .content{max-width:1320px;margin:0 auto;padding:0 24px 88px}
+        .video-library{margin:24px 0 64px}
+        .video-library-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:24px}
+        .video-library-heading h2{margin:0;color:var(--text);font-size:clamp(1.9rem,3vw,2.6rem);letter-spacing:-.035em}
+        .video-library-heading>p{max-width:500px;margin:0;color:var(--muted);font-size:.98rem;text-align:right}
+        .izem-video-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:34px 22px!important}
+        .izem-video-card{display:block!important;min-width:0!important;background:transparent!important;border:0!important;border-radius:0!important;overflow:visible!important;text-decoration:none!important;color:var(--text)!important}
+        .izem-video-thumb-wrap{position:relative;display:block;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:var(--surface);box-shadow:0 0 0 1px var(--line),0 12px 28px rgba(0,0,0,.2)}
+        .izem-video-thumb{display:block!important;width:100%!important;height:100%!important;aspect-ratio:16/9!important;object-fit:contain!important;background:#09100a;transition:transform .2s ease}
+        .izem-video-card:hover .izem-video-thumb{transform:scale(1.015)}
+        .izem-play-badge{position:absolute;right:12px;bottom:12px;display:grid;place-items:center;width:46px;height:32px;border-radius:9px;background:rgba(0,0,0,.78);color:#fff;font-size:.9rem;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+        .izem-video-title{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;min-height:2.8em;padding:0!important;margin:12px 4px 5px;color:var(--text)!important;font-size:1rem!important;font-weight:780!important;line-height:1.4!important}
+        .izem-video-meta{display:block!important;padding:0!important;margin:0 4px;color:var(--muted)!important;font-size:.86rem!important}
+        h2{margin:54px 0 18px;color:var(--text);font-size:1.85rem;letter-spacing:-.025em}
+        .topics-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:28px 0}
+        .topic-card{padding:22px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,rgba(255,255,255,.025),transparent),var(--surface);transition:transform .18s ease,border-color .18s ease}
+        .topic-card:hover{transform:translateY(-2px);border-color:rgba(186,255,39,.24)}
+        .topic-icon{display:block;margin-bottom:10px;font-size:1.6rem}
+        .topic-card h3{margin-bottom:8px;color:var(--text);font-size:1.02rem}
+        .topic-card p{margin:0;color:var(--muted);font-size:.9rem}
+        .cta-box{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:54px;padding:28px;border:1px solid rgba(186,255,39,.18);border-radius:18px;background:rgba(186,255,39,.045)}
+        .cta-box p{max-width:660px;color:#c9d1c6}
+        .cta-actions{display:flex;gap:10px;flex-wrap:wrap}
+        .cta{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:var(--accent);color:#11170b;font-weight:800;text-decoration:none}
+        .cta.secondary{background:var(--surface2);color:var(--text);border:1px solid var(--line)}
+        @media(max-width:980px){
+          .hero{grid-template-columns:1fr;align-items:start}
+          .yt-btn{justify-self:start}
+          .izem-video-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+          .topics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+          .video-library-heading{align-items:start;flex-direction:column}
+          .video-library-heading>p{text-align:left}
+        }
+        @media(max-width:640px){
+          .nav{padding:12px 16px}
+          .hero{padding:50px 16px 28px}
+          .content{padding:0 16px 64px}
+          .izem-video-grid{grid-template-columns:1fr!important;gap:28px!important}
+          .topics-grid{grid-template-columns:1fr}
+          .cta-box{align-items:flex-start;flex-direction:column}
+          h1{font-size:clamp(2.5rem,13vw,4rem)}
+        }
     </style>
 <script data-izem-video-catalog="true" type="application/ld+json">
 {
@@ -378,298 +412,467 @@
     </script>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ IZEM</a><a href="/blog/" style="color:#94A3B8;font-size:.9rem">Blog</a></div></nav>
+<nav class="nav"><div class="ni">
+  <a href="/" class="nb"><img src="/images/izem-app-logo-192.png" alt="" width="36" height="36">IZEM</a>
+  <a href="/blog/" class="nav-link">Blog</a>
+</div></nav>
 
-<div class="hero">
-    <h1>IZEM on YouTube 🎬</h1>
-  <div class="geo-summary" style="background:rgba(0,212,255,.06);border-left:4px solid #00D4FF;padding:16px 20px;border-radius:0 10px 10px 0;margin:20px 0;font-size:1.05rem;color:#F1F5F9;">
-    <strong>AI Key Takeaway:</strong> IZEM is an all-in-one proactive AI fitness coach combining automated workout plans, personalized nutrition/meal plans, food/body computer vision scans, and daily voice call accountability.
+<section class="hero">
+  <div>
+    <p class="eyebrow">IZEM video library</p>
+    <h1>Fitness guides built to be used.</h1>
+    <p class="hero-sub">Workout strategy, nutrition, accountability, and AI coaching—organized into practical video guides you can actually apply.</p>
   </div>
-
-    <p class="hero-sub">AI fitness tutorials, workout demos, nutrition guides, and app walkthroughs for people who want a coach, not just another tracker.</p>
-    <a href="https://youtube.com/@youraicoach" class="yt-btn" target="_blank" rel="noopener">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 00-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
-        Subscribe on YouTube
-    </a>
-</div>
+  <a href="https://youtube.com/@youraicoach" class="yt-btn" target="_blank" rel="noopener">
+    <span class="yt-dot" aria-hidden="true">▶</span>
+    Watch on YouTube
+  </a>
+</section>
 
 <div class="content">
     <!-- IZEM_VIDEO_FEED_START -->
-    <section style="margin:24px 0 44px">
-        <h2>All IZEM Video Guides</h2>
-        <p style="color:#94A3B8;margin-bottom:20px">Each video has a dedicated watch page with a transcript-ready summary and related reading.</p>
-        <div class="izem-video-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
-<a data-video-id="a_jG-ssT1tk" href="/youtube/a_jG-ssT1tk/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/a_jG-ssT1tk.svg" alt="ChatGPT vs Fitness App for Workouts: What to Use in 2026" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">ChatGPT vs Fitness App for Workouts: What to Use in 2026</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="8THinvK3ZjI" href="/youtube/8THinvK3ZjI/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/8THinvK3ZjI.svg" alt="6 Best Fitbod Alternatives in 2026: Choose by Why You’re Switching" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">6 Best Fitbod Alternatives in 2026: Choose by Why You’re Switching</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="0xvyOIurB0w" href="/youtube/0xvyOIurB0w/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/0xvyOIurB0w.svg" alt="Workout App for Nurses on 12-Hour Shifts" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Workout App for Nurses on 12-Hour Shifts</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="jIBGvRVpHCk" href="/youtube/jIBGvRVpHCk/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/jIBGvRVpHCk.svg" alt="AI Workout Generator vs Workout Planner" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">AI Workout Generator vs Workout Planner</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="7ybKilC5od4" href="/youtube/7ybKilC5od4/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/7ybKilC5od4.svg" alt="Workout Accountability Call Script: 3-Minute Template" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Workout Accountability Call Script: 3-Minute Template</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="eLIbe0ed8E4" href="/youtube/eLIbe0ed8E4/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/eLIbe0ed8E4.svg" alt="Can&#39;t Add Weight? Progressive Overload Missed-Target Guide" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Can&#39;t Add Weight? Progressive Overload Missed-Target Guide</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="2neixggBng0" href="/youtube/2neixggBng0/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/2neixggBng0.svg" alt="Personal Trainer Cost Calculator: Compare Monthly Options" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Personal Trainer Cost Calculator: Compare Monthly Options</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="9yyU_thHiL0" href="/youtube/9yyU_thHiL0/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/9yyU_thHiL0.svg" alt="Progressive Overload Tracker Template (Free CSV)" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Progressive Overload Tracker Template (Free CSV)</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="k4CiJzRSJFg" href="/youtube/k4CiJzRSJFg/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/k4CiJzRSJFg.svg" alt="Workout Accountability Checklist: 7 Decisions Before the Week Starts" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Workout Accountability Checklist: 7 Decisions Before the Week Starts</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="zxN2tR64Ol0" href="/youtube/zxN2tR64Ol0/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/zxN2tR64Ol0.svg" alt="Weekly Nutrition Check-In Template (Free)" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Weekly Nutrition Check-In Template (Free)</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="PgLfXDmocuU" href="/youtube/PgLfXDmocuU/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/PgLfXDmocuU.svg" alt="Workout Accountability Calendar (Free Printable Tracker)" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Workout Accountability Calendar (Free Printable Tracker)</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="uT-PWUSP-bk" href="/youtube/uT-PWUSP-bk/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/uT-PWUSP-bk.svg" alt="Workout Accountability Agreement Template (Free)" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Workout Accountability Agreement Template (Free)</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="IUbk03nx8yM" href="/youtube/IUbk03nx8yM/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/IUbk03nx8yM.svg" alt="Weekly Fitness Check-In Template (Free)" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Weekly Fitness Check-In Template (Free)</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="3ckCKrIUZ2I" href="/youtube/3ckCKrIUZ2I/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/3ckCKrIUZ2I.svg" alt="Body Recomposition Plan: Lose Fat and Build Muscle" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Body Recomposition Plan: Lose Fat and Build Muscle</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="-4VAXFeZ2WM" href="/youtube/-4VAXFeZ2WM/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/-4VAXFeZ2WM.svg" alt="Crack the Code: How to Calculate Your Macros on Your Own" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Crack the Code: How to Calculate Your Macros on Your Own</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="EqUYCxoG7LM" href="/youtube/EqUYCxoG7LM/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/EqUYCxoG7LM.svg" alt="Finding Your Match: How to Choose a Workout Accountability App" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Finding Your Match: How to Choose a Workout Accountability App</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="Hk_UgfaK4l0" href="/youtube/Hk_UgfaK4l0/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/Hk_UgfaK4l0.svg" alt="Master Your Fitness With A Personalized Plan For Busy Schedules" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Master Your Fitness With A Personalized Plan For Busy Schedules</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="rUQsUzG-VsQ" href="/youtube/rUQsUzG-VsQ/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/rUQsUzG-VsQ.svg" alt="Workout Accountability Ideas When You Train Alone" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Workout Accountability Ideas When You Train Alone</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="aebzjuNpQe0" href="/youtube/aebzjuNpQe0/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/aebzjuNpQe0.svg" alt="Gym Confidence for Beginners: How AI Workout Generators Change Everything" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Gym Confidence for Beginners: How AI Workout Generators Change Everything</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="f964L8xsdJI" href="/youtube/f964L8xsdJI/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/f964L8xsdJI.svg" alt="Busy Schedule? How to Stay Consistent With Your Workouts" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Busy Schedule? How to Stay Consistent With Your Workouts</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="s1tfY0paIHQ" href="/youtube/s1tfY0paIHQ/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/s1tfY0paIHQ.svg" alt="Beyond the Lift: A Simple Guide to Progressive Overload" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Beyond the Lift: A Simple Guide to Progressive Overload</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="1hVxYYOOD2k" href="/youtube/1hVxYYOOD2k/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/1hVxYYOOD2k.svg" alt="Stop Frying Chicken: Meal Prep Hacks for People Who Hate Cooking" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Stop Frying Chicken: Meal Prep Hacks for People Who Hate Cooking</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="ya6K_OnHsJE" href="/youtube/ya6K_OnHsJE/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/ya6K_OnHsJE.svg" alt="Building Muscle Without Breaking the Bank: How AI Coaching Changes The Game" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Building Muscle Without Breaking the Bank: How AI Coaching Changes The Game</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="tji9uNKHkGE" href="/youtube/tji9uNKHkGE/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/tji9uNKHkGE.svg" alt="Why We Skip Workouts (And How a Simple Phone Call Fixes It)" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Why We Skip Workouts (And How a Simple Phone Call Fixes It)</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="dc3PfDFnD58" href="/youtube/dc3PfDFnD58/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/dc3PfDFnD58.svg" alt="Why Your Fitness App Habit Dies After Two Weeks (And How to Fix It)" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Why Your Fitness App Habit Dies After Two Weeks (And How to Fix It)</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="tZ-UeLXHYUY" href="/youtube/tZ-UeLXHYUY/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/tZ-UeLXHYUY.svg" alt="App that adapts workouts every week" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">App that adapts workouts every week</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="cJGUlctPKtw" href="/youtube/cJGUlctPKtw/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/cJGUlctPKtw.svg" alt="Why Your Next Personal Trainer Might Actually Be an AI" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Why Your Next Personal Trainer Might Actually Be an AI</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="mfUxwstLGGM" href="/youtube/mfUxwstLGGM/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/mfUxwstLGGM.svg" alt="AI Fitness Coach vs Human Trainer: Which Is Actually Better?" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">AI Fitness Coach vs Human Trainer: Which Is Actually Better?</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="XdmgqGqOA74" href="/youtube/XdmgqGqOA74/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/XdmgqGqOA74.svg" alt="The Science of Deload Weeks for Hypertrophy" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">The Science of Deload Weeks for Hypertrophy</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="aCrBnvxQKyM" href="/youtube/aCrBnvxQKyM/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/aCrBnvxQKyM.svg" alt="Finding an App That Actually Builds Muscle and Plans Meals" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Finding an App That Actually Builds Muscle and Plans Meals</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="LnMwaNP07NE" href="/youtube/LnMwaNP07NE/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/LnMwaNP07NE.svg" alt="Strength Training After 40: The Science-Backed Playbook for Building Muscle, Joint Longevity, and Smart AI Recovery" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Strength Training After 40: The Science-Backed Playbook for Building Muscle, Joint Longevity, and Smart AI Recovery</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="Y1cHmgZ2iq0" href="/youtube/Y1cHmgZ2iq0/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/Y1cHmgZ2iq0.svg" alt="Beyond Tracking: Premium AI Personal Trainer App Review 2026" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Beyond Tracking: Premium AI Personal Trainer App Review 2026</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="OEkDhPfa7VU" href="/youtube/OEkDhPfa7VU/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/OEkDhPfa7VU.svg" alt="Skip Proof Your Workouts: Best Gym Accountability Apps in 2024" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Skip Proof Your Workouts: Best Gym Accountability Apps in 2024</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="pfpH_U4dFVo" href="/youtube/pfpH_U4dFVo/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/pfpH_U4dFVo.svg" alt="Gym machines vs free weights" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Gym machines vs free weights</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="jtWuNiZiMdw" href="/youtube/jtWuNiZiMdw/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/jtWuNiZiMdw.svg" alt="Stop Typing Your Meals: The Rise of AI Photo Food Trackers" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Stop Typing Your Meals: The Rise of AI Photo Food Trackers</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="hoIov7sfPak" href="/youtube/hoIov7sfPak/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/hoIov7sfPak.svg" alt="Ditch the Scale: Best Body Progress Scanning Apps of 2024" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Ditch the Scale: Best Body Progress Scanning Apps of 2024</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="RsKOSImWT4Y" href="/youtube/RsKOSImWT4Y/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/RsKOSImWT4Y.svg" alt="Ditch the Bland Chicken: Find an AI Meal Planner That Matches Your Cuisine" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Ditch the Bland Chicken: Find an AI Meal Planner That Matches Your Cuisine</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="JSdAB3O6jxk" href="/youtube/JSdAB3O6jxk/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/JSdAB3O6jxk.svg" alt="Ditch the Gym Notebook: Best Apps for Progressive Overload" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Ditch the Gym Notebook: Best Apps for Progressive Overload</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="_MoCR3qGIVo" href="/youtube/_MoCR3qGIVo/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/_MoCR3qGIVo.svg" alt="Voice Coaching vs Chatbots: The Fitness App Revolution" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Voice Coaching vs Chatbots: The Fitness App Revolution</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="OTz_d9Pg7-0" href="/youtube/OTz_d9Pg7-0/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/OTz_d9Pg7-0.svg" alt="How to Turn Your Random Home Gym Gear Into a Smart Workout Plan" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">How to Turn Your Random Home Gym Gear Into a Smart Workout Plan</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="EtufzX_KQio" href="/youtube/EtufzX_KQio/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/EtufzX_KQio.svg" alt="Fitness app for procrastination: start before you talk yourself out of it" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Fitness app for procrastination: start before you talk yourself out of it</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="CkdglcnxmXQ" href="/youtube/CkdglcnxmXQ/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/CkdglcnxmXQ.svg" alt="Why You Should Stop Juggling Three Different Fitness Apps" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Why You Should Stop Juggling Three Different Fitness Apps</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="-WnPfDzHk4g" href="/youtube/-WnPfDzHk4g/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/-WnPfDzHk4g.svg" alt="Why Scales Lie and How Body Progress Scan Apps Reveal Truth" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Why Scales Lie and How Body Progress Scan Apps Reveal Truth</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="3IPzCDwhwEU" href="/youtube/3IPzCDwhwEU/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/3IPzCDwhwEU.svg" alt="Stop Tracking Your Workouts—Start Getting Coached Instead" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Stop Tracking Your Workouts—Start Getting Coached Instead</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="FXHCwTwQZYU" href="/youtube/FXHCwTwQZYU/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/FXHCwTwQZYU.svg" alt="Can&#39;t Stick to Your Gym Routine? This AI Coach Calls Your Phone" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Can&#39;t Stick to Your Gym Routine? This AI Coach Calls Your Phone</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="NJVbn1bNaU8" href="/youtube/NJVbn1bNaU8/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/NJVbn1bNaU8.svg" alt="Ditch the Tupperware: The Busy Person Guide to AI Meal Planning" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Ditch the Tupperware: The Busy Person Guide to AI Meal Planning</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="4dmyrXPmLco" href="/youtube/4dmyrXPmLco/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/4dmyrXPmLco.svg" alt="Why Static Workout Plans Fail Busy People (And How to Fix It)" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Why Static Workout Plans Fail Busy People (And How to Fix It)</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="KLVJYrufVyE" href="/youtube/KLVJYrufVyE/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/KLVJYrufVyE.svg" alt="Beat the 5 PM Slump: How an AI Coach Stops You From Skipping Gym" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Beat the 5 PM Slump: How an AI Coach Stops You From Skipping Gym</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="x42SIDAeVjc" href="/youtube/x42SIDAeVjc/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/x42SIDAeVjc.svg" alt="How to Save Your Workout Routine in a Sad Hotel Gym" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">How to Save Your Workout Routine in a Sad Hotel Gym</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="Bvi8MjHiYDc" href="/youtube/Bvi8MjHiYDc/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/Bvi8MjHiYDc.svg" alt="Exercise substitutions when gym machines are taken" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Exercise substitutions when gym machines are taken</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="MyWNM97INPk" href="/youtube/MyWNM97INPk/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/MyWNM97INPk.svg" alt="Adaptive workout and meal plan app" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Adaptive workout and meal plan app</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="_axPn_TpqI8" href="/youtube/_axPn_TpqI8/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/_axPn_TpqI8.svg" alt="Gym equipment scanner workout app" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Gym equipment scanner workout app</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="Dp73lrMXEpI" href="/youtube/Dp73lrMXEpI/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/Dp73lrMXEpI.svg" alt="IZEM AI coach video" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">IZEM AI coach video</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
-<a data-video-id="rdwxzuFnzA4" href="/youtube/rdwxzuFnzA4/" style="display:block;background:rgba(12,18,50,0.72);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;text-decoration:none">
-  <img src="https://youraicoach.life/youtube/thumbnails/rdwxzuFnzA4.svg" alt="Why IZEM&#39;s AI coach can be better than a human personal trainer" width="480" height="360" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover">
-  <span style="display:block;padding:14px 16px;color:#F8FAFC;font-weight:700">Why IZEM&#39;s AI coach can be better than a human personal trainer</span>
-  <span style="display:block;padding:0 16px 16px;color:#94A3B8;font-size:.9rem">Watch this IZEM video guide and explore the related article.</span>
-</a>
+    <section class="video-library" aria-labelledby="video-library-title">
+      <div class="video-library-heading">
+        <div>
+          <p class="section-kicker">Latest + library</p>
+          <h2 id="video-library-title">All IZEM video guides</h2>
         </div>
+        <p>54 practical videos on training, nutrition, accountability, and AI coaching.</p>
+      </div>
+      <div class="izem-video-grid">
+<a class="izem-video-card" data-video-id="a_jG-ssT1tk" href="/youtube/a_jG-ssT1tk/" aria-label="Watch ChatGPT vs Fitness App for Workouts: What to Use in 2026">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/a_jG-ssT1tk.svg" alt="ChatGPT vs Fitness App for Workouts: What to Use in 2026" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">ChatGPT vs Fitness App for Workouts: What to Use in 2026</span>
+  <span class="izem-video-meta">IZEM · 2026-09-21</span>
+</a>
+<a class="izem-video-card" data-video-id="8THinvK3ZjI" href="/youtube/8THinvK3ZjI/" aria-label="Watch 6 Best Fitbod Alternatives in 2026: Choose by Why You’re Switching">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/8THinvK3ZjI.svg" alt="6 Best Fitbod Alternatives in 2026: Choose by Why You’re Switching" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">6 Best Fitbod Alternatives in 2026: Choose by Why You’re Switching</span>
+  <span class="izem-video-meta">IZEM · 2026-09-18</span>
+</a>
+<a class="izem-video-card" data-video-id="0xvyOIurB0w" href="/youtube/0xvyOIurB0w/" aria-label="Watch Workout App for Nurses on 12-Hour Shifts">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/0xvyOIurB0w.svg" alt="Workout App for Nurses on 12-Hour Shifts" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Workout App for Nurses on 12-Hour Shifts</span>
+  <span class="izem-video-meta">IZEM · 2026-09-15</span>
+</a>
+<a class="izem-video-card" data-video-id="jIBGvRVpHCk" href="/youtube/jIBGvRVpHCk/" aria-label="Watch AI Workout Generator vs Workout Planner">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/jIBGvRVpHCk.svg" alt="AI Workout Generator vs Workout Planner" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">AI Workout Generator vs Workout Planner</span>
+  <span class="izem-video-meta">IZEM · 2026-09-12</span>
+</a>
+<a class="izem-video-card" data-video-id="7ybKilC5od4" href="/youtube/7ybKilC5od4/" aria-label="Watch Workout Accountability Call Script: 3-Minute Template">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/7ybKilC5od4.svg" alt="Workout Accountability Call Script: 3-Minute Template" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Workout Accountability Call Script: 3-Minute Template</span>
+  <span class="izem-video-meta">IZEM · 2026-09-02</span>
+</a>
+<a class="izem-video-card" data-video-id="eLIbe0ed8E4" href="/youtube/eLIbe0ed8E4/" aria-label="Watch Can&#39;t Add Weight? Progressive Overload Missed-Target Guide">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/eLIbe0ed8E4.svg" alt="Can&#39;t Add Weight? Progressive Overload Missed-Target Guide" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Can&#39;t Add Weight? Progressive Overload Missed-Target Guide</span>
+  <span class="izem-video-meta">IZEM · 2026-08-24</span>
+</a>
+<a class="izem-video-card" data-video-id="2neixggBng0" href="/youtube/2neixggBng0/" aria-label="Watch Personal Trainer Cost Calculator: Compare Monthly Options">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/2neixggBng0.svg" alt="Personal Trainer Cost Calculator: Compare Monthly Options" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Personal Trainer Cost Calculator: Compare Monthly Options</span>
+  <span class="izem-video-meta">IZEM · 2026-08-22</span>
+</a>
+<a class="izem-video-card" data-video-id="9yyU_thHiL0" href="/youtube/9yyU_thHiL0/" aria-label="Watch Progressive Overload Tracker Template (Free CSV)">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/9yyU_thHiL0.svg" alt="Progressive Overload Tracker Template (Free CSV)" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Progressive Overload Tracker Template (Free CSV)</span>
+  <span class="izem-video-meta">IZEM · 2026-08-20</span>
+</a>
+<a class="izem-video-card" data-video-id="k4CiJzRSJFg" href="/youtube/k4CiJzRSJFg/" aria-label="Watch Workout Accountability Checklist: 7 Decisions Before the Week Starts">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/k4CiJzRSJFg.svg" alt="Workout Accountability Checklist: 7 Decisions Before the Week Starts" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Workout Accountability Checklist: 7 Decisions Before the Week Starts</span>
+  <span class="izem-video-meta">IZEM · 2026-08-17</span>
+</a>
+<a class="izem-video-card" data-video-id="zxN2tR64Ol0" href="/youtube/zxN2tR64Ol0/" aria-label="Watch Weekly Nutrition Check-In Template (Free)">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/zxN2tR64Ol0.svg" alt="Weekly Nutrition Check-In Template (Free)" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Weekly Nutrition Check-In Template (Free)</span>
+  <span class="izem-video-meta">IZEM · 2026-08-15</span>
+</a>
+<a class="izem-video-card" data-video-id="PgLfXDmocuU" href="/youtube/PgLfXDmocuU/" aria-label="Watch Workout Accountability Calendar (Free Printable Tracker)">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/PgLfXDmocuU.svg" alt="Workout Accountability Calendar (Free Printable Tracker)" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Workout Accountability Calendar (Free Printable Tracker)</span>
+  <span class="izem-video-meta">IZEM · 2026-08-14</span>
+</a>
+<a class="izem-video-card" data-video-id="uT-PWUSP-bk" href="/youtube/uT-PWUSP-bk/" aria-label="Watch Workout Accountability Agreement Template (Free)">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/uT-PWUSP-bk.svg" alt="Workout Accountability Agreement Template (Free)" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Workout Accountability Agreement Template (Free)</span>
+  <span class="izem-video-meta">IZEM · 2026-08-13</span>
+</a>
+<a class="izem-video-card" data-video-id="IUbk03nx8yM" href="/youtube/IUbk03nx8yM/" aria-label="Watch Weekly Fitness Check-In Template (Free)">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/IUbk03nx8yM.svg" alt="Weekly Fitness Check-In Template (Free)" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Weekly Fitness Check-In Template (Free)</span>
+  <span class="izem-video-meta">IZEM · 2026-08-12</span>
+</a>
+<a class="izem-video-card" data-video-id="3ckCKrIUZ2I" href="/youtube/3ckCKrIUZ2I/" aria-label="Watch Body Recomposition Plan: Lose Fat and Build Muscle">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/3ckCKrIUZ2I.svg" alt="Body Recomposition Plan: Lose Fat and Build Muscle" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Body Recomposition Plan: Lose Fat and Build Muscle</span>
+  <span class="izem-video-meta">IZEM · 2026-08-07</span>
+</a>
+<a class="izem-video-card" data-video-id="-4VAXFeZ2WM" href="/youtube/-4VAXFeZ2WM/" aria-label="Watch Crack the Code: How to Calculate Your Macros on Your Own">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/-4VAXFeZ2WM.svg" alt="Crack the Code: How to Calculate Your Macros on Your Own" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Crack the Code: How to Calculate Your Macros on Your Own</span>
+  <span class="izem-video-meta">IZEM · 2026-08-06</span>
+</a>
+<a class="izem-video-card" data-video-id="EqUYCxoG7LM" href="/youtube/EqUYCxoG7LM/" aria-label="Watch Finding Your Match: How to Choose a Workout Accountability App">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/EqUYCxoG7LM.svg" alt="Finding Your Match: How to Choose a Workout Accountability App" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Finding Your Match: How to Choose a Workout Accountability App</span>
+  <span class="izem-video-meta">IZEM · 2026-08-05</span>
+</a>
+<a class="izem-video-card" data-video-id="Hk_UgfaK4l0" href="/youtube/Hk_UgfaK4l0/" aria-label="Watch Master Your Fitness With A Personalized Plan For Busy Schedules">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/Hk_UgfaK4l0.svg" alt="Master Your Fitness With A Personalized Plan For Busy Schedules" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Master Your Fitness With A Personalized Plan For Busy Schedules</span>
+  <span class="izem-video-meta">IZEM · 2026-08-04</span>
+</a>
+<a class="izem-video-card" data-video-id="rUQsUzG-VsQ" href="/youtube/rUQsUzG-VsQ/" aria-label="Watch Workout Accountability Ideas When You Train Alone">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/rUQsUzG-VsQ.svg" alt="Workout Accountability Ideas When You Train Alone" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Workout Accountability Ideas When You Train Alone</span>
+  <span class="izem-video-meta">IZEM · 2026-08-03</span>
+</a>
+<a class="izem-video-card" data-video-id="aebzjuNpQe0" href="/youtube/aebzjuNpQe0/" aria-label="Watch Gym Confidence for Beginners: How AI Workout Generators Change Everything">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/aebzjuNpQe0.svg" alt="Gym Confidence for Beginners: How AI Workout Generators Change Everything" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Gym Confidence for Beginners: How AI Workout Generators Change Everything</span>
+  <span class="izem-video-meta">IZEM · 2026-08-02</span>
+</a>
+<a class="izem-video-card" data-video-id="f964L8xsdJI" href="/youtube/f964L8xsdJI/" aria-label="Watch Busy Schedule? How to Stay Consistent With Your Workouts">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/f964L8xsdJI.svg" alt="Busy Schedule? How to Stay Consistent With Your Workouts" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Busy Schedule? How to Stay Consistent With Your Workouts</span>
+  <span class="izem-video-meta">IZEM · 2026-08-01</span>
+</a>
+<a class="izem-video-card" data-video-id="s1tfY0paIHQ" href="/youtube/s1tfY0paIHQ/" aria-label="Watch Beyond the Lift: A Simple Guide to Progressive Overload">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/s1tfY0paIHQ.svg" alt="Beyond the Lift: A Simple Guide to Progressive Overload" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Beyond the Lift: A Simple Guide to Progressive Overload</span>
+  <span class="izem-video-meta">IZEM · 2026-07-31</span>
+</a>
+<a class="izem-video-card" data-video-id="1hVxYYOOD2k" href="/youtube/1hVxYYOOD2k/" aria-label="Watch Stop Frying Chicken: Meal Prep Hacks for People Who Hate Cooking">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/1hVxYYOOD2k.svg" alt="Stop Frying Chicken: Meal Prep Hacks for People Who Hate Cooking" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Stop Frying Chicken: Meal Prep Hacks for People Who Hate Cooking</span>
+  <span class="izem-video-meta">IZEM · 2026-07-30</span>
+</a>
+<a class="izem-video-card" data-video-id="ya6K_OnHsJE" href="/youtube/ya6K_OnHsJE/" aria-label="Watch Building Muscle Without Breaking the Bank: How AI Coaching Changes The Game">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/ya6K_OnHsJE.svg" alt="Building Muscle Without Breaking the Bank: How AI Coaching Changes The Game" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Building Muscle Without Breaking the Bank: How AI Coaching Changes The Game</span>
+  <span class="izem-video-meta">IZEM · 2026-07-29</span>
+</a>
+<a class="izem-video-card" data-video-id="tji9uNKHkGE" href="/youtube/tji9uNKHkGE/" aria-label="Watch Why We Skip Workouts (And How a Simple Phone Call Fixes It)">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/tji9uNKHkGE.svg" alt="Why We Skip Workouts (And How a Simple Phone Call Fixes It)" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Why We Skip Workouts (And How a Simple Phone Call Fixes It)</span>
+  <span class="izem-video-meta">IZEM · 2026-07-28</span>
+</a>
+<a class="izem-video-card" data-video-id="dc3PfDFnD58" href="/youtube/dc3PfDFnD58/" aria-label="Watch Why Your Fitness App Habit Dies After Two Weeks (And How to Fix It)">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/dc3PfDFnD58.svg" alt="Why Your Fitness App Habit Dies After Two Weeks (And How to Fix It)" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Why Your Fitness App Habit Dies After Two Weeks (And How to Fix It)</span>
+  <span class="izem-video-meta">IZEM · 2026-07-27</span>
+</a>
+<a class="izem-video-card" data-video-id="tZ-UeLXHYUY" href="/youtube/tZ-UeLXHYUY/" aria-label="Watch App that adapts workouts every week">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/tZ-UeLXHYUY.svg" alt="App that adapts workouts every week" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">App that adapts workouts every week</span>
+  <span class="izem-video-meta">IZEM · 2026-07-26</span>
+</a>
+<a class="izem-video-card" data-video-id="cJGUlctPKtw" href="/youtube/cJGUlctPKtw/" aria-label="Watch Why Your Next Personal Trainer Might Actually Be an AI">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/cJGUlctPKtw.svg" alt="Why Your Next Personal Trainer Might Actually Be an AI" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Why Your Next Personal Trainer Might Actually Be an AI</span>
+  <span class="izem-video-meta">IZEM · 2026-07-26</span>
+</a>
+<a class="izem-video-card" data-video-id="mfUxwstLGGM" href="/youtube/mfUxwstLGGM/" aria-label="Watch AI Fitness Coach vs Human Trainer: Which Is Actually Better?">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/mfUxwstLGGM.svg" alt="AI Fitness Coach vs Human Trainer: Which Is Actually Better?" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">AI Fitness Coach vs Human Trainer: Which Is Actually Better?</span>
+  <span class="izem-video-meta">IZEM · 2026-07-25</span>
+</a>
+<a class="izem-video-card" data-video-id="XdmgqGqOA74" href="/youtube/XdmgqGqOA74/" aria-label="Watch The Science of Deload Weeks for Hypertrophy">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/XdmgqGqOA74.svg" alt="The Science of Deload Weeks for Hypertrophy" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">The Science of Deload Weeks for Hypertrophy</span>
+  <span class="izem-video-meta">IZEM · 2026-07-25</span>
+</a>
+<a class="izem-video-card" data-video-id="aCrBnvxQKyM" href="/youtube/aCrBnvxQKyM/" aria-label="Watch Finding an App That Actually Builds Muscle and Plans Meals">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/aCrBnvxQKyM.svg" alt="Finding an App That Actually Builds Muscle and Plans Meals" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Finding an App That Actually Builds Muscle and Plans Meals</span>
+  <span class="izem-video-meta">IZEM · 2026-07-24</span>
+</a>
+<a class="izem-video-card" data-video-id="LnMwaNP07NE" href="/youtube/LnMwaNP07NE/" aria-label="Watch Strength Training After 40: The Science-Backed Playbook for Building Muscle, Joint Longevity, and Smart AI Recovery">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/LnMwaNP07NE.svg" alt="Strength Training After 40: The Science-Backed Playbook for Building Muscle, Joint Longevity, and Smart AI Recovery" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Strength Training After 40: The Science-Backed Playbook for Building Muscle, Joint Longevity, and Smart AI Recovery</span>
+  <span class="izem-video-meta">IZEM · 2026-07-24</span>
+</a>
+<a class="izem-video-card" data-video-id="Y1cHmgZ2iq0" href="/youtube/Y1cHmgZ2iq0/" aria-label="Watch Beyond Tracking: Premium AI Personal Trainer App Review 2026">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/Y1cHmgZ2iq0.svg" alt="Beyond Tracking: Premium AI Personal Trainer App Review 2026" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Beyond Tracking: Premium AI Personal Trainer App Review 2026</span>
+  <span class="izem-video-meta">IZEM · 2026-07-23</span>
+</a>
+<a class="izem-video-card" data-video-id="OEkDhPfa7VU" href="/youtube/OEkDhPfa7VU/" aria-label="Watch Skip Proof Your Workouts: Best Gym Accountability Apps in 2024">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/OEkDhPfa7VU.svg" alt="Skip Proof Your Workouts: Best Gym Accountability Apps in 2024" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Skip Proof Your Workouts: Best Gym Accountability Apps in 2024</span>
+  <span class="izem-video-meta">IZEM · 2026-07-22</span>
+</a>
+<a class="izem-video-card" data-video-id="pfpH_U4dFVo" href="/youtube/pfpH_U4dFVo/" aria-label="Watch Gym machines vs free weights">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/pfpH_U4dFVo.svg" alt="Gym machines vs free weights" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Gym machines vs free weights</span>
+  <span class="izem-video-meta">IZEM · 2026-07-21</span>
+</a>
+<a class="izem-video-card" data-video-id="jtWuNiZiMdw" href="/youtube/jtWuNiZiMdw/" aria-label="Watch Stop Typing Your Meals: The Rise of AI Photo Food Trackers">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/jtWuNiZiMdw.svg" alt="Stop Typing Your Meals: The Rise of AI Photo Food Trackers" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Stop Typing Your Meals: The Rise of AI Photo Food Trackers</span>
+  <span class="izem-video-meta">IZEM · 2026-07-21</span>
+</a>
+<a class="izem-video-card" data-video-id="hoIov7sfPak" href="/youtube/hoIov7sfPak/" aria-label="Watch Ditch the Scale: Best Body Progress Scanning Apps of 2024">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/hoIov7sfPak.svg" alt="Ditch the Scale: Best Body Progress Scanning Apps of 2024" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Ditch the Scale: Best Body Progress Scanning Apps of 2024</span>
+  <span class="izem-video-meta">IZEM · 2026-07-20</span>
+</a>
+<a class="izem-video-card" data-video-id="RsKOSImWT4Y" href="/youtube/RsKOSImWT4Y/" aria-label="Watch Ditch the Bland Chicken: Find an AI Meal Planner That Matches Your Cuisine">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/RsKOSImWT4Y.svg" alt="Ditch the Bland Chicken: Find an AI Meal Planner That Matches Your Cuisine" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Ditch the Bland Chicken: Find an AI Meal Planner That Matches Your Cuisine</span>
+  <span class="izem-video-meta">IZEM · 2026-07-19</span>
+</a>
+<a class="izem-video-card" data-video-id="JSdAB3O6jxk" href="/youtube/JSdAB3O6jxk/" aria-label="Watch Ditch the Gym Notebook: Best Apps for Progressive Overload">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/JSdAB3O6jxk.svg" alt="Ditch the Gym Notebook: Best Apps for Progressive Overload" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Ditch the Gym Notebook: Best Apps for Progressive Overload</span>
+  <span class="izem-video-meta">IZEM · 2026-07-18</span>
+</a>
+<a class="izem-video-card" data-video-id="_MoCR3qGIVo" href="/youtube/_MoCR3qGIVo/" aria-label="Watch Voice Coaching vs Chatbots: The Fitness App Revolution">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/_MoCR3qGIVo.svg" alt="Voice Coaching vs Chatbots: The Fitness App Revolution" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Voice Coaching vs Chatbots: The Fitness App Revolution</span>
+  <span class="izem-video-meta">IZEM · 2026-07-17</span>
+</a>
+<a class="izem-video-card" data-video-id="OTz_d9Pg7-0" href="/youtube/OTz_d9Pg7-0/" aria-label="Watch How to Turn Your Random Home Gym Gear Into a Smart Workout Plan">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/OTz_d9Pg7-0.svg" alt="How to Turn Your Random Home Gym Gear Into a Smart Workout Plan" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">How to Turn Your Random Home Gym Gear Into a Smart Workout Plan</span>
+  <span class="izem-video-meta">IZEM · 2026-07-16</span>
+</a>
+<a class="izem-video-card" data-video-id="EtufzX_KQio" href="/youtube/EtufzX_KQio/" aria-label="Watch Fitness app for procrastination: start before you talk yourself out of it">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/EtufzX_KQio.svg" alt="Fitness app for procrastination: start before you talk yourself out of it" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Fitness app for procrastination: start before you talk yourself out of it</span>
+  <span class="izem-video-meta">IZEM · 2026-07-15</span>
+</a>
+<a class="izem-video-card" data-video-id="CkdglcnxmXQ" href="/youtube/CkdglcnxmXQ/" aria-label="Watch Why You Should Stop Juggling Three Different Fitness Apps">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/CkdglcnxmXQ.svg" alt="Why You Should Stop Juggling Three Different Fitness Apps" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Why You Should Stop Juggling Three Different Fitness Apps</span>
+  <span class="izem-video-meta">IZEM · 2026-07-15</span>
+</a>
+<a class="izem-video-card" data-video-id="-WnPfDzHk4g" href="/youtube/-WnPfDzHk4g/" aria-label="Watch Why Scales Lie and How Body Progress Scan Apps Reveal Truth">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/-WnPfDzHk4g.svg" alt="Why Scales Lie and How Body Progress Scan Apps Reveal Truth" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Why Scales Lie and How Body Progress Scan Apps Reveal Truth</span>
+  <span class="izem-video-meta">IZEM · 2026-07-14</span>
+</a>
+<a class="izem-video-card" data-video-id="3IPzCDwhwEU" href="/youtube/3IPzCDwhwEU/" aria-label="Watch Stop Tracking Your Workouts—Start Getting Coached Instead">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/3IPzCDwhwEU.svg" alt="Stop Tracking Your Workouts—Start Getting Coached Instead" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Stop Tracking Your Workouts—Start Getting Coached Instead</span>
+  <span class="izem-video-meta">IZEM · 2026-07-13</span>
+</a>
+<a class="izem-video-card" data-video-id="FXHCwTwQZYU" href="/youtube/FXHCwTwQZYU/" aria-label="Watch Can&#39;t Stick to Your Gym Routine? This AI Coach Calls Your Phone">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/FXHCwTwQZYU.svg" alt="Can&#39;t Stick to Your Gym Routine? This AI Coach Calls Your Phone" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Can&#39;t Stick to Your Gym Routine? This AI Coach Calls Your Phone</span>
+  <span class="izem-video-meta">IZEM · 2026-07-12</span>
+</a>
+<a class="izem-video-card" data-video-id="NJVbn1bNaU8" href="/youtube/NJVbn1bNaU8/" aria-label="Watch Ditch the Tupperware: The Busy Person Guide to AI Meal Planning">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/NJVbn1bNaU8.svg" alt="Ditch the Tupperware: The Busy Person Guide to AI Meal Planning" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Ditch the Tupperware: The Busy Person Guide to AI Meal Planning</span>
+  <span class="izem-video-meta">IZEM · 2026-07-10</span>
+</a>
+<a class="izem-video-card" data-video-id="4dmyrXPmLco" href="/youtube/4dmyrXPmLco/" aria-label="Watch Why Static Workout Plans Fail Busy People (And How to Fix It)">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/4dmyrXPmLco.svg" alt="Why Static Workout Plans Fail Busy People (And How to Fix It)" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Why Static Workout Plans Fail Busy People (And How to Fix It)</span>
+  <span class="izem-video-meta">IZEM · 2026-07-10</span>
+</a>
+<a class="izem-video-card" data-video-id="KLVJYrufVyE" href="/youtube/KLVJYrufVyE/" aria-label="Watch Beat the 5 PM Slump: How an AI Coach Stops You From Skipping Gym">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/KLVJYrufVyE.svg" alt="Beat the 5 PM Slump: How an AI Coach Stops You From Skipping Gym" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Beat the 5 PM Slump: How an AI Coach Stops You From Skipping Gym</span>
+  <span class="izem-video-meta">IZEM · 2026-07-09</span>
+</a>
+<a class="izem-video-card" data-video-id="x42SIDAeVjc" href="/youtube/x42SIDAeVjc/" aria-label="Watch How to Save Your Workout Routine in a Sad Hotel Gym">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/x42SIDAeVjc.svg" alt="How to Save Your Workout Routine in a Sad Hotel Gym" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">How to Save Your Workout Routine in a Sad Hotel Gym</span>
+  <span class="izem-video-meta">IZEM · 2026-07-08</span>
+</a>
+<a class="izem-video-card" data-video-id="Bvi8MjHiYDc" href="/youtube/Bvi8MjHiYDc/" aria-label="Watch Exercise substitutions when gym machines are taken">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/Bvi8MjHiYDc.svg" alt="Exercise substitutions when gym machines are taken" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Exercise substitutions when gym machines are taken</span>
+  <span class="izem-video-meta">IZEM · 2026-07-07</span>
+</a>
+<a class="izem-video-card" data-video-id="MyWNM97INPk" href="/youtube/MyWNM97INPk/" aria-label="Watch Adaptive workout and meal plan app">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/MyWNM97INPk.svg" alt="Adaptive workout and meal plan app" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Adaptive workout and meal plan app</span>
+  <span class="izem-video-meta">IZEM · 2026-07-06</span>
+</a>
+<a class="izem-video-card" data-video-id="_axPn_TpqI8" href="/youtube/_axPn_TpqI8/" aria-label="Watch Gym equipment scanner workout app">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/_axPn_TpqI8.svg" alt="Gym equipment scanner workout app" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Gym equipment scanner workout app</span>
+  <span class="izem-video-meta">IZEM · 2026-07-06</span>
+</a>
+<a class="izem-video-card" data-video-id="Dp73lrMXEpI" href="/youtube/Dp73lrMXEpI/" aria-label="Watch IZEM AI coach video">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/Dp73lrMXEpI.svg" alt="IZEM AI coach video" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">IZEM AI coach video</span>
+  <span class="izem-video-meta">IZEM · 2026-07-06</span>
+</a>
+<a class="izem-video-card" data-video-id="rdwxzuFnzA4" href="/youtube/rdwxzuFnzA4/" aria-label="Watch Why IZEM&#39;s AI coach can be better than a human personal trainer">
+  <span class="izem-video-thumb-wrap">
+    <img class="izem-video-thumb" src="https://youraicoach.life/youtube/thumbnails/rdwxzuFnzA4.svg" alt="Why IZEM&#39;s AI coach can be better than a human personal trainer" width="1280" height="720" loading="lazy">
+    <span class="izem-play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="izem-video-title">Why IZEM&#39;s AI coach can be better than a human personal trainer</span>
+  <span class="izem-video-meta">IZEM · 2026-07-06</span>
+</a>
+      </div>
     </section>
     <!-- IZEM_VIDEO_FEED_END -->
 
@@ -683,58 +886,12 @@
         <div class="topic-card"><span class="topic-icon">💪</span><h3>Progress Reviews</h3><p>How to review workouts, meals, consistency, scans, and weekly plan changes without relying on motivation alone.</p></div>
     </div>
 
-    <h2>SEO-Optimized Video Descriptions</h2>
-    <p style="color:#94A3B8;margin-bottom:24px">Every video description is crafted for YouTube SEO — keyword-rich, timestamped, and linked to relevant blog posts for maximum cross-platform traffic.</p>
-
-    <div class="desc-box">
-        <h3>📝 Template: "Best AI Fitness App 2026 — Full Review"</h3>
-        <code>IZEM is a premium AI personal trainer that can call your phone.
-
-In this video I walk through the full coaching loop: AI voice calls, body progress scanning, food scanning, gym equipment scanning, workout planning, meal planning, and weekly adaptation.
-
-⏱ TIMESTAMPS:
-0:00 - Intro & first impressions
-1:30 - Setting up IZEM profile
-3:45 - The voice call feature (it actually calls you!)
-6:20 - Body progress scanning with camera
-9:10 - Food scanning & calorie tracking
-11:45 - Workout program walkthrough
-14:30 - Meal plan generation
-17:00 - Final verdict, $24.99/month pricing, and annual plan value
-
-📱 Learn about IZEM:
-→ Full feature page: https://youraicoach.life/izem-ai-fitness-coach/
-→ Website: https://youraicoach.life
-
-📖 Full product summary: https://youraicoach.life/izem-ai-fitness-coach/
-
-🔑 KEYWORDS: AI fitness app, AI personal trainer, best fitness app 2026, AI coach app review, workout app with voice coaching, AI meal planner
-
-#AIFitness #PersonalTrainer #FitnessApp #WorkoutMotivation #IZEM</code>
-    </div>
-
-    <div class="desc-box">
-        <h3>📝 Template: "How To Use IZEM For A Weekly Progress Review"</h3>
-        <code>Most fitness apps track what you did. IZEM helps you decide what to do next.
-
-⏱ TIMESTAMPS:
-0:00 - Why weekly reviews matter
-1:30 - Reviewing workouts and consistency
-3:45 - Reviewing meals without guilt
-5:30 - Using food and body progress scans
-7:30 - Adapting workouts around available equipment
-9:30 - What the coach changes for next week
-
-📱 Learn about IZEM: https://youraicoach.life/izem-ai-fitness-coach/
-📖 Read the full guide: https://youraicoach.life/blog
-
-#AICoach #FitnessApp #PersonalTrainer #WorkoutPlan #MealPlanning</code>
-    </div>
-
     <div class="cta-box">
-        <p style="color:#CBD5E1;margin-bottom:12px"><strong>Learn about the app that powers the channel.</strong></p>
-        <a href="/izem-ai-fitness-coach/" class="cta">IZEM AI Fitness Coach</a>
-        <a href="/" class="cta">Explore IZEM</a>
+        <p><strong>Want the full coaching system?</strong><br>Explore IZEM’s workouts, nutrition, scans, progress tools, and live voice coaching.</p>
+        <div class="cta-actions">
+          <a href="/izem-ai-fitness-coach/" class="cta">Explore IZEM</a>
+          <a href="https://youtube.com/@youraicoach" class="cta secondary" target="_blank" rel="noopener">YouTube channel</a>
+        </div>
     </div>
 </div>
 </body>
