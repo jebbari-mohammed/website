@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+<title id="title">AI assistant plus structured workout data stack</title><desc id="desc">Object-only architecture diagram with assistant, workout system and history layers.</desc>
+<rect width="1200" height="675" rx="28" fill="#071018"/>
+<text x="70" y="78" font-family="Inter,Arial,sans-serif" font-size="40" font-weight="900" fill="#F8FAFC">THE THIRD OPTION: CONNECT THE LAYERS</text>
+<text x="70" y="116" font-family="Inter,Arial,sans-serif" font-size="20" fill="#AFC0CF">A general assistant can sit on top of purpose-built workout data.</text>
+<rect x="220" y="180" width="760" height="112" rx="24" fill="#112936" stroke="#70DDD3" stroke-width="4"/>
+<rect x="268" y="210" width="120" height="54" rx="18" fill="#183746"/><path d="M300 264l-18 20 38-12" fill="#183746"/>
+<text x="600" y="228" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="900" fill="#70DDD3">AI ASSISTANT LAYER</text><text x="600" y="263" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" fill="#D7E3E5">Questions · reasoning · plan changes · explanations</text>
+<path d="M600 292v55" stroke="#BFD2D5" stroke-width="6"/><path d="M585 334l15 17 15-17" fill="none" stroke="#BFD2D5" stroke-width="6" stroke-linecap="round"/>
+<rect x="220" y="350" width="760" height="112" rx="24" fill="#1B231E" stroke="#F0C57A" stroke-width="4"/>
+<text x="600" y="397" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="900" fill="#F0C57A">WORKOUT SYSTEM LAYER</text><text x="600" y="432" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" fill="#D7E3E5">Schedules · routines · set logging · session execution</text>
+<path d="M600 462v55" stroke="#BFD2D5" stroke-width="6"/><path d="M585 504l15 17 15-17" fill="none" stroke="#BFD2D5" stroke-width="6" stroke-linecap="round"/>
+<rect x="220" y="520" width="760" height="90" rx="24" fill="#13231D" stroke="#8DFF6A" stroke-width="4"/>
+<text x="600" y="556" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="900" fill="#8DFF6A">STRUCTURED TRAINING HISTORY</text><text x="600" y="586" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="16" fill="#D7E3E5">Completed sessions · sets · reps · loads · notes</text>
+</svg>

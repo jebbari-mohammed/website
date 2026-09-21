@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+<title id="title">Decision tree for ChatGPT and fitness apps</title><desc id="desc">Object-only decision tree with boxes for planning, structured logging and proactive coaching.</desc>
+<rect width="1200" height="675" rx="28" fill="#071018"/>
+<text x="70" y="74" font-family="Inter,Arial,sans-serif" font-size="38" font-weight="900" fill="#F8FAFC">WHAT DO YOU NEED THE TOOL TO DO?</text>
+<rect x="390" y="110" width="420" height="84" rx="18" fill="#122534" stroke="#70DDD3" stroke-width="3"/>
+<text x="600" y="160" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="850" fill="#F8FAFC">Mostly ideas, plans and explanations?</text>
+<path d="M600 194v64M600 258H270M600 258H930" stroke="#57717F" stroke-width="5" fill="none"/>
+<path d="M270 258v55M930 258v55" stroke="#57717F" stroke-width="5"/>
+<rect x="100" y="313" width="340" height="142" rx="22" fill="#11242E" stroke="#70DDD3" stroke-width="3"/>
+<text x="270" y="360" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="27" font-weight="900" fill="#70DDD3">YES</text>
+<text x="270" y="398" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="22" fill="#F8FAFC">ChatGPT alone may be enough</text>
+<text x="270" y="428" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" fill="#ABC0C6">Keep your existing log if it works.</text>
+<rect x="760" y="313" width="340" height="142" rx="22" fill="#1B211D" stroke="#F0C57A" stroke-width="3"/>
+<text x="930" y="360" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="27" font-weight="900" fill="#F0C57A">NO</text>
+<text x="930" y="398" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="21" fill="#F8FAFC">Need logs, execution or follow-up?</text>
+<path d="M930 455v55M930 510H690M930 510H1070" stroke="#57717F" stroke-width="5" fill="none"/>
+<rect x="545" y="510" width="290" height="104" rx="18" fill="#101C27" stroke="#86D7FF" stroke-width="3"/>
+<text x="690" y="552" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="21" font-weight="850" fill="#86D7FF">CONNECTED WORKOUT APP</text>
+<text x="690" y="583" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="16" fill="#D0DBDE">Assistant + structured history</text>
+<rect x="925" y="510" width="250" height="104" rx="18" fill="#101C27" stroke="#8DFF6A" stroke-width="3"/>
+<text x="1050" y="552" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="20" font-weight="850" fill="#8DFF6A">DEDICATED COACH</text>
+<text x="1050" y="583" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="16" fill="#D0DBDE">Adaptation + accountability</text>
+</svg>
