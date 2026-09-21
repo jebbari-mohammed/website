@@ -145,34 +145,50 @@ jobs:
           node tools/validate-jsonld.mjs dist
           pnpm check:links
 
-      - name: Configure Firebase service-account credentials
+      - name: Install pinned Firebase CLI
+        run: npm install --global firebase-tools@15.29.0
+
+      - name: Select an authorized Firebase Hosting credential
         env:
-          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON }}
           GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
           GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: |
           set -euo pipefail
-          credential_json=''
-          for name in GOOGLE_SERVICE_ACCOUNT_JSON GOOGLE_CLOUD_JSON GCP_SA_KEY GOOGLE_APPLICATION_CREDENTIALS_JSON; do
+          project_id=$(node -e "const fs=require('fs'); const cfg=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(cfg.projects.default || '')")
+          test -n "$project_id"
+
+          credential_file=''
+          for name in FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON GOOGLE_CLOUD_JSON GCP_SA_KEY GOOGLE_APPLICATION_CREDENTIALS_JSON GOOGLE_SERVICE_ACCOUNT_JSON; do
             value="${!name:-}"
-            if [ -n "$value" ]; then
-              credential_json="$value"
+            [ -z "$value" ] && continue
+
+            candidate="$RUNNER_TEMP/firebase-${name}.json"
+            printf '%s' "$value" > "$candidate"
+            chmod 600 "$candidate"
+
+            if ! node -e "const fs=require('fs'); const v=JSON.parse(fs.readFileSync(process.argv[1],'utf8')); if(v.type!=='service_account'||!v.client_email||!v.private_key) process.exit(2)" "$candidate" >/dev/null 2>&1; then
+              rm -f "$candidate"
+              continue
+            fi
+
+            if GOOGLE_APPLICATION_CREDENTIALS="$candidate" firebase hosting:sites:list --project "$project_id" --json >/dev/null 2>&1; then
+              credential_file="$candidate"
               break
             fi
+
+            rm -f "$candidate"
           done
-          if [ -z "$credential_json" ]; then
-            echo "::error::No Firebase/Google service-account JSON secret is configured for production deployment."
+
+          if [ -z "$credential_file" ]; then
+            echo "::error::No configured repository service account is authorized to access Firebase Hosting for project $project_id."
             exit 1
           fi
-          credential_file="$RUNNER_TEMP/firebase-service-account.json"
-          printf '%s' "$credential_json" > "$credential_file"
-          chmod 600 "$credential_file"
-          node -e "JSON.parse(require('fs').readFileSync(process.argv[1], 'utf8'))" "$credential_file"
-          echo "GOOGLE_APPLICATION_CREDENTIALS=$credential_file" >> "$GITHUB_ENV"
 
-      - name: Install pinned Firebase CLI
-        run: npm install --global firebase-tools@15.29.0
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$credential_file" >> "$GITHUB_ENV"
+          echo "Selected a Firebase Hosting-authorized repository credential without exposing credential contents."
 
       - name: Deploy production artifact to Firebase Hosting
         run: |
