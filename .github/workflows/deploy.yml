@@ -181,17 +181,22 @@ jobs:
         id: firebase_auth
         env:
           FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON }}
+          FIREBASE_SERVICE_ACCOUNT_AI_GYM_COACH_13EE1: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AI_GYM_COACH_13EE1 }}
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
           GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          FIREBASE_CI_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
           set -euo pipefail
           project_id=$(node -e "const fs=require('fs'); const cfg=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(cfg.projects.default || '')")
           test -n "$project_id"
 
           credential_file=''
-          for name in FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON GOOGLE_CLOUD_JSON GCP_SA_KEY GOOGLE_APPLICATION_CREDENTIALS_JSON GOOGLE_SERVICE_ACCOUNT_JSON; do
+          for name in FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON FIREBASE_SERVICE_ACCOUNT_AI_GYM_COACH_13EE1 FIREBASE_SERVICE_ACCOUNT_JSON FIREBASE_SERVICE_ACCOUNT GOOGLE_CLOUD_JSON GCP_SA_KEY GOOGLE_APPLICATION_CREDENTIALS_JSON GOOGLE_SERVICE_ACCOUNT_JSON; do
             value="${!name:-}"
             [ -z "$value" ] && continue
 
@@ -206,19 +211,28 @@ jobs:
 
             if GOOGLE_APPLICATION_CREDENTIALS="$candidate" firebase hosting:sites:list --project "$project_id" --json >/dev/null 2>&1; then
               credential_file="$candidate"
-              break
+              echo "mode=service_account" >> "$GITHUB_OUTPUT"
+              echo "GOOGLE_APPLICATION_CREDENTIALS=$credential_file" >> "$GITHUB_ENV"
+              echo "Selected a Firebase Hosting-authorized repository service account without exposing credential contents."
+              exit 0
             fi
 
             rm -f "$candidate"
           done
 
-          if [ -z "$credential_file" ]; then
-            echo "::error::No configured repository service account is authorized to access Firebase Hosting for project $project_id."
-            exit 1
-          fi
+          for token_name in FIREBASE_CI_TOKEN FIREBASE_TOKEN; do
+            token="${!token_name:-}"
+            [ -z "$token" ] && continue
+            if firebase hosting:sites:list --project "$project_id" --token "$token" --json >/dev/null 2>&1; then
+              echo "mode=token" >> "$GITHUB_OUTPUT"
+              echo "FIREBASE_DEPLOY_TOKEN=$token" >> "$GITHUB_ENV"
+              echo "Selected a Firebase Hosting-authorized CI token without exposing it."
+              exit 0
+            fi
+          done
 
-          echo "GOOGLE_APPLICATION_CREDENTIALS=$credential_file" >> "$GITHUB_ENV"
-          echo "Selected a Firebase Hosting-authorized repository credential without exposing credential contents."
+          echo "::error::No configured repository credential is authorized to access Firebase Hosting for project $project_id."
+          exit 1
 
       - name: Deploy production artifact to Firebase Hosting
         id: firebase_deploy
@@ -226,7 +240,11 @@ jobs:
           set -euo pipefail
           project_id=$(node -e "const fs=require('fs'); const cfg=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(cfg.projects.default || '')")
           test -n "$project_id"
-          firebase deploy --only hosting --project "$project_id" --non-interactive
+          if [ "${{ steps.firebase_auth.outputs.mode }}" = "token" ]; then
+            firebase deploy --only hosting --project "$project_id" --token "$FIREBASE_DEPLOY_TOKEN" --non-interactive
+          else
+            firebase deploy --only hosting --project "$project_id" --non-interactive
+          fi
 
       - name: Smoke-test Firebase default host and production custom domain
         id: live_smoke
