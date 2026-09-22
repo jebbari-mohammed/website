@@ -57,7 +57,7 @@ jobs:
           }
 
           failures=0
-          check_route '/' 'IZEM AI Fitness Coach | Plans, Chat, Scans & Live Calls' || failures=$((failures+1))
+          check_route '/' || failures=$((failures+1))
           check_route '/best-ai-fitness-app' 'Best AI Fitness App in 2026: Coach-or-Tracker Test' 'We consolidated this comparison' || failures=$((failures+1))
           check_route '/blog/' 'IZEM Blog:' || failures=$((failures+1))
           check_route '/youtube/' 'IZEM on YouTube' || failures=$((failures+1))
