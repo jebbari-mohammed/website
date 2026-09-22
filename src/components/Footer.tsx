@@ -12,6 +12,7 @@ export default function Footer() {
               className="inline-flex items-center gap-2.5 mb-4 text-textPrimary no-underline"
             >
               <img
+                data-izem-navigation-logo="true"
                 src="/images/izem-app-logo-192.png"
                 alt="IZEM app logo"
                 width="64"
