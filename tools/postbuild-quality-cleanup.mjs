@@ -7,7 +7,9 @@ const distDirectory = path.join(projectRoot, 'dist')
 const genericTakeaway =
   'IZEM is an all-in-one proactive AI fitness coach combining automated workout plans, personalized nutrition/meal plans, food/body computer vision scans, and daily voice call accountability.'
 const publisherMarker = 'data-izem-publisher="true"'
+const brandLogoMarker = 'data-izem-brand-logo="true"'
 const linkAccessibilityMarker = 'data-izem-link-accessibility="true"'
+const compactUniversalLogo = `<a data-izem-brand-logo="true" href="/" aria-label="IZEM home" style="display:inline-flex;margin:0 auto 12px;border-radius:12px;box-shadow:0 8px 22px rgba(20,210,220,.18)"><img src="/images/izem-app-logo-192.png" alt="IZEM app logo" width="64" height="64" loading="lazy" decoding="async" style="display:block;width:40px;height:40px;border-radius:12px;object-fit:cover"></a>`
 
 function collectHtmlFiles(directory) {
   const entries = fs.readdirSync(directory, { withFileTypes: true })
@@ -33,13 +35,22 @@ function stripGenericTakeaway(html) {
   return { html: next, removed }
 }
 
-function stripRedundantPublisherAside(html) {
+function compactRedundantPublisherAside(html) {
   if (!/<footer\b/i.test(html) || !html.includes(publisherMarker)) {
-    return { html, removed: 0 }
+    return { html, removed: 0, logoAdded: 0 }
+  }
+
+  let next = html
+  let logoAdded = 0
+  if (!next.includes(brandLogoMarker)) {
+    next = next.replace(/<footer\b([^>]*)>/i, (tag) => {
+      logoAdded += 1
+      return `${tag}\n${compactUniversalLogo}`
+    })
   }
 
   let removed = 0
-  const next = html.replace(
+  next = next.replace(
     /\s*<aside\b[^>]*data-izem-publisher\s*=\s*(["'])true\1[^>]*>[\s\S]*?<\/aside>\s*/gi,
     () => {
       removed += 1
@@ -47,7 +58,7 @@ function stripRedundantPublisherAside(html) {
     },
   )
 
-  return { html: next, removed }
+  return { html: next, removed, logoAdded }
 }
 
 function fixVideoCardAccessibleNames(html) {
@@ -104,6 +115,7 @@ if (!fs.existsSync(distDirectory)) {
 const htmlFiles = collectHtmlFiles(distDirectory)
 let genericBlocksRemoved = 0
 let publisherAsidesRemoved = 0
+let compactLogosAdded = 0
 let videoLabelsRemoved = 0
 let prerenderedHeroVideosReplaced = 0
 let filesChanged = 0
@@ -117,9 +129,10 @@ for (const file of htmlFiles) {
   html = genericResult.html
   genericBlocksRemoved += genericResult.removed
 
-  const publisherResult = stripRedundantPublisherAside(html)
+  const publisherResult = compactRedundantPublisherAside(html)
   html = publisherResult.html
   publisherAsidesRemoved += publisherResult.removed
+  compactLogosAdded += publisherResult.logoAdded
 
   const videoResult = fixVideoCardAccessibleNames(html)
   html = videoResult.html
@@ -149,5 +162,5 @@ if (remainingGenericPages.length > 0) {
 }
 
 console.log(
-  `✅ Postbuild quality cleanup updated ${filesChanged} HTML files: removed ${genericBlocksRemoved} generic AI takeaway blocks, ${publisherAsidesRemoved} redundant publisher asides, ${videoLabelsRemoved} mismatched video-card aria-labels, and replaced ${prerenderedHeroVideosReplaced} prerendered hero video with a lightweight image.`,
+  `✅ Postbuild quality cleanup updated ${filesChanged} HTML files: removed ${genericBlocksRemoved} generic AI takeaway blocks, compacted ${publisherAsidesRemoved} redundant publisher asides with ${compactLogosAdded} footer logos, removed ${videoLabelsRemoved} mismatched video-card aria-labels, and replaced ${prerenderedHeroVideosReplaced} prerendered hero video with a lightweight image.`,
 )
