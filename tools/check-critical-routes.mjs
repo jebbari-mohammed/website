@@ -33,6 +33,13 @@ function pageUrl(relativeFile) {
   return `${siteOrigin}/${relativeFile}`;
 }
 
+function normalizedRoute(pathname) {
+  let route = String(pathname || '/').replace(/\/{2,}/g, '/');
+  if (route.endsWith('.html')) route = route.slice(0, -'.html'.length);
+  if (route !== '/') route = route.replace(/\/+$/, '');
+  return route || '/';
+}
+
 function candidateFiles(pathname) {
   let decodedPath;
   try {
@@ -76,12 +83,53 @@ function htmlAttribute(tag, name) {
   return match?.[2];
 }
 
+function metaRefreshTarget(html) {
+  const metaTags = html.match(/<meta\b[^>]*>/gi) || [];
+  const refreshTag = metaTags.find(
+    (tag) => (htmlAttribute(tag, 'http-equiv') || '').toLowerCase() === 'refresh',
+  );
+  if (!refreshTag) return null;
+
+  const content = htmlAttribute(refreshTag, 'content') || '';
+  const match = content.match(/(?:^|;)\s*url\s*=\s*(.+?)\s*$/i);
+  return match?.[1]?.replace(/^["']|["']$/g, '').trim() || null;
+}
+
 const files = await collectFiles(root);
 const allFiles = new Set(files);
 const htmlFiles = files.filter((file) => file.endsWith('.html'));
 
+// Firebase clean URLs can resolve both `name.html` and `name/index.html` to the
+// same public route. This exact alias previously made /best-ai-fitness-app serve
+// a noindex self-redirect instead of the maintained comparison page.
+if (
+  allFiles.has('best-ai-fitness-app.html') &&
+  allFiles.has('best-ai-fitness-app/index.html')
+) {
+  errors.push(
+    'best-ai-fitness-app: conflicting clean-URL files exist; keep best-ai-fitness-app.html and remove best-ai-fitness-app/index.html',
+  );
+}
+
 for (const htmlFile of htmlFiles) {
   const html = await readFile(path.join(root, htmlFile), 'utf8');
+  const currentPage = new URL(pageUrl(htmlFile));
+  const refreshTarget = metaRefreshTarget(html);
+
+  if (refreshTarget) {
+    try {
+      const refreshUrl = internalUrl(refreshTarget, currentPage);
+      if (
+        refreshUrl &&
+        normalizedRoute(refreshUrl.pathname) === normalizedRoute(currentPage.pathname)
+      ) {
+        errors.push(`${htmlFile}: meta refresh points back to its own clean URL`);
+      }
+    } catch {
+      errors.push(`${htmlFile}: invalid meta refresh target ${refreshTarget}`);
+    }
+  }
+
   const anchors = html.match(/<a\b[^>]*>/gi) || [];
 
   for (const anchor of anchors) {
@@ -90,7 +138,7 @@ for (const htmlFile of htmlFiles) {
 
     let url;
     try {
-      url = internalUrl(href, pageUrl(htmlFile));
+      url = internalUrl(href, currentPage);
     } catch {
       errors.push(`${htmlFile}: invalid href ${href}`);
       continue;
