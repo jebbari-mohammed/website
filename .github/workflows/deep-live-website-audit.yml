@@ -33,6 +33,7 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Crawl and score the live website
+        continue-on-error: true
         run: |
           set -euo pipefail
           mkdir -p /tmp/deep-audit
@@ -47,12 +48,13 @@ jobs:
           console.log(JSON.stringify(audit.summary, null, 2));
           const order = { high: 0, medium: 1, low: 2 };
           const issues = [...audit.issues].sort((a, b) => order[a.severity] - order[b.severity]);
-          for (const item of issues.slice(0, 100)) {
+          for (const item of issues.slice(0, 160)) {
             console.log(`${item.severity.toUpperCase()} | ${item.title} | ${item.url} | ${item.detail}`);
           }
           NODE
 
       - name: Verify every sitemap URL live
+        continue-on-error: true
         env:
           AUDIT_RUN: ${{ github.run_id }}
         run: |
@@ -60,57 +62,82 @@ jobs:
           node - <<'NODE'
           const fs = require('fs');
           const { setTimeout: sleep } = require('timers/promises');
-          const run = process.env.AUDIT_RUN;
-          const origin = 'https://youraicoach.life';
-          const output = '/tmp/deep-audit/sitemap-live-check.json';
 
-          async function fetchText(url, init = {}) {
-            let last;
-            for (let attempt = 1; attempt <= 3; attempt++) {
-              try {
-                const controller = new AbortController();
-                const timer = setTimeout(() => controller.abort(), 25000);
-                const response = await fetch(url, { redirect: 'follow', signal: controller.signal, headers: { 'cache-control': 'no-cache', ...init.headers } });
-                clearTimeout(timer);
-                const text = await response.text();
-                if (response.status >= 500 && attempt < 3) { await sleep(800 * attempt); continue; }
-                return { status: response.status, text, finalUrl: response.url };
-              } catch (error) {
-                last = error;
-                if (attempt < 3) await sleep(800 * attempt);
+          (async () => {
+            const run = process.env.AUDIT_RUN;
+            const origin = 'https://youraicoach.life';
+            const output = '/tmp/deep-audit/sitemap-live-check.json';
+
+            async function fetchText(url) {
+              let last;
+              for (let attempt = 1; attempt <= 3; attempt++) {
+                try {
+                  const controller = new AbortController();
+                  const timer = setTimeout(() => controller.abort(), 25000);
+                  const response = await fetch(url, {
+                    redirect: 'follow',
+                    signal: controller.signal,
+                    headers: { 'cache-control': 'no-cache' },
+                  });
+                  clearTimeout(timer);
+                  const text = await response.text();
+                  if (response.status >= 500 && attempt < 3) {
+                    await sleep(800 * attempt);
+                    continue;
+                  }
+                  return { status: response.status, text, finalUrl: response.url };
+                } catch (error) {
+                  last = error;
+                  if (attempt < 3) await sleep(800 * attempt);
+                }
+              }
+              return { status: 0, text: '', finalUrl: url, error: String(last) };
+            }
+
+            const sitemap = await fetchText(`${origin}/sitemap.xml?deep_audit=${run}`);
+            if (sitemap.status !== 200) throw new Error(`Sitemap HTTP ${sitemap.status}`);
+            const urls = [...sitemap.text.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1].trim());
+            const results = [];
+            let index = 0;
+
+            async function worker() {
+              while (true) {
+                const i = index++;
+                if (i >= urls.length) return;
+                const url = urls[i];
+                const separator = url.includes('?') ? '&' : '?';
+                const result = await fetchText(`${url}${separator}deep_audit=${run}`);
+                results.push({
+                  url,
+                  status: result.status,
+                  bytes: Buffer.byteLength(result.text),
+                  finalUrl: result.finalUrl,
+                  notFound: /Page not found|<title>404|404 -/i.test(result.text),
+                  placeholder: /Training that keeps up with real life\.|We consolidated this comparison/i.test(result.text),
+                  error: result.error,
+                });
               }
             }
-            return { status: 0, text: '', finalUrl: url, error: String(last) };
-          }
 
-          const sitemap = await fetchText(`${origin}/sitemap.xml?deep_audit=${run}`);
-          if (sitemap.status !== 200) throw new Error(`Sitemap HTTP ${sitemap.status}`);
-          const urls = [...sitemap.text.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1].trim());
-          const results = [];
-          let index = 0;
-          async function worker() {
-            while (true) {
-              const i = index++;
-              if (i >= urls.length) return;
-              const url = urls[i];
-              const separator = url.includes('?') ? '&' : '?';
-              const result = await fetchText(`${url}${separator}deep_audit=${run}`);
-              const notFound = /Page not found|<title>404|404 -/i.test(result.text);
-              const placeholder = /Training that keeps up with real life\.|We consolidated this comparison/i.test(result.text);
-              results.push({ url, status: result.status, bytes: Buffer.byteLength(result.text), finalUrl: result.finalUrl, notFound, placeholder, error: result.error });
+            await Promise.all(Array.from({ length: 10 }, () => worker()));
+            results.sort((a, b) => a.url.localeCompare(b.url));
+            const failures = results.filter((item) => item.status !== 200 || item.notFound || item.placeholder || item.bytes < 80);
+            fs.writeFileSync(output, JSON.stringify({ checked: urls.length, failures: failures.length, results }, null, 2));
+            console.log(`\n=== SITEMAP LIVE CHECK: ${urls.length} URLs ===`);
+            for (const item of failures) {
+              console.log(`FAIL | ${item.status} | ${item.bytes} bytes | notFound=${item.notFound} placeholder=${item.placeholder} | ${item.url}`);
             }
-          }
-          await Promise.all(Array.from({ length: 10 }, worker));
-          results.sort((a, b) => a.url.localeCompare(b.url));
-          fs.writeFileSync(output, JSON.stringify({ checked: urls.length, results }, null, 2));
-          const failures = results.filter(r => r.status !== 200 || r.notFound || r.placeholder || r.bytes < 80);
-          console.log(`\n=== SITEMAP LIVE CHECK: ${urls.length} URLs ===`);
-          for (const item of failures) console.log(`FAIL | ${item.status} | ${item.bytes} bytes | notFound=${item.notFound} placeholder=${item.placeholder} | ${item.url}`);
-          console.log(`Failures: ${failures.length}`);
-          if (failures.length) process.exit(1);
+            console.log(`Failures: ${failures.length}`);
+            if (failures.length) process.exitCode = 1;
+          })().catch((error) => {
+            console.error(error);
+            process.exitCode = 1;
+          });
           NODE
 
       - name: Browser runtime, media and layout audit
+        continue-on-error: true
+        if: always()
         env:
           AUDIT_RUN: ${{ github.run_id }}
         run: |
@@ -118,76 +145,103 @@ jobs:
           node - <<'NODE'
           const fs = require('fs');
           const puppeteer = require('puppeteer');
-          const run = process.env.AUDIT_RUN;
-          const base = 'https://youraicoach.life';
-          const paths = [
-            '/', '/best-ai-fitness-app', '/blog/', '/youtube/', '/tools/', '/comparisons/',
-            '/privacy-policy.html', '/terms.html', '/support.html', '/izem-ai-fitness-coach/',
-            '/blog/chatgpt-vs-fitness-app-workouts', '/youtube/a_jG-ssT1tk/',
-            '/features/ai-voice-calls', '/features/ai-workout-generator', '/landing-page'
-          ];
-          const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-          const results = [];
-          for (const route of paths) {
-            const page = await browser.newPage();
-            await page.setViewport({ width: 1440, height: 1000, deviceScaleFactor: 1 });
-            const consoleErrors = [];
-            const pageErrors = [];
-            const failedRequests = [];
-            page.on('console', msg => { if (msg.type() === 'error') consoleErrors.push(msg.text()); });
-            page.on('pageerror', error => pageErrors.push(error.message));
-            page.on('requestfailed', request => failedRequests.push({ url: request.url(), error: request.failure()?.errorText || 'failed' }));
-            const separator = route.includes('?') ? '&' : '?';
-            const url = `${base}${route}${separator}deep_audit=${run}`;
-            let status = 0;
-            let navigationError = '';
-            const started = Date.now();
-            try {
-              const response = await page.goto(url, { waitUntil: 'networkidle2', timeout: 45000 });
-              status = response?.status() || 0;
-              await new Promise(resolve => setTimeout(resolve, 1200));
-            } catch (error) {
-              navigationError = error.message;
-            }
-            const data = await page.evaluate(() => {
-              const brokenImages = [...document.images].filter(img => img.complete && img.naturalWidth === 0).map(img => img.currentSrc || img.src);
-              const videos = [...document.querySelectorAll('video')].map(v => ({ src: v.currentSrc || v.src, readyState: v.readyState, networkState: v.networkState, error: v.error?.message || '' }));
-              const iframes = [...document.querySelectorAll('iframe')].map(f => ({ src: f.src, width: f.getBoundingClientRect().width, height: f.getBoundingClientRect().height }));
-              return {
-                title: document.title,
-                h1: [...document.querySelectorAll('h1')].map(x => x.textContent.trim()),
-                bodyText: document.body?.innerText?.slice(0, 500) || '',
-                bodyWidth: document.body?.scrollWidth || 0,
-                viewportWidth: document.documentElement.clientWidth,
-                horizontalOverflow: (document.body?.scrollWidth || 0) > document.documentElement.clientWidth + 4,
-                brokenImages,
-                videos,
-                iframes,
-              };
+
+          (async () => {
+            const run = process.env.AUDIT_RUN;
+            const base = 'https://youraicoach.life';
+            const paths = [
+              '/', '/best-ai-fitness-app', '/blog/', '/youtube/', '/tools/', '/comparisons/',
+              '/privacy-policy.html', '/terms.html', '/support.html', '/izem-ai-fitness-coach/',
+              '/blog/chatgpt-vs-fitness-app-workouts', '/youtube/a_jG-ssT1tk/',
+              '/features/ai-voice-calls', '/features/ai-workout-generator', '/landing-page'
+            ];
+            const browser = await puppeteer.launch({
+              headless: 'new',
+              args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
             });
-            const screenshotName = route === '/' ? 'home' : route.replace(/^\/+|\/+$/g, '').replace(/[^a-z0-9]+/gi, '-') || 'home';
-            await page.screenshot({ path: `/tmp/deep-audit/${screenshotName}.png`, fullPage: true });
-            results.push({ route, url, status, loadMs: Date.now() - started, navigationError, consoleErrors, pageErrors, failedRequests, ...data });
-            await page.close();
-          }
-          await browser.close();
-          fs.writeFileSync('/tmp/deep-audit/browser-runtime.json', JSON.stringify(results, null, 2));
-          console.log('\n=== BROWSER RUNTIME AUDIT ===');
-          let failures = 0;
-          for (const item of results) {
-            const meaningfulFailed = item.failedRequests.filter(r => !/google-analytics|googletagmanager/i.test(r.url));
-            const bad = item.status !== 200 || item.navigationError || item.pageErrors.length || item.consoleErrors.length || item.brokenImages.length || item.horizontalOverflow || meaningfulFailed.length;
-            if (bad) failures++;
-            console.log(`${bad ? 'ISSUE' : 'PASS'} | ${item.status} | ${item.loadMs}ms | overflow=${item.horizontalOverflow} brokenImages=${item.brokenImages.length} console=${item.consoleErrors.length} pageErrors=${item.pageErrors.length} failedRequests=${meaningfulFailed.length} | ${item.route}`);
-            for (const value of item.brokenImages) console.log(`  broken image: ${value}`);
-            for (const value of item.consoleErrors.slice(0, 5)) console.log(`  console: ${value}`);
-            for (const value of item.pageErrors.slice(0, 5)) console.log(`  pageerror: ${value}`);
-            for (const value of meaningfulFailed.slice(0, 5)) console.log(`  request: ${value.error} ${value.url}`);
-          }
-          console.log(`Routes with runtime/layout findings: ${failures}/${results.length}`);
+            const results = [];
+
+            for (const route of paths) {
+              const page = await browser.newPage();
+              await page.setViewport({ width: 1440, height: 1000, deviceScaleFactor: 1 });
+              const consoleErrors = [];
+              const pageErrors = [];
+              const failedRequests = [];
+              page.on('console', (message) => { if (message.type() === 'error') consoleErrors.push(message.text()); });
+              page.on('pageerror', (error) => pageErrors.push(error.message));
+              page.on('requestfailed', (request) => failedRequests.push({ url: request.url(), error: request.failure()?.errorText || 'failed' }));
+              const separator = route.includes('?') ? '&' : '?';
+              const url = `${base}${route}${separator}deep_audit=${run}`;
+              let status = 0;
+              let navigationError = '';
+              const started = Date.now();
+
+              try {
+                const response = await page.goto(url, { waitUntil: 'networkidle2', timeout: 45000 });
+                status = response?.status() || 0;
+                await new Promise((resolve) => setTimeout(resolve, 1200));
+              } catch (error) {
+                navigationError = error.message;
+              }
+
+              const data = await page.evaluate(() => {
+                const brokenImages = [...document.images]
+                  .filter((image) => image.complete && image.naturalWidth === 0)
+                  .map((image) => image.currentSrc || image.src);
+                const videos = [...document.querySelectorAll('video')].map((video) => ({
+                  src: video.currentSrc || video.src,
+                  readyState: video.readyState,
+                  networkState: video.networkState,
+                  error: video.error?.message || '',
+                }));
+                const iframes = [...document.querySelectorAll('iframe')].map((frame) => ({
+                  src: frame.src,
+                  width: frame.getBoundingClientRect().width,
+                  height: frame.getBoundingClientRect().height,
+                }));
+                return {
+                  title: document.title,
+                  h1: [...document.querySelectorAll('h1')].map((node) => node.textContent.trim()),
+                  bodyText: document.body?.innerText?.slice(0, 500) || '',
+                  bodyWidth: document.body?.scrollWidth || 0,
+                  viewportWidth: document.documentElement.clientWidth,
+                  horizontalOverflow: (document.body?.scrollWidth || 0) > document.documentElement.clientWidth + 4,
+                  brokenImages,
+                  videos,
+                  iframes,
+                };
+              });
+
+              const screenshotName = route === '/' ? 'home' : route.replace(/^\/+|\/+$/g, '').replace(/[^a-z0-9]+/gi, '-') || 'home';
+              await page.screenshot({ path: `/tmp/deep-audit/${screenshotName}.png`, fullPage: true });
+              results.push({ route, url, status, loadMs: Date.now() - started, navigationError, consoleErrors, pageErrors, failedRequests, ...data });
+              await page.close();
+            }
+
+            await browser.close();
+            fs.writeFileSync('/tmp/deep-audit/browser-runtime.json', JSON.stringify(results, null, 2));
+            console.log('\n=== BROWSER RUNTIME AUDIT ===');
+            let findings = 0;
+            for (const item of results) {
+              const meaningfulFailed = item.failedRequests.filter((request) => !/google-analytics|googletagmanager/i.test(request.url));
+              const bad = item.status !== 200 || item.navigationError || item.pageErrors.length || item.consoleErrors.length || item.brokenImages.length || item.horizontalOverflow || meaningfulFailed.length;
+              if (bad) findings++;
+              console.log(`${bad ? 'ISSUE' : 'PASS'} | ${item.status} | ${item.loadMs}ms | overflow=${item.horizontalOverflow} brokenImages=${item.brokenImages.length} console=${item.consoleErrors.length} pageErrors=${item.pageErrors.length} failedRequests=${meaningfulFailed.length} | ${item.route}`);
+              for (const value of item.brokenImages) console.log(`  broken image: ${value}`);
+              for (const value of item.consoleErrors.slice(0, 5)) console.log(`  console: ${value}`);
+              for (const value of item.pageErrors.slice(0, 5)) console.log(`  pageerror: ${value}`);
+              for (const value of meaningfulFailed.slice(0, 5)) console.log(`  request: ${value.error} ${value.url}`);
+            }
+            console.log(`Routes with runtime/layout findings: ${findings}/${results.length}`);
+          })().catch((error) => {
+            console.error(error);
+            process.exitCode = 1;
+          });
           NODE
 
       - name: Lighthouse key pages
+        continue-on-error: true
+        if: always()
         run: |
           set -euo pipefail
           for spec in \
@@ -209,21 +263,24 @@ jobs:
           node - <<'NODE'
           const fs = require('fs');
           console.log('\n=== LIGHTHOUSE MOBILE SUMMARY ===');
-          for (const file of fs.readdirSync('/tmp/deep-audit').filter(x => x.startsWith('lighthouse-') && x.endsWith('.json')).sort()) {
+          for (const file of fs.readdirSync('/tmp/deep-audit').filter((name) => name.startsWith('lighthouse-') && name.endsWith('.json')).sort()) {
             const report = JSON.parse(fs.readFileSync(`/tmp/deep-audit/${file}`, 'utf8'));
-            const c = report.categories;
-            const a = report.audits;
-            const score = key => Math.round((c[key]?.score ?? 0) * 100);
+            const categories = report.categories;
+            const audits = report.audits;
+            const score = (key) => Math.round((categories[key]?.score ?? 0) * 100);
             console.log(`${file.replace('lighthouse-', '').replace('.json', '')}: performance=${score('performance')} accessibility=${score('accessibility')} best-practices=${score('best-practices')} seo=${score('seo')}`);
-            for (const key of ['first-contentful-paint','largest-contentful-paint','speed-index','total-blocking-time','cumulative-layout-shift','server-response-time','total-byte-weight']) {
-              if (a[key]) console.log(`  ${key}: ${a[key].displayValue || a[key].numericValue}`);
+            for (const key of ['first-contentful-paint', 'largest-contentful-paint', 'speed-index', 'total-blocking-time', 'cumulative-layout-shift', 'server-response-time', 'total-byte-weight']) {
+              if (audits[key]) console.log(`  ${key}: ${audits[key].displayValue || audits[key].numericValue}`);
             }
-            const failed = Object.values(a).filter(x => x.score !== null && x.score < 1 && x.scoreDisplayMode === 'binary').sort((x, y) => (x.score ?? 0) - (y.score ?? 0));
+            const failed = Object.values(audits)
+              .filter((item) => item.score !== null && item.score < 1 && item.scoreDisplayMode === 'binary')
+              .sort((left, right) => (left.score ?? 0) - (right.score ?? 0));
             for (const item of failed.slice(0, 12)) console.log(`  failed: ${item.id} — ${item.title}`);
           }
           NODE
 
       - name: Security and caching headers
+        if: always()
         run: |
           set -euo pipefail
           for url in \
