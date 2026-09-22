@@ -10,7 +10,7 @@
     "dev": "vite",
     "prebuild": "node tools/check-owner-image-policy.mjs && node tools/ai-marketing/legacy-content-audit.mjs --strict",
     "build": "tsc -b && vite build",
-    "postbuild": "node postbuild.mjs && node tools/brand-theme.mjs dist && node tools/brand-theme.mjs dist --check",
+    "postbuild": "node postbuild.mjs && node tools/postbuild-quality-cleanup.mjs && node tools/brand-theme.mjs dist && node tools/brand-theme.mjs dist --check",
     "test:brand": "node --test tools/brand-theme.test.mjs",
     "check:owner-images": "node tools/check-owner-image-policy.mjs",
     "check:links": "node tools/check-links.mjs",
