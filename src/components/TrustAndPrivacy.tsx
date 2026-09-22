@@ -57,9 +57,9 @@ export default function TrustAndPrivacy() {
                 <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mb-4 shadow-sm">
                   <Icon size={20} />
                 </div>
-                <h4 className="text-base font-bold text-textPrimary mb-2">
+                <h3 className="text-base font-bold text-textPrimary mb-2">
                   {item.title}
-                </h4>
+                </h3>
                 <p className="text-xs sm:text-sm text-textSecondary leading-relaxed">
                   {item.desc}
                 </p>
