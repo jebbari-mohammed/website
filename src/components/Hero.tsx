@@ -1,9 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from '../lib/motion';
 import { ArrowRight, Play, CheckCircle2, Shield, MessageSquare, Dumbbell, Sparkles } from 'lucide-react';
 
 export default function Hero() {
   const [activeVideo, setActiveVideo] = useState<'chat' | 'workout'>('chat');
+  const [showMotionPreview, setShowMotionPreview] = useState(false);
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia('(min-width: 768px)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncPreviewMode = () => {
+      setShowMotionPreview(desktopQuery.matches && !reducedMotionQuery.matches);
+    };
+
+    syncPreviewMode();
+    desktopQuery.addEventListener?.('change', syncPreviewMode);
+    reducedMotionQuery.addEventListener?.('change', syncPreviewMode);
+
+    return () => {
+      desktopQuery.removeEventListener?.('change', syncPreviewMode);
+      reducedMotionQuery.removeEventListener?.('change', syncPreviewMode);
+    };
+  }, []);
+
+  const previewImage = activeVideo === 'chat' ? '/images/hero1-desktop.webp' : '/images/hero2-desktop.webp';
+  const previewAlt =
+    activeVideo === 'chat'
+      ? 'IZEM AI coach chat interface preview'
+      : 'IZEM workout and nutrition interface preview';
 
   return (
     <section id="hero" className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
@@ -101,6 +125,7 @@ export default function Hero() {
             <div className="mb-4 inline-flex p-1 rounded-full bg-[#0E141B]/95 backdrop-blur-2xl border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_10px_30px_rgba(0,0,0,0.5)]">
               <button
                 onClick={() => setActiveVideo('chat')}
+                aria-pressed={activeVideo === 'chat'}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
                   activeVideo === 'chat'
                     ? 'bg-primary text-[#070A0D] shadow-[0_0_15px_rgba(141,255,106,0.35)] font-bold'
@@ -114,6 +139,7 @@ export default function Hero() {
 
               <button
                 onClick={() => setActiveVideo('workout')}
+                aria-pressed={activeVideo === 'workout'}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
                   activeVideo === 'workout'
                     ? 'bg-primary text-[#070A0D] shadow-[0_0_15px_rgba(141,255,106,0.35)] font-bold'
@@ -134,18 +160,34 @@ export default function Hero() {
               <div className="absolute inset-4 bg-gradient-to-tr from-primary/25 via-transparent to-secondary/25 blur-3xl opacity-60 rounded-[50px] -z-10" />
 
               <div className="relative rounded-[36px] overflow-hidden aspect-[800/1260] shadow-[0_25px_70px_rgba(0,0,0,0.9),0_0_35px_rgba(141,255,106,0.12)]">
-                <video
-                  key={activeVideo}
-                  src={activeVideo === 'chat' ? '/videos/izem-coach-chat-dark-web.mp4' : '/videos/izem-workout-nutrition-dark-web.mp4'}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  className="w-full h-full object-cover"
-                >
-                  Your browser does not support HTML5 video.
-                </video>
+                {showMotionPreview ? (
+                  <video
+                    data-izem-hero-preview="true"
+                    key={activeVideo}
+                    src={activeVideo === 'chat' ? '/videos/izem-coach-chat-dark-web.mp4' : '/videos/izem-workout-nutrition-dark-web.mp4'}
+                    poster={previewImage}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-cover"
+                  >
+                    Your browser does not support HTML5 video.
+                  </video>
+                ) : (
+                  <img
+                    data-izem-hero-preview="true"
+                    src={previewImage}
+                    alt={previewAlt}
+                    width="800"
+                    height="1260"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
 
               {activeVideo === 'chat' ? (
