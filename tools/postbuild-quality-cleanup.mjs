@@ -40,7 +40,15 @@ function compactRedundantPublisherAside(html) {
     return { html, removed: 0, logoAdded: 0 }
   }
 
-  let next = html
+  let removed = 0
+  let next = html.replace(
+    /\s*<aside\b[^>]*data-izem-publisher\s*=\s*(["'])true\1[^>]*>[\s\S]*?<\/aside>\s*/gi,
+    () => {
+      removed += 1
+      return '\n'
+    },
+  )
+
   let logoAdded = 0
   if (!next.includes(brandLogoMarker)) {
     next = next.replace(/<footer\b([^>]*)>/i, (tag) => {
@@ -48,15 +56,6 @@ function compactRedundantPublisherAside(html) {
       return `${tag}\n${compactUniversalLogo}`
     })
   }
-
-  let removed = 0
-  next = next.replace(
-    /\s*<aside\b[^>]*data-izem-publisher\s*=\s*(["'])true\1[^>]*>[\s\S]*?<\/aside>\s*/gi,
-    () => {
-      removed += 1
-      return '\n'
-    },
-  )
 
   return { html: next, removed, logoAdded }
 }
