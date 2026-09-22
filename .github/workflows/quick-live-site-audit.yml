@@ -1,0 +1,72 @@
+name: One-time live website audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/quick-live-site-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check key production routes
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+
+          check_route() {
+            path="$1"
+            expected="${2:-}"
+            forbidden="${3:-}"
+            body=$(mktemp)
+            separator='?'
+            case "$path" in *\?*) separator='&' ;; esac
+            url="https://youraicoach.life${path}${separator}live_audit=${RUN_ID}"
+            code=$(curl -L -sS --max-time 30 -H 'Cache-Control: no-cache' -o "$body" -w '%{http_code}' "$url" || true)
+            echo "$path -> HTTP ${code:-curl-error} ($(wc -c < "$body") bytes)"
+
+            if [ "$code" != "200" ] || [ ! -s "$body" ]; then
+              echo "::error::Route failed: $path"
+              cat "$body" || true
+              rm -f "$body"
+              return 1
+            fi
+            if grep -Eqi 'Page not found|<title>404|404 -' "$body"; then
+              echo "::error::Route rendered a not-found page: $path"
+              rm -f "$body"
+              return 1
+            fi
+            if [ -n "$expected" ] && ! grep -Fqi "$expected" "$body"; then
+              echo "::error::Expected marker missing on $path: $expected"
+              rm -f "$body"
+              return 1
+            fi
+            if [ -n "$forbidden" ] && grep -Fqi "$forbidden" "$body"; then
+              echo "::error::Forbidden stale marker found on $path: $forbidden"
+              rm -f "$body"
+              return 1
+            fi
+            rm -f "$body"
+          }
+
+          check_route '/' 'The AI Personal Trainer That Plans'
+          check_route '/best-ai-fitness-app' 'Best AI fitness app in 2026: use the Coach-or-Tracker Test' 'We consolidated this comparison'
+          check_route '/blog/' 'Practical fitness coaching'
+          check_route '/youtube/' 'Fitness guides built to be used'
+          check_route '/privacy-policy.html' 'Privacy Policy'
+          check_route '/terms.html' 'Terms'
+          check_route '/support.html' 'Support'
+          check_route '/tools/' 'Fitness Calculators'
+          check_route '/comparisons/' 'Comparisons'
+          check_route '/sitemap.xml' '<urlset'
+          check_route '/blog/chatgpt-vs-fitness-app-workouts' 'ChatGPT vs Fitness App'
+          check_route '/youtube/a_jG-ssT1tk/' 'ChatGPT vs Fitness App for Workouts'
+
+          echo 'All selected live routes passed.'
