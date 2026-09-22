@@ -18,9 +18,9 @@ export default function Footer() {
               <span className="text-xl font-bold tracking-tight text-textPrimary">IZEM</span>
             </div>
             <p className="text-sm text-textSecondary leading-relaxed max-w-sm mb-4">
-              Premium AI personal training combining weekly adaptive workouts, precision nutrition, computer vision scans, daily check-ins, and proactive voice calls.
+              Premium AI fitness coaching that connects adaptive workouts, practical nutrition, progress tools, and optional live voice coaching around one profile.
             </p>
-            <p className="text-xs text-textSecondary/60 leading-normal">
+            <p className="text-xs text-textSecondary/80 leading-normal">
               <strong>Location:</strong> Casablanca, Morocco<br />
               <strong>Entity:</strong> Consumer fitness app, not affiliated with youraicoach.ai.
             </p>
@@ -28,9 +28,9 @@ export default function Footer() {
 
           {/* Product Links */}
           <div className="md:col-span-2 lg:col-span-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
               Product
-            </h4>
+            </h3>
             <ul className="flex flex-col gap-2.5 text-sm">
               <li>
                 <a href="/izem-ai-fitness-coach/" className="text-textSecondary hover:text-primary transition-colors">
@@ -62,9 +62,9 @@ export default function Footer() {
 
           {/* Guides & Tools */}
           <div className="md:col-span-3 lg:col-span-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
               Guides & Tools
-            </h4>
+            </h3>
             <ul className="flex flex-col gap-2.5 text-sm">
               <li>
                 <a href="/fitness-app-that-calls-you/" className="text-textSecondary hover:text-primary transition-colors">
@@ -101,9 +101,9 @@ export default function Footer() {
 
           {/* Legal & Support */}
           <div className="md:col-span-3 lg:col-span-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
               Trust & Company
-            </h4>
+            </h3>
             <ul className="flex flex-col gap-2.5 text-sm">
               <li>
                 <a href="/about.html" className="text-textSecondary hover:text-primary transition-colors">
@@ -145,7 +145,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom copyright */}
-        <div className="border-t border-white/[0.06] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-textSecondary/60">
+        <div className="border-t border-white/[0.06] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-textSecondary/80">
           <p>© 2026 IZEM AI Fitness Coach. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <a href="/privacy-policy.html" className="hover:text-textPrimary transition-colors">Privacy</a>
