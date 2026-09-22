@@ -64,6 +64,23 @@ function fixVideoCardAccessibleNames(html) {
   return { html: next, changed }
 }
 
+function replacePrerenderedHeroVideo(html, relativePath) {
+  if (relativePath !== 'index.html' || !html.includes('data-izem-hero-preview="true"')) {
+    return { html, changed: 0 }
+  }
+
+  let changed = 0
+  const next = html.replace(
+    /<video\b(?=[^>]*data-izem-hero-preview\s*=\s*(["'])true\1)[^>]*>[\s\S]*?<\/video>/i,
+    () => {
+      changed += 1
+      return '<img data-izem-hero-preview="true" src="/images/hero1-desktop.webp" alt="IZEM AI coach chat interface preview" width="800" height="1260" loading="eager" decoding="async" fetchpriority="high" class="w-full h-full object-cover">'
+    },
+  )
+
+  return { html: next, changed }
+}
+
 function improvePublisherLinkVisibility(html) {
   if (!html.includes(publisherMarker)) return html
 
@@ -88,6 +105,7 @@ const htmlFiles = collectHtmlFiles(distDirectory)
 let genericBlocksRemoved = 0
 let publisherAsidesRemoved = 0
 let videoLabelsRemoved = 0
+let prerenderedHeroVideosReplaced = 0
 let filesChanged = 0
 
 for (const file of htmlFiles) {
@@ -106,6 +124,10 @@ for (const file of htmlFiles) {
   const videoResult = fixVideoCardAccessibleNames(html)
   html = videoResult.html
   videoLabelsRemoved += videoResult.changed
+
+  const heroResult = replacePrerenderedHeroVideo(html, relativePath)
+  html = heroResult.html
+  prerenderedHeroVideosReplaced += heroResult.changed
 
   html = improvePublisherLinkVisibility(html)
   html = addBlogFooterLinkStyles(html, relativePath)
@@ -127,5 +149,5 @@ if (remainingGenericPages.length > 0) {
 }
 
 console.log(
-  `✅ Postbuild quality cleanup updated ${filesChanged} HTML files: removed ${genericBlocksRemoved} generic AI takeaway blocks, ${publisherAsidesRemoved} redundant publisher asides, and ${videoLabelsRemoved} mismatched video-card aria-labels.`,
+  `✅ Postbuild quality cleanup updated ${filesChanged} HTML files: removed ${genericBlocksRemoved} generic AI takeaway blocks, ${publisherAsidesRemoved} redundant publisher asides, ${videoLabelsRemoved} mismatched video-card aria-labels, and replaced ${prerenderedHeroVideosReplaced} prerendered hero video with a lightweight image.`,
 )
