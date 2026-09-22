@@ -39,7 +39,7 @@ export default function EcosystemStrip() {
                 >
                   <Icon size={13} className="text-primary" />
                   <span className="text-xs font-semibold text-textPrimary">{item.name}</span>
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-textSecondary/60 bg-white/[0.04] px-1.5 py-0.5 rounded">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-textSecondary/90 bg-white/[0.06] px-1.5 py-0.5 rounded">
                     {item.badge}
                   </span>
                 </div>
@@ -48,7 +48,7 @@ export default function EcosystemStrip() {
           </div>
 
           {/* Right Security tags */}
-          <div className="hidden xl:flex items-center gap-4 text-xs text-textSecondary/70">
+          <div className="hidden xl:flex items-center gap-4 text-xs text-textSecondary/80">
             {securityBadges.map((badge, idx) => {
               const Icon = badge.icon;
               return (
