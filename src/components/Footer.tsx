@@ -5,18 +5,23 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 mb-14">
           {/* Brand Col */}
           <div className="md:col-span-4 lg:col-span-4">
-            <div className="flex items-center gap-2.5 mb-4">
+            <a
+              data-izem-brand-logo="true"
+              href="/"
+              aria-label="IZEM home"
+              className="inline-flex items-center gap-2.5 mb-4 text-textPrimary no-underline"
+            >
               <img
                 src="/images/izem-app-logo-192.png"
-                alt="IZEM App Logo"
-                width="32"
-                height="32"
+                alt="IZEM app logo"
+                width="64"
+                height="64"
                 loading="lazy"
                 decoding="async"
                 className="w-8 h-8 rounded-xl object-cover shadow-[0_0_12px_rgba(141,255,106,0.3)]"
               />
               <span className="text-xl font-bold tracking-tight text-textPrimary">IZEM</span>
-            </div>
+            </a>
             <p className="text-sm text-textSecondary leading-relaxed max-w-sm mb-4">
               Premium AI fitness coaching that connects adaptive workouts, practical nutrition, progress tools, and optional live voice coaching around one profile.
             </p>
