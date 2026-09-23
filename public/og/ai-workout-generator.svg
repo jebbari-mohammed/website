@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">IZEM AI workout generator adaptation loop</title>
+  <desc id="desc">Object-only diagram of inputs, workout generation, day review, and next-week adaptation.</desc>
+  <rect width="1200" height="630" fill="#071017"/>
+  <rect x="54" y="54" width="1092" height="522" rx="8" fill="#0E1A1F" stroke="#23413E" stroke-width="2"/>
+  <circle cx="106" cy="108" r="14" fill="#58D6C7"/>
+  <circle cx="144" cy="108" r="14" fill="#F0B765"/>
+  <circle cx="182" cy="108" r="14" fill="#7C8EA4"/>
+  <text x="86" y="188" fill="#EAF3F1" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="800" letter-spacing="0">AI workout generator</text>
+  <text x="86" y="238" fill="#AFC2BE" font-family="Inter, Arial, sans-serif" font-size="27" letter-spacing="0">First plan, real-week review, next-week adaptation.</text>
+
+  <g transform="translate(86 308)">
+    <rect width="218" height="132" rx="8" fill="#12262A" stroke="#35645E"/>
+    <text x="24" y="42" fill="#58D6C7" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="0">INPUTS</text>
+    <text x="24" y="78" fill="#EAF3F1" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="0">Goal, days,</text>
+    <text x="24" y="109" fill="#EAF3F1" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="0">equipment</text>
+  </g>
+
+  <g transform="translate(370 308)">
+    <rect width="218" height="132" rx="8" fill="#171F22" stroke="#5A4930"/>
+    <text x="24" y="42" fill="#F0B765" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="0">PLAN</text>
+    <text x="24" y="78" fill="#EAF3F1" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="0">Sets, reps,</text>
+    <text x="24" y="109" fill="#EAF3F1" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="0">swaps</text>
+  </g>
+
+  <g transform="translate(654 308)">
+    <rect width="218" height="132" rx="8" fill="#12262A" stroke="#35645E"/>
+    <text x="24" y="42" fill="#58D6C7" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="0">REVIEW</text>
+    <text x="24" y="78" fill="#EAF3F1" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="0">Misses, meals,</text>
+    <text x="24" y="109" fill="#EAF3F1" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="0">calls</text>
+  </g>
+
+  <g transform="translate(938 308)">
+    <rect width="176" height="132" rx="8" fill="#171F22" stroke="#5A4930"/>
+    <text x="24" y="42" fill="#F0B765" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="0">ADAPT</text>
+    <text x="24" y="78" fill="#EAF3F1" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="0">Next</text>
+    <text x="24" y="109" fill="#EAF3F1" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="0">week</text>
+  </g>
+
+  <path d="M318 374h38" stroke="#58D6C7" stroke-width="8" stroke-linecap="round"/>
+  <path d="M350 356l24 18-24 18" fill="none" stroke="#58D6C7" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M602 374h38" stroke="#F0B765" stroke-width="8" stroke-linecap="round"/>
+  <path d="M634 356l24 18-24 18" fill="none" stroke="#F0B765" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M886 374h38" stroke="#58D6C7" stroke-width="8" stroke-linecap="round"/>
+  <path d="M918 356l24 18-24 18" fill="none" stroke="#58D6C7" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="86" y="494" width="1028" height="2" fill="#23413E"/>
+  <text x="86" y="540" fill="#EAF3F1" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800" letter-spacing="0">IZEM</text>
+  <text x="178" y="540" fill="#AFC2BE" font-family="Inter, Arial, sans-serif" font-size="24" letter-spacing="0">Premium AI coaching with workouts, meals, calls, scans, and weekly adaptation.</text>
+</svg>
