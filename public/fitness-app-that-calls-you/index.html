@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness App That Calls You Before Workouts | Premium AI Personal Trainer | IZEM</title>
-    <meta name="description" content="Need a fitness app that calls you? IZEM is a premium AI personal trainer focused on the pre-workout decision moment with proactive calls, daily reviews, and adaptive workout and meal plans. Around $24.99/month, annual plan best value.">
+    <title>Fitness App That Calls You Before Workouts | IZEM</title>
+    <meta name="description" content="Use the call timing picker to decide when an AI coach should call before the skip point. IZEM combines proactive calls, day reviews, adaptive workouts, and meal plans.">
     <link rel="canonical" href="https://youraicoach.life/fitness-app-that-calls-you/">
     <meta property="og:title" content="Fitness App That Calls You Before Workouts | IZEM">
     <meta property="og:description" content="IZEM is a premium AI personal trainer built around proactive calls, day reviews, adaptive workouts, and meal planning for real-life consistency.">
@@ -12,8 +12,8 @@
     <meta property="og:type" content="article">
     <meta property="og:image" content="https://youraicoach.life/og/fitness-app-that-calls-you.svg">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Fitness App That Calls You Before Workouts | AI Personal Trainer">
-    <meta name="twitter:description" content="This is a premium AI fitness coach for call-based accountability and weekly adaptation, around $24.99/month with annual as best value.">
+    <meta name="twitter:title" content="Fitness App That Calls You Before Workouts | IZEM">
+    <meta name="twitter:description" content="Use the call timing picker to decide when an AI coach should call before the skip point.">
     <meta name="twitter:image" content="https://youraicoach.life/og/fitness-app-that-calls-you.svg">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <script type="application/ld+json">
@@ -27,7 +27,7 @@
           "author": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"},
           "publisher": {"@type": "Organization", "name": "IZEM", "url": "https://youraicoach.life"},
           "datePublished": "2026-07-05",
-          "dateModified": "2026-09-02",
+          "dateModified": "2026-09-24",
           "mainEntityOfPage": "https://youraicoach.life/fitness-app-that-calls-you/"
         },
         {
@@ -63,6 +63,14 @@
                 "text": "Use the daily review to check whether the pattern is recurring and to adjust next week's call timing, fallback length, and substitution set."
             }
           ]
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Workout Call Timing Picker",
+          "url": "https://youraicoach.life/fitness-app-that-calls-you/#call-timing-picker",
+          "applicationCategory": "FitnessApplication",
+          "operatingSystem": "Web",
+          "description": "A browser-only planning tool for choosing when a workout accountability call should land before the usual skip point."
         },
         {
           "@type": "FAQPage",
@@ -145,6 +153,15 @@
         .mini-table th,.mini-table td{text-align:left;padding:14px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top}
         .mini-table th{color:#F8FAFC;background:rgba(255,255,255,.045)}
         .mini-table td{color:#CBD5E1}
+        .timing-tool{background:rgba(12,18,50,.82);border:1px solid rgba(0,212,255,.22);border-radius:16px;padding:24px;margin:30px 0;scroll-margin-top:160px}
+        .timing-tool h2{margin-top:0}
+        .timing-tool p{max-width:700px}
+        .tool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}
+        .tool-field label{display:block;color:#F8FAFC;font-weight:800;font-size:.9rem;margin-bottom:7px}
+        .tool-field select{width:100%;background:#0C1232;border:1px solid rgba(255,255,255,.14);border-radius:8px;color:#F8FAFC;padding:12px;font:inherit}
+        .timing-output{background:linear-gradient(135deg,rgba(0,212,255,.10),rgba(124,92,252,.10));border:1px solid rgba(0,212,255,.2);border-radius:12px;padding:18px;color:#D7E3F2}
+        .timing-output strong{display:block;margin-bottom:4px}
+        .timing-output span{display:block;color:#CBD5E1;margin-top:8px}
         .decision-template{background:rgba(12,18,50,.82);border:1px solid rgba(0,212,255,.22);border-radius:16px;padding:18px 20px;margin:22px 0}
         .decision-template pre{white-space:pre-wrap;word-break:break-word;color:#D7E3F2;line-height:1.6;font-size:.96rem;font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
         .decision-template p{margin-top:0}
@@ -162,7 +179,7 @@
         .related span{display:block;color:#94A3B8;font-size:.9rem;margin-top:6px}
         .faq h3{border-top:1px solid rgba(255,255,255,.08);padding-top:22px}
         footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 24px;text-align:center;color:#64748B;font-size:.9rem}
-        @media(max-width:760px){.proof,.related{grid-template-columns:1fr}.wrap{padding-top:48px}.nav-inner{align-items:flex-start;flex-direction:column}}
+        @media(max-width:760px){.proof,.related,.tool-grid{grid-template-columns:1fr}.wrap{padding-top:48px}.nav-inner{align-items:flex-start;flex-direction:column}}
     </style>
 </head>
 <body>
@@ -204,6 +221,43 @@
     <div class="answer">
         <p><strong>Short answer:</strong> yes, IZEM is a premium AI personal trainer that calls you. Instead of waiting for you to open an app, the AI coach can call your phone before workouts and at the end of the day for accountability, plan review, and weekly adaptation.</p>
     </div>
+
+    <section class="timing-tool" id="call-timing-picker" aria-labelledby="call-timing-title">
+        <h2 id="call-timing-title">Workout call timing picker</h2>
+        <p>The best call time is not a motivational guess. It should land before the moment you usually skip, with a fallback that is small enough to start.</p>
+        <div class="tool-grid">
+            <div class="tool-field">
+                <label for="call-trigger">Usual skip point</label>
+                <select id="call-trigger">
+                    <option value="after-work">Leaving work</option>
+                    <option value="couch">After dinner or couch time</option>
+                    <option value="morning">Morning snooze</option>
+                    <option value="crowded-gym">Crowded gym floor</option>
+                    <option value="travel">Travel or short window</option>
+                </select>
+            </div>
+            <div class="tool-field">
+                <label for="call-energy">Energy today</label>
+                <select id="call-energy">
+                    <option value="normal">Normal</option>
+                    <option value="low">Low</option>
+                    <option value="very-low">Very low</option>
+                </select>
+            </div>
+            <div class="tool-field">
+                <label for="call-goal">Keep alive</label>
+                <select id="call-goal">
+                    <option value="full">Full workout</option>
+                    <option value="fallback">20-minute fallback</option>
+                    <option value="micro">10-minute minimum</option>
+                </select>
+            </div>
+        </div>
+        <div class="timing-output" id="call-timing-result" role="status" aria-live="polite">
+            <strong>Recommended setup:</strong>
+            <span>Call 15 minutes before leaving work. Ask for the full workout first, then offer a 20-minute fallback if the day ran long. First action: shoes on before the call ends.</span>
+        </div>
+    </section>
 
     <table class="mini-table" aria-label="How call-based coaching differs from reminders and trackers">
         <thead>
@@ -503,5 +557,63 @@
 <footer>
     IZEM - AI fitness coaching with proactive voice calls. <a href="/privacy-policy.html">Privacy</a> - <a href="/terms.html">Terms</a>
 </footer>
+<script>
+  (() => {
+    const trigger = document.getElementById('call-trigger');
+    const energy = document.getElementById('call-energy');
+    const goal = document.getElementById('call-goal');
+    const result = document.getElementById('call-timing-result');
+    if (!trigger || !energy || !goal || !result) return;
+
+    const moments = {
+      'after-work': {
+        window: '15 minutes before leaving work',
+        first: 'shoes on before the call ends',
+        blocker: 'work ran long'
+      },
+      couch: {
+        window: '10 minutes before the usual couch-scroll window',
+        first: 'stand up and fill a water bottle',
+        blocker: 'the workout became a tomorrow problem'
+      },
+      morning: {
+        window: '5 minutes after the first alarm, not 30 minutes later',
+        first: 'feet on the floor and workout clothes on',
+        blocker: 'the day started without a first action'
+      },
+      'crowded-gym': {
+        window: 'as you arrive at the gym',
+        first: 'choose the first available movement that trains the same job',
+        blocker: 'the planned machine was taken'
+      },
+      travel: {
+        window: '20 minutes before the short open window',
+        first: 'start the minimum viable session in place',
+        blocker: 'the calendar has no perfect workout slot'
+      }
+    };
+
+    const fallback = {
+      full: 'Ask for the full plan first, then keep the fallback ready.',
+      fallback: 'Start with the 20-minute fallback so momentum survives the day.',
+      micro: 'Use the 10-minute minimum and let the evening review decide what changes next.'
+    };
+
+    const energyRule = {
+      normal: 'Keep the planned intensity unless the call uncovers a real blocker.',
+      low: 'Reduce the first two sets or the first interval; protect the start.',
+      'very-low': 'Make the call about showing up safely, not chasing a record.'
+    };
+
+    function updateTiming() {
+      const moment = moments[trigger.value] || moments['after-work'];
+      result.innerHTML = `<strong>Recommended setup:</strong><span>Call ${moment.window}. ${fallback[goal.value]} ${energyRule[energy.value]} First action: ${moment.first}. Blocker to remember tonight: ${moment.blocker}.</span>`;
+    }
+
+    trigger.addEventListener('change', updateTiming);
+    energy.addEventListener('change', updateTiming);
+    goal.addEventListener('change', updateTiming);
+  })();
+</script>
 </body>
 </html>

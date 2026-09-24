@@ -302,6 +302,15 @@
       "lockUntil": "2026-10-15",
       "preferredReviewAt": "2026-10-22",
       "reason": "The September 24 refresh scales the broad AI-personal-trainer cluster into call-based accountability without creating a duplicate URL. It retitles the rehabilitated page around an AI personal trainer that calls before workouts, adds the Call Timing Ladder, refreshes Article/FAQ metadata and discovery surfaces, and preserves the existing canonical while Google still needs to recrawl the historical noindex state. Preserve for a clean 21-day ranking, CTR, and recrawl evaluation window."
+    },
+    {
+      "id": "fitness-app-that-calls-you-timing-picker-2026-09-24",
+      "url": "/fitness-app-that-calls-you/",
+      "files": ["public/fitness-app-that-calls-you/index.html", "public/tools/index.html"],
+      "launchedAt": "2026-09-24",
+      "lockUntil": "2026-10-15",
+      "preferredReviewAt": "2026-10-22",
+      "reason": "The September 24 refresh targets verified near-top fitness-app-that-calls-you visibility without creating a new URL. It tightens snippet metadata, refreshes dateModified, adds the browser-only Workout Call Timing Picker, adds WebApplication schema, and links from the tools hub so the broad call-accountability hub has a clear link-worthy utility. Preserve for a clean 21-day CTR, ranking, and cannibalization evaluation window."
     }
   ]
 }
