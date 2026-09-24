@@ -293,6 +293,15 @@
       "lockUntil": "2026-10-14",
       "preferredReviewAt": "2026-10-21",
       "reason": "The September 23 refresh targets verified but weak equipment-choice visibility by retitling the page around beginner machine-vs-free-weight intent, adding the interactive 30-second Equipment Choice Card, adding a beginner decision table, refreshing Article/HowTo metadata, and clarifying premium pricing boundaries. Preserve for a clean 21-day ranking and CTR evaluation window."
+    },
+    {
+      "id": "ai-personal-trainer-calls-coach-loop-refresh-2026-09-24",
+      "url": "/blog/ai-personal-trainer-that-actually-works",
+      "files": ["public/blog/ai-personal-trainer-that-actually-works.html"],
+      "launchedAt": "2026-09-24",
+      "lockUntil": "2026-10-15",
+      "preferredReviewAt": "2026-10-22",
+      "reason": "The September 24 refresh scales the broad AI-personal-trainer cluster into call-based accountability without creating a duplicate URL. It retitles the rehabilitated page around an AI personal trainer that calls before workouts, adds the Call Timing Ladder, refreshes Article/FAQ metadata and discovery surfaces, and preserves the existing canonical while Google still needs to recrawl the historical noindex state. Preserve for a clean 21-day ranking, CTR, and recrawl evaluation window."
     }
   ]
 }
