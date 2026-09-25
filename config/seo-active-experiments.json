@@ -320,6 +320,15 @@
       "lockUntil": "2026-10-15",
       "preferredReviewAt": "2026-10-22",
       "reason": "The September 24 refresh supports the verified AI workout generator and adaptive-planning cluster without editing locked winner pages. It updates the missed-workout page with current metadata/schema, the browser-only Reset Decision Map, clearer skip/shrink/shift/swap intent separation from fallback workouts, safer fitness boundaries, refreshed object-only OG art, and contextual links into AI workout generation, calls, reviews, meal planning, equipment context, and consistency resources. Preserve for a clean 21-day ranking, CTR, and cannibalization evaluation window."
+    },
+    {
+      "id": "workout-accountability-app-decision-moment-refresh-2026-09-25",
+      "url": "/blog/how-to-choose-workout-accountability-app",
+      "files": ["public/blog/how-to-choose-workout-accountability-app.html"],
+      "launchedAt": "2026-09-25",
+      "lockUntil": "2026-10-16",
+      "preferredReviewAt": "2026-10-23",
+      "reason": "The September 25 refresh uses the healthy private Search Console accountability/calls evidence without touching locked winner pages. It replaces a generic, syntactically broken chooser with the Decision Moment Test, updated Article/FAQ/Breadcrumb metadata, safer product/pricing language, and contextual links into accountability, calls, missed-workout repair, day review, private accountability, and consistency tools. Preserve for a clean 21-day ranking and internal-link support evaluation window."
     }
   ]
 }
