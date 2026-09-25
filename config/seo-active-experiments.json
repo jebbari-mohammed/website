@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-20",
+  "updatedAt": "2026-09-24",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -311,6 +311,15 @@
       "lockUntil": "2026-10-15",
       "preferredReviewAt": "2026-10-22",
       "reason": "The September 24 refresh targets verified near-top fitness-app-that-calls-you visibility without creating a new URL. It tightens snippet metadata, refreshes dateModified, adds the browser-only Workout Call Timing Picker, adds WebApplication schema, and links from the tools hub so the broad call-accountability hub has a clear link-worthy utility. Preserve for a clean 21-day CTR, ranking, and cannibalization evaluation window."
+    },
+    {
+      "id": "missed-workout-reset-decision-map-refresh-2026-09-24",
+      "url": "/blog/fitness-app-that-adapts-when-you-miss-a-workout",
+      "files": ["public/blog/fitness-app-that-adapts-when-you-miss-a-workout.html", "public/og/fitness-app-that-adapts-when-you-miss-a-workout.svg"],
+      "launchedAt": "2026-09-24",
+      "lockUntil": "2026-10-15",
+      "preferredReviewAt": "2026-10-22",
+      "reason": "The September 24 refresh supports the verified AI workout generator and adaptive-planning cluster without editing locked winner pages. It updates the missed-workout page with current metadata/schema, the browser-only Reset Decision Map, clearer skip/shrink/shift/swap intent separation from fallback workouts, safer fitness boundaries, refreshed object-only OG art, and contextual links into AI workout generation, calls, reviews, meal planning, equipment context, and consistency resources. Preserve for a clean 21-day ranking, CTR, and cannibalization evaluation window."
     }
   ]
 }
