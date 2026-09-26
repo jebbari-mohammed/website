@@ -1,0 +1,46 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Scan-to-Plan Test framework</title>
+  <desc id="desc">Object-only five-step framework for evaluating a food scanner app.</desc>
+  <rect width="1200" height="675" fill="#07110F"/>
+  <rect x="70" y="64" width="1060" height="547" rx="22" fill="#0D1B17" stroke="#243C33" stroke-width="2"/>
+  <text x="104" y="130" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="46" font-weight="900">Scan-to-Plan Test</text>
+  <text x="104" y="176" fill="#A9BBB4" font-family="Inter, Arial, sans-serif" font-size="24">A food scan should become one useful coaching decision.</text>
+  <g transform="translate(104 250)">
+    <rect x="0" y="0" width="184" height="160" rx="18" fill="#10201B" stroke="#68E0BE" stroke-width="3"/>
+    <text x="24" y="46" fill="#68E0BE" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="900">1</text>
+    <text x="24" y="86" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="850">Confirm</text>
+    <text x="24" y="124" fill="#A9BBB4" font-family="Inter, Arial, sans-serif" font-size="17">Correct obvious scan errors.</text>
+  </g>
+  <g transform="translate(308 250)">
+    <rect x="0" y="0" width="184" height="160" rx="18" fill="#10201B" stroke="#4764AC" stroke-width="3"/>
+    <text x="24" y="46" fill="#8EA6FF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="900">2</text>
+    <text x="24" y="86" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="850">Context</text>
+    <text x="24" y="124" fill="#A9BBB4" font-family="Inter, Arial, sans-serif" font-size="17">Know the workout day.</text>
+  </g>
+  <g transform="translate(512 250)">
+    <rect x="0" y="0" width="184" height="160" rx="18" fill="#10201B" stroke="#68E0BE" stroke-width="3"/>
+    <text x="24" y="46" fill="#68E0BE" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="900">3</text>
+    <text x="24" y="86" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="850">Plan</text>
+    <text x="24" y="124" fill="#A9BBB4" font-family="Inter, Arial, sans-serif" font-size="17">Adjust the next meal.</text>
+  </g>
+  <g transform="translate(716 250)">
+    <rect x="0" y="0" width="184" height="160" rx="18" fill="#10201B" stroke="#4764AC" stroke-width="3"/>
+    <text x="24" y="46" fill="#8EA6FF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="900">4</text>
+    <text x="24" y="86" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="850">Coach</text>
+    <text x="24" y="124" fill="#A9BBB4" font-family="Inter, Arial, sans-serif" font-size="17">Explain the tradeoff.</text>
+  </g>
+  <g transform="translate(920 250)">
+    <rect x="0" y="0" width="184" height="160" rx="18" fill="#10201B" stroke="#68E0BE" stroke-width="3"/>
+    <text x="24" y="46" fill="#68E0BE" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="900">5</text>
+    <text x="24" y="86" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="850">Remember</text>
+    <text x="24" y="124" fill="#A9BBB4" font-family="Inter, Arial, sans-serif" font-size="17">Use the weekly pattern.</text>
+  </g>
+  <path d="M196 478h808" stroke="#243C33" stroke-width="14" stroke-linecap="round"/>
+  <path d="M196 478h505" stroke="#68E0BE" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="196" cy="478" r="18" fill="#68E0BE"/>
+  <circle cx="398" cy="478" r="18" fill="#8EA6FF"/>
+  <circle cx="600" cy="478" r="18" fill="#68E0BE"/>
+  <circle cx="802" cy="478" r="18" fill="#8EA6FF"/>
+  <circle cx="1004" cy="478" r="18" fill="#68E0BE"/>
+  <text x="104" y="560" fill="#D6E4DF" font-family="Inter, Arial, sans-serif" font-size="25">If the app stops at the scan, it is a tracker. If it reaches memory, it starts acting like a coach.</text>
+</svg>

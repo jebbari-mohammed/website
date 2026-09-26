@@ -333,7 +333,7 @@
     {
       "id": "food-scanner-scan-to-plan-rehabilitation-2026-09-26",
       "url": "/blog/food-scanner-app-with-meal-planning-and-workout-coaching",
-      "files": ["public/blog/food-scanner-app-with-meal-planning-and-workout-coaching.html", "public/og/food-scanner-app-with-meal-planning-and-workout-coaching.svg"],
+      "files": ["public/blog/food-scanner-app-with-meal-planning-and-workout-coaching.html", "public/blog/assets/food-scanner-app-with-meal-planning-and-workout-coaching/hero.svg", "public/blog/assets/food-scanner-app-with-meal-planning-and-workout-coaching/framework.svg", "public/og/food-scanner-app-with-meal-planning-and-workout-coaching.svg"],
       "launchedAt": "2026-09-26",
       "lockUntil": "2026-10-17",
       "preferredReviewAt": "2026-10-24",
