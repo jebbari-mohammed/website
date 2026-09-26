@@ -331,6 +331,15 @@
       "reason": "The September 25 refresh uses the healthy private Search Console accountability/calls evidence without touching locked winner pages. It replaces a generic, syntactically broken chooser with the Decision Moment Test, updated Article/FAQ/Breadcrumb metadata, safer product/pricing language, and contextual links into accountability, calls, missed-workout repair, day review, private accountability, and consistency tools. Preserve for a clean 21-day ranking and internal-link support evaluation window."
     },
     {
+      "id": "food-scanner-scan-to-plan-rehabilitation-2026-09-26",
+      "url": "/blog/food-scanner-app-with-meal-planning-and-workout-coaching",
+      "files": ["public/blog/food-scanner-app-with-meal-planning-and-workout-coaching.html", "public/og/food-scanner-app-with-meal-planning-and-workout-coaching.svg"],
+      "launchedAt": "2026-09-26",
+      "lockUntil": "2026-10-17",
+      "preferredReviewAt": "2026-10-24",
+      "reason": "The September 26 rehabilitation turns a quarantined noindex legacy food-scanner page into an indexable Scan-to-Plan Test for connecting food scans with meal planning, workout context, day review, coach memory, and weekly adaptation. Preserve for a clean 21-day discovery, ranking, and cannibalization evaluation window."
+    },
+    {
       "id": "workout-day-meal-planner-switchboard-launch-2026-09-26",
       "url": "/blog/workout-day-meal-planner-app",
       "files": ["public/blog/workout-day-meal-planner-app.html", "public/blog/assets/workout-day-meal-planner-app/hero.svg", "public/blog/assets/workout-day-meal-planner-app/switchboard.svg"],

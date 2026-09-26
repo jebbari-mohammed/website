@@ -1,51 +1,43 @@
-<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#060B1D"/>
-      <stop offset="100%" style="stop-color:#0C1A3D"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#00D4FF"/>
-      <stop offset="100%" style="stop-color:#7C5CFC"/>
-    </linearGradient>
-    <linearGradient id="glow" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:0.15"/>
-      <stop offset="100%" style="stop-color:#7C5CFC;stop-opacity:0"/>
-    </linearGradient>
-  </defs>
-
-  <!-- Background -->
-  <rect width="1200" height="630" fill="url(#bg)"/>
-
-  <!-- Glow blob top-right -->
-  <ellipse cx="1050" cy="80" rx="280" ry="180" fill="url(#glow)" opacity="0.6"/>
-
-  <!-- Grid lines (subtle) -->
-  <line x1="0" y1="210" x2="1200" y2="210" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="0" y1="420" x2="1200" y2="420" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="400" y1="0" x2="400" y2="630" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-  <line x1="800" y1="0" x2="800" y2="630" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-
-  <!-- Top accent bar -->
-  <rect x="0" y="0" width="1200" height="6" fill="url(#accent)"/>
-
-  <!-- Category pill -->
-  <rect x="60" y="60" width="170" height="40" rx="20" fill="rgba(0,212,255,0.12)" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
-  <text x="80" y="84" font-family="system-ui,-apple-system,sans-serif" font-size="18" font-weight="600" fill="#00D4FF">AI Fitness</text>
-
-  <!-- Title -->
-  <text x="60" y="204" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Why You Should Stop Juggling Three</text>
-    <text x="60" y="276" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="800" fill="#F8FAFC" letter-spacing="-1">Different Fitness Apps</text>
-
-  <!-- Bottom bar -->
-  <rect x="0" y="560" width="1200" height="70" fill="rgba(0,0,0,0.3)"/>
-
-  <!-- Logo -->
-  <text x="60" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="800" fill="#F8FAFC">⚡ IZEM</text>
-
-  <!-- Domain -->
-  <text x="1140" y="604" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#475569" text-anchor="end">youraicoach.life</text>
-
-  <!-- Decorative accent line -->
-  <rect x="60" y="372" width="80" height="4" rx="2" fill="url(#accent)"/>
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Food scanner app with meal planning and workout coaching</title>
+  <desc id="desc">Object-only diagram showing a phone food scan flowing into meal planning, workout context, and weekly review.</desc>
+  <rect width="1200" height="630" fill="#07110F"/>
+  <rect x="56" y="54" width="1088" height="522" rx="24" fill="#0D1B17" stroke="#243C33" stroke-width="2"/>
+  <text x="92" y="126" fill="#68E0BE" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">IZEM GUIDE</text>
+  <text x="92" y="198" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="900">Food scan to plan</text>
+  <text x="92" y="260" fill="#D6E4DF" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="600">Does the photo become useful coaching?</text>
+  <g transform="translate(92 330)">
+    <rect x="0" y="0" width="170" height="120" rx="18" fill="#11251F" stroke="#68E0BE" stroke-width="3"/>
+    <rect x="20" y="18" width="58" height="84" rx="10" fill="#07110F" stroke="#D6E4DF" stroke-width="3"/>
+    <circle cx="49" cy="84" r="5" fill="#68E0BE"/>
+    <path d="M106 36h36v18h-36zM98 66h52v18H98z" fill="#D6E4DF"/>
+    <text x="0" y="156" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">Scan</text>
+  </g>
+  <path d="M292 389h106" stroke="#68E0BE" stroke-width="8" stroke-linecap="round"/>
+  <path d="M386 369l30 20-30 20z" fill="#68E0BE"/>
+  <g transform="translate(430 330)">
+    <rect x="0" y="0" width="170" height="120" rx="18" fill="#10201B" stroke="#4764AC" stroke-width="3"/>
+    <rect x="30" y="26" width="110" height="18" rx="6" fill="#D6E4DF"/>
+    <rect x="30" y="54" width="80" height="18" rx="6" fill="#68E0BE"/>
+    <rect x="30" y="82" width="96" height="18" rx="6" fill="#8EA6FF"/>
+    <text x="0" y="156" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">Confirm</text>
+  </g>
+  <path d="M630 389h106" stroke="#68E0BE" stroke-width="8" stroke-linecap="round"/>
+  <path d="M724 369l30 20-30 20z" fill="#68E0BE"/>
+  <g transform="translate(768 330)">
+    <rect x="0" y="0" width="170" height="120" rx="18" fill="#11251F" stroke="#68E0BE" stroke-width="3"/>
+    <circle cx="48" cy="42" r="19" fill="#68E0BE"/>
+    <rect x="82" y="24" width="58" height="14" rx="5" fill="#D6E4DF"/>
+    <rect x="82" y="50" width="42" height="14" rx="5" fill="#D6E4DF"/>
+    <path d="M38 82h94" stroke="#8EA6FF" stroke-width="10" stroke-linecap="round"/>
+    <text x="0" y="156" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">Plan</text>
+  </g>
+  <path d="M968 389h86" stroke="#68E0BE" stroke-width="8" stroke-linecap="round"/>
+  <path d="M1042 369l30 20-30 20z" fill="#68E0BE"/>
+  <g transform="translate(998 118)">
+    <rect x="-8" y="0" width="110" height="136" rx="16" fill="#10201B" stroke="#243C33" stroke-width="3"/>
+    <path d="M20 42h58M20 70h42M20 98h52" stroke="#D6E4DF" stroke-width="9" stroke-linecap="round"/>
+    <text x="-34" y="174" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">Review</text>
+  </g>
+  <text x="92" y="540" fill="#A9BBB4" font-family="Inter, Arial, sans-serif" font-size="24">Meal estimates, workout context, day review, coach memory, weekly adaptation.</text>
 </svg>
