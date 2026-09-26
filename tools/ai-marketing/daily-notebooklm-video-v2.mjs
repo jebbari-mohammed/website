@@ -181,9 +181,13 @@ async function findValidatedExistingVideo(token, post) {
   const ids = (playlist.items || []).map((item) => item?.contentDetails?.videoId).filter(Boolean);
   if (!ids.length) return null;
   const videos = await youtubeJson(token, `/youtube/v3/videos?part=snippet,status&id=${encodeURIComponent(ids.join(','))}`);
+  const expectedTitle = youtubeSnippet(post).title;
   const match = (videos.items || []).find((video) => {
     const description = String(video?.snippet?.description || '');
-    return description.includes(`Canonical article: ${post.url}`) && description.includes(VALIDATION_STAMP);
+    const title = String(video?.snippet?.title || '');
+    return title === expectedTitle
+      && description.includes(`Canonical article: ${post.url}`)
+      && description.includes(VALIDATION_STAMP);
   });
   return match?.id ? `https://youtube.com/watch?v=${match.id}` : null;
 }
