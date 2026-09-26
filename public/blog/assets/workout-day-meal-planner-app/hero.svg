@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Workout-day meal planner switchboard</title>
+  <desc id="desc">Object-only card showing a weekly training and meal planning switchboard.</desc>
+  <rect width="1200" height="675" fill="#07110F"/>
+  <rect x="72" y="76" width="1056" height="522" rx="8" fill="#10201B" stroke="#68E0BE" stroke-opacity=".36" stroke-width="3"/>
+  <text x="118" y="152" fill="#68E0BE" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">IZEM MEAL SWITCHBOARD</text>
+  <text x="118" y="222" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="62" font-weight="900">Meals around</text>
+  <text x="118" y="294" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="62" font-weight="900">training days</text>
+  <g transform="translate(118 372)">
+    <rect width="156" height="124" rx="8" fill="#173028" stroke="#68E0BE" stroke-opacity=".35"/>
+    <text x="24" y="44" fill="#B5F5E1" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">Hard day</text>
+    <rect x="24" y="68" width="108" height="12" rx="6" fill="#68E0BE"/>
+    <rect x="24" y="90" width="82" height="12" rx="6" fill="#A7F3D0"/>
+  </g>
+  <g transform="translate(300 372)">
+    <rect width="156" height="124" rx="8" fill="#173028" stroke="#68E0BE" stroke-opacity=".35"/>
+    <text x="24" y="44" fill="#B5F5E1" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">Rest day</text>
+    <rect x="24" y="68" width="108" height="12" rx="6" fill="#68E0BE"/>
+    <rect x="24" y="90" width="64" height="12" rx="6" fill="#A7F3D0"/>
+  </g>
+  <g transform="translate(482 372)">
+    <rect width="156" height="124" rx="8" fill="#173028" stroke="#68E0BE" stroke-opacity=".35"/>
+    <text x="24" y="44" fill="#B5F5E1" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">Late lift</text>
+    <rect x="24" y="68" width="108" height="12" rx="6" fill="#68E0BE"/>
+    <rect x="24" y="90" width="92" height="12" rx="6" fill="#A7F3D0"/>
+  </g>
+  <g transform="translate(664 372)">
+    <rect width="156" height="124" rx="8" fill="#173028" stroke="#68E0BE" stroke-opacity=".35"/>
+    <text x="24" y="44" fill="#B5F5E1" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">Missed</text>
+    <rect x="24" y="68" width="108" height="12" rx="6" fill="#68E0BE"/>
+    <rect x="24" y="90" width="72" height="12" rx="6" fill="#A7F3D0"/>
+  </g>
+  <g transform="translate(888 170)">
+    <rect width="170" height="248" rx="8" fill="#07130F" stroke="#FFFFFF" stroke-opacity=".15"/>
+    <circle cx="85" cy="76" r="38" fill="#68E0BE"/>
+    <rect x="44" y="134" width="82" height="16" rx="8" fill="#F8FAFC"/>
+    <rect x="34" y="170" width="102" height="16" rx="8" fill="#A7F3D0"/>
+    <rect x="52" y="206" width="66" height="16" rx="8" fill="#68E0BE"/>
+  </g>
+  <path d="M838 430 C870 414 884 376 888 342" fill="none" stroke="#68E0BE" stroke-width="8" stroke-linecap="round"/>
+  <path d="M872 343 L891 316 L902 347" fill="none" stroke="#68E0BE" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

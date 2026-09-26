@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Meal planner decision loop</title>
+  <desc id="desc">Object-only diagram showing the label, simplify, reset, and review jobs of a training-aware meal planner.</desc>
+  <rect width="1200" height="675" fill="#07110F"/>
+  <rect x="82" y="86" width="1036" height="503" rx="8" fill="#10201B" stroke="#68E0BE" stroke-opacity=".32" stroke-width="3"/>
+  <text x="126" y="154" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="900">The Meal Switchboard</text>
+  <text x="126" y="198" fill="#B5F5E1" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">One food decision, connected to the training week.</text>
+  <g fill="none" stroke="#68E0BE" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity=".9">
+    <path d="M337 338 H487"/>
+    <path d="M461 318 L491 338 L461 358"/>
+    <path d="M622 338 H772"/>
+    <path d="M746 318 L776 338 L746 358"/>
+    <path d="M600 442 V500"/>
+    <path d="M580 474 L600 504 L620 474"/>
+  </g>
+  <g transform="translate(142 266)">
+    <rect width="195" height="144" rx="8" fill="#173028" stroke="#68E0BE" stroke-opacity=".35"/>
+    <text x="28" y="52" fill="#68E0BE" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="900">1. Label</text>
+    <text x="28" y="90" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">day type</text>
+  </g>
+  <g transform="translate(492 266)">
+    <rect width="195" height="144" rx="8" fill="#173028" stroke="#68E0BE" stroke-opacity=".35"/>
+    <text x="28" y="52" fill="#68E0BE" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="900">2. Simplify</text>
+    <text x="28" y="90" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">meal choice</text>
+  </g>
+  <g transform="translate(842 266)">
+    <rect width="195" height="144" rx="8" fill="#173028" stroke="#68E0BE" stroke-opacity=".35"/>
+    <text x="28" y="52" fill="#68E0BE" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="900">3. Reset</text>
+    <text x="28" y="90" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">after misses</text>
+  </g>
+  <g transform="translate(438 504)">
+    <rect width="324" height="54" rx="8" fill="#68E0BE"/>
+    <text x="38" y="36" fill="#06130F" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="900">4. Review next week</text>
+  </g>
+</svg>
