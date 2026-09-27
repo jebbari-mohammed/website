@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
   <title id="title">Adaptive Workout and Meal Plan App</title>
-  <desc id="desc">IZEM social card showing the Plan Drift Audit for workouts, meals, reviews, and weekly changes.</desc>
+  <desc id="desc">IZEM social card showing the Weekly Adaptation Receipt for workouts, meals, reviews, and weekly changes.</desc>
   <rect width="1200" height="630" fill="#081019"/>
   <rect x="72" y="68" width="1056" height="494" rx="28" fill="#101B2A" stroke="#42C7C3" stroke-opacity=".42" stroke-width="2"/>
   <text x="118" y="140" fill="#42C7C3" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">IZEM</text>
   <text x="118" y="222" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="62" font-weight="850">Adaptive Workout</text>
   <text x="118" y="292" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="62" font-weight="850">and Meal Plan App</text>
-  <text x="122" y="356" fill="#D1DBE7" font-family="Inter, Arial, sans-serif" font-size="28">The Plan Drift Audit for real-life coaching</text>
+  <text x="122" y="356" fill="#D1DBE7" font-family="Inter, Arial, sans-serif" font-size="28">The Weekly Adaptation Receipt for real-life coaching</text>
   <g transform="translate(122 410)" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="750">
     <rect x="0" y="0" width="204" height="46" rx="8" fill="#15352F" stroke="#42C7C3" stroke-opacity=".28"/>
     <text x="22" y="30" fill="#EAF0F7">Missed sessions</text>

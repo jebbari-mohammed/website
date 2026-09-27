@@ -347,6 +347,15 @@
       "lockUntil": "2026-10-17",
       "preferredReviewAt": "2026-10-24",
       "reason": "The September 26 launch supports the GSC-visible workout-plus-meal-planning cluster without editing locked winner pages. It targets training-day/rest-day meal-planner intent with the Meal Switchboard tool, object-only visuals, safe nutrition boundaries, and contextual links from the nutrition template and blog discovery surfaces. Preserve for a clean 21-day discovery and early ranking window."
+    },
+    {
+      "id": "adaptive-workout-meal-weekly-receipt-refresh-2026-09-26",
+      "url": "/blog/adaptive-workout-and-meal-plan-app",
+      "files": ["public/blog/adaptive-workout-and-meal-plan-app.html", "public/og/adaptive-workout-and-meal-plan-app.svg"],
+      "launchedAt": "2026-09-26",
+      "lockUntil": "2026-10-17",
+      "preferredReviewAt": "2026-10-24",
+      "reason": "The September 26 refresh revisits the matured August 30 adaptive workout-and-meal experiment after indexation but weak Search Console visibility. It retitles the page around weekly adaptation, adds the browser-only Weekly Adaptation Receipt, strengthens links into workout-day meal planning and food-scanner plan context, updates schema/discovery metadata, and keeps the canonical distinct from the broad meal-planning comparison and the quarantined legacy weekly-adaptation page. Preserve for a clean 21-day ranking, CTR, and cannibalization evaluation window."
     }
   ]
 }
