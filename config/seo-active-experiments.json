@@ -358,13 +358,13 @@
       "reason": "The September 26 refresh revisits the matured August 30 adaptive workout-and-meal experiment after indexation but weak Search Console visibility. It retitles the page around weekly adaptation, adds the browser-only Weekly Adaptation Receipt, strengthens links into workout-day meal planning and food-scanner plan context, updates schema/discovery metadata, and keeps the canonical distinct from the broad meal-planning comparison and the quarantined legacy weekly-adaptation page. Preserve for a clean 21-day ranking, CTR, and cannibalization evaluation window."
     },
     {
-      "id": "tools-ai-workout-generator-internal-link-2026-09-27",
-      "url": "/tools/",
-      "files": ["public/tools/index.html"],
+      "id": "blog-index-ai-workout-generator-internal-link-2026-09-27",
+      "url": "/blog/",
+      "files": ["public/blog/index.html"],
       "launchedAt": "2026-09-27",
       "lockUntil": "2026-10-18",
       "preferredReviewAt": "2026-10-25",
-      "reason": "The September 27 tools-hub improvement supports the strongest current Search Console landing page, /features/ai-workout-generator, without editing that locked target. It retitles the tools hub around fitness calculators plus AI workout tools, adds a prominent adaptive AI workout-generator card, and adds matching WebApplication schema. Preserve for a clean 21-day internal-link and CTR-support evaluation window."
+      "reason": "The September 27 blog-index improvement supports the strongest current Search Console landing page, /features/ai-workout-generator, without editing that locked target or the locked tools hub. It adds a prominent adaptive AI workout-generator card to the relevant adaptive-planning cluster on the blog index. Preserve for a clean 21-day internal-link support evaluation window."
     },
     {
       "id": "ai-coach-better-than-human-personal-trainer-rejuvenation-2026-09-27",

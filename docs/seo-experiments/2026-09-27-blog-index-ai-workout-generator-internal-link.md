@@ -1,4 +1,4 @@
-# Tools Hub AI Workout Generator Internal Link
+# Blog Index AI Workout Generator Internal Link
 
 Date: 2026-09-27
 
@@ -11,22 +11,26 @@ Date: 2026-09-27
 - Exact private query rows were not used because `/Users/Apple/Documents/AI-Gym-Coach/.private-seo/gsc-evidence/vault.json` was not mounted in this workspace. No exact query strings were guessed.
 - `/features/ai-workout-generator` is locked through 2026-10-14, so the target page itself was intentionally left unchanged.
 
+## Correction
+
+An initial attempt placed this support link on `/tools/`, but CI correctly flagged that file as protected by the September 24 `/fitness-app-that-calls-you/` timing-picker experiment. The tools hub was restored to preserve that measurement window. The final public SEO action is the unlocked blog-index link below.
+
 ## Decision
 
-Improve `/tools/` as the single morning SEO action. The tools hub is an unlocked, relevant internal-link source that already owns calculator and planning intent. It now gives the GSC-winning AI workout generator page a more explicit path from a utility surface without contaminating the locked target page.
+Improve `/blog/` as the single morning SEO action. The blog index already clusters adaptive workout planning articles but did not give the strongest current landing page, `/features/ai-workout-generator`, a direct visible card inside that cluster.
 
 ## Change
 
-- Retitled `/tools/` from calculators-only positioning to fitness calculators plus AI workout tools.
-- Added a prominent "Adaptive AI Workout Generator" card linking to `/features/ai-workout-generator`.
-- Added matching `WebApplication` JSON-LD for the adaptive AI workout generator route.
+- Added an "AI workout generator for adaptive plans" card to the adaptive-planning section of `/blog/`.
+- Linked that card directly to `/features/ai-workout-generator`.
+- Added a 21-day experiment lock for `/blog/`.
 
 ## Hypothesis
 
-Clearer internal linking from `/tools/` will help Google and users connect calculator/planning intent with IZEM's adaptive workout-planning feature, supporting impressions, average position, and position-aware CTR for `/features/ai-workout-generator` while preserving its active on-page experiment.
+Clearer internal linking from the blog index will help Google and users connect adaptive-planning articles with IZEM's primary AI workout-generator feature, supporting impressions, average position, and position-aware CTR for `/features/ai-workout-generator` while preserving its active on-page experiment.
 
 ## Measurement
 
 - Primary target: `/features/ai-workout-generator` impressions, clicks, CTR, and average position.
-- Secondary target: `/tools/` impressions/clicks and internal navigation to `/features/ai-workout-generator`.
+- Secondary target: `/blog/` impressions/clicks and internal navigation to `/features/ai-workout-generator`.
 - Review no earlier than 2026-10-18; preferred review 2026-10-25.
