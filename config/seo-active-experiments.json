@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-26",
+  "updatedAt": "2026-09-27",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -356,6 +356,15 @@
       "lockUntil": "2026-10-17",
       "preferredReviewAt": "2026-10-24",
       "reason": "The September 26 refresh revisits the matured August 30 adaptive workout-and-meal experiment after indexation but weak Search Console visibility. It retitles the page around weekly adaptation, adds the browser-only Weekly Adaptation Receipt, strengthens links into workout-day meal planning and food-scanner plan context, updates schema/discovery metadata, and keeps the canonical distinct from the broad meal-planning comparison and the quarantined legacy weekly-adaptation page. Preserve for a clean 21-day ranking, CTR, and cannibalization evaluation window."
+    },
+    {
+      "id": "ai-coach-better-than-human-personal-trainer-rejuvenation-2026-09-27",
+      "url": "/blog/ai-coach-better-than-human-personal-trainer",
+      "files": ["public/blog/ai-coach-better-than-human-personal-trainer.html"],
+      "launchedAt": "2026-09-27",
+      "lockUntil": "2026-10-18",
+      "preferredReviewAt": "2026-10-25",
+      "reason": "Material rejuvenation targeting decaying Search Console visibility (-1 impression in 28d, -2 impressions in 7d, average position dropped from 5.6 to 7.5). Updated introduction and first H2 with 2026 ACSM trends, continuous behavioral coverage versus the 166 uncoached hours, proactive voice call accountability, and adaptive closed-loop coaching. Preserve for clean 21-day evaluation window."
     }
   ]
 }
