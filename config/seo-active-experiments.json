@@ -383,6 +383,15 @@
       "lockUntil": "2026-10-18",
       "preferredReviewAt": "2026-10-25",
       "reason": "The September 27 evening launch supports the strongest Search Console AI-workout-generator cluster without editing locked winner pages. It targets equipment-aware workout generator intent with the browser-only Equipment Reality Card, object-only visuals, safe workout boundaries, and a contextual link from the matured beginner generator guide. Preserve for a clean 21-day discovery, ranking, and cannibalization evaluation window."
+    },
+    {
+      "id": "tdee-calculator-weekly-reality-check-refresh-2026-09-28",
+      "url": "/tdee-calculator/",
+      "files": ["public/tdee-calculator/index.html"],
+      "launchedAt": "2026-09-28",
+      "lockUntil": "2026-10-19",
+      "preferredReviewAt": "2026-10-26",
+      "reason": "The September 28 refresh targets the public-safe near-page-one TDEE calculator signal while correcting thin/overconfident calorie language. It retitles the page around maintenance calories plus weekly adjustment, adds metric/imperial calculator support, WebPage/WebApplication/FAQ/Breadcrumb structured data, safer nutrition boundaries, source notes, and the TDEE Reality Check framework that connects estimates to IZEM meal planning and weekly adaptation. Preserve for a clean 21-day CTR, ranking, and trust evaluation window."
     }
   ]
 }

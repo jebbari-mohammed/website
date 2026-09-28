@@ -1,140 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free TDEE Calculator — Total Daily Energy Expenditure | IZEM</title>
-    <meta name="description" content="Calculate your Total Daily Energy Expenditure (TDEE) for free. Discover exactly how many calories you burn per day based on your activity level to lose fat or build muscle.">
-    <link rel="canonical" href="https://youraicoach.life/tdee-calculator/">
-    <meta property="og:title" content="Free TDEE Calculator — Total Daily Energy Expenditure">
-    <meta property="og:url" content="https://youraicoach.life/tdee-calculator/">
-    <meta property="og:type" content="website">
-    <meta name="robots" content="index, follow">
-    <script type="application/ld+json">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TDEE Calculator: Maintenance Calories + Weekly Adjustment | IZEM</title>
+  <meta name="description" content="Estimate TDEE, BMR, and a practical calorie target, then use IZEM's weekly reality check to adjust meals around training, hunger, and consistency.">
+  <link rel="canonical" href="https://youraicoach.life/tdee-calculator/">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta property="og:title" content="TDEE Calculator: Maintenance Calories + Weekly Adjustment">
+  <meta property="og:description" content="Use a safer TDEE estimate, then turn the number into a weekly meal-planning decision instead of treating it as a permanent rule.">
+  <meta property="og:url" content="https://youraicoach.life/tdee-calculator/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IZEM">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TDEE Calculator: Maintenance Calories + Weekly Adjustment">
+  <meta name="twitter:description" content="Estimate maintenance calories and build a weekly reality check around training, hunger, and adherence.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "TDEE Calculator",
+      "description": "A maintenance-calorie calculator and weekly adjustment framework for turning a TDEE estimate into a practical meal-planning decision.",
       "url": "https://youraicoach.life/tdee-calculator/",
-      "applicationCategory": "HealthApplication",
-      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
-    }
-    </script>
-    <script type="application/ld+json">
+      "datePublished": "2026-07-05",
+      "dateModified": "2026-09-28",
+      "author": {
+        "@type": "Organization",
+        "name": "IZEM Editorial",
+        "url": "https://youraicoach.life/editorial-policy.html"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "IZEM",
+        "url": "https://youraicoach.life/"
+      },
+      "accountablePerson": {
+        "@type": "Person",
+        "name": "Mohammed Jebbari",
+        "url": "https://youraicoach.life/about"
+      }
+    },
     {
-      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "IZEM TDEE Calculator",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Web browser",
+      "url": "https://youraicoach.life/tdee-calculator/#calculator",
+      "description": "A browser-based calculator that estimates BMR, TDEE, calorie target, and weekly energy adjustment from body size, age, sex used by the formula, activity, and goal.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
       "@type": "FAQPage",
-      "mainEntity": [{
-        "@type": "Question",
-        "name": "What is TDEE?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Total Daily Energy Expenditure (TDEE) is the total number of calories you burn in a day, including your basal metabolic rate and physical activity."
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is TDEE?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "TDEE means total daily energy expenditure. It is an estimate of how many calories you burn across a full day, including resting metabolism, movement, exercise, and digestion."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a TDEE calculator exact?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. A TDEE calculator is a starting estimate. The useful next step is to follow the target consistently for two to three weeks, compare bodyweight trend, hunger, training performance, and adherence, then make a modest adjustment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How should I use TDEE with a meal plan?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use TDEE to set a first calorie range, then connect that range to meals you can actually repeat. IZEM can help by pairing practical meal plans with workout days, food-scan context, day reviews, coach memory, and weekly adaptation."
+          }
         }
-      }, {
-        "@type": "Question",
-        "name": "How do I use my TDEE to lose weight?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "To lose weight, you need to eat fewer calories than your TDEE. A common deficit is 500 calories per day, which leads to about 1 lb of weight loss per week."
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://youraicoach.life/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://youraicoach.life/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "TDEE Calculator",
+          "item": "https://youraicoach.life/tdee-calculator/"
         }
-      }]
+      ]
     }
-    </script>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#E2E8F0;line-height:1.7}
-        .nav{background:rgba(6,11,29,0.95);border-bottom:1px solid rgba(255,255,255,0.08);padding:16px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
-        .ni{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-        .nb{font-weight:800;font-size:1.1rem;color:#F8FAFC;text-decoration:none}
-        .container{max-width:700px;margin:0 auto;padding:40px 24px}
-        h1{font-size:2.4rem;font-weight:800;margin-bottom:8px;color:#F8FAFC}
-        .sub{color:#94A3B8;margin-bottom:40px;font-size:1.05rem}
-        .calc{background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:border-color .3s;margin-bottom:40px}
-        .calc h2{font-size:1.3rem;font-weight:700;color:#00D4FF;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-        .calc p.desc{color:#94A3B8;font-size:.9rem;margin-bottom:20px}
-        label{display:block;color:#CBD5E1;font-size:.85rem;margin-bottom:6px;font-weight:600}
-        input,select{width:100%;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#F8FAFC;font-size:1rem;margin-bottom:14px;outline:none;transition:border-color .3s}
-        input:focus,select:focus{border-color:#00D4FF}
-        select option{background:#0C1232;color:#F8FAFC}
-        .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-        .btn{width:100%;padding:12px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;border:none;border-radius:10px;font-weight:700;font-size:1rem;cursor:pointer;transition:opacity .3s;margin-top:4px}
-        .btn:hover{opacity:0.9}
-        .result{margin-top:16px;padding:16px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:12px;display:none}
-        .result h3{color:#00D4FF;font-size:1.1rem;margin-bottom:8px}
-        .result .val{font-size:1.8rem;font-weight:800;color:#F8FAFC}
-        .result .detail{color:#94A3B8;font-size:.85rem;margin-top:8px}
-        .content{margin-top:20px}
-        .content h2{font-size:1.5rem;color:#F8FAFC;margin-top:30px;margin-bottom:12px}
-        .content p{margin-bottom:16px;color:#94A3B8}
-        .cta-box{margin-top:48px;padding:24px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center}
-        .cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;text-decoration:none;margin:4px}
-        @media(max-width:500px){.row{grid-template-columns:1fr}h1{font-size:1.8rem}}
-    </style>
+  ]
+}
+  </script>
+  <style>
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#07110f;color:#eef7f3;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7}
+    a{color:#68e0be;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .nav{position:sticky;top:0;z-index:20;background:rgba(7,17,15,.95);border-bottom:1px solid rgba(255,255,255,.09);backdrop-filter:blur(12px)}
+    .nav-inner{max-width:1040px;margin:auto;padding:15px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{font-weight:900;color:#f8fafc;letter-spacing:0}
+    .nav-links{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem}
+    .nav-links a{color:#a9bbb4}
+    .hero{border-bottom:1px solid rgba(255,255,255,.08);background:linear-gradient(135deg,#07110f 0%,#123028 58%,#17243b 100%)}
+    .hero-inner{max-width:1040px;margin:auto;padding:70px 24px 62px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(290px,.75fr);gap:34px;align-items:center}
+    .eyebrow{display:inline-flex;padding:7px 12px;border:1px solid rgba(104,224,190,.3);background:rgba(104,224,190,.08);border-radius:8px;color:#b5f5e1;font-size:.78rem;font-weight:850;letter-spacing:0;text-transform:uppercase;margin-bottom:20px}
+    h1{margin:0 0 20px;max-width:820px;font-size:clamp(2.25rem,5.4vw,4.35rem);line-height:1.02;letter-spacing:0}
+    .lead{max-width:760px;margin:0 0 28px;color:#d6e4df;font-size:clamp(1.08rem,2.2vw,1.26rem)}
+    .hero-actions,.tool-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .button{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:8px;padding:13px 19px;font:inherit;font-weight:850;cursor:pointer;text-decoration:none}
+    .primary{background:#68e0be;color:#06130f}
+    .secondary{background:rgba(255,255,255,.065);border:1px solid rgba(255,255,255,.14);color:#f8fafc}
+    .hero-card{background:#0b1915;border:1px solid rgba(104,224,190,.2);border-radius:8px;padding:22px}
+    .hero-card b{display:block;color:#68e0be;font-size:.8rem;text-transform:uppercase;letter-spacing:0;margin-bottom:8px}
+    .hero-card strong{display:block;color:#f8fafc;font-size:2.15rem;line-height:1.05;margin-bottom:12px}
+    .hero-card p{margin:0;color:#b8c7c1}
+    main{max-width:920px;margin:auto;padding:52px 24px 88px}
+    .meta{font-size:.9rem;color:#83948e;margin-bottom:26px}
+    h2{font-size:clamp(1.55rem,3.2vw,2.35rem);line-height:1.15;letter-spacing:0;margin:48px 0 16px}
+    h3{font-size:1.15rem;margin:27px 0 10px}
+    p{color:#d1ded9;font-size:1.035rem;margin:0 0 18px}
+    strong{color:#f8fafc}
+    ul,ol{color:#d1ded9;padding-left:24px;margin:16px 0 24px}
+    li{margin-bottom:10px}
+    .answer,.note,.panel,.sources,.cta{border-radius:8px;border:1px solid rgba(255,255,255,.1);background:#10201b}
+    .answer,.note,.panel{padding:22px 24px;margin:24px 0}
+    .answer{background:rgba(104,224,190,.08);border-color:rgba(104,224,190,.24)}
+    .answer p{margin:0;color:#f8fafc;font-size:1.1rem}
+    .note p:last-child,.panel p:last-child{margin-bottom:0}
+    .tool{margin:30px 0 42px;border:1px solid rgba(104,224,190,.24);border-radius:8px;overflow:hidden;background:#0b1915}
+    .tool-head{padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.09);background:linear-gradient(135deg,rgba(104,224,190,.1),rgba(240,164,92,.08))}
+    .tool-head h2{font-size:1.55rem;margin:0 0 8px}
+    .tool-head p{margin:0;color:#b9c8c3;font-size:.96rem}
+    .form-grid{padding:24px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .field{display:flex;flex-direction:column;gap:7px}
+    .field.full{grid-column:1/-1}
+    .imperial-height{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    label{color:#f8fafc;font-weight:750;font-size:.93rem}
+    .hint{color:#83948e;font-weight:500;font-size:.79rem}
+    input,select{width:100%;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:#07130f;color:#f8fafc;padding:12px 13px;font:inherit}
+    select option{background:#07130f;color:#f8fafc}
+    .tool-actions{padding:0 24px 24px;align-items:center}
+    .status{font-size:.9rem;color:#a6e8d4;min-height:1.4em}
+    .results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0 24px 24px}
+    .result-card{background:#10201b;border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:16px}
+    .result-card b{display:block;color:#68e0be;font-size:.76rem;text-transform:uppercase;letter-spacing:0;margin-bottom:6px}
+    .result-card strong{display:block;color:#f8fafc;font-size:1.5rem;line-height:1.1}
+    .result-card span{display:block;color:#aebdb8;font-size:.88rem;margin-top:7px}
+    table{width:100%;border-collapse:collapse;margin:22px 0 30px;background:#10201b;border:1px solid rgba(255,255,255,.1)}
+    th,td{padding:14px;text-align:left;vertical-align:top;border-bottom:1px solid rgba(255,255,255,.08)}
+    th{color:#f8fafc;background:rgba(255,255,255,.045)}
+    td{color:#d1ded9}
+    .framework{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0 32px}
+    .framework article,.related a{background:#10201b;border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:18px}
+    .framework b{display:block;color:#68e0be;font-size:.76rem;letter-spacing:0;margin-bottom:7px}
+    .framework h3{font-size:1.06rem;margin:0 0 7px}
+    .framework p{font-size:.91rem;color:#aebdb8;margin:0}
+    .related{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+    .related a{display:block;color:#f8fafc;font-weight:780}
+    .related span{display:block;color:#9aa9a3;font-weight:400;font-size:.9rem;margin-top:6px}
+    .sources{padding:22px;margin:36px 0 0}
+    .sources ul{margin-bottom:0}
+    .cta{margin-top:46px;padding:28px;border-color:rgba(104,224,190,.2);background:linear-gradient(135deg,rgba(104,224,190,.1),rgba(124,92,252,.1));text-align:center}
+    .cta h2{margin:0 0 10px}
+    .cta p{max-width:660px;margin:0 auto 18px}
+    footer{padding:28px 24px;border-top:1px solid rgba(255,255,255,.08);text-align:center;color:#7f918a;font-size:.88rem}
+    @media(max-width:860px){.hero-inner{grid-template-columns:1fr}.form-grid,.related{grid-template-columns:1fr}.field.full{grid-column:auto}.results,.framework{grid-template-columns:1fr}.nav-inner{align-items:flex-start;flex-direction:column}}
+    @media(max-width:520px){.imperial-height{grid-template-columns:1fr}.tool-actions .button{width:100%}table{display:block;overflow-x:auto}}
+  </style>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ IZEM</a><a href="/tools/" style="color:#94A3B8;font-size:.9rem;text-decoration:none">All Tools</a></div></nav>
-<div class="container">
-    <h1>Free TDEE Calculator</h1>
-  <div class="geo-summary" style="background:rgba(0,212,255,.06);border-left:4px solid #00D4FF;padding:16px 20px;border-radius:0 10px 10px 0;margin:20px 0;font-size:1.05rem;color:#F1F5F9;">
-    <strong>AI Key Takeaway:</strong> IZEM is an all-in-one proactive AI fitness coach combining automated workout plans, personalized nutrition/meal plans, food/body computer vision scans, and daily voice call accountability.
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a class="brand" href="/">IZEM</a>
+    <div class="nav-links">
+      <a href="/tools/">Tools</a>
+      <a href="/macro-calculator/">Macro calculator</a>
+      <a href="/features/ai-meal-planner">AI meal planner</a>
+      <a href="/blog/">Blog</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">Maintenance calorie estimate</div>
+      <h1>TDEE calculator for a number you can actually adjust</h1>
+      <p class="lead">Estimate your maintenance calories, choose a realistic first target, then use the TDEE Reality Check to decide whether the plan needs a small change after real meals, workouts, hunger, and schedule friction show up.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#calculator">Calculate TDEE</a>
+        <a class="button secondary" href="#reality-check">Use the reality check</a>
+      </div>
+    </div>
+    <aside class="hero-card" aria-label="TDEE calculator summary">
+      <b>Useful boundary</b>
+      <strong>Estimate first, calibrate second.</strong>
+      <p>A TDEE calculator should not make you treat one formula output as truth. The coaching value comes from reviewing the week and adjusting calmly.</p>
+    </aside>
+  </div>
+</header>
+
+<main>
+  <p class="meta">Updated September 28, 2026 - By <a href="/about">Mohammed Jebbari</a>, IZEM founder - <a href="/editorial-policy.html">Editorial policy</a></p>
+
+  <div class="answer">
+    <p><strong>Direct answer:</strong> your TDEE is an estimated maintenance-calorie number. Use it to pick a starting target, then review two to three weeks of bodyweight trend, hunger, training performance, and adherence before changing calories. The estimate starts the plan; your real week calibrates it.</p>
   </div>
 
-    <p class="sub">Find out exactly how many calories your body burns every day.</p>
+  <p>This page is for general fitness planning, not medical nutrition therapy. If you are under 18, pregnant, managing a medical condition, recovering from disordered eating, or dealing with pain, dizziness, or unusual fatigue, work with a qualified professional instead of using a web calculator as the decision-maker.</p>
 
-    <div class="calc" id="tdee">
-        <h2>🔥 Calculate Your TDEE</h2>
-        <p class="desc">Enter your stats below to determine your Total Daily Energy Expenditure.</p>
-        <div class="row">
-            <div><label>Weight (kg)</label><input type="number" id="tdee-weight" placeholder="75"></div>
-            <div><label>Height (cm)</label><input type="number" id="tdee-height" placeholder="175"></div>
-        </div>
-        <div class="row">
-            <div><label>Age</label><input type="number" id="tdee-age" placeholder="28"></div>
-            <div><label>Sex</label><select id="tdee-sex"><option value="male">Male</option><option value="female">Female</option></select></div>
-        </div>
-        <label>Activity Level</label>
-        <select id="tdee-activity">
-            <option value="1.2">Sedentary (desk job)</option>
-            <option value="1.375">Light (1-3 days/week)</option>
-            <option value="1.55" selected>Moderate (3-5 days/week)</option>
-            <option value="1.725">Active (6-7 days/week)</option>
-            <option value="1.9">Very Active (2x/day)</option>
+  <section class="tool" id="calculator" aria-labelledby="calculator-title">
+    <div class="tool-head">
+      <h2 id="calculator-title">Free TDEE calculator</h2>
+      <p>Uses the Mifflin-St Jeor resting-energy equation, then multiplies by an activity factor. All math runs in your browser.</p>
+    </div>
+
+    <div class="form-grid">
+      <div class="field">
+        <label for="unit">Units</label>
+        <select id="unit">
+          <option value="metric">Metric: kg and cm</option>
+          <option value="imperial">Imperial: lb, ft, and in</option>
         </select>
-        <button class="btn" onclick="calcTDEE()">Calculate TDEE</button>
-        <div class="result" id="tdee-result">
-            <h3>Your TDEE</h3>
-            <div class="val" id="tdee-val"></div>
-            <div class="detail" id="tdee-detail"></div>
+      </div>
+      <div class="field">
+        <label for="sex">Sex used by the formula</label>
+        <select id="sex">
+          <option value="female">Female equation</option>
+          <option value="male">Male equation</option>
+        </select>
+        <span class="hint">This is a limitation of the formula, not a full picture of your body.</span>
+      </div>
+      <div class="field">
+        <label for="age">Age</label>
+        <input id="age" type="number" min="18" max="90" inputmode="numeric" value="32">
+      </div>
+      <div class="field metric-field">
+        <label for="weight-kg">Weight</label>
+        <input id="weight-kg" type="number" min="35" max="250" step="0.1" inputmode="decimal" value="75">
+        <span class="hint">Kilograms</span>
+      </div>
+      <div class="field metric-field">
+        <label for="height-cm">Height</label>
+        <input id="height-cm" type="number" min="120" max="230" step="0.1" inputmode="decimal" value="175">
+        <span class="hint">Centimeters</span>
+      </div>
+      <div class="field imperial-field" hidden>
+        <label for="weight-lb">Weight</label>
+        <input id="weight-lb" type="number" min="80" max="550" step="0.1" inputmode="decimal" value="165">
+        <span class="hint">Pounds</span>
+      </div>
+      <div class="field imperial-field" hidden>
+        <label>Height</label>
+        <div class="imperial-height">
+          <input id="height-ft" type="number" min="3" max="8" inputmode="numeric" value="5" aria-label="Height feet">
+          <input id="height-in" type="number" min="0" max="11" inputmode="numeric" value="9" aria-label="Height inches">
         </div>
+        <span class="hint">Feet and inches</span>
+      </div>
+      <div class="field full">
+        <label for="activity">Usual activity level</label>
+        <select id="activity">
+          <option value="1.2">Sedentary: mostly sitting, little structured training</option>
+          <option value="1.375">Light: light movement or training 1-3 days per week</option>
+          <option value="1.55" selected>Moderate: training 3-5 days per week</option>
+          <option value="1.725">Active: hard training or a physical routine most days</option>
+          <option value="1.9">Very active: demanding training plus a physical day</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="goal">First calorie target</label>
+        <select id="goal">
+          <option value="0">Maintain: use estimated TDEE</option>
+          <option value="-250">Small deficit: TDEE minus 250 calories</option>
+          <option value="-500">Moderate deficit: TDEE minus 500 calories</option>
+          <option value="150">Small surplus: TDEE plus 150 calories</option>
+          <option value="300">Moderate surplus: TDEE plus 300 calories</option>
+        </select>
+      </div>
     </div>
 
-    <div class="content">
-        <h2>What is TDEE?</h2>
-        <p>Your Total Daily Energy Expenditure (TDEE) is an estimation of how many calories you burn per day when exercise is taken into account. It is calculated by first figuring out your Basal Metabolic Rate (BMR), then multiplying that value by an activity multiplier.</p>
-        
-        <h2>How to use your TDEE</h2>
-        <p>If you want to maintain your current weight, eat your TDEE in calories every day. To lose weight, you should eat fewer calories than your TDEE. A common strategy is to subtract 500 calories from your TDEE, which results in approximately 1 lb of fat loss per week.</p>
-        <p>TDEE is still an estimate, not a permanent rule. If training volume, hunger, schedule, or adherence changes, use an <a href="/features/ai-meal-planner">AI meal planner</a> or the <a href="/blog/weekly-nutrition-check-in-template">weekly nutrition check-in template</a> to turn the number into a practical next-week meal plan. When you want workouts and meals in one product, use the <a href="/blog/best-workout-app-with-meal-planning-included">workout app with meal planning guide</a> to check whether both plans actually adapt together.</p>
+    <div class="tool-actions">
+      <button class="button primary" id="calculate" type="button">Calculate</button>
+      <button class="button secondary" id="copy-summary" type="button">Copy summary</button>
+      <span class="status" id="status" aria-live="polite"></span>
     </div>
 
-    <div class="cta-box">
-        <p style="color:#CBD5E1;margin-bottom:12px"><strong>Want your calorie estimate connected to real meals?</strong> IZEM can use TDEE, macros, workouts, scans, and day reviews to adapt the plan.</p>
-        <a href="/izem-ai-fitness-coach/" class="cta">IZEM AI Fitness Coach</a>
-        <a href="/features/ai-meal-planner" class="cta">AI Meal Planner</a>
+    <div class="results" aria-live="polite">
+      <div class="result-card"><b>BMR estimate</b><strong id="bmr-result">-</strong><span>Calories at rest from the formula.</span></div>
+      <div class="result-card"><b>TDEE estimate</b><strong id="tdee-result">-</strong><span>Estimated maintenance calories.</span></div>
+      <div class="result-card"><b>First target</b><strong id="target-result">-</strong><span id="target-note">Pick a repeatable first step.</span></div>
     </div>
-</div>
+  </section>
+
+  <h2 id="reality-check">The TDEE Reality Check</h2>
+  <p>A good calculator gives you a starting line. A good coach helps you decide what the number means after your real week pushes back.</p>
+
+  <div class="framework">
+    <article><b>1 - Start</b><h3>Choose one target</h3><p>Use maintenance, a small deficit, or a small surplus. Do not change workouts, steps, meals, and calories all at once.</p></article>
+    <article><b>2 - Observe</b><h3>Track the week</h3><p>Watch weekly bodyweight average, hunger, training performance, energy, sleep, and meal-plan adherence.</p></article>
+    <article><b>3 - Adjust</b><h3>Move calmly</h3><p>If the trend and lived experience disagree with the target, adjust by a modest amount and review again.</p></article>
+  </div>
+
+  <table>
+    <thead><tr><th>What happened after 2-3 weeks?</th><th>Likely interpretation</th><th>Next move</th></tr></thead>
+    <tbody>
+      <tr><td>Weight trend, hunger, and training all look steady.</td><td>The estimate may be close enough for the current goal.</td><td>Keep the target and focus on meal consistency.</td></tr>
+      <tr><td>Weight is not moving, but adherence is inconsistent.</td><td>The calorie number may not be the main blocker.</td><td>Fix grocery planning, meal timing, food logging, or weekend drift before cutting more.</td></tr>
+      <tr><td>Training performance and energy drop hard.</td><td>The deficit may be too aggressive, or recovery may be underbuilt.</td><td>Use a smaller deficit, add a maintenance phase, or get qualified help when symptoms are concerning.</td></tr>
+      <tr><td>The plan works on rest days but breaks after hard workouts.</td><td>Your weekly average may need training-day context, not one identical day.</td><td>Plan workout-day meals separately from rest-day meals.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="panel">
+    <p><strong>IZEM angle:</strong> the useful product question is not only "what is my TDEE?" It is "how do workouts, meals, hunger, food scans, day reviews, and schedule changes affect next week?" IZEM is built as a premium AI personal trainer and accountability coach that connects those pieces instead of leaving the math in a separate tab.</p>
+  </div>
+
+  <h2>How to choose the activity level</h2>
+  <p>Most bad TDEE outputs start with the activity dropdown. Pick the level that describes your usual week, not your best week. If your schedule swings between office days, heavy training days, and missed sessions, use the lower honest category first. It is easier to adjust upward after evidence than to start with an optimistic target you cannot repeat.</p>
+
+  <p>Wearables, cardio machines, and calculators can all be useful, but none of them remove the need for review. If the number looks precise but your weekly result is chaotic, the answer is not more decimal places. The answer is a calmer feedback loop.</p>
+
+  <h2>From TDEE to meals</h2>
+  <p>Once you have a calorie target, use the <a href="/macro-calculator/">macro calculator</a> to split it into protein, carbohydrates, and fats. Then test whether the meals fit the week you actually live. A perfect number with no grocery plan is still a fragile plan.</p>
+
+  <div class="related">
+    <a href="/features/ai-meal-planner">AI meal planner <span>Turn calorie and macro targets into practical meals, groceries, food-scan context, and weekly review.</span></a>
+    <a href="/blog/weekly-nutrition-check-in-template">Weekly nutrition check-in template <span>Find the meal-planning friction before changing calories again.</span></a>
+    <a href="/blog/workout-day-meal-planner-app">Workout-day meal planner app <span>Separate training-day meals from rest-day meals when one target is too blunt.</span></a>
+    <a href="/blog/best-workout-app-with-meal-planning-included">Workout app with meal planning <span>Compare whether workouts and meals actually adapt together.</span></a>
+  </div>
+
+  <h2>Frequently asked questions</h2>
+  <h3>What is TDEE?</h3>
+  <p>TDEE means total daily energy expenditure. It is an estimate of how many calories you burn across a full day, including resting metabolism, normal movement, exercise, and digestion.</p>
+
+  <h3>Is a TDEE calculator exact?</h3>
+  <p>No. It is a starting estimate. The useful next step is to follow the target consistently for two to three weeks, compare bodyweight trend, hunger, training performance, and adherence, then make a modest adjustment.</p>
+
+  <h3>Should I eat the same calories on workout and rest days?</h3>
+  <p>Some people do well with one steady daily target. Others do better with similar weekly calories but slightly different meals on training days and rest days. The best answer is the one you can repeat while training well and feeling stable.</p>
+
+  <section class="sources" aria-label="Sources">
+    <h2>Sources and method notes</h2>
+    <ul>
+      <li>The calculator uses the Mifflin-St Jeor resting-energy equation described in the original 1990 paper indexed by <a href="https://pubmed.ncbi.nlm.nih.gov/2305711/" rel="noopener noreferrer">PubMed</a>.</li>
+      <li>The weekly adjustment advice is intentionally conservative because static calorie rules can overstate predictable weight change. The <a href="https://www.niddk.nih.gov/research-funding/at-niddk/labs-branches/laboratory-biological-modeling/integrative-physiology-section/research/body-weight-planner" rel="noopener noreferrer">NIDDK Body Weight Planner research page</a> explains why dynamic models are used for more precise planning.</li>
+      <li>For general weight management, the <a href="https://www.cdc.gov/healthy-weight-growth/losing-weight/index.html" rel="noopener noreferrer">CDC</a> emphasizes gradual, sustainable change rather than extreme targets.</li>
+    </ul>
+  </section>
+
+  <section class="cta">
+    <h2>Want the number connected to the week?</h2>
+    <p>IZEM can pair workouts, practical meal plans, food scanning, day reviews, coach memory, and proactive calls so your plan adapts instead of leaving you to rebuild it alone.</p>
+    <a class="button primary" href="/izem-ai-fitness-coach/">Explore IZEM AI Fitness Coach</a>
+  </section>
+</main>
+
+<footer>&copy; 2026 IZEM | <a href="/about">About</a> | <a href="/editorial-policy.html">Editorial policy</a> | <a href="/privacy-policy.html">Privacy</a></footer>
 
 <script>
-function show(id,val,detail){const r=document.getElementById(id);r.style.display='block';document.getElementById(id.replace('-result','-val')).textContent=val;document.getElementById(id.replace('-result','-detail')).innerHTML=detail;}
+  const unitEl = document.getElementById('unit');
+  const sexEl = document.getElementById('sex');
+  const ageEl = document.getElementById('age');
+  const activityEl = document.getElementById('activity');
+  const goalEl = document.getElementById('goal');
+  const statusEl = document.getElementById('status');
+  const bmrResult = document.getElementById('bmr-result');
+  const tdeeResult = document.getElementById('tdee-result');
+  const targetResult = document.getElementById('target-result');
+  const targetNote = document.getElementById('target-note');
 
-function calcTDEE(){
-    const w=+document.getElementById('tdee-weight').value,h=+document.getElementById('tdee-height').value,a=+document.getElementById('tdee-age').value,s=document.getElementById('tdee-sex').value,act=+document.getElementById('tdee-activity').value;
-    if(!w||!h||!a)return;
-    const bmr=s==='male'?10*w+6.25*h-5*a+5:10*w+6.25*h-5*a-161;
-    const tdee=Math.round(bmr*act);
-    show('tdee-result',tdee+' cal/day',`BMR: ${Math.round(bmr)} cal · Cut: ${tdee-500} cal · Bulk: ${tdee+300} cal`);
-}
+  let latestSummary = '';
+
+  function numberValue(id) {
+    return Number(document.getElementById(id).value);
+  }
+
+  function roundCalories(value) {
+    return Math.round(value / 10) * 10;
+  }
+
+  function formatCalories(value) {
+    return `${roundCalories(value).toLocaleString('en-US')} cal/day`;
+  }
+
+  function syncUnitFields() {
+    const imperial = unitEl.value === 'imperial';
+    document.querySelectorAll('.metric-field').forEach((field) => { field.hidden = imperial; });
+    document.querySelectorAll('.imperial-field').forEach((field) => { field.hidden = !imperial; });
+  }
+
+  function bodyMetrics() {
+    if (unitEl.value === 'imperial') {
+      const pounds = numberValue('weight-lb');
+      const feet = numberValue('height-ft');
+      const inches = numberValue('height-in');
+      return {
+        weightKg: pounds * 0.45359237,
+        heightCm: ((feet * 12) + inches) * 2.54,
+      };
+    }
+    return {
+      weightKg: numberValue('weight-kg'),
+      heightCm: numberValue('height-cm'),
+    };
+  }
+
+  function calculate() {
+    const age = numberValue('age');
+    const { weightKg, heightCm } = bodyMetrics();
+    const activity = Number(activityEl.value);
+    const adjustment = Number(goalEl.value);
+
+    if (!age || !weightKg || !heightCm || age < 18 || weightKg <= 0 || heightCm <= 0) {
+      statusEl.textContent = 'Enter adult age, weight, and height to calculate.';
+      return;
+    }
+
+    const base = 10 * weightKg + 6.25 * heightCm - 5 * age;
+    const bmr = sexEl.value === 'male' ? base + 5 : base - 161;
+    const tdee = bmr * activity;
+    const target = tdee + adjustment;
+    const weeklyGap = Math.abs(adjustment * 7);
+
+    bmrResult.textContent = formatCalories(bmr);
+    tdeeResult.textContent = formatCalories(tdee);
+    targetResult.textContent = formatCalories(target);
+
+    const direction = adjustment === 0 ? 'maintenance target' : adjustment < 0 ? 'deficit target' : 'surplus target';
+    const gapText = adjustment === 0 ? 'No planned weekly calorie gap.' : `Planned weekly energy gap: about ${weeklyGap.toLocaleString('en-US')} calories.`;
+    const lowTarget = target < 1400 ? ' This target is quite low; consider a smaller adjustment or qualified guidance.' : '';
+
+    targetNote.textContent = `${direction}. ${gapText}${lowTarget}`;
+    statusEl.textContent = 'Calculated. Review the result as a starting estimate, not a permanent rule.';
+    latestSummary = `BMR estimate: ${formatCalories(bmr)}. TDEE estimate: ${formatCalories(tdee)}. First target: ${formatCalories(target)}. ${gapText}`;
+  }
+
+  unitEl.addEventListener('change', () => {
+    syncUnitFields();
+    calculate();
+  });
+
+  document.getElementById('calculate').addEventListener('click', calculate);
+
+  document.getElementById('copy-summary').addEventListener('click', async () => {
+    if (!latestSummary) calculate();
+    try {
+      await navigator.clipboard.writeText(`${latestSummary} Use this for 2-3 weeks, then compare weekly trend, hunger, training, and adherence before adjusting.`);
+      statusEl.textContent = 'Summary copied.';
+    } catch {
+      statusEl.textContent = 'Copy was blocked by this browser.';
+    }
+  });
+
+  [sexEl, ageEl, activityEl, goalEl, ...document.querySelectorAll('input')].forEach((input) => {
+    input.addEventListener('change', calculate);
+  });
+
+  syncUnitFields();
+  calculate();
 </script>
 </body>
 </html>
