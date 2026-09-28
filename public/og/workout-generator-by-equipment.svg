@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Workout generator by equipment</title>
+  <desc id="desc">People-free IZEM graphic with a phone, dumbbells, equipment chips, and an adaptive workout checklist.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07110f"/>
+      <stop offset="0.56" stop-color="#10251f"/>
+      <stop offset="1" stop-color="#18243a"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#72e6c8"/>
+      <stop offset="1" stop-color="#38c7c9"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7c47a"/>
+      <stop offset="1" stop-color="#f09a48"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="22" stdDeviation="26" flood-color="#000" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1010" cy="90" r="210" fill="#72e6c8" opacity="0.09"/>
+  <circle cx="80" cy="570" r="250" fill="#f7c47a" opacity="0.07"/>
+
+  <g filter="url(#shadow)">
+    <rect x="92" y="78" width="438" height="474" rx="34" fill="#0b1715" stroke="#23473f" stroke-width="2"/>
+    <rect x="124" y="126" width="374" height="68" rx="16" fill="#11251f" stroke="#2d5c51"/>
+    <text x="150" y="168" fill="#f8fafc" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">Equipment Reality Card</text>
+    <text x="150" y="222" fill="#a8bbb4" font-family="Inter, Arial, sans-serif" font-size="17">Dumbbells + bench</text>
+    <rect x="124" y="246" width="166" height="48" rx="24" fill="#12332d" stroke="#43cfbe"/>
+    <text x="154" y="277" fill="#bff7ea" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Push</text>
+    <rect x="308" y="246" width="190" height="48" rx="24" fill="#292417" stroke="#f0a85c"/>
+    <text x="336" y="277" fill="#ffe0b5" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Hinge</text>
+    <rect x="124" y="316" width="374" height="48" rx="12" fill="#101f1d" stroke="#254640"/>
+    <circle cx="152" cy="340" r="10" fill="url(#teal)"/>
+    <text x="178" y="347" fill="#dce9e4" font-family="Inter, Arial, sans-serif" font-size="18">Can set it up today</text>
+    <rect x="124" y="382" width="374" height="48" rx="12" fill="#101f1d" stroke="#254640"/>
+    <circle cx="152" cy="406" r="10" fill="url(#teal)"/>
+    <text x="178" y="413" fill="#dce9e4" font-family="Inter, Arial, sans-serif" font-size="18">Has a same-pattern swap</text>
+    <rect x="124" y="448" width="374" height="48" rx="12" fill="#101f1d" stroke="#254640"/>
+    <circle cx="152" cy="472" r="10" fill="url(#amber)"/>
+    <text x="178" y="479" fill="#dce9e4" font-family="Inter, Arial, sans-serif" font-size="18">Review after the session</text>
+  </g>
+
+  <g transform="translate(620 118)" filter="url(#shadow)">
+    <rect x="0" y="0" width="368" height="388" rx="34" fill="#0b1715" stroke="#284840" stroke-width="2"/>
+    <rect x="132" y="18" width="104" height="8" rx="4" fill="#385b54"/>
+    <rect x="34" y="54" width="300" height="78" rx="18" fill="#10231f"/>
+    <text x="62" y="88" fill="#f8fafc" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800">Today's gear</text>
+    <text x="62" y="114" fill="#9db1aa" font-family="Inter, Arial, sans-serif" font-size="15">30 minutes, busy gym</text>
+    <g transform="translate(48 168)">
+      <rect x="0" y="0" width="72" height="28" rx="14" fill="#152d27" stroke="#4fd3c1"/>
+      <rect x="96" y="0" width="72" height="28" rx="14" fill="#152d27" stroke="#4fd3c1"/>
+      <rect x="192" y="0" width="72" height="28" rx="14" fill="#2b2719" stroke="#eba454"/>
+      <text x="18" y="19" fill="#c9fbf0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700">DB</text>
+      <text x="108" y="19" fill="#c9fbf0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700">Bench</text>
+      <text x="208" y="19" fill="#ffe1b8" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700">Cable</text>
+    </g>
+    <line x1="54" y1="236" x2="314" y2="236" stroke="#284840" stroke-width="2"/>
+    <line x1="54" y1="286" x2="314" y2="286" stroke="#284840" stroke-width="2"/>
+    <line x1="54" y1="336" x2="314" y2="336" stroke="#284840" stroke-width="2"/>
+    <circle cx="78" cy="236" r="14" fill="url(#teal)"/>
+    <circle cx="78" cy="286" r="14" fill="url(#teal)"/>
+    <circle cx="78" cy="336" r="14" fill="url(#amber)"/>
+    <text x="110" y="243" fill="#dce9e4" font-family="Inter, Arial, sans-serif" font-size="17">Start smaller</text>
+    <text x="110" y="293" fill="#dce9e4" font-family="Inter, Arial, sans-serif" font-size="17">Swap, don't stall</text>
+    <text x="110" y="343" fill="#dce9e4" font-family="Inter, Arial, sans-serif" font-size="17">Adapt next week</text>
+  </g>
+
+  <g transform="translate(804 502)">
+    <rect x="0" y="24" width="188" height="28" rx="14" fill="#20302c"/>
+    <rect x="18" y="0" width="34" height="78" rx="10" fill="url(#teal)"/>
+    <rect x="136" y="0" width="34" height="78" rx="10" fill="url(#teal)"/>
+    <rect x="52" y="28" width="84" height="20" rx="10" fill="#bff7ea"/>
+  </g>
+  <text x="92" y="602" fill="#a9bbb4" font-family="Inter, Arial, sans-serif" font-size="18">IZEM equipment-aware workout planning</text>
+</svg>

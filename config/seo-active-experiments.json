@@ -374,6 +374,15 @@
       "lockUntil": "2026-10-18",
       "preferredReviewAt": "2026-10-25",
       "reason": "Material rejuvenation targeting decaying Search Console visibility (-1 impression in 28d, -2 impressions in 7d, average position dropped from 5.6 to 7.5). Updated introduction and first H2 with 2026 ACSM trends, continuous behavioral coverage versus the 166 uncoached hours, proactive voice call accountability, and adaptive closed-loop coaching. Preserve for clean 21-day evaluation window."
+    },
+    {
+      "id": "workout-generator-by-equipment-card-launch-2026-09-27",
+      "url": "/workout-generator-by-equipment/",
+      "files": ["public/workout-generator-by-equipment/index.html", "public/og/workout-generator-by-equipment.svg", "public/blog/ai-workout-generator-beginners.html"],
+      "launchedAt": "2026-09-27",
+      "lockUntil": "2026-10-18",
+      "preferredReviewAt": "2026-10-25",
+      "reason": "The September 27 evening launch supports the strongest Search Console AI-workout-generator cluster without editing locked winner pages. It targets equipment-aware workout generator intent with the browser-only Equipment Reality Card, object-only visuals, safe workout boundaries, and a contextual link from the matured beginner generator guide. Preserve for a clean 21-day discovery, ranking, and cannibalization evaluation window."
     }
   ]
 }
