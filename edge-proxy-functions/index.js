@@ -486,6 +486,7 @@ exports.edgeProOauthProxy = onRequest(
     maxInstances: 3,
     concurrency: 40,
     invoker: "public",
+    serviceAccount: "izem-functions-runtime@ai-gym-coach-13ee1.iam.gserviceaccount.com",
     cors: false,
   },
   async (req, res) => {
