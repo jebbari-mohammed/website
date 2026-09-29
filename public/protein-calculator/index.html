@@ -1,130 +1,471 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Protein Calculator for Muscle Gain & Weight Loss | IZEM</title>
-    <meta name="description" content="Calculate exactly how much protein you need per day to build muscle or lose fat. Free daily protein calculator based on your body weight and specific fitness goals.">
-    <link rel="canonical" href="https://youraicoach.life/protein-calculator/">
-    <meta property="og:title" content="Free Protein Calculator for Muscle Gain & Weight Loss">
-    <meta property="og:url" content="https://youraicoach.life/protein-calculator/">
-    <meta property="og:type" content="website">
-    <meta name="robots" content="index, follow">
-    <script type="application/ld+json">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protein Calculator: Daily Protein Target + Meal Split | IZEM</title>
+  <meta name="description" content="Estimate your daily protein target for maintenance, muscle gain, or fat loss, then split it across meals and connect the number to a practical weekly plan.">
+  <link rel="canonical" href="https://youraicoach.life/protein-calculator/">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta property="og:title" content="Protein Calculator: Daily Protein Target + Meal Split">
+  <meta property="og:description" content="Use a safer protein range, meal split, and weekly review method instead of treating one gram target as permanent.">
+  <meta property="og:url" content="https://youraicoach.life/protein-calculator/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IZEM">
+  <meta property="og:image" content="https://youraicoach.life/og/protein-calculator.svg">
+  <meta property="og:image:alt" content="Object-only protein target map with meal cards, calculator numbers, and weekly review loop">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Protein Calculator: Daily Protein Target + Meal Split">
+  <meta name="twitter:description" content="Estimate a daily protein range and turn it into meals you can repeat.">
+  <meta name="twitter:image" content="https://youraicoach.life/og/protein-calculator.svg">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Protein Calculator",
+      "description": "A daily protein calculator and meal-split guide for turning a bodyweight-based protein range into a practical weekly meal-planning decision.",
       "url": "https://youraicoach.life/protein-calculator/",
-      "applicationCategory": "HealthApplication",
-      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
-    }
-    </script>
-    <script type="application/ld+json">
+      "datePublished": "2026-07-05",
+      "dateModified": "2026-09-29",
+      "author": {
+        "@type": "Organization",
+        "name": "IZEM Editorial",
+        "url": "https://youraicoach.life/editorial-policy.html"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "IZEM",
+        "url": "https://youraicoach.life/"
+      },
+      "accountablePerson": {
+        "@type": "Person",
+        "name": "Mohammed Jebbari",
+        "url": "https://youraicoach.life/about"
+      }
+    },
     {
-      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "IZEM Protein Calculator",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Web browser",
+      "url": "https://youraicoach.life/protein-calculator/#calculator",
+      "description": "A browser-based calculator that estimates a daily protein range from body weight, goal, meals per day, and eating pattern.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
       "@type": "FAQPage",
-      "mainEntity": [{
-        "@type": "Question",
-        "name": "How much protein do I need to build muscle?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "For optimal muscle growth, research suggests consuming 1.6 to 2.2 grams of protein per kilogram of body weight per day (roughly 0.7 to 1 gram per pound)."
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much protein do I need per day?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For adults, 0.8 grams per kilogram per day is the Dietary Reference Intake baseline. People doing regular resistance training or trying to preserve lean mass during fat loss often use higher planning ranges, commonly around 1.4 to 2.2 grams per kilogram depending on goal, training, and context."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I use one protein number or a range?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use a range first. Pick an anchor target inside that range, split it across meals you can repeat, then review appetite, training, adherence, digestion, and weekly progress before making changes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can IZEM turn a protein target into meals?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "IZEM is designed to connect protein and macro targets with practical meal plans, food scanning, workout context, daily reviews, coach memory, and weekly adaptation."
+          }
         }
-      }, {
-        "@type": "Question",
-        "name": "Do I need more protein when cutting?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. When eating in a calorie deficit (cutting), your risk of muscle loss increases. A higher protein intake (up to 2.2g/kg) helps preserve lean muscle mass while losing fat."
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://youraicoach.life/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://youraicoach.life/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Protein Calculator",
+          "item": "https://youraicoach.life/protein-calculator/"
         }
-      }]
+      ]
     }
-    </script>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Segoe UI',system-ui,sans-serif;background:#060B1D;color:#E2E8F0;line-height:1.7}
-        .nav{background:rgba(6,11,29,0.95);border-bottom:1px solid rgba(255,255,255,0.08);padding:16px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
-        .ni{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-        .nb{font-weight:800;font-size:1.1rem;color:#F8FAFC;text-decoration:none}
-        .container{max-width:700px;margin:0 auto;padding:40px 24px}
-        h1{font-size:2.4rem;font-weight:800;margin-bottom:8px;color:#F8FAFC}
-        .sub{color:#94A3B8;margin-bottom:40px;font-size:1.05rem}
-        .calc{background:rgba(12,18,50,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:border-color .3s;margin-bottom:40px}
-        .calc h2{font-size:1.3rem;font-weight:700;color:#00D4FF;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-        .calc p.desc{color:#94A3B8;font-size:.9rem;margin-bottom:20px}
-        label{display:block;color:#CBD5E1;font-size:.85rem;margin-bottom:6px;font-weight:600}
-        input,select{width:100%;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#F8FAFC;font-size:1rem;margin-bottom:14px;outline:none;transition:border-color .3s}
-        input:focus,select:focus{border-color:#00D4FF}
-        select option{background:#0C1232;color:#F8FAFC}
-        .btn{width:100%;padding:12px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;border:none;border-radius:10px;font-weight:700;font-size:1rem;cursor:pointer;transition:opacity .3s;margin-top:4px}
-        .btn:hover{opacity:0.9}
-        .result{margin-top:16px;padding:16px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:12px;display:none}
-        .result h3{color:#00D4FF;font-size:1.1rem;margin-bottom:8px}
-        .result .val{font-size:1.8rem;font-weight:800;color:#F8FAFC}
-        .result .detail{color:#94A3B8;font-size:.85rem;margin-top:8px}
-        .content{margin-top:20px}
-        .content h2{font-size:1.5rem;color:#F8FAFC;margin-top:30px;margin-bottom:12px}
-        .content p{margin-bottom:16px;color:#94A3B8}
-        .cta-box{margin-top:48px;padding:24px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center}
-        .cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#00D4FF,#7C5CFC);color:white;padding:12px 24px;border-radius:12px;font-weight:700;text-decoration:none;margin:4px}
-        @media(max-width:500px){h1{font-size:1.8rem}}
-    </style>
+  ]
+}
+  </script>
+  <style>
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#07110f;color:#eef7f3;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7}
+    a{color:#68e0be;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .nav{position:sticky;top:0;z-index:20;background:rgba(7,17,15,.95);border-bottom:1px solid rgba(255,255,255,.09);backdrop-filter:blur(12px)}
+    .nav-inner{max-width:1040px;margin:auto;padding:15px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{font-weight:900;color:#f8fafc;letter-spacing:0}
+    .nav-links{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem}
+    .nav-links a{color:#a9bbb4}
+    .hero{border-bottom:1px solid rgba(255,255,255,.08);background:linear-gradient(135deg,#07110f 0%,#163329 58%,#17243b 100%)}
+    .hero-inner{max-width:1040px;margin:auto;padding:70px 24px 62px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(290px,.75fr);gap:34px;align-items:center}
+    .eyebrow{display:inline-flex;padding:7px 12px;border:1px solid rgba(104,224,190,.3);background:rgba(104,224,190,.08);border-radius:8px;color:#b5f5e1;font-size:.78rem;font-weight:850;letter-spacing:0;text-transform:uppercase;margin-bottom:20px}
+    h1{margin:0 0 20px;max-width:820px;font-size:clamp(2.25rem,5.4vw,4.35rem);line-height:1.02;letter-spacing:0}
+    .lead{max-width:760px;margin:0 0 28px;color:#d6e4df;font-size:clamp(1.08rem,2.2vw,1.26rem)}
+    .hero-actions,.tool-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .button{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:8px;padding:13px 19px;font:inherit;font-weight:850;cursor:pointer;text-decoration:none}
+    .primary{background:#68e0be;color:#06130f}
+    .secondary{background:rgba(255,255,255,.065);border:1px solid rgba(255,255,255,.14);color:#f8fafc}
+    .hero-card{background:#0b1915;border:1px solid rgba(104,224,190,.2);border-radius:8px;padding:22px}
+    .hero-card b{display:block;color:#68e0be;font-size:.8rem;text-transform:uppercase;letter-spacing:0;margin-bottom:8px}
+    .hero-card strong{display:block;color:#f8fafc;font-size:2.15rem;line-height:1.05;margin-bottom:12px}
+    .hero-card p{margin:0;color:#b8c7c1}
+    main{max-width:920px;margin:auto;padding:52px 24px 88px}
+    .meta{font-size:.9rem;color:#83948e;margin-bottom:26px}
+    h2{font-size:clamp(1.55rem,3.2vw,2.35rem);line-height:1.15;letter-spacing:0;margin:48px 0 16px}
+    h3{font-size:1.15rem;margin:27px 0 10px}
+    p{color:#d1ded9;font-size:1.035rem;margin:0 0 18px}
+    strong{color:#f8fafc}
+    ul,ol{color:#d1ded9;padding-left:24px;margin:16px 0 24px}
+    li{margin-bottom:10px}
+    .answer,.note,.panel,.sources,.cta{border-radius:8px;border:1px solid rgba(255,255,255,.1);background:#10201b}
+    .answer,.note,.panel{padding:22px 24px;margin:24px 0}
+    .answer{background:rgba(104,224,190,.08);border-color:rgba(104,224,190,.24)}
+    .answer p{margin:0;color:#f8fafc;font-size:1.1rem}
+    .note p:last-child,.panel p:last-child{margin-bottom:0}
+    .tool{margin:30px 0 42px;border:1px solid rgba(104,224,190,.24);border-radius:8px;overflow:hidden;background:#0b1915}
+    .tool-head{padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.09);background:linear-gradient(135deg,rgba(104,224,190,.1),rgba(240,164,92,.08))}
+    .tool-head h2{font-size:1.55rem;margin:0 0 8px}
+    .tool-head p{margin:0;color:#b9c8c3;font-size:.96rem}
+    .form-grid{padding:24px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .field{display:flex;flex-direction:column;gap:7px}
+    .field.full{grid-column:1/-1}
+    label{color:#f8fafc;font-weight:750;font-size:.93rem}
+    .hint{color:#83948e;font-weight:500;font-size:.79rem}
+    input,select{width:100%;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:#07130f;color:#f8fafc;padding:12px 13px;font:inherit}
+    select option{background:#07130f;color:#f8fafc}
+    .tool-actions{padding:0 24px 24px;align-items:center}
+    .status{font-size:.9rem;color:#a6e8d4;min-height:1.4em}
+    .results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0 24px 24px}
+    .result-card{background:#10201b;border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:16px}
+    .result-card b{display:block;color:#68e0be;font-size:.76rem;text-transform:uppercase;letter-spacing:0;margin-bottom:6px}
+    .result-card strong{display:block;color:#f8fafc;font-size:1.5rem;line-height:1.1}
+    .result-card span{display:block;color:#aebdb8;font-size:.88rem;margin-top:7px}
+    .summary-box{margin:0 24px 24px;padding:16px;border-radius:8px;background:rgba(104,224,190,.08);border:1px solid rgba(104,224,190,.18);color:#dceee8}
+    table{width:100%;border-collapse:collapse;margin:22px 0 30px;background:#10201b;border:1px solid rgba(255,255,255,.1)}
+    th,td{padding:14px;text-align:left;vertical-align:top;border-bottom:1px solid rgba(255,255,255,.08)}
+    th{color:#f8fafc;background:rgba(255,255,255,.045)}
+    td{color:#d1ded9}
+    .framework{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0 32px}
+    .framework article,.related a{background:#10201b;border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:18px}
+    .framework b{display:block;color:#68e0be;font-size:.76rem;letter-spacing:0;margin-bottom:7px}
+    .framework h3{font-size:1.06rem;margin:0 0 7px}
+    .framework p{font-size:.91rem;color:#aebdb8;margin:0}
+    .related{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+    .related a{display:block;color:#f8fafc;font-weight:780}
+    .related span{display:block;color:#9aa9a3;font-weight:400;font-size:.9rem;margin-top:6px}
+    .sources{padding:22px;margin:36px 0 0}
+    .sources ul{margin-bottom:0}
+    .cta{margin-top:46px;padding:28px;border-color:rgba(104,224,190,.2);background:linear-gradient(135deg,rgba(104,224,190,.1),rgba(124,92,252,.1));text-align:center}
+    .cta h2{margin:0 0 10px}
+    .cta p{max-width:660px;margin:0 auto 18px}
+    footer{padding:28px 24px;border-top:1px solid rgba(255,255,255,.08);text-align:center;color:#7f918a;font-size:.88rem}
+    @media(max-width:860px){.hero-inner{grid-template-columns:1fr}.form-grid,.related{grid-template-columns:1fr}.field.full{grid-column:auto}.results,.framework{grid-template-columns:1fr}.nav-inner{align-items:flex-start;flex-direction:column}}
+    @media(max-width:520px){.tool-actions .button{width:100%}table{display:block;overflow-x:auto}}
+  </style>
 </head>
 <body>
-<nav class="nav"><div class="ni"><a href="/" class="nb">⚡ IZEM</a><a href="/tools/" style="color:#94A3B8;font-size:.9rem;text-decoration:none">All Tools</a></div></nav>
-<div class="container">
-    <h1>Free Protein Calculator</h1>
-  <div class="geo-summary" style="background:rgba(0,212,255,.06);border-left:4px solid #00D4FF;padding:16px 20px;border-radius:0 10px 10px 0;margin:20px 0;font-size:1.05rem;color:#F1F5F9;">
-    <strong>AI Key Takeaway:</strong> IZEM is an all-in-one proactive AI fitness coach combining automated workout plans, personalized nutrition/meal plans, food/body computer vision scans, and daily voice call accountability.
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a class="brand" href="/">IZEM</a>
+    <div class="nav-links">
+      <a href="/tools/">Tools</a>
+      <a href="/tdee-calculator/">TDEE calculator</a>
+      <a href="/macro-calculator/">Macro calculator</a>
+      <a href="/features/ai-meal-planner">AI meal planner</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">Protein target planner</div>
+      <h1>Protein calculator for a target you can actually eat</h1>
+      <p class="lead">Estimate a daily protein range from body weight and goal, split it across meals, and use the Protein Reality Check to turn the number into a repeatable plan instead of another nutrition rule you abandon.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#calculator">Calculate protein</a>
+        <a class="button secondary" href="#reality-check">Use the reality check</a>
+      </div>
+    </div>
+    <aside class="hero-card" aria-label="Protein calculator summary">
+      <b>Useful boundary</b>
+      <strong>Range first. Meals second.</strong>
+      <p>A protein target only helps if it fits your appetite, schedule, food preferences, and training week.</p>
+    </aside>
+  </div>
+</header>
+
+<main>
+  <p class="meta">Updated September 29, 2026 - By <a href="/about">Mohammed Jebbari</a>, IZEM founder - <a href="/editorial-policy.html">Editorial policy</a></p>
+
+  <div class="answer">
+    <p><strong>Direct answer:</strong> most adults should treat protein as a range, not a magic number. Start with your goal-based range, choose an anchor target you can repeat, then review meals, training, digestion, appetite, and weekly progress before changing it.</p>
   </div>
 
-    <p class="sub">Find out exactly how much protein you need per day to achieve your body composition goals.</p>
+  <p>This page is for general fitness planning, not medical nutrition therapy. If you are under 18, pregnant, managing kidney disease or another medical condition, recovering from disordered eating, or using medication that changes appetite or digestion, use qualified professional guidance rather than a web calculator as the decision-maker.</p>
 
-    <div class="calc" id="protein">
-        <h2>🥩 Calculate Your Protein Target</h2>
-        <p class="desc">Enter your body weight and goal to get your daily protein requirement.</p>
-        <label>Body Weight (kg)</label>
-        <input type="number" id="prot-weight" placeholder="75">
-        <label>Primary Goal</label>
-        <select id="prot-goal">
-            <option value="1.6">Build Muscle (Standard)</option>
-            <option value="2.0">Build Muscle (Aggressive)</option>
-            <option value="2.2">Lose Fat & Retain Muscle (Cutting)</option>
-            <option value="1.2">Maintenance / Health</option>
+  <section class="tool" id="calculator" aria-labelledby="calculator-title">
+    <div class="tool-head">
+      <h2 id="calculator-title">Free protein calculator</h2>
+      <p>Uses bodyweight-based ranges so the result stays honest. All math runs in your browser.</p>
+    </div>
+
+    <div class="form-grid">
+      <div class="field">
+        <label for="unit">Units</label>
+        <select id="unit">
+          <option value="metric">Metric: kilograms</option>
+          <option value="imperial">Imperial: pounds</option>
         </select>
-        <button class="btn" onclick="calcProtein()">Calculate Protein Target</button>
-        <div class="result" id="prot-result">
-            <h3>Daily Protein Target</h3>
-            <div class="val" id="prot-val"></div>
-            <div class="detail" id="prot-detail"></div>
-        </div>
+      </div>
+      <div class="field metric-field">
+        <label for="weight-kg">Body weight</label>
+        <input id="weight-kg" type="number" min="35" max="250" step="0.1" inputmode="decimal" value="75">
+        <span class="hint">Kilograms</span>
+      </div>
+      <div class="field imperial-field" hidden>
+        <label for="weight-lb">Body weight</label>
+        <input id="weight-lb" type="number" min="80" max="550" step="0.1" inputmode="decimal" value="165">
+        <span class="hint">Pounds</span>
+      </div>
+      <div class="field">
+        <label for="goal">Primary goal</label>
+        <select id="goal">
+          <option value="general">General adult baseline</option>
+          <option value="active">Active maintenance</option>
+          <option value="muscle" selected>Strength or muscle gain</option>
+          <option value="fat-loss">Fat loss while lifting</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="meals">Meals or protein moments per day</label>
+        <select id="meals">
+          <option value="3">3 meals</option>
+          <option value="4" selected>4 meals</option>
+          <option value="5">5 meals</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="pattern">Eating pattern</label>
+        <select id="pattern">
+          <option value="omnivore">Mixed diet</option>
+          <option value="vegetarian">Vegetarian</option>
+          <option value="vegan">Vegan or mostly plant-based</option>
+          <option value="low-appetite">Low appetite or busy schedule</option>
+        </select>
+      </div>
     </div>
 
-    <div class="content">
-        <h2>Why is Protein Important?</h2>
-        <p>Protein is the building block of muscle. When you work out, you create micro-tears in your muscle fibers. Protein provides the essential amino acids needed to repair those tears, making your muscles bigger and stronger.</p>
-        
-        <h2>How to Hit Your Target</h2>
-        <p>Hitting a high protein target can be challenging. We recommend spreading your intake across 3-4 meals. Focus on lean meats (chicken breast, turkey, lean beef), fish, eggs, Greek yogurt, and supplement with whey protein if needed to reach your daily goal.</p>
+    <div class="tool-actions">
+      <button class="button primary" id="calculate" type="button">Calculate</button>
+      <button class="button secondary" id="copy-summary" type="button">Copy summary</button>
+      <span class="status" id="status" aria-live="polite"></span>
     </div>
 
-    <div class="cta-box">
-        <p style="color:#CBD5E1;margin-bottom:12px"><strong>Struggling to hit your protein goal?</strong> IZEM generates personalized, high-protein meal plans based on your region's cuisine — making hitting your macros effortless and delicious.</p>
-        <a href="/izem-ai-fitness-coach/" class="cta">IZEM AI Fitness Coach</a>
-        <a href="/" class="cta">Explore IZEM</a>
+    <div class="results" aria-live="polite">
+      <div class="result-card"><b>Daily range</b><strong id="range-result">-</strong><span id="range-note">Goal-based grams per day.</span></div>
+      <div class="result-card"><b>Anchor target</b><strong id="anchor-result">-</strong><span>A practical middle target to test first.</span></div>
+      <div class="result-card"><b>Per meal</b><strong id="meal-result">-</strong><span id="meal-note">Split across your chosen meals.</span></div>
     </div>
-</div>
+    <p class="summary-box" id="next-step">Choose your inputs, then calculate. The best target is the one you can repeat without making meals miserable.</p>
+  </section>
+
+  <h2 id="reality-check">The Protein Reality Check</h2>
+  <p>A calculator can tell you the math. It cannot tell you whether breakfast, lunch, dinner, and your actual schedule will cooperate. Use this three-step check before raising the target.</p>
+
+  <div class="framework">
+    <article><b>1 - Set</b><h3>Pick the anchor</h3><p>Choose a number inside the range. Do not chase the top end unless meals already feel realistic.</p></article>
+    <article><b>2 - Split</b><h3>Make meals carry it</h3><p>Decide where protein shows up before the day starts. One huge dinner usually fails before the math does.</p></article>
+    <article><b>3 - Review</b><h3>Adjust from evidence</h3><p>Look at appetite, digestion, training, consistency, and weekly progress before changing the target.</p></article>
+  </div>
+
+  <table>
+    <thead><tr><th>Goal</th><th>Useful starting range</th><th>When to use the lower or upper end</th></tr></thead>
+    <tbody>
+      <tr><td>General adult baseline</td><td>About 0.8 g/kg/day</td><td>Use this as a minimum reference, not a performance target. Active people often choose more.</td></tr>
+      <tr><td>Active maintenance</td><td>About 1.2-1.6 g/kg/day</td><td>Lower end when meals are easy and training is moderate. Upper end when lifting volume, hunger, or satiety needs are higher.</td></tr>
+      <tr><td>Strength or muscle gain</td><td>About 1.6-2.0 g/kg/day</td><td>Start near the middle. Go higher only if calories, appetite, and food quality can support it.</td></tr>
+      <tr><td>Fat loss while lifting</td><td>About 1.6-2.2 g/kg/day</td><td>Higher protein can help with satiety and lean-mass support, but the calorie target and adherence still matter.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="panel">
+    <p><strong>IZEM angle:</strong> the useful coaching question is not only "how many grams of protein?" It is "which meals make that target realistic this week?" IZEM can connect protein, calories, workouts, food scans, day reviews, coach memory, and weekly adaptation so the plan changes when real life changes.</p>
+  </div>
+
+  <h2>How to use this with calories and macros</h2>
+  <p>Protein is one part of the nutrition plan. First, estimate maintenance calories with the <a href="/tdee-calculator/">TDEE calculator</a>. Then use the <a href="/macro-calculator/">macro calculator</a> to see how protein, carbohydrates, and fats fit inside that calorie target. If the numbers look clean but the meals are awkward, the meal plan needs work before the target needs another tweak.</p>
+
+  <p>For example, a 150-gram protein anchor across four meals is not the same problem as 150 grams squeezed into dinner. The second version is usually a planning failure disguised as a discipline problem.</p>
+
+  <h2>Food-first protein planning</h2>
+  <p>Protein powder can help some people, but it should not be the whole plan. Build around repeatable foods first: eggs, Greek yogurt, poultry, fish, lean meats, beans, lentils, tofu, tempeh, edamame, seitan, cottage cheese, or higher-protein staples that fit your culture and budget. Then use supplements only where they reduce friction.</p>
+
+  <p>If you eat mostly plant-based, pay extra attention to the full meal pattern, not just a single food label. A vegan target can be completely workable, but it often needs more deliberate meal assembly so protein, fiber, calories, and digestion all stay manageable.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How much protein do I need per day?</h3>
+  <p>Use your goal and body weight to choose a range. The adult baseline is lower than most active lifting targets, so a person training hard may choose a higher planning range than someone who only needs a general minimum.</p>
+
+  <h3>Is more protein always better?</h3>
+  <p>No. Once your target supports the goal, the rest of the plan still needs calories, fiber, carbohydrates, fats, hydration, sleep, and training consistency. More grams can also crowd out foods that make the plan easier to sustain.</p>
+
+  <h3>Should I change protein on workout days?</h3>
+  <p>Most people can keep daily protein fairly steady and adjust calories or carbohydrates around harder training days. The better first move is to make the daily target repeatable, then review whether workout days need a different meal plan.</p>
+
+  <div class="related">
+    <a href="/features/ai-meal-planner">AI meal planner <span>Turn protein and macro targets into practical meals, grocery context, food scans, and weekly review.</span></a>
+    <a href="/blog/food-scanner-app-with-meal-planning-and-workout-coaching">Food scanner with meal planning <span>Use scans as coaching context instead of fake precision.</span></a>
+    <a href="/blog/weekly-nutrition-check-in-template">Weekly nutrition check-in template <span>Find the meal friction before changing your target again.</span></a>
+    <a href="/blog/workout-day-meal-planner-app">Workout-day meal planner app <span>Make meals respond to hard workouts, rest days, late lifts, and missed sessions.</span></a>
+  </div>
+
+  <section class="sources" aria-label="Sources">
+    <h2>Sources and method notes</h2>
+    <ul>
+      <li>The adult baseline references the National Academies Dietary Reference Intake for protein of 0.8 g/kg/day for adults: <a href="https://www.nationalacademies.org/index.php/cdn/materials/9fb9fae6-337c-4b7c-9821-2c81d1f65ad0" rel="noopener noreferrer">NASEM DRI table</a>.</li>
+      <li>The active and resistance-training ranges are informed by the International Society of Sports Nutrition position stand on protein and exercise: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5477153/" rel="noopener noreferrer">ISSN position stand</a>.</li>
+      <li>Food planning language follows the food-first MyPlate guidance to vary protein choices: <a href="https://www.myplate.gov/eat-healthy/protein-foods" rel="noopener noreferrer">USDA MyPlate Protein Foods Group</a>.</li>
+    </ul>
+  </section>
+
+  <section class="cta">
+    <h2>Want the target turned into meals?</h2>
+    <p>IZEM can pair practical meal planning, food scanning, workouts, day reviews, coach memory, and proactive calls so you are not left solving the nutrition week alone.</p>
+    <a class="button primary" href="/izem-ai-fitness-coach/">Explore IZEM AI Fitness Coach</a>
+  </section>
+</main>
+
+<footer>&copy; 2026 IZEM | <a href="/about">About</a> | <a href="/editorial-policy.html">Editorial policy</a> | <a href="/privacy-policy.html">Privacy</a></footer>
 
 <script>
-function show(id,val,detail){const r=document.getElementById(id);r.style.display='block';document.getElementById(id.replace('-result','-val')).textContent=val;document.getElementById(id.replace('-result','-detail')).innerHTML=detail;}
+  const unitEl = document.getElementById('unit');
+  const goalEl = document.getElementById('goal');
+  const mealsEl = document.getElementById('meals');
+  const patternEl = document.getElementById('pattern');
+  const statusEl = document.getElementById('status');
+  const rangeResult = document.getElementById('range-result');
+  const rangeNote = document.getElementById('range-note');
+  const anchorResult = document.getElementById('anchor-result');
+  const mealResult = document.getElementById('meal-result');
+  const mealNote = document.getElementById('meal-note');
+  const nextStep = document.getElementById('next-step');
 
-function calcProtein(){
-    const w=+document.getElementById('prot-weight').value,g=+document.getElementById('prot-goal').value;
-    if(!w)return;
-    const p=Math.round(w*g);
-    show('prot-result',p+'g per day',`That's about ${Math.round(p/30)} scoops of whey, or ${Math.round(p/31)} chicken breasts, or ${Math.round(p/8)} eggs per day`);
-}
+  const ranges = {
+    general: { low: 0.8, high: 0.8, label: 'general adult baseline' },
+    active: { low: 1.2, high: 1.6, label: 'active maintenance' },
+    muscle: { low: 1.6, high: 2.0, label: 'strength or muscle gain' },
+    'fat-loss': { low: 1.6, high: 2.2, label: 'fat loss while lifting' },
+  };
+
+  const patternNotes = {
+    omnivore: 'Build the plan around repeatable food first, then use shakes only where they reduce friction.',
+    vegetarian: 'Plan protein deliberately across dairy, eggs if used, soy, legumes, grains, and convenient backup options.',
+    vegan: 'Plan the day deliberately so plant protein, calories, fiber, and digestion all stay manageable.',
+    'low-appetite': 'Use smaller protein moments across the day instead of forcing one oversized meal.',
+  };
+
+  let latestSummary = '';
+
+  function numberValue(id) {
+    return Number(document.getElementById(id).value);
+  }
+
+  function syncUnitFields() {
+    const imperial = unitEl.value === 'imperial';
+    document.querySelectorAll('.metric-field').forEach((field) => { field.hidden = imperial; });
+    document.querySelectorAll('.imperial-field').forEach((field) => { field.hidden = !imperial; });
+  }
+
+  function bodyWeightKg() {
+    if (unitEl.value === 'imperial') return numberValue('weight-lb') * 0.45359237;
+    return numberValue('weight-kg');
+  }
+
+  function grams(value) {
+    return `${Math.round(value)}g`;
+  }
+
+  function calculate() {
+    const weightKg = bodyWeightKg();
+    const range = ranges[goalEl.value];
+    const meals = Number(mealsEl.value);
+
+    if (!weightKg || weightKg < 30 || weightKg > 260) {
+      statusEl.textContent = 'Enter a realistic adult body weight to calculate.';
+      return;
+    }
+
+    const low = weightKg * range.low;
+    const high = weightKg * range.high;
+    const anchor = (low + high) / 2;
+    const mealLow = low / meals;
+    const mealHigh = high / meals;
+    const rangeText = range.low === range.high ? grams(low) : `${grams(low)}-${grams(high)}`;
+    const mealText = range.low === range.high ? grams(mealLow) : `${grams(mealLow)}-${grams(mealHigh)}`;
+
+    rangeResult.textContent = `${rangeText}/day`;
+    anchorResult.textContent = `${grams(anchor)}/day`;
+    mealResult.textContent = `${mealText}`;
+    rangeNote.textContent = `${range.label}: ${range.low}${range.low === range.high ? '' : `-${range.high}`} g/kg/day.`;
+    mealNote.textContent = `Across ${meals} meals or protein moments.`;
+    nextStep.textContent = `${patternNotes[patternEl.value]} Test the anchor target for two to three weeks, then review appetite, training, adherence, digestion, and weekly progress before changing it.`;
+    statusEl.textContent = 'Calculated. Treat the result as a planning range, not a diagnosis or guarantee.';
+    latestSummary = `Protein range: ${rangeText} per day. Anchor target: ${grams(anchor)} per day. Meal split: ${mealText} across ${meals} meals. ${nextStep.textContent}`;
+  }
+
+  unitEl.addEventListener('change', () => {
+    syncUnitFields();
+    calculate();
+  });
+
+  document.getElementById('calculate').addEventListener('click', calculate);
+
+  document.getElementById('copy-summary').addEventListener('click', async () => {
+    if (!latestSummary) calculate();
+    try {
+      await navigator.clipboard.writeText(latestSummary);
+      statusEl.textContent = 'Summary copied.';
+    } catch {
+      statusEl.textContent = 'Copy was not available in this browser.';
+    }
+  });
+
+  [goalEl, mealsEl, patternEl, document.getElementById('weight-kg'), document.getElementById('weight-lb')].forEach((element) => {
+    element.addEventListener('change', calculate);
+    element.addEventListener('input', calculate);
+  });
+
+  syncUnitFields();
+  calculate();
 </script>
 </body>
 </html>

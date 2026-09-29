@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-27",
+  "updatedAt": "2026-09-29",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -401,6 +401,15 @@
       "lockUntil": "2026-10-20",
       "preferredReviewAt": "2026-10-27",
       "reason": "The September 29 evening rehabilitation turns a noindexed legacy home-gym equipment page into an indexable support asset for the AI workout-generator and equipment-aware planning cluster. It removes fabricated first-person/anecdote residue, replaces overconfident scanning language with safer inventory-to-plan guidance, adds the browser-only Home Gym Reality Map, refreshes metadata/schema/OG visual, and keeps the intent distinct from the locked workout-generator-by-equipment tool and gym-equipment-scanner guide. Preserve for a clean 21-day discovery, recrawl, ranking, and cannibalization evaluation window."
+    },
+    {
+      "id": "protein-calculator-reality-check-refresh-2026-09-29",
+      "url": "/protein-calculator/",
+      "files": ["public/protein-calculator/index.html", "public/og/protein-calculator.svg", "public/macro-calculator/index.html"],
+      "launchedAt": "2026-09-29",
+      "lockUntil": "2026-10-20",
+      "preferredReviewAt": "2026-10-27",
+      "reason": "The September 29 refresh targets the public-safe protein-calculator signal while correcting thin and overconfident legacy nutrition language. It retitles the page around a daily protein target plus meal split, adds metric/imperial calculator support, WebPage/WebApplication/FAQ/Breadcrumb structured data, safer nutrition boundaries, source notes, object-only OG art, a small support link from the macro calculator, and the Protein Reality Check framework that connects estimates to practical meal planning and weekly adaptation. Preserve for a clean 21-day CTR, ranking, and trust evaluation window."
     }
   ]
 }
