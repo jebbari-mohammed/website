@@ -392,6 +392,15 @@
       "lockUntil": "2026-10-19",
       "preferredReviewAt": "2026-10-26",
       "reason": "The September 28 refresh targets the public-safe near-page-one TDEE calculator signal while correcting thin/overconfident calorie language. It retitles the page around maintenance calories plus weekly adjustment, adds metric/imperial calculator support, WebPage/WebApplication/FAQ/Breadcrumb structured data, safer nutrition boundaries, source notes, and the TDEE Reality Check framework that connects estimates to IZEM meal planning and weekly adaptation. Preserve for a clean 21-day CTR, ranking, and trust evaluation window."
+    },
+    {
+      "id": "home-gym-equipment-reality-map-rehabilitation-2026-09-29",
+      "url": "/blog/adaptive-workout-app-home-gym",
+      "files": ["public/blog/adaptive-workout-app-home-gym.html", "public/og/adaptive-workout-app-home-gym.svg"],
+      "launchedAt": "2026-09-29",
+      "lockUntil": "2026-10-20",
+      "preferredReviewAt": "2026-10-27",
+      "reason": "The September 29 evening rehabilitation turns a noindexed legacy home-gym equipment page into an indexable support asset for the AI workout-generator and equipment-aware planning cluster. It removes fabricated first-person/anecdote residue, replaces overconfident scanning language with safer inventory-to-plan guidance, adds the browser-only Home Gym Reality Map, refreshes metadata/schema/OG visual, and keeps the intent distinct from the locked workout-generator-by-equipment tool and gym-equipment-scanner guide. Preserve for a clean 21-day discovery, recrawl, ranking, and cannibalization evaluation window."
     }
   ]
 }
