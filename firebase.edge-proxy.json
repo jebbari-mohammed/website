@@ -1,0 +1,8 @@
+{
+  "functions": [
+    {
+      "source": "edge-proxy-functions",
+      "codebase": "edge-proxy"
+    }
+  ]
+}
