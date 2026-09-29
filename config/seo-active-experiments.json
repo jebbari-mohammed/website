@@ -396,7 +396,7 @@
     {
       "id": "home-gym-equipment-reality-map-rehabilitation-2026-09-29",
       "url": "/blog/adaptive-workout-app-home-gym",
-      "files": ["public/blog/adaptive-workout-app-home-gym.html", "public/og/adaptive-workout-app-home-gym.svg"],
+      "files": ["public/blog/adaptive-workout-app-home-gym.html", "public/blog/assets/adaptive-workout-app-home-gym/hero.svg", "public/blog/assets/adaptive-workout-app-home-gym/framework.svg", "public/og/adaptive-workout-app-home-gym.svg"],
       "launchedAt": "2026-09-29",
       "lockUntil": "2026-10-20",
       "preferredReviewAt": "2026-10-27",

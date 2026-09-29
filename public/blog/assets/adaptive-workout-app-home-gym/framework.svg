@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Six checks for an adaptive home gym workout app</title>
+  <desc id="desc">People-free checklist diagram for equipment inventory, movement jobs, load ceiling, setup, fallback, and weekly adaptation.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07110f"/>
+      <stop offset="1" stop-color="#15241f"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#72e6c8"/>
+      <stop offset="1" stop-color="#38c7c9"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7c47a"/>
+      <stop offset="1" stop-color="#f09a48"/>
+    </linearGradient>
+    <filter id="shadow" x="-16%" y="-16%" width="132%" height="132%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <path d="M72 120h1056M72 240h1056M72 360h1056M72 480h1056M72 600h1056" stroke="#203a33" stroke-width="1"/>
+  <text x="72" y="84" fill="#f8fafc" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="850">Six checks before trusting the app</text>
+  <text x="72" y="122" fill="#9fb7ae" font-family="Inter, Arial, sans-serif" font-size="18">A useful home-gym plan starts from constraints, then adapts after the week.</text>
+
+  <g filter="url(#shadow)" font-family="Inter, Arial, sans-serif">
+    <g transform="translate(72 166)">
+      <rect width="324" height="132" rx="18" fill="#0b1715" stroke="#2d4d45" stroke-width="2"/>
+      <circle cx="44" cy="44" r="18" fill="url(#teal)"/>
+      <text x="76" y="50" fill="#f8fafc" font-size="23" font-weight="820">Equipment inventory</text>
+      <text x="28" y="92" fill="#a9bbb4" font-size="17">Own, reachable, safe today</text>
+    </g>
+    <g transform="translate(438 166)">
+      <rect width="324" height="132" rx="18" fill="#0b1715" stroke="#2d4d45" stroke-width="2"/>
+      <circle cx="44" cy="44" r="18" fill="url(#amber)"/>
+      <text x="76" y="50" fill="#f8fafc" font-size="23" font-weight="820">Movement jobs</text>
+      <text x="28" y="92" fill="#a9bbb4" font-size="17">Squat, hinge, push, pull</text>
+    </g>
+    <g transform="translate(804 166)">
+      <rect width="324" height="132" rx="18" fill="#0b1715" stroke="#2d4d45" stroke-width="2"/>
+      <circle cx="44" cy="44" r="18" fill="url(#teal)"/>
+      <text x="76" y="50" fill="#f8fafc" font-size="23" font-weight="820">Load ceiling</text>
+      <text x="28" y="92" fill="#a9bbb4" font-size="17">Progress without pretending</text>
+    </g>
+    <g transform="translate(72 346)">
+      <rect width="324" height="132" rx="18" fill="#0b1715" stroke="#2d4d45" stroke-width="2"/>
+      <circle cx="44" cy="44" r="18" fill="url(#amber)"/>
+      <text x="76" y="50" fill="#f8fafc" font-size="23" font-weight="820">Space and setup</text>
+      <text x="28" y="92" fill="#a9bbb4" font-size="17">Anchors, floor, noise, time</text>
+    </g>
+    <g transform="translate(438 346)">
+      <rect width="324" height="132" rx="18" fill="#0b1715" stroke="#2d4d45" stroke-width="2"/>
+      <circle cx="44" cy="44" r="18" fill="url(#teal)"/>
+      <text x="76" y="50" fill="#f8fafc" font-size="23" font-weight="820">Fallback session</text>
+      <text x="28" y="92" fill="#a9bbb4" font-size="17">Smaller, not skipped</text>
+    </g>
+    <g transform="translate(804 346)">
+      <rect width="324" height="132" rx="18" fill="#0b1715" stroke="#2d4d45" stroke-width="2"/>
+      <circle cx="44" cy="44" r="18" fill="url(#amber)"/>
+      <text x="76" y="50" fill="#f8fafc" font-size="23" font-weight="820">Weekly adaptation</text>
+      <text x="28" y="92" fill="#a9bbb4" font-size="17">Review, remember, adjust</text>
+    </g>
+  </g>
+
+  <g transform="translate(336 552)">
+    <rect width="528" height="60" rx="30" fill="#10231f" stroke="#386257" stroke-width="2"/>
+    <text x="264" y="39" fill="#dce9e4" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" text-anchor="middle">Equipment reality becomes next week's plan</text>
+  </g>
+</svg>

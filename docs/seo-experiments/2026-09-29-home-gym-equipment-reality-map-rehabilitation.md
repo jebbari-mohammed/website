@@ -37,7 +37,7 @@
 - Reframed the page around the Home Gym Reality Map: gear, dependencies, load ceiling, setup friction, fallback sessions, and weekly adaptation.
 - Added a browser-only checklist builder that outputs a copyable app-evaluation card.
 - Refreshed title, meta description, canonical, robots, Open Graph, Twitter metadata, Article/FAQ/Breadcrumb JSON-LD, and `dateModified`.
-- Updated the OG visual to an object-only graphic aligned with the new page angle.
+- Added two deterministic local object-only SVG visuals under `/blog/assets/adaptive-workout-app-home-gym/` and pointed article/social image metadata to the approved local hero asset.
 - Reattached the existing home-gym video card to the refreshed English source and synced generated video metadata, thumbnail text, video sitemap, and the video hub title away from the old "random gear" framing.
 - Added contextual internal links from the rehabilitated page to `/features/ai-workout-generator`, `/workout-generator-by-equipment/`, `/blog/gym-equipment-scanner-workout-app`, `/blog/fitness-app-with-fallback-workouts-busy-days`, `/blog/best-fitness-app-for-beginners`, and `/features/ai-meal-planner`.
 - Preserved locked winner pages by not editing `/features/ai-workout-generator`, `/workout-generator-by-equipment/`, `/blog/gym-equipment-scanner-workout-app`, `/blog/index.html`, or `/tools/`.
@@ -51,3 +51,7 @@ Turning the quarantined home-gym equipment URL into an indexable support asset w
 - Primary: impressions, clicks, CTR, and average position for `/blog/adaptive-workout-app-home-gym`.
 - Secondary: contribution to `/features/ai-workout-generator`, `/workout-generator-by-equipment/`, and equipment-aware cluster impressions.
 - Guardrail: no material rewrite before 2026-10-20 unless factual, safety, rendering, indexing, canonical, or deployment correction requires it.
+
+## Media-policy correction
+
+The first pushed launch commit failed the content-integrity workflow because the strict object-only media policy requires at least two approved local article SVGs under `/blog/assets/...` and does not allow an `/og/*.svg` social image for strict articles. The follow-up commit is a deployment/content-integrity correction only: it adds the local deterministic SVGs, points the article and social metadata to the approved hero asset, and expands the lock file list to include those protected visuals. The active-experiment guard may report the protected target changed; this section is the reviewed governance exception for the release correction, not a second SEO experiment.
