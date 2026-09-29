@@ -1,0 +1,204 @@
+name: Deploy Edge Pro OAuth MCP proxy
+
+on:
+  push:
+    branches: [edge-pro-oauth-proxy]
+    paths:
+      - 'edge-proxy-functions/**'
+      - 'firebase.edge-proxy.json'
+      - '.github/workflows/deploy-edge-pro-oauth-proxy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: edge-pro-oauth-proxy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Install proxy dependencies
+        run: npm install --prefix edge-proxy-functions --ignore-scripts --no-audit --no-fund
+
+      - name: Syntax check
+        run: node --check edge-proxy-functions/index.js
+
+      - name: Install pinned Firebase CLI
+        run: npm install --global firebase-tools@15.29.0
+
+      - name: Select Firebase credential with Functions access
+        id: firebase_auth
+        env:
+          FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON }}
+          FIREBASE_SERVICE_ACCOUNT_AI_GYM_COACH_13EE1: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AI_GYM_COACH_13EE1 }}
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          FIREBASE_CI_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          set -euo pipefail
+          project_id="ai-gym-coach-13ee1"
+
+          for name in FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON FIREBASE_SERVICE_ACCOUNT_AI_GYM_COACH_13EE1 FIREBASE_SERVICE_ACCOUNT_JSON FIREBASE_SERVICE_ACCOUNT GOOGLE_CLOUD_JSON GCP_SA_KEY GOOGLE_APPLICATION_CREDENTIALS_JSON GOOGLE_SERVICE_ACCOUNT_JSON; do
+            value="${!name:-}"
+            [ -z "$value" ] && continue
+
+            candidate="$RUNNER_TEMP/firebase-${name}.json"
+            printf '%s' "$value" > "$candidate"
+            chmod 600 "$candidate"
+
+            if ! node -e "const fs=require('fs'); const v=JSON.parse(fs.readFileSync(process.argv[1],'utf8')); if(v.type!=='service_account'||!v.client_email||!v.private_key) process.exit(2)" "$candidate" >/dev/null 2>&1; then
+              rm -f "$candidate"
+              continue
+            fi
+
+            if GOOGLE_APPLICATION_CREDENTIALS="$candidate" firebase functions:list --project "$project_id" --json >/dev/null 2>&1; then
+              echo "mode=service_account" >> "$GITHUB_OUTPUT"
+              echo "GOOGLE_APPLICATION_CREDENTIALS=$candidate" >> "$GITHUB_ENV"
+              echo "Selected a Functions-authorized service account."
+              exit 0
+            fi
+
+            rm -f "$candidate"
+          done
+
+          for token_name in FIREBASE_CI_TOKEN FIREBASE_TOKEN; do
+            token="${!token_name:-}"
+            [ -z "$token" ] && continue
+            if firebase functions:list --project "$project_id" --token "$token" --json >/dev/null 2>&1; then
+              echo "mode=token" >> "$GITHUB_OUTPUT"
+              echo "FIREBASE_DEPLOY_TOKEN=$token" >> "$GITHUB_ENV"
+              echo "Selected a Functions-authorized CI token."
+              exit 0
+            fi
+          done
+
+          echo "::error::No configured repository credential can access Firebase Functions for $project_id."
+          exit 1
+
+      - name: Deploy only the Edge proxy codebase
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.firebase_auth.outputs.mode }}" = "token" ]; then
+            firebase deploy --config firebase.edge-proxy.json --only functions:edge-proxy --project ai-gym-coach-13ee1 --token "$FIREBASE_DEPLOY_TOKEN" --non-interactive
+          else
+            firebase deploy --config firebase.edge-proxy.json --only functions:edge-proxy --project ai-gym-coach-13ee1 --non-interactive
+          fi
+
+      - name: Smoke-test OAuth discovery, DCR, PKCE, and auth challenge
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const crypto = require('node:crypto');
+
+          const base = 'https://us-central1-ai-gym-coach-13ee1.cloudfunctions.net/edgeProOauthProxy';
+          const resource = base + '/mcp';
+          const redirectUri = 'https://chatgpt.com/connector_platform_oauth_redirect';
+
+          const b64url = (b) => Buffer.from(b).toString('base64url');
+          const verifier = b64url(crypto.randomBytes(32));
+          const challenge = b64url(crypto.createHash('sha256').update(verifier).digest());
+
+          async function json(url, options) {
+            const response = await fetch(url, options);
+            const text = await response.text();
+            if (!response.ok) throw new Error(`${url} -> ${response.status}: ${text.slice(0, 500)}`);
+            return JSON.parse(text);
+          }
+
+          (async () => {
+            const protectedResource = await json(base + '/.well-known/oauth-protected-resource');
+            if (protectedResource.resource !== resource) throw new Error('protected resource mismatch');
+
+            const authMeta = await json(base + '/.well-known/oauth-authorization-server');
+            if (!authMeta.code_challenge_methods_supported?.includes('S256')) throw new Error('S256 missing');
+
+            const registration = await json(base + '/register', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                redirect_uris: [redirectUri],
+                token_endpoint_auth_method: 'none',
+                grant_types: ['authorization_code', 'refresh_token'],
+                response_types: ['code'],
+              }),
+            });
+            if (registration.client_id !== 'chatgpt-edge-pro-private') throw new Error('DCR client mismatch');
+
+            const form = new URLSearchParams({
+              response_type: 'code',
+              client_id: registration.client_id,
+              redirect_uri: redirectUri,
+              state: 'smoke-state',
+              resource,
+              scope: 'edge.read',
+              code_challenge: challenge,
+              code_challenge_method: 'S256',
+              edge_key: 'edge_smoke_test_only_1234567890',
+            });
+
+            const authorize = await fetch(base + '/authorize', {
+              method: 'POST',
+              headers: { 'content-type': 'application/x-www-form-urlencoded' },
+              body: form,
+              redirect: 'manual',
+            });
+            if (authorize.status !== 302) throw new Error(`authorize -> ${authorize.status}`);
+
+            const location = authorize.headers.get('location');
+            if (!location) throw new Error('authorize redirect missing');
+            const callback = new URL(location);
+            if (callback.searchParams.get('state') !== 'smoke-state') throw new Error('state mismatch');
+            if (callback.searchParams.get('iss') !== base) throw new Error('issuer missing');
+            const code = callback.searchParams.get('code');
+            if (!code) throw new Error('authorization code missing');
+
+            const token = await json(base + '/token', {
+              method: 'POST',
+              headers: { 'content-type': 'application/x-www-form-urlencoded' },
+              body: new URLSearchParams({
+                grant_type: 'authorization_code',
+                client_id: registration.client_id,
+                redirect_uri: redirectUri,
+                resource,
+                code,
+                code_verifier: verifier,
+              }),
+            });
+            if (!String(token.access_token || '').startsWith('ept1.')) throw new Error('access token missing');
+            if (!String(token.refresh_token || '').startsWith('ert1.')) throw new Error('refresh token missing');
+
+            const unauth = await fetch(resource, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} }),
+              redirect: 'manual',
+            });
+            if (unauth.status !== 401) throw new Error(`unauth MCP expected 401, got ${unauth.status}`);
+            if (!unauth.headers.get('www-authenticate')?.includes('oauth-protected-resource')) {
+              throw new Error('OAuth challenge missing');
+            }
+
+            console.log('OAuth MCP proxy smoke tests passed.');
+          })().catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
