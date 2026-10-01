@@ -20,7 +20,9 @@ function main() {
     if (!fallback.includes(fact)) errors.push(`Manual SEO fallback drifted from canonical fact: ${fact}`);
   }
 
-  if (!video.includes('productFacts()') || !video.includes("data', 'brand', 'product-facts.json")) {
+  if (!/\bproductFacts\s*\(/.test(video)
+      || !video.includes("data', 'brand', 'product-facts.json")
+      || !video.includes('fs.readFileSync(FACTS_FILE)')) {
     errors.push('Hardened video publisher is not reading canonical product-facts.json');
   }
 
