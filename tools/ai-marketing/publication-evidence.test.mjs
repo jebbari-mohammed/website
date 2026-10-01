@@ -18,8 +18,8 @@ const iso = (time, offset = 0) => new Date(Date.parse(time) + offset).toISOStrin
 
 function fixture(t) {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'izem-publication-evidence-'));
-  t.after(() => fs.rmSync(cwd, { recursive: true, force: true }));
-  const git = (args) => execFileSync('git', args, {
+  t.after(() => fs.rmSync(cwd, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }));
+  const git = (args) => execFileSync('git', ['-c', 'gc.auto=0', '-c', 'maintenance.auto=false', ...args], {
     cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
     env: { ...process.env, GIT_AUTHOR_DATE: '2020-01-01T00:00:00Z', GIT_COMMITTER_DATE: '2020-01-01T00:00:00Z' },
   }).trim();

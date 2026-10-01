@@ -13,8 +13,8 @@ const POST = (name) => `public/blog/${name}.html`;
 
 function repository(t, { initial = true } = {}) {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'izem-publish-guard-'));
-  t.after(() => fs.rmSync(cwd, { recursive: true, force: true }));
-  const git = (args, env = {}) => execFileSync('git', args, {
+  t.after(() => fs.rmSync(cwd, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }));
+  const git = (args, env = {}) => execFileSync('git', ['-c', 'gc.auto=0', '-c', 'maintenance.auto=false', ...args], {
     cwd, encoding: 'utf8', env: { ...process.env, ...env }, stdio: ['ignore', 'pipe', 'pipe'],
   }).trim();
   git(['init', '-b', 'main']);
@@ -277,7 +277,7 @@ test('shallow history fails closed instead of silently undercounting', (t) => {
   const repo = repository(t);
   repo.add('published', '2026-09-27T12:00:00Z');
   const clone = fs.mkdtempSync(path.join(os.tmpdir(), 'izem-shallow-'));
-  t.after(() => fs.rmSync(clone, { recursive: true, force: true }));
+  t.after(() => fs.rmSync(clone, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }));
   execFileSync('git', ['clone', '--depth=1', pathToFileURL(repo.cwd).href, clone], { stdio: 'pipe' });
   assert.throws(() => inspectPublicationWindow({ cwd: clone, now: NOW }), /Full Git history/);
 });
