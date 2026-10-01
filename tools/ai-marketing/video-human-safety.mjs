@@ -6,7 +6,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { GoogleGenAI } from '@google/genai';
+import { VIDEO_SAMPLE_COUNT, VIDEO_SAMPLE_METHOD, sampleTimestamps, videoFileDigest, assertPeopleFreeEvidence } from './video-provenance.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
@@ -74,12 +74,11 @@ function videoDurationSeconds(videoPath) {
   return duration;
 }
 
-function sampleFrames(videoPath, directory, count = 14) {
+function sampleFrames(videoPath, directory, count = VIDEO_SAMPLE_COUNT) {
   const duration = videoDurationSeconds(videoPath);
   const frames = [];
-  for (let index = 0; index < count; index += 1) {
-    const ratio = count === 1 ? 0.5 : index / (count - 1);
-    const timestamp = Math.max(0, Math.min(duration - 0.05, ratio * Math.max(0.05, duration - 0.05)));
+  const timestamps = sampleTimestamps(duration, count);
+  for (const [index, timestamp] of timestamps.entries()) {
     const output = path.join(directory, `frame-${String(index + 1).padStart(2, '0')}.jpg`);
     execFileSync('ffmpeg', [
       '-hide_banner', '-loglevel', 'error', '-y',
@@ -89,9 +88,12 @@ function sampleFrames(videoPath, directory, count = 14) {
       '-vf', 'scale=640:-2',
       output,
     ], { stdio: 'inherit' });
-    if (fs.existsSync(output) && fs.statSync(output).size > 1000) frames.push(output);
+    if (!fs.existsSync(output) || fs.statSync(output).size <= 1000) {
+      throw new Error(`Missing usable frame at ${timestamp}s; full-duration validation is incomplete.`);
+    }
+    frames.push(output);
   }
-  return frames;
+  return { frames, duration, timestamps };
 }
 
 function classifierParts(frames) {
@@ -134,6 +136,7 @@ async function classifyWithFallback(parts, options = {}) {
     for (const [keyIndex, apiKey] of apiKeys.entries()) {
       attempt += 1;
       try {
+        const { GoogleGenAI } = await import('@google/genai');
         const ai = new GoogleGenAI({ apiKey });
         const response = await ai.models.generateContent({
           model,
@@ -141,7 +144,9 @@ async function classifyWithFallback(parts, options = {}) {
           config: { responseMimeType: 'application/json', maxOutputTokens: 700 },
         });
         const verdict = parseJson(response.text);
-        if (verdict?.safe !== true || verdict?.containsHuman !== false) {
+        if (verdict?.safe !== true || verdict?.containsHuman !== false
+            || !Array.isArray(verdict?.unsafeFrameHints) || verdict.unsafeFrameHints.length
+            || typeof verdict.reason !== 'string' || !verdict.reason.trim()) {
           throw new VideoPolicyError(`NotebookLM video blocked by people-free policy: ${String(verdict?.reason || 'human depiction detected').slice(0, 500)}`);
         }
         console.log(`People-free classifier succeeded with ${model}, credential slot ${keyIndex + 1}, attempt ${attempt}.`);
@@ -160,13 +165,28 @@ async function classifyWithFallback(parts, options = {}) {
 export async function assertVideoIsPeopleFree(videoPath, options = {}) {
   if (!fs.existsSync(videoPath)) throw new Error(`Video safety input does not exist: ${videoPath}`);
 
+  const videoHash = videoFileDigest(videoPath);
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'izem-video-safety-'));
   try {
-    const frames = sampleFrames(videoPath, directory);
-    if (frames.length < 8) throw new Error(`Only ${frames.length} usable video frames were extracted; failing closed.`);
+    const { frames, duration, timestamps } = sampleFrames(videoPath, directory);
+    if (frames.length !== VIDEO_SAMPLE_COUNT) throw new Error(`Only ${frames.length} usable video frames were extracted; failing closed.`);
     const result = await classifyWithFallback(classifierParts(frames), options);
     console.log(`People-free video validation passed across ${frames.length} uniform full-duration sample(s) using ${result.model}.`);
-    return result.verdict;
+    if (videoFileDigest(videoPath) !== videoHash) throw new Error('Video bytes changed during people-free validation.');
+    const evidence = {
+      safe: result.verdict.safe,
+      containsHuman: result.verdict.containsHuman,
+      reason: result.verdict.reason,
+      unsafeFrameHints: result.verdict.unsafeFrameHints,
+      model: result.model,
+      sample_count: frames.length,
+      duration_seconds: duration,
+      sample_timestamps_seconds: timestamps,
+      checked_at: new Date().toISOString(),
+      method: VIDEO_SAMPLE_METHOD,
+    };
+    assertPeopleFreeEvidence(evidence);
+    return { ...evidence, video_sha256: videoHash };
   } finally {
     fs.rmSync(directory, { recursive: true, force: true });
   }

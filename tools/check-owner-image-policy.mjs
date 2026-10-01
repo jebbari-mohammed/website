@@ -28,7 +28,10 @@ function walk(dir, predicate) {
   return files;
 }
 
-const publicTextFiles = walk(PUBLIC_DIR, (name) => /\.(?:html|xml)$/i.test(name));
+const publicTextFiles = [
+  ...walk(PUBLIC_DIR, (name) => /\.(?:html|xml)$/i.test(name)),
+  ...walk(path.join(ROOT, 'src'), (name) => /\.(?:tsx?|jsx?|css)$/i.test(name)),
+];
 const violations = [];
 for (const file of publicTextFiles) {
   const content = fs.readFileSync(file, 'utf8');
@@ -50,7 +53,7 @@ for (const file of thumbnailFiles) {
 if (violations.length) {
   console.error(`Owner image policy check failed: ${violations.length} unsafe visual reference(s) found.`);
   for (const violation of violations) console.error(`- ${violation.file}: ${violation.blocked}`);
-  console.error('Use a visually verified people-free asset, or a clearly fully/modestly covered human visual explicitly accepted by the owner.');
+  console.error('Use a visually verified people-free asset. Human depictions, including silhouettes, body parts, and avatars, are forbidden.');
   process.exitCode = 1;
 } else {
   console.log(`Owner image policy check passed: ${publicTextFiles.length} public HTML/XML file(s) and ${thumbnailFiles.length} generated people-free video thumbnail(s) checked.`);

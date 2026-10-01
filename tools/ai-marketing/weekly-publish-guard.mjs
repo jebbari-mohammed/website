@@ -1,68 +1,201 @@
 #!/usr/bin/env node
 
 import { execFileSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 import process from 'node:process';
+import { pathToFileURL } from 'node:url';
 
-const LIMIT = Number(process.env.SEO_WEEKLY_NEW_POST_LIMIT || 3);
-const OVERRIDE = /^(1|true|yes)$/i.test(process.env.SEO_PUBLISH_OVERRIDE || '');
-const REQUIRE_SLOT = process.argv.includes('--require-slot');
+export const MAX_NEW_POSTS = 3;
+export const ROLLING_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
 
-function mondayUtc(now = new Date()) {
-  const date = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-  const mondayIndex = (date.getUTCDay() + 6) % 7;
-  date.setUTCDate(date.getUTCDate() - mondayIndex);
-  return date;
+function isBlogPost(file) {
+  return /^public\/blog\/[^/]+\.html$/.test(file) && file !== 'public/blog/index.html';
 }
 
-function addedBlogFilesSince(since) {
-  const output = execFileSync('git', [
-    'log',
-    `--since=${since.toISOString()}`,
-    '--diff-filter=A',
-    '--name-only',
-    '--format=',
-    '--',
-    'public/blog/*.html',
-  ], { encoding: 'utf8' });
-
-  return [...new Set(
-    output
-      .split(/\r?\n/)
-      .map((value) => value.trim())
-      .filter((value) => /^public\/blog\/[^/]+\.html$/.test(value) && value !== 'public/blog/index.html'),
-  )];
+function postPaths(output) {
+  // NUL delimiters preserve paths containing spaces, quotes, or newlines.
+  return output.split('\0').filter(isBlogPost);
 }
 
-function fail(summary, message) {
-  console.error(`Weekly SEO publish guard BLOCKED: ${summary}.`);
-  console.error(message);
-  console.error('If a supervised exception is genuinely required, set SEO_PUBLISH_OVERRIDE=true for that one run.');
-  process.exitCode = 1;
+function git(cwd, args) {
+  return execFileSync('git', ['--no-replace-objects', ...args], {
+    cwd,
+    encoding: 'utf8',
+    maxBuffer: 32 * 1024 * 1024,
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+}
+
+function resolveCommit(cwd, ref) {
+  return git(cwd, ['rev-parse', '--verify', '--end-of-options', `${ref}^{commit}`]).trim();
+}
+
+function validateLimit(value) {
+  const limit = Number(value);
+  if (!Number.isInteger(limit) || limit < 1 || limit > MAX_NEW_POSTS) {
+    throw new Error(`SEO_WEEKLY_NEW_POST_LIMIT must be an integer from 1 to ${MAX_NEW_POSTS}; the policy ceiling cannot be raised.`);
+  }
+  return limit;
+}
+
+/**
+ * Count publication on the release's first-parent history, regardless of author.
+ * A merge publishes its tree changes at merge time, even when its branch was
+ * authored weeks earlier. Renames and reintroductions consume a slot; a URL is
+ * counted only once in a window, including if it has subsequently been deleted.
+ *
+ * The rolling interval is (now - 168 hours, now]. Read the complete history and
+ * filter dates ourselves: git log --since can stop early at a backdated commit.
+ * --require-slot is a pre-creation check. Release checks additionally allow at
+ * most one distinct added URL across base..head (default: the latest commit),
+ * plus any pending worktree/index additions. Pass the run's original base to
+ * cover multi-commit runs; an explicit base must be on the first-parent history.
+ */
+export function inspectPublicationWindow({
+  cwd = process.cwd(),
+  head = 'HEAD',
+  base,
+  now = new Date(),
+  limit = MAX_NEW_POSTS,
+  requireSlot = false,
+  includeWorktree = true,
+} = {}) {
+  limit = validateLimit(limit);
+  const instant = new Date(now);
+  if (!Number.isFinite(instant.getTime())) throw new Error('Publish guard received an invalid current time.');
+  const start = new Date(instant.getTime() - ROLLING_WINDOW_MS);
+
+  if (git(cwd, ['rev-parse', '--is-shallow-repository']).trim() !== 'false') {
+    throw new Error('Full Git history is required; use actions/checkout with fetch-depth: 0 (or git fetch --unshallow).');
+  }
+  const grafts = path.resolve(cwd, git(cwd, ['rev-parse', '--git-path', 'info/grafts']).trim());
+  if (fs.existsSync(grafts) && fs.readFileSync(grafts, 'utf8').split('\n').some((line) => line.trim() && !line.trim().startsWith('#'))) {
+    throw new Error('Git grafts obscure publication history; remove the grafts before checking the full history.');
+  }
+  const resolvedHead = resolveCommit(cwd, head);
+  if (includeWorktree && resolvedHead !== resolveCommit(cwd, 'HEAD')) {
+    throw new Error('The requested head must match the checkout when including pending changes.');
+  }
+  const history = git(cwd, ['log', '--first-parent', '--format=%H %ct %P', resolvedHead, '--'])
+    .trim().split('\n').filter(Boolean).map((line) => {
+      const [sha, timestamp, ...parents] = line.split(' ');
+      const time = Number(timestamp) * 1000;
+      if (!Number.isFinite(time)) throw new Error(`Invalid commit time for ${sha}.`);
+      return { sha, time, parent: parents[0] };
+    });
+
+  let runCommits;
+  if (base !== undefined) {
+    const resolvedBase = resolveCommit(cwd, base);
+    const baseIndex = history.findIndex(({ sha }) => sha === resolvedBase);
+    if (baseIndex === -1) throw new Error('Run base must be an ancestor on the head first-parent history.');
+    runCommits = new Set(history.slice(0, baseIndex).map(({ sha }) => sha));
+  } else {
+    runCommits = new Set(requireSlot ? [] : [resolvedHead]);
+  }
+
+  const windowFiles = new Set();
+  const runFiles = new Set();
+  for (const commit of history) {
+    if (commit.time <= start.getTime() && !runCommits.has(commit.sha)) continue;
+    const diffArgs = commit.parent
+      ? ['diff', commit.parent, commit.sha]
+      : ['diff-tree', '--root', '--no-commit-id', '-r', commit.sha];
+    const added = postPaths(git(cwd, [
+      ...diffArgs, '--no-ext-diff', '--no-textconv', '--no-renames', '--diff-filter=A', '--name-only', '-z', '--', 'public/blog/',
+    ]));
+    if (added.length && commit.time > instant.getTime()) {
+      throw new Error(`Future-dated publication commit ${commit.sha} prevents a reliable rolling-window check.`);
+    }
+    if (added.length && runCommits.has(commit.sha) && commit.time <= start.getTime()) {
+      // Fast-forwarding an old-dated addition has no durable publication time
+      // in Git: merely charging it to this run would forget it on the next run.
+      // Require a current, auditable release commit (for example a merge).
+      throw new Error(`Run-added publication commit ${commit.sha} is outside the rolling seven-day window; its publication time cannot be verified for subsequent runs.`);
+    }
+    for (const file of added) {
+      if (commit.time > start.getTime()) windowFiles.add(file);
+      if (runCommits.has(commit.sha)) runFiles.add(file);
+    }
+  }
+
+  const pendingFiles = new Set();
+  if (includeWorktree) {
+    // Check both the staged snapshot and the working tree; either can contain
+    // additions the other lacks. Untracked files can enter the production build.
+    for (const args of [
+      ['diff', '--cached', resolvedHead],
+      ['diff', resolvedHead],
+    ]) {
+      for (const file of postPaths(git(cwd, [
+        ...args, '--no-ext-diff', '--no-textconv', '--no-renames', '--diff-filter=A', '--name-only', '-z', '--', 'public/blog/',
+      ]))) pendingFiles.add(file);
+    }
+    for (const file of postPaths(git(cwd, ['ls-files', '--others', '--exclude-standard', '-z', '--', 'public/blog/']))) {
+      pendingFiles.add(file);
+    }
+    for (const file of pendingFiles) {
+      windowFiles.add(file);
+      runFiles.add(file);
+    }
+  }
+
+  const violations = [];
+  if (windowFiles.size > limit) violations.push(`The rolling seven-day ceiling of ${limit} is exceeded. No further publication or deployment is allowed.`);
+  if (runFiles.size > 1) violations.push(`This run adds ${runFiles.size} top-level English blog posts; at most one is allowed per run.`);
+  if (requireSlot && windowFiles.size >= limit) violations.push('No new-page slot remains in the rolling seven-day window. Improve an existing URL or publish nothing.');
+
+  return {
+    start: start.toISOString(),
+    end: instant.toISOString(),
+    limit,
+    files: [...windowFiles].sort(),
+    runFiles: [...runFiles].sort(),
+    pendingFiles: [...pendingFiles].sort(),
+    violations,
+    allowed: violations.length === 0,
+  };
+}
+
+function parseArgs(argv) {
+  const options = {};
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (arg === '--require-slot') options.requireSlot = true;
+    else if (arg === '--base' || arg === '--head') {
+      const value = argv[++index];
+      if (!value || value.startsWith('--')) throw new Error(`${arg} requires a commit reference.`);
+      options[arg.slice(2)] = value;
+    } else if (/^--(?:base|head)=/.test(arg)) {
+      const [name, ...value] = arg.slice(2).split('=');
+      options[name] = value.join('=');
+      if (!options[name]) throw new Error(`--${name} requires a commit reference.`);
+    } else throw new Error(`Unknown publish guard argument: ${arg}`);
+  }
+  return options;
 }
 
 function main() {
-  if (!Number.isInteger(LIMIT) || LIMIT < 1 || LIMIT > 10) throw new Error(`SEO_WEEKLY_NEW_POST_LIMIT must be an integer from 1 to 10; received ${LIMIT}`);
-
-  const start = mondayUtc();
-  const files = addedBlogFilesSince(start);
-  const summary = `${files.length}/${LIMIT} new top-level English blog posts since ${start.toISOString()}`;
-
-  if (files.length > LIMIT && !OVERRIDE) {
-    fail(summary, 'The repository already exceeds the weekly ceiling. No further publication or deployment is allowed.');
-    return;
+  try {
+    const options = parseArgs(process.argv.slice(2));
+    const result = inspectPublicationWindow({
+      ...options,
+      limit: process.env.SEO_WEEKLY_NEW_POST_LIMIT ?? MAX_NEW_POSTS,
+    });
+    const summary = `${result.files.length}/${result.limit} new top-level English blog posts in (${result.start}, ${result.end}]`;
+    if (!result.allowed) {
+      console.error(`Weekly SEO publish guard BLOCKED: ${summary}.`);
+      for (const violation of result.violations) console.error(violation);
+      console.error('SEO_PUBLISH_OVERRIDE cannot bypass the publication ceilings.');
+      process.exitCode = 1;
+      return;
+    }
+    console.log(`Weekly SEO publish guard passed: ${summary}; ${result.runFiles.length}/1 additions in this run${options.requireSlot ? '; a creation slot remains' : ''}.`);
+  } catch (error) {
+    console.error(`Weekly SEO publish guard BLOCKED: ${error.message}`);
+    process.exitCode = 1;
   }
-
-  if (REQUIRE_SLOT && files.length >= LIMIT && !OVERRIDE) {
-    fail(summary, 'No new-page slot remains this week. Improve an existing URL or publish nothing.');
-    return;
-  }
-
-  if (files.length >= LIMIT && !OVERRIDE) {
-    console.log(`Weekly SEO publish guard: ${summary}. The ceiling is full; existing releases may finish, but another new page must not be created.`);
-    return;
-  }
-
-  console.log(`Weekly SEO publish guard passed: ${summary}${REQUIRE_SLOT ? '; at least one creation slot remains' : ''}.`);
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) main();
