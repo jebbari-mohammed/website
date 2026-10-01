@@ -126,6 +126,7 @@ jobs:
       - name: Enforce the global weekly new-post ceiling
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         env:
+          GH_TOKEN: ${{ github.token }}
           BASE_SHA: ${{ github.event.before }}
           HEAD_SHA: ${{ github.sha }}
         run: |

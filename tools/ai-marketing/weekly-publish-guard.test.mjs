@@ -354,7 +354,7 @@ test('CLI validates arguments and supports explicit run boundaries', (t) => {
   const result = repo.cli([`--base=${base}`, '--head', head]);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /at most one/);
-  assert.equal(repo.cli(['--base', 'HEAD', '--head=HEAD']).status, 0);
+  assert.equal(repo.cli(['--commit-history-only', '--base', 'HEAD', '--head=HEAD']).status, 2);
   for (const args of [['--base'], ['--head='], ['--now', NOW.toISOString()], ['--unknown']]) {
     assert.equal(repo.cli(args).status, 1);
   }

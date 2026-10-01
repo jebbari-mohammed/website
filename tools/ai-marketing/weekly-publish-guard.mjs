@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { pathToFileURL } from 'node:url';
+import { inspectPublicationEvidence } from './publication-evidence.mjs';
 
 export const MAX_NEW_POSTS = 3;
 export const ROLLING_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
@@ -40,7 +41,9 @@ function validateLimit(value) {
 }
 
 /**
- * Count publication on the release's first-parent history, regardless of author.
+ * Inspect first-parent source history regardless of author. This diagnostic
+ * alone cannot approve publication: CLI success also requires authenticated
+ * deployment evidence, which prevents backdated commits expiring early.
  * A merge publishes its tree changes at merge time, even when its branch was
  * authored weeks earlier. Renames and reintroductions consume a slot; a URL is
  * counted only once in a window, including if it has subsequently been deleted.
@@ -163,6 +166,7 @@ function parseArgs(argv) {
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === '--require-slot') options.requireSlot = true;
+    else if (arg === '--commit-history-only') options.commitHistoryOnly = true;
     else if (arg === '--base' || arg === '--head') {
       const value = argv[++index];
       if (!value || value.startsWith('--')) throw new Error(`${arg} requires a commit reference.`);
@@ -176,7 +180,7 @@ function parseArgs(argv) {
   return options;
 }
 
-function main() {
+async function main() {
   try {
     const options = parseArgs(process.argv.slice(2));
     const result = inspectPublicationWindow({
@@ -191,7 +195,27 @@ function main() {
       process.exitCode = 1;
       return;
     }
-    console.log(`Weekly SEO publish guard passed: ${summary}; ${result.runFiles.length}/1 additions in this run${options.requireSlot ? '; a creation slot remains' : ''}.`);
+    if (options.commitHistoryOnly) {
+      console.log(`Git-history diagnostic only (NOT publication approval): ${summary}.`);
+      process.exitCode = 2; // A diagnostic can never act as a successful release gate.
+      return;
+    }
+    const evidence = await inspectPublicationEvidence({
+      head: options.head || 'HEAD', requireSlot: options.requireSlot, limit: result.limit,
+      repository: process.env.GITHUB_REPOSITORY || 'jebbari-mohammed/website',
+      currentRunId: process.env.GITHUB_RUN_ID, currentRunAttempt: process.env.GITHUB_RUN_ATTEMPT,
+    });
+    const allFiles = new Set([...result.files, ...evidence.files]);
+    const violations = [...evidence.violations];
+    if (allFiles.size > result.limit) violations.push(`Combined publication and pending-source evidence exceeds the ${result.limit}-post rolling ceiling.`);
+    if (options.requireSlot && allFiles.size >= result.limit) violations.push('No new-page slot remains in the evidence-backed rolling window.');
+    if (violations.length) {
+      console.error(`Weekly SEO publish guard BLOCKED by deployment evidence (${allFiles.size}/${result.limit}).`);
+      for (const violation of violations) console.error(violation);
+      process.exitCode = 1;
+      return;
+    }
+    console.log(`Weekly SEO publish guard passed: ${allFiles.size}/${result.limit} conservative publication reservations in the rolling 168-hour window; ${result.runFiles.length}/1 additions in this run. Authenticated deployment evidence checked; Git timestamps alone cannot approve publication.`);
   } catch (error) {
     console.error(`Weekly SEO publish guard BLOCKED: ${error.message}`);
     process.exitCode = 1;
