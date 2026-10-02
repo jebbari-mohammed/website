@@ -71,7 +71,7 @@ const server = app.listen(0, '127.0.0.1');
 await new Promise(resolve => server.once('listening', resolve));
 const origin = `http://127.0.0.1:${server.address().port}`;
 const browser = await puppeteer.launch({ headless: true, executablePath: process.env.PUPPETEER_EXECUTABLE_PATH, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-const report = { sourceCommit: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), approvedTextSha256: approved.approvedTextSha256, browser: await browser.version(), states: [], pageErrors: [], consoleErrors: [], failedRequests: [] };
+const report = { sourceCommit: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), approvedTextSha256: approved.approvedTextSha256, browser: await browser.version(), states: [], playbackFrames: [], pageErrors: [], consoleErrors: [], failedRequests: [] };
 
 async function clickText(page, selector, text) {
   const candidates = await page.$$(selector);
@@ -83,8 +83,46 @@ async function clickText(page, selector, text) {
 
 async function verifyPlayback(page, selector) {
   await page.waitForFunction(selector => { const video = document.querySelector(selector); return video && !video.paused && video.readyState >= 2 && video.currentTime > 0 && video.videoWidth > 0 && video.muted && video.loop && video.autoplay && video.playsInline && !video.error; }, { timeout: 30000 }, selector);
-  const initial = await page.$eval(selector, video => video.currentTime);
-  await page.waitForFunction((selector, initial) => document.querySelector(selector)?.currentTime !== initial, { timeout: 5000 }, selector, initial);
+  const frames = await page.$eval(selector, async video => {
+    if (typeof video.requestVideoFrameCallback === 'function') {
+      return await new Promise((resolve, reject) => {
+        let callbackId;
+        const timer = setTimeout(() => {
+          video.cancelVideoFrameCallback(callbackId);
+          reject(new Error('Video did not present advancing frames within five seconds'));
+        }, 5000);
+        callbackId = video.requestVideoFrameCallback((_firstNow, first) => {
+          callbackId = video.requestVideoFrameCallback((_secondNow, second) => {
+            clearTimeout(timer);
+            if (second.presentedFrames <= first.presentedFrames || second.mediaTime === first.mediaTime) {
+              reject(new Error('Video clock advanced without two newly presented frames'));
+              return;
+            }
+            resolve({ method: 'requestVideoFrameCallback', first: first.presentedFrames, last: second.presentedFrames, firstMediaTime: first.mediaTime, lastMediaTime: second.mediaTime });
+          });
+        });
+      });
+    }
+    if (typeof video.getVideoPlaybackQuality !== 'function') throw new Error('Browser exposes no reliable video frame counter');
+    const first = video.getVideoPlaybackQuality();
+    const firstPresented = first.totalVideoFrames - first.droppedVideoFrames;
+    return await new Promise((resolve, reject) => {
+      const started = performance.now();
+      const interval = setInterval(() => {
+        const current = video.getVideoPlaybackQuality();
+        const lastPresented = current.totalVideoFrames - current.droppedVideoFrames;
+        if (lastPresented > firstPresented) {
+          clearInterval(interval);
+          resolve({ method: 'getVideoPlaybackQuality', first: firstPresented, last: lastPresented, total: current.totalVideoFrames, dropped: current.droppedVideoFrames });
+        } else if (performance.now() - started >= 5000) {
+          clearInterval(interval);
+          reject(new Error('Video non-dropped frame count did not advance within five seconds'));
+        }
+      }, 100);
+    });
+  });
+  assert(frames.last > frames.first, `Video frames did not advance: ${JSON.stringify(frames)}`);
+  report.playbackFrames.push({ selector, source: await page.$eval(selector, video => video.getAttribute('src')), ...frames });
 }
 
 async function checkState(page, name, screenshotSelector) {
