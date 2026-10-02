@@ -167,7 +167,12 @@ try {
     await Promise.all([page.waitForNavigation({ waitUntil: 'domcontentloaded' }), clickText(page, '#hero a', 'Try the free workout generator')]);
     assert.equal(new URL(page.url()).pathname, '/workout-plan-generator/');
     assert((await page.$eval('body', el => el.innerText)).toLowerCase().includes('workout'));
-    await page.goBack({ waitUntil: 'networkidle0' });
+    // History restoration may use BFCache and has no new network-idle event.
+    // Wait for the document lifecycle, then verify the actual destination and
+    // full homepage state. A wrong/blank/stale page still fails these assertions.
+    await page.goBack({ waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => location.pathname === '/' && document.querySelector('#hero h1')?.textContent.replace(/\s+/g, ' ').trim() === 'IZEM. Your AI Personal Trainer');
+    assert.equal(page.url(), origin + '/');
     await checkState(page, viewport.name + '-returned-home', '#hero');
     await page.close();
   }
