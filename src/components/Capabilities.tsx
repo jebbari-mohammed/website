@@ -1,7 +1,7 @@
 import { motion } from '../lib/motion';
 import {
   Apple,
-  Brain,
+  Layers,
   Camera,
   CheckCircle2,
   Dumbbell,
@@ -81,7 +81,7 @@ const groups: CapabilityGroup[] = [
     items: [
       'Supported Health context includes steps/exercise minutes, sleep, workouts, resting heart rate, HRV and body mass when those data exist.',
       'Health access is read-only and permission-based; missing or denied data is not treated as a zero or a bad day.',
-      'A minimized Health summary can support relevant coaching after separate consent rather than sending an entire Health history into every conversation.',
+      'A minimized Health summary can support user-started text coaching and explicitly requested workout changes after separate consent. Voice calls do not receive Apple Health context.',
       'Apple Health is context for general fitness coaching, not diagnosis, treatment or emergency monitoring.',
     ],
   },
@@ -95,11 +95,11 @@ const truthNotes = [
   },
   {
     icon: SlidersHorizontal,
-    title: 'One free call before subscribing',
-    text: 'At the end of onboarding, a non-member can choose the 7-day trial or test one complimentary coach call first. The connected test call is hard-limited to exactly three minutes.',
+    title: 'One test call when eligible',
+    text: 'When offered during onboarding, an eligible non-subscriber can try one complimentary coach call. It is available once and capped at three connected minutes.',
   },
   {
-    icon: Brain,
+    icon: Layers,
     title: 'One connected profile',
     text: 'Training, meals, progress, scans, chat and eligible calls can use the same profile so the coach has context instead of asking you to re-explain everything.',
   },
@@ -121,10 +121,10 @@ export default function Capabilities() {
             <span>CURRENT PRODUCT FACTS</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-textPrimary leading-tight mb-5">
-            What IZEM Actually Does Today.
+            Explore IZEM’s Coaching Features.
           </h2>
           <p className="text-base sm:text-lg text-textSecondary leading-relaxed">
-            Specific capabilities, stated plainly. Availability can vary by platform, account and current storefront terms, so the app remains the authority for purchase eligibility and billing details.
+            The app is awaiting store review. These product capabilities depend on platform and account eligibility; purchase terms and availability will be shown in the app when offered.
           </p>
         </motion.div>
 

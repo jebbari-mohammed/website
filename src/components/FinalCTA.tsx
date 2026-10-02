@@ -15,7 +15,7 @@ export default function FinalCTA() {
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.1] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12)] text-xs font-semibold text-primary mb-6">
             <Sparkles size={13} className="text-primary" />
-            <span>SEE THE CURRENT PRODUCT</span>
+            <span>APP AWAITING STORE REVIEW</span>
           </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-textPrimary leading-[1.1] mb-6">
@@ -31,10 +31,10 @@ export default function FinalCTA() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
             <a
-              href="/izem-ai-fitness-coach/"
+              href="/workout-plan-generator/"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-base font-bold bg-primary text-[#070A0D] hover:bg-[#A3FF85] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-[0_0_35px_rgba(141,255,106,0.35)]"
             >
-              <span>Read Current Product Facts</span>
+              <span>Try the free workout generator</span>
               <ArrowRight size={18} />
             </a>
 
@@ -49,7 +49,7 @@ export default function FinalCTA() {
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-textSecondary/70 font-medium">
             <span className="flex items-center gap-1.5">
               <CheckCircle2 size={14} className="text-primary" />
-              Storefront terms control price and eligibility
+              The free website tool is available now
             </span>
             <span className="flex items-center gap-1.5">
               <CheckCircle2 size={14} className="text-primary" />

@@ -1,5 +1,5 @@
 import { motion } from '../lib/motion';
-import { Phone, Brain, Utensils, Camera, ArrowRight, Sparkles, Activity, CheckCircle2 } from 'lucide-react';
+import { Phone, Layers, Utensils, Camera, ArrowRight, Sparkles, Activity, CheckCircle2 } from 'lucide-react';
 
 export default function CorePillars() {
   return (
@@ -45,7 +45,7 @@ export default function CorePillars() {
                 Premium members can call the coach, and optional coach-initiated calls can support workout and review moments.
               </p>
               <p className="text-sm text-textSecondary leading-relaxed mb-6">
-                The call can use relevant non-Health coaching context such as today’s workout, recent training, current meals and saved preferences. Eligible non-subscribers can receive one complimentary onboarding coach call hard-limited to exactly three minutes before deciding whether to join.
+                The call can use relevant non-Health coaching context such as today’s workout, recent training, current meals and saved preferences. When offered during onboarding, eligible non-subscribers can try one complimentary coach call, once, capped at three connected minutes.
               </p>
 
               <div className="p-4 sm:p-5 rounded-2xl bg-[#090D13]/90 border border-white/[0.1] shadow-inner mb-6 grid sm:grid-cols-2 gap-3">
@@ -177,7 +177,7 @@ export default function CorePillars() {
             <div>
               <div className="flex items-center justify-between mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-secondary/15 border border-secondary/30 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-[#070A0D] transition-colors duration-300 shadow-sm">
-                  <Brain size={22} />
+                  <Layers size={22} />
                 </div>
                 <span className="text-[11px] font-bold uppercase tracking-widest text-secondary px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20">
                   Adaptation

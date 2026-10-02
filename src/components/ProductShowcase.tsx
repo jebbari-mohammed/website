@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
+import CoachingDiagram from './CoachingDiagram';
 import { motion } from '../lib/motion';
-import { Dumbbell, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, HeartPulse, Activity, ShoppingBasket, ShieldCheck, type LucideIcon } from 'lucide-react';
+import { Dumbbell, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, ScanLine, Activity, ShoppingBasket, ShieldCheck, type LucideIcon } from 'lucide-react';
 
 interface ShowcaseTab {
   id: 'workout' | 'nutrition' | 'chat';
   title: string;
   badge: string;
-  videoSrc: string;
   headline: string;
   description: string;
   features: {
@@ -22,8 +22,7 @@ const tabs: ShowcaseTab[] = [
   {
     id: 'workout',
     title: 'Adaptive Workouts',
-    badge: 'Real Training Data',
-    videoSrc: '/videos/izem-workout-nutrition-dark-web.mp4',
+    badge: 'Training Inputs & Logs',
     headline: 'Workouts designed for your real gym, not an ideal world.',
     description: 'Sessions use the equipment, schedule, experience, session length and feedback you provide, with video references when available.',
     features: [
@@ -50,7 +49,6 @@ const tabs: ShowcaseTab[] = [
     id: 'nutrition',
     title: 'Personalized Nutrition',
     badge: 'Plans + Grocery List',
-    videoSrc: '/videos/izem-workout-nutrition-dark-web.mp4',
     headline: 'A meal plan that stays connected to the rest of your coaching.',
     description: 'IZEM can build meal plans around your dietary preferences, allergies, meal count and calorie/macro targets, then keep meals, logs and grocery items in the same workflow.',
     features: [
@@ -65,7 +63,7 @@ const tabs: ShowcaseTab[] = [
         desc: 'Replace or adjust supported meals while keeping your preferences, allergies and nutrition targets in context.',
       },
       {
-        icon: HeartPulse,
+        icon: ScanLine,
         title: 'Food Photo Estimates',
         desc: 'Scan a plate for estimated calories and macros. The result is an estimate, so ingredient labels still matter for allergies and medical diets.',
       },
@@ -77,7 +75,6 @@ const tabs: ShowcaseTab[] = [
     id: 'chat',
     title: 'Coach Chat & Calls',
     badge: 'Shared Coaching Context',
-    videoSrc: '/videos/izem-coach-chat-dark-web.mp4',
     headline: 'Chat with the coach, call it, or let it call you when you enable that flow.',
     description: 'IZEM can use relevant workout, meal, progress and saved coaching context during supported conversations. Larger plan changes still stay under user control.',
     features: [
@@ -94,7 +91,7 @@ const tabs: ShowcaseTab[] = [
       {
         icon: ShieldCheck,
         title: 'Optional Apple Health Context',
-        desc: 'On supported iPhones, a bounded Health summary can support relevant coaching only after separate permission and consent.',
+        desc: 'On supported iPhones, a bounded Health summary can support eligible text coaching and requested workout changes after separate consent. Voice calls do not receive Health context.',
       },
     ],
     ctaText: 'How Voice Calls Work',
@@ -104,32 +101,7 @@ const tabs: ShowcaseTab[] = [
 
 export default function ProductShowcase() {
   const [activeTab, setActiveTab] = useState<ShowcaseTab['id']>('workout');
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
-  const videoFrameRef = useRef<HTMLDivElement>(null);
   const current = tabs.find((t) => t.id === activeTab) || tabs[0];
-
-  useEffect(() => {
-    const frame = videoFrameRef.current;
-    if (!frame) return;
-
-    if (typeof IntersectionObserver === 'undefined') {
-      const fallbackTimer = window.setTimeout(() => setShouldLoadVideo(true), 0);
-      return () => window.clearTimeout(fallbackTimer);
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setShouldLoadVideo(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '320px 0px' },
-    );
-
-    observer.observe(frame);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <section id="showcase" className="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden bg-[#070A0D]/60 border-t border-white/[0.06]">
@@ -144,7 +116,7 @@ export default function ProductShowcase() {
           className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.1] text-xs font-semibold text-primary mb-4">
-            ✦ INTERACTIVE PRODUCT SHOWCASE
+            ✦ EXPLORE THE FEATURES
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-textPrimary leading-tight mb-4">
             See the Connected Coaching System.
@@ -162,6 +134,7 @@ export default function ProductShowcase() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
+                  aria-pressed={isActive}
                   className={`px-5 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 whitespace-nowrap ${
                     isActive
                       ? 'bg-primary text-[#070A0D] shadow-[0_0_20px_rgba(141,255,106,0.35)] font-bold'
@@ -175,30 +148,10 @@ export default function ProductShowcase() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="grid !grid-cols-1 lg:!grid-cols-12 gap-10 lg:gap-14 items-center">
           <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-[320px] sm:max-w-[350px]">
-              <div className="absolute inset-4 bg-gradient-to-tr from-primary/20 via-transparent to-secondary/20 blur-3xl opacity-70 rounded-[50px] -z-10" />
-
-              <div
-                ref={videoFrameRef}
-                className="relative rounded-[36px] overflow-hidden aspect-[800/1260] shadow-[0_30px_80px_rgba(0,0,0,0.95),0_0_40px_rgba(141,255,106,0.15)] bg-[#0B1017]"
-              >
-                {shouldLoadVideo ? (
-                  <video
-                    key={current.videoSrc}
-                    src={current.videoSrc}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div aria-hidden="true" className="w-full h-full bg-gradient-to-br from-white/[0.03] to-primary/[0.04]" />
-                )}
-              </div>
+            <div className="w-full max-w-[460px]">
+              <CoachingDiagram mode={current.id} />
             </div>
           </div>
 

@@ -10,7 +10,7 @@ const trustPillars = [
   {
     icon: Smartphone,
     title: 'Clear Photo Controls',
-    desc: 'Body progress photos stay in the encrypted on-device vault. Optional analysis follows the retention described in the Privacy Policy.',
+    desc: 'An optional pre-analysis photo pair can be kept in an encrypted on-device vault. Selected photos are sent for analysis with permission; the saved pair is deleted after successful analysis or when you delete it. See the Privacy Policy for retention details.',
   },
   {
     icon: Ban,
@@ -19,8 +19,8 @@ const trustPillars = [
   },
   {
     icon: ShieldCheck,
-    title: 'Secure App Store Billing',
-    desc: 'Subscribers upgrade securely via Apple App Store and Google Play. We never hold or process your payment card numbers.',
+    title: 'Store-Managed Billing',
+    desc: 'The app is awaiting store review. When subscriptions are available, purchases use the applicable store’s billing. IZEM does not process your payment card numbers.',
   },
 ];
 
@@ -81,10 +81,10 @@ export default function TrustAndPrivacy() {
                 Start account deletion from the app.
               </h3>
               <p className="text-xs sm:text-sm text-textSecondary leading-relaxed mb-4">
-                Open the app, go to Profile → Settings → Delete Account to start deletion of your profile, workouts, and meals. Limited records or backups may remain for the periods described in the Privacy Policy.
+                In the app, go to Profile → Account → Delete account. Limited records or backups may remain as described in the Privacy Policy. Deleting your account does not cancel a store subscription; manage billing separately in the applicable store.
               </p>
               <p className="text-xs text-textSecondary/80">
-                You can also email <a href="mailto:support@youraicoach.life" className="text-primary hover:underline">support@youraicoach.life</a> with "Data Deletion Request" and we will confirm completion within 30 days.
+                You can also email <a href="mailto:support@youraicoach.life" className="text-primary hover:underline">support@youraicoach.life</a> with "Data Deletion Request". Requests may require identity verification and are handled within applicable legal timelines.
               </p>
             </div>
 
@@ -112,7 +112,7 @@ export default function TrustAndPrivacy() {
                 IZEM provides adaptive athletic programming and nutrition targets for healthy adults. It does not provide medical diagnosis, physical therapy rehabilitation, or replace an in-person physician. Always consult a healthcare provider before undertaking new high-intensity programs.
               </p>
               <p className="text-xs text-textSecondary/80">
-                All voice call schedules, check-in cadences, and message permissions remain fully configurable in your notification settings.
+                Eligible call and notification preferences can be changed in the app. You can revoke notification, microphone, camera and Health permissions in your device settings.
               </p>
             </div>
 
