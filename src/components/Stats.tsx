@@ -5,13 +5,13 @@ const stats = [
     value: '7-day',
     unit: 'free trial',
     label: 'Eligible Storefront Accounts',
-    detail: 'The app surfaces the free trial only when the store returns a zero-price introductory offer and confirms that account is eligible.',
+    detail: 'When available, the app shows a free trial only if the store confirms a zero-price one-week offer and account eligibility. An eligible trial includes up to 15 voice minutes total.',
   },
   {
     value: '1 call',
-    unit: 'exactly 3 min',
+    unit: 'up to 3 min',
     label: 'Complimentary Onboarding Call',
-    detail: 'Instead of starting the trial immediately, an eligible non-subscriber can test one coach call first. The connected call is hard-limited to three minutes; an unanswered ring may be retried.',
+    detail: 'When offered during onboarding, an eligible non-subscriber can test one complimentary coach call, once. It is capped at three connected minutes.',
   },
   {
     value: '300',

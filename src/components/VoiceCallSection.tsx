@@ -112,7 +112,7 @@ export default function VoiceCallSection() {
               <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-mono font-bold text-sm mb-4">01</div>
               <h3 className="text-base font-bold text-textPrimary mb-2">You Control Call Settings</h3>
               <p className="text-xs sm:text-sm text-textSecondary leading-relaxed">
-                Workout timing and reminder-call preferences stay under user control. The current app supports reminder offsets including 5, 15, 30, or 60 minutes before a planned workout.
+                Eligible workout and reminder-call preferences can be changed in the app. Delivery depends on account eligibility, supported platform settings, device permissions and connectivity.
               </p>
             </div>
             <div className="mt-4 pt-4 border-t border-white/[0.06] text-[11px] text-textSecondary/70 flex items-center gap-1.5">
@@ -164,6 +164,7 @@ export default function VoiceCallSection() {
                 <button
                   key={scenario.id}
                   onClick={() => setActiveScenario(scenario.id)}
+                  aria-pressed={activeScenario === scenario.id}
                   className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 whitespace-nowrap ${
                     activeScenario === scenario.id
                       ? 'bg-primary text-[#070A0D] shadow-[0_0_15px_rgba(141,255,106,0.3)] font-bold'
@@ -180,7 +181,7 @@ export default function VoiceCallSection() {
             <div className="lg:col-span-5 flex justify-center">
               <div className="w-full max-w-[320px] rounded-3xl p-6 bg-gradient-to-b from-[#0E151D] to-[#080D14] border border-white/[0.12] shadow-2xl relative">
                 <div className="flex justify-between items-center text-[10px] text-textSecondary font-mono mb-4 pb-2 border-b border-white/[0.06]">
-                  <span>Live voice example</span>
+                  <span>Illustrative call flow</span>
                   <span className="flex items-center gap-1.5 text-primary">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                     Two-way audio
@@ -201,11 +202,8 @@ export default function VoiceCallSection() {
                   ))}
                 </div>
 
-                <div className="flex items-center justify-center gap-6 pt-2">
-                  <div className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/[0.1] flex items-center justify-center text-textSecondary text-xs">Mic</div>
-                  <div className="w-12 h-12 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-300 text-xs font-bold">End</div>
-                  <div className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/[0.1] flex items-center justify-center text-textSecondary text-xs">Audio</div>
-                </div>
+                <p className="text-center text-xs text-textSecondary leading-relaxed">Workout context → conversation → supported adjustment</p>
+                <p className="mt-5 pt-4 border-t border-white/[0.08] text-center text-[11px] text-textSecondary leading-relaxed">Illustrative feature diagram, not an app screenshot.</p>
               </div>
             </div>
 

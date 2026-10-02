@@ -1,0 +1,88 @@
+name: Homepage review browser QA
+
+# Temporary review-only validation. Remove this workflow and its test fixture
+# before merging the approved application source into production.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'index.html'
+      - 'src/**'
+      - 'tools/homepage-review/**'
+      - '.github/workflows/homepage-review-qa.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: homepage-review-qa-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  browser:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact review head without saved credentials
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install locked dependencies without install scripts
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Select runner Chromium and verify frozen application source
+        run: |
+          set -euo pipefail
+          mkdir -p homepage-qa-artifacts
+          chrome="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          test -n "$chrome"
+          echo "PUPPETEER_EXECUTABLE_PATH=$chrome" >> "$GITHUB_ENV"
+          "$chrome" --version | tee homepage-qa-artifacts/chromium-version.txt
+          node tools/homepage-review/browser-qa.mjs --verify-source
+
+      - name: Validate and build with successful production pre-render
+        run: |
+          set -euo pipefail
+          pnpm lint
+          pnpm test:seo-growth
+          node --test tools/ai-marketing/seo-active-experiment-guard.test.mjs
+          node tools/ai-marketing/product-facts-contract.mjs
+          node tools/validate-jsonld.mjs public
+          pnpm video:check
+          pnpm sitemap:check
+          node tools/sync-news-sitemap.mjs --check
+          node tools/ai-marketing/blog-media-policy.mjs --check-all
+          pnpm build 2>&1 | tee homepage-qa-artifacts/build.log
+          grep -q 'Pre-rendering complete!' homepage-qa-artifacts/build.log
+          if grep -q 'Pre-rendering skipped' homepage-qa-artifacts/build.log; then exit 1; fi
+          node tools/check-critical-routes.mjs dist
+          node tools/validate-jsonld.mjs dist
+          pnpm check:links
+          node tools/homepage-review/browser-qa.mjs --verify-source
+
+      - name: Test all homepage states on desktop and mobile
+        run: node tools/homepage-review/browser-qa.mjs
+
+      - name: Upload public-intended test evidence only
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: homepage-review-${{ github.event.pull_request.head.sha }}
+          path: homepage-qa-artifacts/
+          retention-days: 7
+          if-no-files-found: error

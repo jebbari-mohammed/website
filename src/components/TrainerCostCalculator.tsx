@@ -23,7 +23,7 @@ export default function TrainerCostCalculator() {
             Compare Against Your Own Trainer Quote.
           </h2>
           <p className="text-base sm:text-lg text-textSecondary font-normal leading-relaxed">
-            Trainer pricing varies enormously by location, credentials, session length, facility, and service model. Enter the rate you were actually quoted instead of relying on a made-up “average.”
+            Trainer pricing varies enormously by location, credentials, session length, facility, and service model. Replace the example inputs below with the rate you were actually quoted.
           </p>
         </div>
 
@@ -100,7 +100,7 @@ export default function TrainerCostCalculator() {
                 <div className="grid grid-cols-2 gap-4 pb-6 border-b border-white/[0.08]">
                   <div>
                     <p className="text-xs font-semibold text-textSecondary uppercase tracking-wider mb-1">
-                      Your trainer input
+                      Example / entered budget
                     </p>
                     <p className="text-2xl sm:text-3xl font-extrabold text-textPrimary font-mono">
                       ${Math.round(monthlyTrainerBudget).toLocaleString()}
@@ -116,11 +116,10 @@ export default function TrainerCostCalculator() {
                       <Sparkles size={10} /> IZEM
                     </div>
                     <p className="text-2xl sm:text-3xl font-extrabold text-primary font-mono">
-                      Store
-                      <span className="text-xs font-normal text-textSecondary"> price</span>
+                      Prelaunch
                     </p>
                     <p className="text-[11px] text-primary/80 mt-1">
-                      Exact current terms shown before purchase
+                      App awaiting store review
                     </p>
                   </div>
                 </div>
@@ -143,7 +142,7 @@ export default function TrainerCostCalculator() {
                 href="/izem-ai-fitness-coach/"
                 className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full text-sm font-bold bg-primary text-[#070A0D] hover:bg-[#A3FF85] transition-all shadow-[0_0_20px_rgba(141,255,106,0.3)]"
               >
-                <span>Compare Against IZEM’s Current Store Offer</span>
+                <span>Read IZEM’s Product Information</span>
                 <ArrowRight size={16} />
               </a>
             </div>

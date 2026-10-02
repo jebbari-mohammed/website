@@ -32,7 +32,7 @@ export default function Navigation() {
         </a>
 
         {/* Desktop Nav Links */}
-        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+        <div className="hidden xl:flex items-center gap-6 lg:gap-8">
           <a href="/izem-ai-fitness-coach/" className="text-[13px] font-medium text-textSecondary hover:text-textPrimary transition-colors">
             AI Coach
           </a>
@@ -57,21 +57,23 @@ export default function Navigation() {
         </div>
 
         {/* Action Button */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden xl:flex items-center gap-3">
           <a
-            href="/izem-ai-fitness-coach/"
+            href="/workout-plan-generator/"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold bg-white text-[#070A0D] hover:bg-primary hover:text-[#070A0D] transition-all duration-300 shadow-sm"
           >
-            <span>Get Started</span>
+            <span>Try the free workout generator</span>
             <ArrowRight size={14} />
           </a>
         </div>
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden p-2 text-textSecondary hover:text-textPrimary"
+          className="xl:hidden p-2 text-textSecondary hover:text-textPrimary"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle navigation"
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
         >
           {isOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -82,14 +84,15 @@ export default function Navigation() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden mt-3 pt-4 pb-6 px-4 border-t border-white/[0.08] flex flex-col gap-3 bg-[#070A0D]/95 rounded-2xl"
+          id="mobile-navigation"
+          className="xl:hidden mt-3 pt-4 pb-6 px-4 border-t border-white/[0.08] flex flex-col gap-3 bg-[#070A0D]/95 rounded-2xl"
         >
           <a href="/izem-ai-fitness-coach/" onClick={() => setIsOpen(false)} className="text-sm font-medium text-textPrimary py-1.5 flex items-center justify-between">
             <span>IZEM AI Fitness Coach</span>
             <Sparkles size={14} className="text-primary" />
           </a>
           <a href="#showcase" onClick={() => setIsOpen(false)} className="text-sm font-medium text-textSecondary py-1.5">
-            App Showcase
+            Feature diagrams
           </a>
           <a href="/features/ai-workout-generator" onClick={() => setIsOpen(false)} className="text-sm font-medium text-textSecondary py-1.5">
             Adaptive Workouts
@@ -108,11 +111,11 @@ export default function Navigation() {
           </a>
           <div className="pt-3 border-t border-white/[0.08]">
             <a
-              href="/izem-ai-fitness-coach/"
+              href="/workout-plan-generator/"
               onClick={() => setIsOpen(false)}
               className="w-full text-center inline-flex items-center justify-center gap-2 py-3 rounded-full text-sm font-semibold bg-primary text-[#070A0D] shadow-lg shadow-primary/20"
             >
-              <span>Explore AI Coach</span>
+              <span>Try the free workout generator</span>
               <ArrowRight size={15} />
             </a>
           </div>

@@ -1,15 +1,15 @@
-import { Heart, Shield, Lock, EyeOff, CheckCircle2, Smartphone } from 'lucide-react';
+import { Database, Shield, Lock, Camera, CheckCircle2, Smartphone } from 'lucide-react';
 
 const verifiedPillars = [
-  { name: 'Apple HealthKit', icon: Heart, badge: 'Optional' },
+  { name: 'Apple HealthKit', icon: Database, badge: 'Optional' },
   { name: 'Google Firebase', icon: Lock, badge: 'Protected transport' },
-  { name: 'User-Controlled Scans', icon: EyeOff, badge: 'Clear retention' },
+  { name: 'User-Controlled Scans', icon: Camera, badge: 'Clear retention' },
   { name: 'No Ad Networks', icon: Shield, badge: 'No ad targeting' },
 ];
 
 const securityBadges = [
   { label: 'Built for iOS & Android', icon: Smartphone },
-  { label: 'Cancel Anytime', icon: CheckCircle2 },
+  { label: 'App awaiting store review', icon: CheckCircle2 },
 ];
 
 export default function EcosystemStrip() {
