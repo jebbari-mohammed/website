@@ -1,10 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from '../lib/motion';
 import { ArrowRight, CheckCircle2, MessageSquare, Dumbbell } from 'lucide-react';
-import CoachingDiagram from './CoachingDiagram';
 
 export default function Hero() {
-  const [activeDiagram, setActiveDiagram] = useState<'chat' | 'workout'>('chat');
+  const [activeVideo, setActiveVideo] = useState<'chat' | 'workout'>('chat');
+  const [showMotionPreview, setShowMotionPreview] = useState(false);
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia('(min-width: 768px)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncPreviewMode = () => {
+      setShowMotionPreview(desktopQuery.matches && !reducedMotionQuery.matches);
+    };
+
+    syncPreviewMode();
+    desktopQuery.addEventListener?.('change', syncPreviewMode);
+    reducedMotionQuery.addEventListener?.('change', syncPreviewMode);
+
+    return () => {
+      desktopQuery.removeEventListener?.('change', syncPreviewMode);
+      reducedMotionQuery.removeEventListener?.('change', syncPreviewMode);
+    };
+  }, []);
+
+  const previewImage = activeVideo === 'chat' ? '/images/hero1-desktop.webp' : '/images/hero2-desktop.webp';
+  const previewAlt =
+    activeVideo === 'chat'
+      ? 'IZEM AI coach chat interface preview'
+      : 'IZEM workout and nutrition interface preview';
 
   return (
     <section id="hero" className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
@@ -37,11 +60,42 @@ export default function Hero() {
             </div>
           </div>
           <div className="lg:col-span-5 flex flex-col items-center w-full">
-            <div className="mb-5 inline-flex p-1 rounded-full bg-[#0E141B] border border-white/[0.12]" role="group" aria-label="Choose a feature diagram">
-              <button onClick={() => setActiveDiagram('chat')} aria-pressed={activeDiagram === 'chat'} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold transition-colors ${activeDiagram === 'chat' ? 'bg-primary text-[#070A0D]' : 'text-textSecondary hover:text-textPrimary'}`}><MessageSquare aria-hidden="true" size={14} />Coaching context</button>
-              <button onClick={() => setActiveDiagram('workout')} aria-pressed={activeDiagram === 'workout'} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold transition-colors ${activeDiagram === 'workout' ? 'bg-primary text-[#070A0D]' : 'text-textSecondary hover:text-textPrimary'}`}><Dumbbell aria-hidden="true" size={14} />Workout planning</button>
+            <div className="mb-5 inline-flex p-1 rounded-full bg-[#0E141B] border border-white/[0.12]" role="group" aria-label="Choose a feature preview">
+              <button onClick={() => setActiveVideo('chat')} aria-pressed={activeVideo === 'chat'} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold transition-colors ${activeVideo === 'chat' ? 'bg-primary text-[#070A0D]' : 'text-textSecondary hover:text-textPrimary'}`}><MessageSquare aria-hidden="true" size={14} />Coaching context</button>
+              <button onClick={() => setActiveVideo('workout')} aria-pressed={activeVideo === 'workout'} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold transition-colors ${activeVideo === 'workout' ? 'bg-primary text-[#070A0D]' : 'text-textSecondary hover:text-textPrimary'}`}><Dumbbell aria-hidden="true" size={14} />Workout planning</button>
             </div>
-            <div className="w-full max-w-[440px]"><CoachingDiagram mode={activeDiagram} /></div>
+            <div className="relative w-full max-w-[320px] sm:max-w-[350px]">
+              <div className="relative rounded-[36px] overflow-hidden aspect-[800/1260] shadow-[0_25px_70px_rgba(0,0,0,0.9),0_0_35px_rgba(141,255,106,0.12)]">
+                {showMotionPreview ? (
+                  <video
+                    data-izem-hero-preview="true"
+                    key={activeVideo}
+                    src={activeVideo === 'chat' ? '/videos/izem-coach-chat-dark-web.mp4' : '/videos/izem-workout-nutrition-dark-web.mp4'}
+                    poster={previewImage}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-cover"
+                  >
+                    Your browser does not support HTML5 video.
+                  </video>
+                ) : (
+                  <img
+                    data-izem-hero-preview="true"
+                    src={previewImage}
+                    alt={previewAlt}
+                    width="800"
+                    height="1260"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import CoachingDiagram from './CoachingDiagram';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from '../lib/motion';
 import { Dumbbell, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, ScanLine, Activity, ShoppingBasket, ShieldCheck, type LucideIcon } from 'lucide-react';
 
@@ -7,6 +6,7 @@ interface ShowcaseTab {
   id: 'workout' | 'nutrition' | 'chat';
   title: string;
   badge: string;
+  videoSrc: string;
   headline: string;
   description: string;
   features: {
@@ -23,6 +23,7 @@ const tabs: ShowcaseTab[] = [
     id: 'workout',
     title: 'Adaptive Workouts',
     badge: 'Training Inputs & Logs',
+    videoSrc: '/videos/izem-workout-nutrition-dark-web.mp4',
     headline: 'Workouts designed for your real gym, not an ideal world.',
     description: 'Sessions use the equipment, schedule, experience, session length and feedback you provide, with video references when available.',
     features: [
@@ -49,6 +50,7 @@ const tabs: ShowcaseTab[] = [
     id: 'nutrition',
     title: 'Personalized Nutrition',
     badge: 'Plans + Grocery List',
+    videoSrc: '/videos/izem-workout-nutrition-dark-web.mp4',
     headline: 'A meal plan that stays connected to the rest of your coaching.',
     description: 'IZEM can build meal plans around your dietary preferences, allergies, meal count and calorie/macro targets, then keep meals, logs and grocery items in the same workflow.',
     features: [
@@ -75,6 +77,7 @@ const tabs: ShowcaseTab[] = [
     id: 'chat',
     title: 'Coach Chat & Calls',
     badge: 'Shared Coaching Context',
+    videoSrc: '/videos/izem-coach-chat-dark-web.mp4',
     headline: 'Chat with the coach, call it, or let it call you when you enable that flow.',
     description: 'IZEM can use relevant workout, meal, progress and saved coaching context during supported conversations. Larger plan changes still stay under user control.',
     features: [
@@ -101,7 +104,32 @@ const tabs: ShowcaseTab[] = [
 
 export default function ProductShowcase() {
   const [activeTab, setActiveTab] = useState<ShowcaseTab['id']>('workout');
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const videoFrameRef = useRef<HTMLDivElement>(null);
   const current = tabs.find((t) => t.id === activeTab) || tabs[0];
+
+  useEffect(() => {
+    const frame = videoFrameRef.current;
+    if (!frame) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      const fallbackTimer = window.setTimeout(() => setShouldLoadVideo(true), 0);
+      return () => window.clearTimeout(fallbackTimer);
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoadVideo(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '320px 0px' },
+    );
+
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section id="showcase" className="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden bg-[#070A0D]/60 border-t border-white/[0.06]">
@@ -150,8 +178,28 @@ export default function ProductShowcase() {
 
         <div className="grid !grid-cols-1 lg:!grid-cols-12 gap-10 lg:gap-14 items-center">
           <div className="lg:col-span-5 flex justify-center">
-            <div className="w-full max-w-[460px]">
-              <CoachingDiagram mode={current.id} />
+            <div className="relative w-full max-w-[320px] sm:max-w-[350px]">
+              <div className="absolute inset-4 bg-gradient-to-tr from-primary/20 via-transparent to-secondary/20 blur-3xl opacity-70 rounded-[50px] -z-10" />
+
+              <div
+                ref={videoFrameRef}
+                className="relative rounded-[36px] overflow-hidden aspect-[800/1260] shadow-[0_30px_80px_rgba(0,0,0,0.95),0_0_40px_rgba(141,255,106,0.15)] bg-[#0B1017]"
+              >
+                {shouldLoadVideo ? (
+                  <video
+                    key={current.videoSrc}
+                    src={current.videoSrc}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div aria-hidden="true" className="w-full h-full bg-gradient-to-br from-white/[0.03] to-primary/[0.04]" />
+                )}
+              </div>
             </div>
           </div>
 
