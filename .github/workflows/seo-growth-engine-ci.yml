@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'config/seo-growth.config.json'
+      - 'config/content-release-policy.json'
+      - 'tools/content-*.mjs'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'index.html'
@@ -19,6 +21,8 @@ on:
     branches: [main]
     paths:
       - 'config/seo-growth.config.json'
+      - 'config/content-release-policy.json'
+      - 'tools/content-*.mjs'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'index.html'
@@ -47,6 +51,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6
@@ -123,6 +129,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6
