@@ -92,7 +92,7 @@ export default function Navigation() {
             <Sparkles size={14} className="text-primary" />
           </a>
           <a href="#showcase" onClick={() => setIsOpen(false)} className="text-sm font-medium text-textSecondary py-1.5">
-            Feature diagrams
+            Feature previews
           </a>
           <a href="/features/ai-workout-generator" onClick={() => setIsOpen(false)} className="text-sm font-medium text-textSecondary py-1.5">
             Adaptive Workouts
