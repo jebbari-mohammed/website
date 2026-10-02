@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "legacyBaselineCommit": "9514b2cc3fa7d391d9cdc1dd4cef470b8e2f6059",
+  "repository": "jebbari-mohammed/website",
+  "editorialApprovalIntegration": "hold-until-authenticated-provider-handoff",
+  "saplingMaximumDocumentScore": 0.10,
+  "saplingMaximumScansPerArticlePerRun": 3,
+  "humanizerReviewRequired": true,
+  "note": "Only exact unchanged legacy article bytes are grandfathered. This is compatibility, not retrospective safety or editorial approval. New or changed articles require authenticated release evidence. Private preflight JSON alone never authorizes release."
+}

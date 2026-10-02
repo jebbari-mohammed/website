@@ -10,7 +10,14 @@ on:
       - 'tools/validate-jsonld.mjs'
       - 'tools/ai-marketing/blog-media-policy.mjs'
       - 'tools/ai-marketing/generate-object-blog-visuals.mjs'
-      - 'tools/ai-marketing/weekly-publish-guard.mjs'
+      - 'tools/ai-marketing/weekly-publish-guard*'
+      - 'tools/ai-marketing/publication-evidence*'
+      - 'tools/ai-marketing/article-release-gate*'
+      - 'tools/ai-marketing/editorial-preflight*'
+      - 'tools/ai-marketing/video-provenance*'
+      - 'tools/ai-marketing/video-github-proof*'
+      - 'config/seo-release-policy.json'
+      - '.github/workflows/deploy.yml'
       - 'tools/ai-marketing/video-human-safety.mjs'
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
@@ -24,7 +31,14 @@ on:
       - 'tools/validate-jsonld.mjs'
       - 'tools/ai-marketing/blog-media-policy.mjs'
       - 'tools/ai-marketing/generate-object-blog-visuals.mjs'
-      - 'tools/ai-marketing/weekly-publish-guard.mjs'
+      - 'tools/ai-marketing/weekly-publish-guard*'
+      - 'tools/ai-marketing/publication-evidence*'
+      - 'tools/ai-marketing/article-release-gate*'
+      - 'tools/ai-marketing/editorial-preflight*'
+      - 'tools/ai-marketing/video-provenance*'
+      - 'tools/ai-marketing/video-github-proof*'
+      - 'config/seo-release-policy.json'
+      - '.github/workflows/deploy.yml'
       - 'tools/ai-marketing/video-human-safety.mjs'
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
@@ -34,6 +48,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: "content-integrity-${{ github.ref }}"
@@ -53,6 +68,14 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - name: Install deterministic test dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Syntax-check SEO safety automation
         run: |
           set -euo pipefail
@@ -64,8 +87,26 @@ jobs:
           node --check tools/ai-marketing/daily-notebooklm-video.mjs
           node --check tools/ai-marketing/daily-notebooklm-video-v2.mjs
 
+      - name: Test release safeguards
+        run: |
+          node --test tools/ai-marketing/publication-evidence.test.mjs tools/ai-marketing/editorial-preflight.test.mjs tools/ai-marketing/weekly-publish-guard.test.mjs tools/ai-marketing/article-release-gate.test.mjs tools/ai-marketing/video-provenance.test.mjs tools/ai-marketing/video-github-proof.test.mjs
+
       - name: Enforce weekly creation ceiling
-        run: node tools/ai-marketing/weekly-publish-guard.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          if [ -n "$BASE_SHA" ] && [ "$BASE_SHA" != "0000000000000000000000000000000000000000" ]; then
+            node tools/ai-marketing/weekly-publish-guard.mjs --base "$BASE_SHA" --head "$HEAD_SHA"
+          else
+            node tools/ai-marketing/weekly-publish-guard.mjs
+          fi
+
+      - name: Enforce source-bound article release gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node tools/ai-marketing/article-release-gate.mjs
 
       - name: Validate canonical product-facts contract
         run: |

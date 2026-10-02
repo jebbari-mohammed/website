@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { assertTrustedVideoRun, verifyVideoRecordProof } from './video-github-proof.mjs';
+import { testRecord } from './release-test-fixtures.mjs';
+const repository='jebbari-mohammed/website';
+const run=()=>({id:123,run_attempt:1,repository:{full_name:repository},head_repository:{full_name:repository},path:'.github/workflows/daily-video-tts.yml',head_branch:'main',head_sha:'a'.repeat(40),event:'push',status:'in_progress',conclusion:null});
+test('in-progress producer can hand off uploaded artifact without circular deployment wait',()=>assert.doesNotThrow(()=>assertTrustedVideoRun(run(),testRecord(),repository)));
+test('wrong repo, fork, workflow, branch, commit, attempt, event and unsuccessful completion reject',()=>{for(const change of [{repository:{full_name:'other/repo'}},{head_repository:{full_name:'fork/repo'}},{path:'.github/workflows/other.yml'},{head_branch:'other'},{head_sha:'b'.repeat(40)},{run_attempt:2},{event:'pull_request'},{status:'completed',conclusion:'failure'},{status:'queued'}])assert.throws(()=>assertTrustedVideoRun({...run(),...change},testRecord(),repository));});
+test('independent artifact exact content is required',async()=>{for(const corrupt of [false,true]){const record=testRecord();const command=async(_,args)=>{if(args[0]==='api')return{stdout:JSON.stringify(run())};const directory=args[args.indexOf('--dir')+1];fs.writeFileSync(path.join(directory,'record.json'),JSON.stringify({...record,...(corrupt?{title:'forged'}:{})}));return{stdout:''};};if(corrupt)await assert.rejects(verifyVideoRecordProof(record,{repository,executeCommand:command}),/differs/);else assert.equal(await verifyVideoRecordProof(record,{repository,executeCommand:command}),true);}});
+test('missing or expired artifact is fail closed',async()=>{await assert.rejects(verifyVideoRecordProof(testRecord(),{repository,executeCommand:async(_,args)=>{if(args[0]==='api')return{stdout:JSON.stringify(run())};throw new Error('artifact expired');}}),/expired/);});
