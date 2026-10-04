@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-29",
+  "updatedAt": "2026-10-04",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -410,6 +410,15 @@
       "lockUntil": "2026-10-20",
       "preferredReviewAt": "2026-10-27",
       "reason": "The September 29 refresh targets the public-safe protein-calculator signal while correcting thin and overconfident legacy nutrition language. It retitles the page around a daily protein target plus meal split, adds metric/imperial calculator support, WebPage/WebApplication/FAQ/Breadcrumb structured data, safer nutrition boundaries, source notes, object-only OG art, a small support link from the macro calculator, and the Protein Reality Check framework that connects estimates to practical meal planning and weekly adaptation. Preserve for a clean 21-day CTR, ranking, and trust evaluation window."
+    },
+    {
+      "id": "workout-app-exercise-substitutions-rejuvenation-2026-10-04",
+      "url": "/blog/workout-app-exercise-substitutions-busy-machines",
+      "files": ["public/blog/workout-app-exercise-substitutions-busy-machines.html"],
+      "launchedAt": "2026-10-04",
+      "lockUntil": "2026-10-25",
+      "preferredReviewAt": "2026-11-01",
+      "reason": "Material rejuvenation targeting decaying Search Console visibility (-2 impressions in 28d from peak 8 down to 6, rank 11.3). Updated introduction and first H2 with 2026 resistance training science on resistance profiles, lengthened muscular tension, stability-to-fatigue matching, and closed-loop algorithmic re-routing. Preserve for a clean 21-day evaluation window."
     }
   ]
 }
