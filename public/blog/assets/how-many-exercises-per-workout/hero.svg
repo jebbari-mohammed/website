@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+<title id="title">How many exercises per workout? — object-only IZEM editorial visual</title>
+<desc id="desc">People-free practical guide illustration using only devices, equipment, food, charts, calendars, or abstract objects relevant to this guide.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#060B12"/><stop offset="0.54" stop-color="#0C1824"/><stop offset="1" stop-color="#102A25"/></linearGradient>
+  <radialGradient id="glow" cx="0.84" cy="0.14" r="0.68"><stop offset="0" stop-color="#8DFF6A" stop-opacity=".15"/><stop offset="1" stop-color="#8DFF6A" stop-opacity="0"/></radialGradient>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#000" flood-opacity=".28"/></filter>
+</defs>
+<rect width="1200" height="675" rx="28" fill="url(#bg)"/>
+<rect width="1200" height="675" rx="28" fill="url(#glow)"/>
+<g opacity=".07" stroke="#BCECDD" stroke-width="1"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200"/><path d="M200 0V675M400 0V675M600 0V675M800 0V675M1000 0V675"/></g>
+<rect x="70" y="72" width="210" height="38" rx="19" fill="#8DFF6A" opacity=".12"/><text x="92" y="98" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="900" fill="#8DFF6A" letter-spacing="2">PRACTICAL GUIDE</text>
+<text x="70" y="170" font-family="Inter,Arial,sans-serif" font-size="42" font-weight="880" fill="#F8FAFC"><tspan x="70" dy="0">How many exercises per</tspan><tspan x="70" dy="52">workout?</tspan></text>
+<path d="M70 414H570" stroke="#8DFF6A" stroke-width="5" stroke-linecap="round" opacity=".75"/>
+<text x="70" y="457" font-family="Inter,Arial,sans-serif" font-size="20" font-weight="650" fill="#AFC0CF">Sets + rest + setup = session time</text>
+<g transform="translate(810 120)" filter="url(#shadow)">
+  <rect width="258" height="448" rx="34" fill="#08121D" stroke="#8DFF6A" stroke-width="3"/>
+  <rect x="22" y="52" width="214" height="92" rx="18" fill="#122536"/>
+  <rect x="42" y="77" width="108" height="10" rx="5" fill="#8DFF6A" opacity=".9"/><rect x="42" y="103" width="158" height="9" rx="5" fill="#AFC0CF" opacity=".48"/>
+  <rect x="22" y="165" width="214" height="115" rx="18" fill="#102923"/>
+  <polyline points="42,250 82,224 116,235 151,200 190,211 216,184" fill="none" stroke="#8DFF6A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="22" y="301" width="214" height="99" rx="18" fill="#122536"/>
+  <circle cx="49" cy="330" r="9" fill="#8DFF6A"/><path d="M45 330l4 4 8-10" fill="none" stroke="#07120D" stroke-width="3.5"/>
+  <rect x="70" y="324" width="126" height="10" rx="5" fill="#D6E0E8" opacity=".7"/>
+  <circle cx="129" cy="422" r="6" fill="#41586D"/>
+</g><g transform="translate(560 390) scale(0.9)" stroke="#F8FAFC" stroke-width="13" stroke-linecap="round"><line x1="36" y1="54" x2="208" y2="54"/><line x1="36" y1="28" x2="36" y2="80"/><line x1="62" y1="18" x2="62" y2="90"/><line x1="182" y1="18" x2="182" y2="90"/><line x1="208" y1="28" x2="208" y2="80"/></g>
+<text x="70" y="627" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="850" fill="#8DFF6A" letter-spacing="2">IZEM · PRACTICAL GUIDE</text>
+</svg>
