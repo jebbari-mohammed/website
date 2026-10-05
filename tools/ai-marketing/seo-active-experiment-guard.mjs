@@ -31,6 +31,44 @@ export function isOwnerImagePolicyThumbnailReplacement(baseContent, headContent)
   return normalizeOwnerImagePolicyThumbnailReferences(base) === normalizeOwnerImagePolicyThumbnailReferences(head);
 }
 
+function videoBlock(content) {
+  const parts = String(content ?? '').split(/<!-- IZEM_VIDEO_(?:START|END) -->/);
+  if (parts.length !== 3 || !String(content).includes('<!-- IZEM_VIDEO_START -->') ||
+      !String(content).includes('<!-- IZEM_VIDEO_END -->') ||
+      String(content).indexOf('<!-- IZEM_VIDEO_START -->') > String(content).indexOf('<!-- IZEM_VIDEO_END -->')) return null;
+  return { before: parts[0], block: parts[1], after: parts[2] };
+}
+
+// The safety exception cannot authorize an editorial rewrite or a newly asserted
+// video validation. The destination record must already exist at the Git base.
+export function isDocumentedVideoSafetyCorrection(baseContent, headContent, options = {}) {
+  const { correction, baseCorrections = [], baseRecords = [], reviewNote = '', changedFiles = [], now = new Date() } = options;
+  const from = correction?.fromVideoId;
+  const to = correction?.toVideoId;
+  if (correction?.kind !== 'video-visual-safety' || !/^[A-Za-z0-9_-]{11}$/.test(from ?? '') ||
+      !/^[A-Za-z0-9_-]{11}$/.test(to ?? '') || from === to) return false;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(correction.date ?? '') ||
+      Number.isNaN(new Date(correction.date).getTime()) || new Date(correction.date) > new Date(now)) return false;
+  if (!/^docs\/seo-experiments\/[A-Za-z0-9_-]+\.md$/.test(correction.reviewNote ?? '') ||
+      !changedFiles.includes(correction.reviewNote) || !reviewNote.includes(from) ||
+      !reviewNote.includes(to) || !reviewNote.includes('safety')) return false;
+  if (baseCorrections.some((entry) => entry.kind === correction.kind && entry.file === correction.file &&
+      entry.fromVideoId === from && entry.toVideoId === to)) return false;
+  const destination = baseRecords.find((record) => record.youtube === `https://youtube.com/watch?v=${to}`);
+  if (destination?.visual_policy !== 'objects-only-v1' || destination?.people_free_validated !== true) return false;
+  const original = videoBlock(baseContent);
+  const updated = videoBlock(headContent);
+  if (!original || !updated || original.before !== updated.before || original.after !== updated.after) return false;
+  if (!original.block.includes(`data-video-id="${from}"`) || !updated.block.includes(`data-video-id="${to}"`)) return false;
+  // Only a static, owned companion card is permitted. Active media and arbitrary
+  // outbound links would need a separate review and cannot use this exception.
+  const staticCard = new RegExp('^\\s*<section class="izem-video note" aria-labelledby="video-title"><h2 id="video-title">[^<>]+</h2>' +
+    `<a data-izem-video-card="true" data-video-id="${to}" href="/youtube/${to}/" aria-label="[^<>\"]+">` +
+    `<img src="https://youraicoach\\.life/youtube/thumbnails/${to}\\.svg" alt="[^<>\"]+" width="1200" height="675" loading="lazy" decoding="async">` +
+    '</a><p>[^<>]+</p></section>\\s*$');
+  return staticCard.test(updated.block);
+}
+
 function parseArgs(argv) {
   const args = {
     config: DEFAULT_CONFIG,
@@ -241,6 +279,28 @@ function configAtBase(base, configPath) {
   return validateConfig(JSON.parse(raw));
 }
 
+function documentedVideoSafetyOverrideFiles(base, head, changedFiles, baseConfig, headConfig, now) {
+  const allowed = new Set();
+  if (!baseConfig) return allowed;
+  const rawRecords = fileAtRef(base, 'tools/ai-marketing/.notebooklm-video-progress.json');
+  const baseRecords = rawRecords ? JSON.parse(rawRecords).completed || [] : [];
+  for (const file of changedFiles.filter((item) => item.startsWith('public/') && item.endsWith('.html'))) {
+    const protectingLocks = baseConfig.locks.filter((lock) => lock.files.includes(file) &&
+      now <= new Date(`${lock.lockUntil}T23:59:59.999Z`));
+    if (!protectingLocks.length) continue;
+    const accepted = protectingLocks.every((baseLock) => {
+      const headLock = headConfig.locks.find((lock) => lock.id === baseLock.id);
+      return (headLock?.corrections || []).some((correction) => correction.file === file &&
+        isDocumentedVideoSafetyCorrection(fileAtRef(base, file), fileAtRef(head, file), {
+          correction, baseCorrections: baseLock.corrections || [], baseRecords,
+          changedFiles, now, reviewNote: fileAtRef(head, correction.reviewNote) || '',
+        }));
+    });
+    if (accepted) allowed.add(file);
+  }
+  return allowed;
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = validateConfig(JSON.parse(fs.readFileSync(args.config, 'utf8')));
@@ -249,6 +309,7 @@ async function main() {
   const baseLockIds = baseConfig ? new Set(baseConfig.locks.map((lock) => lock.id)) : null;
   const instant = new Date(args.now);
   const ownerImageSafetyOverrideFiles = ownerImagePolicySafetyOverrideFiles(args.base, args.head, changedFiles);
+  const videoSafetyOverrideFiles = documentedVideoSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
 
   const mutationViolations = findActiveLockMutationViolations(baseConfig, config, instant);
   if (mutationViolations.length) {
@@ -263,7 +324,7 @@ async function main() {
 
   const violations = findActiveLockViolations(changedFiles, config, instant, {
     enforceLockIds: baseLockIds,
-    ignoreFiles: ownerImageSafetyOverrideFiles,
+    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles]),
   });
 
   if (violations.length) {
@@ -279,6 +340,9 @@ async function main() {
 
   if (ownerImageSafetyOverrideFiles.size) {
     console.log(`SEO active-experiment guard accepted a narrowly scoped owner-image safety correction in ${ownerImageSafetyOverrideFiles.size} protected HTML file(s). Only exact YouTube-thumbnail URL replacements are exempt; any other content change remains blocked.`);
+  }
+  if (videoSafetyOverrideFiles.size) {
+    console.log(`SEO active-experiment guard accepted ${videoSafetyOverrideFiles.size} documented video-block safety correction(s), using destination validation already present at the base. Article content and lock dates remain protected.`);
   }
 
   const introduced = baseLockIds

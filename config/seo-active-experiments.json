@@ -432,7 +432,17 @@
       "launchedAt": "2026-10-05",
       "lockUntil": "2026-10-26",
       "preferredReviewAt": "2026-11-02",
-      "reason": "New exercise-count search entry with a transparent session-time calculator. Preserve the article, metadata, examples and visuals for a 21-day discovery and ranking evaluation window."
+      "reason": "New exercise-count search entry with a transparent session-time calculator. Preserve the article, metadata, examples and visuals for a 21-day discovery and ranking evaluation window.",
+      "corrections": [
+        {
+          "kind": "video-visual-safety",
+          "date": "2026-10-05",
+          "file": "public/blog/how-many-exercises-per-workout.html",
+          "fromVideoId": "jIBGvRVpHCk",
+          "toVideoId": "a_jG-ssT1tk",
+          "reviewNote": "docs/seo-experiments/2026-10-05-how-many-exercises-per-workout.md"
+        }
+      ]
     },
     {
       "id": "workout-generator-exercise-count-support-link-2026-10-05",
