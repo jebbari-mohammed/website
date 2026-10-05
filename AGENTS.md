@@ -110,3 +110,16 @@ Technical or existing-page work may win when it has clearly higher expected valu
 ## Release safety
 
 Review the diff yourself. Do not wait for Copilot or Gemini review. Run the relevant build, structured-data validation, sitemap checks, critical-route checks, internal-link checks, and live verification. Use a branch/PR for substantial, architectural, destructive, or uncertain changes; small safe changes may use the established direct-publish path.
+
+## Installed SEO skills workflow
+
+The owner requested installation and full use of four complementary skills. For each complete SEO decision cycle, use:
+
+1. `seo-audit` for technical, on-page, discovery, competitor, and conversion review.
+2. `seo-analysis` for verified private Search Console evidence, indexing, recrawl timing, and performance diagnosis.
+3. `seo-topic-research-pipeline` for business context, demand validation, live SERP qualification, product fit, cannibalization checks, format selection, and prioritization.
+4. `humanizer` for the final prose pass and a second check for factual drift and repeated cadence.
+
+Read each installed `SKILL.md` and its `references/izem-integration.md`. Skills normally live under `$CODEX_HOME/skills` or `~/.codex/skills`. Follow [the repository integration guide](docs/seo-skills.md). These skills supplement the policy above; their onboarding questions, tool dependencies, keyword quotas, generic scores, caches, and output templates must not override it.
+
+Use known repository context and the owner's existing authorization. Keep exact Search Console evidence out of skill caches and public reports. Use current Google documentation to check time-sensitive recommendations. Preserve active experiments and choose one evidence-backed material action within the daily limit; research and rendering corrections should be recorded separately. Apply all four stages to substantial SEO work, while keeping follow-up checks proportional to the change.

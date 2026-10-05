@@ -17,6 +17,14 @@
   outline-offset: 4px;
 }
 ::selection { background: #8DFF6A; color: #070A0D; }
+/* Keep long fill-in-the-blank template lines inside the mobile reading column. */
+.template { overflow-wrap: anywhere; }
+/* Wide comparisons scroll within the table instead of widening the mobile page. */
+@media screen and (max-width: 768px) {
+  table, table[class] { display: block; max-width: 100%; overflow-x: auto; }
+  /* Long headings in translated articles must fit the reading column too. */
+  h1 { overflow-wrap: anywhere; }
+}
 /* Prevent the legacy tools hub's fixed 400px grid minimum from overflowing phones. */
 @media (max-width: 600px) {
   .calc-grid { grid-template-columns: minmax(0, 1fr); }
