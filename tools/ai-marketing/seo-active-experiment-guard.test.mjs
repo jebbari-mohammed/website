@@ -4,6 +4,7 @@ import {
   findActiveLockMutationViolations,
   findActiveLockViolations,
   isOwnerImagePolicyThumbnailReplacement,
+  isDocumentedVideoSafetyCorrection,
   validateConfig,
 } from './seo-active-experiment-guard.mjs';
 
@@ -231,4 +232,67 @@ test('allows only explicitly prevalidated safety files while keeping other locke
     new Date('2026-08-25T12:00:00Z'),
   );
   assert.equal(normal.length, 1);
+});
+
+const safetyCorrection = {
+  kind: 'video-visual-safety', date: '2026-10-05',
+  file: 'public/blog/how-many-exercises-per-workout.html',
+  fromVideoId: 'jIBGvRVpHCk', toVideoId: 'a_jG-ssT1tk',
+  reviewNote: 'docs/seo-experiments/2026-10-05-how-many-exercises-per-workout.md',
+};
+function companionCard(id) {
+  return `<h1>Protected article</h1><!-- IZEM_VIDEO_START -->
+<section class="izem-video note" aria-labelledby="video-title"><h2 id="video-title">Planning tool companion</h2><a data-izem-video-card="true" data-video-id="${id}" href="/youtube/${id}/" aria-label="Watch companion"><img src="https://youraicoach.life/youtube/thumbnails/${id}.svg" alt="Companion video" width="1200" height="675" loading="lazy" decoding="async"></a><p>Choose a planning tool.</p></section>
+<!-- IZEM_VIDEO_END --><p>Protected body.</p>`;
+}
+function safetyOptions(overrides = {}) {
+  return {
+    correction: safetyCorrection,
+    baseRecords: [{ youtube: 'https://youtube.com/watch?v=a_jG-ssT1tk', visual_policy: 'objects-only-v1', people_free_validated: true }],
+    reviewNote: 'Video safety correction: replace jIBGvRVpHCk with a_jG-ssT1tk.',
+    changedFiles: [safetyCorrection.reviewNote], now: new Date('2026-10-06T12:00:00Z'),
+    ...overrides,
+  };
+}
+const originalCard = companionCard('jIBGvRVpHCk');
+const safeCard = companionCard('a_jG-ssT1tk');
+
+test('allows a documented static video correction with pre-existing destination validation', () => {
+  assert.equal(isDocumentedVideoSafetyCorrection(originalCard, safeCard, safetyOptions()), true);
+});
+
+test('rejects a video correction that also changes protected article text or metadata', () => {
+  assert.equal(isDocumentedVideoSafetyCorrection(originalCard, safeCard.replace('Protected article', 'New title'), safetyOptions()), false);
+  assert.equal(isDocumentedVideoSafetyCorrection(originalCard, safeCard + '<meta name="robots" content="noindex">', safetyOptions()), false);
+});
+
+test('rejects an unvalidated video and missing or unchanged review documentation', () => {
+  for (const options of [
+    safetyOptions({ baseRecords: [] }),
+    safetyOptions({ baseRecords: [{ youtube: 'https://youtube.com/watch?v=a_jG-ssT1tk', people_free_validated: true }] }),
+    safetyOptions({ changedFiles: [] }), safetyOptions({ reviewNote: '' }),
+  ]) assert.equal(isDocumentedVideoSafetyCorrection(originalCard, safeCard, options), false);
+});
+
+test('rejects executable media, event handlers and extra outbound links in a safety card', () => {
+  for (const changed of [
+    safeCard.replace('</section>', '<iframe src="https://example.com"></iframe></section>'),
+    safeCard.replace(' decoding="async"', ' decoding="async" onload="alert(1)"'),
+    safeCard.replace('</p>', '<a href="https://example.com">Extra link</a></p>'),
+    safeCard.replace(' loading="lazy"', ' srcset="https://example.com/image.png" loading="lazy"'),
+  ]) assert.equal(isDocumentedVideoSafetyCorrection(originalCard, changed, safetyOptions()), false);
+});
+
+test('rejects missing, duplicated or reversed block markers and mismatched video IDs', () => {
+  for (const changed of [
+    safeCard.replace('<!-- IZEM_VIDEO_START -->', ''),
+    safeCard.replace('<!-- IZEM_VIDEO_START -->', '<!-- IZEM_VIDEO_START --><!-- IZEM_VIDEO_START -->'),
+    safeCard.replace('IZEM_VIDEO_START', 'TEMP').replace('IZEM_VIDEO_END', 'IZEM_VIDEO_START').replace('TEMP', 'IZEM_VIDEO_END'),
+    safeCard.replace('data-video-id="a_jG-ssT1tk"', 'data-video-id="jIBGvRVpHCk"'),
+  ]) assert.equal(isDocumentedVideoSafetyCorrection(originalCard, changed, safetyOptions()), false);
+});
+
+test('rejects replayed corrections and future-dated review entries', () => {
+  assert.equal(isDocumentedVideoSafetyCorrection(originalCard, safeCard, safetyOptions({ baseCorrections: [safetyCorrection] })), false);
+  assert.equal(isDocumentedVideoSafetyCorrection(originalCard, safeCard, safetyOptions({ correction: { ...safetyCorrection, date: '2026-10-07' } })), false);
 });
