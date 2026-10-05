@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-04",
+  "updatedAt": "2026-10-05",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -419,6 +419,31 @@
       "lockUntil": "2026-10-25",
       "preferredReviewAt": "2026-11-01",
       "reason": "Material rejuvenation targeting decaying Search Console visibility (-2 impressions in 28d from peak 8 down to 6, rank 11.3). Updated introduction and first H2 with 2026 resistance training science on resistance profiles, lengthened muscular tension, stability-to-fatigue matching, and closed-loop algorithmic re-routing. Preserve for a clean 21-day evaluation window."
+    },
+    {
+      "id": "exercises-per-workout-time-planner-launch-2026-10-05",
+      "url": "/blog/how-many-exercises-per-workout",
+      "files": [
+        "public/blog/how-many-exercises-per-workout.html",
+        "public/blog/assets/how-many-exercises-per-workout/hero.svg",
+        "public/blog/assets/how-many-exercises-per-workout/framework.svg",
+        "public/og/how-many-exercises-per-workout.png"
+      ],
+      "launchedAt": "2026-10-05",
+      "lockUntil": "2026-10-26",
+      "preferredReviewAt": "2026-11-02",
+      "reason": "New exercise-count search entry with a transparent session-time calculator. Preserve the article, metadata, examples and visuals for a 21-day discovery and ranking evaluation window."
+    },
+    {
+      "id": "workout-generator-exercise-count-support-link-2026-10-05",
+      "url": "/workout-plan-generator/",
+      "files": [
+        "public/workout-plan-generator/index.html"
+      ],
+      "launchedAt": "2026-10-05",
+      "lockUntil": "2026-10-19",
+      "preferredReviewAt": "2026-10-26",
+      "reason": "One contextual link beside session length supports the exercise-count article. Preserve the otherwise unchanged generator during a 14-day internal-link evaluation window."
     }
   ]
 }
