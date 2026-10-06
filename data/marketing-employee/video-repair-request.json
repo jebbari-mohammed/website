@@ -1,6 +1,6 @@
 {
-  "requestId": "2026-10-06-exercise-count-dedicated-video-repair-002",
+  "requestId": "2026-10-06-exercise-count-publication-verification-003",
   "slug": "how-many-exercises-per-workout",
-  "reason": "Retry the missing dedicated article video with the strengthened zero-human NotebookLM prompt and in-run regeneration after the prior render was blocked for a humanoid weightlifter icon and flexed arm.",
-  "requestedAt": "2026-10-06T22:49:00Z"
+  "reason": "Owner requested completion through a new public YouTube video. Reuse the matching validated dedicated upload if the active render completed, verify its actual public processing state with YouTube, and complete the article release without a duplicate upload. Preserve the zero-human policy.",
+  "requestedAt": "2026-10-06T23:03:59Z"
 }
