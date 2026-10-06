@@ -16,6 +16,7 @@ on:
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
       - 'tools/ai-marketing/article-video-contract.mjs'
       - 'tools/ai-marketing/youtube-publication*.mjs'
+      - 'tools/ai-marketing/object-only-video*.mjs'
       - 'tools/ai-marketing/.notebooklm-video-progress.json'
       - '.github/workflows/daily-video-tts.yml'
       - '.github/workflows/content-integrity.yml'
@@ -33,6 +34,7 @@ on:
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
       - 'tools/ai-marketing/article-video-contract.mjs'
       - 'tools/ai-marketing/youtube-publication*.mjs'
+      - 'tools/ai-marketing/object-only-video*.mjs'
       - 'tools/ai-marketing/.notebooklm-video-progress.json'
       - '.github/workflows/daily-video-tts.yml'
       - '.github/workflows/content-integrity.yml'
@@ -71,9 +73,19 @@ jobs:
           node --check tools/ai-marketing/daily-notebooklm-video-v2.mjs
           node --check tools/ai-marketing/article-video-contract.mjs
           node --check tools/ai-marketing/youtube-publication.mjs
+          node --check tools/ai-marketing/object-only-video.mjs
 
       - name: Test actual YouTube publication requirements
         run: node --test tools/ai-marketing/youtube-publication*.test.mjs
+
+      - name: Test deterministic video with actual encoding and audio
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y ffmpeg
+          fi
+          node --test tools/ai-marketing/object-only-video.test.mjs
 
       - name: Enforce weekly creation ceiling
         run: node tools/ai-marketing/weekly-publish-guard.mjs

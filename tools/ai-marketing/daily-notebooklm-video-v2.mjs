@@ -10,6 +10,7 @@ import { promisify } from 'node:util';
 import { fileURLToPath, URL } from 'node:url';
 import { assertVideoIsPeopleFree } from './video-human-safety.mjs';
 import { verifyYouTubePublication } from './youtube-publication.mjs';
+import { rebuildObjectOnlyVideo } from './object-only-video.mjs';
 
 const execFileAsync = promisify(execFile);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -273,15 +274,33 @@ function embedIntoPost(post, youtubeUrl) {
   fs.writeFileSync(post.file, html, 'utf8');
 }
 
-function record(post, youtubeUrl, notebook, publication) {
+function record(post, youtubeUrl, notebook, publication, renderMethod) {
   const progress = readJson(PROGRESS_FILE, { completed: [] });
   const previous = (progress.completed || []).find((item) => item.slug === post.slug && item.youtube === youtubeUrl);
   progress.completed = [
     ...(progress.completed || []).filter((item) => item.slug !== post.slug),
-    { slug: post.slug, title: post.title, url: post.url, youtube: youtubeUrl, notebook_id: notebook || previous?.notebook_id || null, visual_policy: 'objects-only-v1', people_free_validated: true, publication, date: new Date().toISOString() },
+    { slug: post.slug, title: post.title, url: post.url, youtube: youtubeUrl, notebook_id: notebook || previous?.notebook_id || null, visual_policy: 'objects-only-v1', people_free_validated: true, publication, render_method: renderMethod || previous?.render_method || 'notebooklm-native', date: new Date().toISOString() },
   ];
   progress.lastRun = new Date().toISOString();
   writeJson(PROGRESS_FILE, progress);
+}
+
+async function recoverRequestedNotebookVideo(post) {
+  const repair = readJson(path.join(ROOT, 'data/marketing-employee/video-repair-request.json'), null);
+  if (repair?.slug !== post.slug || !repair.recoverNotebookId) return null;
+  const id = String(repair.recoverNotebookId);
+  if (!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(id)) throw new Error('Invalid recovery notebook id.');
+  await runNotebookLMJson(['auth', 'check', '--test', '--json'], 2 * 60 * 1000);
+  const selected = await runNotebookLMJson(['use', id, '--json'], 2 * 60 * 1000);
+  if (selected.verified !== true || selected.notebook?.id !== id || !String(selected.notebook?.title || '').startsWith(`IZEM Video - ${post.title}`)) {
+    throw new Error('Recovery notebook identity does not match the canonical article.');
+  }
+  fs.mkdirSync(WORK_DIR, { recursive: true });
+  const outputFile = path.join(WORK_DIR, `${post.slug}-recovered.mp4`);
+  fs.rmSync(outputFile, { force: true });
+  await runNotebookLMJson(['download', 'video', outputFile, '-n', id, '--latest', '--force', '--json'], 10 * 60 * 1000);
+  if (!fs.existsSync(outputFile) || fs.statSync(outputFile).size < 10000) throw new Error('Recovered NotebookLM video is missing or empty.');
+  return { outputFile, notebookId: id };
 }
 
 async function main() {
@@ -301,28 +320,28 @@ async function main() {
 
   if (!process.env.NOTEBOOKLM_AUTH_JSON && process.env.CI) throw new Error('Missing NOTEBOOKLM_AUTH_JSON. Failing closed before NotebookLM generation.');
 
-  const configuredAttempts = Number(process.env.NOTEBOOKLM_VISUAL_REGEN_ATTEMPTS || '3');
-  const maxAttempts = Number.isFinite(configuredAttempts) ? Math.max(1, Math.min(3, Math.trunc(configuredAttempts))) : 3;
-  let generated = null;
-
-  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
-    generated = await generateNotebookVideo(post, facts, attempt);
+  const recovered = await recoverRequestedNotebookVideo(post);
+  let generated = recovered || await generateNotebookVideo(post, facts);
+  if (recovered) {
+    // Recovery never trusts the rejected original pictures. Rebuild before classifying.
+    generated = { ...generated, ...await rebuildObjectOnlyVideo(generated.outputFile, post) };
+    await assertVideoIsPeopleFree(generated.outputFile);
+  } else {
     try {
       await assertVideoIsPeopleFree(generated.outputFile);
-      break;
     } catch (error) {
-      if (error?.name !== 'VideoPolicyError' || attempt === maxAttempts) throw error;
-      console.warn(`NotebookLM render ${attempt}/${maxAttempts} was rejected by the zero-human policy; regenerating with a fresh object-only concept.`);
-      generated = null;
+      if (error?.name !== 'VideoPolicyError') throw error;
+      console.warn('NotebookLM visual track rejected; replacing it with canonical article typography while retaining narration.');
+      generated = { ...generated, ...await rebuildObjectOnlyVideo(generated.outputFile, post) };
+      // The repaired file is a NEW render and must pass the same classifier.
+      await assertVideoIsPeopleFree(generated.outputFile);
     }
   }
 
-  if (!generated) throw new Error('NotebookLM video generation ended without a people-free render.');
-  // Generation and retries can outlive an OAuth access token. Refresh immediately before upload.
   const youtubeUrl = await uploadVideo(generated.outputFile, post, await accessToken());
   const publication = await verifyPublishedVideo(post, youtubeUrl);
   embedIntoPost(post, youtubeUrl);
-  record(post, youtubeUrl, generated.notebookId, publication);
+  record(post, youtubeUrl, generated.notebookId, publication, generated.renderMethod);
   console.log(`NotebookLM video workflow complete: ${youtubeUrl}`);
 }
 
