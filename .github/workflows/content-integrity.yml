@@ -15,6 +15,7 @@ on:
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
       - 'tools/ai-marketing/article-video-contract.mjs'
+      - 'tools/ai-marketing/youtube-publication*.mjs'
       - 'tools/ai-marketing/.notebooklm-video-progress.json'
       - '.github/workflows/daily-video-tts.yml'
       - '.github/workflows/content-integrity.yml'
@@ -31,6 +32,7 @@ on:
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
       - 'tools/ai-marketing/article-video-contract.mjs'
+      - 'tools/ai-marketing/youtube-publication*.mjs'
       - 'tools/ai-marketing/.notebooklm-video-progress.json'
       - '.github/workflows/daily-video-tts.yml'
       - '.github/workflows/content-integrity.yml'
@@ -68,6 +70,10 @@ jobs:
           node --check tools/ai-marketing/daily-notebooklm-video.mjs
           node --check tools/ai-marketing/daily-notebooklm-video-v2.mjs
           node --check tools/ai-marketing/article-video-contract.mjs
+          node --check tools/ai-marketing/youtube-publication.mjs
+
+      - name: Test actual YouTube publication requirements
+        run: node --test tools/ai-marketing/youtube-publication*.test.mjs
 
       - name: Enforce weekly creation ceiling
         run: node tools/ai-marketing/weekly-publish-guard.mjs
@@ -92,5 +98,8 @@ jobs:
       - name: Enforce object-only media on marked blog articles
         run: node tools/ai-marketing/blog-media-policy.mjs --check-all
 
-      - name: Enforce dedicated videos for new articles
+      - name: Enforce dedicated videos before release
+        # Videos are generated only after the approved article reaches main.
+        # Keep this strict on main/manual runs and in deploy.yml, not on pre-media PRs.
+        if: github.event_name != 'pull_request'
         run: node tools/ai-marketing/article-video-contract.mjs --check-all
