@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: main
+          ref: ${{ github.sha }}
           fetch-depth: 0
 
       - name: Resolve the article that needs video processing
@@ -125,7 +125,22 @@ jobs:
 
       - name: Enforce the global weekly new-post ceiling
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
-        run: node tools/ai-marketing/weekly-publish-guard.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          if [ -n "$BASE_SHA" ] && [ "$BASE_SHA" != "0000000000000000000000000000000000000000" ]; then
+            node tools/ai-marketing/weekly-publish-guard.mjs --base "$BASE_SHA" --head "$HEAD_SHA"
+          else
+            node tools/ai-marketing/weekly-publish-guard.mjs
+          fi
+
+      - name: Require authenticated editorial release approval
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        run: |
+          echo "::error::Editorial HOLD: authenticated Sapling and Humanizer approval handoff is not configured. No generation or upload is authorized by a JSON score alone."
+          exit 1
 
       - name: Ensure deterministic object-only article visuals
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
@@ -139,6 +154,7 @@ jobs:
       - name: Generate, visually validate, publish, and attach the video
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
         env:
+          GH_TOKEN: ${{ github.token }}
           NOTEBOOKLM_AUTH_JSON: ${{ secrets.NOTEBOOKLM_AUTH_JSON }}
           NOTEBOOKLM_HOME: ${{ runner.temp }}/notebooklm
           NOTEBOOKLM_PROFILE: github-actions
@@ -154,6 +170,15 @@ jobs:
           GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
           VIDEO_SAFETY_GEMINI_MODEL: gemini-3.5-flash
         run: node tools/ai-marketing/daily-notebooklm-video.mjs
+
+      - name: Preserve authenticated upload provenance
+        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: izem-video-provenance-${{ github.event_name == 'push' && steps.detect-post.outputs.slug || github.event.inputs.post_slug }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/izem-video-provenance/record.json
+          if-no-files-found: ignore
+          retention-days: 90
 
       - name: Build dedicated video pages and refresh discovery files
         if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''

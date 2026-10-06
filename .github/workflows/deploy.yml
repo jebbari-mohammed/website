@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
   issues: write
 
 concurrency:
@@ -53,54 +54,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Node for release gate
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
       - name: Gate incomplete article releases
         id: gate
         env:
-          BEFORE_SHA: ${{ github.event.before }}
-          AFTER_SHA: ${{ github.sha }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          echo "ready=true" >> "$GITHUB_OUTPUT"
-          blocked=0
-
-          # Any article that has entered the strict object-only pipeline is not
-          # release-ready until the established IZEM video block is attached.
-          while IFS= read -r post; do
-            [ -z "$post" ] && continue
-            if grep -q 'data-owner-visual-policy="objects-only-v1"' "$post" \
-              && ! grep -q '<!-- IZEM_VIDEO_START -->' "$post"; then
-              echo "Deployment deferred: $post is waiting for its validated NotebookLM/YouTube video."
-              blocked=1
-            fi
-          done < <(find public/blog -maxdepth 1 -type f -name '*.html' ! -name 'index.html' -print | sort)
-
-          if [ "${{ github.event_name }}" = "push" ] \
-            && [ -n "${BEFORE_SHA:-}" ] \
-            && [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]; then
-            ADDED_POSTS=$(git diff --name-status "$BEFORE_SHA" "$AFTER_SHA" \
-              | awk '$1 == "A" && $2 ~ /^public\/blog\/[^/]+\.html$/ && $2 != "public/blog/index.html" {print $2}')
-            if [ -n "$ADDED_POSTS" ]; then
-              node tools/ai-marketing/weekly-publish-guard.mjs
-              while IFS= read -r post; do
-                [ -z "$post" ] && continue
-                if ! grep -q '<!-- IZEM_VIDEO_START -->' "$post"; then
-                  echo "Deployment deferred: newly-created $post has no final video block yet."
-                  blocked=1
-                fi
-                if ! grep -q 'data-owner-visual-policy="objects-only-v1"' "$post"; then
-                  echo "Deployment deferred: newly-created $post has no deterministic object-only visual policy marker yet."
-                  blocked=1
-                fi
-              done <<< "$ADDED_POSTS"
-            fi
-          fi
-
-          if [ "$blocked" -eq 1 ]; then
+          if node tools/ai-marketing/article-release-gate.mjs; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
             echo "ready=false" >> "$GITHUB_OUTPUT"
             {
               echo "### Deployment intentionally deferred"
-              echo "At least one new strict article is still inside the transactional media pipeline."
-              echo "Nothing incomplete was deployed. The article becomes eligible only after object-only visuals and the validated NotebookLM/YouTube video are attached."
+              echo "New or changed articles require authenticated editorial and source-bound video evidence."
+              echo "The last healthy production deployment is preserved. See gate output for the exact HOLD."
             } >> "$GITHUB_STEP_SUMMARY"
           fi
 
@@ -139,9 +111,18 @@ jobs:
           pnpm sitemap:sync
 
       - name: Validate source sitemap, video pages, structured data, and blog media
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          node tools/ai-marketing/weekly-publish-guard.mjs
+          if [ -n "$BASE_SHA" ] && [ "$BASE_SHA" != "0000000000000000000000000000000000000000" ]; then
+            node tools/ai-marketing/weekly-publish-guard.mjs --base "$BASE_SHA" --head "$HEAD_SHA"
+          else
+            node tools/ai-marketing/weekly-publish-guard.mjs
+          fi
+          node tools/ai-marketing/article-release-gate.mjs
           pnpm video:check
           pnpm sitemap:check
           node tools/validate-jsonld.mjs public

@@ -9,6 +9,12 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath, URL } from 'node:url';
 import { assertVideoIsPeopleFree } from './video-human-safety.mjs';
+import {
+  VIDEO_SCHEMA_VERSION, VIDEO_POLICY, articleSourceDigest, productFactsDigest, videoFileDigest,
+  assertVideoRecord, assertYoutubeVideoMatches, provenanceFromEnvironment,
+  videoDescriptionEvidence, writeVideoProvenanceArtifact, renderVideoCard,
+} from './video-provenance.mjs';
+import { verifyVideoRecordProof } from './video-github-proof.mjs';
 
 const execFileAsync = promisify(execFile);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -21,7 +27,6 @@ const WORK_DIR = path.join(os.tmpdir(), 'izem-notebooklm-video');
 const NOTEBOOKLM_BIN = process.env.NOTEBOOKLM_BIN || 'notebooklm';
 const VIDEO_FORMAT = process.env.NOTEBOOKLM_VIDEO_FORMAT || 'brief';
 const VIDEO_STYLE = process.env.NOTEBOOKLM_VIDEO_STYLE || 'classic';
-const VALIDATION_STAMP = 'IZEM_VISUAL_POLICY=objects-only-v1;VALIDATED=true';
 
 function loadEnv() {
   const file = path.join(ROOT, '.env');
@@ -63,9 +68,6 @@ function articleText(html = '') {
   return plain(String(html).replace(/<!-- (?:NOTEBOOKLM|IZEM)_VIDEO_START -->[\s\S]*?<!-- (?:NOTEBOOKLM|IZEM)_VIDEO_END -->/gi, ' '));
 }
 
-function escapeHtml(value = '') {
-  return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
 
 function readPost(slug) {
   if (!/^[a-z0-9][a-z0-9-]{1,119}$/.test(slug || '')) throw new Error('NOTEBOOKLM_POST_SLUG must be a safe blog slug.');
@@ -77,8 +79,8 @@ function readPost(slug) {
   return { slug, file, html, title, description, url: `${SITE_URL}/blog/${slug}` };
 }
 
-function productFacts() {
-  const facts = readJson(FACTS_FILE, null);
+function productFacts(bytes) {
+  const facts = JSON.parse(bytes.toString('utf8'));
   if (!facts?.verifiedFacts?.length || facts?.visualPolicy?.humansAllowed !== false) throw new Error(`Canonical product facts are missing/unsafe: ${FACTS_FILE}`);
   return facts;
 }
@@ -105,12 +107,34 @@ function parseJsonOutput(output) {
 
 async function runNotebookLM(args, timeout = 45 * 60 * 1000) {
   console.log(`$ ${NOTEBOOKLM_BIN} ${args.join(' ')}`);
-  const result = await execFileAsync(NOTEBOOKLM_BIN, args, { cwd: ROOT, env: process.env, timeout, maxBuffer: 32 * 1024 * 1024 });
+  let result;
+  try {
+    result = await execFileAsync(NOTEBOOKLM_BIN, args, { cwd: ROOT, env: process.env, timeout, maxBuffer: 32 * 1024 * 1024 });
+  } catch (error) {
+    const output = `${error?.stderr || ''} ${error?.stdout || ''} ${error?.message || ''}`;
+    if (/HTTP\s*(?:401|403)|authentication (?:expired|invalid)|not logged in/i.test(output)) {
+      throw new Error('NotebookLM authentication was rejected (HTTP 401/403). Owner re-authentication and an authorized NOTEBOOKLM_AUTH_JSON refresh are required. Stopped before further steps; verify remote state before retrying a failed write.');
+    }
+    throw error;
+  }
   if (result.stderr?.trim()) process.stderr.write(result.stderr);
   return result.stdout || '';
 }
 
-async function runNotebookLMJson(args, timeout) { return parseJsonOutput(await runNotebookLM(args, timeout)); }
+async function runNotebookLMJson(args, timeout) {
+  const result = parseJsonOutput(await runNotebookLM(args, timeout));
+  if (result?.error || result?.status === 'error' || result?.success === false) {
+    throw new Error(`NotebookLM ${args[0]} returned a failure response. Stop before further work; inspect the authenticated CLI diagnostics.`);
+  }
+  return result;
+}
+
+export function assertNotebookAuthCheck(result) {
+  if (result?.status !== 'ok' || result?.checks?.token_fetch !== true) {
+    throw new Error('NotebookLM live authentication check did not pass. Owner re-authentication and an authorized NOTEBOOKLM_AUTH_JSON refresh are required before generation.');
+  }
+  return true;
+}
 
 function notebookId(result) {
   const id = result?.active_notebook_id || result?.notebook_id || result?.id || result?.notebook?.id || result?.data?.active_notebook_id || result?.data?.notebook_id || result?.data?.notebook?.id;
@@ -127,7 +151,7 @@ async function generateNotebookVideo(post, facts) {
   fs.writeFileSync(promptFile, videoPrompt(post, facts), 'utf8');
   fs.rmSync(outputFile, { force: true });
 
-  await runNotebookLMJson(['auth', 'check', '--test', '--json'], 2 * 60 * 1000);
+  assertNotebookAuthCheck(await runNotebookLMJson(['auth', 'check', '--test', '--json'], 2 * 60 * 1000));
   const created = await runNotebookLMJson(['create', `IZEM Video - ${post.title}`.slice(0, 120), '--use', '--json'], 3 * 60 * 1000);
   const notebook = notebookId(created);
   await runNotebookLMJson(['source', 'add', sourceFile, '-n', notebook, '--title', `${post.title} - canonical article`, '--timeout', '240', '--json'], 6 * 60 * 1000);
@@ -173,36 +197,40 @@ async function youtubeJson(token, requestPath) {
   return JSON.parse(response.body || '{}');
 }
 
-async function findValidatedExistingVideo(token, post) {
-  const channels = await youtubeJson(token, '/youtube/v3/channels?part=contentDetails&mine=true');
-  const uploads = channels?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
-  if (!uploads) return null;
-  const playlist = await youtubeJson(token, `/youtube/v3/playlistItems?part=contentDetails&maxResults=50&playlistId=${encodeURIComponent(uploads)}`);
-  const ids = (playlist.items || []).map((item) => item?.contentDetails?.videoId).filter(Boolean);
-  if (!ids.length) return null;
-  const videos = await youtubeJson(token, `/youtube/v3/videos?part=snippet,status&id=${encodeURIComponent(ids.join(','))}`);
-  const expectedTitle = youtubeSnippet(post).title;
-  const match = (videos.items || []).find((video) => {
-    const description = String(video?.snippet?.description || '');
-    const title = String(video?.snippet?.title || '');
-    return title === expectedTitle
-      && description.includes(`Canonical article: ${post.url}`)
-      && description.includes(VALIDATION_STAMP);
-  });
-  return match?.id ? `https://youtube.com/watch?v=${match.id}` : null;
+export async function findValidatedExistingVideo(token, post, factsBytes, options = {}) {
+  const progress = options.progress || readJson(PROGRESS_FILE, { completed: [] });
+  const candidates = (progress.completed || []).filter((item) => item.slug === post.slug);
+  // Never discover/relabel a legacy upload from a mutable title or description.
+  // Only the exact source-bound record plus its authenticated workflow artifact
+  // may authorize reuse, followed by a live authenticated YouTube read.
+  for (const record of candidates) {
+    try {
+      assertVideoRecord(record, { slug: post.slug, articleHtml: post.html, productFactsBytes: factsBytes });
+    } catch {
+      continue;
+    }
+    await (options.verifyProof || verifyVideoRecordProof)(record);
+    const videos = await (options.youtubeJson || youtubeJson)(token,
+      `/youtube/v3/videos?part=snippet,status&id=${encodeURIComponent(record.youtube_id)}`);
+    const video = (videos.items || []).find((item) => item.id === record.youtube_id);
+    assertYoutubeVideoMatches(record, video);
+    return record;
+  }
+  return null;
 }
 
-function youtubeDescription(post) {
-  return `Video guide for: ${post.title}\n\nCanonical article: ${post.url}\nRead the full article:\n${post.url}\n\nTry IZEM:\n${SITE_URL}\n\n${VALIDATION_STAMP}\nThis upload passed the automated people-free frame validation before publication.\n\n#IZEM #AIFitness #FitnessApp`;
+function youtubeDescription(post, evidence) {
+  return `Video guide for: ${post.title}\n\nCanonical article: ${post.url}\nRead the full article:\n${post.url}\n\nTry IZEM:\n${SITE_URL}\n\n${videoDescriptionEvidence(evidence)}\nThis upload passed automated people-free checks of 14 frames sampled across its full duration before publication; sampling does not inspect every frame.\n\n#IZEM #AIFitness #FitnessApp`;
 }
 
-function youtubeSnippet(post) {
-  return { title: `${post.title} | IZEM`.slice(0, 100), description: youtubeDescription(post).slice(0, 5000), tags: ['IZEM', 'AI fitness app', 'fitness app', 'workout accountability'], categoryId: '26', defaultLanguage: 'en' };
+function youtubeSnippet(post, evidence) {
+  return { title: `${post.title} | IZEM`.slice(0, 100), description: youtubeDescription(post, evidence).slice(0, 5000), tags: ['IZEM', 'AI fitness app', 'fitness app', 'workout accountability'], categoryId: '26', defaultLanguage: 'en' };
 }
 
-async function uploadVideo(filePath, post, token) {
+async function uploadVideo(filePath, post, token, evidence) {
+  if (videoFileDigest(filePath) !== evidence.video_sha256) throw new Error('Video bytes changed after validation; upload blocked.');
   const fileSize = fs.statSync(filePath).size;
-  const metadata = JSON.stringify({ snippet: youtubeSnippet(post), status: { privacyStatus: process.env.YOUTUBE_PRIVACY_STATUS || 'public', selfDeclaredMadeForKids: false } });
+  const metadata = JSON.stringify({ snippet: youtubeSnippet(post, evidence), status: { privacyStatus: process.env.YOUTUBE_PRIVACY_STATUS || 'public', selfDeclaredMadeForKids: false } });
   const init = await request({
     hostname: 'www.googleapis.com', path: '/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status', method: 'POST',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', 'X-Upload-Content-Type': 'video/mp4', 'X-Upload-Content-Length': fileSize, 'Content-Length': Buffer.byteLength(metadata) }, body: metadata,
@@ -234,15 +262,9 @@ function youtubeId(value) {
   return parsed.hostname.includes('youtu.be') ? parsed.pathname.slice(1) : (parsed.searchParams.get('v') || '');
 }
 
-function embedBlock(post, youtubeUrl) {
-  const id = youtubeId(youtubeUrl);
-  if (!id) throw new Error(`Could not parse YouTube id from ${youtubeUrl}`);
-  const title = escapeHtml(post.title);
-  return `<!-- IZEM_VIDEO_START -->\n<section class="izem-video" style="margin:32px 0;padding:24px;border:1px solid rgba(55,199,201,.25);border-radius:8px;background:rgba(55,199,201,.08)">\n  <h2 style="margin-top:0">Watch the video guide</h2>\n  <a data-izem-video-card="true" data-video-id="${id}" href="/youtube/${id}/" aria-label="Watch ${title}" style="display:block;width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;border-radius:8px;background:#02070D;text-decoration:none">\n    <img src="${SITE_URL}/youtube/thumbnails/${id}.svg" alt="${title}" width="480" height="360" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover">\n    <span aria-hidden="true" style="position:absolute;inset:0;display:grid;place-items:center"><span style="display:grid;place-items:center;width:68px;height:48px;border-radius:12px;background:#FF0000;color:#fff;font:700 24px/1 system-ui">▶</span></span>\n  </a>\n  <p style="margin:14px 0 0;color:#AEBBCC">A short IZEM video guide for the decisions in this article.</p>\n</section>\n<!-- IZEM_VIDEO_END -->`;
-}
 
 function embedIntoPost(post, youtubeUrl) {
-  const block = embedBlock(post, youtubeUrl);
+  const block = renderVideoCard(post, youtubeId(youtubeUrl));
   let html = fs.readFileSync(post.file, 'utf8');
   if (/<!-- (?:NOTEBOOKLM|IZEM)_VIDEO_START -->/i.test(html)) html = html.replace(/<!-- (?:NOTEBOOKLM|IZEM)_VIDEO_START -->[\s\S]*?<!-- (?:NOTEBOOKLM|IZEM)_VIDEO_END -->/i, block);
   else if (/<main\b[^>]*>\s*<article\b[^>]*>/i.test(html)) html = html.replace(/<main\b[^>]*>\s*<article\b[^>]*>/i, (match) => `${match}\n${block}`);
@@ -253,40 +275,76 @@ function embedIntoPost(post, youtubeUrl) {
   fs.writeFileSync(post.file, html, 'utf8');
 }
 
-function record(post, youtubeUrl, notebook) {
+function recordValidatedUpload(record) {
+  assertVideoRecord(record);
   const progress = readJson(PROGRESS_FILE, { completed: [] });
-  progress.completed = [
-    ...(progress.completed || []).filter((item) => item.slug !== post.slug),
-    { slug: post.slug, title: post.title, url: post.url, youtube: youtubeUrl, notebook_id: notebook || null, visual_policy: 'objects-only-v1', people_free_validated: true, date: new Date().toISOString() },
-  ];
-  progress.lastRun = new Date().toISOString();
+  progress.completed = [...(progress.completed || []).filter((item) => item.slug !== record.slug), record];
+  progress.lastRun = record.date;
   writeJson(PROGRESS_FILE, progress);
 }
 
-async function main() {
+export async function main() {
   loadEnv();
   const post = readPost(process.env.NOTEBOOKLM_POST_SLUG || '');
-  const facts = productFacts();
+  const factsBytes = fs.readFileSync(FACTS_FILE);
+  const facts = productFacts(factsBytes);
+  const provenance = provenanceFromEnvironment();
   const token = await accessToken();
 
-  const reusable = await findValidatedExistingVideo(token, post);
+  const reusable = await findValidatedExistingVideo(token, post, factsBytes);
   if (reusable) {
-    console.log(`Reusing previously validated people-free YouTube video for ${post.slug}: ${reusable}`);
-    embedIntoPost(post, reusable);
-    record(post, reusable, null);
+    console.log(`Reusing authenticated source-bound people-free YouTube video for ${post.slug}: ${reusable.youtube}`);
+    embedIntoPost(post, reusable.youtube);
+    // Preserve the actual original verdict, upload time, notebook and proof.
+    // No new upload or safety decision occurred, so do not mint a new record.
     return;
   }
 
   if (!process.env.NOTEBOOKLM_AUTH_JSON && process.env.CI) throw new Error('Missing NOTEBOOKLM_AUTH_JSON. Failing closed before NotebookLM generation.');
+  const channels = await youtubeJson(token, '/youtube/v3/channels?part=id&mine=true');
+  const channelId = channels?.items?.[0]?.id;
+  if (!/^UC[A-Za-z0-9_-]{22}$/.test(channelId || '')) throw new Error('Could not verify the authenticated YouTube upload channel.');
   const generated = await generateNotebookVideo(post, facts);
-  await assertVideoIsPeopleFree(generated.outputFile);
-  const youtubeUrl = await uploadVideo(generated.outputFile, post, token);
+  const validation = await assertVideoIsPeopleFree(generated.outputFile);
+  const { video_sha256, ...people_free_validation } = validation;
+  const evidence = {
+    article_sha256: articleSourceDigest(post.html),
+    product_facts_sha256: productFactsDigest(factsBytes),
+    video_sha256,
+  };
+  if (articleSourceDigest(fs.readFileSync(post.file, 'utf8')) !== evidence.article_sha256
+      || productFactsDigest(fs.readFileSync(FACTS_FILE)) !== evidence.product_facts_sha256) {
+    throw new Error('Article or product facts changed during generation; upload blocked.');
+  }
+  const youtubeUrl = await uploadVideo(generated.outputFile, post, token, evidence);
+  if (videoFileDigest(generated.outputFile) !== video_sha256) throw new Error('Video bytes changed during upload; do not release this upload.');
+  const uploadedAt = new Date().toISOString();
+  const record = {
+    schema_version: VIDEO_SCHEMA_VERSION,
+    slug: post.slug, title: post.title, url: post.url,
+    youtube: youtubeUrl, youtube_id: youtubeId(youtubeUrl), notebook_id: generated.notebookId,
+    visual_policy: VIDEO_POLICY,
+    people_free_validated: people_free_validation.safe === true && people_free_validation.containsHuman === false,
+    ...evidence,
+    video_bytes: fs.statSync(generated.outputFile).size,
+    people_free_validation,
+    upload: { channel_id: channelId, uploaded_at: uploadedAt },
+    provenance,
+    date: uploadedAt,
+  };
+  assertVideoRecord(record, { articleHtml: post.html, productFactsBytes: factsBytes });
+  const published = await youtubeJson(token, `/youtube/v3/videos?part=snippet,status&id=${encodeURIComponent(record.youtube_id)}`);
+  assertYoutubeVideoMatches(record, (published.items || []).find((item) => item.id === record.youtube_id));
+  writeVideoProvenanceArtifact(record);
+  recordValidatedUpload(record);
   embedIntoPost(post, youtubeUrl);
-  record(post, youtubeUrl, generated.notebookId);
   console.log(`NotebookLM video workflow complete: ${youtubeUrl}`);
 }
 
-main().catch((error) => {
-  console.error(error instanceof Error ? error.stack || error.message : String(error));
-  process.exit(1);
-});
+// Preserve the established compatibility entry point while allowing pure tests.
+if (process.argv[1] && ['daily-notebooklm-video.mjs', 'daily-notebooklm-video-v2.mjs'].some((name) => path.resolve(process.argv[1]) === path.join(HERE, name))) {
+  main().catch((error) => {
+    console.error(error instanceof Error ? error.stack || error.message : String(error));
+    process.exit(1);
+  });
+}
