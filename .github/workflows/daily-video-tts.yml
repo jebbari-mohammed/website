@@ -24,11 +24,14 @@ permissions:
 concurrency:
   group: izem-video-publisher
   cancel-in-progress: false
+  # A scheduled recovery must not cancel an already pending repair request.
+  queue: max
 
 jobs:
   generate-izem-video:
     runs-on: ubuntu-24.04
-    timeout-minutes: 70
+    # Three bounded generation attempts, validation, upload, and deployment handoff.
+    timeout-minutes: 240
     steps:
       - name: Checkout full history
         uses: actions/checkout@v7
@@ -120,6 +123,7 @@ jobs:
           fi
 
           echo "slug=" >> "$GITHUB_OUTPUT"
+
       - name: Stop cleanly when no video work is pending
         if: steps.detect-post.outputs.slug == ''
         run: echo "No new article or explicit video-repair request; video generation is not required."
@@ -179,6 +183,7 @@ jobs:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          VIDEO_SAFETY_GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY_2 }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
           GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
@@ -190,6 +195,7 @@ jobs:
         env:
           POST_SLUG: ${{ steps.detect-post.outputs.slug }}
         run: node tools/ai-marketing/article-video-contract.mjs --file "public/blog/${POST_SLUG}.html"
+
       - name: Build dedicated video pages and refresh discovery files
         if: steps.detect-post.outputs.slug != ''
         run: |
@@ -233,7 +239,7 @@ jobs:
           echo "pushed_sha=$pushed_sha" >> "$GITHUB_OUTPUT"
           echo "Completed media release pushed: $pushed_sha"
 
-      - name: Deploy the completed media release to Pages
+      - name: Deploy the completed media release to Firebase Hosting
         if: steps.commit.outputs.changed == 'true' && steps.commit.outputs.pushed_sha != ''
         env:
           GH_TOKEN: ${{ github.token }}
@@ -241,9 +247,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Pushes authored with GITHUB_TOKEN do not recursively start the push-based
-          # Pages workflow. Dispatch deployment explicitly and bind verification to
-          # the exact completed media-release commit.
+          # GITHUB_TOKEN pushes do not recursively trigger push-based workflows.
+          gh workflow run content-integrity.yml --ref main
           gh workflow run deploy.yml --ref main
 
           run_id=""
@@ -259,16 +264,16 @@ jobs:
             if [ -n "$run_id" ]; then
               break
             fi
-            echo "Waiting for Pages deployment run for ${PUSHED_SHA} (${attempt}/30)..."
+            echo "Waiting for hosting deployment run for ${PUSHED_SHA} (${attempt}/30)..."
             sleep 3
           done
 
           if [ -z "$run_id" ]; then
-            echo "::error::Could not find the dispatched Pages deployment for ${PUSHED_SHA}."
+            echo "::error::Could not find the dispatched hosting deployment for ${PUSHED_SHA}."
             exit 1
           fi
 
-          echo "Waiting for Pages deployment run ${run_id} for ${PUSHED_SHA}."
+          echo "Waiting for hosting deployment run ${run_id} for ${PUSHED_SHA}."
           gh run watch "$run_id" --exit-status
 
       - name: Summarize completed media release
@@ -281,10 +286,11 @@ jobs:
             echo "- ✅ Deterministic object-only article visuals validated"
             echo "- ✅ NotebookLM video generated or a previously validated matching video reused"
             echo "- ✅ New uploads passed uniform full-duration zero-human frame validation"
+            echo "- ✅ YouTube confirmed the matching video is public and processed"
             echo "- ✅ YouTube video attached through the established /youtube/<id>/ method"
             echo "- ✅ Video pages, sitemap, and structured data validated"
             if [ "${{ steps.commit.outputs.changed }}" = "true" ]; then
-              echo "- ✅ Completed article release pushed to main and exact commit deployed to Pages"
+              echo "- ✅ Completed article release pushed to main and exact commit deployed to Firebase Hosting"
             else
               echo "- ✅ No repository delta remained; no deployment handoff was required"
             fi
