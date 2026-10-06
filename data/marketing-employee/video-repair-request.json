@@ -1,6 +1,8 @@
 {
-  "requestId": "2026-10-06-exercise-count-publication-verification-003",
+  "requestId": "2026-10-06-exercise-count-deterministic-recovery-004",
   "slug": "how-many-exercises-per-workout",
-  "reason": "Owner requested completion through a new public YouTube video. Reuse the matching validated dedicated upload if the active render completed, verify its actual public processing state with YouTube, and complete the article release without a duplicate upload. Preserve the zero-human policy.",
-  "requestedAt": "2026-10-06T23:03:59Z"
+  "recoverNotebookId": "e22a2847-546c-4f5f-9f43-8992df47fb2c",
+  "sourceRunId": 37542913379,
+  "reason": "Recover the completed article-specific NotebookLM narration from the verified failed run, discard every original visual frame, rebuild canonical article typography, pass the same people-free classifier, and verify the new YouTube video is public and processed before completing the article release. Reuse a matching validated public upload if another active run already completed it; never upload a duplicate or the rejected original visual track.",
+  "requestedAt": "2026-10-06T23:21:53Z"
 }
