@@ -272,7 +272,7 @@ jobs:
           gh run watch "$run_id" --exit-status
 
       - name: Summarize completed media release
-        if: success() && (github.event_name != 'push' || steps.detect-post.outputs.slug != '')
+        if: success() && steps.detect-post.outputs.slug != ''
         run: |
           {
             echo "### IZEM article media release"
