@@ -14,6 +14,8 @@ on:
       - 'tools/ai-marketing/video-human-safety.mjs'
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
+      - 'tools/ai-marketing/article-video-contract.mjs'
+      - 'tools/ai-marketing/.notebooklm-video-progress.json'
       - '.github/workflows/daily-video-tts.yml'
       - '.github/workflows/content-integrity.yml'
   pull_request:
@@ -28,6 +30,8 @@ on:
       - 'tools/ai-marketing/video-human-safety.mjs'
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
+      - 'tools/ai-marketing/article-video-contract.mjs'
+      - 'tools/ai-marketing/.notebooklm-video-progress.json'
       - '.github/workflows/daily-video-tts.yml'
       - '.github/workflows/content-integrity.yml'
   workflow_dispatch:
@@ -63,6 +67,7 @@ jobs:
           node --check tools/ai-marketing/product-facts-contract.mjs
           node --check tools/ai-marketing/daily-notebooklm-video.mjs
           node --check tools/ai-marketing/daily-notebooklm-video-v2.mjs
+          node --check tools/ai-marketing/article-video-contract.mjs
 
       - name: Enforce weekly creation ceiling
         run: node tools/ai-marketing/weekly-publish-guard.mjs
@@ -86,3 +91,6 @@ jobs:
 
       - name: Enforce object-only media on marked blog articles
         run: node tools/ai-marketing/blog-media-policy.mjs --check-all
+
+      - name: Enforce dedicated videos for new articles
+        run: node tools/ai-marketing/article-video-contract.mjs --check-all
