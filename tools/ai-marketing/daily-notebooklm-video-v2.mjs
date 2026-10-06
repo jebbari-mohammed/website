@@ -269,7 +269,7 @@ function embedIntoPost(post, youtubeUrl) {
   else if (/<article\b[^>]*>/i.test(html)) html = html.replace(/<article\b[^>]*>/i, (match) => `${match}\n${block}`);
   else if (/<main\b[^>]*>/i.test(html)) html = html.replace(/<main\b[^>]*>/i, (match) => `${match}\n${block}`);
   else if (/<h1\b[^>]*>[\s\S]*?<\/h1>/i.test(html)) html = html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/i, (match) => `${match}\n${block}`);
-  else html = html.replace(/<body\b[^>]*>/i, (match) => `${match}\nblock`);
+  else html = html.replace(/<body\b[^>]*>/i, (match) => `${match}\n${block}`);
   fs.writeFileSync(post.file, html, 'utf8');
 }
 
