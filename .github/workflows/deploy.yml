@@ -52,6 +52,10 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+      - name: Set up Node for release contract
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
 
       - name: Gate incomplete article releases
         id: gate
@@ -62,6 +66,13 @@ jobs:
           set -euo pipefail
           echo "ready=true" >> "$GITHUB_OUTPUT"
           blocked=0
+
+          # A video block is not enough. New articles must carry the validated
+          # YouTube id recorded for the same slug/canonical URL.
+          if ! node tools/ai-marketing/article-video-contract.mjs --check-all; then
+            echo "Deployment deferred: at least one new article is missing its own validated dedicated video."
+            blocked=1
+          fi
 
           # Any article that has entered the strict object-only pipeline is not
           # release-ready until the established IZEM video block is attached.
@@ -142,6 +153,7 @@ jobs:
         run: |
           set -euo pipefail
           node tools/ai-marketing/weekly-publish-guard.mjs
+          node tools/ai-marketing/article-video-contract.mjs --check-all
           pnpm video:check
           pnpm sitemap:check
           node tools/validate-jsonld.mjs public

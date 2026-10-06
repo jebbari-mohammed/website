@@ -7,6 +7,9 @@ on:
       - 'public/blog/*.html'
       - '!public/blog/index.html'
       - 'data/marketing-employee/video-repair-request.json'
+  schedule:
+    # Backstop cancelled/outage runs. One pending dedicated article is recovered per run.
+    - cron: '17 * * * *'
   workflow_dispatch:
     inputs:
       post_slug:
@@ -36,12 +39,40 @@ jobs:
 
       - name: Resolve the article that needs video processing
         id: detect-post
-        if: github.event_name == 'push'
         env:
           BEFORE_SHA: ${{ github.event.before }}
           AFTER_SHA: ${{ github.sha }}
+          MANUAL_SLUG: ${{ github.event.inputs.post_slug || '' }}
         run: |
           set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            POST_SLUG="${MANUAL_SLUG:-}"
+            if ! [[ "$POST_SLUG" =~ ^[a-z0-9][a-z0-9-]{1,119}$ ]]; then
+              echo "::error::Invalid manual post_slug: $POST_SLUG"
+              exit 1
+            fi
+            if [ ! -f "public/blog/${POST_SLUG}.html" ]; then
+              echo "::error::Manual video target does not exist: $POST_SLUG"
+              exit 1
+            fi
+            echo "slug=$POST_SLUG" >> "$GITHUB_OUTPUT"
+            echo "mode=manual" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            POST_SLUG=$(node tools/ai-marketing/article-video-contract.mjs --find-pending)
+            if [ -n "$POST_SLUG" ]; then
+              echo "Detected pending dedicated article video: $POST_SLUG"
+              echo "slug=$POST_SLUG" >> "$GITHUB_OUTPUT"
+              echo "mode=recovery" >> "$GITHUB_OUTPUT"
+            else
+              echo "slug=" >> "$GITHUB_OUTPUT"
+            fi
+            exit 0
+          fi
+
           if [ -z "${BEFORE_SHA:-}" ] || [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
             echo "slug=" >> "$GITHUB_OUTPUT"
             exit 0
@@ -89,32 +120,31 @@ jobs:
           fi
 
           echo "slug=" >> "$GITHUB_OUTPUT"
-
-      - name: Stop cleanly when a push needs no video work
-        if: github.event_name == 'push' && steps.detect-post.outputs.slug == ''
+      - name: Stop cleanly when no video work is pending
+        if: steps.detect-post.outputs.slug == ''
         run: echo "No new article or explicit video-repair request; video generation is not required."
 
       - name: Set up pnpm
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        if: steps.detect-post.outputs.slug != ''
         uses: pnpm/action-setup@v6
         with:
           version: 9
 
       - name: Set up Node
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        if: steps.detect-post.outputs.slug != ''
         uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
 
       - name: Set up Python
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        if: steps.detect-post.outputs.slug != ''
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Install deterministic dependencies
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        if: steps.detect-post.outputs.slug != ''
         run: |
           set -euo pipefail
           pnpm install --frozen-lockfile
@@ -124,25 +154,25 @@ jobs:
           sudo apt-get install -y ffmpeg
 
       - name: Enforce the global weekly new-post ceiling
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        if: steps.detect-post.outputs.slug != ''
         run: node tools/ai-marketing/weekly-publish-guard.mjs
 
       - name: Ensure deterministic object-only article visuals
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        if: steps.detect-post.outputs.slug != ''
         env:
-          POST_SLUG: ${{ github.event_name == 'push' && steps.detect-post.outputs.slug || github.event.inputs.post_slug }}
+          POST_SLUG: ${{ steps.detect-post.outputs.slug }}
         run: |
           set -euo pipefail
           node tools/ai-marketing/generate-object-blog-visuals.mjs --slug "$POST_SLUG"
           node tools/ai-marketing/blog-media-policy.mjs --file "public/blog/${POST_SLUG}.html"
 
       - name: Generate, visually validate, publish, and attach the video
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        if: steps.detect-post.outputs.slug != ''
         env:
           NOTEBOOKLM_AUTH_JSON: ${{ secrets.NOTEBOOKLM_AUTH_JSON }}
           NOTEBOOKLM_HOME: ${{ runner.temp }}/notebooklm
           NOTEBOOKLM_PROFILE: github-actions
-          NOTEBOOKLM_POST_SLUG: ${{ github.event_name == 'push' && steps.detect-post.outputs.slug || github.event.inputs.post_slug }}
+          NOTEBOOKLM_POST_SLUG: ${{ steps.detect-post.outputs.slug }}
           YOUTUBE_CLIENT_ID_2: ${{ secrets.YOUTUBE_CLIENT_ID_2 }}
           YOUTUBE_CLIENT_SECRET_2: ${{ secrets.YOUTUBE_CLIENT_SECRET_2 }}
           YOUTUBE_REFRESH_TOKEN_2: ${{ secrets.YOUTUBE_REFRESH_TOKEN_2 }}
@@ -155,21 +185,26 @@ jobs:
           VIDEO_SAFETY_GEMINI_MODEL: gemini-3.5-flash
         run: node tools/ai-marketing/daily-notebooklm-video.mjs
 
+      - name: Verify dedicated article-video contract
+        if: steps.detect-post.outputs.slug != ''
+        env:
+          POST_SLUG: ${{ steps.detect-post.outputs.slug }}
+        run: node tools/ai-marketing/article-video-contract.mjs --file "public/blog/${POST_SLUG}.html"
       - name: Build dedicated video pages and refresh discovery files
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        if: steps.detect-post.outputs.slug != ''
         run: |
           set -euo pipefail
           node tools/sync-video-pages.mjs
           node tools/sync-sitemap.mjs
 
       - name: Re-check final article media policy
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        if: steps.detect-post.outputs.slug != ''
         env:
-          POST_SLUG: ${{ github.event_name == 'push' && steps.detect-post.outputs.slug || github.event.inputs.post_slug }}
+          POST_SLUG: ${{ steps.detect-post.outputs.slug }}
         run: node tools/ai-marketing/blog-media-policy.mjs --file "public/blog/${POST_SLUG}.html"
 
       - name: Validate final structured data and video artifacts
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        if: steps.detect-post.outputs.slug != ''
         run: |
           set -euo pipefail
           node tools/validate-jsonld.mjs public
@@ -178,7 +213,7 @@ jobs:
 
       - name: Commit the completed article release atomically
         id: commit
-        if: github.event_name != 'push' || steps.detect-post.outputs.slug != ''
+        if: steps.detect-post.outputs.slug != ''
         run: |
           set -euo pipefail
           git config user.name "IZEM Editorial"
@@ -237,7 +272,7 @@ jobs:
           gh run watch "$run_id" --exit-status
 
       - name: Summarize completed media release
-        if: success() && (github.event_name != 'push' || steps.detect-post.outputs.slug != '')
+        if: success() && steps.detect-post.outputs.slug != ''
         run: |
           {
             echo "### IZEM article media release"
