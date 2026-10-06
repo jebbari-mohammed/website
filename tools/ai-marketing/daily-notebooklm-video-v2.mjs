@@ -9,6 +9,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath, URL } from 'node:url';
 import { assertVideoIsPeopleFree } from './video-human-safety.mjs';
+import { verifyYouTubePublication } from './youtube-publication.mjs';
 
 const execFileAsync = promisify(execFile);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -156,6 +157,7 @@ function request({ hostname, path: requestPath, method = 'GET', headers = {}, bo
       res.on('data', (chunk) => { data += chunk; });
       res.on('end', () => resolve({ status: res.statusCode || 0, headers: res.headers, body: data }));
     });
+    req.setTimeout(60000, () => req.destroy(new Error('YouTube API request timed out.')));
     req.on('error', reject);
     if (body) req.write(body);
     req.end();
@@ -238,6 +240,20 @@ function youtubeId(value) {
   return parsed.hostname.includes('youtu.be') ? parsed.pathname.slice(1) : (parsed.searchParams.get('v') || '');
 }
 
+async function verifyPublishedVideo(post, youtubeUrl) {
+  const token = await accessToken();
+  const publication = await verifyYouTubePublication({
+    videoId: youtubeId(youtubeUrl), title: youtubeSnippet(post).title,
+    canonicalUrl: post.url, validationStamp: VALIDATION_STAMP,
+    readVideo: async (id) => {
+      const response = await youtubeJson(token, `/youtube/v3/videos?part=snippet,status,processingDetails&id=${encodeURIComponent(id)}`);
+      return response.items?.[0] || null;
+    },
+  });
+  console.log(`Verified public YouTube publication: ${JSON.stringify(publication)}`);
+  return publication;
+}
+
 function embedBlock(post, youtubeUrl) {
   const id = youtubeId(youtubeUrl);
   if (!id) throw new Error(`Could not parse YouTube id from ${youtubeUrl}`);
@@ -253,15 +269,16 @@ function embedIntoPost(post, youtubeUrl) {
   else if (/<article\b[^>]*>/i.test(html)) html = html.replace(/<article\b[^>]*>/i, (match) => `${match}\n${block}`);
   else if (/<main\b[^>]*>/i.test(html)) html = html.replace(/<main\b[^>]*>/i, (match) => `${match}\n${block}`);
   else if (/<h1\b[^>]*>[\s\S]*?<\/h1>/i.test(html)) html = html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/i, (match) => `${match}\n${block}`);
-  else html = html.replace(/<body\b[^>]*>/i, (match) => `${match}\n${block}`);
+  else html = html.replace(/<body\b[^>]*>/i, (match) => `${match}\nblock`);
   fs.writeFileSync(post.file, html, 'utf8');
 }
 
-function record(post, youtubeUrl, notebook) {
+function record(post, youtubeUrl, notebook, publication) {
   const progress = readJson(PROGRESS_FILE, { completed: [] });
+  const previous = (progress.completed || []).find((item) => item.slug === post.slug && item.youtube === youtubeUrl);
   progress.completed = [
     ...(progress.completed || []).filter((item) => item.slug !== post.slug),
-    { slug: post.slug, title: post.title, url: post.url, youtube: youtubeUrl, notebook_id: notebook || null, visual_policy: 'objects-only-v1', people_free_validated: true, date: new Date().toISOString() },
+    { slug: post.slug, title: post.title, url: post.url, youtube: youtubeUrl, notebook_id: notebook || previous?.notebook_id || null, visual_policy: 'objects-only-v1', people_free_validated: true, publication, date: new Date().toISOString() },
   ];
   progress.lastRun = new Date().toISOString();
   writeJson(PROGRESS_FILE, progress);
@@ -276,8 +293,9 @@ async function main() {
   const reusable = await findValidatedExistingVideo(token, post);
   if (reusable) {
     console.log(`Reusing previously validated people-free YouTube video for ${post.slug}: ${reusable}`);
+    const publication = await verifyPublishedVideo(post, reusable);
     embedIntoPost(post, reusable);
-    record(post, reusable, null);
+    record(post, reusable, null, publication);
     return;
   }
 
@@ -300,9 +318,11 @@ async function main() {
   }
 
   if (!generated) throw new Error('NotebookLM video generation ended without a people-free render.');
-  const youtubeUrl = await uploadVideo(generated.outputFile, post, token);
+  // Generation and retries can outlive an OAuth access token. Refresh immediately before upload.
+  const youtubeUrl = await uploadVideo(generated.outputFile, post, await accessToken());
+  const publication = await verifyPublishedVideo(post, youtubeUrl);
   embedIntoPost(post, youtubeUrl);
-  record(post, youtubeUrl, generated.notebookId);
+  record(post, youtubeUrl, generated.notebookId, publication);
   console.log(`NotebookLM video workflow complete: ${youtubeUrl}`);
 }
 
