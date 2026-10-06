@@ -87,8 +87,12 @@ function sourceMarkdown(post, facts) {
   return `# ${post.title}\n\nCanonical article: ${post.url}\nMeta description: ${post.description}\n\n## Verified IZEM product facts\n${facts.verifiedFacts.map((fact) => `- ${fact}`).join('\n')}\n\n## Factual guardrails\n- ${facts.contentRules.pricing}\n- ${facts.contentRules.medical}\n- ${facts.contentRules.competitors}\n- ${facts.contentRules.experience}\n\n## Canonical article source\n${articleText(post.html)}\n`;
 }
 
-function videoPrompt(post, facts) {
-  return `Create a polished NotebookLM Video Overview for the article "${post.title}".\n\nPRIMARY RULE: explain THIS article. Do not turn it into a generic IZEM advertisement. Use only product capabilities directly relevant to the article's intent.\n\nEditorial rules:\n- Premium, practical, precise, natural language.\n- Open with the exact problem or decision the article solves.\n- Use concrete steps, comparisons, examples, or a decision framework from the article.\n- Mention IZEM only where it genuinely helps answer the topic.\n- Be fair about limitations and when a qualified professional is better.\n- Never invent testing, studies, testimonials, statistics, medical outcomes, guarantees, competitor claims, or pricing.\n- End with a short CTA to read ${post.url}.\n\nABSOLUTE VISUAL POLICY — ZERO HUMANS:\n- Do not show or depict ANY human or human-like person. Forbidden: ${facts.visualPolicy.forbidden.join(', ')}.\n- This includes photos, illustrations, cartoons, stick figures, icons, silhouettes, avatars, UI portraits, stock imagery, background figures, and body-part closeups.\n- Allowed/preferred: ${facts.visualPolicy.preferred.join(', ')}.\n- If an idea normally uses a person, replace the person with objects, typography, a diagram, or an abstract composition.\n- Keep every app screen people-free.\n\nVisual direction:\n- High-end dark fitness-tech editorial design.\n- Strong typography, restrained motion, useful topic-specific diagrams and object close-ups.\n- Avoid generic transformation imagery and clutter.\n- Include one useful decision-summary or next-action slide near the end.`;
+function videoPrompt(post, facts, attempt = 1) {
+  const retryNote = attempt > 1
+    ? `\n\nREGENERATION ATTEMPT ${attempt}: a previous render was rejected by the zero-human safety classifier. Rebuild the visual concept from scratch using objects, text, charts, timers, calendars, arrows, gym equipment, plates, dumbbells, machines, app UI without people, and abstract geometry only. Do not reuse any person-shaped or anatomy-shaped symbol from an earlier concept.`
+    : '';
+
+  return `Create a polished NotebookLM Video Overview for the article "${post.title}".\n\nPRIMARY RULE: explain THIS article. Do not turn it into a generic IZEM advertisement. Use only product capabilities directly relevant to the article's intent.\n\nEditorial rules:\n- Premium, practical, precise, natural language.\n- Open with the exact problem or decision the article solves.\n- Use concrete steps, comparisons, examples, or a decision framework from the article.\n- Mention IZEM only where it genuinely helps answer the topic.\n- Be fair about limitations and when a qualified professional is better.\n- Never invent testing, studies, testimonials, statistics, medical outcomes, guarantees, competitor claims, or pricing.\n- End with a short CTA to read ${post.url}.\n\nABSOLUTE VISUAL POLICY — ZERO HUMANS:\n- Do not show or depict ANY human or human-like person. Forbidden: ${facts.visualPolicy.forbidden.join(', ')}.\n- This includes photos, illustrations, cartoons, stick figures, icons, silhouettes, avatars, UI portraits, stock imagery, background figures, and body-part closeups.\n- Also forbidden: exercise pictograms, weightlifter icons, person-shaped fitness symbols, muscle/anatomy illustrations, flexed-biceps graphics, arms, hands, legs, torsos, body-part diagrams, human-form exercise diagrams, and human/body-part emoji such as 💪.\n- Do not use a human-shaped icon merely as a label in a chart, infographic, app screen, timer, checklist, or comparison.\n- Allowed/preferred: ${facts.visualPolicy.preferred.join(', ')}.\n- For exercise concepts, show equipment, set/rep tables, timers, calendars, flow arrows, plates, dumbbells, machines, or text-only diagrams instead of a person or body part.\n- If an idea normally uses a person, replace the person entirely with objects, typography, a diagram, or an abstract composition. Do not stylize or simplify the person into an icon.\n- Keep every app screen people-free.\n\nVisual direction:\n- High-end dark fitness-tech editorial design.\n- Strong typography, restrained motion, useful topic-specific diagrams and object close-ups.\n- Avoid generic transformation imagery and clutter.\n- Include one useful decision-summary or next-action slide near the end.${retryNote}`;
 }
 
 function parseJsonOutput(output) {
@@ -118,17 +122,17 @@ function notebookId(result) {
   return id;
 }
 
-async function generateNotebookVideo(post, facts) {
+async function generateNotebookVideo(post, facts, attempt = 1) {
   fs.mkdirSync(WORK_DIR, { recursive: true });
   const sourceFile = path.join(WORK_DIR, `${post.slug}-source.md`);
   const promptFile = path.join(WORK_DIR, `${post.slug}-video-prompt.txt`);
   const outputFile = path.join(WORK_DIR, `${post.slug}.mp4`);
   fs.writeFileSync(sourceFile, sourceMarkdown(post, facts), 'utf8');
-  fs.writeFileSync(promptFile, videoPrompt(post, facts), 'utf8');
+  fs.writeFileSync(promptFile, videoPrompt(post, facts, attempt), 'utf8');
   fs.rmSync(outputFile, { force: true });
 
   await runNotebookLMJson(['auth', 'check', '--test', '--json'], 2 * 60 * 1000);
-  const created = await runNotebookLMJson(['create', `IZEM Video - ${post.title}`.slice(0, 120), '--use', '--json'], 3 * 60 * 1000);
+  const created = await runNotebookLMJson(['create', `IZEM Video - ${post.title} - attempt ${attempt}`.slice(0, 120), '--use', '--json'], 3 * 60 * 1000);
   const notebook = notebookId(created);
   await runNotebookLMJson(['source', 'add', sourceFile, '-n', notebook, '--title', `${post.title} - canonical article`, '--timeout', '240', '--json'], 6 * 60 * 1000);
   await runNotebookLMJson(['generate', 'video', '-n', notebook, '--format', VIDEO_FORMAT, '--style', VIDEO_STYLE, '--prompt-file', promptFile, '--wait', '--timeout', process.env.NOTEBOOKLM_VIDEO_TIMEOUT || '1800', '--json'], 45 * 60 * 1000);
@@ -278,8 +282,24 @@ async function main() {
   }
 
   if (!process.env.NOTEBOOKLM_AUTH_JSON && process.env.CI) throw new Error('Missing NOTEBOOKLM_AUTH_JSON. Failing closed before NotebookLM generation.');
-  const generated = await generateNotebookVideo(post, facts);
-  await assertVideoIsPeopleFree(generated.outputFile);
+
+  const configuredAttempts = Number(process.env.NOTEBOOKLM_VISUAL_REGEN_ATTEMPTS || '3');
+  const maxAttempts = Number.isFinite(configuredAttempts) ? Math.max(1, Math.min(3, Math.trunc(configuredAttempts))) : 3;
+  let generated = null;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    generated = await generateNotebookVideo(post, facts, attempt);
+    try {
+      await assertVideoIsPeopleFree(generated.outputFile);
+      break;
+    } catch (error) {
+      if (error?.name !== 'VideoPolicyError' || attempt === maxAttempts) throw error;
+      console.warn(`NotebookLM render ${attempt}/${maxAttempts} was rejected by the zero-human policy; regenerating with a fresh object-only concept.`);
+      generated = null;
+    }
+  }
+
+  if (!generated) throw new Error('NotebookLM video generation ended without a people-free render.');
   const youtubeUrl = await uploadVideo(generated.outputFile, post, token);
   embedIntoPost(post, youtubeUrl);
   record(post, youtubeUrl, generated.notebookId);
