@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/sHFJ18F3BmA/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/sHFJ18F3BmA.svg</video:thumbnail_loc>
+      <video:title>How Many Exercises Per Workout? A Practical Planner</video:title>
+      <video:description>Choose how many exercises fit your workout with a free session-time calculator, full-body and split examples, and a clear explanation of exercises versus sets.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/sHFJ18F3BmA</video:player_loc>
+      <video:publication_date>2026-10-05T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/a_jG-ssT1tk/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/a_jG-ssT1tk.svg</video:thumbnail_loc>

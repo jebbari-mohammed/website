@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "sHFJ18F3BmA",
+      "title": "How Many Exercises Per Workout? A Practical Planner",
+      "description": "Choose how many exercises fit your workout with a free session-time calculator, full-body and split examples, and a clear explanation of exercises versus sets.",
+      "uploadDate": "2026-10-05",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/how-many-exercises-per-workout",
+          "relativePath": "blog/how-many-exercises-per-workout.html",
+          "title": "How Many Exercises Per Workout? A Practical Planner"
+        }
+      ]
+    },
+    {
       "id": "a_jG-ssT1tk",
       "title": "ChatGPT vs Fitness App for Workouts: What to Use in 2026",
       "description": "ChatGPT can plan and explain workouts, while connected or dedicated fitness apps can add logs, execution, adaptation and accountability. Use this 2026 decision guide.",
@@ -10,11 +23,6 @@
           "canonical": "https://youraicoach.life/blog/chatgpt-vs-fitness-app-workouts",
           "relativePath": "blog/chatgpt-vs-fitness-app-workouts.html",
           "title": "ChatGPT vs Fitness App for Workouts: What to Use in 2026"
-        },
-        {
-          "canonical": "https://youraicoach.life/blog/how-many-exercises-per-workout",
-          "relativePath": "blog/how-many-exercises-per-workout.html",
-          "title": "How Many Exercises Per Workout? A Practical Planner"
         }
       ]
     },
