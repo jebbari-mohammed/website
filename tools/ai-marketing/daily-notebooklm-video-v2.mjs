@@ -12,6 +12,8 @@ import { assertVideoIsPeopleFree } from './video-human-safety.mjs';
 import { verifyYouTubePublication } from './youtube-publication.mjs';
 import { rebuildObjectOnlyVideo } from './object-only-video.mjs';
 import { runWithSafeFailure } from './notebooklm-recovery-diagnostic.mjs';
+import { claimNativeAttempt, generateNarrationFallback } from './article-video-fallback.mjs';
+import { retryRequestedFailedVideo } from './notebooklm-retry-failed-artifact.mjs';
 
 const execFileAsync = promisify(execFile);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -106,14 +108,13 @@ function parseJsonOutput(output) {
     const start = value.indexOf('{');
     const end = value.lastIndexOf('}');
     if (start >= 0 && end > start) return JSON.parse(value.slice(start, end + 1));
-    throw new Error(`NotebookLM command did not return JSON: ${value.slice(0, 400)}`);
+    throw new Error('NotebookLM command did not return JSON.');
   }
 }
 
 async function runNotebookLM(args, timeout = 45 * 60 * 1000) {
   console.log(`$ ${NOTEBOOKLM_BIN} ${args.join(' ')}`);
   const result = await runWithSafeFailure(NOTEBOOKLM_BIN, args, { cwd: ROOT, env: process.env, timeout, maxBuffer: 32 * 1024 * 1024 }, execFileAsync);
-  if (result.stderr?.trim()) process.stderr.write(result.stderr);
   return result.stdout || '';
 }
 
@@ -121,11 +122,12 @@ async function runNotebookLMJson(args, timeout) { return parseJsonOutput(await r
 
 function notebookId(result) {
   const id = result?.active_notebook_id || result?.notebook_id || result?.id || result?.notebook?.id || result?.data?.active_notebook_id || result?.data?.notebook_id || result?.data?.notebook?.id;
-  if (!id) throw new Error(`NotebookLM create output contained no notebook id: ${JSON.stringify(result).slice(0, 700)}`);
+  if (!id) throw new Error('NotebookLM create output contained no notebook id.');
   return id;
 }
 
 async function generateNotebookVideo(post, facts, attempt = 1) {
+  claimNativeAttempt(ROOT, post);
   fs.mkdirSync(WORK_DIR, { recursive: true });
   const sourceFile = path.join(WORK_DIR, `${post.slug}-source.md`);
   const promptFile = path.join(WORK_DIR, `${post.slug}-video-prompt.txt`);
@@ -171,13 +173,13 @@ async function accessToken() {
   const body = new URLSearchParams({ client_id: clientId, client_secret: clientSecret, refresh_token: refreshToken, grant_type: 'refresh_token' }).toString();
   const response = await request({ hostname: 'oauth2.googleapis.com', path: '/token', method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(body) }, body });
   const parsed = JSON.parse(response.body || '{}');
-  if (response.status !== 200 || !parsed.access_token) throw new Error(`YouTube token request failed (${response.status}): ${response.body.slice(0, 600)}`);
+  if (response.status !== 200 || !parsed.access_token) throw new Error(`YouTube token request failed (${response.status}).`);
   return parsed.access_token;
 }
 
 async function youtubeJson(token, requestPath) {
   const response = await request({ hostname: 'www.googleapis.com', path: requestPath, headers: { Authorization: `Bearer ${token}` } });
-  if (response.status !== 200) throw new Error(`YouTube API failed (${response.status}): ${response.body.slice(0, 700)}`);
+  if (response.status !== 200) throw new Error(`YouTube API failed (${response.status}).`);
   return JSON.parse(response.body || '{}');
 }
 
@@ -215,7 +217,7 @@ async function uploadVideo(filePath, post, token) {
     hostname: 'www.googleapis.com', path: '/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status', method: 'POST',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', 'X-Upload-Content-Type': 'video/mp4', 'X-Upload-Content-Length': fileSize, 'Content-Length': Buffer.byteLength(metadata) }, body: metadata,
   });
-  if (init.status !== 200 || !init.headers.location) throw new Error(`YouTube resumable upload init failed (${init.status}): ${init.body.slice(0, 600)}`);
+  if (init.status !== 200 || !init.headers.location) throw new Error(`YouTube resumable upload init failed (${init.status}).`);
 
   return new Promise((resolve, reject) => {
     const url = new URL(init.headers.location);
@@ -226,9 +228,9 @@ async function uploadVideo(filePath, post, token) {
       res.on('end', () => {
         if (res.statusCode === 200 || res.statusCode === 201) {
           const parsed = JSON.parse(data || '{}');
-          if (!parsed.id) reject(new Error(`YouTube upload returned no video id: ${data.slice(0, 600)}`));
+          if (!parsed.id) reject(new Error('YouTube upload returned no video id.'));
           else resolve(`https://youtube.com/watch?v=${parsed.id}`);
-        } else reject(new Error(`YouTube upload failed (${res.statusCode}): ${data.slice(0, 800)}`));
+        } else reject(new Error(`YouTube upload failed (${res.statusCode}).`));
       });
     });
     stream.on('error', reject);
@@ -296,6 +298,9 @@ async function recoverRequestedNotebookVideo(post) {
   if (selected.verified !== true || selected.notebook?.id !== id || !String(selected.notebook?.title || '').startsWith(`IZEM Video - ${post.title}`)) {
     throw new Error('Recovery notebook identity does not match the canonical article.');
   }
+  const listed = await runNotebookLMJson(['artifact', 'list', '-n', id, '--type', 'video', '--json'], 2 * 60 * 1000);
+  const videos = Array.isArray(listed) ? listed : listed.artifacts;
+  if (!Array.isArray(videos) || videos.length !== 1 || videos[0].status !== 'completed') throw new Error('No single completed native video is available; use narrated recovery.');
   fs.mkdirSync(WORK_DIR, { recursive: true });
   const outputFile = path.join(WORK_DIR, `${post.slug}-recovered.mp4`);
   fs.rmSync(outputFile, { force: true });
@@ -319,11 +324,23 @@ async function main() {
     return;
   }
 
-  if (!process.env.NOTEBOOKLM_AUTH_JSON && process.env.CI) throw new Error('Missing NOTEBOOKLM_AUTH_JSON. Failing closed before NotebookLM generation.');
-
-  const recovered = await recoverRequestedNotebookVideo(post);
-  let generated = recovered || await generateNotebookVideo(post, facts);
-  if (recovered) {
+  let recovered = null;
+  let generated;
+  let fallback = false;
+  try {
+    if (!process.env.NOTEBOOKLM_AUTH_JSON && process.env.CI) throw new Error('Native video authentication is unavailable.');
+    await retryRequestedFailedVideo(ROOT);
+    recovered = await recoverRequestedNotebookVideo(post);
+    generated = recovered || await generateNotebookVideo(post, facts);
+  } catch {
+    console.warn('Native video generation/recovery unavailable. Using the bounded reviewed-text narration fallback.');
+    generated = await generateNarrationFallback(ROOT, post);
+    fallback = true;
+  }
+  if (fallback) {
+    // The fallback is a real MP4, but no renderer result is a safety approval.
+    await assertVideoIsPeopleFree(generated.outputFile);
+  } else if (recovered) {
     // Recovery never trusts the rejected original pictures. Rebuild before classifying.
     generated = { ...generated, ...await rebuildObjectOnlyVideo(generated.outputFile, post) };
     await assertVideoIsPeopleFree(generated.outputFile);
@@ -343,7 +360,7 @@ async function main() {
   const publication = await verifyPublishedVideo(post, youtubeUrl);
   embedIntoPost(post, youtubeUrl);
   record(post, youtubeUrl, generated.notebookId, publication, generated.renderMethod);
-  console.log(`NotebookLM video workflow complete: ${youtubeUrl}`);
+  console.log(`Article video workflow complete: ${youtubeUrl}`);
 }
 
 main().catch((error) => {

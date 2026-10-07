@@ -7,6 +7,7 @@ on:
       - 'public/**/*.html'
       - 'public/blog/assets/**'
       - 'data/brand/product-facts.json'
+      - 'data/marketing-employee/narrations/**'
       - 'tools/validate-jsonld.mjs'
       - 'tools/ai-marketing/blog-media-policy.mjs'
       - 'tools/ai-marketing/generate-object-blog-visuals.mjs'
@@ -15,7 +16,7 @@ on:
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
       - 'tools/ai-marketing/notebooklm-*.mjs'
-      - 'tools/ai-marketing/article-video-contract.mjs'
+      - 'tools/ai-marketing/article-video-*.mjs'
       - 'tools/ai-marketing/youtube-publication*.mjs'
       - 'tools/ai-marketing/object-only-video*.mjs'
       - 'tools/ai-marketing/.notebooklm-video-progress.json'
@@ -26,6 +27,7 @@ on:
       - 'public/**/*.html'
       - 'public/blog/assets/**'
       - 'data/brand/product-facts.json'
+      - 'data/marketing-employee/narrations/**'
       - 'tools/validate-jsonld.mjs'
       - 'tools/ai-marketing/blog-media-policy.mjs'
       - 'tools/ai-marketing/generate-object-blog-visuals.mjs'
@@ -34,7 +36,7 @@ on:
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
       - 'tools/ai-marketing/notebooklm-*.mjs'
-      - 'tools/ai-marketing/article-video-contract.mjs'
+      - 'tools/ai-marketing/article-video-*.mjs'
       - 'tools/ai-marketing/youtube-publication*.mjs'
       - 'tools/ai-marketing/object-only-video*.mjs'
       - 'tools/ai-marketing/.notebooklm-video-progress.json'
@@ -76,11 +78,15 @@ jobs:
           node --check tools/ai-marketing/notebooklm-recovery-diagnostic.mjs
           node --check tools/ai-marketing/notebooklm-retry-failed-artifact.mjs
           node --check tools/ai-marketing/article-video-contract.mjs
+          node --check tools/ai-marketing/article-video-fallback.mjs
           node --check tools/ai-marketing/youtube-publication.mjs
           node --check tools/ai-marketing/object-only-video.mjs
 
       - name: Test safe NotebookLM diagnostics and bounded retries
         run: node --test tools/ai-marketing/notebooklm-*.test.mjs
+
+      - name: Test independently narrated recovery and spending checkpoints
+        run: node --test tools/ai-marketing/article-video-fallback.test.mjs
 
       - name: Test actual YouTube publication requirements
         run: node --test tools/ai-marketing/youtube-publication*.test.mjs
@@ -92,7 +98,23 @@ jobs:
             sudo apt-get update -qq
             sudo apt-get install -y ffmpeg
           fi
-          node --test tools/ai-marketing/object-only-video.test.mjs
+          node --test tools/ai-marketing/object-only-video*.test.mjs
+
+      - name: Check a new article has a slot before merging
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          COUNT=$(git diff --name-status --diff-filter=A "$BASE_SHA" "$HEAD_SHA" -- 'public/blog/*.html' | awk '$2 ~ /^public\/blog\/[^/]+\.html$/ && $2 != "public/blog/index.html" {n++} END {print n+0}')
+          if [ "$COUNT" -gt 1 ]; then echo 'Only one new English article is permitted per release.'; exit 1; fi
+          if [ "$COUNT" -eq 1 ]; then
+            CHECK_DIR="$RUNNER_TEMP/izem-blog-slot"
+            git worktree add --detach "$CHECK_DIR" "$BASE_SHA"
+            (cd "$CHECK_DIR" && node tools/ai-marketing/weekly-publish-guard.mjs --require-slot)
+            git worktree remove "$CHECK_DIR"
+          fi
 
       - name: Enforce weekly creation ceiling
         run: node tools/ai-marketing/weekly-publish-guard.mjs
@@ -118,7 +140,6 @@ jobs:
         run: node tools/ai-marketing/blog-media-policy.mjs --check-all
 
       - name: Enforce dedicated videos before release
-        # Videos are generated only after the approved article reaches main.
-        # Keep this strict on main/manual runs and in deploy.yml, not on pre-media PRs.
+        # Media is generated after the approved article reaches main, before deployment.
         if: github.event_name != 'pull_request'
         run: node tools/ai-marketing/article-video-contract.mjs --check-all
