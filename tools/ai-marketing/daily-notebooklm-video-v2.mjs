@@ -11,6 +11,7 @@ import { fileURLToPath, URL } from 'node:url';
 import { assertVideoIsPeopleFree } from './video-human-safety.mjs';
 import { verifyYouTubePublication } from './youtube-publication.mjs';
 import { rebuildObjectOnlyVideo } from './object-only-video.mjs';
+import { recoverRequestedNarration } from './notebooklm-narration-recovery.mjs';
 
 const execFileAsync = promisify(execFile);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -320,7 +321,7 @@ async function main() {
 
   if (!process.env.NOTEBOOKLM_AUTH_JSON && process.env.CI) throw new Error('Missing NOTEBOOKLM_AUTH_JSON. Failing closed before NotebookLM generation.');
 
-  const recovered = await recoverRequestedNotebookVideo(post);
+  const recovered = await recoverRequestedNarration(ROOT, post) || await recoverRequestedNotebookVideo(post);
   let generated = recovered || await generateNotebookVideo(post, facts);
   if (recovered) {
     // Recovery never trusts the rejected original pictures. Rebuild before classifying.
