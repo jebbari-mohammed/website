@@ -5,7 +5,9 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inspectRequestedRecovery } from './notebooklm-recovery-diagnostic.mjs';
+import { retryRequestedFailedVideo } from './notebooklm-retry-failed-artifact.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 await inspectRequestedRecovery(root);
+await retryRequestedFailedVideo(root);
 await import('./daily-notebooklm-video-v2.mjs');
