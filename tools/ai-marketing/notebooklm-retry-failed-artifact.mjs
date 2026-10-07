@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { classifyFailure } from './notebooklm-recovery-diagnostic.mjs';
+import { runWithSafeFailure } from './notebooklm-recovery-diagnostic.mjs';
 
 const exec = promisify(execFile);
 const UUID = /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i;
@@ -26,8 +26,8 @@ export async function retryRequestedFailedVideo(root, env = process.env, run = e
   const command = env.NOTEBOOKLM_BIN || 'notebooklm';
   async function json(args, timeout = 120000) {
     let result;
-    try { result = await run(command, args, { cwd: root, env, timeout, maxBuffer: 4 * 1024 * 1024 }); }
-    catch (error) { throw new Error(`NotebookLM bounded retry: ${classifyFailure(error)}. No further retry was attempted.`); }
+    try { result = await runWithSafeFailure(command, args, { cwd: root, env, timeout, maxBuffer: 4 * 1024 * 1024 }, run); }
+    catch (error) { throw new Error(`${error.message} No further retry was attempted.`); }
     try { return JSON.parse(String(result.stdout || '').trim()); }
     catch { throw new Error('NotebookLM bounded retry: INVALID_JSON.'); }
   }
