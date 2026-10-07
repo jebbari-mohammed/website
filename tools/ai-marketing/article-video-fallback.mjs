@@ -37,7 +37,7 @@ export function persistCheckpoint(root, file, state, env = process.env, run = ex
   if (!/^data\/marketing-employee\/video-attempts\/[a-z0-9-]+\.json$/.test(relative)) throw new Error('Invalid video checkpoint path.');
   const options = { cwd: root, env, encoding: 'utf8', timeout: 60000, stdio: ['ignore', 'pipe', 'pipe'] };
   try {
-    run('git', ['add', '--', relative], options);
+    run('git', ['add', '--force', '--', relative], options);
     run('git', ['-c', 'user.name=IZEM Video Publisher', '-c', 'user.email=editorial@youraicoach.life', 'commit', '--only', '-m', `video: checkpoint bounded attempt for ${state.slug}`, '--', relative], options);
     run('git', ['push', 'origin', 'HEAD:main'], options);
   } catch { throw new Error('Video attempt checkpoint could not be persisted; no new provider request is allowed.'); }
