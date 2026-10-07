@@ -1,11 +1,11 @@
 {
-  "requestId": "2026-10-07-workout-split-failed-artifact-retry-002",
+  "requestId": "workout-split-owner-authorized-retry-003",
   "slug": "best-workout-split",
   "recoverNotebookId": "16bc39aa-13a5-491a-a6ee-753c2c82ae54",
   "sourceRunId": 37554764905,
   "retryFailedArtifactOnce": true,
   "retryWorkflowRunId": "37555071131",
-  "retryWorkflowRunAttempt": "4",
-  "reason": "Read-only diagnostics confirmed one ready canonical source and one failed video in the exact article notebook. Allow the provider's in-place artifact retry exactly once, only during the named run and attempt. Do not create another notebook or duplicate video artifact. A completed result must still pass the existing rebuilt object-only visuals, full-duration classifier, actual public YouTube publication verification, dedicated-video contract and Firebase deployment. Quota or repeated generation failure remains a release blocker.",
-  "requestedAt": "2026-10-07"
+  "retryWorkflowRunAttempt": "7",
+  "reason": "The owner explicitly approved one further actual generation retry after the corrected diagnostics, followed by an independent narration/rendering fallback if native generation fails. Authorize the existing in-place retry only for this exact run and attempt; do not create another notebook or native video. Existing people-free validation, genuine public YouTube processing, article-video contract and deployment checks remain required. No unlimited native retries are authorized.",
+  "requestedAt": "2026-10-06"
 }
