@@ -1,8 +1,8 @@
 {
-  "requestId": "2026-10-06-exercise-count-deterministic-recovery-004",
-  "slug": "how-many-exercises-per-workout",
-  "recoverNotebookId": "e22a2847-546c-4f5f-9f43-8992df47fb2c",
-  "sourceRunId": 37542913379,
-  "reason": "Recover the completed article-specific NotebookLM narration from the verified failed run, discard every original visual frame, rebuild canonical article typography, pass the same people-free classifier, and verify the new YouTube video is public and processed before completing the article release. Reuse a matching validated public upload if another active run already completed it; never upload a duplicate or the rejected original visual track.",
-  "requestedAt": "2026-10-06T23:21:53Z"
+  "requestId": "2026-10-07-workout-split-existing-notebook-recovery-001",
+  "slug": "best-workout-split",
+  "recoverNotebookId": "16bc39aa-13a5-491a-a6ee-753c2c82ae54",
+  "sourceRunId": 37554764905,
+  "reason": "The approved article is merged but its NotebookLM generate command exited unsuccessfully. Check the exact notebook created by that run using the existing recovery path, and recover an available article-specific output only if one actually exists. Do not initiate another generation in this recovery attempt. Verify notebook identity, discard original visuals, rebuild canonical article typography, enforce people-free validation, and verify a matching YouTube upload is public and processed before deployment. Absence of a recoverable output must remain a failure, not an invented video record or skipped gate.",
+  "requestedAt": "2026-10-07"
 }
