@@ -1,8 +1,11 @@
 {
-  "requestId": "2026-10-07-workout-split-existing-notebook-recovery-001",
+  "requestId": "2026-10-07-workout-split-failed-artifact-retry-002",
   "slug": "best-workout-split",
   "recoverNotebookId": "16bc39aa-13a5-491a-a6ee-753c2c82ae54",
   "sourceRunId": 37554764905,
-  "reason": "The approved article is merged but its NotebookLM generate command exited unsuccessfully. Check the exact notebook created by that run using the existing recovery path, and recover an available article-specific output only if one actually exists. Do not initiate another generation in this recovery attempt. Verify notebook identity, discard original visuals, rebuild canonical article typography, enforce people-free validation, and verify a matching YouTube upload is public and processed before deployment. Absence of a recoverable output must remain a failure, not an invented video record or skipped gate.",
+  "retryFailedArtifactOnce": true,
+  "retryWorkflowRunId": "37555071131",
+  "retryWorkflowRunAttempt": "4",
+  "reason": "Read-only diagnostics confirmed one ready canonical source and one failed video in the exact article notebook. Allow the provider's in-place artifact retry exactly once, only during the named run and attempt. Do not create another notebook or duplicate video artifact. A completed result must still pass the existing rebuilt object-only visuals, full-duration classifier, actual public YouTube publication verification, dedicated-video contract and Firebase deployment. Quota or repeated generation failure remains a release blocker.",
   "requestedAt": "2026-10-07"
 }
