@@ -37,10 +37,12 @@ function harness(overrides = {}) {
   let issued = 0;
   const context = {
     loadEnv() {}, readPost: () => ({ slug: 'test-article' }), productFacts: () => ({}),
+    ROOT: '/repo',
     process: { env: { NOTEBOOKLM_AUTH_JSON: 'test-fixture-only' } },
     console: { log() {}, warn() {} },
     accessToken: async () => `token-${++issued}`,
     findValidatedExistingVideo: async () => null,
+    recoverRequestedNarration: async () => null,
     recoverRequestedNotebookVideo: async () => null,
     generateNotebookVideo: async () => { calls.push('generate'); return { outputFile: 'video.mp4', notebookId: 'test-notebook' }; },
     rebuildObjectOnlyVideo: async () => { calls.push('rebuild'); return { outputFile: 'rebuilt.mp4', renderMethod: 'notebooklm-narration-object-typography-v1' }; },
@@ -92,6 +94,25 @@ test('an explicitly recovered narration is rebuilt before its only safety check'
   });
   await run(); assert.deepEqual(checked, ['rebuilt.mp4']); assert.ok(!calls.includes('generate'));
   assert.ok(calls.indexOf('rebuild') < calls.indexOf('upload:token-2'));
+});
+test('audio-only narration enters the same rebuild, safety and public verification path', async () => {
+  const checked = []; let rebuiltInput = '';
+  const { calls, run } = harness({
+    recoverRequestedNarration: async (root, post) => {
+      assert.equal(root, '/repo'); assert.equal(post.slug, 'test-article');
+      return { outputFile: 'canonical.m4a', notebookId: 'known-notebook' };
+    },
+    recoverRequestedNotebookVideo: async () => { throw new Error('should not request another video'); },
+    rebuildObjectOnlyVideo: async (file) => { rebuiltInput = file; return { outputFile: 'rebuilt.mp4' }; },
+    assertVideoIsPeopleFree: async (file) => { checked.push(file); },
+  });
+  await run(); assert.equal(rebuiltInput, 'canonical.m4a'); assert.deepEqual(checked, ['rebuilt.mp4']);
+  assert.ok(!calls.includes('generate'));
+  assert.deepEqual(calls, ['upload:token-2', 'verify', 'embed', 'record']);
+});
+test('failed narration cannot fall through to more generation or publication', async () => {
+  const { calls, run } = harness({ recoverRequestedNarration: async () => { throw new Error('narration failed'); } });
+  await assert.rejects(run(), /narration failed/); assert.deepEqual(calls, []);
 });
 test('classifier infrastructure errors fail closed rather than upload or regenerate blindly', async () => {
   const { calls, run } = harness({ assertVideoIsPeopleFree: async () => { throw new Error('classifier unavailable'); } });
