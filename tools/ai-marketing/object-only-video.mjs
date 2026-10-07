@@ -80,14 +80,21 @@ async function probe(file) {
   return JSON.parse(result.stdout);
 }
 
-/** Discard ALL generated video frames; retain only that article's NotebookLM narration. */
-export async function rebuildObjectOnlyVideo(inputFile, post) {
+/** Discard original pictures and render only bounded, text-only article slides. */
+export async function rebuildObjectOnlyVideo(inputFile, post, options = {}) {
   const input = fs.realpathSync(inputFile);
   const media = await probe(input);
   const audio = media.streams?.find((stream) => stream.codec_type === 'audio');
   const duration = Number(audio?.duration || media.format?.duration);
-  if (!audio || !Number.isFinite(duration) || duration <= 0 || duration > 1200) throw new Error('A bounded NotebookLM narration track is required.');
-  const slides = storyboardFromArticle(post);
+  if (!audio || !Number.isFinite(duration) || duration <= 0 || duration > 1200) throw new Error('A bounded article narration track is required.');
+  const defaults = storyboardFromArticle(post); // Always validate canonical article input.
+  const slides = options.slides || defaults;
+  if (!Array.isArray(slides) || slides.length < 3 || slides.length > 10 || slides.some(s => !s || typeof s.heading !== 'string' || typeof s.body !== 'string' || s.heading.length > 180 || s.body.length > 2000)) throw new Error('Invalid text-only video storyboard.');
+  const weights = options.durationWeights || slides.map(() => 1);
+  if (!Array.isArray(weights) || weights.length !== slides.length || weights.some(w => !Number.isFinite(w) || w <= 0 || w > 2500)) throw new Error('Invalid storyboard timing weights.');
+  const totalWeight = weights.reduce((a, b) => a + b, 0);
+  const fallback = options.narrationSource === 'gemini-tts-canonical-script';
+  if (options.narrationSource && !fallback) throw new Error('Unrecognized narration source.');
   const work = fs.mkdtempSync(path.join(os.tmpdir(), 'izem-object-video-'));
   const outputFile = path.join(work, 'object-only.mp4');
   try {
@@ -98,7 +105,7 @@ export async function rebuildObjectOnlyVideo(inputFile, post) {
       const pngFile = path.join(work, `${basename}.png`);
       fs.writeFileSync(svgFile, slideSvg(slide, index, slides.length));
       await execute('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-i', svgFile, '-frames:v', '1', pngFile], { timeout: 60000 });
-      concat.push(`file '${basename}.png'`, `duration ${(duration / slides.length).toFixed(6)}`);
+      concat.push(`file '${basename}.png'`, `duration ${(duration * weights[index] / totalWeight).toFixed(6)}`);
     }
     concat.push(`file 'slide-${String(slides.length - 1).padStart(2, '0')}.png'`);
     const list = path.join(work, 'slides.ffconcat');
@@ -112,8 +119,8 @@ export async function rebuildObjectOnlyVideo(inputFile, post) {
     const final = await probe(outputFile);
     if (!final.streams?.some((s) => s.codec_type === 'audio') || !final.streams?.some((s) => s.codec_type === 'video')
       || Math.abs(Number(final.format?.duration) - duration) > 1 || fs.statSync(outputFile).size < 10000) throw new Error('Rebuilt video failed duration or stream validation.');
-    console.log(`Rebuilt ${slides.length} deterministic typography slides with ${duration.toFixed(2)} seconds of original NotebookLM narration; original visual track discarded.`);
-    return { outputFile, renderMethod: 'notebooklm-narration-object-typography-v1', durationSeconds: duration, slideCount: slides.length };
+    console.log(`Rebuilt ${slides.length} deterministic typography slides with ${duration.toFixed(2)} seconds of ${fallback ? 'reviewed-script synthesized' : 'original NotebookLM'} narration; original visual track discarded.`);
+    return { outputFile, renderMethod: fallback ? 'gemini-tts-canonical-object-v1' : 'notebooklm-narration-object-typography-v1', durationSeconds: duration, slideCount: slides.length };
   } catch (error) {
     fs.rmSync(work, { recursive: true, force: true });
     throw error;

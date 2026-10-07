@@ -37,10 +37,13 @@ function harness(overrides = {}) {
   let issued = 0;
   const context = {
     loadEnv() {}, readPost: () => ({ slug: 'test-article' }), productFacts: () => ({}),
+    ROOT: '/repo',
     process: { env: { NOTEBOOKLM_AUTH_JSON: 'test-fixture-only' } },
     console: { log() {}, warn() {} },
     accessToken: async () => `token-${++issued}`,
     findValidatedExistingVideo: async () => null,
+    retryRequestedFailedVideo: async () => {},
+    generateNarrationFallback: async () => { calls.push('fallback'); return {outputFile:'fallback.mp4',renderMethod:'gemini-tts-canonical-object-v1'}; },
     recoverRequestedNotebookVideo: async () => null,
     generateNotebookVideo: async () => { calls.push('generate'); return { outputFile: 'video.mp4', notebookId: 'test-notebook' }; },
     rebuildObjectOnlyVideo: async () => { calls.push('rebuild'); return { outputFile: 'rebuilt.mp4', renderMethod: 'notebooklm-narration-object-typography-v1' }; },
@@ -119,3 +122,21 @@ for (const selected of [
     await assert.rejects(result, /identity/); assert.ok(!commands.includes('download'));
   });
 }
+for (const stage of ['generateNotebookVideo','recoverRequestedNotebookVideo','retryRequestedFailedVideo']) {
+  test(`native ${stage} failure produces fallback through the same verification path`, async () => {
+    const {calls,run}=harness({[stage]:async()=>{throw Error('native failed');}});
+    await run();assert.deepEqual(calls,['fallback','safety','upload:token-2','verify','embed','record']);
+  });
+}
+test('missing native auth can use the independently configured narration fallback',async()=>{
+ const {calls,run}=harness({process:{env:{CI:'true'}}});await run();assert.deepEqual(calls,['fallback','safety','upload:token-2','verify','embed','record']);
+});
+test('fallback failure never uploads or marks completion',async()=>{
+ const {calls,run}=harness({generateNotebookVideo:async()=>{throw Error('native');},generateNarrationFallback:async()=>{throw Error('speech failed');}});await assert.rejects(run(),/speech failed/);assert.deepEqual(calls,[]);
+});
+test('fallback output rejected by classifier cannot upload or pass via native retries',async()=>{
+ const {calls,run}=harness({generateNotebookVideo:async()=>{throw Error('native');},assertVideoIsPeopleFree:async()=>{throw Error('unsafe');}});await assert.rejects(run(),/unsafe/);assert.deepEqual(calls,['fallback']);
+});
+test('fallback upload remains uncompleted if YouTube is not public',async()=>{
+ const {calls,run}=harness({generateNotebookVideo:async()=>{throw Error('native');},verifyPublishedVideo:async()=>{throw Error('not public');}});await assert.rejects(run(),/not public/);assert.ok(!calls.includes('record'));assert.ok(!calls.includes('embed'));
+});
