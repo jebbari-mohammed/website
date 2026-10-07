@@ -27,7 +27,7 @@ function failureEvidence(error) {
   for (const output of outputs) {
     try {
       const value = JSON.parse(output.trim());
-      const codes = [value?.code, value?.error?.code, typeof value?.error === 'string' ? value.error : null];
+      const codes = [value?.code, value?.error_code, value?.error?.code, value?.error?.error_code, typeof value?.error === 'string' ? value.error : null];
       providerCode = codes.find((code) => CODE_CATEGORIES.has(code)) || providerCode;
     } catch { /* Non-JSON diagnostics are classified, never printed. */ }
   }
@@ -57,7 +57,7 @@ export function classifyFailure(error) {
 export function summarizeCommandFailure(error, args = []) {
   const operation = `${args[0] || ''} ${args[1] || ''}`;
   return {
-    operation: OPERATIONS.has(operation) ? operation : ['create', 'use'].includes(args[0]) ? args[0] : 'notebooklm',
+    operation: OPERATIONS.has(operation) ? operation : ['create', 'use', 'usage'].includes(args[0]) ? args[0] : 'notebooklm',
     category: classifyFailure(error),
     providerCode: failureEvidence(error).providerCode,
     exitCode: Number.isInteger(error?.code) && error.code >= 0 && error.code <= 255 ? error.code : null,
@@ -91,6 +91,46 @@ export function summarizeListing(value, field) {
   return { count: items.length, states };
 }
 
+// artifact poll is a single read: its JSON can report a failure even at exit 0.
+// Never classify its URL, metadata, title or prompt as failure evidence.
+export function summarizeArtifactPoll(value, expectedId) {
+  if (!UUID.test(String(expectedId)) || value?.task_id !== expectedId) return { shape: 'identity_mismatch' };
+  const rawError = value?.error;
+  const error = typeof rawError === 'string' ? rawError.slice(0, 4096) : {
+    code: rawError?.code,
+    message: typeof rawError?.message === 'string' ? rawError.message.slice(0, 4096) : undefined,
+  };
+  const evidence = { stdout: JSON.stringify({ error_code: value?.error_code, error }) };
+  const status = STATES.has(value?.status) ? value.status : 'unknown';
+  const hasError = Boolean(rawError);
+  return {
+    status,
+    category: ['failed', 'error'].includes(status) || hasError || value?.error_code
+      ? classifyFailure(evidence) : null,
+    providerCode: failureEvidence(evidence).providerCode,
+    hasError,
+    hasDownloadUrl: typeof value?.url === 'string' && value.url.length > 0,
+  };
+}
+
+const booleanOrNull = (value) => typeof value === 'boolean' ? value : null;
+
+// Only availability booleans and numeric category codes are public. Do not log
+// account IDs, percentages, reset timestamps, URLs or arbitrary response fields.
+// Current availability is not proof of the cause of an earlier failed request.
+export function summarizeUsage(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return { shape: 'unrecognized' };
+  return {
+    status: ['ready', 'disabled', 'skipped'].includes(value.status) ? value.status : 'unknown',
+    available: booleanOrNull(value.available),
+    exhausted: booleanOrNull(value.is_exhausted),
+    categories: Array.isArray(value.actions) ? value.actions
+      .filter((item) => Number.isInteger(item?.code) && item.code >= 0 && item.code <= 100)
+      .slice(0, 100)
+      .map((item) => ({ code: item.code, sufficient: booleanOrNull(item.has_sufficient_quota) })) : [],
+  };
+}
+
 export async function inspectRequestedRecovery(root, env = process.env, run = exec, log = console.log) {
   const file = path.join(root, 'data/marketing-employee/video-repair-request.json');
   if (!fs.existsSync(file)) return;
@@ -99,18 +139,27 @@ export async function inspectRequestedRecovery(root, env = process.env, run = ex
   if (!UUID.test(String(request.recoverNotebookId))) throw new Error('Invalid recovery notebook id.');
   const notebook = request.recoverNotebookId;
   const command = env.NOTEBOOKLM_BIN || 'notebooklm';
-  for (const [field, args] of [
-    ['sources', ['source', 'list', '-n', notebook, '--json']],
-    ['artifacts', ['artifact', 'list', '-n', notebook, '--type', 'video', '--json']],
-  ]) {
+  const inspect = async (label, args, summarize) => {
     try {
       const result = await run(command, args, { cwd: root, env, timeout: 120000, maxBuffer: 4 * 1024 * 1024 });
       let value;
       try { value = JSON.parse(String(result.stdout || '').trim()); }
-      catch { log(`NotebookLM recovery ${field}: INVALID_JSON`); continue; }
-      log(`NotebookLM recovery ${field}: ${JSON.stringify(summarizeListing(value, field))}`);
+      catch { log(`NotebookLM recovery ${label}: INVALID_JSON`); return null; }
+      log(`NotebookLM recovery ${label}: ${JSON.stringify(summarize(value))}`);
+      return value;
     } catch (error) {
-      log(`NotebookLM recovery ${field}: ${JSON.stringify(summarizeCommandFailure(error, args))}`);
+      log(`NotebookLM recovery ${label}: ${JSON.stringify(summarizeCommandFailure(error, args))}`);
+      return null;
     }
+  };
+  await inspect('sources', ['source', 'list', '-n', notebook, '--json'], (value) => summarizeListing(value, 'sources'));
+  const listing = await inspect('artifacts', ['artifact', 'list', '-n', notebook, '--type', 'video', '--json'], (value) => summarizeListing(value, 'artifacts'));
+  const artifacts = Array.isArray(listing) ? listing : listing?.artifacts;
+  // At most two extra read-only calls, and only for a single identified failed
+  // video in the requested notebook. This does not call retry, generate or upload.
+  if (Array.isArray(artifacts) && artifacts.length === 1 && artifacts[0]?.status === 'failed' && UUID.test(String(artifacts[0]?.id))) {
+    const id = artifacts[0].id;
+    await inspect('artifact-status', ['artifact', 'poll', id, '-n', notebook, '--json'], (value) => summarizeArtifactPoll(value, id));
+    await inspect('usage', ['usage', '--json'], summarizeUsage);
   }
 }
