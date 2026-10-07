@@ -11,6 +11,7 @@ import { fileURLToPath, URL } from 'node:url';
 import { assertVideoIsPeopleFree } from './video-human-safety.mjs';
 import { verifyYouTubePublication } from './youtube-publication.mjs';
 import { rebuildObjectOnlyVideo } from './object-only-video.mjs';
+import { recoverRequestedNarration } from './notebooklm-narration-recovery.mjs';
 
 const execFileAsync = promisify(execFile);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -289,7 +290,7 @@ async function recoverRequestedNotebookVideo(post) {
   const repair = readJson(path.join(ROOT, 'data/marketing-employee/video-repair-request.json'), null);
   if (repair?.slug !== post.slug || !repair.recoverNotebookId) return null;
   const id = String(repair.recoverNotebookId);
-  if (!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(id)) throw new Error('Invalid recovery notebook id.');
+  if (!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(id)) throw new Error('Invalid recovery notebook id.');
   await runNotebookLMJson(['auth', 'check', '--test', '--json'], 2 * 60 * 1000);
   const selected = await runNotebookLMJson(['use', id, '--json'], 2 * 60 * 1000);
   if (selected.verified !== true || selected.notebook?.id !== id || !String(selected.notebook?.title || '').startsWith(`IZEM Video - ${post.title}`)) {
@@ -320,7 +321,7 @@ async function main() {
 
   if (!process.env.NOTEBOOKLM_AUTH_JSON && process.env.CI) throw new Error('Missing NOTEBOOKLM_AUTH_JSON. Failing closed before NotebookLM generation.');
 
-  const recovered = await recoverRequestedNotebookVideo(post);
+  const recovered = await recoverRequestedNarration(ROOT, post) || await recoverRequestedNotebookVideo(post);
   let generated = recovered || await generateNotebookVideo(post, facts);
   if (recovered) {
     // Recovery never trusts the rejected original pictures. Rebuild before classifying.

@@ -1,11 +1,12 @@
 {
-  "requestId": "2026-10-07-workout-split-failed-artifact-retry-002",
+  "requestId": "2026-10-07-workout-split-narration-recovery-003",
   "slug": "best-workout-split",
   "recoverNotebookId": "16bc39aa-13a5-491a-a6ee-753c2c82ae54",
   "sourceRunId": 37554764905,
-  "retryFailedArtifactOnce": true,
-  "retryWorkflowRunId": "37555071131",
-  "retryWorkflowRunAttempt": "4",
-  "reason": "Read-only diagnostics confirmed one ready canonical source and one failed video in the exact article notebook. Allow the provider's in-place artifact retry exactly once, only during the named run and attempt. Do not create another notebook or duplicate video artifact. A completed result must still pass the existing rebuilt object-only visuals, full-duration classifier, actual public YouTube publication verification, dedicated-video contract and Firebase deployment. Quota or repeated generation failure remains a release blocker.",
+  "retryFailedArtifactOnce": false,
+  "recoverNarration": true,
+  "narrationWorkflowRunId": "37555071131",
+  "narrationWorkflowRunAttempt": "5",
+  "reason": "Native video generation and its one in-place retry failed. Use the same ready canonical article source for one brief NotebookLM narration, then the existing deterministic object-only video renderer and existing uploader. No new notebook, no source copy, no duplicate video, and no automatic generation retries. Check provider quota before generation. Exact completed narration identity, real media streams, people-free validation, public YouTube processing, dedicated article-video contract and normal hosting release remain required. The article and calendar are unchanged.",
   "requestedAt": "2026-10-07"
 }
