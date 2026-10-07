@@ -14,6 +14,7 @@ on:
       - 'tools/ai-marketing/video-human-safety.mjs'
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
+      - 'tools/ai-marketing/notebooklm-*.mjs'
       - 'tools/ai-marketing/article-video-contract.mjs'
       - 'tools/ai-marketing/youtube-publication*.mjs'
       - 'tools/ai-marketing/object-only-video*.mjs'
@@ -32,6 +33,7 @@ on:
       - 'tools/ai-marketing/video-human-safety.mjs'
       - 'tools/ai-marketing/product-facts-contract.mjs'
       - 'tools/ai-marketing/daily-notebooklm-video*.mjs'
+      - 'tools/ai-marketing/notebooklm-*.mjs'
       - 'tools/ai-marketing/article-video-contract.mjs'
       - 'tools/ai-marketing/youtube-publication*.mjs'
       - 'tools/ai-marketing/object-only-video*.mjs'
@@ -71,9 +73,14 @@ jobs:
           node --check tools/ai-marketing/product-facts-contract.mjs
           node --check tools/ai-marketing/daily-notebooklm-video.mjs
           node --check tools/ai-marketing/daily-notebooklm-video-v2.mjs
+          node --check tools/ai-marketing/notebooklm-recovery-diagnostic.mjs
+          node --check tools/ai-marketing/notebooklm-retry-failed-artifact.mjs
           node --check tools/ai-marketing/article-video-contract.mjs
           node --check tools/ai-marketing/youtube-publication.mjs
           node --check tools/ai-marketing/object-only-video.mjs
+
+      - name: Test safe NotebookLM diagnostics and bounded retries
+        run: node --test tools/ai-marketing/notebooklm-*.test.mjs
 
       - name: Test actual YouTube publication requirements
         run: node --test tools/ai-marketing/youtube-publication*.test.mjs
