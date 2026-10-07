@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "kZ722weBkfE",
+      "title": "Best Workout Split: 2–6 Days Compared",
+      "description": "Compare workout splits for 2–6 days. Check your available weekdays, see what a missed session changes, and copy a schedule before planning the exercises.",
+      "uploadDate": "2026-10-07",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/best-workout-split",
+          "relativePath": "blog/best-workout-split.html",
+          "title": "Best Workout Split: 2–6 Days Compared"
+        }
+      ]
+    },
+    {
       "id": "sHFJ18F3BmA",
       "title": "How Many Exercises Per Workout? A Practical Planner",
       "description": "Choose how many exercises fit your workout with a free session-time calculator, full-body and split examples, and a clear explanation of exercises versus sets.",

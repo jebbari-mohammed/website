@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/kZ722weBkfE/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/kZ722weBkfE.svg</video:thumbnail_loc>
+      <video:title>Best Workout Split: 2–6 Days Compared</video:title>
+      <video:description>Compare workout splits for 2–6 days. Check your available weekdays, see what a missed session changes, and copy a schedule before planning the exercises.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/kZ722weBkfE</video:player_loc>
+      <video:publication_date>2026-10-07T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/sHFJ18F3BmA/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/sHFJ18F3BmA.svg</video:thumbnail_loc>
