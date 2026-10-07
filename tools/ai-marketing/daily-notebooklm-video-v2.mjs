@@ -11,6 +11,7 @@ import { fileURLToPath, URL } from 'node:url';
 import { assertVideoIsPeopleFree } from './video-human-safety.mjs';
 import { verifyYouTubePublication } from './youtube-publication.mjs';
 import { rebuildObjectOnlyVideo } from './object-only-video.mjs';
+import { runWithSafeFailure } from './notebooklm-recovery-diagnostic.mjs';
 
 const execFileAsync = promisify(execFile);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -111,7 +112,7 @@ function parseJsonOutput(output) {
 
 async function runNotebookLM(args, timeout = 45 * 60 * 1000) {
   console.log(`$ ${NOTEBOOKLM_BIN} ${args.join(' ')}`);
-  const result = await execFileAsync(NOTEBOOKLM_BIN, args, { cwd: ROOT, env: process.env, timeout, maxBuffer: 32 * 1024 * 1024 });
+  const result = await runWithSafeFailure(NOTEBOOKLM_BIN, args, { cwd: ROOT, env: process.env, timeout, maxBuffer: 32 * 1024 * 1024 }, execFileAsync);
   if (result.stderr?.trim()) process.stderr.write(result.stderr);
   return result.stdout || '';
 }
