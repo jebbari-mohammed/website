@@ -290,7 +290,7 @@ async function recoverRequestedNotebookVideo(post) {
   const repair = readJson(path.join(ROOT, 'data/marketing-employee/video-repair-request.json'), null);
   if (repair?.slug !== post.slug || !repair.recoverNotebookId) return null;
   const id = String(repair.recoverNotebookId);
-  if (!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(id)) throw new Error('Invalid recovery notebook id.');
+  if (!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(id)) throw new Error('Invalid recovery notebook id.');
   await runNotebookLMJson(['auth', 'check', '--test', '--json'], 2 * 60 * 1000);
   const selected = await runNotebookLMJson(['use', id, '--json'], 2 * 60 * 1000);
   if (selected.verified !== true || selected.notebook?.id !== id || !String(selected.notebook?.title || '').startsWith(`IZEM Video - ${post.title}`)) {
