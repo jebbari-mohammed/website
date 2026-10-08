@@ -1,0 +1,17 @@
+{
+  "name": "izem-agent-pages",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.mjs",
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "firebase-functions": "7.4.0",
+    "negotiator": "1.1.0"
+  },
+  "devDependencies": {
+    "turndown": "7.2.4"
+  }
+}
