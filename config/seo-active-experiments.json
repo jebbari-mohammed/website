@@ -1,11 +1,23 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-05",
+  "updatedAt": "2026-10-08",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
   },
   "locks": [
+    {
+      "id": "homepage-visible-faq-2026-10-08",
+      "url": "/#faq",
+      "files": [
+        "src/content/homepage-faq.json",
+        "src/components/Faq.tsx"
+      ],
+      "launchedAt": "2026-10-08",
+      "lockUntil": "2026-10-29",
+      "preferredReviewAt": "2026-11-05",
+      "reason": "Seven visible product questions share their exact answers with homepage structured data and Markdown. Preserve this FAQ during a 21-day observation window; factual, safety, rendering, indexing and deployment corrections remain subject to the documented correction process. See docs/seo-experiments/2026-10-08-homepage-geo.md."
+    },
     {
       "id": "accountability-apps-scorecard-refresh-2026-09-14",
       "url": "/blog/accountability-apps-for-working-out",

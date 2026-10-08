@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { load } from 'cheerio';
+import { synchronizeHomepageFaq } from './sync-homepage-faq.mjs';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // Run again with AGENT_METADATA_ROOT=dist to validate the final deployment artifacts.
@@ -15,6 +16,13 @@ const homepage = fs.readFileSync(path.join(artifactRoot || projectRoot, 'index.h
 const $ = load(homepage);
 const llms = fs.readFileSync(path.join(publicRoot, 'llms.txt'), 'utf8');
 const origin = 'https://youraicoach.life';
+const faq = JSON.parse(fs.readFileSync(path.join(projectRoot, 'src/content/homepage-faq.json'), 'utf8'));
+
+function schemaNodes() {
+  return $('script[type="application/ld+json"]').toArray()
+    .map(element => JSON.parse($(element).text()))
+    .flatMap(document => document['@graph'] || (Array.isArray(document) ? document : [document]));
+}
 
 function property(name) {
   const element = $(`head meta[property="${name}"]`);
@@ -137,8 +145,7 @@ test('homepage social image is a real local PNG with accurate MIME, dimensions a
 });
 
 test('Organization JSON-LD contact and locality match the published footer', () => {
-  const documents = $('script[type="application/ld+json"]').toArray().map(element => JSON.parse($(element).text()));
-  const nodes = documents.flatMap(document => document['@graph'] || (Array.isArray(document) ? document : [document]));
+  const nodes = schemaNodes();
   const organizations = nodes.filter(node => node['@type'] === 'Organization' && node.name === 'IZEM');
   assert.equal(organizations.length, 1, 'Use one complete homepage Organization entity');
   const organization = organizations[0];
@@ -159,4 +166,90 @@ test('Organization JSON-LD contact and locality match the published footer', () 
     : load(fs.readFileSync(path.join(projectRoot, 'src/components/Footer.tsx'), 'utf8'))('footer').text();
   assert.match(footer, /Location:\s*Casablanca, Morocco/);
   assert.ok(footer.includes(organization.contactPoint.email), 'Schema support contact must remain publicly visible');
+});
+
+test('homepage application, service, website and publisher share resolvable entity identities', () => {
+  const nodes = schemaNodes();
+  const byId = new Map(nodes.map(node => [node['@id'], node]));
+  assert.equal(byId.size, nodes.length, 'Every homepage entity needs a unique stable @id');
+  const app = byId.get(`${origin}/#app`);
+  assert.deepEqual(app['@type'], ['SoftwareApplication', 'MobileApplication']);
+  assert.equal(app.name, 'IZEM. Your AI Personal Trainer');
+  assert.equal(app.operatingSystem, 'iOS, Android');
+  assert.equal(app.author['@id'], `${origin}/#organization`);
+  assert.equal(app.publisher['@id'], `${origin}/#organization`);
+  for (const field of ['offers', 'aggregateRating', 'review', 'downloadUrl', 'installUrl']) {
+    assert.equal(app[field], undefined, `Do not invent ${field} for the app awaiting review`);
+  }
+  const service = byId.get(`${origin}/#coaching-service`);
+  assert.equal(service['@type'], 'Service');
+  assert.equal(service.provider['@id'], app.publisher['@id']);
+  const page = byId.get(`${origin}/#webpage`);
+  assert.equal(page.mainEntity['@id'], app['@id']);
+  assert.equal(page.isPartOf['@id'], `${origin}/#website`);
+  assert.equal(page.hasPart['@id'], `${origin}/#faq`);
+  const sitemap = load(fs.readFileSync(path.join(publicRoot, 'sitemap.xml'), 'utf8'), { xmlMode: true });
+  const homepageEntry = sitemap('url').filter((_index, element) => sitemap(element).find('loc').text() === `${origin}/`);
+  assert.equal(homepageEntry.find('lastmod').text(), page.dateModified, 'Homepage sitemap date must reflect its published modification date');
+
+  function checkReferences(value) {
+    if (!value || typeof value !== 'object') return;
+    if (value['@id'] && Object.keys(value).length === 1) {
+      assert.ok(byId.has(value['@id']), `Unresolved entity reference: ${value['@id']}`);
+    }
+    for (const child of Object.values(value)) checkReferences(child);
+  }
+  nodes.forEach(checkReferences);
+});
+
+test('the shared homepage FAQ matches visible answers and their JSON-LD exactly', () => {
+  if (!artifactRoot) assert.equal(synchronizeHomepageFaq(homepage), homepage, 'Run the FAQ sync before publication');
+  const faqSchemas = schemaNodes().filter(node => node['@type'] === 'FAQPage');
+  assert.equal(faqSchemas.length, 1);
+  assert.equal($('#faq').length, 1);
+  assert.equal($('#faq-heading').text().trim(), faq.heading);
+  assert.equal($('#faq [data-izem-faq-item]').length, faq.items.length);
+  assert.equal(new Set(faq.items.map(item => item.id)).size, faq.items.length);
+  assert.equal(faqSchemas[0].mainEntity.length, faq.items.length);
+
+  faq.items.forEach((item, index) => {
+    const visible = $(`#faq [data-izem-faq-item="${item.id}"]`);
+    assert.equal(visible.length, 1);
+    assert.equal(visible.find('h3').text().trim(), item.question);
+    assert.equal(visible.find('h3').attr('id'), `faq-${item.id}`);
+    assert.equal(visible.find('[data-izem-faq-answer]').text().trim(), item.answer);
+    assert.equal(visible.find('a').attr('href'), item.href);
+    assert.ok(publicPathExists(new URL(item.href, origin)), `FAQ link must resolve: ${item.href}`);
+    assert.equal(visible.find('button, [hidden], [aria-hidden="true"]').length, 0);
+    assert.equal(visible.parents('[hidden], [aria-hidden="true"]').length, 0);
+    const question = faqSchemas[0].mainEntity[index];
+    assert.equal(question.name, item.question);
+    assert.equal(question['@id'], `${origin}/#faq-${item.id}`);
+    assert.equal(question.acceptedAnswer.text, item.answer);
+  });
+});
+
+test('every homepage FAQ question and answer survives Markdown generation', { skip: !artifactRoot }, () => {
+  const markdown = fs.readFileSync(path.join(publicRoot, 'index.md'), 'utf8');
+  for (const item of faq.items) {
+    assert.ok(markdown.includes(item.question), `Markdown is missing question: ${item.id}`);
+    assert.ok(markdown.includes(item.answer), `Markdown is missing answer: ${item.id}`);
+  }
+});
+
+test('search crawlers have explicit public access without removing existing training preferences', () => {
+  const robots = fs.readFileSync(path.join(publicRoot, 'robots.txt'), 'utf8');
+  for (const bot of ['OAI-SearchBot', 'PerplexityBot', 'Googlebot', 'GPTBot', 'Google-Extended']) {
+    assert.match(robots, new RegExp(`User-agent: ${bot}\\s+Allow: /(?:\\r?\\n|$)`));
+  }
+});
+
+test('the canonical product overview uses the same app identity and current availability', () => {
+  const overview = load(fs.readFileSync(path.join(publicRoot, 'izem-ai-fitness-coach/index.html'), 'utf8'));
+  const graph = JSON.parse(overview('script[type="application/ld+json"]').first().text())['@graph'];
+  const app = graph.find(node => node['@id'] === `${origin}/#app`);
+  assert.equal(app.name, 'IZEM. Your AI Personal Trainer');
+  assert.deepEqual(app['@type'], ['SoftwareApplication', 'MobileApplication']);
+  assert.match(overview('body').text(), /The IZEM app is awaiting store review\./);
+  assert.doesNotMatch(overview('body').text(), /\$24\.99/);
 });

@@ -1,7 +1,11 @@
 # IZEM robots.txt
 # Allow all AI crawlers and search engines full access
 
-# OpenAI / ChatGPT crawlers
+# OpenAI search discovery
+User-agent: OAI-SearchBot
+Allow: /
+
+# Existing model-training and user-requested access policy
 User-agent: GPTBot
 Allow: /
 
@@ -26,7 +30,7 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-# Bing (ChatGPT search backend)
+# Bing search
 User-agent: Bingbot
 Allow: /
 

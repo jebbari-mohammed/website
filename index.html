@@ -45,7 +45,7 @@
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "MobileApplication",
+  "@type": ["SoftwareApplication", "MobileApplication"],
   "@id": "https://youraicoach.life/#app",
   "name": "IZEM. Your AI Personal Trainer",
   "alternateName": [
@@ -104,11 +104,10 @@
     "Optional, read-only Apple Health context after separate permission for supported text coaching and requested workout changes, including available steps, exercise minutes, sleep, workouts, resting heart rate, HRV, and body mass; voice calls do not receive Apple Health context in this release",
     "General fitness and nutrition coaching with explicit non-medical limitations"
   ],
-  "author": {
-    "@type": "Organization",
-    "name": "IZEM",
-    "url": "https://youraicoach.life"
-  }
+  "author": { "@id": "https://youraicoach.life/#organization" },
+  "publisher": { "@id": "https://youraicoach.life/#organization" },
+  "mainEntityOfPage": { "@id": "https://youraicoach.life/#webpage" },
+  "image": "https://youraicoach.life/images/izem-app-logo-512.png"
 }
     </script>
 
@@ -116,6 +115,7 @@
 {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://youraicoach.life/#organization",
   "name": "IZEM",
   "url": "https://youraicoach.life",
   "logo": "https://youraicoach.life/images/izem-app-logo-512.png",
@@ -135,6 +135,128 @@
   ]
 }
     </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://youraicoach.life/#website",
+  "url": "https://youraicoach.life/",
+  "name": "IZEM",
+  "alternateName": "IZEM. Your AI Personal Trainer",
+  "inLanguage": "en",
+  "publisher": { "@id": "https://youraicoach.life/#organization" }
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://youraicoach.life/#webpage",
+  "url": "https://youraicoach.life/",
+  "name": "IZEM. Your AI Personal Trainer",
+  "dateModified": "2026-10-08",
+  "inLanguage": "en",
+  "isPartOf": { "@id": "https://youraicoach.life/#website" },
+  "publisher": { "@id": "https://youraicoach.life/#organization" },
+  "mainEntity": { "@id": "https://youraicoach.life/#app" },
+  "about": { "@id": "https://youraicoach.life/#coaching-service" },
+  "hasPart": { "@id": "https://youraicoach.life/#faq" }
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://youraicoach.life/#coaching-service",
+  "name": "IZEM AI fitness coaching",
+  "serviceType": "AI personal training and fitness coaching",
+  "url": "https://youraicoach.life/",
+  "description": "IZEM is an adult-only AI personal trainer app awaiting store review. It connects workout plans, training logs, meal plans, progress, scans, AI chat and eligible voice calls around one profile.",
+  "provider": { "@id": "https://youraicoach.life/#organization" },
+  "subjectOf": { "@id": "https://youraicoach.life/#webpage" }
+}
+    </script>
+    <script id="izem-faq-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://youraicoach.life/#faq",
+  "url": "https://youraicoach.life/#faq",
+  "name": "Questions about IZEM",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@id": "https://youraicoach.life/#webpage"
+  },
+  "about": {
+    "@id": "https://youraicoach.life/#app"
+  },
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "@id": "https://youraicoach.life/#faq-what-is-izem",
+      "name": "What is IZEM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "IZEM is an AI personal trainer app for adults. It connects personalized workouts, meal plans, training logs, progress, AI chat and eligible voice calls in one profile."
+      }
+    },
+    {
+      "@type": "Question",
+      "@id": "https://youraicoach.life/#faq-adaptive-workouts",
+      "name": "How does IZEM adapt my workouts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "IZEM builds weekly plans around your goals, experience, equipment, schedule and session length. Logged workouts and feedback can guide progression suggestions. You can also make supported exercise swaps and workout-day changes."
+      }
+    },
+    {
+      "@type": "Question",
+      "@id": "https://youraicoach.life/#faq-coach-calls",
+      "name": "Can the AI coach call me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can enable optional calls around workouts and day reviews. Premium members can also call the coach from the app. Calls depend on account eligibility, platform support, available minutes, preferences, device permissions and connectivity."
+      }
+    },
+    {
+      "@type": "Question",
+      "@id": "https://youraicoach.life/#faq-meal-planning",
+      "name": "Does IZEM help with meals and food photos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Meal plans use your dietary preferences, allergies, meal count, and calorie and macro targets. The active plan also generates a grocery list. IZEM can estimate calories and macros from food photos, but estimates can be wrong. Check ingredients, especially if you have allergies or medical dietary needs."
+      }
+    },
+    {
+      "@type": "Question",
+      "@id": "https://youraicoach.life/#faq-app-availability",
+      "name": "Is IZEM available on iOS and Android?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The IZEM app is awaiting store review. It is built for iOS and Android. Availability and purchase terms will depend on the applicable storefront when the app is offered. You can use the free website tools now."
+      }
+    },
+    {
+      "@type": "Question",
+      "@id": "https://youraicoach.life/#faq-coaching-limits",
+      "name": "Can IZEM replace a doctor or an in-person trainer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "IZEM provides general fitness and nutrition guidance for adults. It does not diagnose or treat medical conditions, provide rehabilitation, or supervise exercise form in person. For injuries, medical conditions or hands-on technique guidance, work with a qualified professional."
+      }
+    },
+    {
+      "@type": "Question",
+      "@id": "https://youraicoach.life/#faq-free-workout-generator",
+      "name": "How is the free workout generator different from the app?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The website generator creates a starting weekly plan in your browser, with no account required. IZEM connects workout logging, nutrition, progress and coaching over time. The app requires membership after onboarding; the free website tools are separate."
+      }
+    }
+  ]
+}
+    </script>
   </head>
   <body>
     <div id="root">
@@ -146,6 +268,46 @@
         <p>Optional coach-initiated calls depend on account eligibility, platform support, available allowance, device permissions and connectivity.</p>
         <p>On supported iPhones, separately permitted Apple Health context is limited to user-started text coaching and explicitly requested workout changes. Voice calls do not receive Apple Health context. Health and scan information supports general fitness coaching, not diagnosis or medical treatment.</p>
         <p>App availability and membership offers remain subject to store review and the applicable storefront’s terms. IZEM does not guarantee training outcomes or replace a qualified professional.</p>
+        <!-- IZEM_FAQ_START -->
+        <section id="faq" aria-labelledby="faq-heading">
+          <h2 id="faq-heading">Questions about IZEM</h2>
+          <article data-izem-faq-item="what-is-izem">
+            <h3 id="faq-what-is-izem">What is IZEM?</h3>
+            <p data-izem-faq-answer>IZEM is an AI personal trainer app for adults. It connects personalized workouts, meal plans, training logs, progress, AI chat and eligible voice calls in one profile.</p>
+            <a href="/izem-ai-fitness-coach/">Explore IZEM’s current features</a>
+          </article>
+          <article data-izem-faq-item="adaptive-workouts">
+            <h3 id="faq-adaptive-workouts">How does IZEM adapt my workouts?</h3>
+            <p data-izem-faq-answer>IZEM builds weekly plans around your goals, experience, equipment, schedule and session length. Logged workouts and feedback can guide progression suggestions. You can also make supported exercise swaps and workout-day changes.</p>
+            <a href="/features/ai-workout-generator">How workout planning works</a>
+          </article>
+          <article data-izem-faq-item="coach-calls">
+            <h3 id="faq-coach-calls">Can the AI coach call me?</h3>
+            <p data-izem-faq-answer>You can enable optional calls around workouts and day reviews. Premium members can also call the coach from the app. Calls depend on account eligibility, platform support, available minutes, preferences, device permissions and connectivity.</p>
+            <a href="/features/ai-voice-calls">Read about coach calls and limits</a>
+          </article>
+          <article data-izem-faq-item="meal-planning">
+            <h3 id="faq-meal-planning">Does IZEM help with meals and food photos?</h3>
+            <p data-izem-faq-answer>Meal plans use your dietary preferences, allergies, meal count, and calorie and macro targets. The active plan also generates a grocery list. IZEM can estimate calories and macros from food photos, but estimates can be wrong. Check ingredients, especially if you have allergies or medical dietary needs.</p>
+            <a href="/features/ai-meal-planner">Explore meal planning</a>
+          </article>
+          <article data-izem-faq-item="app-availability">
+            <h3 id="faq-app-availability">Is IZEM available on iOS and Android?</h3>
+            <p data-izem-faq-answer>The IZEM app is awaiting store review. It is built for iOS and Android. Availability and purchase terms will depend on the applicable storefront when the app is offered. You can use the free website tools now.</p>
+            <a href="/tools/">Try the free fitness tools</a>
+          </article>
+          <article data-izem-faq-item="coaching-limits">
+            <h3 id="faq-coaching-limits">Can IZEM replace a doctor or an in-person trainer?</h3>
+            <p data-izem-faq-answer>IZEM provides general fitness and nutrition guidance for adults. It does not diagnose or treat medical conditions, provide rehabilitation, or supervise exercise form in person. For injuries, medical conditions or hands-on technique guidance, work with a qualified professional.</p>
+            <a href="/izem-ai-fitness-coach/#health">Read the product’s health boundaries</a>
+          </article>
+          <article data-izem-faq-item="free-workout-generator">
+            <h3 id="faq-free-workout-generator">How is the free workout generator different from the app?</h3>
+            <p data-izem-faq-answer>The website generator creates a starting weekly plan in your browser, with no account required. IZEM connects workout logging, nutrition, progress and coaching over time. The app requires membership after onboarding; the free website tools are separate.</p>
+            <a href="/workout-plan-generator/">Build a starting workout plan</a>
+          </article>
+        </section>
+        <!-- IZEM_FAQ_END -->
         <nav aria-label="Explore IZEM">
           <a href="/workout-plan-generator/">Try the free workout generator</a>
           <a href="/izem-ai-fitness-coach/">Explore the AI coach</a>

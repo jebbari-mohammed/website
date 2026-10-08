@@ -9,6 +9,7 @@ import TrainerCostCalculator from './components/TrainerCostCalculator';
 import Comparison from './components/Comparison';
 import Stats from './components/Stats';
 import TrustAndPrivacy from './components/TrustAndPrivacy';
+import Faq from './components/Faq';
 import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 
@@ -27,6 +28,7 @@ function App() {
         <Comparison />
         <Stats />
         <TrustAndPrivacy />
+        <Faq />
         <FinalCTA />
       </main>
       <Footer />
