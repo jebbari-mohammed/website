@@ -1,10 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { createHash } from 'node:crypto';
 import {
   findActiveLockMutationViolations,
   findActiveLockViolations,
   isOwnerImagePolicyThumbnailReplacement,
   isDocumentedVideoSafetyCorrection,
+  isDocumentedCalculatorSafetyCorrection,
+  documentedCalculatorSafetyOverrideFiles,
+  REVIEWED_CALCULATOR_SAFETY_CORRECTION,
   validateConfig,
 } from './seo-active-experiment-guard.mjs';
 
@@ -295,4 +300,90 @@ test('rejects missing, duplicated or reversed block markers and mismatched video
 test('rejects replayed corrections and future-dated review entries', () => {
   assert.equal(isDocumentedVideoSafetyCorrection(originalCard, safeCard, safetyOptions({ baseCorrections: [safetyCorrection] })), false);
   assert.equal(isDocumentedVideoSafetyCorrection(originalCard, safeCard, safetyOptions({ correction: { ...safetyCorrection, date: '2026-10-07' } })), false);
+});
+
+const calculatorCorrection = REVIEWED_CALCULATOR_SAFETY_CORRECTION;
+const calculatorBase = fs.readFileSync(new URL('../fixtures/security/macro-calculator-before-2026-10-08.html', import.meta.url), 'utf8');
+const calculatorHead = fs.readFileSync(new URL('../fixtures/security/macro-calculator-after-2026-10-08.html', import.meta.url), 'utf8');
+const calculatorReview = fs.readFileSync(new URL(`../../${calculatorCorrection.reviewNote}`, import.meta.url), 'utf8');
+const calculatorFiles = [calculatorCorrection.file, calculatorCorrection.reviewNote, 'config/seo-active-experiments.json'];
+function calculatorOptions(overrides = {}) {
+  return { correction: calculatorCorrection, reviewNote: calculatorReview, changedFiles: calculatorFiles, now: new Date('2026-10-08T12:00:00Z'), ...overrides };
+}
+
+test('calculator safety exception accepts only the exact reviewed complete-file digest transition', () => {
+  assert.equal(isDocumentedCalculatorSafetyCorrection(calculatorBase, calculatorHead, calculatorOptions()), true);
+  for (const [content, digest] of [[calculatorBase, calculatorCorrection.baseSha256], [calculatorHead, calculatorCorrection.headSha256]]) {
+    assert.equal(createHash('sha256').update(content).digest('hex'), digest);
+  }
+});
+
+test('calculator exception rejects additional content edits and byte normalization', () => {
+  for (const altered of [calculatorHead.replace('<title>', '<title>New editorial title '), calculatorHead + '\n', calculatorHead.trimEnd(), calculatorHead.replace('min="1"', 'min="0"')]) {
+    assert.equal(isDocumentedCalculatorSafetyCorrection(calculatorBase, altered, calculatorOptions()), false);
+  }
+  assert.equal(isDocumentedCalculatorSafetyCorrection(calculatorBase.trimEnd(), calculatorHead, calculatorOptions()), false);
+  assert.equal(isDocumentedCalculatorSafetyCorrection(calculatorHead, calculatorHead, calculatorOptions()), false);
+});
+
+test('config cannot self-authorize another file, hash, correction ID, kind, date or review note', () => {
+  for (const replacement of [
+    { file: 'public/protein-calculator/index.html' }, { id: 'broad-validation-edit' }, { kind: 'input-validation' },
+    { date: '2026-10-09' }, { reviewNote: 'docs/seo-experiments/unreviewed.md' },
+    { baseSha256: '0'.repeat(64) }, { headSha256: '1'.repeat(64) },
+  ]) {
+    assert.equal(isDocumentedCalculatorSafetyCorrection(calculatorBase, calculatorHead, calculatorOptions({ correction: { ...calculatorCorrection, ...replacement } })), false);
+  }
+});
+
+test('calculator exception requires contemporaneous configuration/documentation and rejects replay or future use', () => {
+  for (const options of [
+    calculatorOptions({ changedFiles: [calculatorCorrection.file] }),
+    calculatorOptions({ changedFiles: [calculatorCorrection.file, calculatorCorrection.reviewNote] }),
+    calculatorOptions({ reviewNote: '' }),
+    calculatorOptions({ reviewNote: calculatorReview.replace(calculatorCorrection.headSha256, '') }),
+    calculatorOptions({ baseCorrections: [calculatorCorrection] }),
+    calculatorOptions({ now: new Date('2026-10-07T23:59:59Z') }),
+    calculatorOptions({ now: 'invalid-date' }),
+  ]) assert.equal(isDocumentedCalculatorSafetyCorrection(calculatorBase, calculatorHead, options), false);
+});
+
+function calculatorLock(id = 'calculator-test') {
+  return { id, url: '/protein-calculator/', files: [calculatorCorrection.file, 'public/protein-calculator/index.html'], launchedAt: '2026-09-29', lockUntil: '2026-10-20', preferredReviewAt: '2026-10-27' };
+}
+function calculatorRef(ref, file) {
+  if (file === calculatorCorrection.file) return ref === 'base' ? calculatorBase : calculatorHead;
+  if (file === calculatorCorrection.reviewNote && ref === 'head') return calculatorReview;
+  throw new Error(`Unexpected public fixture path ${file}`);
+}
+
+test('calculator governance exempts only the reviewed file while other protected targets remain locked', () => {
+  const lock = calculatorLock();
+  const base = { version: 1, locks: [lock] };
+  const head = { version: 1, locks: [{ ...lock, corrections: [calculatorCorrection] }] };
+  const files = [...calculatorFiles, 'public/protein-calculator/index.html'];
+  const now = new Date('2026-10-08T12:00:00Z');
+  const ignored = documentedCalculatorSafetyOverrideFiles('base', 'head', files, base, head, now, calculatorRef);
+  assert.deepEqual([...ignored], [calculatorCorrection.file]);
+  assert.deepEqual(findActiveLockMutationViolations(base, head, now), []);
+  const violations = findActiveLockViolations(files, head, now, { ignoreFiles: ignored });
+  assert.equal(violations.length, 1);
+  assert.deepEqual(violations[0].files, ['public/protein-calculator/index.html']);
+  assert.equal(findActiveLockMutationViolations(base, { ...head, locks: [{ ...head.locks[0], lockUntil: '2026-10-08' }] }, now)[0].type, 'shortened');
+});
+
+test('calculator correction must be present in every protecting lock and cannot use an untrusted note path', () => {
+  const locks = [calculatorLock('one'), calculatorLock('two')];
+  const base = { version: 1, locks };
+  const head = { version: 1, locks: [{ ...locks[0], corrections: [calculatorCorrection] }, locks[1]] };
+  const now = new Date('2026-10-08T12:00:00Z');
+  assert.equal(documentedCalculatorSafetyOverrideFiles('base', 'head', calculatorFiles, base, head, now, calculatorRef).size, 0);
+  const badHead = { version: 1, locks: locks.map(lock => ({ ...lock, corrections: [{ ...calculatorCorrection, reviewNote: 'private/untrusted' }] })) };
+  assert.equal(documentedCalculatorSafetyOverrideFiles('base', 'head', calculatorFiles, base, badHead, now, () => { throw new Error('Must not read an untrusted path'); }).size, 0);
+  assert.equal(documentedCalculatorSafetyOverrideFiles('base', 'head', calculatorFiles, null, head, now, calculatorRef).size, 0);
+});
+
+test('reviewed calculator transition preserves every editorial, metadata and markup byte outside logic/input bounds', () => {
+  const stripLogicAndNumericBounds = html => html.replace(/<script>[^]*?<\/script>/g, '').replace(/ min="1" max="100000"/g, '');
+  assert.equal(stripLogicAndNumericBounds(calculatorBase), stripLogicAndNumericBounds(calculatorHead));
 });

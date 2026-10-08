@@ -37,10 +37,6 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
-      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
-      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
       GSC_SITE_URL: https://youraicoach.life/
       GSC_PRIVATE_ARTIFACT_NAME: private-gsc-evidence-v1
       GSC_PRIVATE_ARTIFACT_FILE: private-gsc-evidence.json
@@ -48,17 +44,18 @@ jobs:
 
     steps:
       - name: Checkout current main
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          persist-credentials: false
           ref: main
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
-          version: 9
+          version: 9.15.9
 
       - name: Set up Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           cache: pnpm
@@ -68,13 +65,21 @@ jobs:
 
       - name: Require verified Search Console owner or full-user access
         id: status
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: node tools/ai-marketing/gsc-url-prefix-bootstrap.mjs status
 
       - name: Require the verified production marker
+        env:
+          STATUS_READY: ${{ steps.status.outputs.ready }}
+          STATUS_STATUS: ${{ steps.status.outputs.status }}
         run: |
           set -euo pipefail
-          [ "${{ steps.status.outputs.ready }}" = "true" ]
-          [ "${{ steps.status.outputs.status }}" = "verified" ]
+          [ "${STATUS_READY}" = "true" ]
+          [ "${STATUS_STATUS}" = "verified" ]
           node - <<'NODE'
           const fs = require('fs');
           const marker = JSON.parse(fs.readFileSync('public/seo-system-version.json', 'utf8'));
@@ -84,6 +89,11 @@ jobs:
           NODE
 
       - name: Retrieve private query and page evidence
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: pnpm gsc
 
       - name: Emit encrypted private evidence envelope
@@ -111,7 +121,7 @@ jobs:
 
       - name: Upload encrypted private evidence artifact
         id: artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: ${{ env.GSC_PRIVATE_ARTIFACT_NAME }}
           path: ${{ runner.temp }}/${{ env.GSC_PRIVATE_ARTIFACT_FILE }}
@@ -125,30 +135,52 @@ jobs:
 
       - name: Inspect Google index status for priority URLs
         id: index
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: node tools/ai-marketing/gsc-index-inspection.mjs
 
       - name: Summarize Search Console health without exposing queries
+        env:
+          EVIDENCE_ROW_COUNT: ${{ steps.evidence.outputs.row_count || '0' }}
+          EVIDENCE_EVIDENCE_AVAILABLE: ${{ steps.evidence.outputs.evidence_available || 'false' }}
+          INDEX_INSPECTED_COUNT: ${{ steps.index.outputs.inspected_count || '0' }}
+          INDEX_INDEXED_COUNT: ${{ steps.index.outputs.indexed_count || '0' }}
+          INDEX_NOT_INDEXED_COUNT: ${{ steps.index.outputs.not_indexed_count || '0' }}
+          INDEX_UNKNOWN_COUNT: ${{ steps.index.outputs.unknown_count || '0' }}
+          INDEX_API_ERROR_COUNT: ${{ steps.index.outputs.api_error_count || '0' }}
+          ARTIFACT_ARTIFACT_ID: ${{ steps.artifact.outputs.artifact-id }}
+          ENCRYPTED_ROW_COUNT: ${{ steps.encrypted.outputs.row_count || '0' }}
         run: |
           {
             echo "### Search Console health"
             echo "- Ownership/API access: verified"
             echo "- Property: https://youraicoach.life/"
-            echo "- Private query+page rows: ${{ steps.evidence.outputs.row_count || '0' }}"
-            echo "- Evidence-backed publisher available: ${{ steps.evidence.outputs.evidence_available || 'false' }}"
-            echo "- Priority URLs inspected: ${{ steps.index.outputs.inspected_count || '0' }}"
-            echo "- Priority URLs indexed: ${{ steps.index.outputs.indexed_count || '0' }}"
-            echo "- Priority URLs not indexed: ${{ steps.index.outputs.not_indexed_count || '0' }}"
-            echo "- Priority URLs unknown: ${{ steps.index.outputs.unknown_count || '0' }}"
-            echo "- URL Inspection API errors: ${{ steps.index.outputs.api_error_count || '0' }}"
+            echo "- Private query+page rows: ${EVIDENCE_ROW_COUNT}"
+            echo "- Evidence-backed publisher available: ${EVIDENCE_EVIDENCE_AVAILABLE}"
+            echo "- Priority URLs inspected: ${INDEX_INSPECTED_COUNT}"
+            echo "- Priority URLs indexed: ${INDEX_INDEXED_COUNT}"
+            echo "- Priority URLs not indexed: ${INDEX_NOT_INDEXED_COUNT}"
+            echo "- Priority URLs unknown: ${INDEX_UNKNOWN_COUNT}"
+            echo "- URL Inspection API errors: ${INDEX_API_ERROR_COUNT}"
             echo "- Encrypted exact-query artifact: $GSC_PRIVATE_ARTIFACT_NAME"
-            echo "- Encrypted artifact ID: ${{ steps.artifact.outputs.artifact-id }}"
-            echo "- Encrypted artifact rows: ${{ steps.encrypted.outputs.row_count || '0' }}"
+            echo "- Encrypted artifact ID: ${ARTIFACT_ARTIFACT_ID}"
+            echo "- Encrypted artifact rows: ${ENCRYPTED_ROW_COUNT}"
             echo "- Exact queries: encrypted for private SEO review; plaintext is not printed"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Persist latest public-safe Search Console snapshot
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ARTIFACT_ARTIFACT_ID: ${{ steps.artifact.outputs.artifact-id }}
+          ARTIFACT_ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
+          ARTIFACT_ARTIFACT_DIGEST: ${{ steps.artifact.outputs.artifact-digest }}
+          ENCRYPTED_ROW_COUNT: ${{ steps.encrypted.outputs.row_count }}
+          ENCRYPTED_START_DATE: ${{ steps.encrypted.outputs.start_date }}
+          ENCRYPTED_END_DATE: ${{ steps.encrypted.outputs.end_date }}
+          ENCRYPTED_FINGERPRINT: ${{ steps.encrypted.outputs.fingerprint }}
         run: |
           set -euo pipefail
           snapshot="$RUNNER_TEMP/gsc-safe-snapshot.md"
@@ -158,14 +190,14 @@ jobs:
             echo "## Private exact-query handoff"
             echo
             echo "- Encrypted artifact: \`$GSC_PRIVATE_ARTIFACT_NAME\`"
-            echo "- Artifact ID: \`${{ steps.artifact.outputs.artifact-id }}\`"
-            echo "- Artifact URL: ${{ steps.artifact.outputs.artifact-url }}"
-            echo "- Artifact SHA-256 digest: \`${{ steps.artifact.outputs.artifact-digest }}\`"
+            echo "- Artifact ID: \`${ARTIFACT_ARTIFACT_ID}\`"
+            echo "- Artifact URL: ${ARTIFACT_ARTIFACT_URL}"
+            echo "- Artifact SHA-256 digest: \`${ARTIFACT_ARTIFACT_DIGEST}\`"
             echo "- Artifact file: \`$GSC_PRIVATE_ARTIFACT_FILE\`"
             echo "- Artifact retention: $GSC_PRIVATE_ARTIFACT_RETENTION_DAYS days"
-            echo "- Envelope rows: ${{ steps.encrypted.outputs.row_count }}"
-            echo "- Envelope period: ${{ steps.encrypted.outputs.start_date }} to ${{ steps.encrypted.outputs.end_date }}"
-            echo "- Public-key fingerprint: \`${{ steps.encrypted.outputs.fingerprint }}\`"
+            echo "- Envelope rows: ${ENCRYPTED_ROW_COUNT}"
+            echo "- Envelope period: ${ENCRYPTED_START_DATE} to ${ENCRYPTED_END_DATE}"
+            echo "- Public-key fingerprint: \`${ENCRYPTED_FINGERPRINT}\`"
             echo "- Plaintext key and decryptor: connected private evidence vault only"
             echo
             echo "The artifact contains ciphertext only. The private SEO process must verify artifact digest, key fingerprint, authenticated decryption, row count, and reporting period before using exact queries."
@@ -207,3 +239,9 @@ jobs:
           if [ -n "$issue" ]; then
             gh issue close "$issue" --comment "Search Console health recovered in ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}."
           fi
+
+      - name: Delete local plaintext Search Console and decision evidence
+        if: always()
+        run: |
+          rm -rf -- tools/ai-marketing/search-console-reports/ data/marketing-employee/seo-growth/
+          rm -f -- /tmp/seo-base-planner.log /tmp/izem-seo-smoke-plan.json

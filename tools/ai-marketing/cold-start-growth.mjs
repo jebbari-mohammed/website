@@ -7,6 +7,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { load } from 'cheerio';
+import { assertWorkflowOutput } from './workflow-output-safety.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const PUBLIC_DIR = path.join(ROOT, 'public');
@@ -71,6 +72,7 @@ function parseArgs(argv) {
 }
 
 function setOutput(name, value) {
+  value = assertWorkflowOutput(name, value);
   if (!process.env.GITHUB_OUTPUT) return;
   fs.appendFileSync(process.env.GITHUB_OUTPUT, `${name}=${String(value).replace(/\r?\n/g, ' ')}\n`);
 }

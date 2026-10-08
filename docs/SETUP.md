@@ -9,10 +9,12 @@
 
 ```bash
 corepack enable
-pnpm install --ignore-scripts
+pnpm install --frozen-lockfile --ignore-scripts
 ```
 
 Puppeteer is configured as an ignored build dependency. Do not approve third-party install scripts unless you understand why they are required.
+
+The root dependency graph uses `pnpm-lock.yaml` and the exact pnpm version in `package.json`. The isolated Firebase function and manual marketing tools retain their own npm lockfiles.
 
 ## Environment
 
@@ -184,8 +186,10 @@ pnpm build
 docker compose up
 ```
 
-The worker health endpoint is:
+The dashboard is available at `http://127.0.0.1:5173`. The worker listens on loopback inside its container; check its health from the container:
 
-```text
-http://localhost:4317/health
+```bash
+docker compose exec worker node -e "fetch('http://127.0.0.1:4317/health').then(r => { if (!r.ok) process.exit(1); return r.text(); }).then(console.log)"
 ```
+
+HTTP snapshot access is disabled. Refresh the private index locally with `pnpm exec tsx apps/worker/src/cli.ts snapshot:refresh` (or run that command inside the worker container). Agent actions whose policy requires approval stop before making provider calls or writing records; keep those actions supervised until an explicit approval flow is implemented.

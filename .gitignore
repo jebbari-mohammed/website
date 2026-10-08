@@ -41,3 +41,4 @@ tools/ai-marketing/.review-progress.json
 tools/ai-marketing/.intelligence-log.json
 tools/ai-marketing/search-console-reports/
 gcloud-key.json
+tools/ai-marketing/youtube-oauth.private.json

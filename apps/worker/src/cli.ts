@@ -5,6 +5,7 @@ import {
   executeSocialRepurpose,
   executeWeeklyReport,
 } from '../../../packages/agents/src/index.js';
+import { refreshDashboardIndex } from '../../../packages/core/src/index.js';
 
 function parseArgs(argv: string[]) {
   const args: Record<string, string | boolean> = {};
@@ -21,6 +22,11 @@ async function main() {
   const args = parseArgs(rest);
 
   switch (command) {
+    case 'snapshot:refresh': {
+      await refreshDashboardIndex();
+      console.log('Private local dashboard snapshot refreshed.');
+      break;
+    }
     case 'audit:site': {
       const result = await executeSiteAudit({
         url: typeof args.url === 'string' ? args.url : undefined,
@@ -64,7 +70,7 @@ async function main() {
     }
     default:
       console.error(`Unknown command: ${command || '(empty)'}`);
-      console.error('Commands: audit:site, keywords:generate, blog:create, social:repurpose, report:weekly');
+      console.error('Commands: audit:site, keywords:generate, blog:create, social:repurpose, report:weekly, snapshot:refresh');
       process.exitCode = 1;
   }
 }

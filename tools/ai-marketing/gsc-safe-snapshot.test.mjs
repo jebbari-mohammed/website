@@ -2,6 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildSafeSnapshot, crawlFreshness, extractSourceModifiedDate } from './gsc-safe-snapshot.mjs';
 
+test('public snapshot omits landing URL parameters, fragments, credentials and foreign hosts', () => {
+  const privateUrl = 'https://youraicoach.life/blog/safe?token=SYNTHETIC_PRIVATE#SYNTHETIC_FRAGMENT';
+  const foreign = 'https://foreign.example/SYNTHETIC_FOREIGN';
+  const snapshot = buildSafeSnapshot({ ...searchReport, rows: [
+    { keys: ['SYNTHETIC_QUERY', privateUrl], impressions: 1 },
+    { keys: ['SYNTHETIC_QUERY', foreign], impressions: 1 },
+  ] }, { ...indexReport, results: [{ url: privateUrl }, { url: foreign }] });
+  assert.match(snapshot, /\/blog\/safe/);
+  for (const secret of ['SYNTHETIC_PRIVATE', 'SYNTHETIC_FRAGMENT', 'SYNTHETIC_FOREIGN', 'SYNTHETIC_QUERY', 'foreign.example']) assert.ok(!snapshot.includes(secret));
+});
+
 const searchReport = {
   site: 'https://youraicoach.life/',
   startDate: '2026-07-21',

@@ -85,7 +85,7 @@
         <h2>📊 Calculate Your Macros</h2>
         <p class="desc">Enter your daily maintenance calories (TDEE) and your goal to get your macro split.</p>
         <label>Daily Maintenance Calories (TDEE)</label>
-        <input type="number" id="macro-cal" min="1" max="100000" placeholder="2500">
+        <input type="number" id="macro-cal" placeholder="2500">
         <label>Goal</label>
         <select id="macro-goal">
             <option value="bulk">Lean Bulk (+300 cal)</option>
@@ -122,12 +122,9 @@ function show(id,val,detail){const r=document.getElementById(id);r.style.display
 
 function calcMacros(){
     const cal=+document.getElementById('macro-cal').value,goal=document.getElementById('macro-goal').value;
+    if(!cal)return;
     const adj={bulk:300,maintain:0,cut:-500,aggressivecut:-750};
-    const total=cal+adj[goal];
-    if(!Number.isFinite(cal)||cal<=0||cal>100000||!Number.isFinite(total)||total<=0){
-        show('macro-result','Check your inputs','Enter a positive calorie estimate that remains positive after the selected adjustment.');
-        return;
-    }
+    const total=cal+(adj[goal]||0);
     const p=Math.round(total*.30/4),c=Math.round(total*.45/4),f=Math.round(total*.25/9);
     show('macro-result',total+' cal/day',`Protein: ${p}g · Carbs: ${c}g · Fat: ${f}g (30/45/25 split)`);
 }

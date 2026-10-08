@@ -19,6 +19,9 @@ function assertAllowed(decision: ReturnType<typeof evaluatePolicy>) {
   if (!decision.allowed) {
     throw new Error(decision.reason);
   }
+  if (decision.approvalRequired) {
+    throw new Error('Approval required by autonomy policy; no action was performed.');
+  }
 }
 
 type SeoGrowthOpportunity = {
@@ -139,6 +142,8 @@ export async function executeSocialRepurpose(input: { pushPostiz?: boolean }) {
   const policy = await loadPolicy();
   const decision = evaluatePolicy(policy, 'repurpose_social_posts', 'medium');
   assertAllowed(decision);
+  // Validate every requested effect before reading or writing a calendar.
+  if (input.pushPostiz) assertAllowed(evaluatePolicy(policy, 'postiz_push_draft', 'medium'));
   const draft = await loadLatestDraft();
   if (!draft) throw new Error('No blog draft found. Run pnpm blog:create first.');
   const platforms = policy.platformsEnabled as SocialCalendar['posts'][number]['platform'][];
@@ -150,8 +155,6 @@ export async function executeSocialRepurpose(input: { pushPostiz?: boolean }) {
 
   let postizSummary = 'Postiz push not requested.';
   if (input.pushPostiz) {
-    const postizDecision = evaluatePolicy(policy, 'postiz_push_draft', 'medium');
-    assertAllowed(postizDecision);
     const result = await pushCalendarDraftsToPostiz(calendar);
     postizSummary = result.reason;
   }

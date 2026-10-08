@@ -49,7 +49,8 @@ function md(value) {
 function pathOnly(value) {
   try {
     const url = new URL(value);
-    return `${url.pathname}${url.search}` || '/';
+    if (url.origin !== 'https://youraicoach.life' || url.username || url.password) return '[non-public URL omitted]';
+    return url.pathname || '/';
   } catch {
     return '/';
   }

@@ -28,6 +28,7 @@ jobs:
           REPOSITORY: ${{ github.repository }}
           RUN_ID: ${{ github.run_id }}
           COMMIT_SHA: ${{ github.sha }}
+          CONTEXT_GITHUB_EVENT_NAME: ${{ github.event_name }}
         run: |
           set -euo pipefail
           title="[Hosting Deploy] Latest production run"
@@ -36,7 +37,7 @@ jobs:
 
           - Commit: \`$COMMIT_SHA\`
           - Run: https://github.com/$REPOSITORY/actions/runs/$RUN_ID
-          - Event: ${{ github.event_name }}
+          - Event: ${CONTEXT_GITHUB_EVENT_NAME}
 
           This issue is an operational pointer only and contains no credentials.
           EOF
@@ -49,11 +50,12 @@ jobs:
           fi
 
       - name: Checkout full history
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          persist-credentials: false
           fetch-depth: 0
       - name: Set up Node for release contract
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
 
@@ -62,6 +64,7 @@ jobs:
         env:
           BEFORE_SHA: ${{ github.event.before }}
           AFTER_SHA: ${{ github.sha }}
+          CONTEXT_GITHUB_EVENT_NAME: ${{ github.event_name }}
         run: |
           set -euo pipefail
           echo "ready=true" >> "$GITHUB_OUTPUT"
@@ -85,7 +88,7 @@ jobs:
             fi
           done < <(find public/blog -maxdepth 1 -type f -name '*.html' ! -name 'index.html' -print | sort)
 
-          if [ "${{ github.event_name }}" = "push" ] \
+          if [ "${CONTEXT_GITHUB_EVENT_NAME}" = "push" ] \
             && [ -n "${BEFORE_SHA:-}" ] \
             && [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]; then
             ADDED_POSTS=$(git diff --name-status "$BEFORE_SHA" "$AFTER_SHA" \
@@ -124,29 +127,33 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          persist-credentials: false
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
-          version: 9
+          version: 9.15.9
 
       - name: Set up Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Install isolated public-page handler dependencies
         run: npm ci --prefix functions/agent-pages --ignore-scripts --no-audit --no-fund
 
       - name: Test agent responses, staging, discovery, and metadata
         run: pnpm test:agents
+
+      - name: Test security and workflow boundaries
+        run: pnpm test:security
 
       - name: Synchronize all generated discovery files
         run: |
@@ -213,7 +220,6 @@ jobs:
           FIREBASE_SERVICE_ACCOUNT_AI_GYM_COACH_13EE1: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AI_GYM_COACH_13EE1 }}
           FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
           GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
@@ -225,7 +231,7 @@ jobs:
           test -n "$project_id"
 
           credential_file=''
-          for name in FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON FIREBASE_SERVICE_ACCOUNT_AI_GYM_COACH_13EE1 FIREBASE_SERVICE_ACCOUNT_JSON FIREBASE_SERVICE_ACCOUNT GOOGLE_CLOUD_JSON GCP_SA_KEY GOOGLE_APPLICATION_CREDENTIALS_JSON GOOGLE_SERVICE_ACCOUNT_JSON; do
+          for name in FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON FIREBASE_SERVICE_ACCOUNT_AI_GYM_COACH_13EE1 FIREBASE_SERVICE_ACCOUNT_JSON FIREBASE_SERVICE_ACCOUNT GCP_SA_KEY GOOGLE_APPLICATION_CREDENTIALS_JSON GOOGLE_SERVICE_ACCOUNT_JSON; do
             value="${!name:-}"
             [ -z "$value" ] && continue
 
@@ -258,25 +264,33 @@ jobs:
             token="${!token_name:-}"
             [ -z "$token" ] && continue
             if firebase hosting:sites:list --project "$project_id" --token "$token" --json >/dev/null 2>&1; then
+              if ! FIREBASE_DEPLOY_TOKEN="$token" FIREBASE_TOOLS_ROOT="$(npm root --global)/firebase-tools" node tools/check-agent-deploy-access.mjs "$project_id"; then
+                echo "Configured candidate $token_name lacks verified Functions deployment access; checking the next existing candidate."
+                continue
+              fi
               echo "mode=token" >> "$GITHUB_OUTPUT"
               echo "FIREBASE_DEPLOY_TOKEN=$token" >> "$GITHUB_ENV"
-              echo "Selected a Firebase Hosting-authorized CI token without exposing it."
+              echo "Selected a Firebase Hosting and Functions-authorized CI token without exposing it."
               exit 0
             fi
           done
 
-          echo "::error::No configured repository credential has verified Firebase Hosting and Functions service-account access for project $project_id. A project owner must provide an authorized deployment credential or grant the deployer iam.serviceAccounts.actAs on $project_id@appspot.gserviceaccount.com."
+          echo "::error::No configured repository credential has verified Hosting and Functions deployment access for project $project_id. Review the exact missing permissions above; owner approval is required before changing IAM on either implicated service account."
           exit 1
 
       - name: Deploy production artifact to Firebase Hosting
         id: firebase_deploy
+        env:
+          FIREBASE_AUTH_MODE: ${{ steps.firebase_auth.outputs.mode }}
         run: |
           set -euo pipefail
           project_id=$(node -e "const fs=require('fs'); const cfg=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(cfg.projects.default || '')")
           test -n "$project_id"
-          if [ "${{ steps.firebase_auth.outputs.mode }}" = "token" ]; then
+          if [ "${FIREBASE_AUTH_MODE}" = "token" ]; then
+            firebase deploy --only functions:agent-pages:agentPages --project "$project_id" --token "$FIREBASE_DEPLOY_TOKEN" --non-interactive
             firebase deploy --only hosting,functions:agent-pages:agentPages --project "$project_id" --token "$FIREBASE_DEPLOY_TOKEN" --non-interactive
           else
+            firebase deploy --only functions:agent-pages:agentPages --project "$project_id" --non-interactive
             firebase deploy --only hosting,functions:agent-pages:agentPages --project "$project_id" --non-interactive
           fi
 

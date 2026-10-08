@@ -11,32 +11,36 @@ assert.ok(process.env.FIREBASE_TOOLS_ROOT, 'Set FIREBASE_TOOLS_ROOT to the insta
 const require = createRequire(path.join(process.env.FIREBASE_TOOLS_ROOT, 'package.json'));
 const { ensureTargeted } = require('./lib/functions/ensureTargeted.js');
 const { getEndpointFilters, targetCodebases, endpointMatchesAnyFilter } = require('./lib/deploy/functions/functionsDeployHelper.js');
+const { checkFiltersIntegrity } = require('./lib/deploy/functions/validate.js');
+const backend = require('./lib/deploy/functions/backend.js');
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const config = JSON.parse(readFileSync(path.join(root, 'firebase.json'), 'utf8'));
 const workflow = readFileSync(path.join(root, '.github/workflows/deploy.yml'), 'utf8');
 const selectors = [...workflow.matchAll(/firebase deploy --only (\S+)/g)].map(match => match[1]);
 
-test('both credential paths explicitly scope Hosting and the public function', () => {
-  assert.equal(selectors.length, 2);
-  for (const selector of selectors) {
-    assert.deepEqual(selector.split(','), ['hosting', 'functions:agent-pages:agentPages']);
-  }
+const want = { 'agent-pages': backend.of({ id: 'agentPages', codebase: 'agent-pages', region: 'us-central1', project: 'demo-izem-agent-readiness' }) };
+
+test('both credential paths bootstrap the exact function before the pinned Hosting release', () => {
+  assert.deepEqual(selectors, [
+    'functions:agent-pages:agentPages', 'hosting,functions:agent-pages:agentPages',
+    'functions:agent-pages:agentPages', 'hosting,functions:agent-pages:agentPages',
+  ]);
 });
 
 test('the pinned CLI selects the isolated codebase on first and later releases', () => {
   for (const selector of selectors) {
-    for (const firstRelease of [true, false]) {
-      // These are the CLI pinTag expansion paths before/after the endpoint exists.
-      const only = firstRelease
-        ? ensureTargeted(selector, 'agentPages')
-        : ensureTargeted(selector, 'agent-pages', 'agentPages');
+    // A function-only command has no Hosting pinTag expansion. The following
+    // combined release sees the endpoint created by the successful bootstrap.
+      const only = selector.startsWith('hosting,')
+        ? ensureTargeted(selector, 'agent-pages', 'agentPages')
+        : selector;
       const filters = getEndpointFilters({ only }, config.functions);
+      assert.doesNotThrow(() => checkFiltersIntegrity(want, filters));
       assert.deepEqual(targetCodebases(config.functions, filters), ['agent-pages']);
       assert.equal(endpointMatchesAnyFilter({ id: 'agentPages', codebase: 'agent-pages' }, filters), true);
       assert.equal(endpointMatchesAnyFilter({ id: 'sendEmail', codebase: 'default' }, filters), false);
       assert.equal(endpointMatchesAnyFilter({ id: 'appApi', codebase: 'app' }, filters), false);
       assert.equal(endpointMatchesAnyFilter({ id: 'otherPage', codebase: 'agent-pages' }, filters), false);
-    }
   }
 });
 
@@ -44,4 +48,11 @@ test('the regression fixture reproduces the rejected first Hosting-only release'
   const only = ensureTargeted('hosting', 'agentPages');
   const filters = getEndpointFilters({ only }, config.functions);
   assert.deepEqual(targetCodebases(config.functions, filters), []);
+  assert.throws(() => checkFiltersIntegrity(want, filters), /No function matches the filter: default:agentPages/);
+});
+
+test('the actual CLI rejects first-release combined pinTag expansion without bootstrap', () => {
+  const only = ensureTargeted('hosting,functions:agent-pages:agentPages', 'agentPages');
+  const filters = getEndpointFilters({ only }, config.functions);
+  assert.throws(() => checkFiltersIntegrity(want, filters), /No function matches the filter: default:agentPages/);
 });
