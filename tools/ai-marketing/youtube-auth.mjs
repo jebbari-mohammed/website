@@ -7,15 +7,16 @@
  * 3. Download the JSON → copy client_id and client_secret below
  * 4. Run: node tools/ai-marketing/youtube-auth.mjs
  * 5. Click the link, authorize, paste the code
- * 6. Copy the refresh_token to your .env file
+ * 6. Import the private output file into your chosen secret store without logging it
  */
 
 import https from 'https';
 import http from 'http';
 import { URL, fileURLToPath } from 'url';
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { saveYouTubeCredential } from './youtube-auth-output.mjs';
 
 // Automatically load .env file
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -78,26 +79,28 @@ const server = http.createServer(async (req, res) => {
   console.log('✅ Auth code received — exchanging for tokens...\n');
 
   // Exchange code for tokens
-  const tokenData = await exchangeCode(code);
-  
-  if (tokenData.refresh_token) {
-    console.log('🎉 SUCCESS!\n');
-    console.log('Add these to your .env file or GitHub Secrets:\n');
-    console.log(`YOUTUBE_CLIENT_ID="${CLIENT_ID}"`);
-    console.log(`YOUTUBE_CLIENT_SECRET="${CLIENT_SECRET}"`);
-    console.log(`YOUTUBE_REFRESH_TOKEN="${tokenData.refresh_token}"`);
-    console.log('\n✅ You can now run daily-podcast.mjs and it will auto-upload to YouTube!');
-  } else {
-    console.error('❌ No refresh token received:', JSON.stringify(tokenData, null, 2));
+  try {
+    const tokenData = await exchangeCode(code);
+
+    if (tokenData.refresh_token) {
+      const credentialFile = path.join(__dirname, 'youtube-oauth.private.json');
+      saveYouTubeCredential(credentialFile, { YOUTUBE_CLIENT_ID: CLIENT_ID, YOUTUBE_CLIENT_SECRET: CLIENT_SECRET, YOUTUBE_REFRESH_TOKEN: tokenData.refresh_token });
+      console.log('OAuth credential saved to the ignored owner-only youtube-oauth.private.json file. Import it privately into your secret store.');
+    } else {
+      console.error('No refresh token received. Credential material was not printed.');
+      process.exitCode = 1;
+    }
+  } catch {
+    console.error('OAuth setup failed. Credential material was not printed; check the private output file before retrying.');
+    process.exitCode = 1;
   }
-  process.exit(0);
 });
 
-server.listen(8765, () => {
+server.listen(8765, '127.0.0.1', () => {
   console.log('⏳ Waiting for authorization... (server listening on localhost:8765)\n');
   // Try to open browser automatically
   try {
-    execSync(`open "${authUrl}"`, { stdio: 'ignore' });
+    execFileSync('open', [authUrl], { stdio: 'ignore' });
     console.log('🌐 Browser opened automatically\n');
   } catch {}
 });
@@ -124,8 +127,9 @@ async function exchangeCode(code) {
       let data = '';
       res.on('data', c => data += c);
       res.on('end', () => {
+        if (res.statusCode !== 200) return reject(new Error('OAuth token exchange failed'));
         try { resolve(JSON.parse(data)); }
-        catch { reject(new Error(data)); }
+        catch { reject(new Error('OAuth token response was invalid')); }
       });
     });
     req.on('error', reject);

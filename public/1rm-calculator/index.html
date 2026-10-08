@@ -84,9 +84,9 @@
         <h2>💪 Calculate Your 1RM</h2>
         <p class="desc">Enter the weight you lifted and how many reps you completed.</p>
         <label>Weight Lifted (kg/lbs)</label>
-        <input type="number" id="orm-weight" placeholder="100">
+        <input type="number" id="orm-weight" min="0.1" max="10000" step="0.1" placeholder="100">
         <label>Reps Completed</label>
-        <input type="number" id="orm-reps" placeholder="8">
+        <input type="number" id="orm-reps" min="1" max="10" step="1" placeholder="8">
         <button class="btn" onclick="calcORM()">Calculate 1RM</button>
         <div class="result" id="orm-result">
             <h3>Estimated 1RM</h3>
@@ -115,9 +115,13 @@ function show(id,val,detail){const r=document.getElementById(id);r.style.display
 
 function calcORM(){
     const w=+document.getElementById('orm-weight').value,r=+document.getElementById('orm-reps').value;
-    if(!w||!r)return;
-    const orm=Math.round(w*(1+r/30));
-    show('orm-result',orm,`Training zones → 70%: ${Math.round(orm*.7)} · 80%: ${Math.round(orm*.8)} · 90%: ${Math.round(orm*.9)}`);
+    if(!Number.isFinite(w)||w<=0||w>10000||!Number.isInteger(r)||r<1||r>10){
+        show('orm-result','Check your inputs','Enter a positive finite weight and a whole number of repetitions from 1 to 10.');
+        return;
+    }
+    const roundWeight=value=>Math.round(value*100)/100;
+    const orm=roundWeight(r===1?w:w*(1+r/30));
+    show('orm-result',orm,`Training zones → 70%: ${roundWeight(orm*.7)} · 80%: ${roundWeight(orm*.8)} · 90%: ${roundWeight(orm*.9)}`);
 }
 </script>
 </body>

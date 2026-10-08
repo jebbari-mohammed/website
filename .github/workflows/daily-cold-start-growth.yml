@@ -27,26 +27,22 @@ jobs:
     env:
       GSC_SITE_URL: https://youraicoach.life/
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
-      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
-      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
 
     steps:
       - name: Checkout current production branch
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
-          version: 9
+          version: 9.15.9
 
       - name: Set up Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           cache: pnpm
@@ -68,6 +64,11 @@ jobs:
 
       - name: Pull private Search Console evidence
         if: steps.ready.outputs.ready == 'true'
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: pnpm gsc
 
       - name: Decide whether evidence mode or cold-start mode owns today
@@ -77,11 +78,13 @@ jobs:
 
       - name: Leave evidence-backed work to the senior production workflow
         if: steps.evidence.outputs.evidence_available == 'true'
+        env:
+          EVIDENCE_ROW_COUNT: ${{ steps.evidence.outputs.row_count }}
         run: |
           {
             echo "### Cold-start SEO maintenance"
             echo "- Mode: evidence-backed"
-            echo "- Private GSC rows: ${{ steps.evidence.outputs.row_count }}"
+            echo "- Private GSC rows: ${EVIDENCE_ROW_COUNT}"
             echo "- Cold-start change: skipped"
             echo "- Reason: the ChatGPT senior SEO lead owns evidence-backed decisions."
           } >> "$GITHUB_STEP_SUMMARY"
@@ -119,19 +122,22 @@ jobs:
       - name: Commit only the exact HTML files selected by the engine
         id: commit
         if: steps.growth.outputs.changed == 'true'
+        env:
+          GROWTH_FILES: ${{ steps.growth.outputs.files }}
+          GROWTH_TARGET_HASH: ${{ steps.growth.outputs.target_hash }}
         run: |
           set -euo pipefail
-          IFS=',' read -ra files <<< "${{ steps.growth.outputs.files }}"
+          IFS=',' read -ra files <<< "${GROWTH_FILES}"
           [ "${#files[@]}" -gt 0 ]
           for file in "${files[@]}"; do
-            [[ "$file" =~ ^public/.+\.html$ ]] || { echo "::error::Unexpected cold-start file: $file"; exit 1; }
+            [[ "$file" =~ ^public/([A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\.html$ ]] || { echo "::error::Unexpected cold-start file: $file"; exit 1; }
             test -f "$file"
-            git add "$file"
+            git add -- "$file"
           done
           git diff --cached --quiet && { echo "::error::Cold-start engine reported a change but staged nothing"; exit 1; }
           git config user.name "IZEM Cold-Start SEO"
           git config user.email "cold-start-seo@youraicoach.life"
-          git commit -m "seo: strengthen internal links ${{ steps.growth.outputs.target_hash }}"
+          git commit -m "seo: strengthen internal links ${GROWTH_TARGET_HASH}"
           git fetch origin main
           git rebase origin/main
           git push origin HEAD:main
@@ -179,22 +185,31 @@ jobs:
 
       - name: Verify the exact internal-link marker reached the live source page
         if: steps.growth.outputs.changed == 'true'
+        env:
+          GROWTH_SOURCE_URL: ${{ steps.growth.outputs.source_url }}
+          GROWTH_MARKER: ${{ steps.growth.outputs.marker }}
         run: |
           node tools/ai-marketing/verify-live-seo.mjs \
-            --url "${{ steps.growth.outputs.source_url }}" \
-            --marker "${{ steps.growth.outputs.marker }}"
+            --url "${GROWTH_SOURCE_URL}" \
+            --marker "${GROWTH_MARKER}"
 
       - name: Report the manual cold-start maintenance action
         if: always() && steps.ready.outputs.ready == 'true' && steps.evidence.outputs.evidence_available != 'true'
+        env:
+          EVIDENCE_ROW_COUNT: ${{ steps.evidence.outputs.row_count || '0' }}
+          GROWTH_ACTION: ${{ steps.growth.outputs.action || 'technical-audit' }}
+          GROWTH_CHANGED: ${{ steps.growth.outputs.changed || 'false' }}
+          GROWTH_TARGET_URL: ${{ steps.growth.outputs.target_url || 'site-wide audit' }}
+          GROWTH_SOURCE_URLS: ${{ steps.growth.outputs.source_urls || 'none' }}
         run: |
           {
             echo "### Manual cold-start SEO maintenance"
-            echo "- Search Console rows: ${{ steps.evidence.outputs.row_count || '0' }}"
+            echo "- Search Console rows: ${EVIDENCE_ROW_COUNT}"
             echo "- Mode: deterministic site improvement"
-            echo "- Action: ${{ steps.growth.outputs.action || 'technical-audit' }}"
-            echo "- Public change: ${{ steps.growth.outputs.changed || 'false' }}"
-            echo "- Target: ${{ steps.growth.outputs.target_url || 'site-wide audit' }}"
-            echo "- Source pages: ${{ steps.growth.outputs.source_urls || 'none' }}"
+            echo "- Action: ${GROWTH_ACTION}"
+            echo "- Public change: ${GROWTH_CHANGED}"
+            echo "- Target: ${GROWTH_TARGET_URL}"
+            echo "- Source pages: ${GROWTH_SOURCE_URLS}"
             echo "- Gemini/API drafting cost: none"
             echo "- Forced filler article: none"
           } >> "$GITHUB_STEP_SUMMARY"
@@ -221,3 +236,9 @@ jobs:
           if [ -n "$issue" ]; then
             gh issue close "$issue" --comment "Cold-start SEO growth recovered in ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}."
           fi
+
+      - name: Delete local plaintext Search Console and decision evidence
+        if: always()
+        run: |
+          rm -rf -- tools/ai-marketing/search-console-reports/ data/marketing-employee/seo-growth/
+          rm -f -- /tmp/seo-base-planner.log /tmp/izem-seo-smoke-plan.json

@@ -1,5 +1,4 @@
 import http from 'node:http';
-import { refreshDashboardIndex } from '../../../packages/core/src/index.js';
 
 const port = Number(process.env.MARKETING_WORKER_PORT || 4317);
 
@@ -16,16 +15,18 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'POST' && req.url === '/snapshot') {
-      sendJson(res, 200, await refreshDashboardIndex());
+      // Private records are available only through the owner's local CLI.
+      // A loopback address is not authentication for browser/other local clients.
+      sendJson(res, 403, { ok: false, error: 'HTTP snapshot access is disabled. Use the local snapshot:refresh command.' });
       return;
     }
 
     sendJson(res, 404, { ok: false, error: 'Not found' });
-  } catch (error) {
-    sendJson(res, 500, { ok: false, error: error instanceof Error ? error.message : 'Unknown error' });
+  } catch {
+    sendJson(res, 500, { ok: false, error: 'Request failed' });
   }
 });
 
-server.listen(port, () => {
-  console.log(`Autonomous Marketing Employee worker listening on http://localhost:${port}`);
+server.listen(port, '127.0.0.1', () => {
+  console.log(`Autonomous Marketing Employee worker listening on http://127.0.0.1:${port}`);
 });

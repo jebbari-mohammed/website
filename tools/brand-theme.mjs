@@ -71,7 +71,7 @@ const brightFill = value => {
 };
 
 export function transformCss(css, inline = false) {
-  const root = postcss.parse(inline ? `x{${css}}` : css);
+  const root = postcss.parse(inline ? `x{${css}}` : css, { map: false });
   root.walkDecls(decl => { decl.value = transformValue(decl.value); });
   const variables = new Map();
   root.walkDecls(/^--/, decl => { variables.set(decl.prop, decl.value); });

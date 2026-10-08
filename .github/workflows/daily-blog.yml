@@ -35,29 +35,22 @@ jobs:
       SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.1-pro-preview,gemini-3.5-flash-lite
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
       FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.force || false }}
-      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
-      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
-      GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
 
     steps:
       - name: Checkout current production branch
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
-          version: 9
+          version: 9.15.9
 
       - name: Set up Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           cache: pnpm
@@ -89,6 +82,11 @@ jobs:
 
       - name: Verify the private Search Console credential
         if: steps.gsc_ready.outputs.ready == 'true'
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: |
           set -euo pipefail
           if [ -z "${GOOGLE_SERVICE_ACCOUNT_JSON:-}" ] && [ -z "${GOOGLE_CLOUD_JSON:-}" ] && [ -z "${GCP_SA_KEY:-}" ] && [ -z "${GOOGLE_APPLICATION_CREDENTIALS_JSON:-}" ]; then
@@ -104,6 +102,11 @@ jobs:
 
       - name: Pull private Search Console query and landing-page evidence
         if: steps.gsc_ready.outputs.ready == 'true'
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: pnpm gsc
 
       - name: Evaluate whether private Search Console evidence is available
@@ -113,13 +116,15 @@ jobs:
 
       - name: Report a verified zero-row no-action run
         if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available != 'true'
+        env:
+          GSC_EVIDENCE_ROW_COUNT: ${{ steps.gsc_evidence.outputs.row_count || '0' }}
         run: |
           {
             echo "### Verified Search Console, awaiting evidence"
             echo "- Search Console ownership and private query+page API access: verified"
-            echo "- Private query+page rows: ${{ steps.gsc_evidence.outputs.row_count || '0' }}"
+            echo "- Private query+page rows: ${GSC_EVIDENCE_ROW_COUNT}"
             echo "- Public SEO change: none"
-            echo "- Cache restore and deterministic production suite: skipped"
+            echo "- Deterministic production suite: skipped"
             echo "- Gemini credential check, smoke, drafting, and review calls: skipped"
             echo "- Guessed keyword fallback: disabled"
             echo "- This manual fallback can be run after Search Console returns rows."
@@ -127,6 +132,10 @@ jobs:
 
       - name: Verify Gemini credentials only when evidence exists
         if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
         run: |
           set -euo pipefail
           if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${GEMINI_API_KEY_2:-}" ] && [ -z "${GEMINI_API_KEY_3:-}" ]; then
@@ -135,16 +144,24 @@ jobs:
           fi
           echo "At least one Gemini credential is configured; values were not printed."
 
-      - name: Restore private experiment and cooldown state
+      - name: Restore encrypted experiment and cooldown state
         if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
-        uses: actions/cache@v5
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
-          path: |
-            data/marketing-employee/seo-growth/publish-state-v2.json
-            data/marketing-employee/seo-growth/experiments-v2.json
-          key: seo-production-state-v2-${{ github.run_id }}
+          path: ${{ runner.temp }}/seo-private-cache/envelope.json
+          key: seo-production-private-v1-${{ github.run_id }}
           restore-keys: |
-            seo-production-state-v2-
+            seo-production-private-v1-
+
+      - name: Authenticate private cooldown state before publication
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
+        env:
+          SEO_PRIVATE_CACHE_FILE: ${{ runner.temp }}/seo-private-cache/envelope.json
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: node tools/ai-marketing/seo-private-state-cache.mjs restore
 
       - name: Run deterministic SEO tests
         if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
@@ -165,6 +182,10 @@ jobs:
 
       - name: Verify current Gemini SDK, keys, and model fallback
         if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
         run: pnpm seo:smoke:gemini
 
       - name: Research, draft, critique, validate, and prepare the best action
@@ -172,12 +193,25 @@ jobs:
         if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
         env:
           SEO_PLAN_PATH: data/marketing-employee/seo-growth/expert-latest.json
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
         run: |
           set -euo pipefail
           args=()
           [ "$DRY_RUN" = "true" ] && args+=(--dry-run)
           [ "$FORCE_RUN" = "true" ] && args+=(--force)
           node tools/ai-marketing/seo-production-runner.mjs "${args[@]}"
+
+      - name: Encrypt updated cooldown state before public commit
+        if: steps.gsc_ready.outputs.ready == 'true' && steps.gsc_evidence.outputs.evidence_available == 'true'
+        env:
+          SEO_PRIVATE_CACHE_FILE: ${{ runner.temp }}/seo-private-cache/envelope.json
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: node tools/ai-marketing/seo-private-state-cache.mjs save
 
       - name: Generate a production PNG social card for a new page
         if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create'
@@ -200,6 +234,9 @@ jobs:
 
       - name: Commit only public website files
         if: steps.publish.outputs.changed == 'true'
+        env:
+          PUBLISH_ACTION: ${{ steps.publish.outputs.action }}
+          PUBLISH_QUERY_HASH: ${{ steps.publish.outputs.query_hash }}
         run: |
           set -euo pipefail
           git config user.name "IZEM SEO Production"
@@ -210,7 +247,7 @@ jobs:
             exit 1
           fi
           git diff --cached --quiet && { echo "::error::Publisher reported a change but no public file is staged"; exit 1; }
-          git commit -m "seo: ${{ steps.publish.outputs.action }} ${{ steps.publish.outputs.query_hash }}"
+          git commit -m "seo: ${PUBLISH_ACTION} ${PUBLISH_QUERY_HASH}"
           git fetch origin main
           git rebase origin/main
           git push origin HEAD:main
@@ -219,8 +256,9 @@ jobs:
         if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action == 'create'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_SLUG: ${{ steps.publish.outputs.slug }}
         run: |
-          gh workflow run "Daily IZEM YouTube Video" --ref main -f post_slug="${{ steps.publish.outputs.slug }}"
+          gh workflow run "Daily IZEM YouTube Video" --ref main -f post_slug="${PUBLISH_SLUG}"
           {
             echo "### New-page release handoff"
             echo "The article source is committed, but Pages deployment is intentionally deferred until the object-only visuals and validated NotebookLM/YouTube video are attached."
@@ -229,10 +267,13 @@ jobs:
 
       - name: Verify an existing-page refresh reached the live site
         if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action != 'create'
+        env:
+          PUBLISH_URL: ${{ steps.publish.outputs.url }}
+          PUBLISH_MARKER: ${{ steps.publish.outputs.marker }}
         run: |
           node tools/ai-marketing/verify-live-seo.mjs \
-            --url "${{ steps.publish.outputs.url }}" \
-            --marker "${{ steps.publish.outputs.marker }}"
+            --url "${PUBLISH_URL}" \
+            --marker "${PUBLISH_MARKER}"
 
       - name: Check discovery files after a verified existing-page refresh
         if: steps.publish.outputs.changed == 'true' && steps.publish.outputs.action != 'create'
@@ -240,22 +281,32 @@ jobs:
 
       - name: Write privacy-safe SEO run summary
         if: always() && steps.gsc_ready.outputs.ready == 'true'
+        env:
+          GSC_EVIDENCE_ROW_COUNT: ${{ steps.gsc_evidence.outputs.row_count || '0' }}
+          GSC_EVIDENCE_EVIDENCE_AVAILABLE: ${{ steps.gsc_evidence.outputs.evidence_available || 'false' }}
+          PUBLISH_ACTION: ${{ steps.publish.outputs.action || 'none' }}
+          PUBLISH_QUERY_HASH: ${{ steps.publish.outputs.query_hash || 'none' }}
+          PUBLISH_GROUNDED: ${{ steps.publish.outputs.grounded || 'false' }}
+          PUBLISH_VALIDATED: ${{ steps.publish.outputs.validated || 'false' }}
+          PUBLISH_CHANGED: ${{ steps.publish.outputs.changed || 'false' }}
+          PUBLISH_URL: ${{ steps.publish.outputs.url }}
+          PUBLISH_MARKER: ${{ steps.publish.outputs.marker }}
         run: |
           {
             echo "### IZEM SEO production fallback"
             echo "- Search Console: verified URL-prefix property"
-            echo "- Private query+page rows: ${{ steps.gsc_evidence.outputs.row_count || '0' }}"
-            echo "- Evidence available: ${{ steps.gsc_evidence.outputs.evidence_available || 'false' }}"
+            echo "- Private query+page rows: ${GSC_EVIDENCE_ROW_COUNT}"
+            echo "- Evidence available: ${GSC_EVIDENCE_EVIDENCE_AVAILABLE}"
             echo "- Dry run: ${DRY_RUN}"
-            echo "- Action: ${{ steps.publish.outputs.action || 'none' }}"
-            echo "- Query hash: ${{ steps.publish.outputs.query_hash || 'none' }}"
-            echo "- Live search grounded: ${{ steps.publish.outputs.grounded || 'false' }}"
-            echo "- Validation passed: ${{ steps.publish.outputs.validated || 'false' }}"
-            echo "- Public change: ${{ steps.publish.outputs.changed || 'false' }}"
-            if [ "${{ steps.publish.outputs.changed }}" = "true" ]; then
-              echo "- Target URL: ${{ steps.publish.outputs.url }}"
-              echo "- Deployment marker: ${{ steps.publish.outputs.marker }}"
-              if [ "${{ steps.publish.outputs.action }}" = "create" ]; then
+            echo "- Action: ${PUBLISH_ACTION}"
+            echo "- Query hash: ${PUBLISH_QUERY_HASH}"
+            echo "- Live search grounded: ${PUBLISH_GROUNDED}"
+            echo "- Validation passed: ${PUBLISH_VALIDATED}"
+            echo "- Public change: ${PUBLISH_CHANGED}"
+            if [ "${PUBLISH_CHANGED}" = "true" ]; then
+              echo "- Target URL: ${PUBLISH_URL}"
+              echo "- Deployment marker: ${PUBLISH_MARKER}"
+              if [ "${PUBLISH_ACTION}" = "create" ]; then
                 echo "- Release status: pending transactional media completion (not prematurely deployed)"
               else
                 echo "- Release status: existing-page refresh verified live"
@@ -286,3 +337,9 @@ jobs:
           if [ -n "$issue" ]; then
             gh issue close "$issue" --comment "The optional GSC-backed SEO production fallback recovered in ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}."
           fi
+
+      - name: Delete local plaintext Search Console and decision evidence
+        if: always()
+        run: |
+          rm -rf -- tools/ai-marketing/search-console-reports/ data/marketing-employee/seo-growth/
+          rm -f -- /tmp/seo-base-planner.log /tmp/izem-seo-smoke-plan.json

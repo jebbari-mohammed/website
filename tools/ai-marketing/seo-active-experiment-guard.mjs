@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -67,6 +68,34 @@ export function isDocumentedVideoSafetyCorrection(baseContent, headContent, opti
     `<img src="https://youraicoach\\.life/youtube/thumbnails/${to}\\.svg" alt="[^<>\"]+" width="1200" height="675" loading="lazy" decoding="async">` +
     '</a><p>[^<>]+</p></section>\\s*$');
   return staticCard.test(updated.block);
+}
+
+// One reviewed calculator correction, pinned to the complete original/corrected
+// file bytes. Config annotations cannot authorize a different edit or file.
+export const REVIEWED_CALCULATOR_SAFETY_CORRECTION = Object.freeze({
+  id: 'macro-positive-calories-2026-10-08',
+  kind: 'calculator-input-safety',
+  date: '2026-10-08',
+  file: 'public/macro-calculator/index.html',
+  baseSha256: '910f7d1a34f87684bc903b72895d03936d815e5043a2c7d57e441374533e9655',
+  headSha256: '65e3b72cc74fe2a9047cebc26aec375d1a5c05b703c02cb0e9e8c299a89cd758',
+  reviewNote: 'docs/seo-experiments/2026-10-08-calculator-input-safety-correction.md',
+});
+
+export function isDocumentedCalculatorSafetyCorrection(baseContent, headContent, options = {}) {
+  const { correction, baseCorrections = [], reviewNote = '', changedFiles = [], now = new Date() } = options;
+  const reviewed = REVIEWED_CALCULATOR_SAFETY_CORRECTION;
+  if (!correction || Object.entries(reviewed).some(([key, value]) => correction[key] !== value)) return false;
+  if (typeof baseContent !== 'string' || typeof headContent !== 'string') return false;
+  const instant = new Date(now);
+  if (Number.isNaN(instant.getTime()) || new Date(reviewed.date) > instant) return false;
+  if (!changedFiles.includes('config/seo-active-experiments.json') ||
+      !changedFiles.includes(reviewed.reviewNote) || !reviewNote.includes('safety') ||
+      ![reviewed.id, reviewed.file, reviewed.baseSha256, reviewed.headSha256].every(value => reviewNote.includes(value))) return false;
+  if (baseCorrections.some(entry => entry.id === reviewed.id ||
+      (entry.file === reviewed.file && entry.baseSha256 === reviewed.baseSha256 && entry.headSha256 === reviewed.headSha256))) return false;
+  const digest = content => createHash('sha256').update(content, 'utf8').digest('hex');
+  return digest(baseContent) === reviewed.baseSha256 && digest(headContent) === reviewed.headSha256;
 }
 
 function parseArgs(argv) {
@@ -245,6 +274,19 @@ function fileAtRef(ref, file) {
   }
 }
 
+function exactFileAtRef(ref, file) {
+  if (!ref || /^0+$/.test(ref)) return null;
+  try {
+    // Unlike the historical git() text helper, digest verification must preserve
+    // trailing newlines and every other byte in the reviewed UTF-8 HTML file.
+    return execFileSync('git', ['show', `${ref}:${file}`], {
+      cwd: ROOT, encoding: 'utf8', maxBuffer: 20 * 1024 * 1024,
+    });
+  } catch {
+    return null;
+  }
+}
+
 function ownerImagePolicySafetyOverrideFiles(base, head, changedFiles) {
   const allowed = new Set();
   for (const file of changedFiles) {
@@ -301,6 +343,27 @@ function documentedVideoSafetyOverrideFiles(base, head, changedFiles, baseConfig
   return allowed;
 }
 
+export function documentedCalculatorSafetyOverrideFiles(base, head, changedFiles, baseConfig, headConfig, now, readAtRef = exactFileAtRef) {
+  const allowed = new Set();
+  if (!baseConfig) return allowed;
+  const reviewed = REVIEWED_CALCULATOR_SAFETY_CORRECTION;
+  if (!changedFiles.includes(reviewed.file)) return allowed;
+  const protectingLocks = baseConfig.locks.filter(lock => lock.files.includes(reviewed.file) &&
+    now <= new Date(`${lock.lockUntil}T23:59:59.999Z`));
+  if (!protectingLocks.length) return allowed;
+  const accepted = protectingLocks.every(baseLock => {
+    const headLock = headConfig.locks.find(lock => lock.id === baseLock.id);
+    return (headLock?.corrections || []).some(correction => correction.file === reviewed.file &&
+      correction.reviewNote === reviewed.reviewNote &&
+      isDocumentedCalculatorSafetyCorrection(readAtRef(base, reviewed.file), readAtRef(head, reviewed.file), {
+        correction, baseCorrections: baseLock.corrections || [], changedFiles, now,
+        reviewNote: readAtRef(head, reviewed.reviewNote) || '',
+      }));
+  });
+  if (accepted) allowed.add(reviewed.file);
+  return allowed;
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = validateConfig(JSON.parse(fs.readFileSync(args.config, 'utf8')));
@@ -310,6 +373,7 @@ async function main() {
   const instant = new Date(args.now);
   const ownerImageSafetyOverrideFiles = ownerImagePolicySafetyOverrideFiles(args.base, args.head, changedFiles);
   const videoSafetyOverrideFiles = documentedVideoSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
+  const calculatorSafetyOverrideFiles = documentedCalculatorSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
 
   const mutationViolations = findActiveLockMutationViolations(baseConfig, config, instant);
   if (mutationViolations.length) {
@@ -324,7 +388,7 @@ async function main() {
 
   const violations = findActiveLockViolations(changedFiles, config, instant, {
     enforceLockIds: baseLockIds,
-    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles]),
+    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles, ...calculatorSafetyOverrideFiles]),
   });
 
   if (violations.length) {
@@ -343,6 +407,9 @@ async function main() {
   }
   if (videoSafetyOverrideFiles.size) {
     console.log(`SEO active-experiment guard accepted ${videoSafetyOverrideFiles.size} documented video-block safety correction(s), using destination validation already present at the base. Article content and lock dates remain protected.`);
+  }
+  if (calculatorSafetyOverrideFiles.size) {
+    console.log(`SEO active-experiment guard accepted ${calculatorSafetyOverrideFiles.size} documented calculator safety correction(s) matching reviewed base/head SHA-256 digests. Other file content and lock dates remain protected.`);
   }
 
   const introduced = baseLockIds

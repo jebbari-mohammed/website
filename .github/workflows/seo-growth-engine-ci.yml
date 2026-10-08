@@ -11,6 +11,8 @@ on:
       - 'public/**/*.html'
       - 'public/llms.txt'
       - 'tools/ai-marketing/**'
+      - 'tools/workflow-security.test.mjs'
+      - 'tools/workflow-action-pins.json'
       - '.github/workflows/daily-blog.yml'
       - '.github/workflows/search-console-bootstrap.yml'
       - '.github/workflows/seo-growth-engine-ci.yml'
@@ -26,6 +28,8 @@ on:
       - 'public/**/*.html'
       - 'public/llms.txt'
       - 'tools/ai-marketing/**'
+      - 'tools/workflow-security.test.mjs'
+      - 'tools/workflow-action-pins.json'
       - '.github/workflows/daily-blog.yml'
       - '.github/workflows/search-console-bootstrap.yml'
       - '.github/workflows/seo-growth-engine-ci.yml'
@@ -33,7 +37,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: seo-production-validation-${{ github.ref }}
@@ -46,21 +50,26 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
-          version: 9
+          version: 9.15.9
 
       - name: Set up Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Test security and workflow boundaries
+        run: pnpm test:security
 
       - name: Check production script syntax
         run: |
@@ -113,24 +122,19 @@ jobs:
       GSC_SITE_URL: https://youraicoach.life/
       SEO_GEMINI_MODEL: gemini-3.6-flash
       SEO_GEMINI_MODELS: gemini-3.6-flash,gemini-3.5-flash,gemini-3.1-pro-preview,gemini-3.5-flash-lite
-      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-      GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
-      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-      GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
-      GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
-          version: 9
+          version: 9.15.9
 
       - name: Set up Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           cache: pnpm
@@ -139,6 +143,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Require at least one Gemini key
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
         run: |
           set -euo pipefail
           if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${GEMINI_API_KEY_2:-}" ] && [ -z "${GEMINI_API_KEY_3:-}" ]; then
@@ -148,6 +156,10 @@ jobs:
 
       - name: Verify current Gemini SDK, model access, and structured output
         id: gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
         run: pnpm seo:smoke:gemini
 
       - name: Build a public non-production grounding fixture
@@ -157,16 +169,24 @@ jobs:
         id: grounding
         env:
           SEO_PLAN_PATH: /tmp/izem-seo-grounding-smoke-plan.json
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
         run: node tools/ai-marketing/seo-production-runner.mjs --dry-run --force
 
       - name: Verify the independent AI smoke was grounded and non-mutating
+        env:
+          GROUNDING_VALIDATED: ${{ steps.grounding.outputs.validated }}
+          GROUNDING_CHANGED: ${{ steps.grounding.outputs.changed }}
+          GROUNDING_GROUNDED: ${{ steps.grounding.outputs.grounded }}
+          GEMINI_SELECTED_MODEL: ${{ steps.gemini.outputs.selected_model }}
         run: |
           set -euo pipefail
-          [ "${{ steps.grounding.outputs.validated }}" = "true" ]
-          [ "${{ steps.grounding.outputs.changed }}" = "false" ]
-          [ "${{ steps.grounding.outputs.grounded }}" = "true" ]
+          [ "${GROUNDING_VALIDATED}" = "true" ]
+          [ "${GROUNDING_CHANGED}" = "false" ]
+          [ "${GROUNDING_GROUNDED}" = "true" ]
           git diff --quiet -- public/
-          echo "Independent Gemini + live grounding + editor smoke passed with ${{ steps.gemini.outputs.selected_model }}."
+          echo "Independent Gemini + live grounding + editor smoke passed with ${GEMINI_SELECTED_MODEL}."
 
       - name: Read Search Console bootstrap status
         id: gsc_ready
@@ -190,6 +210,11 @@ jobs:
 
       - name: Verify real Search Console API access without exposing queries
         if: steps.gsc_ready.outputs.ready == 'true'
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          GOOGLE_CLOUD_JSON: ${{ secrets.GOOGLE_CLOUD_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: pnpm gsc
 
       - name: Count available private query+page rows
@@ -221,15 +246,22 @@ jobs:
         if: steps.gsc_ready.outputs.ready == 'true' && steps.rows.outputs.count != '0'
         env:
           SEO_PLAN_PATH: /tmp/izem-seo-smoke-plan.json
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
         run: node tools/ai-marketing/seo-production-runner.mjs --dry-run --force
 
       - name: Prove the GSC-backed smoke was validated, grounded, and non-mutating
         if: steps.gsc_ready.outputs.ready == 'true' && steps.rows.outputs.count != '0'
+        env:
+          GSC_SMOKE_VALIDATED: ${{ steps.gsc_smoke.outputs.validated }}
+          GSC_SMOKE_CHANGED: ${{ steps.gsc_smoke.outputs.changed }}
+          GSC_SMOKE_GROUNDED: ${{ steps.gsc_smoke.outputs.grounded }}
         run: |
           set -euo pipefail
-          [ "${{ steps.gsc_smoke.outputs.validated }}" = "true" ]
-          [ "${{ steps.gsc_smoke.outputs.changed }}" = "false" ]
-          [ "${{ steps.gsc_smoke.outputs.grounded }}" = "true" ]
+          [ "${GSC_SMOKE_VALIDATED}" = "true" ]
+          [ "${GSC_SMOKE_CHANGED}" = "false" ]
+          [ "${GSC_SMOKE_GROUNDED}" = "true" ]
           git diff --quiet -- public/
           echo "Credentialed GSC-backed end-to-end smoke passed without publishing or leaking exact queries."
 
@@ -237,6 +269,13 @@ jobs:
         if: steps.gsc_ready.outputs.ready == 'true' && steps.rows.outputs.count == '0'
         run: |
           echo "Search Console API access is verified; no query+page evidence is available yet, so publication remains correctly inactive." >> "$GITHUB_STEP_SUMMARY"
+
+
+      - name: Delete local plaintext Search Console and decision evidence
+        if: always()
+        run: |
+          rm -rf -- tools/ai-marketing/search-console-reports/ data/marketing-employee/seo-growth/
+          rm -f -- /tmp/seo-base-planner.log /tmp/izem-seo-smoke-plan.json
 
   lockfile:
     name: Verify reproducible dependency resolution
@@ -246,18 +285,19 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout pull-request branch
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
-          version: 9
+          version: 9.15.9
 
       - name: Set up Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
 

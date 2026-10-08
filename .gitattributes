@@ -1,0 +1,3 @@
+# Exact historical bytes are required by the reviewed calculator digest tests.
+tools/fixtures/security/macro-calculator-before-2026-10-08.html whitespace=-blank-at-eol
+tools/fixtures/security/macro-calculator-after-2026-10-08.html whitespace=-blank-at-eol
