@@ -249,7 +249,7 @@ test('macro calculator retains its valid goal adjustment and 30/45/25 split', ()
 });
 
 test('1RM calculator rejects invalid weights and repetitions outside its supported whole-number range', () => {
-  for (const [weight, reps] of [[0, 8], [-100, 8], ['NaN', 8], ['Infinity', 8], [10001, 8], [100, 0], [100, -1], [100, 11], [100, 1.5], [100, 'Infinity'], [100, '']]) {
+  for (const [weight, reps] of [[0, 8], [.001, 1], [.09, 8], [-100, 8], ['NaN', 8], ['Infinity', 8], [10001, 8], [100, 0], [100, -1], [100, 11], [100, 1.5], [100, 'Infinity'], [100, '']]) {
     const { context, elements } = calculatorFixture('public/1rm-calculator/index.html', { 'orm-weight': weight, 'orm-reps': reps }, 'orm');
     context.calcORM();
     assert.equal(elements['orm-val'].textContent, 'Check your inputs', `${weight}/${reps}`);
