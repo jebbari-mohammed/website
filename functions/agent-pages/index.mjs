@@ -14,6 +14,7 @@ const handler = createAgentHandler({
 // API, database client, user data, secrets, model calls, or outbound requests.
 export const agentPages = onRequest({
   region: 'us-central1',
+  serviceAccount: 'izem-agent-pages-runtime@ai-gym-coach-13ee1.iam.gserviceaccount.com',
   invoker: 'public',
   memory: '256MiB',
   minInstances: 0,

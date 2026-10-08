@@ -6,6 +6,7 @@ const projectId = 'ai-gym-coach-13ee1';
 const projectNumber = '308524914649';
 const appEngine = `${projectId}@appspot.gserviceaccount.com`;
 const compute = `${projectNumber}-compute@developer.gserviceaccount.com`;
+const runtime = `izem-agent-pages-runtime@${projectId}.iam.gserviceaccount.com`;
 
 function fixture({ denied = new Map(), project = { projectId, projectNumber } } = {}) {
   const calls = [];
@@ -28,13 +29,14 @@ test('complete preflight uses authenticated project metadata and only read-only 
   assert.deepEqual(calls.slice(1).map(call => call.url), [
     `https://iam.googleapis.com/v1/projects/${projectId}/serviceAccounts/${appEngine}:testIamPermissions`,
     `https://iam.googleapis.com/v1/projects/${projectId}/serviceAccounts/${compute}:testIamPermissions`,
+    `https://iam.googleapis.com/v1/projects/${projectId}/serviceAccounts/${runtime}:testIamPermissions`,
     `https://cloudresourcemanager.googleapis.com/v1/projects/${projectId}:testIamPermissions`,
   ]);
   for (const call of calls.slice(1)) assert.equal(call.method, 'POST');
 });
 
-for (const resource of [appEngine, compute]) {
-  test(`passing the other account cannot hide denied actAs on ${resource}`, async () => {
+for (const resource of [appEngine, compute, runtime]) {
+  test(`passing other accounts cannot hide denied actAs on ${resource}`, async () => {
     const { request } = fixture({ denied: new Map([[resource, ['iam.serviceAccounts.actAs']]]) });
     assert.deepEqual(await checkAgentDeployAccess({ projectId, request }), {
       granted: false, missing: [{ resource, permission: 'iam.serviceAccounts.actAs' }],
@@ -42,7 +44,7 @@ for (const resource of [appEngine, compute]) {
   });
 }
 
-test('actAs on both service accounts does not authorize missing Functions/Run deployment permissions', async () => {
+test('actAs on all three service accounts does not authorize missing Functions/Run deployment permissions', async () => {
   const permission = 'run.services.setIamPolicy';
   const { request } = fixture({ denied: new Map([[`${projectId}:testIamPermissions`, [permission]]]) });
   assert.deepEqual(await checkAgentDeployAccess({ projectId, request }), {
@@ -72,7 +74,7 @@ for (const project of [undefined, { projectId, projectNumber: '../other-project'
   });
 }
 
-for (let failedCall = 0; failedCall < 4; failedCall++) {
+for (let failedCall = 0; failedCall < 5; failedCall++) {
   test(`transport failure at preflight stage ${failedCall + 1} cannot select a credential`, async () => {
     const { request: validRequest } = fixture();
     let call = 0;

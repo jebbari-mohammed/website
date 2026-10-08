@@ -55,7 +55,8 @@ export async function checkAgentDeployAccess({ projectId, request }) {
   const missing = [];
   for (const serviceAccount of [
     `${projectId}@appspot.gserviceaccount.com`, // Firebase CLI's unconditional check.
-    `${projectNumber}-compute@developer.gserviceaccount.com`, // v2 runtime/default build identity.
+    `${projectNumber}-compute@developer.gserviceaccount.com`, // unchanged default build identity.
+    `izem-agent-pages-runtime@${projectId}.iam.gserviceaccount.com`, // dedicated public-content runtime.
   ]) {
     const denied = await missingPermissions({
       request,
