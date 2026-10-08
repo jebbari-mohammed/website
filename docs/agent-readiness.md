@@ -21,7 +21,7 @@ The fallback rewrite uses `agentPages` in the isolated `agent-pages` codebase in
 
 The repository's existing article, media, weekly publishing, image policy and route checks remain enabled. The release workflow adds handler tests, built metadata checks, Firebase emulator checks and live verification. The function scales to zero and is capped at three instances; the existing short public caching policy is preserved for successful homepage responses, while errors are not cached.
 
-Deployment needs an already enabled Firebase billing plan and credentials authorized for second-generation Functions, its build/runtime dependencies and Hosting. This change does not create credentials, alter IAM roles or authorize a billing upgrade. If those prerequisites are unavailable, retain the previous healthy Hosting release and report the precise failed permission.
+Deployment needs an already enabled Firebase billing plan and credentials authorized for second-generation Functions, its build/runtime dependencies and Hosting. The new endpoint is configured for public invocation. Existing project/application role assignments and existing functions are unchanged; this change does not create credentials or authorize a billing upgrade. If those prerequisites are unavailable, retain the previous healthy Hosting release and report the precise failed permission.
 
 ## Verification
 
