@@ -39,6 +39,11 @@ export default function Footer() {
             </h3>
             <ul className="flex flex-col gap-2.5 text-sm">
               <li>
+                <a href="#faq" className="text-textSecondary hover:text-primary transition-colors">
+                  Questions about IZEM
+                </a>
+              </li>
+              <li>
                 <a href="/izem-ai-fitness-coach/" className="text-textSecondary hover:text-primary transition-colors">
                   AI Fitness Coach
                 </a>
