@@ -6,6 +6,7 @@ on:
       - 'functions/agent-pages/**'
       - 'tools/agent-metadata.test.mjs'
       - 'tools/agent-deploy.test.mjs'
+      - 'tools/check-agent-deploy-access*.mjs'
       - 'tools/verify-agent-readiness*.mjs'
       - 'index.html'
       - 'public/llms.txt'

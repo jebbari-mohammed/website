@@ -206,7 +206,7 @@ jobs:
           firebase emulators:exec --only hosting,functions --project demo-izem-agent-readiness \
             'node tools/verify-agent-readiness.mjs http://127.0.0.1:5000'
 
-      - name: Select an authorized Firebase Hosting credential
+      - name: Select an authorized Firebase Hosting and Functions credential
         id: firebase_auth
         env:
           FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_DEPLOY_SERVICE_ACCOUNT_JSON }}
@@ -239,10 +239,15 @@ jobs:
             fi
 
             if GOOGLE_APPLICATION_CREDENTIALS="$candidate" firebase hosting:sites:list --project "$project_id" --json >/dev/null 2>&1; then
+              if ! GOOGLE_APPLICATION_CREDENTIALS="$candidate" FIREBASE_TOOLS_ROOT="$(npm root --global)/firebase-tools" node tools/check-agent-deploy-access.mjs "$project_id"; then
+                echo "Configured candidate $name has Hosting access but lacks verified Functions service-account access; checking the next existing candidate."
+                rm -f "$candidate"
+                continue
+              fi
               credential_file="$candidate"
               echo "mode=service_account" >> "$GITHUB_OUTPUT"
               echo "GOOGLE_APPLICATION_CREDENTIALS=$credential_file" >> "$GITHUB_ENV"
-              echo "Selected a Firebase Hosting-authorized repository service account without exposing credential contents."
+              echo "Selected a repository service account with Hosting and verified Functions service-account access without exposing credential contents."
               exit 0
             fi
 
@@ -260,7 +265,7 @@ jobs:
             fi
           done
 
-          echo "::error::No configured repository credential is authorized to access Firebase Hosting for project $project_id."
+          echo "::error::No configured repository credential has verified Firebase Hosting and Functions service-account access for project $project_id. A project owner must provide an authorized deployment credential or grant the deployer iam.serviceAccounts.actAs on $project_id@appspot.gserviceaccount.com."
           exit 1
 
       - name: Deploy production artifact to Firebase Hosting
