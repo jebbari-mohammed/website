@@ -195,6 +195,9 @@ jobs:
       - name: Install pinned Firebase CLI
         run: npm install --global firebase-tools@15.29.0
 
+      - name: Verify scoped Firebase deployment filters
+        run: FIREBASE_TOOLS_ROOT="$(npm root --global)/firebase-tools" node --test tools/agent-deploy.test.mjs
+
       - name: Prepare and validate agent-aware Hosting artifact
         run: |
           set -euo pipefail
@@ -267,9 +270,9 @@ jobs:
           project_id=$(node -e "const fs=require('fs'); const cfg=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(cfg.projects.default || '')")
           test -n "$project_id"
           if [ "${{ steps.firebase_auth.outputs.mode }}" = "token" ]; then
-            firebase deploy --only hosting --project "$project_id" --token "$FIREBASE_DEPLOY_TOKEN" --non-interactive
+            firebase deploy --only hosting,functions:agent-pages:agentPages --project "$project_id" --token "$FIREBASE_DEPLOY_TOKEN" --non-interactive
           else
-            firebase deploy --only hosting --project "$project_id" --non-interactive
+            firebase deploy --only hosting,functions:agent-pages:agentPages --project "$project_id" --non-interactive
           fi
 
       - name: Smoke-test Firebase default host and production custom domain

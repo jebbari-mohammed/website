@@ -5,6 +5,7 @@ on:
     paths:
       - 'functions/agent-pages/**'
       - 'tools/agent-metadata.test.mjs'
+      - 'tools/agent-deploy.test.mjs'
       - 'tools/verify-agent-readiness*.mjs'
       - 'index.html'
       - 'public/llms.txt'
@@ -39,4 +40,6 @@ jobs:
       - run: pnpm build
       - run: pnpm prepare:agent-hosting
       - run: AGENT_METADATA_ROOT=dist node --test tools/agent-metadata.test.mjs
-      - run: npx --yes firebase-tools@15.29.0 emulators:exec --only hosting,functions --project demo-izem-agent-readiness 'node tools/verify-agent-readiness.mjs http://127.0.0.1:5000'
+      - run: npm install --global firebase-tools@15.29.0
+      - run: FIREBASE_TOOLS_ROOT="$(npm root --global)/firebase-tools" node --test tools/agent-deploy.test.mjs
+      - run: firebase emulators:exec --only hosting,functions --project demo-izem-agent-readiness 'node tools/verify-agent-readiness.mjs http://127.0.0.1:5000'

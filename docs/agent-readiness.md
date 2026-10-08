@@ -17,7 +17,7 @@ Firebase Hosting serves matching static files before rewrites. `npm run prepare:
 
 The fallback rewrite uses `agentPages` in the isolated `agent-pages` codebase in `us-central1`. Existing static product pages, tools, blog pages, authentication actions and app association files retain their Hosting behavior. Function deployments must remain scoped to this codebase. The site's existing app functions are not part of this repository's deployment manifest.
 
-`pinTag: true` ties the function revision to each Hosting release. The existing `firebase deploy --only hosting` path also deploys the pinned function, and a Hosting rollback restores the matching function revision. Do not deploy a staged directory containing a root `index.html`: it would silently disable homepage negotiation. Do not publish the staged Hosting rewrite unless the function deployment succeeds.
+`pinTag: true` ties the function revision to each Hosting release, and a Hosting rollback restores the matching function revision. Deploy with `firebase deploy --only hosting,functions:agent-pages:agentPages`: the explicit codebase and function selector is required for the first deployment. Firebase CLI 15.29.0 cannot infer a new pinned function's non-default codebase from a Hosting-only selector. The scoped command also avoids selecting other app functions. Do not deploy a staged directory containing a root `index.html`: it would silently disable homepage negotiation. Do not publish the staged Hosting rewrite unless the function deployment succeeds.
 
 The repository's existing article, media, weekly publishing, image policy and route checks remain enabled. The release workflow adds handler tests, built metadata checks, Firebase emulator checks and live verification. The function scales to zero and is capped at three instances; the existing short public caching policy is preserved for successful homepage responses, while errors are not cached.
 
@@ -31,7 +31,9 @@ npm run test:agents
 npm run build
 npm run prepare:agent-hosting
 AGENT_METADATA_ROOT=dist node --test tools/agent-metadata.test.mjs
-npx --yes firebase-tools@15.29.0 emulators:exec --only hosting,functions --project demo-izem-agent-readiness 'node tools/verify-agent-readiness.mjs http://127.0.0.1:5000'
+npm install --global firebase-tools@15.29.0
+FIREBASE_TOOLS_ROOT="$(npm root --global)/firebase-tools" node --test tools/agent-deploy.test.mjs
+firebase emulators:exec --only hosting,functions --project demo-izem-agent-readiness 'node tools/verify-agent-readiness.mjs http://127.0.0.1:5000'
 node tools/verify-agent-readiness.mjs https://youraicoach.life --all-pages
 ```
 
