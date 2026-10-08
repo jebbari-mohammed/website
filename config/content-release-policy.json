@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "19c1276aa7db2685515398fdf16cfdd1dfa45fa6",
+  "minimumWords": 300,
+  "maximumCharacters": 80000,
+  "copyleaksMaxAiProportion": 0.1,
+  "saplingMaxAiProbability": 0.1,
+  "humanReviewPublicKeyPem": null,
+  "notes": [
+    "The baseline is migration-only, not a claim that historical content passed these checks. Never advance it to bypass review.",
+    "Thresholds are conservative local editorial settings, not proof of human authorship or predictions about search rankings.",
+    "Only a real human may hold and use the approval private key. Do not generate or use it through an AI agent.",
+    "No external API calls occur during check or build. A missing scan, missing approval, or unsupported input blocks new content."
+  ]
+}

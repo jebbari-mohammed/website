@@ -1,0 +1,33 @@
+name: Content release gate
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: content-release-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  editorial-release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Test fail-closed behavior (synthetic fixtures; no provider calls)
+        run: node --test tools/content-release-gate.test.mjs
+      - name: Install dependencies from the existing production lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Check three-layer release evidence
+        run: node tools/content-release-gate.mjs check
