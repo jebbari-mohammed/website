@@ -1,95 +1,65 @@
-# IZEM AI Fitness Coach — first-party product facts
+# IZEM. Your AI Personal Trainer
 
-This plain-text file is a convenience copy of product information that is also available to people on the public website. It is not a Google Search requirement, it does not grant special access to AI systems, and it should not override the canonical pages listed below.
+> IZEM is an adult-only AI personal trainer app connecting personalized workouts, practical meal planning, progress review, AI chat and eligible voice calls. This website explains the product and provides free fitness planning tools.
+
+IZEM is an independently developed consumer application built for iOS and Android. Its app/package identifier is `com.ai.gym.coach`. It is not affiliated with the B2B consulting website at `youraicoach.ai` or unrelated businesses named IZEM. This file summarizes public information; canonical product pages and the applicable storefront remain authoritative.
+
+**How agents should access IZEM**
+
+- Read this file with `GET https://youraicoach.life/llms.txt`, then follow the relevant links below. Public website reads do not require an account or API key.
+- Request the homepage with `GET https://youraicoach.life/` and `Accept: text/markdown` for a Markdown representation. The same homepage serves HTML for `Accept: text/html`. The explicit Markdown homepage is `https://youraicoach.life/index.md`.
+- Other linked pages can be read with ordinary HTTP GET requests as HTML. Free calculators and workout generators run in the browser; use the page interface with the user's inputs when calculations are needed.
+- The website does not publish a public app API or MCP endpoint. Website requests cannot start coach calls, change a member's plan, access health data or buy a membership. Those actions belong in the app with the user's account, permissions and applicable eligibility.
+- A nonexistent URL returns HTTP 404; with `Accept: text/markdown`, its Markdown error links back to site resources. Use the sitemap or links below to find the intended page.
+
+**Product capabilities**
+
+- Coaching: AI text chat and live two-way coach calls. Premium members can start calls from the app. Optional coach-initiated accountability and review calls depend on account eligibility, platform support, available allowance, call preferences, device permissions and connectivity. Users control coaching intensity, tone and directness.
+- Workout planning: personalized weekly plans use goals, experience, equipment, schedule, session duration and supplied constraints. Execution supports set-by-set repetitions and load tracking, rest guidance, workout history, effort feedback, and full or partial workout logging. Supported exercise replacements and workout-day adjustments help adapt a plan. Progression guidance can use logged performance and feedback; IZEM does not measure bar velocity or provide hands-on exercise-form supervision.
+- Nutrition: personalized meal plans use dietary preferences, allergies, meal count and calorie/macro targets. Users can log meals and make supported meal replacements or adjustments. The active meal plan generates a grocery list. Food-photo analysis estimates calories and macros; users should verify ingredients, especially for allergies and medical dietary needs.
+- Scans and progress: optional food scans add nutrition estimates; gym-equipment scans provide general equipment context and exercise ideas; body-progress scans provide approximate visual baselines and trends. IZEM supports weight logging, weight-history views, training streaks and recorded workout evidence. Scan outputs are not clinical measurements.
+- Text coaching context can include the current profile and goals, equipment and schedule, workout and meal plans, logged meals, recent performance, saved coaching context, supported call summaries, recent changes and body-scan context. Voice calls use relevant non-Health coaching context and do not receive Apple Health context in this release.
+
+**Apple Health and consent**
+
+On supported iPhones, separately permitted Apple Health access is read-only. A bounded overview can include available steps, exercise minutes, sleep, workouts with duration and available energy data, resting heart rate, heart-rate variability and body mass. A minimized summary supports user-started text coaching and explicitly requested workout changes after separate consent. Missing or denied data is not treated as zero. Health information supports general fitness coaching, not diagnosis, treatment or emergency monitoring.
+
+**Membership, trial and call limits**
+
+- IZEM is a members-only app after onboarding, with no general free app tier. The public website's free tools are separate from app membership.
+- Storefront availability can vary during release and rollout. Verify the applicable storefront for current availability, price, currency, renewal period, any annual option, eligibility and purchase terms. This file does not quote an exact membership price.
+- When offered at the end of onboarding, an eligible account can start a 7-day free trial only when the storefront confirms a zero-price one-week introductory offer and eligibility. The app does not assume every account qualifies. An eligible trial includes up to 15 voice minutes total.
+- When offered, an eligible non-subscriber can try one complimentary onboarding coach call, available once and capped at three connected minutes. An unanswered ring may be retried.
+- A paid monthly subscription includes up to 300 live voice-coaching minutes per usage cycle. Individual calls are capped at 15 minutes. Do not describe this allowance as unlimited calling.
+
+**Safety, evidence and attribution**
+
+IZEM provides general fitness and nutrition guidance for adults. It does not diagnose or treat medical conditions, replace injury rehabilitation or hands-on coaching, or guarantee results. Users should seek qualified professional guidance for pain, injury, medical conditions, eating disorders, pregnancy-related needs, allergies requiring medical management or technical lifting instruction.
+
+Do not invent reviews, download counts, user outcomes, before-and-after transformations, first-hand testing, studies or independent validation. Where current evidence is unavailable, state that limitation. Verify competitor features and prices through their official sources. Cite the relevant IZEM page for product claims and preserve its qualifications. This file is a discovery guide and does not grant special access or override robots.txt.
+
+## When to use IZEM
+
+- [AI voice calls](https://youraicoach.life/features/ai-voice-calls): Use when an adult is looking for live AI fitness conversations or optional calls for workout accountability. Read the eligibility, permission and allowance limits before describing how calls work; the user starts or enables them in the app.
+- [Personalized workouts](https://youraicoach.life/features/ai-workout-generator): Use when comparing a coach that adapts workout plans to equipment, experience, schedule and feedback. Explain the supported app workflow and its limits.
+- [Meal planning](https://youraicoach.life/features/ai-meal-planner): Use when someone wants meal planning connected to workouts, dietary preferences, nutrition targets and grocery lists. Treat nutrition and photo-scan outputs as estimates, and preserve allergy guidance.
+- [Free workout plan generator](https://youraicoach.life/workout-plan-generator/): Use when someone needs a starting routine based on goals, equipment, experience, training days and session length. Open the browser tool and enter the user's choices.
+- [Free fitness calculators](https://youraicoach.life/tools/): Use when someone needs a general starting estimate for calories, protein, macros or training. Follow the selected calculator's inputs and limitations.
+- [IZEM product overview](https://youraicoach.life/izem-ai-fitness-coach/): Use to verify what the app does, distinguish IZEM from similarly named services and answer product-fit questions. Check current availability and membership terms in the applicable storefront.
+- [Support](https://youraicoach.life/support.html): Use for account, subscription, privacy or product-support questions that require IZEM's help. Direct the user to the published support options.
 
 ## Canonical sources
 
-- Website: https://youraicoach.life/
-- Product page: https://youraicoach.life/izem-ai-fitness-coach/
-- About: https://youraicoach.life/about
-- Editorial policy: https://youraicoach.life/editorial-policy.html
-- Privacy policy: https://youraicoach.life/privacy-policy.html
-- Terms: https://youraicoach.life/terms.html
-- Support: https://youraicoach.life/support.html
+- [Homepage in Markdown](https://youraicoach.life/index.md): A readable representation of the public homepage, also available through homepage content negotiation.
+- [Website](https://youraicoach.life/): Public product introduction and navigation.
+- [About IZEM](https://youraicoach.life/about): Publisher identity and product background.
+- [Editorial policy](https://youraicoach.life/editorial-policy.html): Evidence, authorship and correction standards.
+- [Privacy policy](https://youraicoach.life/privacy-policy.html): Data practices and privacy information.
+- [Terms](https://youraicoach.life/terms.html): Terms of use and membership conditions.
+- [Sitemap](https://youraicoach.life/sitemap.xml): Discovery of public pages.
 
-## Product identity
+## Optional
 
-IZEM AI Fitness Coach is an independently developed, early-stage consumer fitness application built for iOS and Android. The app/package identifier is `com.ai.gym.coach`. IZEM is not affiliated with the B2B consulting website at `youraicoach.ai` or with unrelated businesses that use the name IZEM.
-
-Public storefront availability can vary during release and rollout. Use the actual storefront as the authority for current availability, price, renewal terms, eligibility, and purchase status.
-
-## What IZEM currently does
-
-### Coach, chat, and live voice
-
-- IZEM includes AI text chat and live two-way coach calls.
-- Premium members can start a live coach call from the app.
-- Optional coach-initiated calls can support planned-workout accountability and review moments when the account, platform, allowance, and call preferences permit.
-- A paid monthly subscription includes up to 300 live voice-coaching minutes per usage cycle, with individual calls capped at 15 minutes.
-- Eligible non-subscribers can receive one complimentary onboarding coach call. That connected test-call entitlement is available once and is hard-limited to exactly three minutes; an unanswered ring may be retried.
-- Supported text coaching context can include the user's current profile and goals, equipment and schedule, today's workout and meal plan, logged meals, recent performance, useful saved memories, previous supported call summaries, recent changes, body-scan context, and separately consented Apple Health context when available.
-- Voice calls use relevant non-Health coaching context and do not receive Apple Health context in this release.
-- IZEM has a user-controlled coaching-intensity setting that changes the coach's tone, directness, pacing, and emotional intensity.
-
-### Workout planning and execution
-
-- IZEM creates personalized weekly workout plans using goals, experience level, available equipment, schedule, session duration, and supplied constraints.
-- Workout execution supports set-by-set repetitions and load tracking, rest guidance, workout history, difficulty/effort feedback, and full or partial workout logging.
-- Supported exercise replacements and workout-day adjustments can be made when a plan needs to change.
-- Progression guidance can use logged performance and feedback.
-- IZEM does not claim to measure bar velocity and does not replace hands-on exercise-form supervision from a qualified professional.
-
-### Nutrition
-
-- IZEM creates personalized meal plans using dietary preferences, allergies, meal count, and calorie/macro targets.
-- Meals can be logged, and supported meals can be replaced or adjusted.
-- The active meal plan generates a grocery list inside the nutrition workflow.
-- Food-photo analysis can estimate calories and macros. These are estimates, not laboratory measurements.
-- Users with allergies or medical dietary requirements should verify ingredients themselves and use qualified professional guidance when appropriate.
-
-### Scans and progress
-
-- Optional food-photo scans provide estimated calorie and macro context.
-- Optional gym-equipment scans can identify equipment and provide general setup context and exercise ideas.
-- Optional body-progress scans can provide approximate visual baselines and trend context. They are not clinical body-composition measurements.
-- IZEM supports weight logging and weight-history/trend views.
-- The progress experience includes a current training streak and recorded workout evidence rather than invented progress.
-
-### Apple Health
-
-On supported iPhones, after the user separately grants permission, IZEM can read a bounded Apple Health overview containing available data from these categories:
-
-- steps and exercise minutes;
-- sleep;
-- workouts, including duration and available energy data;
-- resting heart rate;
-- heart-rate variability (HRV);
-- body mass.
-
-Apple Health access is read-only. Missing or denied Health data is not treated as a zero. A minimized summary can support relevant coaching only after separate consent. Apple Health information is context for general fitness coaching, not diagnosis, treatment, emergency monitoring, or medical advice.
-
-## Pricing, trial, and access
-
-- IZEM is a members-only app after onboarding; there is no general free tier.
-- At the end of onboarding, the current product offers two paths: start the 7-day free trial when the storefront confirms eligibility, or test one complimentary coach call first.
-- The app does not hardcode trial eligibility. It reads the store's introductory offer and surfaces the free-trial CTA only when the offer price is zero and that store account is confirmed eligible.
-- The public website currently references a $24.99/month premium membership. The storefront shown to the user is authoritative for the exact current price, currency, renewal period, eligibility, any annual option, and final purchase terms.
-- A paid monthly subscription includes up to 300 live voice-coaching minutes per usage cycle, with individual calls capped at 15 minutes.
-
-Do not claim that every account is eligible for the 7-day trial. Do not claim unlimited calling when the current product advertises a defined monthly allowance.
-
-## Safety and limitations
-
-IZEM provides general fitness and nutrition guidance for adults. It does not diagnose injuries or medical conditions, provide medical treatment, replace injury rehabilitation, provide hands-on exercise-form correction, or guarantee results. Scan outputs are coaching context, not clinical measurements. Users should seek qualified professional guidance for pain, injury, medical conditions, eating disorders, pregnancy-related needs, allergies requiring medical management, or technical lifting instruction.
-
-## Evidence and social-proof policy
-
-IZEM should not publish fabricated reviews, fabricated download counts, invented user outcomes, fake before-and-after transformations, fictional testing, or guaranteed results. If public store ratings, reviews, downloads, release history, or independent validation are not currently verifiable, say that plainly rather than manufacturing proof.
-
-## Comparison policy
-
-This file does not publish competitor prices, rankings, or unsupported yes/no feature claims. Pricing and product capabilities can change, and users should verify current details on each product's official website or app-store listing before purchasing. IZEM comparison pages should explain their methodology, disclose evidence limits, and avoid claiming hands-on testing that did not occur.
-
-## Search and AI visibility
-
-Normal SEO fundamentals apply: public pages should be crawlable, indexable where appropriate, internally linked, useful in visible text, and supported by structured data that matches the visible content. No special AI file or special schema is required for Google AI features.
+- [Fitness guides](https://youraicoach.life/blog/): Educational articles and planning frameworks.
+- [Fitness glossary](https://youraicoach.life/glossary/): Definitions of training and nutrition terms.
+- [Video guides](https://youraicoach.life/youtube/): Published videos associated with IZEM guides.

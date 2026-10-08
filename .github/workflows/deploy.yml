@@ -1,4 +1,4 @@
-name: Deploy static content to Firebase Hosting
+name: Deploy website to Firebase Hosting
 
 on:
   push:
@@ -142,6 +142,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Install isolated public-page handler dependencies
+        run: npm ci --prefix functions/agent-pages --ignore-scripts --no-audit --no-fund
+
+      - name: Test agent responses, staging, discovery, and metadata
+        run: pnpm test:agents
+
       - name: Synchronize all generated discovery files
         run: |
           set -euo pipefail
@@ -188,6 +194,14 @@ jobs:
 
       - name: Install pinned Firebase CLI
         run: npm install --global firebase-tools@15.29.0
+
+      - name: Prepare and validate agent-aware Hosting artifact
+        run: |
+          set -euo pipefail
+          pnpm prepare:agent-hosting
+          AGENT_METADATA_ROOT=dist node --test tools/agent-metadata.test.mjs
+          firebase emulators:exec --only hosting,functions --project demo-izem-agent-readiness \
+            'node tools/verify-agent-readiness.mjs http://127.0.0.1:5000'
 
       - name: Select an authorized Firebase Hosting credential
         id: firebase_auth
@@ -301,6 +315,13 @@ jobs:
           done
           test "$success" -eq 1
 
+      - name: Verify public agent responses and machine-readable files
+        run: |
+          set -euo pipefail
+          node tools/verify-agent-readiness.mjs https://youraicoach.life --all-pages
+          project_id=$(node -e "const fs=require('fs'); const cfg=JSON.parse(fs.readFileSync('.firebaserc','utf8')); process.stdout.write(cfg.projects.default || '')")
+          node tools/verify-agent-readiness.mjs "https://${project_id}.web.app"
+
       - name: Summarize verified deployment
         if: success()
         run: |
@@ -313,6 +334,7 @@ jobs:
             echo "- ✅ Internal critical routes and links valid"
             echo "- ✅ Firebase Hosting production artifact deployed"
             echo "- ✅ Firebase default host and custom-domain core/article URLs returned HTTP 200"
+            echo "- ✅ Markdown/HTML negotiation, Markdown 404s, discovery files, and metadata verified live"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Report production-hosting failure

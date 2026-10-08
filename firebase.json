@@ -1,13 +1,35 @@
 {
+  "functions": [{
+    "source": "functions/agent-pages",
+    "codebase": "agent-pages",
+    "runtime": "nodejs22",
+    "ignore": ["node_modules", ".git", "*.test.mjs", "prepare.mjs", "firebase-debug.log", "firebase-debug.*.log"]
+  }],
   "hosting": {
-    "public": "dist",
+    "public": "dist-agent-hosting",
+    "predeploy": ["node functions/agent-pages/prepare.mjs"],
     "cleanUrls": true,
     "ignore": [
       "firebase.release.json",
       "**/.*",
       "**/node_modules/**"
     ],
+    "rewrites": [{
+      "source": "**",
+      "function": { "functionId": "agentPages", "region": "us-central1", "pinTag": true }
+    }],
     "headers": [
+      {
+        "source": "/index.md",
+        "headers": [
+          { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+          { "key": "Link", "value": "<https://youraicoach.life/>; rel=\"canonical\", <https://youraicoach.life/llms.txt>; rel=\"describedby\"" }
+        ]
+      },
+      {
+        "source": "/llms.txt",
+        "headers": [{ "key": "Content-Type", "value": "text/markdown; charset=utf-8" }]
+      },
       {
         "source": "**",
         "headers": [
@@ -168,5 +190,11 @@
         ]
       }
     ]
+  },
+  "emulators": {
+    "hosting": { "host": "127.0.0.1", "port": 5000 },
+    "functions": { "host": "127.0.0.1", "port": 5001 },
+    "ui": { "enabled": false },
+    "singleProjectMode": true
   }
 }

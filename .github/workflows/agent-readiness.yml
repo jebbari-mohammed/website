@@ -1,0 +1,42 @@
+name: Agent readiness
+
+on:
+  pull_request:
+    paths:
+      - 'functions/agent-pages/**'
+      - 'tools/agent-metadata.test.mjs'
+      - 'tools/verify-agent-readiness*.mjs'
+      - 'index.html'
+      - 'public/llms.txt'
+      - 'firebase.json'
+      - 'package.json'
+      - '.github/workflows/agent-readiness.yml'
+      - '.github/workflows/deploy.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agent-readiness-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - run: npm ci --prefix functions/agent-pages --ignore-scripts --no-audit --no-fund
+      - run: pnpm test:agents
+      - run: pnpm build
+      - run: pnpm prepare:agent-hosting
+      - run: AGENT_METADATA_ROOT=dist node --test tools/agent-metadata.test.mjs
+      - run: npx --yes firebase-tools@15.29.0 emulators:exec --only hosting,functions --project demo-izem-agent-readiness 'node tools/verify-agent-readiness.mjs http://127.0.0.1:5000'
