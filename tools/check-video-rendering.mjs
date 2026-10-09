@@ -38,6 +38,9 @@ try {
     ...(executablePath ? { executablePath } : {}),
   })
   const page = await browser.newPage()
+  // Fetch each viewport sample afresh so conditional cache responses do not
+  // replace the HTTP 200 reachability check on repeated visits.
+  await page.setCacheEnabled(false)
   await page.setRequestInterception(true)
   page.on('request', (request) => {
     // This check tests our layout and hydration, not third-party availability.
