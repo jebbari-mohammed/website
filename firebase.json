@@ -87,6 +87,22 @@
         ]
       },
       {
+        "source": "/videos/izem-coach-chat-dark-web.mp4",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/videos/izem-workout-nutrition-dark-web.mp4",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/images/hero1-desktop.webp",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/images/hero2-desktop.webp",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
         "source": "/youtube/thumbnails/**",
         "headers": [
           {
