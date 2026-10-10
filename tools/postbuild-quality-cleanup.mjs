@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { decorativePosterUrls } from './video-indexing-policy.mjs'
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const distDirectory = path.join(projectRoot, 'dist')
@@ -84,7 +85,7 @@ function replacePrerenderedHeroVideo(html, relativePath) {
     /<video\b(?=[^>]*data-izem-hero-preview\s*=\s*(["'])true\1)[^>]*>[\s\S]*?<\/video>/i,
     () => {
       changed += 1
-      return '<img data-izem-hero-preview="true" src="/images/hero1-desktop.webp" alt="IZEM AI coach chat interface preview" width="800" height="1260" loading="eager" decoding="async" fetchpriority="high" class="w-full h-full object-cover">'
+      return `<img data-izem-hero-preview="true" src="${decorativePosterUrls[0]}" alt="IZEM AI coach chat interface preview" width="800" height="1260" loading="eager" decoding="async" fetchpriority="high" class="w-full h-full object-cover">`
     },
   )
 
@@ -161,5 +162,5 @@ if (remainingGenericPages.length > 0) {
 }
 
 console.log(
-  `✅ Postbuild quality cleanup updated ${filesChanged} HTML files: removed ${genericBlocksRemoved} generic AI takeaway blocks, compacted ${publisherAsidesRemoved} redundant publisher asides with ${compactLogosAdded} footer logos, removed ${videoLabelsRemoved} mismatched video-card aria-labels, and replaced ${prerenderedHeroVideosReplaced} prerendered hero video with a lightweight image.`,
+  `✅ Postbuild quality cleanup updated ${filesChanged} HTML files: removed ${genericBlocksRemoved} generic AI takeaway blocks, compacted ${publisherAsidesRemoved} redundant publisher asides with ${compactLogosAdded} footer logos, removed ${videoLabelsRemoved} mismatched video-card aria-labels, and replaced ${prerenderedHeroVideosReplaced} prerendered hero video with a matching lightweight image.`,
 )

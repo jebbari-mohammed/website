@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from '../lib/motion';
 import { ArrowRight, CheckCircle2, MessageSquare, Dumbbell } from 'lucide-react';
+import heroPreviewMedia from '../content/hero-preview-media.json';
 
 export default function Hero() {
   const [activeVideo, setActiveVideo] = useState<'chat' | 'workout'>('chat');
@@ -23,7 +24,8 @@ export default function Hero() {
     };
   }, []);
 
-  const previewImage = activeVideo === 'chat' ? '/images/hero1-desktop.webp' : '/images/hero2-desktop.webp';
+  const previewMedia = heroPreviewMedia[activeVideo === 'chat' ? 0 : 1];
+  const previewImage = `${previewMedia.posterPath}?v=${previewMedia.posterSha256.slice(0, 12)}`;
   const previewAlt =
     activeVideo === 'chat'
       ? 'IZEM AI coach chat interface preview'
@@ -70,8 +72,9 @@ export default function Hero() {
                   <video
                     data-izem-hero-preview="true"
                     key={activeVideo}
-                    src={activeVideo === 'chat' ? '/videos/izem-coach-chat-dark-web.mp4' : '/videos/izem-workout-nutrition-dark-web.mp4'}
+                    src={previewMedia.videoPath}
                     poster={previewImage}
+                    aria-label={previewAlt}
                     autoPlay
                     loop
                     muted
