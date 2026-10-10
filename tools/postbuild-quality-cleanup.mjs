@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { decorativePosterUrls } from './video-indexing-policy.mjs'
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const distDirectory = path.join(projectRoot, 'dist')
@@ -74,20 +75,17 @@ function fixVideoCardAccessibleNames(html) {
   return { html: next, changed }
 }
 
-function pausePrerenderedHeroVideo(html, relativePath) {
+function replacePrerenderedHeroVideo(html, relativePath) {
   if (relativePath !== 'index.html' || !html.includes('data-izem-hero-preview="true"')) {
     return { html, changed: 0 }
   }
 
   let changed = 0
   const next = html.replace(
-    /<video\b(?=[^>]*data-izem-hero-preview\s*=\s*(["'])true\1)[^>]*>/i,
-    (tag) => {
-      // Prerendering runs on desktop. Wait for the visitor's viewport and
-      // reduced-motion preference before starting the existing preview.
-      const paused = tag.replace(/\s+(?:autoplay|loop)(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/gi, '')
-      if (paused !== tag) changed += 1
-      return paused
+    /<video\b(?=[^>]*data-izem-hero-preview\s*=\s*(["'])true\1)[^>]*>[\s\S]*?<\/video>/i,
+    () => {
+      changed += 1
+      return `<img data-izem-hero-preview="true" src="${decorativePosterUrls[0]}" alt="IZEM AI coach chat interface preview" width="800" height="1260" loading="eager" decoding="async" fetchpriority="high" class="w-full h-full object-cover">`
     },
   )
 
@@ -119,7 +117,7 @@ let genericBlocksRemoved = 0
 let publisherAsidesRemoved = 0
 let compactLogosAdded = 0
 let videoLabelsRemoved = 0
-let prerenderedHeroVideosPaused = 0
+let prerenderedHeroVideosReplaced = 0
 let filesChanged = 0
 
 for (const file of htmlFiles) {
@@ -140,9 +138,9 @@ for (const file of htmlFiles) {
   html = videoResult.html
   videoLabelsRemoved += videoResult.changed
 
-  const heroResult = pausePrerenderedHeroVideo(html, relativePath)
+  const heroResult = replacePrerenderedHeroVideo(html, relativePath)
   html = heroResult.html
-  prerenderedHeroVideosPaused += heroResult.changed
+  prerenderedHeroVideosReplaced += heroResult.changed
 
   html = improvePublisherLinkVisibility(html)
   html = addBlogFooterLinkStyles(html, relativePath)
@@ -164,5 +162,5 @@ if (remainingGenericPages.length > 0) {
 }
 
 console.log(
-  `✅ Postbuild quality cleanup updated ${filesChanged} HTML files: removed ${genericBlocksRemoved} generic AI takeaway blocks, compacted ${publisherAsidesRemoved} redundant publisher asides with ${compactLogosAdded} footer logos, removed ${videoLabelsRemoved} mismatched video-card aria-labels, and paused ${prerenderedHeroVideosPaused} prerendered hero video until runtime motion preferences are known.`,
+  `✅ Postbuild quality cleanup updated ${filesChanged} HTML files: removed ${genericBlocksRemoved} generic AI takeaway blocks, compacted ${publisherAsidesRemoved} redundant publisher asides with ${compactLogosAdded} footer logos, removed ${videoLabelsRemoved} mismatched video-card aria-labels, and replaced ${prerenderedHeroVideosReplaced} prerendered hero video with a matching lightweight image.`,
 )

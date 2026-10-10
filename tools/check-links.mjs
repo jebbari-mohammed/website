@@ -3,7 +3,7 @@ import path from 'node:path'
 
 import { load } from 'cheerio'
 import { THEME } from './brand-theme.mjs'
-import { decorativeVideoPaths, decorativePosterPaths, hasExactNoindexHeader } from './video-indexing-policy.mjs'
+import { decorativeVideoPaths, decorativePosterPaths, decorativePosterUrls, hasExactNoindexHeader } from './video-indexing-policy.mjs'
 
 const siteOrigin = 'https://youraicoach.life'
 const distDirectory = path.resolve('dist')
@@ -306,7 +306,7 @@ for (const htmlFile of htmlFiles) {
       const src = player.attr('src') || ''
       const poster = player.attr('poster') || ''
       return !decorativeVideoPaths.includes(src) || !hasExactNoindexHeader(hosting, src) ||
-        (poster && (!decorativePosterPaths.includes(poster) || !hasExactNoindexHeader(hosting, poster)))
+        (poster && (!decorativePosterUrls.includes(poster) || !hasExactNoindexHeader(hosting, poster)))
     })
     if (unexcludedPlayers.length > 0) {
       errors.push(`${htmlFile}: indexable video players must live on a dedicated /youtube/{id}/ watch page`)

@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from '../lib/motion';
 import { ArrowRight, CheckCircle2, MessageSquare, Dumbbell } from 'lucide-react';
+import heroPreviewMedia from '../content/hero-preview-media.json';
 
 export default function Hero() {
   const [activeVideo, setActiveVideo] = useState<'chat' | 'workout'>('chat');
   const [showMotionPreview, setShowMotionPreview] = useState(false);
-  const previewRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const desktopQuery = window.matchMedia('(min-width: 768px)');
@@ -24,16 +24,8 @@ export default function Hero() {
     };
   }, []);
 
-  useEffect(() => {
-    const preview = previewRef.current;
-    if (!preview) return;
-    if (showMotionPreview) {
-      void preview.play().catch(() => {});
-    } else {
-      preview.pause();
-    }
-  }, [activeVideo, showMotionPreview]);
-
+  const previewMedia = heroPreviewMedia[activeVideo === 'chat' ? 0 : 1];
+  const previewImage = `${previewMedia.posterPath}?v=${previewMedia.posterSha256.slice(0, 12)}`;
   const previewAlt =
     activeVideo === 'chat'
       ? 'IZEM AI coach chat interface preview'
@@ -76,21 +68,35 @@ export default function Hero() {
             </div>
             <div className="relative w-full max-w-[320px] sm:max-w-[350px]">
               <div className="relative rounded-[36px] overflow-hidden aspect-[800/1260] shadow-[0_25px_70px_rgba(0,0,0,0.9),0_0_35px_rgba(141,255,106,0.12)]">
-                <video
-                  data-izem-hero-preview="true"
-                  ref={previewRef}
-                  key={activeVideo}
-                  src={activeVideo === 'chat' ? '/videos/izem-coach-chat-dark-web.mp4' : '/videos/izem-workout-nutrition-dark-web.mp4'}
-                  aria-label={previewAlt}
-                  autoPlay={showMotionPreview}
-                  loop={showMotionPreview}
-                  muted
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-full object-cover"
-                >
-                  Your browser does not support HTML5 video.
-                </video>
+                {showMotionPreview ? (
+                  <video
+                    data-izem-hero-preview="true"
+                    key={activeVideo}
+                    src={previewMedia.videoPath}
+                    poster={previewImage}
+                    aria-label={previewAlt}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-cover"
+                  >
+                    Your browser does not support HTML5 video.
+                  </video>
+                ) : (
+                  <img
+                    data-izem-hero-preview="true"
+                    src={previewImage}
+                    alt={previewAlt}
+                    width="800"
+                    height="1260"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
             </div>
           </div>
