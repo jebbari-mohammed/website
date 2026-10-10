@@ -482,6 +482,7 @@
       "id": "bulgarian-split-squat-setup-note-launch-2026-10-10",
       "url": "/blog/bulgarian-split-squat",
       "files": [
+        "public/blog/bulgarian-split-squat.html",
         "public/blog/assets/bulgarian-split-squat/article.css",
         "public/blog/assets/bulgarian-split-squat/setup-note.js",
         "public/blog/assets/bulgarian-split-squat/hero.svg",
@@ -491,7 +492,7 @@
       "launchedAt": "2026-10-10",
       "lockUntil": "2026-10-31",
       "preferredReviewAt": "2026-11-07",
-      "reason": "New exercise guide and browser setup note. Initial dedicated-video attachment completes the transactional launch; add the unchanged article HTML to this lock once its own validated video is attached. See docs/seo-experiments/2026-10-10-bulgarian-split-squat.md."
+      "reason": "New exercise guide and browser setup note. The dedicated video completed the transactional launch; the article body was verified unchanged after attachment. Preserve article, utility and visuals through the evaluation window. See docs/seo-experiments/2026-10-10-bulgarian-split-squat.md."
     },
     {
       "id": "tracker-bulgarian-split-squat-support-link-2026-10-10",
