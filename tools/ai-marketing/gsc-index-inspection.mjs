@@ -4,6 +4,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 import { discoverCredentialSource, parseServiceAccountCredential } from './gsc-fetch-private.mjs';
 import { buildInspectionPriority } from './gsc-index-priority.mjs';
 
@@ -223,9 +224,10 @@ async function inspectUrls(accessToken, urls) {
   };
 }
 
-function bucket(result) {
+export function indexStatusBucket(result = {}) {
   if (result.verdict === 'PASS') return 'indexed';
-  if (result.verdict === 'FAIL') return 'notIndexed';
+  // Google defines NEUTRAL as Excluded, not an unspecified inspection result.
+  if (result.verdict === 'FAIL' || result.verdict === 'NEUTRAL') return 'notIndexed';
   return 'unknown';
 }
 
@@ -244,7 +246,7 @@ async function main() {
   console.log(`Index inspection execution: bounded concurrency=${concurrency}; transient attempts=${MAX_INSPECTION_ATTEMPTS}.`);
 
   const counts = results.reduce((sum, result) => {
-    sum[bucket(result)] += 1;
+    sum[indexStatusBucket(result)] += 1;
     return sum;
   }, { indexed: 0, notIndexed: 0, unknown: 0 });
 
@@ -278,7 +280,10 @@ async function main() {
   if (apiErrors.length > 0) throw new Error(`URL Inspection API failed for ${apiErrors.length}/${urls.length} configured URL(s)`);
 }
 
-main().catch((error) => {
-  console.error(`GSC index inspection failed: ${safe(error instanceof Error ? error.message : String(error))}`);
-  process.exitCode = 1;
-});
+const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (invokedDirectly) {
+  main().catch((error) => {
+    console.error(`GSC index inspection failed: ${safe(error instanceof Error ? error.message : String(error))}`);
+    process.exitCode = 1;
+  });
+}

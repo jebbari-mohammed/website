@@ -1,6 +1,31 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildSafeSnapshot, crawlFreshness, extractSourceModifiedDate } from './gsc-safe-snapshot.mjs';
+import { indexStatusBucket } from './gsc-index-inspection.mjs';
+
+test('excluded inspection verdicts count as not indexed while unspecified results stay unknown', () => {
+  for (const coverageState of ['Crawled - currently not indexed', 'Discovered - currently not indexed', "Excluded by 'noindex' tag"]) {
+    assert.equal(indexStatusBucket({ verdict: 'NEUTRAL', coverageState }), 'notIndexed');
+  }
+  assert.equal(indexStatusBucket({ verdict: 'PASS' }), 'indexed');
+  assert.equal(indexStatusBucket({ verdict: 'FAIL' }), 'notIndexed');
+  for (const verdict of ['VERDICT_UNSPECIFIED', 'PARTIAL', 'UNKNOWN', 'UNRECOGNIZED', undefined]) {
+    assert.equal(indexStatusBucket({ verdict }), 'unknown');
+  }
+  assert.equal(indexStatusBucket(), 'unknown');
+});
+
+test('snapshot summaries retain excluded verdicts and reserve unknown for missing index status', () => {
+  const results = [
+    { url: 'https://youraicoach.life/blog/synthetic-indexed', verdict: 'PASS' },
+    { url: 'https://youraicoach.life/blog/synthetic-excluded', verdict: 'NEUTRAL', coverageState: 'Crawled - currently not indexed' },
+    { url: 'https://youraicoach.life/blog/synthetic-unknown', verdict: 'VERDICT_UNSPECIFIED' },
+  ];
+  const counts = results.reduce((sum, result) => { sum[indexStatusBucket(result)] += 1; return sum; }, { indexed: 0, notIndexed: 0, unknown: 0 });
+  const rendered = buildSafeSnapshot(searchReport, { requested: 3, inspected: 3, results, counts, apiErrors: [] });
+  assert.match(rendered, /- Indexed: 1\n- Not indexed: 1\n- Unknown: 1/);
+  assert.match(rendered, /synthetic-excluded \| NEUTRAL \| Crawled - currently not indexed/);
+});
 
 test('public snapshot omits landing URL parameters, fragments, credentials and foreign hosts', () => {
   const privateUrl = 'https://youraicoach.life/blog/safe?token=SYNTHETIC_PRIVATE#SYNTHETIC_FRAGMENT';
