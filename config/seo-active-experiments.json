@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-08",
+  "updatedAt": "2026-10-10",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -477,6 +477,32 @@
       "lockUntil": "2026-10-19",
       "preferredReviewAt": "2026-10-26",
       "reason": "One contextual link beside session length supports the exercise-count article. Preserve the otherwise unchanged generator during a 14-day internal-link evaluation window."
+    },
+    {
+      "id": "bulgarian-split-squat-setup-note-launch-2026-10-10",
+      "url": "/blog/bulgarian-split-squat",
+      "files": [
+        "public/blog/assets/bulgarian-split-squat/article.css",
+        "public/blog/assets/bulgarian-split-squat/setup-note.js",
+        "public/blog/assets/bulgarian-split-squat/hero.svg",
+        "public/blog/assets/bulgarian-split-squat/setup-record.svg",
+        "public/og/bulgarian-split-squat.png"
+      ],
+      "launchedAt": "2026-10-10",
+      "lockUntil": "2026-10-31",
+      "preferredReviewAt": "2026-11-07",
+      "reason": "New exercise guide and browser setup note. Initial dedicated-video attachment completes the transactional launch; add the unchanged article HTML to this lock once its own validated video is attached. See docs/seo-experiments/2026-10-10-bulgarian-split-squat.md."
+    },
+    {
+      "id": "tracker-bulgarian-split-squat-support-link-2026-10-10",
+      "url": "/blog/progressive-overload-tracker-template",
+      "files": [
+        "public/blog/progressive-overload-tracker-template.html"
+      ],
+      "launchedAt": "2026-10-10",
+      "lockUntil": "2026-10-24",
+      "preferredReviewAt": "2026-10-31",
+      "reason": "One contextual support link connects workout logging to the new exercise setup note. Preserve the existing tracker content and link during the 14-day observation window."
     }
   ]
 }
