@@ -84,6 +84,16 @@ test('does not interpret arbitrary JSON inside an @json literal', () => {
   assert.deepEqual(invalidGraphValues({ '@graph': [{ '@type': '@json', '@value': { '@graph': [['ordinary JSON']] } }] }), []);
 });
 
+test('does not expand contexts, aliases or property-coerced JSON payloads', () => {
+  const json = { '@graph': [['ordinary JSON']] };
+  for (const value of [
+    { '@context': { payload: { '@id': 'https://example.test/payload', '@type': '@json' } }, payload: json },
+    { '@context': { kind: '@type', literal: '@value' }, kind: '@json', literal: json },
+    { '@context': 'https://example.test/remote-context', payload: json },
+    { '@graph': [{ '@context': { payload: { '@id': 'https://example.test/payload', '@type': '@json' } }, payload: json }] },
+  ]) assert.deepEqual(invalidGraphValues(value), []);
+});
+
 test('the public validator fails malformed graphs and passes the corrected document', () => {
   const directory = mkdtempSync(path.join(os.tmpdir(), 'izem-jsonld-'));
   try {
