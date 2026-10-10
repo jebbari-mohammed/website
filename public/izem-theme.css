@@ -17,6 +17,11 @@
   outline-offset: 4px;
 }
 ::selection { background: #8DFF6A; color: #070A0D; }
+/* Generator reading links need a visible cue besides their accent color. */
+#plan-form .hint a, main > article.content p a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
 /* The generator's flex placeholder must disappear once a plan is generated. */
 #empty-state[hidden] { display: none; }
 /* Keep long fill-in-the-blank template lines inside the mobile reading column. */
