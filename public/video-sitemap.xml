@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/EYPGmJgozp0/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/EYPGmJgozp0.svg</video:thumbnail_loc>
+      <video:title>Bulgarian Split Squat: Form &amp; Common Fixes</video:title>
+      <video:description>Learn Bulgarian split squat setup, muscles worked and common form problems. Compare variations and copy a setup note to make your next session easier to repeat.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/EYPGmJgozp0</video:player_loc>
+      <video:publication_date>2026-10-10T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/kZ722weBkfE/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/kZ722weBkfE.svg</video:thumbnail_loc>
