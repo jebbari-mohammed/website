@@ -50,4 +50,4 @@ The rolling seven-day Git history contains two new English articles before this 
 
 ## Validation
 
-Validation results and final publication evidence will be recorded after the completed media release. Required checks include the production build, structured data, links, critical routes, discovery files, object-only media, dedicated video contract, active experiment guard, responsive rendering and setup-note behavior.
+Pre-release validation passed: production build and rendering checks; 464 source and 470 built JSON-LD blocks; 463 critical-route pages and 10,219 internal links; 461-page link check; 280 canonical sitemap entries; 56 current video pages; strict article media policy; diff review and active experiment guard. Browser checks at 320, 390 and 1,440 pixels found no document overflow or broken images. Tested variation selection, separate left/right results, updates and clipboard copy, and visually reviewed the mobile article/tool and owned social image. The final dedicated video contract and live publication checks remain pending the completed media release.
