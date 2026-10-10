@@ -4,11 +4,24 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import express from 'express'
 import puppeteer from 'puppeteer'
+import { load } from 'cheerio'
 import { decorativeVideoPaths, decorativePosterPaths, hasExactNoindexHeader } from './video-indexing-policy.mjs'
 
 // Inspect the browser DOM as well as generated HTML. Homepage previews are
-// inserted by hydration and scroll observers and need media-level exclusions.
+// inserted by React and scroll observers and need media-level exclusions.
 const root = path.resolve(process.argv[2] || 'dist')
+const homepageHtml = await readFile(path.join(root, 'index.html'), 'utf8')
+const homepage = load(homepageHtml)
+const initialHero = homepage('#hero [data-izem-hero-preview="true"]')
+assert.equal(initialHero.length, 1, 'Initial HTML must contain exactly one hero preview')
+assert.equal(initialHero[0].tagName, 'video', 'Initial hero must use the same video as the loaded page')
+assert.equal(initialHero.attr('src'), decorativeVideoPaths[0], 'Initial hero must show the coaching preview')
+assert.equal(initialHero.attr('poster'), undefined, 'Initial hero must not flash an unrelated poster')
+assert.equal(initialHero.attr('autoplay'), undefined, 'Initial hero must wait for runtime motion preferences')
+assert.equal(initialHero.attr('loop'), undefined, 'Initial hero must start paused')
+for (const obsoletePoster of decorativePosterPaths) {
+  assert.equal(homepageHtml.includes(obsoletePoster), false, `Homepage must not reference ${obsoletePoster}`)
+}
 const catalog = JSON.parse(await readFile(path.join(root, 'youtube/video-catalog.json'), 'utf8'))
 const { hosting } = JSON.parse(await readFile('firebase.json', 'utf8'))
 for (const resource of [...decorativeVideoPaths, ...decorativePosterPaths]) {
@@ -38,16 +51,35 @@ try {
     ...(executablePath ? { executablePath } : {}),
   })
   const page = await browser.newPage()
+  const requestedPaths = new Set()
   // Fetch each viewport sample afresh so conditional cache responses do not
   // replace the HTTP 200 reachability check on repeated visits.
   await page.setCacheEnabled(false)
   await page.setRequestInterception(true)
   page.on('request', (request) => {
+    requestedPaths.add(new URL(request.url()).pathname)
     // This check tests our layout and hydration, not third-party availability.
     // Keep production builds independent of YouTube, fonts and external APIs.
     if (request.url().startsWith(`${origin}/`) || request.url().startsWith('data:')) request.continue()
     else request.abort()
   })
+
+  // Check the actual first-render HTML without the application bundle. A slow
+  // bundle must not expose an old screenshot or animate before preferences run.
+  await page.setJavaScriptEnabled(false)
+  for (const width of [390, 1440]) {
+    await page.setViewport({ width, height: 900 })
+    await page.goto(origin, { waitUntil: 'networkidle0' })
+    const state = await page.$eval('#hero video', (preview) => ({
+      src: preview.getAttribute('src'), readyState: preview.readyState,
+      paused: preview.paused, poster: preview.getAttribute('poster'),
+    }))
+    assert.equal(state.src, decorativeVideoPaths[0])
+    assert.equal(state.poster, null)
+    assert.ok(state.readyState >= 2, `Initial hero at ${width}px must load an intended frame without JavaScript`)
+    assert.equal(state.paused, true, `Initial hero at ${width}px must remain paused`)
+  }
+  await page.setJavaScriptEnabled(true)
 
   const assertHomepagePreview = async (section) => {
     const state = await page.evaluate((selector) => {
@@ -82,7 +114,7 @@ try {
       await page.$eval(section, (element) => element.scrollIntoView())
       const buttons = await page.$$(`${section} button`)
       const expectedSources = section === '#hero'
-        ? width < 768 ? decorativePosterPaths : decorativeVideoPaths
+        ? decorativeVideoPaths
         : [decorativeVideoPaths[1], decorativeVideoPaths[1], decorativeVideoPaths[0]]
       assert.equal(buttons.length, expectedSources.length, `${section}: every preview tab needs a checked source`)
       for (const [index, button] of buttons.entries()) {
@@ -94,8 +126,37 @@ try {
             ? preview.readyState >= 2 : preview.complete && preview.naturalWidth > 0)
         }, {}, section, expectedSources[index])
         await assertHomepagePreview(section)
+        if (section === '#hero') {
+          await page.waitForFunction((shouldPause) => {
+            const preview = document.querySelector('#hero video')
+            return preview?.paused === shouldPause
+          }, {}, width < 768)
+        }
       }
     }
+  }
+
+  // A preference change must stop an already playing preview, and each tab
+  // must remain still when reduced motion is requested on desktop.
+  await page.setViewport({ width: 1440, height: 900 })
+  await page.goto(origin, { waitUntil: 'networkidle0' })
+  await page.waitForFunction(() => document.querySelector('#hero video')?.paused === false)
+  await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }])
+  await page.waitForFunction(() => document.querySelector('#hero video')?.paused === true)
+  const reducedMotionButtons = await page.$$('#hero button')
+  for (const [index, button] of reducedMotionButtons.entries()) {
+    await button.click()
+    await page.waitForFunction((expectedSource) => {
+      const preview = document.querySelector('#hero video')
+      return preview?.getAttribute('src') === expectedSource && preview.readyState >= 2 && preview.paused
+    }, {}, decorativeVideoPaths[index])
+  }
+  await page.emulateMediaFeatures([])
+  await page.waitForFunction(() => document.querySelector('#hero video')?.paused === false)
+  await page.setViewport({ width: 390, height: 900 })
+  await page.waitForFunction(() => document.querySelector('#hero video')?.paused === true)
+  for (const obsoletePoster of decorativePosterPaths) {
+    assert.equal(requestedPaths.has(obsoletePoster), false, `Homepage must never request ${obsoletePoster}`)
   }
 
   const longestTitle = [...catalog.videos].sort((a, b) => b.title.length - a.title.length)[0]
@@ -135,7 +196,7 @@ try {
       layouts += 1
     }
   }
-  console.log(`Video rendering passed: hydrated homepage previews at 2 widths; ${layouts} mobile/desktop watch-page layouts.`)
+  console.log(`Video rendering passed: initial and runtime homepage previews at 2 widths, reduced-motion and resize transitions; ${layouts} mobile/desktop watch-page layouts.`)
 } finally {
   await browser?.close()
   await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()))
