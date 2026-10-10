@@ -1,5 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { invalidGraphValues } from '../jsonld-graph.mjs';
+
 import { syncArticleMetadata } from './seo-publisher-core.mjs';
 
 function schemasFrom(html) {
@@ -49,4 +55,57 @@ test('malformed JSON-LD is left untouched instead of corrupting the page', () =>
   });
   assert.match(output, /\{bad json\}/);
   assert.match(output, /<title>A Valid Replacement Title/);
+});
+
+test('accepts object and flat graph forms, root arrays and ordinary property arrays', () => {
+  for (const value of [
+    { '@graph': { '@type': 'Article' } },
+    { '@context': 'https://schema.org', '@graph': [{ '@type': ['Article', 'WebPage'], keywords: ['training', 'rest'] }, { '@type': 'Organization' }] },
+    [{ '@type': 'Article' }, { '@graph': [] }],
+  ]) assert.deepEqual(invalidGraphValues(value), []);
+});
+
+test('rejects the legacy nested article graph without rejecting ordinary arrays', () => {
+  const value = { '@graph': [[{ '@type': 'BlogPosting' }, { '@type': 'FAQPage' }]] };
+  assert.equal(invalidGraphValues(value).length, 1);
+  assert.match(invalidGraphValues(value)[0], /\$\.@graph.*nested arrays/);
+  assert.deepEqual(invalidGraphValues({ '@type': 'Article', author: [{ '@type': 'Person' }] }), []);
+});
+
+test('rejects null and scalar graph values, including a malformed nested graph', () => {
+  for (const member of [null, 'Article', 7, true]) {
+    assert.equal(invalidGraphValues({ '@graph': member }).length, 1);
+    assert.equal(invalidGraphValues({ '@graph': [{ '@type': 'Article' }, member] }).length, 1);
+  }
+  assert.match(invalidGraphValues({ '@graph': [{ '@id': '#named', '@graph': [['invalid']] }] })[0], /\$\.@graph\[0\]\.@graph/);
+});
+
+test('does not interpret arbitrary JSON inside an @json literal', () => {
+  assert.deepEqual(invalidGraphValues({ '@graph': [{ '@type': '@json', '@value': { '@graph': [['ordinary JSON']] } }] }), []);
+});
+
+test('does not expand contexts, aliases or property-coerced JSON payloads', () => {
+  const json = { '@graph': [['ordinary JSON']] };
+  for (const value of [
+    { '@context': { payload: { '@id': 'https://example.test/payload', '@type': '@json' } }, payload: json },
+    { '@context': { kind: '@type', literal: '@value' }, kind: '@json', literal: json },
+    { '@context': 'https://example.test/remote-context', payload: json },
+    { '@graph': [{ '@context': { payload: { '@id': 'https://example.test/payload', '@type': '@json' } }, payload: json }] },
+  ]) assert.deepEqual(invalidGraphValues(value), []);
+});
+
+test('the public validator fails malformed graphs and passes the corrected document', () => {
+  const directory = mkdtempSync(path.join(os.tmpdir(), 'izem-jsonld-'));
+  try {
+    const file = path.join(directory, 'article.html');
+    const html = graph => `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })}</script>`;
+    writeFileSync(file, html([[{ '@type': 'BlogPosting', headline: 'Example' }]]));
+    const bad = spawnSync(process.execPath, ['tools/validate-jsonld.mjs', directory], { encoding: 'utf8' });
+    assert.equal(bad.status, 1);
+    assert.match(bad.stderr, /article\.html:1:.*nested arrays/);
+    writeFileSync(file, html([{ '@type': 'BlogPosting', headline: 'Example' }]));
+    assert.match(execFileSync(process.execPath, ['tools/validate-jsonld.mjs', directory], { encoding: 'utf8' }), /validation passed/);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
 });

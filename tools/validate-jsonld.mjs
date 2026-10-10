@@ -2,6 +2,7 @@
 
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
+import { invalidGraphValues } from './jsonld-graph.mjs';
 
 const requestedRoots = process.argv.slice(2).filter((value) => !value.startsWith('-'));
 const roots = requestedRoots.length ? requestedRoots : ['public'];
@@ -112,6 +113,10 @@ for (const root of roots) {
       } catch (error) {
         errors.push(`${relativeFile}:${line}: invalid JSON-LD (${error.message})`);
         continue;
+      }
+
+      for (const error of invalidGraphValues(data)) {
+        errors.push(`${relativeFile}:${line}: ${error}`);
       }
 
       visit(data, (node) => {
