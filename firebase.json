@@ -204,6 +204,42 @@
             "value": "noindex, nofollow, noarchive"
           }
         ]
+      },
+      {
+        "source": "/videos/intro/izem-intro-desktop-v1.mp4",
+        "headers": [
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex"
+          }
+        ]
+      },
+      {
+        "source": "/videos/intro/izem-intro-mobile-v1.mp4",
+        "headers": [
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex"
+          }
+        ]
+      },
+      {
+        "source": "/images/intro/izem-intro-desktop-v1.webp",
+        "headers": [
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex"
+          }
+        ]
+      },
+      {
+        "source": "/images/intro/izem-intro-mobile-v1.webp",
+        "headers": [
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex"
+          }
+        ]
       }
     ]
   },

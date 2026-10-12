@@ -155,9 +155,16 @@ async function preRender() {
         ...(executablePath ? { executablePath } : {}),
       });
       const page = await browser.newPage();
+      // Static capture needs our local application, not third-party font or
+      // media availability. Streaming video also should not delay the snapshot.
+      await page.setRequestInterception(true);
+      page.on('request', request => {
+        if (request.url().startsWith('http://localhost:3000/') || request.url().startsWith('data:')) request.continue();
+        else request.abort();
+      });
       
       console.log('📱 Visiting http://localhost:3000...');
-      await page.goto('http://localhost:3000', { waitUntil: 'networkidle0' });
+      await page.goto('http://localhost:3000', { waitUntil: 'domcontentloaded' });
       
       // Wait specifically for React to mount and the Hero section to render
       await page.waitForSelector('#root > div', { timeout: 10000 });

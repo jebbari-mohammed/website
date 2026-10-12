@@ -101,6 +101,16 @@ function improvePublisherLinkVisibility(html) {
   )
 }
 
+function resetPrerenderedOpening(html, relativePath) {
+  if (relativePath !== 'index.html') return html
+  // A captured desktop player would download the wrong format before React
+  // starts on a phone. The responsive picture provides the initial HTML frame.
+  return html.replace(/<video\b(?=[^>]*data-izem-opening-video)[^>]*>[\s\S]*?<\/video>/gi, '')
+    .replaceAll(' opening-film__poster--hidden', '')
+    .replace(/(<div\b[^>]*class="opening-film__controls"[^>]*>)([\s\S]*?)(<\/div>)/,
+      (_match, opening, controls, closing) => opening + controls.replace(/<button\b/g, '<button disabled') + closing)
+}
+
 function addBlogFooterLinkStyles(html, relativePath) {
   if (relativePath !== 'blog/index.html' || html.includes(linkAccessibilityMarker)) return html
 
@@ -141,6 +151,7 @@ for (const file of htmlFiles) {
   const heroResult = replacePrerenderedHeroVideo(html, relativePath)
   html = heroResult.html
   prerenderedHeroVideosReplaced += heroResult.changed
+  html = resetPrerenderedOpening(html, relativePath)
 
   html = improvePublisherLinkVisibility(html)
   html = addBlogFooterLinkStyles(html, relativePath)

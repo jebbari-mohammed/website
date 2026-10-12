@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import Navigation from './components/Navigation';
+import OpeningVideo from './components/OpeningVideo';
 import Hero from './components/Hero';
 import EcosystemStrip from './components/EcosystemStrip';
 import ProductShowcase from './components/ProductShowcase';
@@ -14,10 +16,12 @@ import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 
 function App() {
+  const [introVisible, setIntroVisible] = useState(true);
   return (
     <div className="bg-[#05080C] min-h-screen text-textPrimary selection:bg-primary selection:text-[#070A0D] font-sans antialiased">
-      <Navigation />
+      <Navigation cinematic={introVisible} />
       <main>
+        <OpeningVideo onVisibilityChange={setIntroVisible} />
         <Hero />
         <EcosystemStrip />
         <ProductShowcase />

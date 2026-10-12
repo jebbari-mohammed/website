@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { motion } from '../lib/motion';
-import { Menu, X, ArrowRight, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowRight, ArrowDown, Sparkles } from 'lucide-react';
 
-export default function Navigation() {
+export default function Navigation({ cinematic = false }: { cinematic?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -10,10 +10,11 @@ export default function Navigation() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-[100] px-4 sm:px-8 py-3.5 bg-[#05080C]/85 backdrop-blur-2xl border-b border-white/[0.08]"
+      className={`fixed top-0 left-0 right-0 z-[100] px-4 sm:px-8 py-3.5 border-b transition-colors duration-300 ${cinematic ? 'bg-black border-transparent' : 'bg-[#05080C]/85 backdrop-blur-2xl border-white/[0.08]'}`}
+      style={{ paddingTop: 'calc(14px + env(safe-area-inset-top, 0px))' }}
     >
       {/* Bottom subtle glowing accent rail */}
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent pointer-events-none" />
+      {!cinematic && <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent pointer-events-none" />}
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Brand */}
         <a href="/" className="flex items-center gap-2.5 group">
@@ -32,7 +33,7 @@ export default function Navigation() {
         </a>
 
         {/* Desktop Nav Links */}
-        <div className="hidden xl:flex items-center gap-6 lg:gap-8">
+        <div className={`${cinematic ? 'hidden' : 'hidden xl:flex'} items-center gap-6 lg:gap-8`}>
           <a href="/izem-ai-fitness-coach/" className="text-[13px] font-medium text-textSecondary hover:text-textPrimary transition-colors">
             AI Coach
           </a>
@@ -57,7 +58,7 @@ export default function Navigation() {
         </div>
 
         {/* Action Button */}
-        <div className="hidden xl:flex items-center gap-3">
+        <div className={`${cinematic ? 'hidden' : 'hidden xl:flex'} items-center gap-3`}>
           <a
             href="/workout-plan-generator/"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold bg-white text-[#070A0D] hover:bg-primary hover:text-[#070A0D] transition-all duration-300 shadow-sm"
@@ -66,6 +67,8 @@ export default function Navigation() {
             <ArrowRight size={14} />
           </a>
         </div>
+
+        {cinematic && <a href="#hero" className="hidden xl:inline-flex items-center gap-2.5 min-h-11 px-4 text-xs font-medium !text-white/75 hover:!text-white transition-colors">Explore IZEM <ArrowDown size={15} aria-hidden="true" /></a>}
 
         {/* Mobile Toggle */}
         <button

@@ -5,14 +5,20 @@ import heroPreviewMedia from '../src/content/hero-preview-media.json' with { typ
 export const decorativeVideoPaths = [
   '/videos/izem-coach-chat-dark-web.mp4',
   '/videos/izem-workout-nutrition-dark-web.mp4',
+  '/videos/intro/izem-intro-desktop-v1.mp4',
+  '/videos/intro/izem-intro-mobile-v1.mp4',
 ]
 
 export const decorativePosterPaths = [
   '/images/hero1-desktop.webp',
   '/images/hero2-desktop.webp',
+  '/images/intro/izem-intro-desktop-v1.webp',
+  '/images/intro/izem-intro-mobile-v1.webp',
 ]
-export const decorativePosterUrls = heroPreviewMedia.map((preview) =>
-  `${preview.posterPath}?v=${preview.posterSha256.slice(0, 12)}`)
+export const decorativePosterUrls = [
+  ...heroPreviewMedia.map((preview) => `${preview.posterPath}?v=${preview.posterSha256.slice(0, 12)}`),
+  ...decorativePosterPaths.slice(2),
+]
 
 export function hasExactNoindexHeader(hosting, resourcePath) {
   const versionedPosterIndex = decorativePosterUrls.indexOf(resourcePath)
