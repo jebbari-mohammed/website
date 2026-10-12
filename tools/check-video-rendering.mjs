@@ -160,6 +160,7 @@ try {
         }, {}, section, expectedSources[index])
         await assertHomepagePreview(section)
         if (section === '#hero') {
+          if (width >= 768) await page.waitForFunction(() => document.querySelector('#hero video')?.paused === false)
           const state = await page.$eval('#hero [data-izem-hero-preview]', (preview) => ({
             tag: preview.tagName, paused: preview.paused,
           }))
