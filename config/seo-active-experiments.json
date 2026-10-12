@@ -1,11 +1,26 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-10",
+  "updatedAt": "2026-10-12",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
   },
   "locks": [
+    {
+      "id": "owner-requested-opening-film-2026-10-12",
+      "url": "/",
+      "files": [
+        "src/components/OpeningVideo.tsx",
+        "src/components/OpeningVideo.css",
+        "src/components/Hero.tsx",
+        "src/components/Navigation.tsx",
+        "src/App.tsx"
+      ],
+      "launchedAt": "2026-10-12",
+      "lockUntil": "2026-11-02",
+      "preferredReviewAt": "2026-11-09",
+      "reason": "Owner-requested responsive opening film and viewport media loading. Preserve presentation while observing engagement and loading; factual, safety, rendering, indexing and deployment corrections follow the documented exception process. No ranking copy, metadata, canonicals or FAQ changes. See docs/seo-experiments/2026-10-12-owner-video-opening.md."
+    },
     {
       "id": "homepage-visible-faq-2026-10-08",
       "url": "/#faq",

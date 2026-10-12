@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from '../lib/motion';
 import { ArrowRight, CheckCircle2, MessageSquare, Dumbbell } from 'lucide-react';
 import heroPreviewMedia from '../content/hero-preview-media.json';
@@ -6,19 +6,27 @@ import heroPreviewMedia from '../content/hero-preview-media.json';
 export default function Hero() {
   const [activeVideo, setActiveVideo] = useState<'chat' | 'workout'>('chat');
   const [showMotionPreview, setShowMotionPreview] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const desktopQuery = window.matchMedia('(min-width: 768px)');
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let inViewport = false;
     const syncPreviewMode = () => {
-      setShowMotionPreview(desktopQuery.matches && !reducedMotionQuery.matches);
+      setShowMotionPreview(inViewport && desktopQuery.matches && !reducedMotionQuery.matches);
     };
+    const observer = new IntersectionObserver(([entry]) => {
+      inViewport = entry.isIntersecting;
+      syncPreviewMode();
+    });
+    if (sectionRef.current) observer.observe(sectionRef.current);
 
     syncPreviewMode();
     desktopQuery.addEventListener?.('change', syncPreviewMode);
     reducedMotionQuery.addEventListener?.('change', syncPreviewMode);
 
     return () => {
+      observer.disconnect();
       desktopQuery.removeEventListener?.('change', syncPreviewMode);
       reducedMotionQuery.removeEventListener?.('change', syncPreviewMode);
     };
@@ -32,7 +40,7 @@ export default function Hero() {
       : 'IZEM workout and nutrition interface preview';
 
   return (
-    <section id="hero" className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
+    <section ref={sectionRef} id="hero" className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
       <div aria-hidden="true" className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[450px] bg-primary/[0.04] blur-[170px] rounded-full pointer-events-none -z-10" />
       <div className="max-w-7xl mx-auto w-full">
         <div className="grid !grid-cols-1 lg:!grid-cols-12 gap-12 lg:gap-10 items-center">

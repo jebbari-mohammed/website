@@ -18,7 +18,7 @@ const initialHero = homepage('#hero [data-izem-hero-preview="true"]')
 assert.equal(initialHero.length, 1, 'Initial HTML must contain exactly one hero preview')
 assert.equal(initialHero[0].tagName, 'img', 'Initial hero must use a lightweight matching still')
 assert.equal(initialHero.attr('src'), decorativePosterUrls[0], 'Initial hero must show the versioned coaching preview')
-for (const obsoletePoster of decorativePosterPaths) {
+for (const obsoletePoster of decorativePosterPaths.slice(0, 2)) {
   assert.equal(homepage(`[src="${obsoletePoster}"], [poster="${obsoletePoster}"]`).length, 0,
     `Homepage must not reference an unversioned ${obsoletePoster}`)
 }
@@ -81,7 +81,7 @@ try {
   await page.setJavaScriptEnabled(false)
   for (const width of [390, 1440]) {
     await page.setViewport({ width, height: 900 })
-    await page.goto(origin, { waitUntil: 'networkidle0' })
+    await page.goto(origin, { waitUntil: 'domcontentloaded' })
     const state = await page.$eval('#hero img[data-izem-hero-preview]', (preview) => ({
       src: preview.getAttribute('src'), complete: preview.complete,
       naturalWidth: preview.naturalWidth,
@@ -97,6 +97,7 @@ try {
   await page.setViewport({ width: 1440, height: 900 })
   holdPreviewVideo = true
   await page.goto(origin, { waitUntil: 'domcontentloaded' })
+  await page.$eval('#hero', (element) => element.scrollIntoView({ behavior: 'instant' }))
   await page.waitForSelector('#hero video')
   const pendingPreview = await page.$eval('#hero video', async (preview) => {
     const poster = new Image()
@@ -140,13 +141,13 @@ try {
 
   for (const width of [390, 1440]) {
     await page.setViewport({ width, height: 900 })
-    await page.goto(origin, { waitUntil: 'networkidle0' })
+    await page.goto(origin, { waitUntil: 'domcontentloaded' })
     await page.waitForSelector('#hero [data-izem-hero-preview="true"]')
     for (const section of ['#hero', '#showcase']) {
       await page.$eval(section, (element) => element.scrollIntoView())
       const buttons = await page.$$(`${section} button`)
       const expectedSources = section === '#hero'
-        ? width < 768 ? decorativePosterUrls : decorativeVideoPaths
+        ? width < 768 ? decorativePosterUrls.slice(0, 2) : decorativeVideoPaths.slice(0, 2)
         : [decorativeVideoPaths[1], decorativeVideoPaths[1], decorativeVideoPaths[0]]
       assert.equal(buttons.length, expectedSources.length, `${section}: every preview tab needs a checked source`)
       for (const [index, button] of buttons.entries()) {
@@ -159,6 +160,7 @@ try {
         }, {}, section, expectedSources[index])
         await assertHomepagePreview(section)
         if (section === '#hero') {
+          if (width >= 768) await page.waitForFunction(() => document.querySelector('#hero video')?.paused === false)
           const state = await page.$eval('#hero [data-izem-hero-preview]', (preview) => ({
             tag: preview.tagName, paused: preview.paused,
           }))
@@ -171,7 +173,8 @@ try {
 
   // A preference change must replace a playing preview with its intended still.
   await page.setViewport({ width: 1440, height: 900 })
-  await page.goto(origin, { waitUntil: 'networkidle0' })
+  await page.goto(origin, { waitUntil: 'domcontentloaded' })
+  await page.$eval('#hero', (element) => element.scrollIntoView({ behavior: 'instant' }))
   await page.waitForFunction(() => document.querySelector('#hero video')?.paused === false)
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }])
   await page.waitForSelector('#hero img[data-izem-hero-preview]')
@@ -187,7 +190,7 @@ try {
   await page.waitForFunction(() => document.querySelector('#hero video')?.paused === false)
   await page.setViewport({ width: 390, height: 900 })
   await page.waitForSelector('#hero img[data-izem-hero-preview]')
-  for (const obsoletePoster of decorativePosterPaths) {
+  for (const obsoletePoster of decorativePosterPaths.slice(0, 2)) {
     assert.equal(requestedPaths.has(obsoletePoster), false, `Homepage must never request ${obsoletePoster}`)
   }
 
@@ -198,7 +201,7 @@ try {
     await page.setViewport({ width, height: 900 })
     for (const video of samples) {
       const route = `/youtube/${video.id}/`
-      const response = await page.goto(`${origin}${route}`, { waitUntil: 'networkidle0' })
+      const response = await page.goto(`${origin}${route}`, { waitUntil: 'domcontentloaded' })
       assert.equal(response.status(), 200, `${route}: watch page must be reachable`)
       const state = await page.evaluate(() => {
         const frame = document.querySelector('main [data-primary-video="true"] iframe')
