@@ -7,6 +7,22 @@
   },
   "locks": [
     {
+      "id": "opening-download-action-2026-10-12",
+      "url": "/",
+      "files": [
+        "src/main.tsx",
+        "src/components/StoreDownloadButton.tsx",
+        "src/components/StoreDownloadButton.css",
+        "src/lib/store-download.ts",
+        "src/content/store-links.json",
+        "public/download/index.html"
+      ],
+      "launchedAt": "2026-10-12",
+      "lockUntil": "2026-11-02",
+      "preferredReviewAt": "2026-11-09",
+      "reason": "Owner-requested platform download action added to the opening-film experience. Publication depends on confirmed store destinations. Preserve the action's presentation and routing; existing film and FAQ locks remain intact. See docs/seo-experiments/2026-10-12-platform-download-button.md."
+    },
+    {
       "id": "owner-requested-opening-film-2026-10-12",
       "url": "/",
       "files": [
