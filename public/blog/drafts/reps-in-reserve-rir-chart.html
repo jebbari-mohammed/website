@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reps in Reserve (RIR) Chart: RPE Conversion & Load Guide | IZEM</title>
+  <meta name="description" content="Use the Reps in Reserve (RIR) to RPE chart to pick the right weight on every set. Learn why 1 to 2 RIR builds muscle without burnout and adjust loads with our calculator.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://youraicoach.life/blog/reps-in-reserve-rir-chart">
+  <meta property="article:published_time" content="2026-10-25">
+  <meta property="article:modified_time" content="2026-10-25">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="IZEM">
+  <meta property="og:title" content="Stop 1 to 2 repetitions shy of technical failure on most working sets.">
+  <meta property="og:description" content="Use the Reps in Reserve (RIR) to RPE chart to pick the right weight on every set. Learn why 1 to 2 RIR builds muscle without burnout and adjust loads with our calculator.">
+  <meta property="og:url" content="https://youraicoach.life/blog/reps-in-reserve-rir-chart">
+  <meta property="og:image" content="https://youraicoach.life/blog/assets/reps-in-reserve-rir-chart/hero.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stop 1 to 2 repetitions shy of technical failure on most working sets.">
+  <meta name="twitter:description" content="Use the Reps in Reserve (RIR) to RPE chart to pick the right weight on every set. Learn why 1 to 2 RIR builds muscle without burnout and adjust loads with our calculator.">
+  <meta name="twitter:image" content="https://youraicoach.life/blog/assets/reps-in-reserve-rir-chart/hero.svg">
+  <link rel="alternate" type="application/rss+xml" title="IZEM Blog" href="https://youraicoach.life/blog/feed.xml">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Stop 1 to 2 repetitions shy of technical failure on most working sets.","description":"Use the Reps in Reserve (RIR) to RPE chart to pick the right weight on every set. Learn why 1 to 2 RIR builds muscle without burnout and adjust loads with our calculator.","inLanguage":"en","author":{"@type":"Organization","name":"IZEM Editorial","url":"https://youraicoach.life/editorial-policy.html"},"publisher":{"@type":"Organization","name":"IZEM","url":"https://youraicoach.life/"},"accountablePerson":{"@type":"Person","name":"Mohammed Jebbari","url":"https://youraicoach.life/about"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://youraicoach.life/blog/reps-in-reserve-rir-chart"},"image":"https://youraicoach.life/blog/assets/reps-in-reserve-rir-chart/hero.svg","datePublished":"2026-10-25","dateModified":"2026-10-25","citation":["https://pubmed.ncbi.nlm.nih.gov/27531969/","https://pubmed.ncbi.nlm.nih.gov/26049792/","https://pubmed.ncbi.nlm.nih.gov/36334240/"]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between technical failure and absolute failure?","acceptedAnswer":{"@type":"Answer","text":"Technical failure (0 RIR for safe programming) is the point where you cannot complete another repetition without losing target joint alignment, bouncing the weight, or shifting the load onto other muscles. Absolute failure is when the weight physically stops moving regardless of form."}},{"@type":"Question","name":"Should RIR stay the same across all 4 weeks of a training block?","acceptedAnswer":{"@type":"Answer","text":"Many structured programs start Week 1 at 2 to 3 RIR while you adapt to the movement volume, move to 1 to 2 RIR in Weeks 2 and 3, and finish Week 4 at 1 RIR (with 0 RIR on isolation final sets) before resetting."}},{"@type":"Question","name":"How does RIR relate to percentage of 1RM?","acceptedAnswer":{"@type":"Answer","text":"Each repetition in reserve corresponds to roughly 2.5% to 3% of your 1RM. For example, a weight you can lift for 8 reps at 0 RIR (~78-80% 1RM) becomes an 8-rep set at 2 RIR when loaded around 73-75% 1RM."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://youraicoach.life/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://youraicoach.life/blog/"},{"@type":"ListItem","position":3,"name":"Reps in Reserve (RIR) Chart: RPE Conversion & Load Guide","item":"https://youraicoach.life/blog/reps-in-reserve-rir-chart"}]}]}
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070A0D;
+      --surface: #111714;
+      --elevated: #18211B;
+      --border: #26322A;
+      --ink: #FAFAFA;
+      --muted: #D4D4D4;
+      --subtle: #A1A1A1;
+      --accent: #8DFF6A;
+      --accent-soft: #D8FF86;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 17px/1.75 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--accent); text-underline-offset: 4px; }
+    a:hover { color: var(--accent-soft); }
+    .skip-link {
+      position: absolute;
+      top: -80px;
+      left: 16px;
+      background: var(--accent);
+      color: #070A0D;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      z-index: 100;
+    }
+    .skip-link:focus { top: 12px; }
+    .site-nav {
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .nav-inner {
+      max-width: 920px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand { font-weight: 800; font-size: 1.15rem; color: var(--ink); text-decoration: none; letter-spacing: 0.05em; }
+    .nav-links { display: flex; gap: 18px; flex-wrap: wrap; font-size: 0.94rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; }
+    .nav-links a:hover { color: var(--accent); }
+    .hero { max-width: 920px; margin: 0 auto; padding: 52px 24px 24px; }
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--accent);
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin: 0 0 14px;
+    }
+    h1 { font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.12; margin: 0 0 16px; letter-spacing: -0.02em; }
+    .lead { font-size: 1.12rem; color: var(--muted); margin: 0 0 18px; max-width: 800px; }
+    .meta { font-size: 0.9rem; color: var(--subtle); margin: 0 0 22px; }
+    .jump-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 20px;
+      padding: 14px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.93rem;
+    }
+    main { max-width: 920px; margin: 0 auto; padding: 28px 24px 72px; }
+    h2 { font-size: clamp(1.45rem, 2.8vw, 1.95rem); line-height: 1.25; margin: 44px 0 14px; color: var(--ink); }
+    h3 { font-size: 1.18rem; line-height: 1.35; margin: 24px 0 10px; color: var(--ink); }
+    p, ul, ol { color: var(--muted); margin: 0 0 18px; }
+    ul, ol { padding-left: 24px; }
+    li { margin-bottom: 8px; }
+    strong { color: var(--ink); }
+    .answer-box {
+      background: var(--surface);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      padding: 18px 22px;
+      margin: 0 0 24px;
+    }
+    .answer-box p { margin: 0; color: var(--ink); }
+    .disclosure {
+      font-size: 0.9rem;
+      color: var(--subtle);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 16px;
+      margin-bottom: 28px;
+    }
+    .article-visual {
+      margin: 28px 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .article-visual img { display: block; width: 100%; height: auto; }
+    .article-visual figcaption { padding: 12px 16px; font-size: 0.88rem; color: var(--subtle); border-top: 1px solid var(--border); }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin: 20px 0 28px;
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 620px; font-size: 0.94rem; }
+    th, td { text-align: left; padding: 13px 15px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { background: var(--elevated); color: var(--ink); font-weight: 700; }
+    td { background: var(--surface); color: var(--muted); }
+    tbody tr:last-child td { border-bottom: 0; }
+    .tool {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 28px 0 36px;
+    }
+    .tool h2, .tool h3 { margin-top: 0; }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin: 16px 0;
+    }
+    label { display: block; font-size: 0.88rem; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+    select, input, textarea {
+      width: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font: inherit;
+      font-size: 0.94rem;
+    }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      color: #070A0D;
+      font-weight: 800;
+      font-size: 0.94rem;
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--accent);
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn.secondary { background: var(--elevated); color: var(--ink); border-color: var(--border); }
+    .tool-output {
+      margin-top: 18px;
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .status-msg { font-size: 0.86rem; color: var(--accent-soft); min-height: 1.3em; margin-top: 8px; }
+    .sources-section { border-top: 1px solid var(--border); margin-top: 44px; padding-top: 22px; font-size: 0.92rem; }
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 26px 24px;
+      color: var(--subtle);
+      font-size: 0.9rem;
+      max-width: 920px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  </style>
+  <link rel="stylesheet" href="/izem-theme.css" data-izem-theme="green-black-v1">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to article</a>
+<nav class="site-nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a class="brand" href="/">IZEM</a>
+    <div class="nav-links">
+      <a href="/exercises/">Exercises</a>
+      <a href="/1rm-calculator/">1RM Calculator</a>
+      <a href="/workout-plan-generator/">Plan Generator</a>
+      <a href="/tools/">All Tools</a>
+      <a href="/blog/">Blog</a>
+    </div>
+  </div>
+</nav>
+<header class="hero">
+  <p class="eyebrow">Strength Programming · Effort Scale</p>
+  <h1>Stop 1 to 2 repetitions shy of technical failure on most working sets.</h1>
+  <p class="lead">Reps in Reserve (RIR) counts how many clean repetitions you could still complete at the end of a set before your form breaks down. Use the RIR-to-RPE chart and load adjuster below to calibrate your working weights.</p>
+  <p class="meta">By <a href="/editorial-policy.html">IZEM Editorial</a> · Accountable publisher: <a href="/about">Mohammed Jebbari</a> · <time datetime="2026-10-25">2026-10-25</time></p>
+  <nav class="jump-links" aria-label="In this article"><a href="#rir-table">RIR to RPE chart</a><a href="#adjuster">Next-set load adjuster</a><a href="#by-lift">RIR by exercise type</a><a href="#mistakes">How to judge RIR accurately</a><a href="#faq">FAQ</a><a href="#sources">Sources</a></nav>
+</header>
+<!-- IZEM_OBJECT_VISUALS_V1 -->
+<main id="main"><article>
+  <div class="answer-box">
+    <p><strong>Quick conversion rule:</strong> Subtract your Reps in Reserve from 10 to get your Rate of Perceived Exertion (RPE) <a href="#source-1">[1]</a>. Finishing a set with <strong>2 Reps in Reserve equals RPE 8</strong>; finishing with <strong>1 Rep in Reserve equals RPE 9</strong>; reaching technical failure with <strong>0 Reps in Reserve equals RPE 10</strong>.</p>
+  </div>
+  <p class="disclosure">Educational fitness and nutrition information for healthy adults. Nothing on this page is medical advice or a clinical prescription. Stop any movement that causes sharp pain or dizziness, and consult a physician, physical therapist, or registered dietitian for medical or injury guidance.</p>
+
+  <figure class="article-visual" data-owner-visual-policy="objects-only-v1">
+    <img data-owner-visual-policy="objects-only-v1" src="/blog/assets/reps-in-reserve-rir-chart/hero.svg" alt="Stop 1 to 2 repetitions shy of technical failure on most working sets. summary diagram" width="1200" height="630" decoding="async">
+    <figcaption>Summary reference card for stop 1 to 2 repetitions shy of technical failure on most working sets.</figcaption>
+  </figure>
+
+  
+  <h2 id="rir-table">Complete RIR to RPE conversion chart</h2>
+  <p>Fixed percentages of your one-rep max assume your strength is identical on a rested Saturday morning and after a stressful Tuesday workday. Validated by Helms et al. (2016) and Zourdos et al. (2016), the RIR scale lets you autoregulate your weight on the bar based on how many clean repetitions remain at the end of the set <a href="#source-1">[1]</a> <a href="#source-2">[2]</a>.</p>
+
+  <div class="table-wrap">
+    <table aria-label="Reps in Reserve RIR to RPE conversion chart">
+      <thead>
+        <tr>
+          <th>RIR (Reps in Reserve)</th>
+          <th>RPE Equivalent</th>
+          <th>Bar Speed &amp; Physical Cue on Final Rep</th>
+          <th>Best Use in a Workout Plan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>0 RIR</strong></td>
+          <td>RPE 10</td>
+          <td>Grinding concentric speed; another repetition would fail or break safe posture.</td>
+          <td>Final set of single-joint isolation or cable/machine lifts (curls, lateral raises, leg curls).</td>
+        </tr>
+        <tr>
+          <td><strong>1 RIR</strong></td>
+          <td>RPE 9</td>
+          <td>Clear bar-speed slowdown on the final rep; confident you had exactly 1 clean rep left.</td>
+          <td>Top hypertrophy working sets on dumbbells, machines, rows, and final compound sets <a href="#source-3">[3]</a>.</td>
+        </tr>
+        <tr>
+          <td><strong>2 RIR</strong></td>
+          <td>RPE 8</td>
+          <td>Last rep noticeably slower than rep 1, but posture stays locked; 2 reps left in the tank.</td>
+          <td>Default target for multi-joint compound sets (squats, RDLs, presses, split squats) <a href="#source-1">[1]</a>.</td>
+        </tr>
+        <tr>
+          <td><strong>3 RIR</strong></td>
+          <td>RPE 7</td>
+          <td>Smooth, brisk bar speed with moderate effort; 3 clean repetitions remaining.</td>
+          <td>Heavy barbell strength work, Week 1 of a new block, or returning after a week off.</td>
+        </tr>
+        <tr>
+          <td><strong>4+ RIR</strong></td>
+          <td>RPE 6 or below</td>
+          <td>Fast, effortless repetitions with minimal local fatigue.</td>
+          <td>Warm-up sets, technique practice, or active recovery sessions.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="tool" id="adjuster" aria-labelledby="rir-calc-title">
+    <h2 id="rir-calc-title">Interactive RIR Autoregulation &amp; Next-Set Load Adjuster</h2>
+    <p>Enter the weight and reps you just completed, your actual RIR at the end of the set, and your target RIR for the next set. The tool calculates whether to keep, raise, or lower the weight.</p>
+    <div class="form-grid">
+      <div>
+        <label for="rir-weight">Weight lifted (lb or kg)</label>
+        <input type="number" id="rir-weight" min="5" max="1500" step="2.5" value="135">
+      </div>
+      <div>
+        <label for="rir-reps">Reps completed</label>
+        <input type="number" id="rir-reps" min="1" max="20" step="1" value="8">
+      </div>
+      <div>
+        <label for="rir-actual">Actual RIR felt on set</label>
+        <select id="rir-actual">
+          <option value="0">0 RIR (RPE 10 · True limit)</option>
+          <option value="1">1 RIR (RPE 9 · 1 rep left)</option>
+          <option value="2">2 RIR (RPE 8 · 2 reps left)</option>
+          <option value="3">3 RIR (RPE 7 · 3 reps left)</option>
+          <option value="4" selected>4+ RIR (RPE 6 · Too light)</option>
+        </select>
+      </div>
+      <div>
+        <label for="rir-target">Target RIR for next set</label>
+        <select id="rir-target">
+          <option value="1">1 RIR (RPE 9)</option>
+          <option value="2" selected>2 RIR (RPE 8 · Standard)</option>
+          <option value="3">3 RIR (RPE 7)</option>
+        </select>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn" id="rir-btn">Calculate Next-Set Weight</button>
+      <button type="button" class="btn secondary" id="rir-copy">Copy Set Adjustment</button>
+    </div>
+    <p class="status-msg" id="rir-status" role="status" aria-live="polite"></p>
+    <div class="tool-output">
+      <h3 id="rir-out-title">Next-Set Load Recommendation</h3>
+      <p id="rir-out-summary"></p>
+      <label for="rir-note">Copyable set log and adjustment rule</label>
+      <textarea id="rir-note" rows="6" readonly></textarea>
+    </div>
+  </section>
+
+  <h2 id="by-lift">Why you shouldn't take every exercise to 0 RIR</h2>
+  <p>Meta-analyses comparing training to failure (0 RIR) against stopping 1 to 3 reps short of failure show similar muscle growth when weekly set volume is matched, while 0 RIR causes substantially greater neuromuscular fatigue and longer recovery times <a href="#source-3">[3]</a>. Match your RIR target to the exercise:</p>
+  <ul>
+    <li><strong>Barbell squats, deadlifts, and bench presses (2 to 3 RIR):</strong> Taking Set 1 of squats to absolute failure spikes central fatigue and forces you to strip plates off the bar for Sets 2 and 3. Stopping with 2 clean reps in reserve lets you complete all three sets with the same heavy working weight.</li>
+    <li><strong>Dumbbell presses, rows, and lunges (1 to 2 RIR):</strong> Independent stabilization makes true 0 RIR awkward to spot, so stopping 1 to 2 reps before form breakdown keeps tension on the target muscle.</li>
+    <li><strong>Cables, machines, and single-joint isolation (0 to 1 RIR on the final set):</strong> Because lateral raises, curls, pressdowns, and leg curls carry low spinal and systemic fatigue, taking the final set to 0–1 RIR is a safe way to verify that you aren't underestimating your effort.</li>
+  </ul>
+
+  <h2 id="mistakes">How to calibrate your RIR when you're not sure</h2>
+  <p>Studies show that lifters are most accurate at judging RIR when a set runs between 6 and 10 repetitions and ends within 0 to 2 reps of failure <a href="#source-2">[2]</a>. When a set goes past 15 repetitions, burning discomfort often tricks people into stopping with 4 or 5 reps still in the tank. Once every three to four weeks, take the final set of a safe machine or cable exercise (like a seated cable row or chest press machine) to technical failure (0 RIR) while counting the reps after the bar starts slowing down. That teaches you exactly what 2 RIR and 1 RIR feel like.</p>
+  <p>Combine this chart with our <a href="/1rm-calculator/">One Rep Max (1RM) Calculator</a> and <a href="/blog/progressive-overload-tracker-template">Progressive Overload Tracker Template</a> to log both weight and RIR each week.</p>
+
+  <figure class="article-visual" data-owner-visual-policy="objects-only-v1">
+    <img data-owner-visual-policy="objects-only-v1" src="/blog/assets/reps-in-reserve-rir-chart/framework.svg" alt="Stop 1 to 2 repetitions shy of technical failure on most working sets. practical execution checklist" width="1200" height="630" loading="lazy" decoding="async">
+    <figcaption>Decision rules and weekly logging adjustments.</figcaption>
+  </figure>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>What is the difference between technical failure and absolute failure?</h3>
+<p>Technical failure (0 RIR for safe programming) is the point where you cannot complete another repetition without losing target joint alignment, bouncing the weight, or shifting the load onto other muscles. Absolute failure is when the weight physically stops moving regardless of form.</p>
+
+<h3>Should RIR stay the same across all 4 weeks of a training block?</h3>
+<p>Many structured programs start Week 1 at 2 to 3 RIR while you adapt to the movement volume, move to 1 to 2 RIR in Weeks 2 and 3, and finish Week 4 at 1 RIR (with 0 RIR on isolation final sets) before resetting.</p>
+
+<h3>How does RIR relate to percentage of 1RM?</h3>
+<p>Each repetition in reserve corresponds to roughly 2.5% to 3% of your 1RM. For example, a weight you can lift for 8 reps at 0 RIR (~78-80% 1RM) becomes an 8-rep set at 2 RIR when loaded around 73-75% 1RM.</p>
+
+  <section class="sources-section" aria-labelledby="sources">
+    <h2 id="sources">References and primary sources</h2>
+    <ol>
+      <li id="source-1">Helms ER, Cronin J, Storey A, Zourdos MC. Application of the Repetitions in Reserve-Based Rating of Perceived Exertion Scale for Resistance Training. Strength and Conditioning Journal. 2016;38(4):42-49. <a href="https://pubmed.ncbi.nlm.nih.gov/27531969/">PubMed 27531969</a>.</li>
+      <li id="source-2">Zourdos MC, Klemp A, Dolan C, et al. Novel Resistance Training-Specific Rating of Perceived Exertion Scale Measuring Repetitions in Reserve. Journal of Strength and Conditioning Research. 2016;30(1):267-275. <a href="https://pubmed.ncbi.nlm.nih.gov/26049792/">PubMed 26049792</a>.</li>
+      <li id="source-3">Refalo MC, Helms ER, Trexler ET, Hamilton DL, Fyfe JJ. Influence of Resistance Training Proximity-to-Failure on Skeletal Muscle Hypertrophy: A Systematic Review with Meta-Analysis. Sports Medicine. 2023;53(3):649-665. <a href="https://pubmed.ncbi.nlm.nih.gov/36334240/">PubMed 36334240</a>.</li>
+    </ol>
+  </section>
+</article></main>
+<footer class="footer">
+  <span>IZEM · Consumer AI Personal Trainer (<a href="/about">About</a> · <a href="/editorial-policy.html">Editorial Policy</a>)</span>
+  <span><a href="/privacy-policy.html">Privacy</a> · <a href="/terms.html">Terms</a> · <a href="/support.html">Support</a></span>
+</footer>
+<script>
+(function(){
+  const wEl = document.getElementById('rir-weight');
+  const rEl = document.getElementById('rir-reps');
+  const actEl = document.getElementById('rir-actual');
+  const tgtEl = document.getElementById('rir-target');
+  const titleEl = document.getElementById('rir-out-title');
+  const sumEl = document.getElementById('rir-out-summary');
+  const noteEl = document.getElementById('rir-note');
+  const msgEl = document.getElementById('rir-status');
+
+  function roundHalf(n) { return Math.round(n * 2) / 2; }
+
+  function calc() {
+    const w = Math.min(1500, Math.max(5, Number(wEl.value) || 135));
+    const r = Math.min(20, Math.max(1, Math.round(Number(rEl.value) || 8)));
+    const actual = Number(actEl.value);
+    const target = Number(tgtEl.value);
+
+    const diffRir = actual - target;
+    // Each RIR is ~2.8% load adjustment; also account for slight inter-set fatigue (-2% if already at target)
+    let pctChange = diffRir * 0.028;
+    if (diffRir === 0 && actual <= 1) pctChange = -0.025;
+    const nextW = Math.max(5, roundHalf(w * (1 + pctChange)));
+    const e1rm = roundHalf(w * (1 + (r + actual) / 30));
+
+    let actionText = '';
+    if (diffRir > 0) actionText = 'Increase load to ~' + nextW + ' (set was ' + diffRir + ' RIR easier than target).';
+    else if (diffRir < 0) actionText = 'Reduce load to ~' + nextW + ' (set overshot target effort by ' + Math.abs(diffRir) + ' RIR).';
+    else actionText = actual <= 1 ? 'Keep ' + w + ' (or trim to ' + nextW + ' if rest is under 2 minutes) to stay at ' + target + ' RIR.' : 'Stay at ' + w + ' for your next working set.';
+
+    titleEl.textContent = actionText;
+    sumEl.textContent = 'Completed: ' + w + ' x ' + r + ' @ ' + actual + ' RIR (RPE ' + (10 - actual) + ') · Estimated True 1RM: ~' + e1rm;
+    noteEl.value = [
+      'IZEM RIR AUTOREGULATION LOG',
+      'Completed Set: ' + w + ' x ' + r + ' reps @ ' + actual + ' RIR (RPE ' + (10 - actual) + ')',
+      'Effective Rep Max Capacity: ~' + (r + actual) + ' reps (' + e1rm + ' est. 1RM)',
+      'Target Effort: ' + target + ' RIR (RPE ' + (10 - target) + ')',
+      'Next Set Prescription: ' + actionText
+    ].join('\n');
+    msgEl.textContent = 'Calculated next-set weight for ' + target + ' RIR target.';
+  }
+
+  document.getElementById('rir-btn').addEventListener('click', calc);
+  document.getElementById('rir-copy').addEventListener('click', function(){
+    calc();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(noteEl.value).then(function(){ msgEl.textContent = 'Copied RIR adjustment note.'; });
+    }
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

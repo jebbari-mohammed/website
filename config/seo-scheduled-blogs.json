@@ -1,0 +1,118 @@
+{
+  "version": "1.0.0",
+  "cadenceDays": 3,
+  "createdAt": "2026-10-13",
+  "description": "10 SERP-synthesized human blog posts scheduled 1 every 3 days to respect the 3-post/week ceiling and natural crawl pacing.",
+  "schedule": [
+    {
+      "order": 1,
+      "scheduledDate": "2026-10-16",
+      "slug": "how-long-to-rest-between-sets",
+      "keyword": "how long to rest between sets",
+      "title": "How Long to Rest Between Sets for Muscle Growth & Strength (2026 Chart)",
+      "draftPath": "public/blog/drafts/how-long-to-rest-between-sets.html",
+      "livePath": "public/blog/how-long-to-rest-between-sets.html",
+      "assetsDir": "public/blog/assets/how-long-to-rest-between-sets",
+      "status": "scheduled"
+    },
+    {
+      "order": 2,
+      "scheduledDate": "2026-10-19",
+      "slug": "4-day-upper-lower-workout-split",
+      "keyword": "4 day upper lower workout split",
+      "title": "4-Day Upper/Lower Workout Split: Complete Weekly Schedule & Exercise Swaps",
+      "draftPath": "public/blog/drafts/4-day-upper-lower-workout-split.html",
+      "livePath": "public/blog/4-day-upper-lower-workout-split.html",
+      "assetsDir": "public/blog/assets/4-day-upper-lower-workout-split",
+      "status": "scheduled"
+    },
+    {
+      "order": 3,
+      "scheduledDate": "2026-10-22",
+      "slug": "push-pull-legs-3-day-split",
+      "keyword": "push pull legs 3 day split",
+      "title": "3-Day Push Pull Legs (PPL) Split: How to Make Once-Per-Week Frequency Work",
+      "draftPath": "public/blog/drafts/push-pull-legs-3-day-split.html",
+      "livePath": "public/blog/push-pull-legs-3-day-split.html",
+      "assetsDir": "public/blog/assets/push-pull-legs-3-day-split",
+      "status": "scheduled"
+    },
+    {
+      "order": 4,
+      "scheduledDate": "2026-10-25",
+      "slug": "reps-in-reserve-rir-chart",
+      "keyword": "reps in reserve rir chart",
+      "title": "Reps in Reserve (RIR) Chart: How Close to Failure Should You Train?",
+      "draftPath": "public/blog/drafts/reps-in-reserve-rir-chart.html",
+      "livePath": "public/blog/reps-in-reserve-rir-chart.html",
+      "assetsDir": "public/blog/assets/reps-in-reserve-rir-chart",
+      "status": "scheduled"
+    },
+    {
+      "order": 5,
+      "scheduledDate": "2026-10-28",
+      "slug": "romanian-deadlift-vs-deadlift",
+      "keyword": "romanian deadlift vs deadlift",
+      "title": "Romanian Deadlift (RDL) vs. Conventional Deadlift: Muscles, Load Ratios & Programming",
+      "draftPath": "public/blog/drafts/romanian-deadlift-vs-deadlift.html",
+      "livePath": "public/blog/romanian-deadlift-vs-deadlift.html",
+      "assetsDir": "public/blog/assets/romanian-deadlift-vs-deadlift",
+      "status": "scheduled"
+    },
+    {
+      "order": 6,
+      "scheduledDate": "2026-10-31",
+      "slug": "incline-dumbbell-press-angle",
+      "keyword": "incline dumbbell press angle",
+      "title": "Best Incline Dumbbell Press Angle: Why 15° to 30° Beats 45° for Upper Chest",
+      "draftPath": "public/blog/drafts/incline-dumbbell-press-angle.html",
+      "livePath": "public/blog/incline-dumbbell-press-angle.html",
+      "assetsDir": "public/blog/assets/incline-dumbbell-press-angle",
+      "status": "scheduled"
+    },
+    {
+      "order": 7,
+      "scheduledDate": "2026-11-03",
+      "slug": "lat-pulldown-alternatives-at-home",
+      "keyword": "lat pulldown alternatives at home",
+      "title": "9 Best Lat Pulldown Alternatives at Home (Dumbbells, Bands, or Pull-Up Bar)",
+      "draftPath": "public/blog/drafts/lat-pulldown-alternatives-at-home.html",
+      "livePath": "public/blog/lat-pulldown-alternatives-at-home.html",
+      "assetsDir": "public/blog/assets/lat-pulldown-alternatives-at-home",
+      "status": "scheduled"
+    },
+    {
+      "order": 8,
+      "scheduledDate": "2026-11-06",
+      "slug": "how-much-protein-per-meal",
+      "keyword": "how much protein per meal to build muscle",
+      "title": "How Much Protein Can You Use Per Meal to Build Muscle? (Why the 30g Cap Is a Myth)",
+      "draftPath": "public/blog/drafts/how-much-protein-per-meal.html",
+      "livePath": "public/blog/how-much-protein-per-meal.html",
+      "assetsDir": "public/blog/assets/how-much-protein-per-meal",
+      "status": "scheduled"
+    },
+    {
+      "order": 9,
+      "scheduledDate": "2026-11-09",
+      "slug": "skinny-fat-workout-and-nutrition-guide",
+      "keyword": "skinny fat workout routine and diet",
+      "title": "Skinny Fat Workout and Nutrition Guide: How to Build Muscle and Lose Belly Fat Together",
+      "draftPath": "public/blog/drafts/skinny-fat-workout-and-nutrition-guide.html",
+      "livePath": "public/blog/skinny-fat-workout-and-nutrition-guide.html",
+      "assetsDir": "public/blog/assets/skinny-fat-workout-and-nutrition-guide",
+      "status": "scheduled"
+    },
+    {
+      "order": 10,
+      "scheduledDate": "2026-11-12",
+      "slug": "missed-a-week-of-workouts-how-to-return",
+      "keyword": "returning to gym after missing a week",
+      "title": "Missed a Week of Workouts? How to Return to the Gym Without Losing Progress",
+      "draftPath": "public/blog/drafts/missed-a-week-of-workouts-how-to-return.html",
+      "livePath": "public/blog/missed-a-week-of-workouts-how-to-return.html",
+      "assetsDir": "public/blog/assets/missed-a-week-of-workouts-how-to-return",
+      "status": "scheduled"
+    }
+  ]
+}
