@@ -344,7 +344,6 @@
   #root #faq h2 { font-size: 33px; }
   #root #faq h3 { font-size: 19px; }
   #root .editorial-final-actions { flex-direction: column; align-items: stretch; }
-  #root .editorial-final .editorial-title br { display: none; }
   #root .editorial-footer { padding: 48px 22px 26px; }
   #root .editorial-footer-grid { grid-template-columns: 1fr 1fr; gap: 30px 24px; }
   #root .editorial-footer-links:last-child { grid-column: 1/-1; }

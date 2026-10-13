@@ -86,6 +86,19 @@ try {
     await page.keyboard.press('ArrowRight');
     await page.waitForFunction(() => document.querySelector('#session-slider').value === '4');
     assert.ok(await page.$eval('.editorial-budget-amount', (e) => e.textContent.includes(Math.round(4 * 4.33 * 65 * 12).toLocaleString())), 'Keyboard input must update budget');
+    for (const rate of [0, 1000]) {
+      await page.$eval('#rate-input', (e) => e.select());
+      await page.keyboard.type(String(rate));
+      await page.waitForFunction((value) => document.querySelector('.editorial-budget-amount').textContent.includes(Math.round(4 * 4.33 * value * 12).toLocaleString()), {}, rate);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Budget limits must fit');
+    }
+    // A font outage or OS fallback must not join words across a hidden break.
+    // Exercise a wider fallback as well as the authored font on narrow phones.
+    if (width === 320) {
+      const fallback = await page.addStyleTag({ content: '#root main > section:not(#opening-film), #root main > section:not(#opening-film) * { font-family: Verdana, sans-serif !important; }' });
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Wide fallback font must fit');
+      await fallback.evaluate((e) => e.remove());
+    }
     await page.focus('#rate-input');
     assert.equal(await page.$eval('#rate-input', (e) => getComputedStyle(e).outlineStyle), 'solid', 'Keyboard focus must remain visible');
     console.log(`Homepage ${width}px: no overflow, accessible choices, working keyboard budget; ${state.textSamples} text samples, minimum contrast ${state.minContrast.toFixed(2)}:1.`);
