@@ -711,6 +711,7 @@
       "id": "ai-personal-trainer-first-workout-launch-2026-10-13",
       "url": "/blog/how-to-use-ai-personal-trainer",
       "files": [
+        "public/blog/how-to-use-ai-personal-trainer.html",
         "public/blog/assets/how-to-use-ai-personal-trainer/article.css",
         "public/blog/assets/how-to-use-ai-personal-trainer/brief.js",
         "public/blog/assets/how-to-use-ai-personal-trainer/hero.svg",
@@ -720,7 +721,7 @@
       "launchedAt": "2026-10-13",
       "lockUntil": "2026-11-03",
       "preferredReviewAt": "2026-11-10",
-      "reason": "Owner-requested consumer setup/use guide and portable browser training brief supporting the AI personal trainer cluster. Preserve utility and visuals; add article HTML after the initial dedicated-video attachment and unchanged-body verification. See docs/seo-experiments/2026-10-13-ai-personal-trainer-first-workout.md."
+      "reason": "Owner-requested consumer setup/use guide and portable browser training brief supporting the AI personal trainer cluster. The dedicated video completed the transactional launch; the approved body digest was verified unchanged in source and on the live page. Preserve article, utility and visuals through the evaluation window. See docs/seo-experiments/2026-10-13-ai-personal-trainer-first-workout.md."
     },
     {
       "id": "generator-ai-personal-trainer-setup-support-link-2026-10-13",
