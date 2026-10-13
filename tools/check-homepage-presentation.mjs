@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 import express from 'express';
 import puppeteer from 'puppeteer';
 
@@ -9,9 +10,14 @@ const server = await new Promise((resolve) => {
   const instance = app.listen(0, '127.0.0.1', () => resolve(instance));
 });
 const origin = `http://127.0.0.1:${server.address().port}`;
+const executablePath = [
+  process.env.PUPPETEER_EXECUTABLE_PATH,
+  '/usr/bin/google-chrome', '/usr/bin/google-chrome-stable',
+  '/usr/bin/chromium', '/usr/bin/chromium-browser',
+].find((candidate) => candidate && existsSync(candidate));
 let browser;
 try {
-  browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
+  browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'], ...(executablePath ? { executablePath } : {}) });
   const page = await browser.newPage();
   await page.setRequestInterception(true);
   page.on('request', (request) => {
