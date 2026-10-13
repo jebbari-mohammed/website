@@ -20,6 +20,7 @@ on:
       - 'tools/ai-marketing/article-video-*.mjs'
       - 'tools/ai-marketing/youtube-publication*.mjs'
       - 'tools/ai-marketing/object-only-video*.mjs'
+      - 'tools/ai-marketing/typography-video*.mjs'
       - 'tools/ai-marketing/.notebooklm-video-progress.json'
       - '.github/workflows/daily-video-tts.yml'
       - '.github/workflows/content-integrity.yml'
@@ -41,6 +42,7 @@ on:
       - 'tools/ai-marketing/article-video-*.mjs'
       - 'tools/ai-marketing/youtube-publication*.mjs'
       - 'tools/ai-marketing/object-only-video*.mjs'
+      - 'tools/ai-marketing/typography-video*.mjs'
       - 'tools/ai-marketing/.notebooklm-video-progress.json'
       - '.github/workflows/daily-video-tts.yml'
       - '.github/workflows/content-integrity.yml'
@@ -101,7 +103,7 @@ jobs:
             sudo apt-get update -qq
             sudo apt-get install -y ffmpeg
           fi
-          node --test tools/ai-marketing/object-only-video*.test.mjs
+          node --test tools/ai-marketing/object-only-video*.test.mjs tools/ai-marketing/typography-video*.test.mjs
 
       - name: Check a new article has a slot before merging
         if: github.event_name == 'pull_request'
