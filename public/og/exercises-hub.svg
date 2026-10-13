@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">IZEM Exercise Substitution and Working-Weight Hub</title>
+  <desc id="desc">Movement-pattern exercise substitution matrix and working-weight load converter.</desc>
+  <rect width="1200" height="630" fill="#070A0D"/>
+  <rect x="48" y="48" width="1104" height="534" rx="28" fill="#111714" stroke="#26322A" stroke-width="2"/>
+  <rect x="88" y="88" width="248" height="38" rx="19" fill="#18211B" stroke="#26322A"/>
+  <text x="212" y="113" text-anchor="middle" fill="#8DFF6A" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="800" letter-spacing="2">EXERCISE LIBRARY</text>
+  <text x="88" y="192" fill="#F8FAFC" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="52" font-weight="800">Exercise Substitutions &amp; Loads</text>
+  <text x="88" y="246" fill="#CBD5E1" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="25" font-weight="500">Swap busy gym machines or barbell lifts for dumbbell, cable,</text>
+  <text x="88" y="282" fill="#CBD5E1" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="25" font-weight="500">or home alternatives without losing the target movement pattern.</text>
+  <g transform="translate(88, 336)">
+    <rect width="496" height="184" rx="18" fill="#18211B" stroke="#26322A"/>
+    <text x="28" y="46" fill="#8DFF6A" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700">6 MOVEMENT PATTERNS</text>
+    <text x="28" y="84" fill="#F8FAFC" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="26" font-weight="800">Squat · Hinge · Push · Pull</text>
+    <text x="28" y="122" fill="#94A3B8" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="500">Match resistance profile &amp; stability demands</text>
+    <text x="28" y="152" fill="#D8FF86" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700">Barbell ↔ Dumbbell ↔ Machine ↔ Cable</text>
+  </g>
+  <g transform="translate(616, 336)">
+    <rect width="496" height="184" rx="18" fill="#18211B" stroke="#8DFF6A" stroke-width="2"/>
+    <text x="28" y="46" fill="#8DFF6A" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700">WORKING-WEIGHT CONVERTER</text>
+    <text x="28" y="84" fill="#F8FAFC" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="26" font-weight="800">Epley &amp; Brzycki 1RM Engine</text>
+    <text x="28" y="122" fill="#94A3B8" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="500">Estimate starting loads when changing equipment</text>
+    <text x="28" y="152" fill="#D8FF86" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700">Copyable setup &amp; substitution note</text>
+  </g>
+</svg>

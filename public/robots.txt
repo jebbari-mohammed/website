@@ -52,6 +52,9 @@ Allow: /
 # All other bots
 User-agent: *
 Allow: /
+Allow: /exercises/
+Allow: /1rm-calculator/
+Allow: /llms.txt
 
 # Sitemap
 Sitemap: https://youraicoach.life/sitemap.xml

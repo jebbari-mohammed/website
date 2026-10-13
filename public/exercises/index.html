@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exercise Substitution Chart &amp; Working-Weight Converter | IZEM</title>
+  <meta name="description" content="Find biomechanical exercise substitutions for busy gym machines, barbell lifts, or home dumbbell setups, and convert your working weight using Epley and Brzycki 1RM math.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://youraicoach.life/exercises/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IZEM">
+  <meta property="og:title" content="Exercise Substitution Chart &amp; Working-Weight Converter">
+  <meta property="og:description" content="Swap occupied gym machines or barbell lifts by movement pattern and estimate your starting load.">
+  <meta property="og:url" content="https://youraicoach.life/exercises/">
+  <meta property="og:image" content="https://youraicoach.life/og/exercises-hub.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="IZEM Exercise Substitution and Working-Weight Hub showing 6 movement patterns and load converter">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Exercise Substitution Chart &amp; Working-Weight Converter">
+  <meta name="twitter:description" content="Match movement patterns and resistance profiles when swapping barbell, dumbbell, machine, and bodyweight lifts.">
+  <meta name="twitter:image" content="https://youraicoach.life/og/exercises-hub.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": "https://youraicoach.life/exercises/#webpage",
+        "name": "Exercise Substitution Library and Working-Weight Converter",
+        "url": "https://youraicoach.life/exercises/",
+        "description": "Movement-pattern exercise substitution matrices and working-weight conversion rules for barbell, dumbbell, cable, machine, and bodyweight training.",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "IZEM",
+          "url": "https://youraicoach.life/"
+        },
+        "author": {
+          "@type": "Organization",
+          "name": "IZEM Editorial",
+          "url": "https://youraicoach.life/editorial-policy.html"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "IZEM",
+          "url": "https://youraicoach.life/"
+        },
+        "datePublished": "2026-10-13",
+        "dateModified": "2026-10-13",
+        "mainEntity": {
+          "@type": "ItemList",
+          "name": "Movement Pattern Exercise Guides and Tools",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Bulgarian Split Squat: Form, Setup and Common Fixes",
+              "url": "https://youraicoach.life/blog/bulgarian-split-squat"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Workout App Exercise Substitutions for Busy Machines",
+              "url": "https://youraicoach.life/blog/workout-app-exercise-substitutions-busy-machines"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Gym Machines vs Free Weights",
+              "url": "https://youraicoach.life/blog/gym-machines-vs-free-weights"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "One Rep Max (1RM) and Working-Weight Calculator",
+              "url": "https://youraicoach.life/1rm-calculator/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Free Weekly Workout Plan Generator",
+              "url": "https://youraicoach.life/workout-plan-generator/"
+            }
+          ]
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you choose a good exercise substitution when a machine or rack is busy?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Match the primary joint action, movement plane, and target muscle group first, then adjust for stability. For example, replace a barbell back squat with a hack squat, leg press, goblet squat, or Bulgarian split squat rather than a seated calf raise."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much weight should I use when switching from barbell bench press to dumbbell bench press?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Because each arm stabilizes its own dumbbell independently, total dumbbell load is typically 75% to 85% of your barbell bench press for the same repetition range (roughly 37.5% to 42.5% of your barbell load in each hand). Start conservatively and leave 1 to 2 Reps in Reserve."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the best home dumbbell substitute for a lat pulldown or seated cable row?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A one-arm bench-supported or kickstand dumbbell row, chest-supported incline dumbbell row, or dumbbell pullover combined with pull-ups or resistance-band pulldowns trains the lats and upper back when a cable tower is unavailable."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://youraicoach.life/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Exercises",
+            "item": "https://youraicoach.life/exercises/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070A0D;
+      --surface: #111714;
+      --elevated: #18211B;
+      --border: #26322A;
+      --ink: #fafafa;
+      --muted: #d4d4d4;
+      --subtle: #a1a1a1;
+      --accent: #8DFF6A;
+      --accent-soft: #D8FF86;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 17px/1.75 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--accent); text-underline-offset: 4px; }
+    a:hover { color: var(--accent-soft); }
+    .skip-link {
+      position: absolute;
+      top: -80px;
+      left: 16px;
+      background: var(--accent);
+      color: #070A0D;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      z-index: 100;
+    }
+    .skip-link:focus { top: 12px; }
+    .site-nav {
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .nav-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 0.94rem;
+    }
+    .nav-links a { color: var(--muted); text-decoration: none; }
+    .nav-links a:hover { color: var(--accent); }
+    .hero {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 56px 24px 28px;
+    }
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(2.1rem, 4.8vw, 3.4rem);
+      line-height: 1.1;
+      margin: 0 0 18px;
+      max-width: 880px;
+      letter-spacing: -0.02em;
+    }
+    .lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 820px;
+      margin: 0 0 20px;
+    }
+    .meta {
+      font-size: 0.9rem;
+      color: var(--subtle);
+      margin-bottom: 24px;
+    }
+    .jump-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+      padding: 16px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.93rem;
+    }
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 28px 24px 72px;
+    }
+    h2 {
+      font-size: clamp(1.5rem, 2.8vw, 2.05rem);
+      line-height: 1.25;
+      margin: 46px 0 14px;
+      color: var(--ink);
+    }
+    h3 {
+      font-size: 1.2rem;
+      line-height: 1.35;
+      margin: 24px 0 10px;
+      color: var(--ink);
+    }
+    p {
+      color: var(--muted);
+      margin: 0 0 18px;
+      max-width: 840px;
+    }
+    ul, ol {
+      color: var(--muted);
+      padding-left: 24px;
+      margin: 0 0 22px;
+      max-width: 840px;
+    }
+    li { margin-bottom: 10px; }
+    .answer-box {
+      background: var(--surface);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px;
+      margin: 0 0 24px;
+      max-width: 920px;
+    }
+    .answer-box p { margin: 0; color: var(--ink); }
+    .disclosure {
+      font-size: 0.92rem;
+      color: var(--subtle);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 32px;
+      max-width: 920px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin: 18px 0 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 680px;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th {
+      background: var(--elevated);
+      color: var(--ink);
+      font-weight: 700;
+    }
+    td {
+      background: var(--surface);
+      color: var(--muted);
+    }
+    tbody tr:last-child td { border-bottom: 0; }
+    .planner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      margin: 28px 0 42px;
+    }
+    .planner h2 { margin-top: 0; }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 18px 0;
+    }
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    select, input, textarea {
+      width: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 12px;
+      font: inherit;
+      font-size: 0.95rem;
+    }
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      color: #070A0D;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 1px solid var(--accent);
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn.secondary {
+      background: var(--elevated);
+      color: var(--ink);
+      border-color: var(--border);
+    }
+    .planner-output {
+      margin-top: 22px;
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .planner-output h3 { margin-top: 0; color: var(--accent); }
+    .status-msg {
+      font-size: 0.88rem;
+      color: var(--accent-soft);
+      min-height: 1.4em;
+      margin-top: 8px;
+    }
+    .sources {
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+      padding-top: 24px;
+      font-size: 0.92rem;
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      color: var(--subtle);
+      font-size: 0.9rem;
+    }
+    .footer-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+  </style>
+  <link rel="stylesheet" href="/izem-theme.css" data-izem-theme="green-black-v1">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to substitution chart</a>
+<nav class="site-nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a class="brand" href="/">IZEM</a>
+    <div class="nav-links">
+      <a href="/workout-plan-generator/">Workout Generator</a>
+      <a href="/exercises/">Exercises</a>
+      <a href="/1rm-calculator/">1RM Calculator</a>
+      <a href="/workout-generator-by-equipment/">Equipment Filter</a>
+      <a href="/blog/">Blog</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">Movement Pattern Library</span>
+  <h1>Exercise Substitution Chart &amp; Working-Weight Converter</h1>
+  <p class="lead">When a squat rack, bench, or cable station is occupied, match the movement pattern and resistance profile so your training log stays consistent. Use the converter below to estimate your starting load when switching between barbell, dumbbell, machine, and bodyweight variations.</p>
+  <p class="meta">By <a href="/editorial-policy.html">IZEM Editorial</a> · Accountable publisher: <a href="/about">Mohammed Jebbari</a> · Updated <time datetime="2026-10-13">October 13, 2026</time></p>
+  <nav class="jump-links" aria-label="On this page">
+    <a href="#converter">Substitution &amp; load converter</a>
+    <a href="#lower-matrix">Lower-body substitutions</a>
+    <a href="#upper-matrix">Upper-body substitutions</a>
+    <a href="#rules">3 biomechanical swap rules</a>
+    <a href="#guides">Movement guides</a>
+    <a href="#sources">Sources</a>
+  </nav>
+</header>
+
+<main id="main">
+  <div class="answer-box">
+    <p><strong>Core substitution rule:</strong> Keep the primary joint action and target muscle group identical, then adjust load for stability. Moving from a fixed machine or single barbell to two independent dumbbells increases stabilization demands, so starting working weights per hand are lower than half of your barbell load <a href="#source-1">[1]</a> <a href="#source-2">[2]</a>.</p>
+  </div>
+
+  <p class="disclosure">Educational exercise reference for healthy adults. Load conversions between different pieces of equipment are starting estimates because machine pulley ratios, bench angles, and individual leverage vary. Start with 1 to 2 warm-up sets and stop if any movement causes pain.</p>
+
+  <section class="planner" id="converter" aria-labelledby="converter-heading">
+    <h2 id="converter-heading">Interactive Exercise Substitution &amp; Working-Weight Converter</h2>
+    <p>Choose the planned exercise that is unavailable, pick the equipment you have right now, and enter your usual working weight and repetitions. The tool computes your Epley and Brzycki 1RM and suggests a conservative starting weight for the replacement movement.</p>
+
+    <div class="form-grid">
+      <div>
+        <label for="ex-planned">Planned lift (unavailable)</label>
+        <select id="ex-planned">
+          <option value="bb-bench" selected>Barbell Bench Press</option>
+          <option value="bb-squat">Barbell Back Squat</option>
+          <option value="bb-deadlift">Barbell Conventional Deadlift</option>
+          <option value="bb-ohp">Barbell Overhead Press</option>
+          <option value="lat-pulldown">Lat Pulldown Machine</option>
+          <option value="cable-row">Seated Cable Row</option>
+          <option value="leg-press">45-Degree Leg Press</option>
+        </select>
+      </div>
+      <div>
+        <label for="ex-target-equip">Replacement equipment</label>
+        <select id="ex-target-equip">
+          <option value="dumbbell" selected>Dumbbells (home or gym)</option>
+          <option value="machine">Machine or Cable Station</option>
+          <option value="barbell">Barbell / Rack Variation</option>
+          <option value="bodyweight">Bodyweight / Minimal Gear</option>
+        </select>
+      </div>
+      <div>
+        <label for="ex-weight">Your working weight (lb or kg)</label>
+        <input type="number" id="ex-weight" min="5" max="1500" step="2.5" value="165">
+      </div>
+      <div>
+        <label for="ex-reps">Reps completed (1 to 12)</label>
+        <input type="number" id="ex-reps" min="1" max="12" step="1" value="8">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button type="button" class="btn" id="run-swap-btn">Find Swap &amp; Convert Load</button>
+      <button type="button" class="btn secondary" id="copy-swap-btn">Copy Substitution Note</button>
+    </div>
+    <p class="status-msg" id="swap-status-msg" role="status" aria-live="polite"></p>
+
+    <div class="planner-output">
+      <h3 id="swap-result-title">Recommended Swap</h3>
+      <p id="swap-result-summary"></p>
+      <label for="swap-note-output">Copyable workout substitution note</label>
+      <textarea id="swap-note-output" rows="8" readonly></textarea>
+    </div>
+  </section>
+
+  <h2 id="lower-matrix">Lower-body exercise substitution chart (squat, hinge, unilateral)</h2>
+  <p>Lower-body movements divide into knee-dominant patterns (quadriceps and glutes) and hip-dominant patterns (hamstrings, glutes, and spinal erectors). When a squat rack or leg press is taken, pick from the same row so your weekly quad-to-hamstring ratio stays intact.</p>
+
+  <div class="table-wrap">
+    <table aria-label="Lower body exercise substitution chart by movement pattern">
+      <thead>
+        <tr>
+          <th>Movement Pattern &amp; Primary Lift</th>
+          <th>Machine / Cable Swap</th>
+          <th>Dumbbell Swap</th>
+          <th>Bodyweight / Home Swap</th>
+          <th>Setup &amp; Load Adjustment Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Bilateral Knee-Dominant</strong><br>Barbell Back Squat</td>
+          <td>Hack Squat or 45° Leg Press</td>
+          <td>Dumbbell Goblet Squat or Dual-DB Front Squat</td>
+          <td>Tempo Bodyweight Squat or Pause Jump Squat</td>
+          <td>Goblet squats cap out on upper-body holding strength; switch to <a href="/blog/bulgarian-split-squat">Bulgarian split squats</a> once a single dumbbell feels light.</td>
+        </tr>
+        <tr>
+          <td><strong>Unilateral Knee-Dominant</strong><br>Dumbbell Bulgarian Split Squat</td>
+          <td>Single-Leg Press or Smith Machine Split Squat</td>
+          <td>Dumbbell Reverse Lunge or Stationary Split Squat</td>
+          <td>Rear-Foot-Elevated Bodyweight Split Squat</td>
+          <td>Record bench height and front-foot distance so both legs repeat the same range of motion each week <a href="#source-3">[3]</a>.</td>
+        </tr>
+        <tr>
+          <td><strong>Bilateral Hip Hinge</strong><br>Barbell Conventional or Romanian Deadlift</td>
+          <td>Cable Pull-Through or 45° Back Extension</td>
+          <td>Dumbbell Romanian Deadlift (RDL)</td>
+          <td>Single-Leg Bodyweight Hip Hinge or Nordic Lower</td>
+          <td>Keep dumbbells close to the thighs and shins; stop lowering when hip backward travel ends (usually mid-shin).</td>
+        </tr>
+        <tr>
+          <td><strong>Glute Horizontal Thrust</strong><br>Barbell Hip Thrust</td>
+          <td>Plate-Loaded Glute Drive Machine</td>
+          <td>Dumbbell Hip Thrust or B-Stance DB Glute Bridge</td>
+          <td>Single-Leg Elevated Glute Bridge (2-sec top hold)</td>
+          <td>Tuck ribs down and pause at full hip extension so motion comes from the hips rather than lumbar hyperextension.</td>
+        </tr>
+        <tr>
+          <td><strong>Knee Flexion (Hamstrings)</strong><br>Seated or Lying Leg Curl</td>
+          <td>Low-Pulley Ankle-Strap Cable Hamstring Curl</td>
+          <td>Dumbbell Lying Leg Curl (bell held between feet)</td>
+          <td>Floor Towel / Slider Eccentric Hamstring Curl</td>
+          <td>Seated leg curls train the hamstrings at a longer hip-flexed muscle length than lying variations.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="upper-matrix">Upper-body exercise substitution chart (push, pull, arms)</h2>
+  <p>Upper-body substitutions should preserve the pressing or pulling angle (horizontal vs. incline vs. vertical) so anterior, lateral, and posterior shoulder heads receive balanced volume across the week.</p>
+
+  <div class="table-wrap">
+    <table aria-label="Upper body exercise substitution chart by movement pattern">
+      <thead>
+        <tr>
+          <th>Movement Pattern &amp; Primary Lift</th>
+          <th>Machine / Cable Swap</th>
+          <th>Dumbbell Swap</th>
+          <th>Bodyweight / Home Swap</th>
+          <th>Setup &amp; Load Adjustment Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Horizontal Push</strong><br>Barbell Flat Bench Press</td>
+          <td>Seated Converging Machine Chest Press</td>
+          <td>Flat Dumbbell Bench Press or Floor Press</td>
+          <td>Deficit Push-Up or Feet-Elevated Push-Up</td>
+          <td>Dumbbells allow a natural 30° to 45° scapular plane arm path and slightly deeper chest stretch on a bench.</td>
+        </tr>
+        <tr>
+          <td><strong>Incline Push</strong><br>Incline Barbell Press</td>
+          <td>Incline Machine Press or Low-to-High Cable Fly</td>
+          <td>30° Incline Dumbbell Press</td>
+          <td>Feet-Elevated Push-Up (hands on push-up bars/books)</td>
+          <td>A 30° bench angle targets the clavicular (upper) chest with less front-delt takeover than a steep 60° angle.</td>
+        </tr>
+        <tr>
+          <td><strong>Vertical Push</strong><br>Barbell Overhead Press</td>
+          <td>Machine Shoulder Press or Landmine Press</td>
+          <td>Seated or Standing Dumbbell Shoulder Press</td>
+          <td>Pike Push-Up or Wall-Facing Handstand Hold</td>
+          <td>Seated dumbbell presses add back support; standing presses require tighter glute and abdominal bracing.</td>
+        </tr>
+        <tr>
+          <td><strong>Vertical Pull</strong><br>Wide or Neutral Lat Pulldown</td>
+          <td>Assisted Pull-Up Machine or High-Pulley Single-Arm Pulldown</td>
+          <td>Dumbbell Pullover + High-Volume Single-Arm Row</td>
+          <td>Pull-Up, Chin-Up, or Door-Anchor Band Pulldown</td>
+          <td>Dumbbells pull against gravity vertically, so horizontal rows or pullovers must orient the torso to load the lats.</td>
+        </tr>
+        <tr>
+          <td><strong>Horizontal Pull</strong><br>Seated Cable Row</td>
+          <td>Chest-Supported T-Bar or Machine Row</td>
+          <td>Chest-Supported Incline DB Row or One-Arm Row</td>
+          <td>Inverted Bodyweight Row (under sturdy bar/rings)</td>
+          <td>Chest-supported rows remove lower-back fatigue after heavy deadlift or squat sessions.</td>
+        </tr>
+        <tr>
+          <td><strong>Lateral Delt &amp; Arm Isolation</strong><br>Cable Lateral Raise / Pressdown / Curl</td>
+          <td>Lateral Raise Machine / Preacher Machine</td>
+          <td>Dumbbell Lateral Raise, Hammer Curl, Overhead Triceps Ext</td>
+          <td>Band Lateral Raise, Close-Grip Push-Up, Chin-Up</td>
+          <td>Keep 12 to 15 controlled repetitions on small single-joint lifts rather than swinging heavier weights.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="rules">Three rules for swapping exercises without losing progress</h2>
+  <ol>
+    <li><strong>Log the replacement as its own exercise:</strong> Eight repetitions on a converging chest press machine and eight repetitions on a flat barbell bench press use different leverage and pulley systems. Record the exact variation so next week's target compares apples to apples.</li>
+    <li><strong>Match the fatigue tier:</strong> Swap a primary multi-joint movement for another multi-joint movement. Replacing barbell squats with leg extensions cuts systemic hip and trunk loading.</li>
+    <li><strong>Keep the substitution for at least 3 to 4 sessions when possible:</strong> The first session on an unfamiliar machine or unilateral lift goes toward motor coordination. Keeping a consistent backup option lets you apply progressive overload even when your gym is crowded at 6 PM.</li>
+  </ol>
+
+  <h2 id="guides">Related movement guides and calculators</h2>
+  <ul>
+    <li><a href="/blog/bulgarian-split-squat">Bulgarian Split Squat: Form, Setup and Common Fixes</a>: Detailed unilateral leg guide with an interactive setup note.</li>
+    <li><a href="/blog/workout-app-exercise-substitutions-busy-machines">Workout App Exercise Substitutions for Busy Machines</a>: Practical decision tree for peak-hour gym crowds.</li>
+    <li><a href="/blog/gym-machines-vs-free-weights">Gym Machines vs. Free Weights</a>: How stability and resistance profiles affect hypertrophy and strength transfer.</li>
+    <li><a href="/1rm-calculator/">One Rep Max (1RM) &amp; Percentage Calculator</a>: Full Epley and Brzycki rep-max chart and warm-up generator.</li>
+    <li><a href="/workout-plan-generator/">Free Weekly Workout Plan Generator</a> and <a href="/workout-generator-by-equipment/">Workout Generator by Equipment</a>: Build weekly routines around these movement patterns.</li>
+  </ul>
+
+  <section class="sources" id="sources" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">References and primary sources</h2>
+    <ol>
+      <li id="source-1">Epley B. Poundage Chart. In: <em>Boyd Epley Workout</em>. Lincoln, NE: Body Enterprises; 1985:86.</li>
+      <li id="source-2">Brzycki M. Strength testing: predicting a one-rep max from reps-to-fatigue. <em>Journal of Physical Education, Recreation &amp; Dance</em>. 1993;64(1):88-90.</li>
+      <li id="source-3">American Council on Exercise (ACE). Bulgarian Split Squat Exercise Library Guide. <a href="https://www.acefitness.org/resources/everyone/exercise-library/366/bulgarian-split-squat/">acefitness.org</a>.</li>
+      <li id="source-4">Haugen ME, Vårvik FT, Larsen S, Haugen AS, van den Tillaar R, Bjørnsen T. Effect of free-weight vs. machine-based strength training on maximal strength, hypertrophy and jump performance: a systematic review and meta-analysis. <em>BMC Sports Science, Medicine and Rehabilitation</em>. 2023;15(1):103. <a href="https://pubmed.ncbi.nlm.nih.gov/37582791/">PubMed 37582791</a>.</li>
+    </ol>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>IZEM · Consumer AI Fitness Coach (<a href="/workout-plan-generator/">Workout Generator</a> · <a href="/1rm-calculator/">1RM Calculator</a> · <a href="/editorial-policy.html">Editorial Policy</a>)</span>
+    <span><a href="/about">About</a> · <a href="/privacy-policy.html">Privacy</a> · <a href="/terms.html">Terms</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const plannedEl = document.getElementById('ex-planned');
+  const equipEl = document.getElementById('ex-target-equip');
+  const weightEl = document.getElementById('ex-weight');
+  const repsEl = document.getElementById('ex-reps');
+  const titleEl = document.getElementById('swap-result-title');
+  const summaryEl = document.getElementById('swap-result-summary');
+  const noteEl = document.getElementById('swap-note-output');
+  const msgEl = document.getElementById('swap-status-msg');
+
+  const swapMap = {
+    'bb-bench': {
+      label: 'Barbell Bench Press',
+      dumbbell: { name: 'Flat Dumbbell Bench Press (or Floor Press)', factor: 0.40, perHand: true, note: 'Independent arm stabilization requires ~38% to 42% of your barbell working weight per dumbbell.' },
+      machine: { name: 'Seated Converging Machine Chest Press', factor: 0.85, perHand: false, note: 'Fixed path removes bar-balance demands; test 1 warm-up set because machine lever arms vary.' },
+      barbell: { name: 'Close-Grip or 30-Degree Incline Barbell Press', factor: 0.85, perHand: false, note: 'Slightly narrower grip or low incline reduces load by roughly 10% to 15%.' },
+      bodyweight: { name: 'Deficit Push-Up (hands elevated) or Slow-Tempo Push-Up', factor: 0, perHand: false, note: 'Use a 3-second lowering phase and 1-second bottom pause to take sets within 1 to 2 RIR.' }
+    },
+    'bb-squat': {
+      label: 'Barbell Back Squat',
+      dumbbell: { name: 'Dumbbell Bulgarian Split Squat (or Goblet Squat)', factor: 0.28, perHand: true, note: 'Single-leg split squats load one leg at a time; ~25% to 30% of bilateral squat weight per hand is challenging.' },
+      machine: { name: 'Hack Squat or 45-Degree Leg Press', factor: 1.25, perHand: false, note: 'Sled angle and back support allow higher total plate weight; control depth without rounding the lower back.' },
+      barbell: { name: 'Barbell Front Squat or Zercher Squat', factor: 0.80, perHand: false, note: 'Anterior load placement increases upper-back and quad demand at ~80% of back squat load.' },
+      bodyweight: { name: 'Rear-Foot-Elevated Bodyweight Split Squat (3-sec lower)', factor: 0, perHand: false, note: 'Perform 12 to 18 controlled reps per leg with a 2-second bottom pause.' }
+    },
+    'bb-deadlift': {
+      label: 'Barbell Conventional Deadlift',
+      dumbbell: { name: 'Dumbbell Romanian Deadlift (RDL)', factor: 0.35, perHand: true, note: 'Continuous tension without resting on the floor; use ~32% to 38% of deadlift weight per dumbbell for 8-12 reps.' },
+      machine: { name: 'Cable Pull-Through or Loaded 45° Back Extension', factor: 0.45, perHand: false, note: 'Focus on crisp hip extension without overarching the lower spine.' },
+      barbell: { name: 'Trap-Bar Deadlift or Barbell Romanian Deadlift', factor: 0.85, perHand: false, note: 'Barbell RDL typically runs at 75% to 85% of floor deadlift working weight.' },
+      bodyweight: { name: 'Single-Leg Bodyweight Hip Hinge + Single-Leg Glute Bridge', factor: 0, perHand: false, note: 'Hold the stretched bottom position for 2 seconds per rep.' }
+    },
+    'bb-ohp': {
+      label: 'Barbell Overhead Press',
+      dumbbell: { name: 'Seated or Standing Dumbbell Shoulder Press', factor: 0.42, perHand: true, note: 'Each hand presses ~40% to 44% of your barbell overhead working load in a neutral or 45-degree plane.' },
+      machine: { name: 'Seated Machine Shoulder Press', factor: 0.90, perHand: false, note: 'Adjust seat height so handles start near chin/ear level.' },
+      barbell: { name: 'Single-Arm or Two-Hand Landmine Press', factor: 0.75, perHand: false, note: 'Angled pressing path is shoulder-friendly when vertical overhead mobility feels tight.' },
+      bodyweight: { name: 'Pike Push-Up (feet on floor or low box)', factor: 0, perHand: false, note: 'Keep hips high in an inverted V so pressing path stays vertical.' }
+    },
+    'lat-pulldown': {
+      label: 'Lat Pulldown Machine',
+      dumbbell: { name: 'One-Arm Bench-Supported Dumbbell Row + DB Pullover', factor: 0.45, perHand: true, note: 'Drive elbow toward the hip crease to bias the lats; use ~40% to 45% of pulldown stack weight in one hand.' },
+      machine: { name: 'Assisted Pull-Up Machine or High-Pulley Single-Arm Kneeling Pulldown', factor: 0.85, perHand: false, note: 'Matches the vertical pulling line directly.' },
+      barbell: { name: 'Underhand or Pendlay Barbell Row', factor: 0.90, perHand: false, note: 'Brace trunk at a stable hip hinge angle.' },
+      bodyweight: { name: 'Pull-Up, Chin-Up, or Door-Anchor Band Pulldown', factor: 0, perHand: false, note: 'Use controlled 2-second lowering on every rep.' }
+    },
+    'cable-row': {
+      label: 'Seated Cable Row',
+      dumbbell: { name: 'Chest-Supported Incline Dumbbell Row (or One-Arm Row)', factor: 0.42, perHand: true, note: 'Chest support removes lower-back momentum; use ~40% to 45% of cable row load per dumbbell.' },
+      machine: { name: 'Plate-Loaded Chest-Supported Machine Row', factor: 0.95, perHand: false, note: 'Set chest pad distance so shoulders can protract slightly at the bottom.' },
+      barbell: { name: 'Bent-Over Barbell Row', factor: 0.95, perHand: false, note: 'Keep torso angle consistent from rep 1 to the final rep.' },
+      bodyweight: { name: 'Inverted Bodyweight Row (feet on floor or bench)', factor: 0, perHand: false, note: 'Pause chest near the bar for 1 second.' }
+    },
+    'leg-press': {
+      label: '45-Degree Leg Press',
+      dumbbell: { name: 'Dumbbell Bulgarian Split Squat or Goblet Squat', factor: 0.18, perHand: true, note: 'Leg press sleds multiply mechanical advantage; start around 15% to 20% of sled weight per dumbbell on split squats.' },
+      machine: { name: 'Hack Squat or Pendulum Squat Machine', factor: 0.70, perHand: false, note: 'Hack and pendulum squats load the spine and knees more directly than a 45-degree sled.' },
+      barbell: { name: 'Barbell Back Squat or Front Squat', factor: 0.65, perHand: false, note: 'Free-weight squats require trunk and hip stabilization.' },
+      bodyweight: { name: 'Tempo Split Squat (3-second eccentric, 1-second pause)', factor: 0, perHand: false, note: 'Perform 12 to 15 continuous tension reps per side.' }
+    }
+  };
+
+  function roundHalf(n) {
+    return Math.round(n * 2) / 2;
+  }
+
+  function runConverter() {
+    const key = plannedEl.value;
+    const equip = equipEl.value;
+    const w = Math.min(1500, Math.max(5, Number(weightEl.value) || 135));
+    const r = Math.min(12, Math.max(1, Math.round(Number(repsEl.value) || 8)));
+
+    const epley1RM = roundHalf(r === 1 ? w : w * (1 + r / 30));
+    const brzycki1RM = roundHalf(r === 1 ? w : w * (36 / (37 - r)));
+    const entry = swapMap[key];
+    const swap = entry[equip];
+
+    let loadLine = '';
+    if (swap.factor === 0) {
+      loadLine = 'Bodyweight / tempo prescription (no external weight conversion needed).';
+    } else if (swap.perHand) {
+      const estPerHand = Math.max(5, Math.round((w * swap.factor) / 2.5) * 2.5);
+      loadLine = 'Suggested starting load: ~' + estPerHand + ' per hand (total ~' + (estPerHand * 2) + ') for ' + r + ' controlled reps (1-2 RIR).';
+    } else {
+      const estTotal = Math.max(10, Math.round((w * swap.factor) / 5) * 5);
+      loadLine = 'Suggested starting load: ~' + estTotal + ' total working weight for ' + r + ' controlled reps (1-2 RIR).';
+    }
+
+    titleEl.textContent = entry.label + ' → ' + swap.name;
+    summaryEl.textContent = 'Estimated 1RM on ' + entry.label + ': ' + epley1RM + ' (Epley) / ' + brzycki1RM + ' (Brzycki). ' + loadLine;
+    noteEl.value = [
+      'IZEM EXERCISE SUBSTITUTION NOTE',
+      'Original Lift: ' + entry.label + ' (' + w + ' x ' + r + ' reps)',
+      'Estimated 1RM: ' + epley1RM + ' (Epley) | ' + brzycki1RM + ' (Brzycki)',
+      'Replacement Lift: ' + swap.name,
+      'Starting Load Rule: ' + loadLine,
+      'Coaching Cue: ' + swap.note
+    ].join('\n');
+    msgEl.textContent = 'Converted ' + entry.label + ' to ' + swap.name + '.';
+  }
+
+  document.getElementById('run-swap-btn').addEventListener('click', runConverter);
+  document.getElementById('copy-swap-btn').addEventListener('click', function () {
+    runConverter();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(noteEl.value).then(function () {
+        msgEl.textContent = 'Copied substitution note to clipboard.';
+      }).catch(function () {
+        msgEl.textContent = 'Select the text box below and press Cmd/Ctrl+C to copy.';
+      });
+    } else {
+      msgEl.textContent = 'Select the text box below and press Cmd/Ctrl+C to copy.';
+    }
+  });
+
+  runConverter();
+})();
+</script>
+</body>
+</html>
