@@ -167,6 +167,36 @@ try {
     console.log(`Store download ${name}: ${profile.target}, correct click destination, visible controls and no overflow.`)
   }
 
+  // Prerendering must not preserve the build machine's platform destination.
+  for (const [name, profile, viewport] of [
+    ['mobile', profiles.iphone, { width: 390, height: 844 }],
+    ['desktop', profiles.mac, { width: 1440, height: 900 }],
+  ]) {
+    const { page, interceptedStores } = await createPage(viewport, profile, true)
+    const response = await page.goto(origin, { waitUntil: 'domcontentloaded' })
+    assert.equal(response.status(), 200, `No-JavaScript ${name} homepage must be reachable`)
+    await page.waitForSelector(downloadSelector)
+    const initial = await page.$eval(downloadSelector, (anchor) => ({
+      href: anchor.getAttribute('href'),
+      platform: anchor.dataset.downloadPlatform,
+      label: anchor.getAttribute('aria-label'),
+      count: document.querySelectorAll('[data-izem-download]').length,
+    }))
+    assert.equal(initial.href, '/download/', `No-JavaScript ${name}: initial action must use the chooser`)
+    assert.equal(initial.platform, 'other', `No-JavaScript ${name}: initial platform must stay neutral`)
+    assert.equal(initial.label, 'Download IZEM from your app store', `No-JavaScript ${name}: accessible label must stay neutral`)
+    assert.equal(initial.count, 1, `No-JavaScript ${name}: preserve exactly one download action`)
+    await screenshot(page, `${name}-without-javascript`)
+    const navigation = page.waitForNavigation({ waitUntil: 'domcontentloaded' })
+    await page.click(downloadSelector)
+    await navigation
+    assert.equal(new URL(page.url()).pathname, '/download/', `No-JavaScript ${name}: click must open the chooser`)
+    await assertChooser(page, `no-JavaScript initial ${name}`)
+    assert.deepEqual(interceptedStores, [], `No-JavaScript ${name}: no automatic store navigation`)
+    await page.close()
+    console.log(`Store download initial ${name} HTML: neutral chooser destination and functional click without JavaScript.`)
+  }
+
   // This static page supplies the generic-platform and no-JavaScript fallback.
   for (const width of [320, 1440]) {
     const { page } = await createPage({ width, height: 900 }, undefined, true)

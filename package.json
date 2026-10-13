@@ -24,7 +24,7 @@
     "prepare:agent-hosting": "node functions/agent-pages/prepare.mjs",
     "verify:agents": "node tools/verify-agent-readiness.mjs",
     "check:owner-images": "node tools/check-owner-image-policy.mjs",
-    "check:links": "node tools/check-links.mjs",
+    "check:links": "node --test tools/store-link-policy.test.mjs && node tools/check-links.mjs",
     "video:sync": "node tools/sync-video-pages.mjs",
     "video:check": "node tools/sync-video-pages.mjs --check",
     "sitemap:sync": "node tools/sync-sitemap.mjs",
