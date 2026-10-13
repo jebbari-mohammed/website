@@ -81,7 +81,9 @@ try {
   await page.setJavaScriptEnabled(false)
   for (const width of [390, 1440]) {
     await page.setViewport({ width, height: 900 })
-    await page.goto(origin, { waitUntil: 'domcontentloaded' })
+    // DOMContentLoaded can precede eager image completion. Wait for the load
+    // event before asserting the unchanged source and decoded-image checks.
+    await page.goto(origin, { waitUntil: 'load' })
     const state = await page.$eval('#hero img[data-izem-hero-preview]', (preview) => ({
       src: preview.getAttribute('src'), complete: preview.complete,
       naturalWidth: preview.naturalWidth,
