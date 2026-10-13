@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "gVniQ9FKvWA",
+      "title": "How to Use an AI Personal Trainer: First Workout",
+      "description": "Set up an AI personal trainer with your real schedule, equipment and training history. Copy a training brief, check the plan and log your first workout.",
+      "uploadDate": "2026-10-13",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/how-to-use-ai-personal-trainer",
+          "relativePath": "blog/how-to-use-ai-personal-trainer.html",
+          "title": "How to Use an AI Personal Trainer: First Workout"
+        }
+      ]
+    },
+    {
       "id": "EYPGmJgozp0",
       "title": "Bulgarian Split Squat: Form & Common Fixes",
       "description": "Learn Bulgarian split squat setup, muscles worked and common form problems. Compare variations and copy a setup note to make your next session easier to repeat.",

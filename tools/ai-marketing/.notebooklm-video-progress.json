@@ -492,7 +492,37 @@
       },
       "render_method": "notebooklm-narration-object-typography-v1",
       "date": "2026-10-10T23:49:31.181Z"
+    },
+    {
+      "slug": "how-to-use-ai-personal-trainer",
+      "title": "Give your AI personal trainer a clear training brief, then check the plan.",
+      "url": "https://youraicoach.life/blog/how-to-use-ai-personal-trainer",
+      "youtube": "https://youtube.com/watch?v=gVniQ9FKvWA",
+      "notebook_id": "6c935877-1beb-44f1-b473-94d9cb72a285",
+      "visual_policy": "objects-only-v1",
+      "people_free_validated": true,
+      "publication": {
+        "videoId": "gVniQ9FKvWA",
+        "title": "Give your AI personal trainer a clear training brief, then check the plan. | IZEM",
+        "channelId": "UCruC83NAOtNJjEsSToD0Ncw",
+        "publishedAt": "2026-10-13T16:13:00Z",
+        "privacyStatus": "public",
+        "uploadStatus": "processed",
+        "processingStatus": "succeeded",
+        "verifiedAt": "2026-10-13T16:13:08.694Z"
+      },
+      "render_method": "notebooklm-narration-object-typography-v1",
+      "visual_validation": {
+        "safe": true,
+        "containsHuman": false,
+        "method": "deterministic-typography-all-frames-v1",
+        "articleSha256": "8f97e6079cceb94e824ef704f520c9827203569e736ee2b0013ded6132f1fec4",
+        "videoSha256": "7d316f7fd57e27f845f5a4eed79fa43730d0ef065c6738c08c831f4b700a135a",
+        "frameCount": 2409,
+        "frameDigest": "7f287a8492972b3f2fd968e301bd039bea9d923f320fb3995bb205366f4acb81"
+      },
+      "date": "2026-10-13T16:13:08.695Z"
     }
   ],
-  "lastRun": "2026-10-10T23:49:31.181Z"
+  "lastRun": "2026-10-13T16:13:08.695Z"
 }

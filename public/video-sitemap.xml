@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/gVniQ9FKvWA/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/gVniQ9FKvWA.svg</video:thumbnail_loc>
+      <video:title>How to Use an AI Personal Trainer: First Workout</video:title>
+      <video:description>Set up an AI personal trainer with your real schedule, equipment and training history. Copy a training brief, check the plan and log your first workout.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/gVniQ9FKvWA</video:player_loc>
+      <video:publication_date>2026-10-13T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/EYPGmJgozp0/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/EYPGmJgozp0.svg</video:thumbnail_loc>
