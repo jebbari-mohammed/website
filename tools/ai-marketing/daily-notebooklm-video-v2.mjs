@@ -14,6 +14,7 @@ import { rebuildObjectOnlyVideo } from './object-only-video.mjs';
 import { runWithSafeFailure } from './notebooklm-recovery-diagnostic.mjs';
 import { claimNativeAttempt, generateNarrationFallback } from './article-video-fallback.mjs';
 import { retryRequestedFailedVideo } from './notebooklm-retry-failed-artifact.mjs';
+import { assertTypographyVideoIsPeopleFree } from './typography-video-validation.mjs';
 
 const execFileAsync = promisify(execFile);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -277,12 +278,12 @@ function embedIntoPost(post, youtubeUrl) {
   fs.writeFileSync(post.file, html, 'utf8');
 }
 
-function record(post, youtubeUrl, notebook, publication, renderMethod) {
+function record(post, youtubeUrl, notebook, publication, renderMethod, visualValidation) {
   const progress = readJson(PROGRESS_FILE, { completed: [] });
   const previous = (progress.completed || []).find((item) => item.slug === post.slug && item.youtube === youtubeUrl);
   progress.completed = [
     ...(progress.completed || []).filter((item) => item.slug !== post.slug),
-    { slug: post.slug, title: post.title, url: post.url, youtube: youtubeUrl, notebook_id: notebook || previous?.notebook_id || null, visual_policy: 'objects-only-v1', people_free_validated: true, publication, render_method: renderMethod || previous?.render_method || 'notebooklm-native', date: new Date().toISOString() },
+    { slug: post.slug, title: post.title, url: post.url, youtube: youtubeUrl, notebook_id: notebook || previous?.notebook_id || null, visual_policy: 'objects-only-v1', people_free_validated: true, publication, render_method: renderMethod || previous?.render_method || 'notebooklm-native', ...(visualValidation || previous?.visual_validation ? { visual_validation: visualValidation || previous.visual_validation } : {}), date: new Date().toISOString() },
   ];
   progress.lastRun = new Date().toISOString();
   writeJson(PROGRESS_FILE, progress);
@@ -307,6 +308,14 @@ async function recoverRequestedNotebookVideo(post) {
   await runNotebookLMJson(['download', 'video', outputFile, '-n', id, '--latest', '--force', '--json'], 10 * 60 * 1000);
   if (!fs.existsSync(outputFile) || fs.statSync(outputFile).size < 10000) throw new Error('Recovered NotebookLM video is missing or empty.');
   return { outputFile, notebookId: id };
+}
+
+async function verifyGeneratedVisuals(generated, post) {
+  const verdict = generated.visualRecipe
+    ? await assertTypographyVideoIsPeopleFree(generated.outputFile, post, generated.visualRecipe)
+    : await assertVideoIsPeopleFree(generated.outputFile);
+  generated.visualValidation = verdict;
+  return verdict;
 }
 
 async function main() {
@@ -339,27 +348,26 @@ async function main() {
   }
   if (fallback) {
     // The fallback is a real MP4, but no renderer result is a safety approval.
-    await assertVideoIsPeopleFree(generated.outputFile);
+    await verifyGeneratedVisuals(generated, post);
   } else if (recovered) {
     // Recovery never trusts the rejected original pictures. Rebuild before classifying.
     generated = { ...generated, ...await rebuildObjectOnlyVideo(generated.outputFile, post) };
-    await assertVideoIsPeopleFree(generated.outputFile);
+    await verifyGeneratedVisuals(generated, post);
   } else {
     try {
       await assertVideoIsPeopleFree(generated.outputFile);
-    } catch (error) {
-      if (error?.name !== 'VideoPolicyError') throw error;
-      console.warn('NotebookLM visual track rejected; replacing it with canonical article typography while retaining narration.');
+    } catch {
+      console.warn('Original visual track lacks approval; replacing it with canonical article typography while retaining narration.');
       generated = { ...generated, ...await rebuildObjectOnlyVideo(generated.outputFile, post) };
-      // The repaired file is a NEW render and must pass the same classifier.
-      await assertVideoIsPeopleFree(generated.outputFile);
+      // A new render needs independent approval, never a renderer self-attestation.
+      await verifyGeneratedVisuals(generated, post);
     }
   }
 
   const youtubeUrl = await uploadVideo(generated.outputFile, post, await accessToken());
   const publication = await verifyPublishedVideo(post, youtubeUrl);
   embedIntoPost(post, youtubeUrl);
-  record(post, youtubeUrl, generated.notebookId, publication, generated.renderMethod);
+  record(post, youtubeUrl, generated.notebookId, publication, generated.renderMethod, generated.visualValidation);
   console.log(`Article video workflow complete: ${youtubeUrl}`);
 }
 

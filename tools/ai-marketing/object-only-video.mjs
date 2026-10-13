@@ -3,6 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import { createHash } from 'node:crypto';
 
 const execute = promisify(execFile);
 const xml = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
@@ -113,14 +114,22 @@ export async function rebuildObjectOnlyVideo(inputFile, post, options = {}) {
     await execute('ffmpeg', [
       '-hide_banner', '-loglevel', 'error', '-y', '-f', 'concat', '-safe', '1', '-i', list, '-i', input,
       '-map', '0:v:0', '-map', '1:a:0', '-map_metadata', '-1',
-      '-vf', 'fps=24,format=yuv420p', '-c:v', 'libx264', '-preset', 'veryfast', '-tune', 'stillimage', '-crf', '20',
+      '-vf', 'fps=24,format=yuv420p', '-c:v', 'libx264', '-threads:v', '1', '-preset', 'veryfast', '-tune', 'stillimage', '-crf', '20',
       '-c:a', 'aac', '-b:a', '160k', '-t', duration.toFixed(3), '-movflags', '+faststart', outputFile,
     ], { timeout: 15 * 60 * 1000, maxBuffer: 1024 * 1024 });
     const final = await probe(outputFile);
     if (!final.streams?.some((s) => s.codec_type === 'audio') || !final.streams?.some((s) => s.codec_type === 'video')
       || Math.abs(Number(final.format?.duration) - duration) > 1 || fs.statSync(outputFile).size < 10000) throw new Error('Rebuilt video failed duration or stream validation.');
     console.log(`Rebuilt ${slides.length} deterministic typography slides with ${duration.toFixed(2)} seconds of ${fallback ? 'reviewed-script synthesized' : 'original NotebookLM'} narration; original visual track discarded.`);
-    return { outputFile, renderMethod: fallback ? 'gemini-tts-canonical-object-v1' : 'notebooklm-narration-object-typography-v1', durationSeconds: duration, slideCount: slides.length };
+    // A recipe is not an approval. The publisher must independently reconstruct
+    // the permitted visual track and compare every decoded frame before upload.
+    const visualRecipe = {
+      version: 1,
+      articleSha256: createHash('sha256').update(JSON.stringify({ title: post.title, url: post.url, html: post.html })).digest('hex'),
+      narrationSource: fallback ? 'gemini-tts-canonical-script' : 'notebooklm-retained',
+      durationSeconds: duration,
+    };
+    return { outputFile, renderMethod: fallback ? 'gemini-tts-canonical-object-v1' : 'notebooklm-narration-object-typography-v1', durationSeconds: duration, slideCount: slides.length, visualRecipe };
   } catch (error) {
     fs.rmSync(work, { recursive: true, force: true });
     throw error;
