@@ -772,6 +772,18 @@
       "lockUntil": "2026-10-31",
       "preferredReviewAt": "2026-11-07",
       "reason": "Refresh /vs-fitbod, /workout-consistency-calculator/, and /glossary/ to remove unverified fixed-price claims, add OG social preview metadata, and link contextually into the /workouts/ and /exercises/ hubs. Preserve for a 14-day internal-link and CTR evaluation window."
+    },
+    {
+      "id": "trust-editorial-and-about-eeat-2026-10-13",
+      "url": "/editorial-policy.html",
+      "files": [
+        "public/editorial-policy.html",
+        "public/about.html"
+      ],
+      "launchedAt": "2026-10-19",
+      "lockUntil": "2026-11-02",
+      "preferredReviewAt": "2026-11-09",
+      "reason": "Add calculator formula documentation, primary peer-reviewed citations, accountable publisher Person schema, and hub links to /editorial-policy.html and /about. Preserve for a 14-day trust and discovery evaluation window."
     }
   ]
 }
