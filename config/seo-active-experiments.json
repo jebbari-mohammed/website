@@ -7,6 +7,29 @@
   },
   "locks": [
     {
+      "id": "owner-homepage-presentation-refinement-2026-10-12",
+      "url": "/",
+      "files": [
+        "src/styles/homepage-refinement.css",
+        "src/index.css",
+        "src/components/Capabilities.tsx",
+        "src/components/Comparison.tsx",
+        "src/components/CorePillars.tsx",
+        "src/components/EcosystemStrip.tsx",
+        "src/components/FinalCTA.tsx",
+        "src/components/Footer.tsx",
+        "src/components/ProductShowcase.tsx",
+        "src/components/Stats.tsx",
+        "src/components/TrainerCostCalculator.tsx",
+        "src/components/TrustAndPrivacy.tsx",
+        "src/components/VoiceCallSection.tsx"
+      ],
+      "launchedAt": "2026-10-12",
+      "lockUntil": "2026-11-02",
+      "preferredReviewAt": "2026-11-09",
+      "reason": "Owner explicitly requested a follow-up visual refinement below the opening film. Neutral surfaces, readable hierarchy and open feature rows replace repeated neon/glass decoration. Product facts, FAQs, metadata and store/film implementation remain intact. This owner-directed presentation change overlaps the homepage observation window; do not attribute engagement differences solely to the earlier film or download launch. See docs/seo-experiments/2026-10-12-homepage-presentation.md."
+    },
+    {
       "id": "opening-download-action-2026-10-12",
       "url": "/",
       "files": [

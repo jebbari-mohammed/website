@@ -3,7 +3,6 @@ import {
   Apple,
   Layers,
   Camera,
-  CheckCircle2,
   Dumbbell,
   Phone,
   ShieldCheck,
@@ -107,28 +106,25 @@ const truthNotes = [
 
 export default function Capabilities() {
   return (
-    <section id="capabilities" className="py-20 sm:py-28 px-4 sm:px-6 bg-[#05080C] border-y border-white/[0.06]">
-      <div className="max-w-7xl mx-auto w-full">
+    <section id="capabilities" className="editorial-section editorial-capabilities">
+      <div className="editorial-container">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.45 }}
-          className="max-w-4xl mx-auto text-center mb-12 sm:mb-16"
+          className="editorial-section-heading"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-bold text-primary mb-4">
-            <CheckCircle2 size={13} />
-            <span>CURRENT PRODUCT FACTS</span>
-          </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-textPrimary leading-tight mb-5">
+          <p className="editorial-eyebrow">CURRENT PRODUCT FACTS</p>
+          <h2 className="editorial-title">
             Explore IZEM’s Coaching Features.
           </h2>
-          <p className="text-base sm:text-lg text-textSecondary leading-relaxed">
+          <p className="editorial-intro">
             The app is awaiting store review. These product capabilities depend on platform and account eligibility; purchase terms and availability will be shown in the app when offered.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
+        <div className="editorial-capability-rows">
           {groups.map((group, index) => {
             const Icon = group.icon;
             return (
@@ -138,24 +134,19 @@ export default function Capabilities() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.04 }}
-                className={`specular-card rounded-3xl p-6 sm:p-8 ${index === groups.length - 1 ? 'lg:col-span-2' : ''}`}
+                className="editorial-capability-row"
               >
-                <div className="flex items-start gap-4 mb-5">
-                  <div className="w-11 h-11 rounded-2xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary shrink-0">
-                    <Icon size={20} />
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-bold tracking-widest text-primary mb-1">{group.eyebrow}</p>
-                    <h3 className="text-xl sm:text-2xl font-bold text-textPrimary tracking-tight">{group.title}</h3>
-                  </div>
+                <div className="editorial-capability-summary">
+                  <p className="editorial-eyebrow editorial-capability-label">
+                    <Icon size={16} aria-hidden="true" />
+                    <span>{group.eyebrow}</span>
+                  </p>
+                  <h3>{group.title}</h3>
+                  <p>{group.summary}</p>
                 </div>
-                <p className="text-sm sm:text-base text-textSecondary leading-relaxed mb-5">{group.summary}</p>
-                <ul className="space-y-3">
+                <ul className="editorial-capability-list">
                   {group.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-textSecondary leading-relaxed">
-                      <CheckCircle2 size={16} className="text-primary mt-0.5 shrink-0" />
-                      <span>{item}</span>
-                    </li>
+                    <li key={item}>{item}</li>
                   ))}
                 </ul>
               </motion.article>
@@ -163,25 +154,23 @@ export default function Capabilities() {
           })}
         </div>
 
-        <div className="grid md:grid-cols-3 gap-4 sm:gap-6 mt-8">
+        <div className="editorial-product-notes">
           {truthNotes.map((note) => {
             const Icon = note.icon;
             return (
-              <div key={note.title} className="rounded-2xl bg-white/[0.025] border border-white/[0.08] p-5 sm:p-6">
-                <Icon size={18} className="text-secondary mb-3" />
-                <h3 className="text-sm font-bold text-textPrimary mb-2">{note.title}</h3>
-                <p className="text-xs sm:text-sm text-textSecondary leading-relaxed">{note.text}</p>
+              <div key={note.title} className="editorial-product-note">
+                <Icon size={18} aria-hidden="true" />
+                <h3>{note.title}</h3>
+                <p>{note.text}</p>
               </div>
             );
           })}
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-xs sm:text-sm text-textSecondary">
-          <a href="/izem-ai-fitness-coach/" className="text-primary font-semibold hover:text-[#A3FF85] transition-colors">Read the full product overview</a>
-          <span className="hidden sm:inline text-white/20">•</span>
-          <a href="/privacy-policy.html" className="hover:text-textPrimary transition-colors">Privacy & data controls</a>
-          <span className="hidden sm:inline text-white/20">•</span>
-          <a href="/terms.html" className="hover:text-textPrimary transition-colors">Safety & membership terms</a>
+        <div className="editorial-product-links">
+          <a href="/izem-ai-fitness-coach/">Read the full product overview</a>
+          <a href="/privacy-policy.html">Privacy & data controls</a>
+          <a href="/terms.html">Safety & membership terms</a>
         </div>
       </div>
     </section>

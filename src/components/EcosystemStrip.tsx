@@ -14,51 +14,25 @@ const securityBadges = [
 
 export default function EcosystemStrip() {
   return (
-    <section className="py-10 px-4 sm:px-6 relative border-y border-white/[0.06] bg-[#05080C]/80 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-10">
-          {/* Left label */}
-          <div className="flex items-center gap-3 shrink-0">
-            <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            <span className="text-[11px] font-bold uppercase tracking-widest text-textSecondary/80">
-              Product safeguards
-            </span>
-          </div>
-
-          {/* Center pillars list */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
-            {verifiedPillars.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={idx}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] hover:border-white/20 transition-colors"
-                >
-                  <Icon size={13} className="text-primary" />
-                  <span className="text-xs font-semibold text-textPrimary">{item.name}</span>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-textSecondary/90 bg-white/[0.06] px-1.5 py-0.5 rounded">
-                    {item.badge}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Right Security tags */}
-          <div className="hidden xl:flex items-center gap-4 text-xs text-textSecondary/80">
-            {securityBadges.map((badge, idx) => {
-              const Icon = badge.icon;
-              return (
-                <div key={idx} className="flex items-center gap-1.5">
-                  <Icon size={12} className="text-secondary" />
-                  <span>{badge.label}</span>
-                </div>
-              );
-            })}
-          </div>
+    <section className="editorial-safeguards" aria-label="Product safeguards">
+      <div className="editorial-container">
+        <p className="editorial-safeguards-label">Product safeguards</p>
+        <div className="editorial-safeguards-list">
+          {verifiedPillars.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.name} className="editorial-safeguard">
+                <Icon size={17} aria-hidden="true" />
+                <div><strong>{item.name}</strong><span>{item.badge}</span></div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="editorial-safeguards-status">
+          {securityBadges.map((badge) => {
+            const Icon = badge.icon;
+            return <span key={badge.label}><Icon size={15} aria-hidden="true" />{badge.label}</span>;
+          })}
         </div>
       </div>
     </section>
