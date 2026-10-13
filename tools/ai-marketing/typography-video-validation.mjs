@@ -5,7 +5,6 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { load } from 'cheerio';
 import { slideSvg, storyboardFromArticle } from './object-only-video.mjs';
 import { narrationPlan, sourceDigest } from './article-video-fallback.mjs';
 
@@ -20,14 +19,45 @@ const ATTRIBUTES = new Set(['xmlns', 'width', 'height', 'viewBox', 'id', 'x', 'y
 // arbitrary SVG that happens to contain rectangular or textual elements.
 export function assertPermittedSlide(svg, slide, index, count) {
   if (svg !== slideSvg(slide, index, count)) throw new Error('Slide differs from the permitted typography template.');
-  const $ = load(svg, { xmlMode: true });
-  for (const node of $('*').toArray()) {
-    if (!TAGS.has(node.name)) throw new Error('Typography slide contains an unapproved element.');
-    for (const name of Object.keys(node.attribs || {})) {
+  const rectangles = [], texts = [];
+  // Exact constructor equality above confines this lexical check to our small
+  // serialized grammar. No dependency or arbitrary external SVG parser is used.
+  for (const tag of svg.matchAll(/<([A-Za-z][A-Za-z0-9-]*)\b([^>]*)>/g)) {
+    if (!TAGS.has(tag[1])) throw new Error('Typography slide contains an unapproved element.');
+    const attributes = {};
+    const remainder = tag[2].replace(/\s+([A-Za-z_:][-A-Za-z0-9_:.]*)="[^\"]*"/g, (_attribute, name) => {
       if (!ATTRIBUTES.has(name)) throw new Error('Typography slide contains an unapproved attribute.');
-    }
+      attributes[name] = _attribute.match(/="([^\"]*)"$/)[1];
+      return '';
+    }).trim();
+    if (remainder && remainder !== '/') throw new Error('Typography slide contains malformed attributes.');
+    if (tag[1] === 'rect') rectangles.push(attributes);
+    if (tag[1] === 'text') texts.push(attributes);
   }
-  const text = $('text').toArray().map(node => $(node).text()).join(' ');
+  // Pin the permitted geometry separately from the renderer. A future renderer
+  // edit cannot introduce a figure made of otherwise allowed rectangles/text.
+  const headingCount = texts.filter(node => node['font-size'] === '44').length;
+  const bodyCount = texts.filter(node => node['font-size'] === '26').length;
+  if (headingCount < 1 || headingCount > 3 || bodyCount > 6) throw new Error('Typography layout is outside the reviewed bounds.');
+  const expectedRects = [
+    {width:'1280',height:'720',fill:'url(#bg)'},
+    {x:'1054',y:'82',width:'136',height:'136',rx:'24',fill:'#89ec76',opacity:'.06'},
+    {x:'1120',y:'300',width:'70',height:'170',rx:'16',fill:'#89ec76',opacity:'.05'},
+    {x:'90',y:String(205+(headingCount-1)*56),width:'100',height:'5',rx:'2',fill:'#8DFF6A'},
+    {x:'90',y:'686',width:'1060',height:'4',rx:'2',fill:'#263f3b'},
+    {x:'90',y:'686',width:String(Math.round(1060*(index+1)/count)),height:'4',rx:'2',fill:'#8DFF6A'},
+  ];
+  const font='DejaVu Sans,Arial,sans-serif';
+  const expectedTexts = [
+    {x:'90',y:'84','font-family':font,'font-size':'22',fill:'#8DFF6A','font-weight':'700'},
+    ...Array.from({length:headingCount},(_,i)=>({x:'90',y:String(180+i*56),'font-family':font,'font-size':'44','font-weight':'700',fill:'#f7fafc'})),
+    ...Array.from({length:bodyCount},(_,i)=>({x:'90',y:String(285+(headingCount-1)*56+i*36),'font-family':font,'font-size':'26',fill:'#c5d4d9'})),
+    {x:'90',y:'661','font-family':font,'font-size':'17',fill:'#a7bfba'},
+    {x:'1140',y:'661','font-family':font,'font-size':'17',fill:'#a7bfba'},
+  ];
+  const stable=items=>JSON.stringify(items.map(item=>Object.fromEntries(Object.entries(item).sort())));
+  if (stable(rectangles)!==stable(expectedRects)||stable(texts)!==stable(expectedTexts)) throw new Error('Typography geometry or fonts differ from the reviewed layout.');
+  const text = [...svg.matchAll(/<text\b[^>]*>([^<]*)<\/text>/g)].map(match => match[1]).join(' ');
   if (/[^\x20-\x7e]|[\\|]|(?:^|\s)[:;=8][-^]?[)(DP](?=$|\s)/i.test(text)) throw new Error('Typography slide contains pictographic or drawing-like text.');
 }
 
