@@ -111,6 +111,16 @@ function resetPrerenderedOpening(html, relativePath) {
       (_match, opening, controls, closing) => opening + controls.replace(/<button\b/g, '<button disabled') + closing)
 }
 
+function resetPrerenderedDownload(html, relativePath) {
+  if (relativePath !== 'index.html') return html
+  // A build machine's OS must not choose the store in the initial HTML.
+  // React sets the actual device link; visitors without JS get both options.
+  return html.replace(/<a\b(?=[^>]*data-izem-download="true")[^>]*>/g, tag => tag
+    .replace(/\bhref="[^"]*"/, 'href="/download/"')
+    .replace(/\bdata-download-platform="[^"]*"/, 'data-download-platform="other"')
+    .replace(/\baria-label="[^"]*"/, 'aria-label="Download IZEM from your app store"'))
+}
+
 function addBlogFooterLinkStyles(html, relativePath) {
   if (relativePath !== 'blog/index.html' || html.includes(linkAccessibilityMarker)) return html
 
@@ -152,6 +162,7 @@ for (const file of htmlFiles) {
   html = heroResult.html
   prerenderedHeroVideosReplaced += heroResult.changed
   html = resetPrerenderedOpening(html, relativePath)
+  html = resetPrerenderedDownload(html, relativePath)
 
   html = improvePublisherLinkVisibility(html)
   html = addBlogFooterLinkStyles(html, relativePath)

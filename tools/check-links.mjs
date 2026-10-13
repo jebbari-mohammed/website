@@ -4,6 +4,7 @@ import path from 'node:path'
 import { load } from 'cheerio'
 import { THEME } from './brand-theme.mjs'
 import { decorativeVideoPaths, decorativePosterPaths, decorativePosterUrls, hasExactNoindexHeader } from './video-indexing-policy.mjs'
+import { isOwnerApprovedPendingStoreLink } from './store-link-policy.mjs'
 
 const siteOrigin = 'https://youraicoach.life'
 const distDirectory = path.resolve('dist')
@@ -23,6 +24,7 @@ const brandAssets = [
 ]
 const knownDeadUrls = [
   'https://apps.apple.com/app/your-ai-coach',
+  'https://apps.apple.com/app/id6760679807',
   'https://play.google.com/store/apps/details?id=com.ai.gym.coach',
   'https://health.gov/our-work/nutrition-physical-activity/physical-activity-guidelines/current-guidelines/adults',
 ]
@@ -116,9 +118,12 @@ const htmlFiles = files.filter(
 )
 const errors = []
 let checkedLinks = 0
+let approvedPendingStoreReferences = 0
 const sitemapCanonicalUrls = new Set()
 const videoSitemapUrls = new Set()
 const { hosting } = JSON.parse(await readFile('firebase.json', 'utf8'))
+const storeReleaseApproval = JSON.parse(await readFile('config/store-download-release.json', 'utf8'))
+const configuredStoreLinks = JSON.parse(await readFile('src/content/store-links.json', 'utf8'))
 
 for (const resource of [...decorativeVideoPaths, ...decorativePosterPaths]) {
   if (!hasExactNoindexHeader(hosting, resource)) {
@@ -164,7 +169,10 @@ for (const htmlFile of htmlFiles) {
 
   for (const deadUrl of knownDeadUrls) {
     if (html.includes(deadUrl)) {
-      errors.push(`${htmlFile}: contains known 404 URL ${deadUrl}`)
+      if (isOwnerApprovedPendingStoreLink({
+        htmlFile, html, url: deadUrl, approval: storeReleaseApproval, configuredLinks: configuredStoreLinks,
+      })) approvedPendingStoreReferences += 1
+      else errors.push(`${htmlFile}: contains known 404 URL ${deadUrl}`)
     }
   }
 
@@ -616,4 +624,5 @@ if (errors.length > 0) {
   process.exitCode = 1
 } else {
   console.log(`Link check passed: ${htmlFiles.length} pages and ${checkedLinks} internal links checked.`)
+  if (approvedPendingStoreReferences) console.log(`Pending-store publication: ${approvedPendingStoreReferences} exact owner-approved store links recognized; public listing availability is not asserted.`)
 }

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "status": "owner-approved-pending-listings",
+  "approvedAt": "2026-10-12",
+  "reviewNote": "docs/seo-experiments/2026-10-12-platform-download-button.md",
+  "allowedFile": "download/index.html",
+  "urls": {
+    "apple": "https://apps.apple.com/app/id6760679807",
+    "google": "https://play.google.com/store/apps/details?id=com.ai.gym.coach"
+  }
+}
