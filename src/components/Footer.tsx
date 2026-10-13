@@ -1,10 +1,10 @@
 export default function Footer() {
   return (
-    <footer className="bg-[#050709] border-t border-white/[0.07] pt-16 pb-12 px-4 sm:px-8">
-      <div className="max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 mb-14">
+    <footer className="editorial-footer">
+      <div className="editorial-container">
+        <div className="editorial-footer-grid">
           {/* Brand Col */}
-          <div className="md:col-span-4 lg:col-span-4">
+          <div className="editorial-footer-brand">
             <a
               data-izem-brand-logo="true"
               href="/"
@@ -19,7 +19,7 @@ export default function Footer() {
                 height="64"
                 loading="lazy"
                 decoding="async"
-                className="w-8 h-8 rounded-xl object-cover shadow-[0_0_12px_rgba(141,255,106,0.3)]"
+                className="w-8 h-8 rounded-lg object-cover"
               />
               <span className="text-xl font-bold tracking-tight text-textPrimary">IZEM</span>
             </a>
@@ -33,7 +33,7 @@ export default function Footer() {
           </div>
 
           {/* Product Links */}
-          <div className="md:col-span-2 lg:col-span-2">
+          <div className="editorial-footer-links">
             <h3 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
               Product
             </h3>
@@ -72,7 +72,7 @@ export default function Footer() {
           </div>
 
           {/* Guides & Tools */}
-          <div className="md:col-span-3 lg:col-span-3">
+          <div className="editorial-footer-links">
             <h3 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
               Guides & Tools
             </h3>
@@ -111,7 +111,7 @@ export default function Footer() {
           </div>
 
           {/* Legal & Support */}
-          <div className="md:col-span-3 lg:col-span-3">
+          <div className="editorial-footer-links">
             <h3 className="text-xs font-bold uppercase tracking-wider text-textPrimary/80 mb-4 font-sans">
               Trust & Company
             </h3>
@@ -156,7 +156,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom copyright */}
-        <div className="border-t border-white/[0.06] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-textSecondary/80">
+        <div className="editorial-footer-bottom">
           <p>© 2026 IZEM AI Fitness Coach. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <a href="/privacy-policy.html" className="hover:text-textPrimary transition-colors">Privacy</a>

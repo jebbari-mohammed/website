@@ -17,7 +17,7 @@
     "dev": "vite",
     "prebuild": "node tools/sync-homepage-faq.mjs --check && node tools/check-owner-image-policy.mjs && node tools/ai-marketing/legacy-content-audit.mjs --strict",
     "build": "tsc -b && vite build",
-    "postbuild": "node postbuild.mjs && node tools/postbuild-quality-cleanup.mjs && node tools/brand-theme.mjs dist && node tools/brand-theme.mjs dist --check && node tools/check-video-rendering.mjs && node tools/check-opening-video.mjs dist && node tools/check-store-download.mjs dist",
+    "postbuild": "node postbuild.mjs && node tools/postbuild-quality-cleanup.mjs && node tools/brand-theme.mjs dist && node tools/brand-theme.mjs dist --check && node tools/check-video-rendering.mjs && node tools/check-opening-video.mjs dist && node tools/check-store-download.mjs dist && node tools/check-homepage-presentation.mjs dist",
     "test:brand": "node --test tools/brand-theme.test.mjs",
     "test:agents": "node --test functions/agent-pages/*.test.mjs tools/agent-metadata.test.mjs tools/verify-agent-readiness.test.mjs tools/check-agent-deploy-access.test.mjs",
     "test:security": "node --test tools/security-boundaries.test.mjs tools/workflow-security.test.mjs tools/ai-marketing/workflow-output-safety.test.mjs tools/ai-marketing/youtube-auth-output.test.mjs tools/ai-marketing/gsc-safe-snapshot.test.mjs tools/ai-marketing/seo-active-experiment-guard.test.mjs tools/ai-marketing/seo-private-state-cache.test.mjs",
@@ -52,7 +52,8 @@
     "social:repurpose": "tsx apps/worker/src/cli.ts social:repurpose",
     "report:weekly": "tsx apps/worker/src/cli.ts report:weekly",
     "test:marketing": "tsx --test \"packages/**/*.test.ts\"",
-    "gsc:evidence": "node tools/ai-marketing/gsc-evidence-gate.mjs"
+    "gsc:evidence": "node tools/ai-marketing/gsc-evidence-gate.mjs",
+    "check:homepage": "node tools/check-homepage-presentation.mjs dist"
   },
   "dependencies": {
     "@google/genai": "^2.28.0",

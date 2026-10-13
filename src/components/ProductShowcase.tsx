@@ -132,126 +132,83 @@ export default function ProductShowcase() {
   }, []);
 
   return (
-    <section id="showcase" className="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden bg-[#070A0D]/60 border-t border-white/[0.06]">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-primary/[0.04] blur-[180px] rounded-full pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto w-full">
+    <section id="showcase" className="editorial-section editorial-showcase">
+      <div className="editorial-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
+          className="editorial-section-heading"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.1] text-xs font-semibold text-primary mb-4">
-            ✦ EXPLORE THE FEATURES
-          </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-textPrimary leading-tight mb-4">
-            See the Connected Coaching System.
-          </h2>
-          <p className="text-base sm:text-lg text-textSecondary font-normal leading-relaxed">
+          <p className="editorial-eyebrow">EXPLORE THE FEATURES</p>
+          <h2 className="editorial-title">See the Connected Coaching System.</h2>
+          <p className="editorial-intro">
             Select a capability to see how training, nutrition and coach conversations fit together instead of living in separate apps.
           </p>
         </motion.div>
 
-        <div className="flex justify-center mb-12 sm:mb-16">
-          <div className="inline-flex p-1.5 rounded-full bg-[#0B1017]/90 backdrop-blur-2xl border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_15px_35px_rgba(0,0,0,0.6)] max-w-full overflow-x-auto">
-            {tabs.map((tab) => {
-              const isActive = tab.id === activeTab;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  aria-pressed={isActive}
-                  className={`px-5 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 whitespace-nowrap ${
-                    isActive
-                      ? 'bg-primary text-[#070A0D] shadow-[0_0_20px_rgba(141,255,106,0.35)] font-bold'
-                      : 'text-textSecondary hover:text-textPrimary hover:bg-white/[0.04]'
-                  }`}
-                >
-                  {tab.title}
-                </button>
-              );
-            })}
-          </div>
+        <div className="editorial-showcase-tabs" role="group" aria-label="Coaching capabilities">
+          {tabs.map((tab) => {
+            const isActive = tab.id === activeTab;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                aria-pressed={isActive}
+                className={`editorial-showcase-tab${isActive ? ' is-active' : ''}`}
+              >
+                {tab.title}
+              </button>
+            );
+          })}
         </div>
 
-        <div className="grid !grid-cols-1 lg:!grid-cols-12 gap-10 lg:gap-14 items-center">
-          <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-[320px] sm:max-w-[350px]">
-              <div className="absolute inset-4 bg-gradient-to-tr from-primary/20 via-transparent to-secondary/20 blur-3xl opacity-70 rounded-[50px] -z-10" />
-
-              <div
-                ref={videoFrameRef}
-                className="relative rounded-[36px] overflow-hidden aspect-[800/1260] shadow-[0_30px_80px_rgba(0,0,0,0.95),0_0_40px_rgba(141,255,106,0.15)] bg-[#0B1017]"
-              >
-                {shouldLoadVideo ? (
-                  <video
-                    key={current.videoSrc}
-                    src={current.videoSrc}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div aria-hidden="true" className="w-full h-full bg-gradient-to-br from-white/[0.03] to-primary/[0.04]" />
-                )}
-              </div>
+        <div className="editorial-showcase-layout">
+          <div className="editorial-showcase-media">
+            <div ref={videoFrameRef} className="editorial-showcase-frame">
+              {shouldLoadVideo ? (
+                <video
+                  key={current.videoSrc}
+                  src={current.videoSrc}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  className="editorial-showcase-recording"
+                />
+              ) : (
+                <div aria-hidden="true" className="editorial-showcase-placeholder" />
+              )}
             </div>
           </div>
 
-          <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-bold text-primary uppercase tracking-wider mb-4 shadow-sm">
-              <span>●</span>
-              <span>{current.badge}</span>
-            </div>
+          <div className="editorial-showcase-content">
+            <p className="editorial-eyebrow">{current.badge}</p>
+            <h3 className="editorial-showcase-headline">{current.headline}</h3>
+            <p className="editorial-showcase-description">{current.description}</p>
 
-            <h3 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-textPrimary leading-snug mb-4">
-              {current.headline}
-            </h3>
-
-            <p className="text-base text-textSecondary leading-relaxed mb-8">
-              {current.description}
-            </p>
-
-            <div className="space-y-4 mb-8">
+            <ul className="editorial-showcase-features">
               {current.features.map((item, idx) => {
                 const Icon = item.icon;
                 return (
-                  <div
-                    key={idx}
-                    className="p-4 sm:p-5 rounded-2xl specular-card hover:border-primary/40 transition-all duration-300"
-                  >
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary shrink-0 mt-0.5 shadow-sm">
-                        <Icon size={18} />
-                      </div>
-                      <div>
-                        <h4 className="text-sm sm:text-base font-bold text-textPrimary mb-1">
-                          {item.title}
-                        </h4>
-                        <p className="text-xs sm:text-sm text-textSecondary leading-relaxed">
-                          {item.desc}
-                        </p>
-                      </div>
+                  <li key={idx} className="editorial-showcase-feature">
+                    <Icon size={20} className="editorial-showcase-icon" aria-hidden="true" />
+                    <div>
+                      <h4 className="editorial-showcase-feature-title">{item.title}</h4>
+                      <p className="editorial-showcase-feature-description">{item.desc}</p>
                     </div>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
 
-            <div>
-              <a
-                href={current.ctaLink}
-                className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-[#A3FF85] transition-colors group"
-              >
-                <span>{current.ctaText}</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </a>
-            </div>
+            <a href={current.ctaLink} className="editorial-link">
+              <span>{current.ctaText}</span>
+              <ArrowRight size={16} aria-hidden="true" />
+            </a>
           </div>
         </div>
       </div>
