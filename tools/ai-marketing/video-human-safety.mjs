@@ -55,6 +55,7 @@ function configuredModels(options = {}) {
     process.env.VIDEO_SAFETY_GEMINI_MODEL,
     ...configured,
     process.env.SEO_GEMINI_MODEL,
+    'gemini-3.8-flash',
     'gemini-3.6-flash',
     'gemini-3.5-flash',
     'gemini-3.1-pro-preview',

@@ -188,7 +188,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
           GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
-          VIDEO_SAFETY_GEMINI_MODEL: gemini-3.5-flash
+          VIDEO_SAFETY_GEMINI_MODEL: gemini-3.8-flash
         run: node tools/ai-marketing/daily-notebooklm-video.mjs
 
       - name: Verify dedicated article-video contract
