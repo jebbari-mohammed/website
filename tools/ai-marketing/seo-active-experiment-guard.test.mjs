@@ -10,6 +10,9 @@ import {
   isDocumentedCalculatorSafetyCorrection,
   documentedCalculatorSafetyOverrideFiles,
   REVIEWED_CALCULATOR_SAFETY_CORRECTION,
+  isDocumentedOwnerDesignRevision,
+  documentedOwnerDesignOverrideFiles,
+  REVIEWED_OWNER_DESIGN_REVISION,
   validateConfig,
 } from './seo-active-experiment-guard.mjs';
 
@@ -387,3 +390,159 @@ test('reviewed calculator transition preserves every editorial, metadata and mar
   const stripLogicAndNumericBounds = html => html.replace(/<script>[^]*?<\/script>/g, '').replace(/ min="1" max="100000"/g, '');
   assert.equal(stripLogicAndNumericBounds(calculatorBase), stripLogicAndNumericBounds(calculatorHead));
 });
+
+const ownerReview = REVIEWED_OWNER_DESIGN_REVISION;
+const ownerFixtureBytes = Object.fromEntries(ownerReview.files.map(({ file }) => [file, {
+  base: `Complete original UTF-8 presentation: ${file}\n`,
+  head: `Complete reviewed UTF-8 presentation: ${file}\n`,
+}]));
+const ownerDigest = content => createHash('sha256').update(content, 'utf8').digest('hex');
+const ownerFixtureReview = { ...ownerReview, files: ownerReview.files.map(({ file }) => ({
+  file, baseSha256: ownerDigest(ownerFixtureBytes[file].base), headSha256: ownerDigest(ownerFixtureBytes[file].head),
+})) };
+const ownerFiles = [...ownerReview.files.map(entry => entry.file), ownerReview.reviewNote, 'config/seo-active-experiments.json'];
+const ownerNow = new Date('2026-10-12T12:00:00Z');
+const ownerNote = [ownerFixtureReview.id, ownerFixtureReview.kind, ownerFixtureReview.date,
+  ...ownerFixtureReview.files.flatMap(entry => [entry.file, entry.baseSha256, entry.headSha256])].join('\n');
+function ownerRecord(file = ownerFixtureReview.files[0].file) {
+  const entry = ownerFixtureReview.files.find(item => item.file === file);
+  return { id: ownerFixtureReview.id, kind: ownerFixtureReview.kind, date: ownerFixtureReview.date,
+    ...entry, reviewNote: ownerFixtureReview.reviewNote };
+}
+function ownerOptions(overrides = {}) {
+  return { revision: ownerRecord(), reviewNote: ownerNote, changedFiles: ownerFiles, now: ownerNow, ...overrides };
+}
+function ownerConfigs() {
+  const styleFiles = ownerReview.files.map(entry => entry.file).filter(file => file !== 'src/components/Hero.tsx');
+  const locks = [
+    { id: 'owner-homepage-presentation-refinement-2026-10-12', url: '/', files: styleFiles,
+      launchedAt: '2026-10-12', lockUntil: '2026-11-02', preferredReviewAt: '2026-11-09', reason: 'Original presentation attribution.' },
+    { id: 'owner-requested-opening-film-2026-10-12', url: '/', files: ['src/components/Hero.tsx'],
+      launchedAt: '2026-10-12', lockUntil: '2026-11-02', preferredReviewAt: '2026-11-09', reason: 'Original film attribution.' },
+  ];
+  const base = { version: 1, locks };
+  const head = { version: 1, locks: locks.map(lock => ({ ...structuredClone(lock),
+    ownerDirectedRevisions: lock.files.map(file => ownerRecord(file)) })) };
+  return { base, head };
+}
+function ownerFixtureRef(headConfig, { review = ownerNote, committedConfig = headConfig } = {}) {
+  return (ref, file) => {
+    if (ref === 'head' && file === 'config/seo-active-experiments.json') return JSON.stringify(committedConfig);
+    if (ref === 'head' && file === ownerReview.reviewNote) return review;
+    if (ownerFixtureBytes[file]) return ownerFixtureBytes[file][ref];
+    throw new Error(`Unapproved fixture path must never be read: ${file}`);
+  };
+}
+
+test('owner design exception validates an entire reviewed byte transition, not a generic approval flag', () => {
+  for (const { file } of ownerFixtureReview.files) {
+    const bytes = ownerFixtureBytes[file];
+    assert.equal(isDocumentedOwnerDesignRevision(bytes.base, bytes.head,
+      ownerOptions({ revision: ownerRecord(file) }), ownerFixtureReview), true);
+  }
+  const bytes = ownerFixtureBytes[ownerFixtureReview.files[0].file];
+  for (const altered of [bytes.head + '\n', bytes.head.trimEnd(), bytes.head.replace('\n', '\r\n'), bytes.head + 'Unreviewed copy']) {
+    assert.equal(isDocumentedOwnerDesignRevision(bytes.base, altered, ownerOptions(), ownerFixtureReview), false);
+  }
+  assert.equal(isDocumentedOwnerDesignRevision(bytes.base, bytes.base, ownerOptions(), ownerFixtureReview), false);
+  assert.equal(isDocumentedOwnerDesignRevision(bytes.base + '\n', bytes.head, ownerOptions(), ownerFixtureReview), false);
+})
+
+test('owner design metadata cannot approve another file, transition or review record', () => {
+  const bytes = ownerFixtureBytes[ownerFixtureReview.files[0].file];
+  for (const replacement of [
+    { file: 'src/components/OpeningVideo.tsx' }, { id: 'owner-approved-anything' }, { kind: 'rendering-correction' },
+    { date: '2026-10-13' }, { reviewNote: 'docs/seo-experiments/unreviewed-design.md' },
+    { baseSha256: '0'.repeat(64) }, { headSha256: '1'.repeat(64), approved: true },
+  ]) {
+    assert.equal(isDocumentedOwnerDesignRevision(bytes.base, bytes.head,
+      ownerOptions({ revision: { ...ownerRecord(), ...replacement } }), ownerFixtureReview), false);
+  }
+})
+
+test('owner revision requires contemporaneous doc/config, reviewed hashes, and rejects replay or premature use', () => {
+  const bytes = ownerFixtureBytes[ownerFixtureReview.files[0].file];
+  for (const options of [
+    ownerOptions({ changedFiles: [ownerRecord().file] }),
+    ownerOptions({ changedFiles: [ownerRecord().file, ownerReview.reviewNote] }),
+    ownerOptions({ changedFiles: ['config/seo-active-experiments.json', ownerReview.reviewNote] }),
+    ownerOptions({ reviewNote: '' }),
+    ownerOptions({ reviewNote: ownerNote.replace(ownerRecord().headSha256, '') }),
+    ownerOptions({ baseRevisions: [ownerRecord('src/components/Hero.tsx')] }),
+    ownerOptions({ now: new Date('2026-10-11T23:59:59Z') }), ownerOptions({ now: 'invalid-date' }),
+  ]) assert.equal(isDocumentedOwnerDesignRevision(bytes.base, bytes.head, options, ownerFixtureReview), false);
+  const pending = { ...ownerFixtureReview, files: ownerFixtureReview.files.map(entry => ({ ...entry, headSha256: 'PENDING_REVIEWED_OUTPUT' })) };
+  assert.equal(isDocumentedOwnerDesignRevision(bytes.base, bytes.head, ownerOptions(), pending), false);
+})
+
+test('release path stays fixed to the production manifest and cannot authorize test-fixture hashes', () => {
+  const { base, head } = ownerConfigs();
+  assert.equal(documentedOwnerDesignOverrideFiles('base', 'head', ownerFiles, base, head, ownerNow, ownerFixtureRef(head)).size, 0);
+  for (const entry of ownerReview.files) {
+    assert.match(entry.baseSha256, /^[a-f0-9]{64}$/);
+    assert.match(entry.headSha256, /^[a-f0-9]{64}$/);
+  }
+})
+
+test('owner design governance authorizes only exact reviewed files while preserving original lock definitions', () => {
+  const { base, head } = ownerConfigs();
+  const ignored = documentedOwnerDesignOverrideFiles('base', 'head', ownerFiles, base, head, ownerNow,
+    ownerFixtureRef(head), ownerFixtureReview);
+  assert.deepEqual([...ignored], ownerFixtureReview.files.map(entry => entry.file));
+  assert.deepEqual(findActiveLockMutationViolations(base, head, ownerNow), []);
+  assert.deepEqual(findActiveLockViolations(ownerFiles, head, ownerNow, { ignoreFiles: ignored }), []);
+})
+
+test('owner design governance requires a committed review note and the actual committed config', () => {
+  const { base, head } = ownerConfigs();
+  for (const [files, reader] of [
+    [ownerFiles.filter(file => file !== ownerReview.reviewNote), ownerFixtureRef(head)],
+    [ownerFiles, ownerFixtureRef(head, { review: null })],
+    [ownerFiles, ownerFixtureRef(head, { committedConfig: base })],
+  ]) assert.equal(documentedOwnerDesignOverrideFiles('base', 'head', files, base, head, ownerNow, reader, ownerFixtureReview).size, 0);
+})
+
+test('every active lock covering the same file must acknowledge the exact owner revision', () => {
+  const { base, head } = ownerConfigs();
+  const file = ownerFixtureReview.files[0].file;
+  base.locks.push({ ...structuredClone(base.locks[0]), id: 'second-covering-lock', files: [file] });
+  head.locks.push(structuredClone(base.locks.at(-1)));
+  const ignored = documentedOwnerDesignOverrideFiles('base', 'head', ownerFiles, base, head, ownerNow,
+    ownerFixtureRef(head), ownerFixtureReview);
+  assert.equal(ignored.has(file), false);
+  assert.ok(findActiveLockViolations(ownerFiles, head, ownerNow, { ignoreFiles: ignored }).some(lock => lock.id === 'second-covering-lock'));
+})
+
+test('unapproved protected source files stay blocked even if config appends an owner revision record for them', () => {
+  const { base, head } = ownerConfigs();
+  const unapproved = 'src/components/OpeningVideo.tsx';
+  base.locks[0].files.push(unapproved);
+  head.locks[0].files.push(unapproved);
+  head.locks[0].ownerDirectedRevisions.push({ ...ownerRecord(), file: unapproved });
+  const files = [...ownerFiles, unapproved];
+  const ignored = documentedOwnerDesignOverrideFiles('base', 'head', files, base, head, ownerNow,
+    ownerFixtureRef(head), ownerFixtureReview);
+  assert.equal(ignored.has(unapproved), false);
+  assert.deepEqual(findActiveLockViolations(files, head, ownerNow, { ignoreFiles: ignored })[0].files, [unapproved]);
+})
+
+test('owner revision cannot weaken or otherwise change original lock fields', () => {
+  for (const change of [
+    lock => { lock.lockUntil = '2026-10-13'; }, lock => { lock.url = '/another-page'; },
+    lock => { lock.files.pop(); }, lock => { lock.launchedAt = '2026-10-11'; },
+    lock => { lock.preferredReviewAt = '2026-11-10'; }, lock => { lock.reason = 'Replacement rationale'; },
+  ]) {
+    const { base, head } = ownerConfigs();
+    change(head.locks[0]);
+    const ignored = documentedOwnerDesignOverrideFiles('base', 'head', ownerFiles, base, head, ownerNow,
+      ownerFixtureRef(head), ownerFixtureReview);
+    assert.equal(ignored.has(ownerFixtureReview.files[0].file), false);
+    assert.ok(findActiveLockMutationViolations(base, head, ownerNow).length ||
+      findActiveLockViolations(ownerFiles, head, ownerNow, { ignoreFiles: ignored }).length);
+  }
+  const { base, head } = ownerConfigs();
+  head.locks.pop();
+  assert.equal(documentedOwnerDesignOverrideFiles('base', 'head', ownerFiles, base, head, ownerNow,
+    ownerFixtureRef(head), ownerFixtureReview).size, 0);
+  assert.equal(findActiveLockMutationViolations(base, head, ownerNow)[0].type, 'removed');
+})

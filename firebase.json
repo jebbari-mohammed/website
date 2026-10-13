@@ -240,6 +240,14 @@
             "value": "noindex"
           }
         ]
+      },
+      {
+        "source": "/images/showcase-workout-v1.webp",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/images/showcase-chat-v1.webp",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
       }
     ]
   },

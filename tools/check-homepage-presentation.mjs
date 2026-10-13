@@ -88,6 +88,18 @@ try {
         assert.equal(await page.$$eval(`${selector}[aria-pressed="true"]`, (nodes) => nodes.length), 1);
       }
     }
+    const summaries = await page.$$('#capabilities details summary');
+    assert.equal(summaries.length, 5, 'All feature groups must be reachable');
+    assert.equal(await page.$$eval('#capabilities details[open]', (items) => items.length), 1, 'First fact group starts open');
+    for (const summary of summaries) {
+      const wasOpen = await summary.evaluate((e) => e.parentElement.open);
+      await summary.focus();
+      await page.keyboard.press('Enter');
+      assert.equal(await summary.evaluate((e) => e.parentElement.open), !wasOpen, 'Keyboard must toggle disclosure');
+      if (wasOpen) await page.keyboard.press('Enter');
+      assert.ok(await summary.evaluate((e) => e.parentElement.querySelector('ul').getBoundingClientRect().height > 0), 'Opened facts must be readable');
+    }
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Expanded facts must fit');
     await page.focus('#session-slider');
     await page.keyboard.press('ArrowRight');
     await page.waitForFunction(() => document.querySelector('#session-slider').value === '4');

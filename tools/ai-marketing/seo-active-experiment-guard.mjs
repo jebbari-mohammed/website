@@ -98,6 +98,60 @@ export function isDocumentedCalculatorSafetyCorrection(baseContent, headContent,
   return digest(baseContent) === reviewed.baseSha256 && digest(headContent) === reviewed.headSha256;
 }
 
+// One explicitly owner-directed presentation revision. This is not a rendering
+// or SEO correction. Complete-file hashes freeze the output reviewed on October
+// 13; the request and one-release revision identity retain their October 12 date.
+export const REVIEWED_OWNER_DESIGN_REVISION = Object.freeze({
+  id: 'owner-athletic-homepage-revision-2026-10-12',
+  kind: 'owner-directed-presentation-revision',
+  date: '2026-10-12',
+  reviewNote: 'docs/seo-experiments/2026-10-12-athletic-homepage-revision.md',
+  files: Object.freeze([
+    Object.freeze({ file: 'src/styles/homepage-refinement.css', baseSha256: 'ce68fb89d368ab5eee0e9418f04dccc51791964c1a2f12a8d115c29a4e0f2f43', headSha256: '57068046aec681c5269f1084ebec9ca2239d7ed2c54af954417941129714004c' }),
+    Object.freeze({ file: 'src/components/Hero.tsx', baseSha256: '1f893dfe23564d9d91b8a63e258f850d43970028b645e72cff5dac5b097da1da', headSha256: '6943a5e180e635cdf5d5ca23d348645443146c68dda7641de32a1096834e7ff4' }),
+    Object.freeze({ file: 'src/components/ProductShowcase.tsx', baseSha256: '119032bd94fb770c53d5c9224efa22419339c5bdf12bb1ec5dbe816ef66fe334', headSha256: '183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c' }),
+    Object.freeze({ file: 'src/components/Capabilities.tsx', baseSha256: 'b887314e24516e9411f4cf0948e79948c0f41bc4869949236a9585c87a06edad', headSha256: '95b9e0c4c392b414b3630978d87e00bf8090d2a44b86185f277a82729ba1c4aa' }),
+  ]),
+});
+
+function isFrozenOwnerDesignReview(reviewed) {
+  const pinned = REVIEWED_OWNER_DESIGN_REVISION;
+  if (!reviewed || ['id', 'kind', 'date', 'reviewNote'].some(field => reviewed[field] !== pinned[field]) ||
+      !Array.isArray(reviewed.files) || reviewed.files.length !== pinned.files.length) return false;
+  return reviewed.files.every((entry, index) => entry.file === pinned.files[index].file &&
+    /^[a-f0-9]{64}$/.test(entry.baseSha256 || '') && /^[a-f0-9]{64}$/.test(entry.headSha256 || '') &&
+    entry.baseSha256 !== entry.headSha256);
+}
+
+// The reviewed dependency permits deterministic byte fixtures in unit tests.
+// The release CLI always supplies the code-pinned manifest, never config input.
+export function isDocumentedOwnerDesignRevision(baseContent, headContent, options = {}, reviewed = REVIEWED_OWNER_DESIGN_REVISION) {
+  const { revision, baseRevisions = [], reviewNote = '', changedFiles = [], now = new Date() } = options;
+  if (!isFrozenOwnerDesignReview(reviewed) || typeof baseContent !== 'string' || typeof headContent !== 'string') return false;
+  const entry = reviewed.files.find(item => item.file === revision?.file);
+  if (!entry) return false;
+  const exactRecord = { id: reviewed.id, kind: reviewed.kind, date: reviewed.date,
+    file: entry.file, baseSha256: entry.baseSha256, headSha256: entry.headSha256, reviewNote: reviewed.reviewNote };
+  if (Object.entries(exactRecord).some(([field, value]) => revision[field] !== value)) return false;
+  const instant = new Date(now);
+  if (Number.isNaN(instant.getTime()) || new Date(reviewed.date) > instant ||
+      baseRevisions.some(record => record.id === reviewed.id)) return false;
+  if (!changedFiles.includes('config/seo-active-experiments.json') || !changedFiles.includes(entry.file) ||
+      !changedFiles.includes(reviewed.reviewNote) || typeof reviewNote !== 'string' ||
+      ![reviewed.id, reviewed.kind, reviewed.date, entry.file, entry.baseSha256, entry.headSha256]
+        .every(value => reviewNote.includes(value))) return false;
+  const digest = content => createHash('sha256').update(content, 'utf8').digest('hex');
+  return digest(baseContent) === entry.baseSha256 && digest(headContent) === entry.headSha256;
+}
+
+function preservesOwnerDesignLock(baseLock, headLock) {
+  if (!headLock) return false;
+  const { ownerDirectedRevisions: before = [], ...baseDefinition } = baseLock;
+  const { ownerDirectedRevisions: after = [], ...headDefinition } = headLock;
+  return Array.isArray(before) && Array.isArray(after) && JSON.stringify(baseDefinition) === JSON.stringify(headDefinition) &&
+    JSON.stringify(after.slice(0, before.length)) === JSON.stringify(before);
+}
+
 function parseArgs(argv) {
   const args = {
     config: DEFAULT_CONFIG,
@@ -364,6 +418,37 @@ export function documentedCalculatorSafetyOverrideFiles(base, head, changedFiles
   return allowed;
 }
 
+export function documentedOwnerDesignOverrideFiles(base, head, changedFiles, baseConfig, headConfig, now,
+  readAtRef = exactFileAtRef, reviewed = REVIEWED_OWNER_DESIGN_REVISION) {
+  const allowed = new Set();
+  if (!baseConfig || !isFrozenOwnerDesignReview(reviewed) ||
+      findActiveLockMutationViolations(baseConfig, headConfig, now).length ||
+      !changedFiles.includes('config/seo-active-experiments.json') || !changedFiles.includes(reviewed.reviewNote)) return allowed;
+  // An uncommitted local annotation cannot approve a different committed diff.
+  const rawHeadConfig = readAtRef(head, 'config/seo-active-experiments.json');
+  if (typeof rawHeadConfig !== 'string') return allowed;
+  let committedHeadConfig;
+  try { committedHeadConfig = validateConfig(JSON.parse(rawHeadConfig)); } catch { return allowed; }
+  if (JSON.stringify(committedHeadConfig) !== JSON.stringify(headConfig)) return allowed;
+  const reviewNote = readAtRef(head, reviewed.reviewNote);
+  for (const entry of reviewed.files) {
+    if (!changedFiles.includes(entry.file)) continue;
+    const protectingLocks = baseConfig.locks.filter(lock => lock.files.includes(entry.file) &&
+      now <= new Date(`${lock.lockUntil}T23:59:59.999Z`));
+    if (!protectingLocks.length) continue;
+    const accepted = protectingLocks.every(baseLock => {
+      const headLock = committedHeadConfig.locks.find(lock => lock.id === baseLock.id);
+      if (!preservesOwnerDesignLock(baseLock, headLock)) return false;
+      return (headLock.ownerDirectedRevisions || []).some(revision => revision.file === entry.file &&
+        isDocumentedOwnerDesignRevision(readAtRef(base, entry.file), readAtRef(head, entry.file), {
+          revision, baseRevisions: baseLock.ownerDirectedRevisions || [], changedFiles, now, reviewNote,
+        }, reviewed));
+    });
+    if (accepted) allowed.add(entry.file);
+  }
+  return allowed;
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = validateConfig(JSON.parse(fs.readFileSync(args.config, 'utf8')));
@@ -374,6 +459,7 @@ async function main() {
   const ownerImageSafetyOverrideFiles = ownerImagePolicySafetyOverrideFiles(args.base, args.head, changedFiles);
   const videoSafetyOverrideFiles = documentedVideoSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
   const calculatorSafetyOverrideFiles = documentedCalculatorSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
+  const ownerDesignOverrideFiles = documentedOwnerDesignOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
 
   const mutationViolations = findActiveLockMutationViolations(baseConfig, config, instant);
   if (mutationViolations.length) {
@@ -388,7 +474,7 @@ async function main() {
 
   const violations = findActiveLockViolations(changedFiles, config, instant, {
     enforceLockIds: baseLockIds,
-    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles, ...calculatorSafetyOverrideFiles]),
+    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles, ...calculatorSafetyOverrideFiles, ...ownerDesignOverrideFiles]),
   });
 
   if (violations.length) {
@@ -398,6 +484,7 @@ async function main() {
       console.error(`  Reason: ${violation.reason}`);
     }
     console.error('If this is a genuine factual, legal, safety, rendering, indexing, canonical, or deployment correction, use an explicitly reviewed governance override rather than weakening the lock definition in the same change.');
+    console.error('An explicit owner-directed presentation revision needs its own reviewed complete-file digest transition and committed documentation; it is not a rendering or SEO correction.');
     process.exitCode = 1;
     return;
   }
@@ -410,6 +497,9 @@ async function main() {
   }
   if (calculatorSafetyOverrideFiles.size) {
     console.log(`SEO active-experiment guard accepted ${calculatorSafetyOverrideFiles.size} documented calculator safety correction(s) matching reviewed base/head SHA-256 digests. Other file content and lock dates remain protected.`);
+  }
+  if (ownerDesignOverrideFiles.size) {
+    console.log(`SEO active-experiment guard accepted ${ownerDesignOverrideFiles.size} exact reviewed owner-directed presentation file transition(s). Existing lock definitions remain intact; engagement comparisons must account for this owner intervention.`);
   }
 
   const introduced = baseLockIds

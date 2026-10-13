@@ -114,6 +114,50 @@ try {
   await Promise.all(heldVideoRequests.splice(0).map((request) => request.continue()))
   await page.waitForFunction(() => document.querySelector('#hero video')?.readyState >= 2)
 
+  // A showcase recording must never replace its useful still with an empty
+  // media frame while loading, including when a capability changes the source.
+  const showcasePosters = [
+    '/images/showcase-workout-v1.webp',
+    '/images/showcase-chat-v1.webp',
+  ]
+  holdPreviewVideo = true
+  await page.reload({ waitUntil: 'domcontentloaded' })
+  await page.$eval('#showcase', (element) => element.scrollIntoView({ behavior: 'instant' }))
+  await page.waitForSelector('#showcase video')
+  for (const [index, expectedPoster] of showcasePosters.entries()) {
+    if (index > 0) {
+      holdPreviewVideo = true
+      await page.click('#showcase button:last-child')
+    }
+    const pending = await page.$eval('#showcase .editorial-showcase-frame', async (frame) => {
+      const image = frame.querySelector('.editorial-showcase-poster')
+      const video = frame.querySelector('video')
+      await image.decode()
+      return {
+        image: image.getAttribute('src'),
+        poster: video.getAttribute('poster'),
+        imageWidth: image.naturalWidth,
+        imageVisible: getComputedStyle(image).display !== 'none' &&
+          getComputedStyle(image).visibility !== 'hidden' && image.getBoundingClientRect().width > 0,
+        videoOpacity: getComputedStyle(video).opacity,
+        readyState: video.readyState,
+        revealed: video.classList.contains('is-ready'),
+      }
+    })
+    assert.equal(pending.image, expectedPoster, 'Showcase: still must match the selected recording')
+    assert.equal(pending.poster, expectedPoster, 'Showcase: video and underlay must use the same first frame')
+    assert.ok(pending.imageWidth > 0 && pending.imageVisible, 'Showcase: useful still must remain visible while media loads')
+    assert.equal(pending.readyState, 0, 'Showcase: regression must hold the media before its first frame')
+    assert.equal(pending.revealed, false, 'Showcase: source changes must reset frame readiness')
+    assert.equal(pending.videoOpacity, '0', 'Showcase: an unavailable video frame must not cover its still')
+    holdPreviewVideo = false
+    await Promise.all(heldVideoRequests.splice(0).map((request) => request.continue()))
+    await page.waitForFunction(() => {
+      const video = document.querySelector('#showcase video')
+      return video?.readyState >= 2 && !video.paused && video.classList.contains('is-ready')
+    })
+  }
+
   const assertHomepagePreview = async (section) => {
     const state = await page.evaluate((selector) => {
       const preview = document.querySelector(`${selector} video, ${selector} img[data-izem-hero-preview]`)
