@@ -48,8 +48,8 @@ function harness(overrides = {}) {
     recoverRequestedNotebookVideo: async () => null,
     generateNotebookVideo: async () => { calls.push('generate'); return { outputFile: 'video.mp4', notebookId: 'test-notebook' }; },
     rebuildObjectOnlyVideo: async () => { calls.push('rebuild'); return { outputFile: 'rebuilt.mp4', renderMethod: 'notebooklm-narration-object-typography-v1' }; },
-    assertVideoIsPeopleFree: async () => { calls.push('safety'); },
-    assertTypographyVideoIsPeopleFree: async () => { calls.push('all-frames'); },
+    assertVideoIsPeopleFree: async () => { calls.push('safety'); return {safe:true,containsHuman:false}; },
+    assertTypographyVideoIsPeopleFree: async () => { calls.push('all-frames'); return {safe:true,containsHuman:false}; },
     uploadVideo: async (_file, _post, token) => { calls.push(`upload:${token}`); return 'https://youtube.com/watch?v=Abc123_-xyz'; },
     verifyPublishedVideo: async () => { calls.push('verify'); return { privacyStatus: 'public' }; },
     embedIntoPost: () => calls.push('embed'),
@@ -83,6 +83,7 @@ test('only the rebuilt and independently validated output can be uploaded', asyn
     assertVideoIsPeopleFree: async (file) => {
       checked.push(file);
       if (file === 'video.mp4') { const error = new Error('unsafe original'); error.name = 'VideoPolicyError'; throw error; }
+      return {safe:true,containsHuman:false};
     },
     uploadVideo: async (file) => { uploaded = file; return 'https://youtube.com/watch?v=Abc123_-xyz'; },
   });
@@ -93,7 +94,7 @@ test('an explicitly recovered narration is rebuilt before its only safety check'
   const checked = [];
   const { calls, run } = harness({
     recoverRequestedNotebookVideo: async () => ({ outputFile: 'recovered.mp4', notebookId: 'known-notebook' }),
-    assertVideoIsPeopleFree: async (file) => { checked.push(file); },
+    assertVideoIsPeopleFree: async (file) => { checked.push(file); return {safe:true,containsHuman:false}; },
   });
   await run(); assert.deepEqual(checked, ['rebuilt.mp4']); assert.ok(!calls.includes('generate'));
   assert.ok(calls.indexOf('rebuild') < calls.indexOf('upload:token-2'));
@@ -122,6 +123,12 @@ test('an invalid rebuilt recipe fails closed before upload, embedding or recordi
     assertTypographyVideoIsPeopleFree:async()=>{throw Error('frame mismatch');},
   });
   await assert.rejects(run(),/frame mismatch/);assert.ok(!calls.some(x=>x.startsWith('upload:')));assert.ok(!calls.includes('record'));assert.ok(!calls.includes('embed'));
+});
+test('an empty or negative independent verdict cannot publish',async()=>{
+ for(const verdict of [undefined,{safe:false,containsHuman:false},{safe:true,containsHuman:true}]){
+  const {calls,run}=harness({recoverRequestedNotebookVideo:async()=>({outputFile:'native.mp4'}),rebuildObjectOnlyVideo:async()=>({outputFile:'candidate.mp4',visualRecipe:{version:1}}),assertTypographyVideoIsPeopleFree:async()=>verdict});
+  await assert.rejects(run(),/did not approve/);assert.ok(!calls.some(x=>x.startsWith('upload:')));assert.ok(!calls.includes('record'));
+ }
 });
 const recoverySource = section('async function recoverRequestedNotebookVideo(', '\nasync function main()');
 for (const selected of [

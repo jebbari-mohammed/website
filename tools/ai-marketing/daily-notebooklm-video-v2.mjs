@@ -314,6 +314,7 @@ async function verifyGeneratedVisuals(generated, post) {
   const verdict = generated.visualRecipe
     ? await assertTypographyVideoIsPeopleFree(generated.outputFile, post, generated.visualRecipe)
     : await assertVideoIsPeopleFree(generated.outputFile);
+  if (verdict?.safe !== true || verdict?.containsHuman !== false) throw new Error('Visual verification did not approve the generated track.');
   generated.visualValidation = verdict;
   return verdict;
 }
