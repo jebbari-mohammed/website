@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "slug": "how-to-use-ai-personal-trainer",
+  "canonicalUrl": "https://youraicoach.life/blog/how-to-use-ai-personal-trainer",
+  "sourceSha256": "1aaf7c925e665837ebda0ce65d17bfd3d0d0eafae400131a9db2d3d2c14c42d1",
+  "slides": [
+    {
+      "heading": "Start with a clear brief",
+      "body": "Use your actual training days, equipment and recent activity.",
+      "narration": "Give your AI personal trainer a clear training brief, then check the plan. This short guide accompanies the IZEM first-workout article. Enter your goal, available days, session length, equipment and recent training. Use the profile settings in your chosen app where they exist."
+    },
+    {
+      "heading": "Describe the week you have",
+      "body": "Count warm-up and rest within your time window.",
+      "narration": "Be specific about the time you have and the equipment you can use. Dumbbells could mean a fixed pair or an adjustable set. Include the available weights and their units. Describe your recent training and any break. You do not need to test a maximum lift to complete the brief."
+    },
+    {
+      "heading": "Copy a training brief",
+      "body": "The tool formats entries without sending or saving them.",
+      "narration": "The article includes a browser training-brief tool. It formats your answers and leaves missing information open. It does not generate a workout, assess technique or connect automatically to an app. Keep medical records and identifying details out of the form. Copy the text before leaving the page."
+    },
+    {
+      "heading": "Check the proposed workout",
+      "body": "Calendar, equipment, time and instructions should match.",
+      "narration": "Read the proposed workout before starting. Check that the training days and equipment match your brief. Allow for warm-up, work, rest and equipment changes within your time window. Make sure you understand the exercise, sets, repetitions, load notation and rest. Ask about missing instructions and unfamiliar technique."
+    },
+    {
+      "heading": "Correct a visible mismatch",
+      "body": "Example: two days and dumbbells, not four days and cable equipment.",
+      "narration": "Here is a hypothetical example, not a recommended training dose. Someone enters Monday and Friday, thirty five minutes each, with adjustable dumbbells and no bench. The app returns four weekly sessions, a barbell squat and a cable row. Ask for a revision using the actual days, time and equipment. Review the new proposal again. Correcting those assumptions does not establish medical suitability or an appropriate workload."
+    },
+    {
+      "heading": "Record what you completed",
+      "body": "Keep actual weights, repetitions, changes and unfinished work.",
+      "narration": "Use a manageable load and review exercise instructions before training. Mayo Clinic advises proper form and reducing the weight or repetitions if form cannot be maintained. Stop an exercise that causes pain. Record what you actually completed, including changed exercises, unfinished sets and your available time. That record is more useful than marking the whole proposal complete."
+    },
+    {
+      "heading": "Use the record in your next conversation",
+      "body": "Read the complete guide and current IZEM product facts.",
+      "narration": "IZEM combines workout planning, set-by-set logging, meal planning and coach conversations. The brief can help organize your setup, but copying it does not import it automatically. For hands-on technique instruction or medical and rehabilitation questions, seek an appropriately qualified professional. Read the complete guide and its linked sources at youraicoach dot life, including current features and access before choosing an app."
+    }
+  ]
+}

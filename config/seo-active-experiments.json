@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-12",
+  "updatedAt": "2026-10-13",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -598,6 +598,32 @@
       "lockUntil": "2026-10-24",
       "preferredReviewAt": "2026-10-31",
       "reason": "One contextual support link connects workout logging to the new exercise setup note. Preserve the existing tracker content and link during the 14-day observation window."
+    },
+    {
+      "id": "ai-personal-trainer-first-workout-launch-2026-10-13",
+      "url": "/blog/how-to-use-ai-personal-trainer",
+      "files": [
+        "public/blog/assets/how-to-use-ai-personal-trainer/article.css",
+        "public/blog/assets/how-to-use-ai-personal-trainer/brief.js",
+        "public/blog/assets/how-to-use-ai-personal-trainer/hero.svg",
+        "public/blog/assets/how-to-use-ai-personal-trainer/plan-check.svg",
+        "public/og/how-to-use-ai-personal-trainer.png"
+      ],
+      "launchedAt": "2026-10-13",
+      "lockUntil": "2026-11-03",
+      "preferredReviewAt": "2026-11-10",
+      "reason": "Owner-requested consumer setup/use guide and portable browser training brief supporting the AI personal trainer cluster. Preserve utility and visuals; add article HTML after the initial dedicated-video attachment and unchanged-body verification. See docs/seo-experiments/2026-10-13-ai-personal-trainer-first-workout.md."
+    },
+    {
+      "id": "generator-ai-personal-trainer-setup-support-link-2026-10-13",
+      "url": "/blog/ai-workout-generator-vs-workout-planner",
+      "files": [
+        "public/blog/ai-workout-generator-vs-workout-planner.html"
+      ],
+      "launchedAt": "2026-10-13",
+      "lockUntil": "2026-10-27",
+      "preferredReviewAt": "2026-11-03",
+      "reason": "One contextual training-brief link supports the new first-workout setup guide. Preserve the matured comparison and link during a 14-day observation window."
     }
   ]
 }
