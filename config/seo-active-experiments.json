@@ -759,6 +759,19 @@
       "lockUntil": "2026-11-05",
       "preferredReviewAt": "2026-11-12",
       "reason": "Launch of the indexable /workouts/ split architecture hub (with interactive Missed-Workout Rescheduler) and pre-rendered /workouts/dumbbell-workout-plan/ A/B/C routine. Preserve for a 21-day discovery, indexing, and ranking evaluation window."
+    },
+    {
+      "id": "comparison-and-consistency-support-links-2026-10-13",
+      "url": "/vs-fitbod",
+      "files": [
+        "public/vs-fitbod.html",
+        "public/workout-consistency-calculator/index.html",
+        "public/glossary/index.html"
+      ],
+      "launchedAt": "2026-10-17",
+      "lockUntil": "2026-10-31",
+      "preferredReviewAt": "2026-11-07",
+      "reason": "Refresh /vs-fitbod, /workout-consistency-calculator/, and /glossary/ to remove unverified fixed-price claims, add OG social preview metadata, and link contextually into the /workouts/ and /exercises/ hubs. Preserve for a 14-day internal-link and CTR evaluation window."
     }
   ]
 }
