@@ -63,3 +63,9 @@ Pre-release validation passed: production build and existing homepage/video/stor
 ## Separate validation correction
 
 PR CI run `38415213343` failed the pre-existing no-JavaScript desktop homepage still assertion. That probe used DOMContentLoaded, which can precede eager-image completion, before checking `complete` and `naturalWidth`. The correction waits for the page load event while retaining the exact-source and decoded-image assertions. It changes validation timing only, not any homepage or article behavior. The article branch was also rebased onto the owner's independently merged athletic homepage revision `973a485` without modifying its protected presentation.
+
+## Media handoff correction
+
+The custom two-illustration article omitted the existing `IZEM_OBJECT_VISUALS_V1` preservation marker. The media preparation job therefore injected generic artwork and prose in its working checkout, changing the source digest. Initial run `38417683898` stopped before provider commands with a narration-manifest mismatch. The targeted run `38417907095` persisted a native attempt against the injected version; it was cancelled before a completed article release.
+
+Added the established marker outside the article body. Verified that the reviewed body and original narration digest are unchanged, and that running visual preparation now makes no modifications. Reconciled the durable checkpoint's source digest to that same reviewed source with this audit note, retaining `nativeAttempts: 1`, `ttsAttempts: 0` and the original attempt timestamp. No spending limit, cooldown, validation gate or existing experiment lock is reset. Recovery must use the existing bounded approved-text path or an already validated matching video. The generic injected visuals were never committed to main.

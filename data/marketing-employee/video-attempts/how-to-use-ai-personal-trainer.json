@@ -1,8 +1,14 @@
 {
   "version": 1,
   "slug": "how-to-use-ai-personal-trainer",
-  "sourceSha256": "50704a24d9aec8773e3f9d927ef95cc0f1965e3d4e756385aa4cd1fd3d883e6c",
+  "sourceSha256": "1aaf7c925e665837ebda0ce65d17bfd3d0d0eafae400131a9db2d3d2c14c42d1",
   "nativeAttempts": 1,
   "ttsAttempts": 0,
-  "nativeStartedAt": "2026-10-13T14:58:52.710Z"
+  "nativeStartedAt": "2026-10-13T14:58:52.710Z",
+  "sourceReconciliation": {
+    "date": "2026-10-13",
+    "previousSourceSha256": "50704a24d9aec8773e3f9d927ef95cc0f1965e3d4e756385aa4cd1fd3d883e6c",
+    "reason": "The pipeline injected generic visuals because the preservation marker was absent. Preserve the reviewed article body and owned illustrations; bind this existing attempt budget to the unchanged approved narration digest. Native and speech attempt counts are retained.",
+    "reviewNote": "docs/seo-experiments/2026-10-13-ai-personal-trainer-first-workout.md"
+  }
 }
