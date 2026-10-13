@@ -105,8 +105,12 @@ const tabs: ShowcaseTab[] = [
 export default function ProductShowcase() {
   const [activeTab, setActiveTab] = useState<ShowcaseTab['id']>('workout');
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [readyVideo, setReadyVideo] = useState<string | null>(null);
   const videoFrameRef = useRef<HTMLDivElement>(null);
   const current = tabs.find((t) => t.id === activeTab) || tabs[0];
+  const poster = current.id === 'chat'
+    ? '/images/showcase-chat-v1.webp'
+    : '/images/showcase-workout-v1.webp';
 
   useEffect(() => {
     const frame = videoFrameRef.current;
@@ -168,19 +172,31 @@ export default function ProductShowcase() {
         <div className="editorial-showcase-layout">
           <div className="editorial-showcase-media">
             <div ref={videoFrameRef} className="editorial-showcase-frame">
-              {shouldLoadVideo ? (
+              <img
+                src={poster}
+                alt={`${current.title} in the IZEM app`}
+                width="800"
+                height="1260"
+                loading="lazy"
+                decoding="async"
+                className="editorial-showcase-poster"
+              />
+              {shouldLoadVideo && (
                 <video
                   key={current.videoSrc}
                   src={current.videoSrc}
+                  poster={poster}
                   autoPlay
                   loop
                   muted
                   playsInline
                   preload="metadata"
-                  className="editorial-showcase-recording"
+                  aria-hidden="true"
+                  onLoadStart={() => setReadyVideo(null)}
+                  onPlaying={() => setReadyVideo(current.videoSrc)}
+                  onError={() => setReadyVideo(null)}
+                  className={`editorial-showcase-recording${readyVideo === current.videoSrc ? ' is-ready' : ''}`}
                 />
-              ) : (
-                <div aria-hidden="true" className="editorial-showcase-placeholder" />
               )}
             </div>
           </div>

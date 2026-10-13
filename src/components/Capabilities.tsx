@@ -108,50 +108,55 @@ export default function Capabilities() {
   return (
     <section id="capabilities" className="editorial-section editorial-capabilities">
       <div className="editorial-container">
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45 }}
-          className="editorial-section-heading"
-        >
-          <p className="editorial-eyebrow">CURRENT PRODUCT FACTS</p>
-          <h2 className="editorial-title">
-            Explore IZEM’s Coaching Features.
-          </h2>
-          <p className="editorial-intro">
-            The app is awaiting store review. These product capabilities depend on platform and account eligibility; purchase terms and availability will be shown in the app when offered.
-          </p>
-        </motion.div>
+        <div className="editorial-capabilities-layout">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45 }}
+            className="editorial-section-heading"
+          >
+            <p className="editorial-eyebrow">CURRENT PRODUCT FACTS</p>
+            <h2 className="editorial-title">
+              Explore IZEM’s Coaching Features.
+            </h2>
+            <p className="editorial-intro">
+              The app is awaiting store review. These product capabilities depend on platform and account eligibility; purchase terms and availability will be shown in the app when offered.
+            </p>
+          </motion.div>
 
-        <div className="editorial-capability-rows">
-          {groups.map((group, index) => {
-            const Icon = group.icon;
-            return (
-              <motion.article
-                key={group.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.04 }}
-                className="editorial-capability-row"
-              >
-                <div className="editorial-capability-summary">
-                  <p className="editorial-eyebrow editorial-capability-label">
-                    <Icon size={16} aria-hidden="true" />
-                    <span>{group.eyebrow}</span>
-                  </p>
-                  <h3>{group.title}</h3>
-                  <p>{group.summary}</p>
-                </div>
-                <ul className="editorial-capability-list">
-                  {group.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </motion.article>
-            );
-          })}
+          <div className="editorial-capability-rows">
+            {groups.map((group, index) => {
+              const Icon = group.icon;
+              return (
+                <details
+                  key={group.title}
+                  open={index === 0}
+                  className="editorial-capability-row editorial-capability-disclosure"
+                >
+                  <summary className="editorial-capability-trigger">
+                    <Icon size={20} aria-hidden="true" className="editorial-capability-icon" />
+                    <h3 className="editorial-capability-title">{group.title}</h3>
+                    <svg className="editorial-capability-toggle" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                      <path d="M5 12h14" />
+                      <path className="editorial-capability-toggle-vertical" d="M12 5v14" />
+                    </svg>
+                  </summary>
+                  <div className="editorial-capability-body">
+                    <p className="editorial-eyebrow editorial-capability-label">
+                      {group.eyebrow}
+                    </p>
+                    <p className="editorial-capability-summary">{group.summary}</p>
+                    <ul className="editorial-capability-list">
+                      {group.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </details>
+              );
+            })}
+          </div>
         </div>
 
         <div className="editorial-product-notes">

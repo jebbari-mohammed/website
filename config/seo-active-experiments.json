@@ -27,7 +27,36 @@
       "launchedAt": "2026-10-12",
       "lockUntil": "2026-11-02",
       "preferredReviewAt": "2026-11-09",
-      "reason": "Owner explicitly requested a follow-up visual refinement below the opening film. Neutral surfaces, readable hierarchy and open feature rows replace repeated neon/glass decoration. Product facts, FAQs, metadata and store/film implementation remain intact. This owner-directed presentation change overlaps the homepage observation window; do not attribute engagement differences solely to the earlier film or download launch. See docs/seo-experiments/2026-10-12-homepage-presentation.md."
+      "reason": "Owner explicitly requested a follow-up visual refinement below the opening film. Neutral surfaces, readable hierarchy and open feature rows replace repeated neon/glass decoration. Product facts, FAQs, metadata and store/film implementation remain intact. This owner-directed presentation change overlaps the homepage observation window; do not attribute engagement differences solely to the earlier film or download launch. See docs/seo-experiments/2026-10-12-homepage-presentation.md.",
+      "ownerDirectedRevisions": [
+        {
+          "id": "owner-athletic-homepage-revision-2026-10-12",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-12",
+          "file": "src/styles/homepage-refinement.css",
+          "baseSha256": "ce68fb89d368ab5eee0e9418f04dccc51791964c1a2f12a8d115c29a4e0f2f43",
+          "headSha256": "57068046aec681c5269f1084ebec9ca2239d7ed2c54af954417941129714004c",
+          "reviewNote": "docs/seo-experiments/2026-10-12-athletic-homepage-revision.md"
+        },
+        {
+          "id": "owner-athletic-homepage-revision-2026-10-12",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-12",
+          "file": "src/components/ProductShowcase.tsx",
+          "baseSha256": "119032bd94fb770c53d5c9224efa22419339c5bdf12bb1ec5dbe816ef66fe334",
+          "headSha256": "183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c",
+          "reviewNote": "docs/seo-experiments/2026-10-12-athletic-homepage-revision.md"
+        },
+        {
+          "id": "owner-athletic-homepage-revision-2026-10-12",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-12",
+          "file": "src/components/Capabilities.tsx",
+          "baseSha256": "b887314e24516e9411f4cf0948e79948c0f41bc4869949236a9585c87a06edad",
+          "headSha256": "95b9e0c4c392b414b3630978d87e00bf8090d2a44b86185f277a82729ba1c4aa",
+          "reviewNote": "docs/seo-experiments/2026-10-12-athletic-homepage-revision.md"
+        }
+      ]
     },
     {
       "id": "opening-download-action-2026-10-12",
@@ -58,7 +87,18 @@
       "launchedAt": "2026-10-12",
       "lockUntil": "2026-11-02",
       "preferredReviewAt": "2026-11-09",
-      "reason": "Owner-requested responsive opening film and viewport media loading. Preserve presentation while observing engagement and loading; factual, safety, rendering, indexing and deployment corrections follow the documented exception process. No ranking copy, metadata, canonicals or FAQ changes. See docs/seo-experiments/2026-10-12-owner-video-opening.md."
+      "reason": "Owner-requested responsive opening film and viewport media loading. Preserve presentation while observing engagement and loading; factual, safety, rendering, indexing and deployment corrections follow the documented exception process. No ranking copy, metadata, canonicals or FAQ changes. See docs/seo-experiments/2026-10-12-owner-video-opening.md.",
+      "ownerDirectedRevisions": [
+        {
+          "id": "owner-athletic-homepage-revision-2026-10-12",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-12",
+          "file": "src/components/Hero.tsx",
+          "baseSha256": "1f893dfe23564d9d91b8a63e258f850d43970028b645e72cff5dac5b097da1da",
+          "headSha256": "6943a5e180e635cdf5d5ca23d348645443146c68dda7641de32a1096834e7ff4",
+          "reviewNote": "docs/seo-experiments/2026-10-12-athletic-homepage-revision.md"
+        }
+      ]
     },
     {
       "id": "homepage-visible-faq-2026-10-08",

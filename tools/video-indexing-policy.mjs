@@ -14,6 +14,8 @@ export const decorativePosterPaths = [
   '/images/hero2-desktop.webp',
   '/images/intro/izem-intro-desktop-v1.webp',
   '/images/intro/izem-intro-mobile-v1.webp',
+  '/images/showcase-workout-v1.webp',
+  '/images/showcase-chat-v1.webp',
 ]
 export const decorativePosterUrls = [
   ...heroPreviewMedia.map((preview) => `${preview.posterPath}?v=${preview.posterSha256.slice(0, 12)}`),
