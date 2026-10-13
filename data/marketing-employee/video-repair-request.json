@@ -1,11 +1,9 @@
 {
-  "requestId": "workout-split-owner-authorized-retry-003",
-  "slug": "best-workout-split",
-  "recoverNotebookId": "16bc39aa-13a5-491a-a6ee-753c2c82ae54",
-  "sourceRunId": 37554764905,
-  "retryFailedArtifactOnce": true,
-  "retryWorkflowRunId": "37555071131",
-  "retryWorkflowRunAttempt": "7",
-  "reason": "The owner explicitly approved one further actual generation retry after the corrected diagnostics, followed by an independent narration/rendering fallback if native generation fails. Authorize the existing in-place retry only for this exact run and attempt; do not create another notebook or native video. Existing people-free validation, genuine public YouTube processing, article-video contract and deployment checks remain required. No unlimited native retries are authorized.",
-  "requestedAt": "2026-10-06"
+  "requestId": "ai-trainer-existing-artifact-recovery-2026-10-13",
+  "slug": "how-to-use-ai-personal-trainer",
+  "recoverNotebookId": "6c935877-1beb-44f1-b473-94d9cb72a285",
+  "sourceRunId": 38417907095,
+  "retryFailedArtifactOnce": false,
+  "reason": "Recover the same already-requested article video without any new native or speech generation. Rebuild object-only visuals from the reviewed current article and retain mandatory independent frame validation and public processing checks.",
+  "requestedAt": "2026-10-13"
 }
