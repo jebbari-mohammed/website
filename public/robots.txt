@@ -52,11 +52,10 @@ Allow: /
 # All other bots
 User-agent: *
 Allow: /
-Allow: /exercises/
-Allow: /1rm-calculator/
-Allow: /llms.txt
 
 # Sitemap
 Sitemap: https://youraicoach.life/sitemap.xml
 Sitemap: https://youraicoach.life/video-sitemap.xml
 Sitemap: https://youraicoach.life/news-sitemap.xml
+
+# AI and LLM discovery guide: https://youraicoach.life/llms.txt

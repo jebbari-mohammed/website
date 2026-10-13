@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">3-Day Dumbbell Workout Plan</title>
+  <desc id="desc">Equipment diagram and A/B/C session schedule for a 3-day dumbbell strength program.</desc>
+  <rect width="1200" height="630" fill="#070A0D"/>
+  <rect x="48" y="48" width="1104" height="534" rx="28" fill="#111714" stroke="#26322A" stroke-width="2"/>
+  <rect x="88" y="88" width="248" height="38" rx="19" fill="#18211B" stroke="#26322A"/>
+  <text x="212" y="113" text-anchor="middle" fill="#8DFF6A" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="800" letter-spacing="2">DUMBBELL PROGRAM</text>
+  <text x="88" y="192" fill="#F8FAFC" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="52" font-weight="800">3-Day Dumbbell Workout Plan</text>
+  <text x="88" y="246" fill="#CBD5E1" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="25" font-weight="500">Workout A, B, and C tables with sets, reps, rest intervals, floor</text>
+  <text x="88" y="282" fill="#CBD5E1" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="25" font-weight="500">options, and an interactive load and time adjuster.</text>
+  <g transform="translate(808, 110)">
+    <rect x="0" y="28" width="36" height="104" rx="8" fill="#18211B" stroke="#8DFF6A" stroke-width="3"/>
+    <rect x="42" y="44" width="28" height="72" rx="6" fill="#18211B" stroke="#8DFF6A" stroke-width="3"/>
+    <rect x="74" y="68" width="140" height="24" rx="6" fill="#26322A" stroke="#D8FF86" stroke-width="2"/>
+    <rect x="218" y="44" width="28" height="72" rx="6" fill="#18211B" stroke="#8DFF6A" stroke-width="3"/>
+    <rect x="252" y="28" width="36" height="104" rx="8" fill="#18211B" stroke="#8DFF6A" stroke-width="3"/>
+  </g>
+  <g transform="translate(88, 336)">
+    <rect width="322" height="184" rx="18" fill="#18211B" stroke="#26322A"/>
+    <text x="26" y="44" fill="#8DFF6A" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700">WORKOUT A · DAY 1</text>
+    <text x="26" y="80" fill="#F8FAFC" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="24" font-weight="800">Squat, Push &amp; Row</text>
+    <text x="26" y="116" fill="#94A3B8" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="500">Goblet Squat · 3 x 8-12</text>
+    <text x="26" y="144" fill="#94A3B8" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="500">DB Bench/Floor Press · 3 x 8-12</text>
+  </g>
+  <g transform="translate(436, 336)">
+    <rect width="322" height="184" rx="18" fill="#18211B" stroke="#26322A"/>
+    <text x="26" y="44" fill="#8DFF6A" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700">WORKOUT B · DAY 2</text>
+    <text x="26" y="80" fill="#F8FAFC" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="24" font-weight="800">Hinge &amp; Overhead</text>
+    <text x="26" y="116" fill="#94A3B8" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="500">Dumbbell RDL · 3 x 8-12</text>
+    <text x="26" y="144" fill="#94A3B8" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="500">Overhead Press · 3 x 8-12</text>
+  </g>
+  <g transform="translate(784, 336)">
+    <rect width="328" height="184" rx="18" fill="#18211B" stroke="#8DFF6A" stroke-width="2"/>
+    <text x="26" y="44" fill="#8DFF6A" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700">WORKOUT C · DAY 3</text>
+    <text x="26" y="80" fill="#F8FAFC" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="24" font-weight="800">Unilateral &amp; Carry</text>
+    <text x="26" y="116" fill="#94A3B8" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="500">Split Squat · 3 x 8-10/side</text>
+    <text x="26" y="144" fill="#94A3B8" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="500">Single-Arm Row · 3 x 10-12</text>
+  </g>
+</svg>

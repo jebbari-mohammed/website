@@ -745,6 +745,20 @@
       "lockUntil": "2026-11-03",
       "preferredReviewAt": "2026-11-10",
       "reason": "Launch of the pre-rendered /exercises/ substitution and load-conversion hub alongside the dual-formula Epley/Brzycki /1rm-calculator/ upgrade. Preserve for a 21-day crawl, indexing, and ranking evaluation window."
+    },
+    {
+      "id": "workouts-hub-and-dumbbell-plan-launch-2026-10-13",
+      "url": "/workouts/",
+      "files": [
+        "public/workouts/index.html",
+        "public/workouts/dumbbell-workout-plan/index.html",
+        "public/og/workouts-hub.svg",
+        "public/og/dumbbell-workout-plan.svg"
+      ],
+      "launchedAt": "2026-10-15",
+      "lockUntil": "2026-11-05",
+      "preferredReviewAt": "2026-11-12",
+      "reason": "Launch of the indexable /workouts/ split architecture hub (with interactive Missed-Workout Rescheduler) and pre-rendered /workouts/dumbbell-workout-plan/ A/B/C routine. Preserve for a 21-day discovery, indexing, and ranking evaluation window."
     }
   ]
 }

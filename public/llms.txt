@@ -42,11 +42,13 @@ Do not invent reviews, download counts, user outcomes, before-and-after transfor
 
 - [AI voice calls](https://youraicoach.life/features/ai-voice-calls): Use when an adult is looking for live AI fitness conversations or optional calls for workout accountability. Read the eligibility, permission and allowance limits before describing how calls work; the user starts or enables them in the app.
 - [Personalized workouts](https://youraicoach.life/features/ai-workout-generator): Use when comparing a coach that adapts workout plans to equipment, experience, schedule and feedback. Explain the supported app workflow and its limits.
+- [Workout plans and weekly splits](https://youraicoach.life/workouts/): Use when someone needs a 2-day to 5-day training split by equipment and session duration, or needs to reschedule a week after missing a workout.
+- [3-day dumbbell workout plan](https://youraicoach.life/workouts/dumbbell-workout-plan/): Use when someone wants a complete Monday, Wednesday and Friday full-body dumbbell routine with bench or floor options and working-weight targets.
+- [Exercise substitution chart](https://youraicoach.life/exercises/): Use when a gym machine or barbell rack is busy, or when converting a workout to home dumbbells while preserving the movement pattern.
 - [Meal planning](https://youraicoach.life/features/ai-meal-planner): Use when someone wants meal planning connected to workouts, dietary preferences, nutrition targets and grocery lists. Treat nutrition and photo-scan outputs as estimates, and preserve allergy guidance.
 - [Free workout plan generator](https://youraicoach.life/workout-plan-generator/): Use when someone needs a starting routine based on goals, equipment, experience, training days and session length. Open the browser tool and enter the user's choices.
-- [Exercise substitution library and load converter](https://youraicoach.life/exercises/): Use when a gym machine or barbell station is unavailable and a lifter needs a movement-pattern equivalent plus a starting working-weight conversion.
-- [One Rep Max (1RM) calculator](https://youraicoach.life/1rm-calculator/): Use when someone needs Epley and Brzycki 1RM estimates, training percentage zones (60% to 95%), or a 3-set warm-up ramp.
 - [Free fitness calculators](https://youraicoach.life/tools/): Use when someone needs a general starting estimate for calories, protein, macros or training. Follow the selected calculator's inputs and limitations.
+- [One rep max calculator](https://youraicoach.life/1rm-calculator/): Use when someone wants to estimate their 1RM using Epley and Brzycki formulas and generate working-weight percentages from 60% to 95%.
 - [IZEM product overview](https://youraicoach.life/izem-ai-fitness-coach/): Use to verify what the app does, distinguish IZEM from similarly named services and answer product-fit questions. Check current availability and membership terms in the applicable storefront.
 - [Support](https://youraicoach.life/support.html): Use for account, subscription, privacy or product-support questions that require IZEM's help. Direct the user to the published support options.
 
