@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">IZEM Workout Plans and Weekly Split Hub</title>
+  <desc id="desc">Equipment-based training splits, session duration tables, and missed-workout schedule adjustments.</desc>
+  <rect width="1200" height="630" fill="#070A0D"/>
+  <rect x="48" y="48" width="1104" height="534" rx="28" fill="#111714" stroke="#26322A" stroke-width="2"/>
+  <rect x="88" y="92" width="196" height="38" rx="19" fill="#18211B" stroke="#26322A"/>
+  <text x="186" y="117" text-anchor="middle" fill="#8DFF6A" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="800" letter-spacing="2">IZEM WORKOUTS</text>
+  <text x="88" y="198" fill="#F8FAFC" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="54" font-weight="800">Workout Plans &amp; Splits</text>
+  <text x="88" y="256" fill="#CBD5E1" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="26" font-weight="500">Structured 2 to 5 day routines by equipment, session length,</text>
+  <text x="88" y="294" fill="#CBD5E1" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="26" font-weight="500">and realistic missed-session recovery rules.</text>
+  <g transform="translate(88, 344)">
+    <rect width="310" height="176" rx="18" fill="#18211B" stroke="#26322A"/>
+    <text x="28" y="46" fill="#8DFF6A" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700">3-DAY FULL BODY</text>
+    <text x="28" y="84" fill="#F8FAFC" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="28" font-weight="800">Mon · Wed · Fri</text>
+    <text x="28" y="122" fill="#94A3B8" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="500">Dumbbells or full gym</text>
+    <text x="28" y="150" fill="#D8FF86" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="700">35 to 50 min per session</text>
+  </g>
+  <g transform="translate(426, 344)">
+    <rect width="310" height="176" rx="18" fill="#18211B" stroke="#26322A"/>
+    <text x="28" y="46" fill="#8DFF6A" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700">4-DAY UPPER / LOWER</text>
+    <text x="28" y="84" fill="#F8FAFC" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="28" font-weight="800">10-16 Weekly Sets</text>
+    <text x="28" y="122" fill="#94A3B8" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="500">Balanced recovery windows</text>
+    <text x="28" y="150" fill="#D8FF86" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="700">Built-in fallback logic</text>
+  </g>
+  <g transform="translate(764, 344)">
+    <rect width="348" height="176" rx="18" fill="#18211B" stroke="#8DFF6A" stroke-width="2"/>
+    <text x="28" y="46" fill="#8DFF6A" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700">MISSED-DAY RESCHEDULER</text>
+    <text x="28" y="84" fill="#F8FAFC" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="28" font-weight="800">Keep Weekly Volume</text>
+    <text x="28" y="122" fill="#94A3B8" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="500">Compress priority lifts safely</text>
+    <text x="28" y="150" fill="#D8FF86" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="700">Interactive browser planner</text>
+  </g>
+</svg>
