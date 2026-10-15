@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Publish Scheduled Blog — Promotes due blog posts from public/blog/drafts/<slug>.html
- * to public/blog/<slug>.html on the 3-day schedule defined in config/seo-scheduled-blogs.json.
+ * Publish Scheduled Blog & Architecture Releases — Promotes due architecture releases
+ * and due 3-day scheduled blog posts defined in config/seo-scheduled-blogs.json.
  *
  * Usage:
  *   node tools/publish-scheduled-blog.mjs --list
@@ -38,19 +38,69 @@ function addDaysIso(isoDate, days) {
   return d.toISOString().slice(0, 10);
 }
 
+function publishDueArchitectureReleases(manifest, today, dryRun) {
+  const releases = manifest.architectureReleases || [];
+  const due = releases.filter((r) => r.status === 'scheduled' && r.scheduledDate <= today);
+  let changed = false;
+
+  for (const rel of due) {
+    if (dryRun) {
+      console.log(`[DRY RUN] Architecture Release #${rel.release} (${rel.scheduledDate}) is due: ${rel.branch}`);
+      continue;
+    }
+
+    execFileSync('git', ['checkout', rel.branch, '--', ...rel.files], {
+      cwd: ROOT,
+      stdio: 'inherit'
+    });
+
+    if (rel.lock && fs.existsSync(EXPERIMENTS_PATH)) {
+      const expData = JSON.parse(fs.readFileSync(EXPERIMENTS_PATH, 'utf8'));
+      expData.locks = expData.locks || [];
+      if (!expData.locks.some((l) => l.id === rel.lock.id)) {
+        expData.locks.push(rel.lock);
+        fs.writeFileSync(EXPERIMENTS_PATH, `${JSON.stringify(expData, null, 2)}\n`, 'utf8');
+      }
+    }
+
+    execFileSync('node', ['tools/sync-sitemap.mjs'], {
+      cwd: ROOT,
+      stdio: 'inherit'
+    });
+
+    rel.status = 'published';
+    rel.publishedAt = today;
+    changed = true;
+    console.log(`Published Architecture Release #${rel.release} (${rel.branch}) on ${today}.`);
+  }
+
+  return changed;
+}
+
 function main() {
   const args = parseArgs(process.argv);
   const today = args.date || new Date().toISOString().slice(0, 10);
   const manifest = JSON.parse(fs.readFileSync(SCHEDULE_PATH, 'utf8'));
 
   if (args.list || (!args.nextDue && !args.slug)) {
-    console.log(`3-Day Scheduled Blog Queue (today: ${today}):`);
+    console.log(`Staggered Architecture Releases (today: ${today}):`);
+    for (const rel of manifest.architectureReleases || []) {
+      console.log(
+        `  Release #${rel.release} | ${rel.scheduledDate} | [${rel.status.padEnd(9)}] | ${rel.branch} — ${rel.title}`
+      );
+    }
+    console.log(`\n3-Day Scheduled Blog Queue (today: ${today}):`);
     for (const item of manifest.schedule) {
       console.log(
         `  #${String(item.order).padStart(2, '0')} | ${item.scheduledDate} | [${item.status.padEnd(9)}] | ${item.slug} (${item.keyword})`
       );
     }
     return;
+  }
+
+  let archChanged = false;
+  if (args.nextDue) {
+    archChanged = publishDueArchitectureReleases(manifest, today, args.dryRun);
   }
 
   let candidate = null;
@@ -64,6 +114,9 @@ function main() {
       (item) => item.status === 'scheduled' && item.scheduledDate <= today
     );
     if (!candidate) {
+      if (archChanged && !args.dryRun) {
+        fs.writeFileSync(SCHEDULE_PATH, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+      }
       console.log(`No scheduled blog due on or before ${today}. Next upcoming:`);
       const nextUpcoming = manifest.schedule.find((item) => item.status === 'scheduled');
       if (nextUpcoming) {
@@ -114,21 +167,17 @@ function main() {
   // Add 21-day new-page lock to config/seo-active-experiments.json
   if (fs.existsSync(EXPERIMENTS_PATH)) {
     const expData = JSON.parse(fs.readFileSync(EXPERIMENTS_PATH, 'utf8'));
-    expData.updatedAt = today;
-    expData.experiments = expData.experiments || [];
-    const lockId = `${today}-${candidate.slug}`;
-    if (!expData.experiments.some((e) => e.id === lockId)) {
-      expData.experiments.push({
+    expData.locks = expData.locks || [];
+    const lockId = `blog-${candidate.slug}-launch-${today}`;
+    if (!expData.locks.some((e) => e.id === lockId)) {
+      expData.locks.push({
         id: lockId,
-        type: 'new-search-entry-blog',
-        status: 'active',
-        startedAt: today,
+        url: `/blog/${candidate.slug}`,
+        files: [candidate.livePath],
+        launchedAt: today,
         lockUntil: addDaysIso(today, 21),
-        targetUrls: [`https://youraicoach.life/blog/${candidate.slug}`],
-        lockedFiles: [candidate.livePath],
-        primaryQueries: [candidate.keyword],
-        hypothesis: `Publish SERP-synthesized human guide for "${candidate.keyword}" on the 3-day schedule.`,
-        doNotTouchRule: `Do not rewrite ${candidate.livePath} before ${addDaysIso(today, 21)} unless fixing a factual, rendering, or indexing defect.`
+        preferredReviewAt: addDaysIso(today, 28),
+        reason: `Publish SERP-synthesized human guide for "${candidate.keyword}" on the 3-day schedule. Preserve for a 21-day crawl, indexing, and ranking evaluation window.`
       });
       fs.writeFileSync(EXPERIMENTS_PATH, `${JSON.stringify(expData, null, 2)}\n`, 'utf8');
     }

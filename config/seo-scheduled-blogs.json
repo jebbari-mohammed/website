@@ -1,8 +1,87 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "cadenceDays": 3,
   "createdAt": "2026-10-13",
-  "description": "10 SERP-synthesized human blog posts scheduled 1 every 3 days to respect the 3-post/week ceiling and natural crawl pacing.",
+  "description": "Staggered architecture releases (Oct 13, 15, 17, 19) plus 10 SERP-synthesized human blog posts scheduled 1 every 3 days (Oct 16 through Nov 12).",
+  "architectureReleases": [
+    {
+      "release": 1,
+      "scheduledDate": "2026-10-13",
+      "branch": "seo/release-1-exercises-and-1rm",
+      "title": "Launch /exercises/ substitution hub and dual-formula /1rm-calculator/",
+      "files": [
+        "public/exercises/index.html",
+        "public/og/exercises-hub.svg",
+        "public/1rm-calculator/index.html"
+      ],
+      "status": "published",
+      "publishedAt": "2026-10-13"
+    },
+    {
+      "release": 2,
+      "scheduledDate": "2026-10-15",
+      "branch": "seo/release-2-workouts-hub-and-dumbbell-plan",
+      "title": "Launch /workouts/ split hub and /workouts/dumbbell-workout-plan/",
+      "files": [
+        "public/workouts/index.html",
+        "public/workouts/dumbbell-workout-plan/index.html",
+        "public/og/workouts-hub.svg",
+        "public/og/dumbbell-workout-plan.svg",
+        "public/llms.txt",
+        "public/robots.txt"
+      ],
+      "status": "published",
+      "publishedAt": "2026-10-15"
+    },
+    {
+      "release": 3,
+      "scheduledDate": "2026-10-17",
+      "branch": "seo/release-3-vs-fitbod-and-calculator-links",
+      "title": "Upgrade /vs-fitbod, /workout-consistency-calculator/, and /glossary/ with hub links",
+      "files": [
+        "public/vs-fitbod.html",
+        "public/workout-consistency-calculator/index.html",
+        "public/glossary/index.html"
+      ],
+      "lock": {
+        "id": "comparison-and-consistency-support-links-2026-10-13",
+        "url": "/vs-fitbod",
+        "files": [
+          "public/vs-fitbod.html",
+          "public/workout-consistency-calculator/index.html",
+          "public/glossary/index.html"
+        ],
+        "launchedAt": "2026-10-17",
+        "lockUntil": "2026-10-31",
+        "preferredReviewAt": "2026-11-07",
+        "reason": "Refresh /vs-fitbod, /workout-consistency-calculator/, and /glossary/ to remove unverified fixed-price claims, add OG social preview metadata, and link contextually into the /workouts/ and /exercises/ hubs. Preserve for a 14-day internal-link and CTR evaluation window."
+      },
+      "status": "scheduled"
+    },
+    {
+      "release": 4,
+      "scheduledDate": "2026-10-19",
+      "branch": "seo/release-4-editorial-and-about-eeat",
+      "title": "Document calculator formulas and E-E-A-T citations on /editorial-policy.html and /about",
+      "files": [
+        "public/editorial-policy.html",
+        "public/about.html"
+      ],
+      "lock": {
+        "id": "trust-editorial-and-about-eeat-2026-10-13",
+        "url": "/editorial-policy.html",
+        "files": [
+          "public/editorial-policy.html",
+          "public/about.html"
+        ],
+        "launchedAt": "2026-10-19",
+        "lockUntil": "2026-11-02",
+        "preferredReviewAt": "2026-11-09",
+        "reason": "Add calculator formula documentation, primary peer-reviewed citations, accountable publisher Person schema, and hub links to /editorial-policy.html and /about. Preserve for a 14-day trust and discovery evaluation window."
+      },
+      "status": "scheduled"
+    }
+  ],
   "schedule": [
     {
       "order": 1,
