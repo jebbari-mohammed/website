@@ -760,6 +760,30 @@
       "lockUntil": "2026-11-05",
       "preferredReviewAt": "2026-11-12",
       "reason": "Launch of the indexable /workouts/ split architecture hub (with interactive Missed-Workout Rescheduler) and pre-rendered /workouts/dumbbell-workout-plan/ A/B/C routine. Preserve for a 21-day discovery, indexing, and ranking evaluation window."
+    },
+    {
+      "id": "hiit-and-weight-training-same-day-launch-2026-10-15",
+      "url": "/blog/hiit-and-weight-training-same-day",
+      "files": [
+        "public/blog/hiit-and-weight-training-same-day.html",
+        "public/blog/assets/hiit-and-weight-training-same-day/hero.svg",
+        "public/blog/assets/hiit-and-weight-training-same-day/session-note.svg"
+      ],
+      "launchedAt": "2026-10-15",
+      "lockUntil": "2026-11-05",
+      "preferredReviewAt": "2026-11-12",
+      "reason": "Owner-requested same-day HIIT and lifting guide with an answer-first H1, scheduling decisions, worked examples and training log. The dedicated video has been mechanically attached after independent all-frame visual verification and public YouTube processing checks; the approved article body is unchanged. Preserve article and visuals for the 21-day discovery and ranking observation window. See docs/seo-experiments/2026-10-15-hiit-and-weight-training-same-day.md."
+    },
+    {
+      "id": "body-recomposition-hiit-scheduling-support-link-2026-10-15",
+      "url": "/blog/body-recomposition-guide-lose-fat-gain-muscle",
+      "files": [
+        "public/blog/body-recomposition-guide-lose-fat-gain-muscle.html"
+      ],
+      "launchedAt": "2026-10-15",
+      "lockUntil": "2026-10-29",
+      "preferredReviewAt": "2026-11-05",
+      "reason": "One contextual link from the matured body-recomposition guide supports the new same-day HIIT and weights scheduling resource. Preserve the existing guide and support link during a 14-day internal-link observation window."
     }
   ]
 }

@@ -39,3 +39,22 @@ Pre-merge checks passed: production build and existing video/opening/download/ho
 The existing video publisher defaults to inserting its card at the beginning of an article. An empty established video marker pair reserves a position after the answer, examples and training-log section, so mechanical attachment cannot put a video heading ahead of the H1. The empty pair is not a video approval; the dedicated contract still requires the matching validated publication record. Source/narration and approved-body digests remain unchanged.
 
 The initial reserved slot used final `IZEM_VIDEO` markers, which correctly failed pre-merge media validation because a final block must contain a real watch link and owned thumbnail. The slot now uses the publisher's already-supported `NOTEBOOKLM_VIDEO` draft markers. The publisher replaces that exact slot with its final verified block. No validator, completion record, or deployment gate was weakened; the dedicated contract remains pending until actual publication.
+
+
+## Completed media and source identity
+
+Article PR [#129](https://github.com/jebbari-mohammed/website/pull/129) passed all required checks at `3499ce83625c0a932557315f534d792498348237` and merged as `98d13d970c3b1faf046795087735ce0dca19f395` on October 15. The source discovery job then committed `cd97d76e5f22134ab6abc68b487fbe7591709d08`.
+
+Initial video run `38806789262` stopped before provider requests because its durable checkpoint could not be pushed after main advanced. No attempt file existed on current remote main. Targeted publisher [run 38807066609](https://github.com/jebbari-mohammed/website/actions/runs/38807066609), started from current main, successfully persisted checkpoint `12e07607` without changing any spending ceiling or cooldown. It used one native attempt and zero synthesized-narration attempts.
+
+The publisher retained the native narration and replaced the visual track with first-party article typography. Independent verification approved all 2,910 decoded frames with method `deterministic-typography-all-frames-v1`, video SHA-256 `a4baaf43bb5ecd7c3618435856194951d0ecb8e339dfaa9ea498c65a1d2a81c8` and frame digest `035961d5f15b937abbe66c39eb95c20289f4bbb601775a805c8c2f8e18c40045`. YouTube confirmed video `366InjCr77A` public, processed and successful at `2026-10-15T21:13:06.320Z`; the public player also showed the expected title and 2:01 duration. Captions were unavailable at that check; no full transcript audit is claimed.
+
+The completed media commit is `67b98c5df2029a5064a54b326c9a90220691654e`. Source checks confirm the same approved body digest `6b4b4c7530ea26e2cf54173b9447237747ced294fe20018be7cff8839eab298c` and narration-source identity `b560d94523a201b451e9abcdf5c811c6cab20e4400711fcc28427205f5e0b369`. The H1 and written answer still precede the actual video section. The dedicated article-video contract passes.
+
+The article/illustrations are protected through November 5, preferred review November 12. The one inbound support link is protected through October 29, preferred review November 5. These locks were added after mechanical video attachment and unchanged-body verification; no existing lock was weakened.
+
+## Live verification
+
+[Hosting run 38808173397](https://github.com/jebbari-mohammed/website/actions/runs/38808173397) successfully deployed exact media commit `67b98c5df2029a5064a54b326c9a90220691654e`, and the targeted publisher completed successfully. Live verification at `2026-10-15T21:19:38.671Z` returned HTTP 200 for the article, both original SVGs, the dedicated watch page and owned thumbnail, blog archive, actual `/blog/feed.xml`, sitemap, video sitemap and contextual inbound page. The illustrations match their source bytes.
+
+The live article is self-canonical, permits indexing in metadata and headers, contains parseable Article/Breadcrumb JSON-LD and the correct companion id, and preserves the approved normalized body digest. Archive, RSS, sitemap, video discovery and inbound link expose the new content. A live 390-pixel browser check confirms one H1 first, readable light text, a decoded 1200-pixel hero, the correct watch link and no horizontal document overflow. No full Google indexation, ranking or traffic outcome is asserted.
