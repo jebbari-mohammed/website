@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/366InjCr77A/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/366InjCr77A.svg</video:thumbnail_loc>
+      <video:title>HIIT and Weight Training Same Day: Order and Recovery</video:title>
+      <video:description>How to combine HIIT and weights on the same day: choose the order, decide whether to split sessions, and use a simple log to adjust your next workout.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/366InjCr77A</video:player_loc>
+      <video:publication_date>2026-10-15T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/gVniQ9FKvWA/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/gVniQ9FKvWA.svg</video:thumbnail_loc>

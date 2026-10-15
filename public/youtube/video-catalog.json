@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "366InjCr77A",
+      "title": "HIIT and Weight Training Same Day: Order and Recovery",
+      "description": "How to combine HIIT and weights on the same day: choose the order, decide whether to split sessions, and use a simple log to adjust your next workout.",
+      "uploadDate": "2026-10-15",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/hiit-and-weight-training-same-day",
+          "relativePath": "blog/hiit-and-weight-training-same-day.html",
+          "title": "HIIT and Weight Training Same Day: Order and Recovery"
+        }
+      ]
+    },
+    {
       "id": "gVniQ9FKvWA",
       "title": "How to Use an AI Personal Trainer: First Workout",
       "description": "Set up an AI personal trainer with your real schedule, equipment and training history. Copy a training brief, check the plan and log your first workout.",

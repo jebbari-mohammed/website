@@ -522,7 +522,37 @@
         "frameDigest": "7f287a8492972b3f2fd968e301bd039bea9d923f320fb3995bb205366f4acb81"
       },
       "date": "2026-10-13T16:13:08.695Z"
+    },
+    {
+      "slug": "hiit-and-weight-training-same-day",
+      "title": "You can do HIIT and weights on the same day if you recover well",
+      "url": "https://youraicoach.life/blog/hiit-and-weight-training-same-day",
+      "youtube": "https://youtube.com/watch?v=366InjCr77A",
+      "notebook_id": "76c89a36-e246-492c-a28e-c6a05d500416",
+      "visual_policy": "objects-only-v1",
+      "people_free_validated": true,
+      "publication": {
+        "videoId": "366InjCr77A",
+        "title": "You can do HIIT and weights on the same day if you recover well | IZEM",
+        "channelId": "UCruC83NAOtNJjEsSToD0Ncw",
+        "publishedAt": "2026-10-15T21:13:00Z",
+        "privacyStatus": "public",
+        "uploadStatus": "processed",
+        "processingStatus": "succeeded",
+        "verifiedAt": "2026-10-15T21:13:06.320Z"
+      },
+      "render_method": "notebooklm-narration-object-typography-v1",
+      "visual_validation": {
+        "safe": true,
+        "containsHuman": false,
+        "method": "deterministic-typography-all-frames-v1",
+        "articleSha256": "85e0a0a230f406e9b4f3951db26523a6ab6ea3863f9909c2f93ea969f7f9f00e",
+        "videoSha256": "a4baaf43bb5ecd7c3618435856194951d0ecb8e339dfaa9ea498c65a1d2a81c8",
+        "frameCount": 2910,
+        "frameDigest": "035961d5f15b937abbe66c39eb95c20289f4bbb601775a805c8c2f8e18c40045"
+      },
+      "date": "2026-10-15T21:13:06.322Z"
     }
   ],
-  "lastRun": "2026-10-13T16:13:08.695Z"
+  "lastRun": "2026-10-15T21:13:06.322Z"
 }
