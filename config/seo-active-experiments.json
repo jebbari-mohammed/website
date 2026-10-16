@@ -784,6 +784,18 @@
       "lockUntil": "2026-10-29",
       "preferredReviewAt": "2026-11-05",
       "reason": "One contextual link from the matured body-recomposition guide supports the new same-day HIIT and weights scheduling resource. Preserve the existing guide and support link during a 14-day internal-link observation window."
+    },
+    {
+      "id": "blog-how-long-to-rest-between-sets-launch-2026-10-16",
+      "url": "/blog/how-long-to-rest-between-sets",
+      "files": [
+        "public/blog/assets/how-long-to-rest-between-sets/hero.svg",
+        "public/blog/assets/how-long-to-rest-between-sets/framework.svg"
+      ],
+      "launchedAt": "2026-10-16",
+      "lockUntil": "2026-11-06",
+      "preferredReviewAt": "2026-11-13",
+      "reason": "Publish SERP-synthesized human guide for \"how long to rest between sets\" on the 3-day schedule. Preserve assets for a 21-day crawl, indexing, and ranking evaluation window while allowing dedicated video attachment."
     }
   ]
 }

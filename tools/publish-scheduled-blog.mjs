@@ -154,17 +154,13 @@ function main() {
   fs.copyFileSync(draftAbs, liveAbs);
   fs.unlinkSync(draftAbs);
 
-  // Rebuild blog index + RSS feed and sync sitemap
-  execFileSync('node', ['tools/ai-marketing/rebuild-blog-index.mjs'], {
-    cwd: ROOT,
-    stdio: 'inherit'
-  });
+  // Sync sitemap (note: .github/workflows/rebuild-blog-index.yml updates locked public/blog/index.html and feed.xml automatically)
   execFileSync('node', ['tools/sync-sitemap.mjs'], {
     cwd: ROOT,
     stdio: 'inherit'
   });
 
-  // Add 21-day new-page lock to config/seo-active-experiments.json
+  // Add 21-day new-page lock to config/seo-active-experiments.json (locking assets first so daily-video-tts.yml can attach the video block to livePath)
   if (fs.existsSync(EXPERIMENTS_PATH)) {
     const expData = JSON.parse(fs.readFileSync(EXPERIMENTS_PATH, 'utf8'));
     expData.locks = expData.locks || [];
@@ -173,11 +169,14 @@ function main() {
       expData.locks.push({
         id: lockId,
         url: `/blog/${candidate.slug}`,
-        files: [candidate.livePath],
+        files: [
+          `${candidate.assetsDir}/hero.svg`,
+          `${candidate.assetsDir}/framework.svg`
+        ],
         launchedAt: today,
         lockUntil: addDaysIso(today, 21),
         preferredReviewAt: addDaysIso(today, 28),
-        reason: `Publish SERP-synthesized human guide for "${candidate.keyword}" on the 3-day schedule. Preserve for a 21-day crawl, indexing, and ranking evaluation window.`
+        reason: `Publish SERP-synthesized human guide for "${candidate.keyword}" on the 3-day schedule. Preserve assets for a 21-day crawl, indexing, and ranking evaluation window while allowing dedicated video attachment.`
       });
       fs.writeFileSync(EXPERIMENTS_PATH, `${JSON.stringify(expData, null, 2)}\n`, 'utf8');
     }
