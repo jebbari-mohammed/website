@@ -552,7 +552,37 @@
         "frameDigest": "035961d5f15b937abbe66c39eb95c20289f4bbb601775a805c8c2f8e18c40045"
       },
       "date": "2026-10-15T21:13:06.322Z"
+    },
+    {
+      "slug": "how-long-to-rest-between-sets",
+      "title": "Rest 2 to 3 minutes on compound lifts and 60 to 90 seconds on isolation sets.",
+      "url": "https://youraicoach.life/blog/how-long-to-rest-between-sets",
+      "youtube": "https://youtube.com/watch?v=tP3y5AW8izg",
+      "notebook_id": "30196dba-7e3e-48dd-a4d2-0a5b03862ec2",
+      "visual_policy": "objects-only-v1",
+      "people_free_validated": true,
+      "publication": {
+        "videoId": "tP3y5AW8izg",
+        "title": "Rest 2 to 3 minutes on compound lifts and 60 to 90 seconds on isolation sets. | IZEM",
+        "channelId": "UCruC83NAOtNJjEsSToD0Ncw",
+        "publishedAt": "2026-10-16T17:39:21Z",
+        "privacyStatus": "public",
+        "uploadStatus": "processed",
+        "processingStatus": "succeeded",
+        "verifiedAt": "2026-10-16T17:39:24.108Z"
+      },
+      "render_method": "notebooklm-narration-object-typography-v1",
+      "visual_validation": {
+        "safe": true,
+        "containsHuman": false,
+        "method": "deterministic-typography-all-frames-v1",
+        "articleSha256": "03628054bc123e5e2f7aec96e834a5147b8dd86b75e7045caf6385435890f7ea",
+        "videoSha256": "f2d1c838f71efd13ab5f028b13288d33d7e52d2c77482e963f2ed2fd21130a5b",
+        "frameCount": 3426,
+        "frameDigest": "2bba193c16793373feb1acd6c35eb9af9fd4b67d78d5a303bad5737500dbf3b1"
+      },
+      "date": "2026-10-16T17:39:24.110Z"
     }
   ],
-  "lastRun": "2026-10-15T21:13:06.322Z"
+  "lastRun": "2026-10-16T17:39:24.110Z"
 }

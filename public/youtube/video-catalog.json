@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "tP3y5AW8izg",
+      "title": "How Long to Rest Between Sets for Muscle Growth & Strength",
+      "description": "Rest 3 to 5 minutes on heavy strength lifts, 2 to 3 minutes on compound hypertrophy sets, and 60 to 90 seconds on isolation exercises. Includes a session-time calculator.",
+      "uploadDate": "2026-10-16",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/how-long-to-rest-between-sets",
+          "relativePath": "blog/how-long-to-rest-between-sets.html",
+          "title": "How Long to Rest Between Sets for Muscle Growth & Strength"
+        }
+      ]
+    },
+    {
       "id": "366InjCr77A",
       "title": "HIIT and Weight Training Same Day: Order and Recovery",
       "description": "How to combine HIIT and weights on the same day: choose the order, decide whether to split sessions, and use a simple log to adjust your next workout.",

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/tP3y5AW8izg/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/tP3y5AW8izg.svg</video:thumbnail_loc>
+      <video:title>How Long to Rest Between Sets for Muscle Growth &amp; Strength</video:title>
+      <video:description>Rest 3 to 5 minutes on heavy strength lifts, 2 to 3 minutes on compound hypertrophy sets, and 60 to 90 seconds on isolation exercises. Includes a session-time calculator.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/tP3y5AW8izg</video:player_loc>
+      <video:publication_date>2026-10-16T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/366InjCr77A/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/366InjCr77A.svg</video:thumbnail_loc>
