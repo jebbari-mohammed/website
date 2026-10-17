@@ -98,6 +98,18 @@ export function isDocumentedCalculatorSafetyCorrection(baseContent, headContent,
   return digest(baseContent) === reviewed.baseSha256 && digest(headContent) === reviewed.headSha256;
 }
 
+// The reviewed repair changes only bare XML ampersands in two existing assets.
+export const REVIEWED_SVG_RENDERING_CORRECTION = Object.freeze({
+  id: 'rest-images-xml-rendering-2026-10-17',
+  kind: 'svg-xml-rendering',
+  date: '2026-10-17',
+  reviewNote: 'docs/seo-experiments/2026-10-17-rest-images-rendering-correction.md',
+  files: Object.freeze([
+    Object.freeze({ file: 'public/blog/assets/how-long-to-rest-between-sets/hero.svg', baseSha256: 'a5d47fec042d153e81abb38a2881cb8cd0889d69b87cb09b489a2ea68c3af3f8', headSha256: '180c8c70c657ca3156207ee1a06b9fa4ab29b64e527a25bdc29f842f60162b62' }),
+    Object.freeze({ file: 'public/blog/assets/how-long-to-rest-between-sets/framework.svg', baseSha256: 'a7ce3a436ed4284f198818c1a5a1cb4ab3cb60e2db7958b56904d1dedeb5d9a6', headSha256: '036e0d216df317d92e91b844826ed49feaea65eff2e0eb723874707f167d7bab' }),
+  ]),
+});
+
 // One explicitly owner-directed presentation revision. This is not a rendering
 // or SEO correction. Complete-file hashes freeze the output reviewed on October
 // 13; the request and one-release revision identity retain their October 12 date.
@@ -449,6 +461,34 @@ export function documentedOwnerDesignOverrideFiles(base, head, changedFiles, bas
   return allowed;
 }
 
+// Only the two reviewed complete-file transitions can repair malformed SVG XML
+// during this experiment. Config annotations alone cannot approve new edits.
+export function documentedSvgRenderingOverrideFiles(base, head, changedFiles, baseConfig, headConfig, now,
+  readAtRef = exactFileAtRef) {
+  const allowed = new Set();
+  const reviewed = REVIEWED_SVG_RENDERING_CORRECTION;
+  const instant = new Date(now);
+  if (!baseConfig || Number.isNaN(instant.getTime()) || new Date(reviewed.date) > instant ||
+      findActiveLockMutationViolations(baseConfig, headConfig, instant).length ||
+      !changedFiles.includes('config/seo-active-experiments.json') || !changedFiles.includes(reviewed.reviewNote)) return allowed;
+  let committedConfig;
+  try { committedConfig = validateConfig(JSON.parse(readAtRef(head, 'config/seo-active-experiments.json'))); } catch { return allowed; }
+  if (JSON.stringify(committedConfig) !== JSON.stringify(headConfig)) return allowed;
+  const note = readAtRef(head, reviewed.reviewNote) || '';
+  const digest = content => typeof content === 'string' ? createHash('sha256').update(content, 'utf8').digest('hex') : null;
+  for (const entry of reviewed.files) {
+    if (!changedFiles.includes(entry.file) || ![reviewed.id, reviewed.kind, reviewed.date,
+      entry.file, entry.baseSha256, entry.headSha256].every(value => note.includes(value))) continue;
+    if (digest(readAtRef(base, entry.file)) !== entry.baseSha256 || digest(readAtRef(head, entry.file)) !== entry.headSha256) continue;
+    const locks = baseConfig.locks.filter(lock => lock.files.includes(entry.file) && instant <= new Date(`${lock.lockUntil}T23:59:59.999Z`));
+    const record = { id: reviewed.id, kind: reviewed.kind, date: reviewed.date, reviewNote: reviewed.reviewNote, ...entry };
+    if (locks.length && locks.every(lock => !(lock.corrections || []).some(c => c.id === reviewed.id) &&
+      (committedConfig.locks.find(l => l.id === lock.id)?.corrections || []).some(c =>
+        Object.entries(record).every(([key, value]) => c[key] === value)))) allowed.add(entry.file);
+  }
+  return allowed;
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = validateConfig(JSON.parse(fs.readFileSync(args.config, 'utf8')));
@@ -460,6 +500,7 @@ async function main() {
   const videoSafetyOverrideFiles = documentedVideoSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
   const calculatorSafetyOverrideFiles = documentedCalculatorSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
   const ownerDesignOverrideFiles = documentedOwnerDesignOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
+  const svgRenderingOverrideFiles = documentedSvgRenderingOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
 
   const mutationViolations = findActiveLockMutationViolations(baseConfig, config, instant);
   if (mutationViolations.length) {
@@ -474,7 +515,7 @@ async function main() {
 
   const violations = findActiveLockViolations(changedFiles, config, instant, {
     enforceLockIds: baseLockIds,
-    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles, ...calculatorSafetyOverrideFiles, ...ownerDesignOverrideFiles]),
+    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles, ...calculatorSafetyOverrideFiles, ...ownerDesignOverrideFiles, ...svgRenderingOverrideFiles]),
   });
 
   if (violations.length) {
@@ -500,6 +541,9 @@ async function main() {
   }
   if (ownerDesignOverrideFiles.size) {
     console.log(`SEO active-experiment guard accepted ${ownerDesignOverrideFiles.size} exact reviewed owner-directed presentation file transition(s). Existing lock definitions remain intact; engagement comparisons must account for this owner intervention.`);
+  }
+  if (svgRenderingOverrideFiles.size) {
+    console.log(`SEO active-experiment guard accepted ${svgRenderingOverrideFiles.size} exact reviewed SVG XML rendering correction(s). Other asset content and lock dates remain protected.`);
   }
 
   const introduced = baseLockIds
