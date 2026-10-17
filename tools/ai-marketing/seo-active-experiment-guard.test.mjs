@@ -13,8 +13,67 @@ import {
   isDocumentedOwnerDesignRevision,
   documentedOwnerDesignOverrideFiles,
   REVIEWED_OWNER_DESIGN_REVISION,
+  REVIEWED_SVG_RENDERING_CORRECTION,
+  documentedSvgRenderingOverrideFiles,
   validateConfig,
 } from './seo-active-experiment-guard.mjs';
+
+function svgRenderingFixture() {
+  const review = REVIEWED_SVG_RENDERING_CORRECTION;
+  const base = { version: 1, locks: [{ id: 'rest-images', url: '/blog/how-long-to-rest-between-sets',
+    files: review.files.map(f => f.file), launchedAt: '2026-10-16', lockUntil: '2026-11-06',
+    preferredReviewAt: '2026-11-13', reason: 'Protect the launch.' }] };
+  const head = structuredClone(base);
+  head.locks[0].corrections = review.files.map(entry => ({ id: review.id, kind: review.kind,
+    date: review.date, reviewNote: review.reviewNote, ...entry }));
+  const changed = ['config/seo-active-experiments.json', review.reviewNote, ...review.files.map(f => f.file)];
+  const contents = Object.fromEntries(review.files.map(entry => {
+    const updated = fs.readFileSync(new URL(`../../${entry.file}`, import.meta.url), 'utf8');
+    return [entry.file, { base: updated.replaceAll('&amp;', '&'), head: updated }];
+  }));
+  const read = (ref, file) => file === 'config/seo-active-experiments.json' ? JSON.stringify(head) :
+    file === review.reviewNote ? JSON.stringify(review) : contents[file]?.[ref] ?? null;
+  const check = (reader = read, files = changed) => documentedSvgRenderingOverrideFiles('base', 'head', files,
+    base, head, new Date('2026-10-17T12:00:00Z'), reader);
+  return { review, base, head, changed, contents, read, check };
+}
+
+test('accepts only the reviewed malformed-to-valid SVG file transitions', () => {
+  const f = svgRenderingFixture();
+  assert.deepEqual([...f.check()], f.review.files.map(entry => entry.file));
+});
+
+test('an SVG content change beyond entity escaping stays blocked', () => {
+  const f = svgRenderingFixture(), file = f.review.files[0].file;
+  f.contents[file].head += '<!-- unrelated -->';
+  assert.equal(f.check().has(file), false);
+  assert.ok(findActiveLockViolations(f.changed, f.head, new Date('2026-10-17'), { ignoreFiles: f.check() }).length);
+});
+
+test('SVG repair needs the committed review note, config, and exact hashes', () => {
+  for (const missing of ['config/seo-active-experiments.json', REVIEWED_SVG_RENDERING_CORRECTION.reviewNote]) {
+    const f = svgRenderingFixture();
+    assert.equal(f.check(f.read, f.changed.filter(file => file !== missing)).size, 0);
+  }
+  const f = svgRenderingFixture();
+  assert.equal(f.check((ref, file) => file === f.review.reviewNote ? 'rendering correction' : f.read(ref, file)).size, 0);
+  const file = f.review.files[0].file;
+  f.head.locks[0].corrections[0].headSha256 = '0'.repeat(64);
+  assert.equal(f.check().has(file), false);
+});
+
+test('uncommitted annotations cannot approve an SVG repair', () => {
+  const f = svgRenderingFixture(), committed = JSON.stringify(f.head);
+  f.head.locks[0].corrections.pop();
+  assert.equal(f.check((ref, file) => file === 'config/seo-active-experiments.json' ? committed : f.read(ref, file)).size, 0);
+});
+
+test('SVG repair cannot remove, shorten, or retarget a lock or replay an old approval', () => {
+  for (const mutate of [f => f.head.locks.pop(), f => { f.head.locks[0].lockUntil = '2026-10-16'; },
+    f => { f.head.locks[0].files.pop(); }, f => { f.base.locks[0].corrections = structuredClone(f.head.locks[0].corrections); }]) {
+    const f = svgRenderingFixture(); mutate(f); assert.equal(f.check().size, 0);
+  }
+});
 
 const config = {
   version: 1,
