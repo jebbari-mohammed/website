@@ -1,0 +1,62 @@
+name: NotebookLM authentication diagnostic
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/notebooklm-auth-diagnostic.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-auth:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install the publisher's NotebookLM CLI
+        run: python -m pip install notebooklm-py
+
+      - name: Verify read-only NotebookLM authentication
+        env:
+          NOTEBOOKLM_AUTH_JSON: ${{ secrets.NOTEBOOKLM_AUTH_JSON }}
+          NOTEBOOKLM_HOME: ${{ runner.temp }}/notebooklm
+          NOTEBOOKLM_PROFILE: github-actions
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          import sys
+
+          if not os.environ.get('NOTEBOOKLM_AUTH_JSON'):
+              print('FAIL: NOTEBOOKLM_AUTH_JSON is unavailable')
+              sys.exit(1)
+
+          probe = subprocess.run(
+              ['notebooklm', 'auth', 'check', '--test', '--passive', '--json'],
+              capture_output=True,
+              text=True,
+              timeout=120,
+              check=False,
+          )
+          try:
+              result = json.loads(probe.stdout)
+          except json.JSONDecodeError:
+              print('FAIL: NotebookLM did not return a JSON diagnostic')
+              sys.exit(1)
+
+          valid = (
+              probe.returncode == 0
+              and result.get('status') == 'ok'
+              and result.get('checks', {}).get('token_fetch') is True
+          )
+          print('PASS: NotebookLM token fetch authenticated' if valid else 'FAIL: NotebookLM token fetch did not authenticate')
+          sys.exit(0 if valid else 1)
+          PY
