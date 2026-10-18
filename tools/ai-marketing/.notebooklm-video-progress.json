@@ -582,7 +582,37 @@
         "frameDigest": "2bba193c16793373feb1acd6c35eb9af9fd4b67d78d5a303bad5737500dbf3b1"
       },
       "date": "2026-10-16T17:39:24.110Z"
+    },
+    {
+      "slug": "trx-workout",
+      "title": "Start your TRX workout with supported squats, rows and presses, then progress the setup",
+      "url": "https://youraicoach.life/blog/trx-workout",
+      "youtube": "https://youtube.com/watch?v=ANQ8tU4Vyq4",
+      "notebook_id": "0710456c-c484-4b6d-a046-c91654bee924",
+      "visual_policy": "objects-only-v1",
+      "people_free_validated": true,
+      "publication": {
+        "videoId": "ANQ8tU4Vyq4",
+        "title": "Start your TRX workout with supported squats, rows and presses, then progress the setup | IZEM",
+        "channelId": "UCruC83NAOtNJjEsSToD0Ncw",
+        "publishedAt": "2026-10-18T14:41:16Z",
+        "privacyStatus": "public",
+        "uploadStatus": "processed",
+        "processingStatus": "succeeded",
+        "verifiedAt": "2026-10-18T14:41:22.810Z"
+      },
+      "render_method": "notebooklm-narration-object-typography-v1",
+      "visual_validation": {
+        "safe": true,
+        "containsHuman": false,
+        "method": "deterministic-typography-all-frames-v1",
+        "articleSha256": "89c25ec81e0aa666047ab5fe31d864c4547618a3005851338999dd2febaec371",
+        "videoSha256": "ac187e95a8fef5a0058edcf9e681abe60e46dfc2d640ae2434c1171ca5d9ee5f",
+        "frameCount": 3018,
+        "frameDigest": "091829d3318fd3a2fd4971e9e8847ea31cbdf1f1abd0008adadae9305df6bd83"
+      },
+      "date": "2026-10-18T14:41:22.811Z"
     }
   ],
-  "lastRun": "2026-10-16T17:39:24.110Z"
+  "lastRun": "2026-10-18T14:41:22.811Z"
 }

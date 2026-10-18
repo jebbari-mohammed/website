@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "ANQ8tU4Vyq4",
+      "title": "TRX workout for beginners: a simple routine you can repeat",
+      "description": "Start with a simple TRX workout, learn the setup for each move, and use a practical log to track progress without guessing about strap length or body angle.",
+      "uploadDate": "2026-10-18T14:21:42.643439+00:00",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/trx-workout",
+          "relativePath": "blog/trx-workout.html",
+          "title": "TRX workout for beginners: a simple routine you can repeat"
+        }
+      ]
+    },
+    {
       "id": "tP3y5AW8izg",
       "title": "How Long to Rest Between Sets for Muscle Growth & Strength",
       "description": "Rest 3 to 5 minutes on heavy strength lifts, 2 to 3 minutes on compound hypertrophy sets, and 60 to 90 seconds on isolation exercises. Includes a session-time calculator.",

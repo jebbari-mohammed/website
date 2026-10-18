@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/ANQ8tU4Vyq4/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/ANQ8tU4Vyq4.svg</video:thumbnail_loc>
+      <video:title>TRX workout for beginners: a simple routine you can repeat</video:title>
+      <video:description>Start with a simple TRX workout, learn the setup for each move, and use a practical log to track progress without guessing about strap length or body angle.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/ANQ8tU4Vyq4</video:player_loc>
+      <video:publication_date>2026-10-18T14:21:42.643439+00:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/tP3y5AW8izg/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/tP3y5AW8izg.svg</video:thumbnail_loc>
