@@ -29,3 +29,5 @@ The archive lock protects the September 27 experiment and remains unchanged thro
 ```
 
 The companion video uses an explicit insertion-point comment after the article answer/body. It is not a fake final video block. The publisher replaces that slot only after real verification, preserving the first H1 and answer order; regression coverage also checks idempotent card replacement.
+
+Source-identity follow-up: keep the insertion point outside the article element so pending and attached states have identical canonical article/narration digests. The initial media workflow was cancelled before a video-attempt checkpoint existed; no generation budget is reset. Restart the same slug through the existing publisher after this correction.

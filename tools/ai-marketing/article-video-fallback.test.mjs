@@ -90,3 +90,11 @@ test('missing audio or implausible duration blocks rendering',async()=>fixture(a
  installManifest(root);let rendered=false;
  await assert.rejects(()=>generateNarrationFallback(root,post,options({probe:()=>JSON.stringify({streams:[],format:{duration:1}}),render:async()=>{rendered=true;}})),/inconsistent/);assert.equal(rendered,false);
 }));
+
+test('companion slot outside article keeps narration source identity after verified attachment', () => {
+ const slot='<!-- IZEM_VIDEO_INSERTION_POINT -->';
+ const pending={...post,html:post.html.replace('</main>',slot+'</main>')};
+ const attached={...post,html:pending.html.replace(slot,'<!-- IZEM_VIDEO_START --><section>Verified companion</section><!-- IZEM_VIDEO_END -->')};
+ assert.equal(sourceDigest(pending),sourceDigest(attached));
+ assert.equal(canonicalBody(pending),canonicalBody(attached));
+});
