@@ -840,6 +840,30 @@
       "lockUntil": "2026-10-31",
       "preferredReviewAt": "2026-11-07",
       "reason": "Refresh /vs-fitbod, /workout-consistency-calculator/, and /glossary/ to remove unverified fixed-price claims, add OG social preview metadata, and link contextually into the /workouts/ and /exercises/ hubs. Preserve for a 14-day internal-link and CTR evaluation window."
+    },
+    {
+      "id": "trx-workout-setup-log-launch-2026-10-18",
+      "url": "/blog/trx-workout",
+      "files": [
+        "public/blog/trx-workout.html",
+        "public/blog/assets/trx-workout/hero.svg",
+        "public/blog/assets/trx-workout/setup-log.svg"
+      ],
+      "launchedAt": "2026-10-18",
+      "lockUntil": "2026-11-08",
+      "preferredReviewAt": "2026-11-15",
+      "reason": "Owner-approved one-post exception; original suspension-training starting session and repeatable setup log. Approved draft prose is unchanged after real dedicated video ANQ8tU4Vyq4 attachment and independent visual/publication verification. Preserve the page and custom object-only assets for evaluation. See docs/seo-experiments/2026-10-18-trx-workout-launch.md."
+    },
+    {
+      "id": "missed-target-trx-support-link-2026-10-18",
+      "url": "/blog/cant-add-weight-progressive-overload",
+      "files": [
+        "public/blog/cant-add-weight-progressive-overload.html"
+      ],
+      "launchedAt": "2026-10-18",
+      "lockUntil": "2026-11-01",
+      "preferredReviewAt": "2026-11-08",
+      "reason": "One contextual link from the matured missed-target progression article to the TRX setup comparison; surrounding copy preserved. Observe discovery and relevant visits without daily rewrites."
     }
   ]
 }

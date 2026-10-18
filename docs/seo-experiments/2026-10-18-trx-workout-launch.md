@@ -31,3 +31,9 @@ The archive lock protects the September 27 experiment and remains unchanged thro
 The companion video uses an explicit insertion-point comment after the article answer/body. It is not a fake final video block. The publisher replaces that slot only after real verification, preserving the first H1 and answer order; regression coverage also checks idempotent card replacement.
 
 Source-identity follow-up: keep the insertion point outside the article element so pending and attached states have identical canonical article/narration digests. The initial media workflow was cancelled before a video-attempt checkpoint existed; no generation budget is reset. Restart the same slug through the existing publisher after this correction.
+
+## Completed media and launch protection
+
+Dedicated video ANQ8tU4Vyq4 is confirmed public, processed and processing succeeded. The independent deterministic typography validation covers all 3,018 frames, with no human imagery. Media attachment is commit f02eddc1cb8c05713d35c679caabdca6307850bb. The normalized visible article body still matches the private approved draft. The standard companion card is outside the article body and after the answer. Only after these real checks are the article/assets protected through November 8 and the one support-link page through November 1.
+
+Hosting deployment and live HTTP/canonical/discovery verification are separate release evidence; source/media completion alone is not a live claim.
