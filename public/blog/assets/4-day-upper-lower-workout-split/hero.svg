@@ -24,7 +24,7 @@
   <rect x="64" y="530" width="240" height="44" rx="22" fill="#18211B" stroke="#26322A" stroke-width="1.5"/>
   <text x="184" y="558" text-anchor="middle" fill="#D8FF86" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">10-16 Weekly Sets / Muscle</text>
   <rect x="324" y="530" width="240" height="44" rx="22" fill="#18211B" stroke="#26322A" stroke-width="1.5"/>
-  <text x="444" y="558" text-anchor="middle" fill="#D8FF86" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Barbell & Dumbbell Swaps</text>
+  <text x="444" y="558" text-anchor="middle" fill="#D8FF86" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Barbell &amp; Dumbbell Swaps</text>
   <rect x="584" y="530" width="240" height="44" rx="22" fill="#18211B" stroke="#26322A" stroke-width="1.5"/>
   <text x="704" y="558" text-anchor="middle" fill="#D8FF86" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Missed-Friday Fallback Rule</text>
   <rect x="844" y="530" width="240" height="44" rx="22" fill="#18211B" stroke="#26322A" stroke-width="1.5"/>
