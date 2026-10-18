@@ -108,6 +108,7 @@ export default function ProductShowcase() {
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const [readyVideo, setReadyVideo] = useState<string | null>(null);
   const videoFrameRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const current = tabs.find((t) => t.id === activeTab) || tabs[0];
   const posterMedia = heroPreviewMedia[current.id === 'chat' ? 0 : 1];
   const poster = `${posterMedia.posterPath}?v=${posterMedia.posterSha256.slice(0, 12)}`;
@@ -134,6 +135,58 @@ export default function ProductShowcase() {
     observer.observe(frame);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    const frame = videoFrameRef.current;
+    if (!video || !frame) return;
+
+    let cancelled = false;
+    const isInViewport = () => {
+      const bounds = frame.getBoundingClientRect();
+      return bounds.bottom > 0 && bounds.top < window.innerHeight &&
+        bounds.right > 0 && bounds.left < window.innerWidth;
+    };
+    let inViewport = isInViewport();
+    const canPlay = () => !cancelled && inViewport && !document.hidden;
+    const syncPlayback = () => {
+      if (!canPlay()) {
+        video.pause();
+        return;
+      }
+      void video.play().then(() => {
+        // A scroll, source change or background tab can race media startup.
+        if (!canPlay()) video.pause();
+      }).catch(() => {
+        // Keep the matching still visible if the browser blocks playback.
+      });
+    };
+    const observer = typeof IntersectionObserver === 'undefined' ? null :
+      new IntersectionObserver(([entry]) => {
+        inViewport = entry.isIntersecting && entry.intersectionRatio > 0;
+        syncPlayback();
+      }, { threshold: [0, 0.01] });
+    const syncFallbackViewport = () => {
+      inViewport = isInViewport();
+      syncPlayback();
+    };
+
+    observer?.observe(frame);
+    if (!observer) {
+      window.addEventListener('scroll', syncFallbackViewport, { passive: true });
+      window.addEventListener('resize', syncFallbackViewport);
+    }
+    document.addEventListener('visibilitychange', syncPlayback);
+    syncPlayback();
+    return () => {
+      cancelled = true;
+      observer?.disconnect();
+      window.removeEventListener('scroll', syncFallbackViewport);
+      window.removeEventListener('resize', syncFallbackViewport);
+      document.removeEventListener('visibilitychange', syncPlayback);
+      video.pause();
+    };
+  }, [shouldLoadVideo, current.videoSrc]);
 
   return (
     <section id="showcase" className="editorial-section editorial-showcase">
@@ -184,9 +237,9 @@ export default function ProductShowcase() {
               {shouldLoadVideo && (
                 <video
                   key={current.videoSrc}
+                  ref={videoRef}
                   src={current.videoSrc}
                   poster={poster}
-                  autoPlay
                   loop
                   muted
                   playsInline

@@ -15,6 +15,7 @@ import {
   REVIEWED_OWNER_DESIGN_REVISION,
   REVIEWED_OWNER_MEDIA_REVISION,
   REVIEWED_OWNER_DEMO_TRIM_REVISION,
+  REVIEWED_OWNER_MOBILE_PERFORMANCE_REVISION,
   REVIEWED_SVG_RENDERING_CORRECTION,
   documentedSvgRenderingOverrideFiles,
   documentedArchiveDiscoveryOverrideFiles,
@@ -735,6 +736,34 @@ test('demo trim review cannot approve opening-film changes or redefine an active
     reviewNote: f.note, changedFiles: [...f.files, 'src/components/OpeningVideo.tsx'], now: f.now };
   assert.equal(isDocumentedOwnerDesignRevision(bytes.base, bytes.head, options, f.review), false);
   f.head.locks[0].reason = 'A different attribution window';
+  assert.equal(f.check().size, 0);
+});
+
+test('mobile performance review accepts only its three byte-exact transitions and preserves previous records', () => {
+  const f = ownerMediaFixture(REVIEWED_OWNER_MOBILE_PERFORMANCE_REVISION);
+  const files = ['src/components/Hero.tsx', 'src/components/Navigation.tsx', 'src/components/ProductShowcase.tsx'];
+  assert.deepEqual([...f.check()], files);
+  assert.deepEqual(findActiveLockMutationViolations(f.base, f.head, f.now), []);
+  assert.deepEqual(f.head.locks[0].ownerDirectedRevisions[0], f.base.locks[0].ownerDirectedRevisions[0]);
+  for (const file of files) {
+    const read = (ref, requested) => ref === 'head' && requested === file
+      ? f.contents[file].head + '\n' : f.read(ref, requested);
+    assert.deepEqual([...f.check(read)], files.filter(candidate => candidate !== file));
+  }
+  assert.equal(f.check(f.read, f.files, REVIEWED_OWNER_MOBILE_PERFORMANCE_REVISION).size, 0);
+});
+
+test('mobile performance review cannot approve another identity, file set, missing review or changed lock', () => {
+  const f = ownerMediaFixture(REVIEWED_OWNER_MOBILE_PERFORMANCE_REVISION);
+  const entry = f.review.files[0], bytes = f.contents[entry.file];
+  const options = { revision: f.record(entry), reviewNote: f.note, changedFiles: f.files, now: f.now };
+  for (const replacement of [
+    { id: REVIEWED_OWNER_DEMO_TRIM_REVISION.id }, { reviewNote: REVIEWED_OWNER_MEDIA_REVISION.reviewNote },
+    { files: f.review.files.slice(1) }, { files: [...f.review.files].reverse() },
+    { files: [{ ...entry, file: 'src/components/OpeningVideo.tsx' }, ...f.review.files.slice(1)] },
+  ]) assert.equal(isDocumentedOwnerDesignRevision(bytes.base, bytes.head, options, { ...f.review, ...replacement }), false);
+  assert.equal(f.check(f.read, f.files.filter(file => file !== f.review.reviewNote)).size, 0);
+  f.head.locks[0].lockUntil = '2026-10-18';
   assert.equal(f.check().size, 0);
 });
 

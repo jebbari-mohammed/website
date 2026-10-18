@@ -81,9 +81,14 @@ try {
   await page.setJavaScriptEnabled(false)
   for (const width of [390, 1440]) {
     await page.setViewport({ width, height: 900 })
-    // DOMContentLoaded can precede eager image completion. Wait for the load
-    // event before asserting the unchanged source and decoded-image checks.
+    // The below-fold still is lazy-loaded. It must remain usable when the
+    // visitor reaches it without the application bundle.
     await page.goto(origin, { waitUntil: 'load' })
+    await page.$eval('#hero', (element) => element.scrollIntoView({ behavior: 'instant' }))
+    await page.waitForFunction(() => {
+      const preview = document.querySelector('#hero img[data-izem-hero-preview]')
+      return preview?.complete && preview.naturalWidth > 0
+    })
     const state = await page.$eval('#hero img[data-izem-hero-preview]', (preview) => ({
       src: preview.getAttribute('src'), complete: preview.complete,
       naturalWidth: preview.naturalWidth,
@@ -217,6 +222,79 @@ try {
     }
   }
 
+  // Preloading near a demo must not start an invisible decoder. Once visible,
+  // the real recording must move, pause offscreen/in a background tab and
+  // resume from the same position without a synthetic visibility override.
+  for (const width of [390, 1440]) {
+    await page.setViewport({ width, height: 900 })
+    await page.goto(origin, { waitUntil: 'domcontentloaded' })
+    await page.waitForSelector('#showcase .editorial-showcase-frame')
+    await page.$eval('#showcase .editorial-showcase-frame', (frame) => {
+      window.scrollTo({ top: scrollY + frame.getBoundingClientRect().top - innerHeight - 120, behavior: 'instant' })
+    })
+    await page.waitForSelector('#showcase video')
+    const preloaded = await page.$eval('#showcase video', (video) => ({
+      paused: video.paused, time: video.currentTime, top: video.parentElement.getBoundingClientRect().top,
+    }))
+    assert.ok(preloaded.top >= 900, `${width}px: preload probe must keep the actual frame below the viewport`)
+    assert.equal(preloaded.paused, true, `${width}px: a preloaded offscreen demo must stay paused`)
+    assert.equal(preloaded.time, 0, `${width}px: preloading must not advance the recording`)
+
+    await page.$eval('#showcase .editorial-showcase-frame', (frame) => frame.scrollIntoView({ behavior: 'instant', block: 'center' }))
+    await page.waitForFunction(() => {
+      const video = document.querySelector('#showcase video')
+      return video?.readyState >= 2 && !video.paused && video.currentTime > 0.1 && video.classList.contains('is-ready')
+    })
+    await page.$eval('#faq', (element) => element.scrollIntoView({ behavior: 'instant' }))
+    await page.waitForFunction(() => document.querySelector('#showcase video')?.paused === true)
+    const pausedTime = await page.$eval('#showcase video', (video) => video.currentTime)
+    await new Promise((resolve) => setTimeout(resolve, 250))
+    const stillTime = await page.$eval('#showcase video', (video) => video.currentTime)
+    assert.ok(Math.abs(stillTime - pausedTime) < 0.05, `${width}px: offscreen playback must not keep advancing`)
+    await page.$eval('#showcase .editorial-showcase-frame', (frame) => frame.scrollIntoView({ behavior: 'instant', block: 'center' }))
+    await page.waitForFunction((time) => {
+      const video = document.querySelector('#showcase video')
+      return video && !video.paused && video.currentTime > time + 0.1
+    }, {}, pausedTime)
+
+    const backgroundTab = await browser.newPage()
+    try {
+      await backgroundTab.bringToFront()
+      await page.waitForFunction(() => document.hidden && document.querySelector('#showcase video')?.paused === true, { polling: 100 })
+      const hiddenTime = await page.$eval('#showcase video', (video) => video.currentTime)
+      await new Promise((resolve) => setTimeout(resolve, 250))
+      const hiddenStillTime = await page.$eval('#showcase video', (video) => video.currentTime)
+      assert.ok(Math.abs(hiddenStillTime - hiddenTime) < 0.05, `${width}px: background playback must not keep advancing`)
+      await page.bringToFront()
+      await page.waitForFunction((time) => {
+        const video = document.querySelector('#showcase video')
+        return !document.hidden && video && !video.paused && video.currentTime > time + 0.1
+      }, {}, hiddenTime)
+    } finally {
+      await backgroundTab.close()
+      await page.bringToFront()
+    }
+
+    // Changing capability while the frame is hidden must keep the new source
+    // paused, then reveal its matching moving recording when revisited.
+    await page.$eval('#faq', (element) => element.scrollIntoView({ behavior: 'instant' }))
+    await page.waitForFunction(() => document.querySelector('#showcase video')?.paused === true)
+    await page.$eval('#showcase button:last-child', (button) => button.click())
+    await page.waitForFunction((source) => {
+      const video = document.querySelector('#showcase video')
+      return video?.getAttribute('src') === source && video.paused
+    }, {}, decorativeVideoPaths[0])
+    await new Promise((resolve) => setTimeout(resolve, 250))
+    const switched = await page.$eval('#showcase video', (video) => ({ paused: video.paused, time: video.currentTime }))
+    assert.equal(switched.paused, true, `${width}px: changing an offscreen source must not start playback`)
+    assert.equal(switched.time, 0, `${width}px: a changed offscreen source must remain at its opening`)
+    await page.$eval('#showcase .editorial-showcase-frame', (frame) => frame.scrollIntoView({ behavior: 'instant', block: 'center' }))
+    await page.waitForFunction((source) => {
+      const video = document.querySelector('#showcase video')
+      return video?.getAttribute('src') === source && !video.paused && video.currentTime > 0.1 && video.classList.contains('is-ready')
+    }, {}, decorativeVideoPaths[0])
+  }
+
   // A preference change must replace a playing preview with its intended still.
   await page.setViewport({ width: 1440, height: 900 })
   await page.goto(origin, { waitUntil: 'domcontentloaded' })
@@ -277,7 +355,7 @@ try {
       layouts += 1
     }
   }
-  console.log(`Video rendering passed: initial and runtime homepage previews at 2 widths, reduced-motion and resize transitions; ${layouts} mobile/desktop watch-page layouts.`)
+  console.log(`Video rendering passed: initial/runtime homepage previews, viewport and native background pause/resume at 2 widths, reduced-motion and resize transitions; ${layouts} mobile/desktop watch-page layouts.`)
 } finally {
   await browser?.close()
   await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()))

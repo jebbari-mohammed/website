@@ -7,6 +7,26 @@
   },
   "locks": [
     {
+      "id": "owner-mobile-performance-2026-10-18",
+      "url": "/",
+      "files": [
+        "src/components/Hero.tsx",
+        "src/components/Navigation.tsx",
+        "src/components/ProductShowcase.tsx",
+        "src/content/hero-preview-media.json",
+        "public/images/hero1-desktop-v3.webp",
+        "public/images/hero2-desktop-v3.webp",
+        "public/images/izem-app-logo-96-v1.webp",
+        "public/fonts/izem-body-latin-v1.woff2",
+        "public/fonts/izem-body-latin-ext-v1.woff2",
+        "public/fonts/HankenGrotesk-OFL.txt"
+      ],
+      "launchedAt": "2026-10-18",
+      "lockUntil": "2026-11-08",
+      "preferredReviewAt": "2026-11-15",
+      "reason": "Owner requested measured phone performance improvements while preserving desktop presentation. Local body fonts, smaller matching posters/logo, deferred below-fold screenshot priority, document compression and visibility-aware demo playback address observed report/runtime costs. Preserve this intervention through the observation window; lab results are not field or ranking gains. See docs/seo-experiments/2026-10-18-mobile-performance.md."
+    },
+    {
       "id": "owner-app-demo-trim-2026-10-18",
       "url": "/#showcase",
       "files": [
@@ -20,7 +40,18 @@
       "launchedAt": "2026-10-18",
       "lockUntil": "2026-11-08",
       "preferredReviewAt": "2026-11-15",
-      "reason": "Owner requested removing the full initial still pause from the two app-demo recordings so playback moves immediately. Trimmed workout/nutrition by 3.2 seconds and chat by 4 seconds, with matching cache-safe posters and shared sources. Preserve this intervention while observing; no ranking or conversion improvement is asserted. See docs/seo-experiments/2026-10-18-app-demo-trim.md."
+      "reason": "Owner requested removing the full initial still pause from the two app-demo recordings so playback moves immediately. Trimmed workout/nutrition by 3.2 seconds and chat by 4 seconds, with matching cache-safe posters and shared sources. Preserve this intervention while observing; no ranking or conversion improvement is asserted. See docs/seo-experiments/2026-10-18-app-demo-trim.md.",
+      "ownerDirectedRevisions": [
+        {
+          "id": "owner-mobile-performance-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-mobile-performance.md",
+          "file": "src/components/ProductShowcase.tsx",
+          "baseSha256": "183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c",
+          "headSha256": "60c8691957583f2e4c723d427f25e107b906579727683e777d593497c5f4e992"
+        }
+      ]
     },
     {
       "id": "owner-unfair-advantage-opening-2026-10-18",
@@ -97,6 +128,15 @@
           "file": "src/components/ProductShowcase.tsx",
           "baseSha256": "183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c",
           "headSha256": "ddbd7e87182baeb16172c74e2c1dbef77113b64790604eabbab92781349d86b1"
+        },
+        {
+          "id": "owner-mobile-performance-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-mobile-performance.md",
+          "file": "src/components/ProductShowcase.tsx",
+          "baseSha256": "183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c",
+          "headSha256": "60c8691957583f2e4c723d427f25e107b906579727683e777d593497c5f4e992"
         }
       ]
     },
@@ -168,6 +208,24 @@
           "file": "src/components/OpeningVideo.tsx",
           "baseSha256": "606adca1bcdefdcd5fccd47c0700d7eb33d3fec7c520340050ada748736614ef",
           "headSha256": "c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4"
+        },
+        {
+          "id": "owner-mobile-performance-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-mobile-performance.md",
+          "file": "src/components/Hero.tsx",
+          "baseSha256": "6943a5e180e635cdf5d5ca23d348645443146c68dda7641de32a1096834e7ff4",
+          "headSha256": "cfeb8db18ba2c17b7ddd5e866d3957e6a506a3b7bbc5ca44eb1ec63ff29813f7"
+        },
+        {
+          "id": "owner-mobile-performance-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-mobile-performance.md",
+          "file": "src/components/Navigation.tsx",
+          "baseSha256": "8ac9738d1054fc19e12266abd97ff399c78ac4670523a6306570e5ec6df94407",
+          "headSha256": "7a851d76ec9537e5dc378ed42fe089184a60a8db2c4531a4b0a6d7bacda36c76"
         }
       ]
     },

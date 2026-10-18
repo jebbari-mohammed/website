@@ -14,8 +14,8 @@ export const decorativeVideoPaths = [
 ]
 
 export const decorativePosterPaths = [
-  '/images/hero1-desktop-v2.webp',
-  '/images/hero2-desktop-v2.webp',
+  '/images/hero1-desktop-v3.webp',
+  '/images/hero2-desktop-v3.webp',
   '/images/intro/izem-intro-desktop-v1.webp',
   '/images/intro/izem-intro-mobile-v1.webp',
   '/images/intro/izem-unfair-advantage-desktop-v1.webp',
@@ -24,6 +24,8 @@ export const decorativePosterPaths = [
   '/images/showcase-chat-v1.webp',
   '/images/hero1-desktop.webp',
   '/images/hero2-desktop.webp',
+  '/images/hero1-desktop-v2.webp',
+  '/images/hero2-desktop-v2.webp',
 ]
 export const decorativePosterUrls = [
   ...heroPreviewMedia.map((preview) => `${preview.posterPath}?v=${preview.posterSha256.slice(0, 12)}`),

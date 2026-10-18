@@ -1,12 +1,12 @@
 [
   {
     "videoPath": "/videos/izem-coach-chat-dark-web-v2.mp4",
-    "posterPath": "/images/hero1-desktop-v2.webp",
-    "posterSha256": "e2b3fadcb9cb9684afba61400561a7ad49e8484501415284aee562e0dbc6bb03"
+    "posterPath": "/images/hero1-desktop-v3.webp",
+    "posterSha256": "7c34b5f3ea28345148634b354a782fe66e248870234c7b5b3bb89fc4bc20016d"
   },
   {
     "videoPath": "/videos/izem-workout-nutrition-dark-web-v2.mp4",
-    "posterPath": "/images/hero2-desktop-v2.webp",
-    "posterSha256": "117bed07ebf1c24f701fa719f038d8da258e000e0d07b12bf3ce8cf5301a161f"
+    "posterPath": "/images/hero2-desktop-v3.webp",
+    "posterSha256": "52491bf0671f83c988345c7a23120ccd100af4e78a0659bf3e3bda50d24292bf"
   }
 ]

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
-import { createServer } from 'node:http';
+import { createServer, request } from 'node:http';
 import { after, before, test } from 'node:test';
+import { brotliDecompressSync, gunzipSync } from 'node:zlib';
 import { appendVary, createAgentHandler, representation } from './handler.mjs';
 
 const html = '<!doctype html><html lang="en"><body><h1>IZEM. Your AI Personal Trainer</h1><p>Existing homepage.</p></body></html>';
@@ -13,6 +14,28 @@ before(async () => {
   origin = `http://127.0.0.1:${server.address().port}`;
 });
 after(async () => { await new Promise(resolve => server.close(resolve)); });
+
+// Unlike fetch, node:http leaves the encoded wire bytes intact. This checks
+// Content-Length and actual decompression instead of hiding transport mistakes.
+function wireResponse({ headers = {}, method = 'GET' } = {}) {
+  return new Promise((resolve, reject) => {
+    const req = request(origin, { headers, method }, res => {
+      const chunks = [];
+      res.on('data', chunk => chunks.push(chunk));
+      res.on('error', reject);
+      res.on('end', () => resolve({ status: res.statusCode, headers: res.headers, body: Buffer.concat(chunks) }));
+    });
+    req.on('error', reject);
+    req.end();
+  });
+}
+
+function decodedBody(response) {
+  const encoding = response.headers['content-encoding'];
+  const body = encoding === 'br' ? brotliDecompressSync(response.body)
+    : encoding === 'gzip' ? gunzipSync(response.body) : response.body;
+  return body.toString('utf8');
+}
 
 const preferences = [
   [undefined, 'text/html'], ['*/*', 'text/html'], ['text/*', 'text/html'],
@@ -107,4 +130,106 @@ test('homepage aliases canonicalize without losing query parameters', async () =
     assert.equal(response.status, 301);
     assert.equal(response.headers.get('location'), '/?utm_source=agent');
   }
+});
+
+test('homepage negotiates actual encoded bytes without changing either representation', async () => {
+  const encodings = [
+    [undefined, undefined], ['', undefined], ['identity', undefined],
+    ['gzip', 'gzip'], ['br', 'br'], ['gzip, deflate, br', 'br'],
+    ['br;q=0.3, gzip;q=1', 'gzip'], ['br;q=0, gzip;q=1', 'gzip'],
+    ['gzip;q=0.5, identity;q=1', undefined], ['deflate', undefined],
+    ['br;q=0, gzip;q=0', undefined], ['*', 'br'], ['*;q=0, gzip;q=1', 'gzip'],
+  ];
+  for (const accept of ['text/html', 'text/markdown']) {
+    for (const [requestedEncoding, expectedEncoding] of encodings) {
+      const headers = { Accept: accept };
+      if (requestedEncoding !== undefined) headers['Accept-Encoding'] = requestedEncoding;
+      const response = await wireResponse({ headers });
+      assert.equal(response.status, 200, `${accept}: ${requestedEncoding}`);
+      assert.equal(response.headers['content-encoding'], expectedEncoding, `${accept}: ${requestedEncoding}`);
+      assert.equal(Number(response.headers['content-length']), response.body.length);
+      assert.equal(response.headers['content-type'], `${accept}; charset=utf-8`);
+      assert.equal(response.headers.vary, 'Accept-Encoding, Accept');
+      assert.equal(response.headers['cache-control'], 'public, max-age=60, must-revalidate');
+      assert.equal(response.headers['x-frame-options'], 'DENY');
+      assert.equal(response.headers['x-content-type-options'], 'nosniff');
+      assert.equal(decodedBody(response), accept === 'text/html' ? html : markdown);
+    }
+  }
+});
+
+test('encoded homepage HEAD matches GET metadata and sends no body', async () => {
+  for (const accept of ['text/html', 'text/markdown']) {
+    for (const encoding of ['identity', 'gzip', 'br']) {
+      const headers = { Accept: accept, 'Accept-Encoding': encoding };
+      const get = await wireResponse({ headers });
+      const head = await wireResponse({ headers, method: 'HEAD' });
+      assert.equal(head.status, 200);
+      for (const header of ['content-type', 'content-encoding', 'content-length', 'etag', 'vary', 'link', 'cache-control']) {
+        assert.equal(head.headers[header], get.headers[header], `${accept}, ${encoding}: ${header}`);
+      }
+      assert.equal(head.body.length, 0);
+    }
+  }
+});
+
+test('strong validators are specific to the representation and content encoding', async () => {
+  const etags = new Set();
+  for (const accept of ['text/html', 'text/markdown']) {
+    for (const encoding of ['identity', 'gzip', 'br']) {
+      const headers = { Accept: accept, 'Accept-Encoding': encoding };
+      const get = await wireResponse({ headers });
+      const etag = get.headers.etag;
+      assert.match(etag, /^"[a-f0-9]{64}"$/);
+      assert.ok(!etags.has(etag));
+      etags.add(etag);
+      for (const validator of [etag, `W/${etag}`, '*']) {
+        const unchanged = await wireResponse({ headers: { ...headers, 'If-None-Match': validator } });
+        assert.equal(unchanged.status, 304);
+        assert.equal(unchanged.headers.etag, etag);
+        assert.equal(unchanged.headers['content-encoding'], get.headers['content-encoding']);
+        assert.equal(unchanged.headers['content-length'], undefined);
+        assert.equal(unchanged.headers.vary, get.headers.vary);
+        assert.equal(unchanged.body.length, 0);
+      }
+      for (const otherEncoding of ['identity', 'gzip', 'br'].filter(value => value !== encoding)) {
+        const changed = await wireResponse({ headers: { ...headers, 'Accept-Encoding': otherEncoding, 'If-None-Match': etag } });
+        assert.equal(changed.status, 200);
+        assert.notEqual(changed.headers.etag, etag);
+        assert.equal(decodedBody(changed), accept === 'text/html' ? html : markdown);
+      }
+      const otherRepresentation = accept === 'text/html' ? 'text/markdown' : 'text/html';
+      const changed = await wireResponse({ headers: { ...headers, Accept: otherRepresentation, 'If-None-Match': etag } });
+      assert.equal(changed.status, 200);
+      assert.notEqual(changed.headers.etag, etag);
+      assert.equal(decodedBody(changed), otherRepresentation === 'text/html' ? html : markdown);
+    }
+  }
+});
+
+test('an explicitly unacceptable content encoding returns an uncached 406', async () => {
+  for (const encoding of ['*;q=0', 'br;q=0, gzip;q=0, identity;q=0', 'deflate, identity;q=0']) {
+    const headers = { Accept: 'text/html', 'Accept-Encoding': encoding };
+    const response = await wireResponse({ headers });
+    assert.equal(response.status, 406);
+    assert.equal(response.headers['cache-control'], 'no-store');
+    assert.equal(response.headers['content-encoding'], undefined);
+    assert.equal(response.headers.etag, undefined);
+    assert.match(response.body.toString('utf8'), /br, gzip, or identity/);
+    const head = await wireResponse({ headers, method: 'HEAD' });
+    assert.equal(head.status, 406);
+    assert.equal(head.headers['content-length'], response.headers['content-length']);
+    assert.equal(head.body.length, 0);
+  }
+});
+
+test('Vary includes both negotiation dimensions when no existing fields are configured', async () => {
+  const headers = new Map();
+  const res = {
+    setHeader: (key, value) => headers.set(key, value),
+    getHeader: key => headers.get(key),
+    end: () => {},
+  };
+  createAgentHandler({ html, markdown, notFoundHtml })({ method: 'HEAD', url: '/', headers: { accept: 'text/html' } }, res);
+  assert.equal(headers.get('Vary'), 'Accept, Accept-Encoding');
 });
