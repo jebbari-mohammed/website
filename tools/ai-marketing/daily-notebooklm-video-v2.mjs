@@ -270,6 +270,7 @@ function embedIntoPost(post, youtubeUrl) {
   const block = embedBlock(post, youtubeUrl);
   let html = fs.readFileSync(post.file, 'utf8');
   if (/<!-- (?:NOTEBOOKLM|IZEM)_VIDEO_START -->/i.test(html)) html = html.replace(/<!-- (?:NOTEBOOKLM|IZEM)_VIDEO_START -->[\s\S]*?<!-- (?:NOTEBOOKLM|IZEM)_VIDEO_END -->/i, block);
+  else if (html.includes('<!-- IZEM_VIDEO_INSERTION_POINT -->')) html = html.replace('<!-- IZEM_VIDEO_INSERTION_POINT -->', block);
   else if (/<main\b[^>]*>\s*<article\b[^>]*>/i.test(html)) html = html.replace(/<main\b[^>]*>\s*<article\b[^>]*>/i, (match) => `${match}\n${block}`);
   else if (/<article\b[^>]*>/i.test(html)) html = html.replace(/<article\b[^>]*>/i, (match) => `${match}\n${block}`);
   else if (/<main\b[^>]*>/i.test(html)) html = html.replace(/<main\b[^>]*>/i, (match) => `${match}\n${block}`);

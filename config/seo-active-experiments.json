@@ -559,7 +559,18 @@
       "launchedAt": "2026-09-27",
       "lockUntil": "2026-10-18",
       "preferredReviewAt": "2026-10-25",
-      "reason": "The September 27 blog-index improvement supports the strongest current Search Console landing page, /features/ai-workout-generator, without editing that locked target or the locked tools hub. It adds a prominent adaptive AI workout-generator card to the relevant adaptive-planning cluster on the blog index. Preserve for a clean 21-day internal-link support evaluation window."
+      "reason": "The September 27 blog-index improvement supports the strongest current Search Console landing page, /features/ai-workout-generator, without editing that locked target or the locked tools hub. It adds a prominent adaptive AI workout-generator card to the relevant adaptive-planning cluster on the blog index. Preserve for a clean 21-day internal-link support evaluation window.",
+      "corrections": [
+        {
+          "id": "trx-archive-discovery-2026-10-18",
+          "kind": "archive-discovery",
+          "date": "2026-10-18",
+          "file": "public/blog/index.html",
+          "baseSha256": "03ecd95d2d696a89390038c7ec71b0e354deffcd1a8ae4bf5843ca794725c7ab",
+          "headSha256": "a4a95951aa4e27937a967ee72371a703068db64b56590722d7379c842ffa4708",
+          "reviewNote": "docs/seo-experiments/2026-10-18-trx-workout-launch.md"
+        }
+      ]
     },
     {
       "id": "ai-coach-better-than-human-personal-trainer-rejuvenation-2026-09-27",

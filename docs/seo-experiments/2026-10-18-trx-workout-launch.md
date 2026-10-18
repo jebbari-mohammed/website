@@ -1,0 +1,31 @@
+# TRX workout: owner-requested release
+
+The owner explicitly authorized publishing this article on October 18 despite the usual publishing limits: “No, don't worry about the limits. Just publish it this time.” This is a one-article exception to the rolling-seven-day and daily-action ceilings, not a change to automation defaults or future editorial capacity. Three recent English posts already occupy the rolling window (October 13, 15 and 16); this becomes the fourth. The existing Monday-UTC mechanical guard currently counts two because a scheduled promotion was a rename; it is not proof of rolling compliance.
+
+The article answers the broad TRX workout intent with a short original starting session and a repeatable equipment/setup log. The six accessible ranking pages cover routines and modifications, but the assessed pages do not provide this compact comparison record and worked example. This supplies a concrete task gap with equipment-aware planning and logging fit. Demand confidence is moderate at topic level from persistent live Google results and beginner/plan/PDF related searches; no exact volume, keyword difficulty, traffic or ranking forecast is claimed. Competition remains substantial.
+
+Everyday Health's result was blocked by the authorized browser's site-safety policy. The cause is unknown; no claim is made about that website's safety. The block was not bypassed and no lower result substituted. The article is original guidance informed by six assessed results and separately checked primary equipment/health sources. It is not represented as a complete seven-page synthesis. No competitor experience, routine, proprietary data or distinctive framework is transferred.
+
+The approved private draft's visible prose is preserved. Sources cover manufacturer safety and technique, CDC adult activity guidance, ACE bridge instructions and Mayo modified plank guidance. The sample routine and logging example are general/hypothetical, not tested outcomes. Equipment support in IZEM is not overstated. Natural-language editorial and factual passes completed.
+
+Release includes two custom object-only SVGs, indexable canonical metadata, Article/Breadcrumb data, a contextual link from the unlocked missed-target progression article, actual blog archive/feed and sitemap discovery. No protected homepage or newly launched pages are rewritten. Keep custom-media marker intact.
+
+The initial source commit is pending media, not deployed or verified-live. Existing daily-video workflow must finish the dedicated video, independent visual validation, public/processed YouTube checks and exact Hosting deployment. Add the launch lock only after mechanical attachment and unchanged-body verification. No video state, attempt budget or completed record is fabricated.
+
+## Exact archive discovery correction
+
+The archive lock protects the September 27 experiment and remains unchanged through October 18. New-post discovery requires one generated archive entry. This reviewed indexing/discovery correction adds only the TRX archive row; all text outside BLOG_ARCHIVE_START / BLOG_ARCHIVE_END and all prior rows remain byte-identical. It does not authorize a new headline, card, link experiment or future archive edit. The guard pins the entire original and resulting file, requires the committed correction record and this note, disallows replay and accepts the transition only on the review date.
+
+```json
+{
+  "id": "trx-archive-discovery-2026-10-18",
+  "kind": "archive-discovery",
+  "date": "2026-10-18",
+  "file": "public/blog/index.html",
+  "baseSha256": "03ecd95d2d696a89390038c7ec71b0e354deffcd1a8ae4bf5843ca794725c7ab",
+  "headSha256": "a4a95951aa4e27937a967ee72371a703068db64b56590722d7379c842ffa4708",
+  "reviewNote": "docs/seo-experiments/2026-10-18-trx-workout-launch.md"
+}
+```
+
+The companion video uses an explicit insertion-point comment after the article answer/body. It is not a fake final video block. The publisher replaces that slot only after real verification, preserving the first H1 and answer order; regression coverage also checks idempotent card replacement.

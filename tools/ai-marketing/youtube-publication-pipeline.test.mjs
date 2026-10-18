@@ -33,6 +33,19 @@ for (const html of [
     assert.ok(!written.includes('Old card'));
   });
 }
+test('explicit companion slot preserves the answer before a new card and replaces an existing card only once', () => {
+  const answer = '<h1>Answer first</h1><p>Useful explanation.</p>';
+  for (const slot of ['<!-- IZEM_VIDEO_INSERTION_POINT -->', '<!-- IZEM_VIDEO_START -->Old card<!-- IZEM_VIDEO_END -->']) {
+    const input = `<main><nav>Breadcrumb</nav><article>${answer}${slot}</article></main>`;
+    let written = '';
+    vm.runInNewContext(`${embedSource}\nembedIntoPost(post,url);`, {
+      fs: {readFileSync: () => input, writeFileSync: (_f,v) => {written=v;}},
+      embedBlock: () => 'VALIDATED_CARD', post: {file:'article.html'}, url:'test-url',
+    });
+    assert.equal(written, `<main><nav>Breadcrumb</nav><article>${answer}VALIDATED_CARD</article></main>`);
+    assert.equal(written.split('VALIDATED_CARD').length-1,1);
+  }
+});
 function harness(overrides = {}) {
   const calls = [];
   let issued = 0;

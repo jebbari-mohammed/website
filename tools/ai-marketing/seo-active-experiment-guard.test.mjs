@@ -15,6 +15,7 @@ import {
   REVIEWED_OWNER_DESIGN_REVISION,
   REVIEWED_SVG_RENDERING_CORRECTION,
   documentedSvgRenderingOverrideFiles,
+  documentedArchiveDiscoveryOverrideFiles,
   validateConfig,
 } from './seo-active-experiment-guard.mjs';
 
@@ -605,3 +606,25 @@ test('owner revision cannot weaken or otherwise change original lock fields', ()
     ownerFixtureRef(head), ownerFixtureReview).size, 0);
   assert.equal(findActiveLockMutationViolations(base, head, ownerNow)[0].type, 'removed');
 })
+
+
+test('archive discovery correction preserves protected copy and accepts only its reviewed one-day transition', () => {
+  const original = 'protected card<!-- BLOG_ARCHIVE_START -->old<!-- BLOG_ARCHIVE_END -->footer';
+  const updated = 'protected card<!-- BLOG_ARCHIVE_START -->new; old<!-- BLOG_ARCHIVE_END -->footer';
+  const sha = v => createHash('sha256').update(v).digest('hex');
+  const record = { id: 'fixture', kind: 'archive-discovery', date: '2026-10-18', file: 'public/blog/index.html',
+    baseSha256: sha(original), headSha256: sha(updated), reviewNote: 'docs/seo-experiments/fixture.md' };
+  const base = { version: 1, locks: [{ id: 'archive', url: '/blog/', files: [record.file], launchedAt: '2026-09-27', lockUntil: '2026-10-18', preferredReviewAt: '2026-10-25', reason: 'protected experiment' }] };
+  const head = structuredClone(base); head.locks[0].corrections = [record];
+  const files = [record.file, record.reviewNote, 'config/seo-active-experiments.json'];
+  const reader = (ref, file) => file === record.file ? (ref === 'base' ? original : updated) : file === record.reviewNote ? Object.values(record).join(' ') : JSON.stringify(head);
+  const run = (b=base,h=head,at='2026-10-18T14:00:00Z',read=reader) => documentedArchiveDiscoveryOverrideFiles('base','head',files,b,h,new Date(at),read,record);
+  assert.deepEqual([...run()], [record.file]);
+  for (const at of ['2026-10-17T14:00:00Z','2026-10-19T14:00:00Z']) assert.equal(run(base,head,at).size,0);
+  assert.equal(run(head,head).size,0); // No replay.
+  for (const change of [s => s.replace('protected card','changed card'), s => s+'extra']) {
+    assert.equal(run(base,head,undefined,(ref,f) => f===record.file && ref==='head' ? change(updated) : reader(ref,f)).size,0);
+  }
+  assert.equal(run(base,head,undefined,(ref,f) => f===record.reviewNote ? '' : reader(ref,f)).size,0);
+  const weakened=structuredClone(head);weakened.locks[0].lockUntil='2026-10-17';assert.equal(run(base,weakened).size,0);
+});
