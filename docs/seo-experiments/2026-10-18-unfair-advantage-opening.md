@@ -9,7 +9,7 @@ The owner explicitly requested replacing the opening films with the supplied `iz
 
 The opening uses new versioned media URLs, responsive posters and the existing format rule: portrait phones through 767px receive the 9:16 edit; landscape phones and wider screens receive 16:9. Both full sequences and soundtracks remain intact. MP4s retain 133.000 seconds of video and 133.100 seconds of audio/container duration at 30fps, using H.264 High, yuv420p, AAC and faststart. Desktop is 1600 × 900; mobile is 720 × 1280. The first authored frame supplies each lossless WebP poster. Complete framing remains visible with `object-fit: contain`.
 
-The lime download action is 76px tall on desktop and 68px on phones, with larger athletic type, a dark icon tile, a clear arrow and hover feedback that respects reduced motion. Narrow layouts give it a separate full-width row; short landscape layouts keep controls inside the viewport. Existing platform routing, accessible labels and download hooks are retained.
+The lime download action is 68px tall, with a smooth pill silhouette, clean 20px mixed-case typography, a lightweight download icon, a circular arrow affordance and subtle hover feedback that respects reduced motion. Narrow layouts give it a separate full-width row; short landscape layouts keep controls inside the viewport. Existing platform routing, accessible labels and download hooks are retained.
 
 ## Observation and review boundary
 
@@ -20,8 +20,8 @@ The guard recognizes a second code-pinned owner revision. It requires matching c
 | Protected file | Base SHA-256 | Reviewed head SHA-256 |
 | --- | --- | --- |
 | `src/components/OpeningVideo.tsx` | `606adca1bcdefdcd5fccd47c0700d7eb33d3fec7c520340050ada748736614ef` | `c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4` |
-| `src/components/StoreDownloadButton.tsx` | `942000023777c5e0a81d1925483cb9c0412336102b332846e6053f01f0d59a5e` | `8900c08675b80914cac39a0733d607ed954aa0c4e3ed1f8a64556203d9f86221` |
-| `src/components/StoreDownloadButton.css` | `95635f4db2cfa9d9bce11fef1c3bb180aa6d47f45847725c915bf914b787d21e` | `6193339bdbddc1f0ba649d6a9188fbce58ee75f8d577c5e320487b25d72d5be8` |
+| `src/components/StoreDownloadButton.tsx` | `942000023777c5e0a81d1925483cb9c0412336102b332846e6053f01f0d59a5e` | `ec59c36c783c110435002591950b4a4c70246632b30d4798be954f3ea12c07ca` |
+| `src/components/StoreDownloadButton.css` | `95635f4db2cfa9d9bce11fef1c3bb180aa6d47f45847725c915bf914b787d21e` | `e7f4106c4dc0946b1370e06141e4cb59f58b906bde6dfd40f07c807b0dc65372` |
 
 ## Web assets
 
@@ -40,4 +40,4 @@ Both final MP4s passed full audio/video decode. Source contact sheets and respon
 
 Component lint and 50 experiment-guard regression tests passed. Source sitemap/video discovery were current. Built critical-route validation checked 485 pages and 10,644 internal links; built JSON-LD validation checked 492 blocks across 485 HTML files. The source link check passed for 474 pages and 10,459 links, recognizing only the two existing narrowly approved pending-store destinations. The existing dedicated-video release contract passed for all seven covered posts. MP4 atom checks confirmed that `moov` precedes `mdat` in both encodes.
 
-The committed release guard must validate the exact base/head transition before release. Publication and physical-device testing are separate from local browser validation; no public store availability is inferred from routing tests.
+The committed release guard validates the exact base/head transition, accepts only the three reviewed protected source transitions and the new launch lock, and preserves every prior lock definition. Publication and physical-device testing are separate from local browser validation; no public store availability is inferred from routing tests.

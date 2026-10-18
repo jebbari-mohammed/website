@@ -135,8 +135,8 @@ export const REVIEWED_OWNER_MEDIA_REVISION = Object.freeze({
   reviewNote: 'docs/seo-experiments/2026-10-18-unfair-advantage-opening.md',
   files: Object.freeze([
     Object.freeze({ file: 'src/components/OpeningVideo.tsx', baseSha256: '606adca1bcdefdcd5fccd47c0700d7eb33d3fec7c520340050ada748736614ef', headSha256: 'c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4' }),
-    Object.freeze({ file: 'src/components/StoreDownloadButton.tsx', baseSha256: '942000023777c5e0a81d1925483cb9c0412336102b332846e6053f01f0d59a5e', headSha256: '8900c08675b80914cac39a0733d607ed954aa0c4e3ed1f8a64556203d9f86221' }),
-    Object.freeze({ file: 'src/components/StoreDownloadButton.css', baseSha256: '95635f4db2cfa9d9bce11fef1c3bb180aa6d47f45847725c915bf914b787d21e', headSha256: '6193339bdbddc1f0ba649d6a9188fbce58ee75f8d577c5e320487b25d72d5be8' }),
+    Object.freeze({ file: 'src/components/StoreDownloadButton.tsx', baseSha256: '942000023777c5e0a81d1925483cb9c0412336102b332846e6053f01f0d59a5e', headSha256: 'ec59c36c783c110435002591950b4a4c70246632b30d4798be954f3ea12c07ca' }),
+    Object.freeze({ file: 'src/components/StoreDownloadButton.css', baseSha256: '95635f4db2cfa9d9bce11fef1c3bb180aa6d47f45847725c915bf914b787d21e', headSha256: 'e7f4106c4dc0946b1370e06141e4cb59f58b906bde6dfd40f07c807b0dc65372' }),
   ]),
 });
 
