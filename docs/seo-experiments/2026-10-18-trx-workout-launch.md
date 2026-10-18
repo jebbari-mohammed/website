@@ -11,3 +11,19 @@ The approved private draft's visible prose is preserved. Sources cover manufactu
 Release includes two custom object-only SVGs, indexable canonical metadata, Article/Breadcrumb data, a contextual link from the unlocked missed-target progression article, actual blog archive/feed and sitemap discovery. No protected homepage or newly launched pages are rewritten. Keep custom-media marker intact.
 
 The initial source commit is pending media, not deployed or verified-live. Existing daily-video workflow must finish the dedicated video, independent visual validation, public/processed YouTube checks and exact Hosting deployment. Add the launch lock only after mechanical attachment and unchanged-body verification. No video state, attempt budget or completed record is fabricated.
+
+## Exact archive discovery correction
+
+The archive lock protects the September 27 experiment and remains unchanged through October 18. New-post discovery requires one generated archive entry. This reviewed indexing/discovery correction adds only the TRX archive row; all text outside BLOG_ARCHIVE_START / BLOG_ARCHIVE_END and all prior rows remain byte-identical. It does not authorize a new headline, card, link experiment or future archive edit. The guard pins the entire original and resulting file, requires the committed correction record and this note, disallows replay and accepts the transition only on the review date.
+
+```json
+{
+  "id": "trx-archive-discovery-2026-10-18",
+  "kind": "archive-discovery",
+  "date": "2026-10-18",
+  "file": "public/blog/index.html",
+  "baseSha256": "03ecd95d2d696a89390038c7ec71b0e354deffcd1a8ae4bf5843ca794725c7ab",
+  "headSha256": "a4a95951aa4e27937a967ee72371a703068db64b56590722d7379c842ffa4708",
+  "reviewNote": "docs/seo-experiments/2026-10-18-trx-workout-launch.md"
+}
+```

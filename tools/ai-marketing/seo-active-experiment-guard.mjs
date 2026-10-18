@@ -489,6 +489,42 @@ export function documentedSvgRenderingOverrideFiles(base, head, changedFiles, ba
   return allowed;
 }
 
+// One reviewed discovery correction: the generated TRX archive row only.
+// Entire-file digests preserve the protected experiment copy and every other row.
+export const REVIEWED_ARCHIVE_DISCOVERY_CORRECTION = Object.freeze({
+  "id": "trx-archive-discovery-2026-10-18",
+  "kind": "archive-discovery",
+  "date": "2026-10-18",
+  "file": "public/blog/index.html",
+  "baseSha256": "03ecd95d2d696a89390038c7ec71b0e354deffcd1a8ae4bf5843ca794725c7ab",
+  "headSha256": "a4a95951aa4e27937a967ee72371a703068db64b56590722d7379c842ffa4708",
+  "reviewNote": "docs/seo-experiments/2026-10-18-trx-workout-launch.md"
+});
+
+export function documentedArchiveDiscoveryOverrideFiles(base, head, changedFiles, baseConfig, headConfig, now,
+  readAtRef = exactFileAtRef, reviewed = REVIEWED_ARCHIVE_DISCOVERY_CORRECTION) {
+  const allowed = new Set(), instant = new Date(now);
+  if (!baseConfig || Number.isNaN(instant.getTime()) || new Date(reviewed.date) > instant ||
+      instant.toISOString().slice(0, 10) !== reviewed.date ||
+      findActiveLockMutationViolations(baseConfig, headConfig, instant).length ||
+      ![reviewed.file, reviewed.reviewNote, 'config/seo-active-experiments.json'].every(f => changedFiles.includes(f))) return allowed;
+  let committedConfig;
+  try { committedConfig = validateConfig(JSON.parse(readAtRef(head, 'config/seo-active-experiments.json'))); } catch { return allowed; }
+  if (JSON.stringify(committedConfig) !== JSON.stringify(headConfig)) return allowed;
+  const note = readAtRef(head, reviewed.reviewNote) || '';
+  if (!Object.values(reviewed).every(value => note.includes(value))) return allowed;
+  const original = readAtRef(base, reviewed.file), updated = readAtRef(head, reviewed.file);
+  const digest = value => typeof value === 'string' ? createHash('sha256').update(value, 'utf8').digest('hex') : null;
+  if (digest(original) !== reviewed.baseSha256 || digest(updated) !== reviewed.headSha256) return allowed;
+  const archive = /<!-- BLOG_ARCHIVE_START -->[\s\S]*?<!-- BLOG_ARCHIVE_END -->/;
+  if (!archive.test(original) || !archive.test(updated) || original.replace(archive, '') !== updated.replace(archive, '')) return allowed;
+  const locks = baseConfig.locks.filter(lock => lock.files.includes(reviewed.file) && instant <= new Date(`${lock.lockUntil}T23:59:59.999Z`));
+  if (locks.length && locks.every(lock => !(lock.corrections || []).some(c => c.id === reviewed.id) &&
+      (committedConfig.locks.find(l => l.id === lock.id)?.corrections || []).some(c =>
+        Object.entries(reviewed).every(([k, v]) => c[k] === v)))) allowed.add(reviewed.file);
+  return allowed;
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = validateConfig(JSON.parse(fs.readFileSync(args.config, 'utf8')));
@@ -501,6 +537,8 @@ async function main() {
   const calculatorSafetyOverrideFiles = documentedCalculatorSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
   const ownerDesignOverrideFiles = documentedOwnerDesignOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
   const svgRenderingOverrideFiles = documentedSvgRenderingOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
+
+  const archiveDiscoveryOverrideFiles = documentedArchiveDiscoveryOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
 
   const mutationViolations = findActiveLockMutationViolations(baseConfig, config, instant);
   if (mutationViolations.length) {
@@ -515,7 +553,7 @@ async function main() {
 
   const violations = findActiveLockViolations(changedFiles, config, instant, {
     enforceLockIds: baseLockIds,
-    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles, ...calculatorSafetyOverrideFiles, ...ownerDesignOverrideFiles, ...svgRenderingOverrideFiles]),
+    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles, ...calculatorSafetyOverrideFiles, ...ownerDesignOverrideFiles, ...svgRenderingOverrideFiles, ...archiveDiscoveryOverrideFiles]),
   });
 
   if (violations.length) {
