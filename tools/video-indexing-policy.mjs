@@ -3,23 +3,27 @@ import heroPreviewMedia from '../src/content/hero-preview-media.json' with { typ
 // These existing homepage app previews are decorative media, not watch-page
 // videos. Keep the exclusions exact so real guides and thumbnails stay indexable.
 export const decorativeVideoPaths = [
-  '/videos/izem-coach-chat-dark-web.mp4',
-  '/videos/izem-workout-nutrition-dark-web.mp4',
+  '/videos/izem-coach-chat-dark-web-v2.mp4',
+  '/videos/izem-workout-nutrition-dark-web-v2.mp4',
   '/videos/intro/izem-intro-desktop-v1.mp4',
   '/videos/intro/izem-intro-mobile-v1.mp4',
   '/videos/intro/izem-unfair-advantage-desktop-v1.mp4',
   '/videos/intro/izem-unfair-advantage-mobile-v1.mp4',
+  '/videos/izem-coach-chat-dark-web.mp4',
+  '/videos/izem-workout-nutrition-dark-web.mp4',
 ]
 
 export const decorativePosterPaths = [
-  '/images/hero1-desktop.webp',
-  '/images/hero2-desktop.webp',
+  '/images/hero1-desktop-v2.webp',
+  '/images/hero2-desktop-v2.webp',
   '/images/intro/izem-intro-desktop-v1.webp',
   '/images/intro/izem-intro-mobile-v1.webp',
   '/images/intro/izem-unfair-advantage-desktop-v1.webp',
   '/images/intro/izem-unfair-advantage-mobile-v1.webp',
   '/images/showcase-workout-v1.webp',
   '/images/showcase-chat-v1.webp',
+  '/images/hero1-desktop.webp',
+  '/images/hero2-desktop.webp',
 ]
 export const decorativePosterUrls = [
   ...heroPreviewMedia.map((preview) => `${preview.posterPath}?v=${preview.posterSha256.slice(0, 12)}`),

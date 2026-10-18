@@ -264,6 +264,22 @@
       {
         "source": "/images/intro/izem-unfair-advantage-mobile-v1.webp",
         "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/videos/izem-coach-chat-dark-web-v2.mp4",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/videos/izem-workout-nutrition-dark-web-v2.mp4",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/images/hero1-desktop-v2.webp",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/images/hero2-desktop-v2.webp",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
       }
     ]
   },

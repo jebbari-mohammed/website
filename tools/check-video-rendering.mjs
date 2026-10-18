@@ -119,8 +119,8 @@ try {
   // A showcase recording must never replace its useful still with an empty
   // media frame while loading, including when a capability changes the source.
   const showcasePosters = [
-    '/images/showcase-workout-v1.webp',
-    '/images/showcase-chat-v1.webp',
+    decorativePosterUrls[1],
+    decorativePosterUrls[0],
   ]
   holdPreviewVideo = true
   await page.reload({ waitUntil: 'domcontentloaded' })

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from '../lib/motion';
+import heroPreviewMedia from '../content/hero-preview-media.json';
 import { Dumbbell, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, ScanLine, Activity, ShoppingBasket, ShieldCheck, type LucideIcon } from 'lucide-react';
 
 interface ShowcaseTab {
@@ -23,7 +24,7 @@ const tabs: ShowcaseTab[] = [
     id: 'workout',
     title: 'Adaptive Workouts',
     badge: 'Training Inputs & Logs',
-    videoSrc: '/videos/izem-workout-nutrition-dark-web.mp4',
+    videoSrc: heroPreviewMedia[1].videoPath,
     headline: 'Workouts designed for your real gym, not an ideal world.',
     description: 'Sessions use the equipment, schedule, experience, session length and feedback you provide, with video references when available.',
     features: [
@@ -50,7 +51,7 @@ const tabs: ShowcaseTab[] = [
     id: 'nutrition',
     title: 'Personalized Nutrition',
     badge: 'Plans + Grocery List',
-    videoSrc: '/videos/izem-workout-nutrition-dark-web.mp4',
+    videoSrc: heroPreviewMedia[1].videoPath,
     headline: 'A meal plan that stays connected to the rest of your coaching.',
     description: 'IZEM can build meal plans around your dietary preferences, allergies, meal count and calorie/macro targets, then keep meals, logs and grocery items in the same workflow.',
     features: [
@@ -77,7 +78,7 @@ const tabs: ShowcaseTab[] = [
     id: 'chat',
     title: 'Coach Chat & Calls',
     badge: 'Shared Coaching Context',
-    videoSrc: '/videos/izem-coach-chat-dark-web.mp4',
+    videoSrc: heroPreviewMedia[0].videoPath,
     headline: 'Chat with the coach, call it, or let it call you when you enable that flow.',
     description: 'IZEM can use relevant workout, meal, progress and saved coaching context during supported conversations. Larger plan changes still stay under user control.',
     features: [
@@ -108,9 +109,8 @@ export default function ProductShowcase() {
   const [readyVideo, setReadyVideo] = useState<string | null>(null);
   const videoFrameRef = useRef<HTMLDivElement>(null);
   const current = tabs.find((t) => t.id === activeTab) || tabs[0];
-  const poster = current.id === 'chat'
-    ? '/images/showcase-chat-v1.webp'
-    : '/images/showcase-workout-v1.webp';
+  const posterMedia = heroPreviewMedia[current.id === 'chat' ? 0 : 1];
+  const poster = `${posterMedia.posterPath}?v=${posterMedia.posterSha256.slice(0, 12)}`;
 
   useEffect(() => {
     const frame = videoFrameRef.current;

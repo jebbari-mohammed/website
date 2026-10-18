@@ -140,9 +140,21 @@ export const REVIEWED_OWNER_MEDIA_REVISION = Object.freeze({
   ]),
 });
 
+// The owner requested removing the still lead-in from both app-demo clips.
+export const REVIEWED_OWNER_DEMO_TRIM_REVISION = Object.freeze({
+  id: 'owner-app-demo-trim-2026-10-18',
+  kind: 'owner-directed-presentation-revision',
+  date: '2026-10-18',
+  reviewNote: 'docs/seo-experiments/2026-10-18-app-demo-trim.md',
+  files: Object.freeze([
+    Object.freeze({ file: 'src/components/ProductShowcase.tsx', baseSha256: '183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c', headSha256: 'ddbd7e87182baeb16172c74e2c1dbef77113b64790604eabbab92781349d86b1' }),
+  ]),
+});
+
 const REVIEWED_OWNER_PRESENTATION_REVISIONS = Object.freeze([
   REVIEWED_OWNER_DESIGN_REVISION,
   REVIEWED_OWNER_MEDIA_REVISION,
+  REVIEWED_OWNER_DEMO_TRIM_REVISION,
 ]);
 
 function isFrozenOwnerDesignReview(reviewed) {

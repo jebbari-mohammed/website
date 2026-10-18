@@ -7,6 +7,22 @@
   },
   "locks": [
     {
+      "id": "owner-app-demo-trim-2026-10-18",
+      "url": "/#showcase",
+      "files": [
+        "src/components/ProductShowcase.tsx",
+        "src/content/hero-preview-media.json",
+        "public/videos/izem-coach-chat-dark-web-v2.mp4",
+        "public/videos/izem-workout-nutrition-dark-web-v2.mp4",
+        "public/images/hero1-desktop-v2.webp",
+        "public/images/hero2-desktop-v2.webp"
+      ],
+      "launchedAt": "2026-10-18",
+      "lockUntil": "2026-11-08",
+      "preferredReviewAt": "2026-11-15",
+      "reason": "Owner requested removing the full initial still pause from the two app-demo recordings so playback moves immediately. Trimmed workout/nutrition by 3.2 seconds and chat by 4 seconds, with matching cache-safe posters and shared sources. Preserve this intervention while observing; no ranking or conversion improvement is asserted. See docs/seo-experiments/2026-10-18-app-demo-trim.md."
+    },
+    {
       "id": "owner-unfair-advantage-opening-2026-10-18",
       "url": "/",
       "files": [
@@ -72,6 +88,15 @@
           "baseSha256": "b887314e24516e9411f4cf0948e79948c0f41bc4869949236a9585c87a06edad",
           "headSha256": "95b9e0c4c392b414b3630978d87e00bf8090d2a44b86185f277a82729ba1c4aa",
           "reviewNote": "docs/seo-experiments/2026-10-12-athletic-homepage-revision.md"
+        },
+        {
+          "id": "owner-app-demo-trim-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-app-demo-trim.md",
+          "file": "src/components/ProductShowcase.tsx",
+          "baseSha256": "183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c",
+          "headSha256": "ddbd7e87182baeb16172c74e2c1dbef77113b64790604eabbab92781349d86b1"
         }
       ]
     },

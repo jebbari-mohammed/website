@@ -14,6 +14,7 @@ import {
   documentedOwnerDesignOverrideFiles,
   REVIEWED_OWNER_DESIGN_REVISION,
   REVIEWED_OWNER_MEDIA_REVISION,
+  REVIEWED_OWNER_DEMO_TRIM_REVISION,
   REVIEWED_SVG_RENDERING_CORRECTION,
   documentedSvgRenderingOverrideFiles,
   documentedArchiveDiscoveryOverrideFiles,
@@ -610,8 +611,7 @@ test('owner revision cannot weaken or otherwise change original lock fields', ()
 })
 
 
-function ownerMediaFixture() {
-  const manifest = REVIEWED_OWNER_MEDIA_REVISION;
+function ownerMediaFixture(manifest = REVIEWED_OWNER_MEDIA_REVISION) {
   const contents = Object.fromEntries(manifest.files.map(({ file }) => [file, {
     base: `Original media presentation: ${file}\n`, head: `Reviewed media presentation: ${file}\n`,
   }]));
@@ -718,6 +718,24 @@ test('production media manifest stays pinned and the prior owner default still r
     assert.match(entry.headSha256, /^[a-f0-9]{64}$/);
     assert.notEqual(entry.baseSha256, entry.headSha256);
   }
+});
+
+test('demo trim review accepts only the exact showcase transition while preserving earlier records', () => {
+  const f = ownerMediaFixture(REVIEWED_OWNER_DEMO_TRIM_REVISION);
+  assert.deepEqual([...f.check()], ['src/components/ProductShowcase.tsx']);
+  assert.deepEqual(f.head.locks[0].ownerDirectedRevisions[0], f.base.locks[0].ownerDirectedRevisions[0]);
+  f.contents['src/components/ProductShowcase.tsx'].head += '\n';
+  assert.equal(f.check().size, 0);
+});
+
+test('demo trim review cannot approve opening-film changes or redefine an active lock', () => {
+  const f = ownerMediaFixture(REVIEWED_OWNER_DEMO_TRIM_REVISION);
+  const entry = f.review.files[0], bytes = f.contents[entry.file];
+  const options = { revision: { ...f.record(entry), file: 'src/components/OpeningVideo.tsx' },
+    reviewNote: f.note, changedFiles: [...f.files, 'src/components/OpeningVideo.tsx'], now: f.now };
+  assert.equal(isDocumentedOwnerDesignRevision(bytes.base, bytes.head, options, f.review), false);
+  f.head.locks[0].reason = 'A different attribution window';
+  assert.equal(f.check().size, 0);
 });
 
 test('archive discovery correction preserves protected copy and accepts only its reviewed one-day transition', () => {
