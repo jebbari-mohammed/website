@@ -852,7 +852,18 @@
       "launchedAt": "2026-10-18",
       "lockUntil": "2026-11-08",
       "preferredReviewAt": "2026-11-15",
-      "reason": "Owner-approved one-post exception; original suspension-training starting session and repeatable setup log. Approved draft prose is unchanged after real dedicated video ANQ8tU4Vyq4 attachment and independent visual/publication verification. Preserve the page and custom object-only assets for evaluation. See docs/seo-experiments/2026-10-18-trx-workout-launch.md."
+      "reason": "Owner-approved one-post exception; original suspension-training starting session and repeatable setup log. Approved draft prose is unchanged after real dedicated video ANQ8tU4Vyq4 attachment and independent visual/publication verification. Preserve the page and custom object-only assets for evaluation. See docs/seo-experiments/2026-10-18-trx-workout-launch.md.",
+      "corrections": [
+        {
+          "id": "trx-palette-rendering-2026-10-18",
+          "kind": "article-palette-rendering",
+          "date": "2026-10-18",
+          "file": "public/blog/trx-workout.html",
+          "baseSha256": "7e637eaf88d0368209d7e5d712e5e7dceb63b0272a23bdef66db8f3757ff4c41",
+          "headSha256": "7e1eeb920d01655a681732118624e28a2e5fda5bca3714b9e28653aa9732a2ee",
+          "reviewNote": "docs/seo-experiments/2026-10-18-trx-workout-launch.md"
+        }
+      ]
     },
     {
       "id": "missed-target-trx-support-link-2026-10-18",

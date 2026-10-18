@@ -16,6 +16,7 @@ import {
   REVIEWED_SVG_RENDERING_CORRECTION,
   documentedSvgRenderingOverrideFiles,
   documentedArchiveDiscoveryOverrideFiles,
+  documentedTrxPaletteOverrideFiles,
   validateConfig,
 } from './seo-active-experiment-guard.mjs';
 
@@ -627,4 +628,20 @@ test('archive discovery correction preserves protected copy and accepts only its
   }
   assert.equal(run(base,head,undefined,(ref,f) => f===record.reviewNote ? '' : reader(ref,f)).size,0);
   const weakened=structuredClone(head);weakened.locks[0].lockUntil='2026-10-17';assert.equal(run(base,weakened).size,0);
+});
+
+test('palette rendering exception preserves all article text and rejects replay, other bytes and weakened locks',()=>{
+ const before='<style>p{color:#123}</style><article>Approved answer</article>';
+ const after='<style>p{color:#fff}</style><article>Approved answer</article>';
+ const sha=s=>createHash('sha256').update(s).digest('hex');
+ const r={id:'palette',kind:'article-palette-rendering',date:'2026-10-18',file:'public/blog/trx-workout.html',baseSha256:sha(before),headSha256:sha(after),reviewNote:'docs/seo-experiments/palette.md'};
+ const base={version:1,locks:[{id:'trx',url:'/blog/trx-workout',files:[r.file],launchedAt:'2026-10-18',lockUntil:'2026-11-08',preferredReviewAt:'2026-11-15',reason:'Preserve answer'}]};
+ const head=structuredClone(base);head.locks[0].corrections=[r];
+ const files=[r.file,r.reviewNote,'config/seo-active-experiments.json'];
+ const reader=(ref,f)=>f===r.file?(ref==='base'?before:after):f===r.reviewNote?Object.values(r).join(' '):JSON.stringify(head);
+ const run=(b=base,h=head,read=reader)=>documentedTrxPaletteOverrideFiles('base','head',files,b,h,new Date('2026-10-18T14:00:00Z'),read,r);
+ assert.deepEqual([...run()],[r.file]);assert.equal(run(head,head).size,0);
+ for (const change of [s=>s.replace('Approved answer','Changed answer'),s=>s+'extra',s=>s.replace('#fff','#eee')]) assert.equal(run(base,head,(ref,f)=>ref==='head'&&f===r.file?change(after):reader(ref,f)).size,0);
+ assert.equal(run(base,head,(ref,f)=>f===r.reviewNote?'':reader(ref,f)).size,0);
+ const weakened=structuredClone(head);weakened.locks[0].lockUntil='2026-10-18';assert.equal(run(base,weakened).size,0);
 });

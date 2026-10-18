@@ -37,3 +37,19 @@ Source-identity follow-up: keep the insertion point outside the article element 
 Dedicated video ANQ8tU4Vyq4 is confirmed public, processed and processing succeeded. The independent deterministic typography validation covers all 3,018 frames, with no human imagery. Media attachment is commit f02eddc1cb8c05713d35c679caabdca6307850bb. The normalized visible article body still matches the private approved draft. The standard companion card is outside the article body and after the answer. Only after these real checks are the article/assets protected through November 8 and the one support-link page through November 1.
 
 Hosting deployment and live HTTP/canonical/discovery verification are separate release evidence; source/media completion alone is not a live claim.
+
+## Verified production palette rendering correction
+
+The first live browser check found body text rgb(36,54,46) and heading rgb(38,50,42) on the site-wide rgb(7,10,13) background. The production theme converts the page background to dark while the newly authored light-page foreground stayed dark. This is a demonstrated rendering/contrast correction, not an editorial experiment or permission to change the article. Only inline palette declarations in the head change: light foreground, dark paper/table backgrounds and bright link color. Approved article prose, sources, layout, video, assets and all original lock fields stay unchanged. Narration canonical-body identity remains unchanged. The guard accepts only the following complete-file transition, with the committed note/correction record, and forbids replay.
+
+```json
+{
+  "id": "trx-palette-rendering-2026-10-18",
+  "kind": "article-palette-rendering",
+  "date": "2026-10-18",
+  "file": "public/blog/trx-workout.html",
+  "baseSha256": "7e637eaf88d0368209d7e5d712e5e7dceb63b0272a23bdef66db8f3757ff4c41",
+  "headSha256": "7e1eeb920d01655a681732118624e28a2e5fda5bca3714b9e28653aa9732a2ee",
+  "reviewNote": "docs/seo-experiments/2026-10-18-trx-workout-launch.md"
+}
+```

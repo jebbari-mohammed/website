@@ -525,6 +525,37 @@ export function documentedArchiveDiscoveryOverrideFiles(base, head, changedFiles
   return allowed;
 }
 
+// Pin the demonstrated dark-background/dark-text correction to this one article.
+export const REVIEWED_TRX_PALETTE_CORRECTION = Object.freeze({
+  "id": "trx-palette-rendering-2026-10-18",
+  "kind": "article-palette-rendering",
+  "date": "2026-10-18",
+  "file": "public/blog/trx-workout.html",
+  "baseSha256": "7e637eaf88d0368209d7e5d712e5e7dceb63b0272a23bdef66db8f3757ff4c41",
+  "headSha256": "7e1eeb920d01655a681732118624e28a2e5fda5bca3714b9e28653aa9732a2ee",
+  "reviewNote": "docs/seo-experiments/2026-10-18-trx-workout-launch.md"
+});
+export function documentedTrxPaletteOverrideFiles(base, head, changedFiles, baseConfig, headConfig, now,
+  readAtRef = exactFileAtRef, reviewed = REVIEWED_TRX_PALETTE_CORRECTION) {
+  const allowed = new Set(), instant = new Date(now);
+  if (!baseConfig || Number.isNaN(instant.getTime()) || new Date(reviewed.date) > instant ||
+      findActiveLockMutationViolations(baseConfig, headConfig, instant).length ||
+      ![reviewed.file,reviewed.reviewNote,'config/seo-active-experiments.json'].every(f=>changedFiles.includes(f))) return allowed;
+  let committed;
+  try { committed=validateConfig(JSON.parse(readAtRef(head,'config/seo-active-experiments.json'))); } catch { return allowed; }
+  if (JSON.stringify(committed)!==JSON.stringify(headConfig)) return allowed;
+  const note=readAtRef(head,reviewed.reviewNote)||'';
+  if (!Object.values(reviewed).every(v=>note.includes(v))) return allowed;
+  const original=readAtRef(base,reviewed.file), updated=readAtRef(head,reviewed.file);
+  const digest=s=>typeof s==='string'?createHash('sha256').update(s,'utf8').digest('hex'):null;
+  if (digest(original)!==reviewed.baseSha256 || digest(updated)!==reviewed.headSha256) return allowed;
+  if (original.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,'')!==updated.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,'')) return allowed;
+  const locks=baseConfig.locks.filter(l=>l.files.includes(reviewed.file)&&instant<=new Date(`${l.lockUntil}T23:59:59.999Z`));
+  if (locks.length && locks.every(l=>!(l.corrections||[]).some(c=>c.id===reviewed.id)&&
+      (committed.locks.find(h=>h.id===l.id)?.corrections||[]).some(c=>Object.entries(reviewed).every(([k,v])=>c[k]===v)))) allowed.add(reviewed.file);
+  return allowed;
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = validateConfig(JSON.parse(fs.readFileSync(args.config, 'utf8')));
@@ -540,6 +571,8 @@ async function main() {
 
   const archiveDiscoveryOverrideFiles = documentedArchiveDiscoveryOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
 
+  const trxPaletteOverrideFiles = documentedTrxPaletteOverrideFiles(args.base,args.head,changedFiles,baseConfig,config,instant);
+
   const mutationViolations = findActiveLockMutationViolations(baseConfig, config, instant);
   if (mutationViolations.length) {
     console.error(`SEO active-experiment guard blocked ${mutationViolations.length} active lock weakening mutation(s).`);
@@ -553,7 +586,7 @@ async function main() {
 
   const violations = findActiveLockViolations(changedFiles, config, instant, {
     enforceLockIds: baseLockIds,
-    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles, ...calculatorSafetyOverrideFiles, ...ownerDesignOverrideFiles, ...svgRenderingOverrideFiles, ...archiveDiscoveryOverrideFiles]),
+    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles, ...calculatorSafetyOverrideFiles, ...ownerDesignOverrideFiles, ...svgRenderingOverrideFiles, ...archiveDiscoveryOverrideFiles, ...trxPaletteOverrideFiles]),
   });
 
   if (violations.length) {
