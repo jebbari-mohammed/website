@@ -91,3 +91,20 @@ test('whole-directory check catches regressions, preserves JS and requires the s
     assert.equal(manifest.theme_color,THEME.background);assert.equal(manifest.icons[0].src,'/icon.png');
   } finally {fs.rmSync(dir,{recursive:true,force:true});}
 });
+
+test('TRX article foregrounds stay readable against the deployed dark theme', () => {
+  const source = fs.readFileSync(new URL('../public/blog/trx-workout.html', import.meta.url), 'utf8');
+  const css = transformHtml(source).match(/<style\b[^>]*>([\s\S]*?)<\/style>/i)[1];
+  const declarations = selector => css.match(new RegExp(selector + '\\{([^}]+)'))[1];
+  const value = (decls, property) => decls.match(new RegExp('(?:^|;)' + property + ':([^;]+)'))[1];
+  const ink = value(declarations(':root'), '--ink');
+  const foreground = value(declarations('body'), 'color');
+  const tableBackground = value(declarations('th'), 'background');
+  const link = value(declarations('a'), 'color');
+  const luminance = hex => {
+    const channels = hex.replace('#','').match(/../g).map(x => parseInt(x,16)/255).map(c => c<=.04045?c/12.92:((c+.055)/1.055)**2.4);
+    return channels[0]*.2126+channels[1]*.7152+channels[2]*.0722;
+  };
+  const contrast = (a,b) => { const x=luminance(a),y=luminance(b); return (Math.max(x,y)+.05)/(Math.min(x,y)+.05); };
+  for (const [text,background] of [[foreground,THEME.background],[ink,THEME.background],[ink,tableBackground],[link,THEME.background]]) assert.ok(contrast(text,background)>=4.5,`${text} on ${background}`);
+});
