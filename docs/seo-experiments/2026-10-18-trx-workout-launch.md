@@ -27,3 +27,5 @@ The archive lock protects the September 27 experiment and remains unchanged thro
   "reviewNote": "docs/seo-experiments/2026-10-18-trx-workout-launch.md"
 }
 ```
+
+The companion video uses an explicit insertion-point comment after the article answer/body. It is not a fake final video block. The publisher replaces that slot only after real verification, preserving the first H1 and answer order; regression coverage also checks idempotent card replacement.
