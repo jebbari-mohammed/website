@@ -3,8 +3,8 @@ import { ArrowDown, Pause, Play, RotateCcw, Volume2, VolumeX } from 'lucide-reac
 import './OpeningVideo.css';
 
 const mediaFor = (mobile: boolean) => ({
-  video: `/videos/intro/izem-intro-${mobile ? 'mobile' : 'desktop'}-v1.mp4`,
-  poster: `/images/intro/izem-intro-${mobile ? 'mobile' : 'desktop'}-v1.webp`,
+  video: `/videos/intro/izem-unfair-advantage-${mobile ? 'mobile' : 'desktop'}-v1.mp4`,
+  poster: `/images/intro/izem-unfair-advantage-${mobile ? 'mobile' : 'desktop'}-v1.webp`,
 });
 
 type Connection = { saveData?: boolean };

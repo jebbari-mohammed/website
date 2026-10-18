@@ -13,6 +13,7 @@ import {
   isDocumentedOwnerDesignRevision,
   documentedOwnerDesignOverrideFiles,
   REVIEWED_OWNER_DESIGN_REVISION,
+  REVIEWED_OWNER_MEDIA_REVISION,
   REVIEWED_SVG_RENDERING_CORRECTION,
   documentedSvgRenderingOverrideFiles,
   documentedArchiveDiscoveryOverrideFiles,
@@ -608,6 +609,116 @@ test('owner revision cannot weaken or otherwise change original lock fields', ()
   assert.equal(findActiveLockMutationViolations(base, head, ownerNow)[0].type, 'removed');
 })
 
+
+function ownerMediaFixture() {
+  const manifest = REVIEWED_OWNER_MEDIA_REVISION;
+  const contents = Object.fromEntries(manifest.files.map(({ file }) => [file, {
+    base: `Original media presentation: ${file}\n`, head: `Reviewed media presentation: ${file}\n`,
+  }]));
+  const review = { ...manifest, files: manifest.files.map(({ file }) => ({ file,
+    baseSha256: ownerDigest(contents[file].base), headSha256: ownerDigest(contents[file].head),
+  })) };
+  const record = entry => ({ id: review.id, kind: review.kind, date: review.date,
+    reviewNote: review.reviewNote, ...entry });
+  const prior = { id: ownerReview.id, kind: ownerReview.kind, date: ownerReview.date,
+    file: ownerReview.files[0].file, baseSha256: ownerReview.files[0].baseSha256,
+    headSha256: ownerReview.files[0].headSha256, reviewNote: ownerReview.reviewNote };
+  const base = { version: 1, locks: [{ id: 'existing-media-lock', url: '/',
+    files: review.files.map(entry => entry.file), launchedAt: '2026-10-12', lockUntil: '2026-11-02',
+    preferredReviewAt: '2026-11-09', reason: 'Preserve the existing presentation experiment.',
+    ownerDirectedRevisions: [prior] }] };
+  const head = structuredClone(base);
+  head.locks[0].ownerDirectedRevisions.push(...review.files.map(record));
+  const files = ['config/seo-active-experiments.json', review.reviewNote, ...review.files.map(entry => entry.file)];
+  const now = new Date('2026-10-18T12:00:00Z');
+  const note = [review.id, review.kind, review.date,
+    ...review.files.flatMap(entry => [entry.file, entry.baseSha256, entry.headSha256])].join('\n');
+  const read = (ref, file) => file === 'config/seo-active-experiments.json' ? JSON.stringify(head) :
+    file === review.reviewNote ? note : contents[file]?.[ref] ?? null;
+  const check = (reader = read, changed = files, reviewed = review) => documentedOwnerDesignOverrideFiles(
+    'base', 'head', changed, base, head, now, reader, reviewed);
+  return { review, contents, base, head, files, now, note, record, read, check };
+}
+
+test('the separate owner media revision accepts exact reviewed transitions and retains prior approval records', () => {
+  const f = ownerMediaFixture();
+  const ignored = f.check();
+  assert.deepEqual([...ignored], f.review.files.map(entry => entry.file));
+  assert.deepEqual(findActiveLockMutationViolations(f.base, f.head, f.now), []);
+  assert.deepEqual(findActiveLockViolations(f.files, f.head, f.now, { ignoreFiles: ignored }), []);
+  assert.deepEqual(f.head.locks[0].ownerDirectedRevisions[0], f.base.locks[0].ownerDirectedRevisions[0]);
+});
+
+test('owner media manifest cannot inherit another identity, date, note, file set or generic approval', () => {
+  const f = ownerMediaFixture(), entry = f.review.files[0], bytes = f.contents[entry.file];
+  const options = { revision: f.record(entry), reviewNote: f.note, changedFiles: f.files, now: f.now };
+  for (const replacement of [
+    { id: 'owner-approved-anything' }, { id: ownerReview.id }, { kind: 'rendering-correction' },
+    { date: '2026-10-12' }, { reviewNote: ownerReview.reviewNote },
+    { files: f.review.files.slice(1) }, { files: [...f.review.files].reverse() },
+    { files: [{ ...entry, file: 'src/components/Hero.tsx' }, ...f.review.files.slice(1)] },
+    { files: [null, ...f.review.files.slice(1)] },
+  ]) assert.equal(isDocumentedOwnerDesignRevision(bytes.base, bytes.head, options,
+    { ...f.review, approved: true, ...replacement }), false);
+});
+
+test('owner media transition is byte-exact and cannot use a copied annotation for another file', () => {
+  const f = ownerMediaFixture(), file = f.review.files[0].file;
+  f.contents[file].head += '\n';
+  assert.equal(f.check().has(file), false);
+  const unapproved = 'src/components/Hero.tsx';
+  f.base.locks[0].files.push(unapproved);
+  f.head.locks[0].files.push(unapproved);
+  f.head.locks[0].ownerDirectedRevisions.push({ ...f.record(f.review.files[0]), file: unapproved });
+  assert.equal(f.check(f.read, [...f.files, unapproved]).has(unapproved), false);
+});
+
+test('owner media revision needs its own committed note, config, exact record and elapsed request date', () => {
+  for (const missing of ['config/seo-active-experiments.json', REVIEWED_OWNER_MEDIA_REVISION.reviewNote]) {
+    const f = ownerMediaFixture();
+    assert.equal(f.check(f.read, f.files.filter(file => file !== missing)).size, 0);
+  }
+  const f = ownerMediaFixture(), entry = f.review.files[0], bytes = f.contents[entry.file];
+  for (const override of [
+    { reviewNote: f.note.replace(entry.headSha256, '') }, { now: new Date('2026-10-17T23:59:59Z') },
+    { now: 'invalid-date' }, { revision: { ...f.record(entry), headSha256: '0'.repeat(64) } },
+    { baseRevisions: [f.record(f.review.files[1])] },
+  ]) assert.equal(isDocumentedOwnerDesignRevision(bytes.base, bytes.head, {
+    revision: f.record(entry), reviewNote: f.note, changedFiles: f.files, now: f.now, ...override,
+  }, f.review), false);
+  assert.equal(f.check((ref, file) => file === f.review.reviewNote ? null : f.read(ref, file)).size, 0);
+  assert.equal(f.check((ref, file) => file === 'config/seo-active-experiments.json'
+    ? JSON.stringify(f.base) : f.read(ref, file)).size, 0);
+});
+
+test('owner media approval cannot replay, alter prior records or redefine existing locks', () => {
+  for (const mutate of [
+    f => { f.base.locks[0].ownerDirectedRevisions.push(f.record(f.review.files[0])); },
+    f => { f.head.locks[0].ownerDirectedRevisions[0].id = 'rewritten-approval'; },
+    f => { f.head.locks[0].ownerDirectedRevisions.shift(); },
+    f => { f.head.locks[0].lockUntil = '2026-10-18'; },
+    f => { f.head.locks[0].reason = 'Replaced experiment rationale'; },
+    f => { f.head.locks[0].preferredReviewAt = '2026-11-10'; },
+    f => { f.head.locks[0].files.pop(); },
+  ]) {
+    const f = ownerMediaFixture(); mutate(f); assert.equal(f.check().size, 0);
+  }
+  const f = ownerMediaFixture(), file = f.review.files[0].file;
+  f.base.locks.push({ ...structuredClone(f.base.locks[0]), id: 'overlapping-media-lock', files: [file] });
+  f.head.locks.push(structuredClone(f.base.locks.at(-1)));
+  assert.equal(f.check().has(file), false);
+});
+
+test('production media manifest stays pinned and the prior owner default still rejects media fixture hashes', () => {
+  const f = ownerMediaFixture();
+  assert.equal(f.check(f.read, f.files, REVIEWED_OWNER_MEDIA_REVISION).size, 0);
+  assert.equal(documentedOwnerDesignOverrideFiles('base', 'head', f.files, f.base, f.head, f.now, f.read).size, 0);
+  for (const entry of REVIEWED_OWNER_MEDIA_REVISION.files) {
+    assert.match(entry.baseSha256, /^[a-f0-9]{64}$/);
+    assert.match(entry.headSha256, /^[a-f0-9]{64}$/);
+    assert.notEqual(entry.baseSha256, entry.headSha256);
+  }
+});
 
 test('archive discovery correction preserves protected copy and accepts only its reviewed one-day transition', () => {
   const original = 'protected card<!-- BLOG_ARCHIVE_START -->old<!-- BLOG_ARCHIVE_END -->footer';

@@ -126,11 +126,30 @@ export const REVIEWED_OWNER_DESIGN_REVISION = Object.freeze({
   ]),
 });
 
+// A separate owner-requested opening film and download-button revision. The
+// original experiment dates and prior revision records remain unchanged.
+export const REVIEWED_OWNER_MEDIA_REVISION = Object.freeze({
+  id: 'owner-unfair-advantage-opening-2026-10-18',
+  kind: 'owner-directed-presentation-revision',
+  date: '2026-10-18',
+  reviewNote: 'docs/seo-experiments/2026-10-18-unfair-advantage-opening.md',
+  files: Object.freeze([
+    Object.freeze({ file: 'src/components/OpeningVideo.tsx', baseSha256: '606adca1bcdefdcd5fccd47c0700d7eb33d3fec7c520340050ada748736614ef', headSha256: 'c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4' }),
+    Object.freeze({ file: 'src/components/StoreDownloadButton.tsx', baseSha256: '942000023777c5e0a81d1925483cb9c0412336102b332846e6053f01f0d59a5e', headSha256: '8900c08675b80914cac39a0733d607ed954aa0c4e3ed1f8a64556203d9f86221' }),
+    Object.freeze({ file: 'src/components/StoreDownloadButton.css', baseSha256: '95635f4db2cfa9d9bce11fef1c3bb180aa6d47f45847725c915bf914b787d21e', headSha256: '6193339bdbddc1f0ba649d6a9188fbce58ee75f8d577c5e320487b25d72d5be8' }),
+  ]),
+});
+
+const REVIEWED_OWNER_PRESENTATION_REVISIONS = Object.freeze([
+  REVIEWED_OWNER_DESIGN_REVISION,
+  REVIEWED_OWNER_MEDIA_REVISION,
+]);
+
 function isFrozenOwnerDesignReview(reviewed) {
-  const pinned = REVIEWED_OWNER_DESIGN_REVISION;
-  if (!reviewed || ['id', 'kind', 'date', 'reviewNote'].some(field => reviewed[field] !== pinned[field]) ||
+  const pinned = REVIEWED_OWNER_PRESENTATION_REVISIONS.find(manifest => manifest.id === reviewed?.id);
+  if (!pinned || ['id', 'kind', 'date', 'reviewNote'].some(field => reviewed[field] !== pinned[field]) ||
       !Array.isArray(reviewed.files) || reviewed.files.length !== pinned.files.length) return false;
-  return reviewed.files.every((entry, index) => entry.file === pinned.files[index].file &&
+  return reviewed.files.every((entry, index) => entry?.file === pinned.files[index].file &&
     /^[a-f0-9]{64}$/.test(entry.baseSha256 || '') && /^[a-f0-9]{64}$/.test(entry.headSha256 || '') &&
     entry.baseSha256 !== entry.headSha256);
 }
@@ -566,7 +585,9 @@ async function main() {
   const ownerImageSafetyOverrideFiles = ownerImagePolicySafetyOverrideFiles(args.base, args.head, changedFiles);
   const videoSafetyOverrideFiles = documentedVideoSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
   const calculatorSafetyOverrideFiles = documentedCalculatorSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
-  const ownerDesignOverrideFiles = documentedOwnerDesignOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
+  const ownerDesignOverrideFiles = new Set(REVIEWED_OWNER_PRESENTATION_REVISIONS.flatMap(reviewed =>
+    [...documentedOwnerDesignOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant,
+      exactFileAtRef, reviewed)]));
   const svgRenderingOverrideFiles = documentedSvgRenderingOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
 
   const archiveDiscoveryOverrideFiles = documentedArchiveDiscoveryOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);

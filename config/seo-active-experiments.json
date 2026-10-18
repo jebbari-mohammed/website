@@ -1,11 +1,28 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-18",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
   },
   "locks": [
+    {
+      "id": "owner-unfair-advantage-opening-2026-10-18",
+      "url": "/",
+      "files": [
+        "src/components/OpeningVideo.tsx",
+        "src/components/StoreDownloadButton.tsx",
+        "src/components/StoreDownloadButton.css",
+        "public/videos/intro/izem-unfair-advantage-desktop-v1.mp4",
+        "public/videos/intro/izem-unfair-advantage-mobile-v1.mp4",
+        "public/images/intro/izem-unfair-advantage-desktop-v1.webp",
+        "public/images/intro/izem-unfair-advantage-mobile-v1.webp"
+      ],
+      "launchedAt": "2026-10-18",
+      "lockUntil": "2026-11-08",
+      "preferredReviewAt": "2026-11-15",
+      "reason": "Owner explicitly requested the supplied portrait and widescreen Unfair Advantage films and a larger download button. This presentation intervention overlaps earlier homepage film/download observation windows; preserve it while observing, without attributing later engagement solely to earlier releases. See docs/seo-experiments/2026-10-18-unfair-advantage-opening.md."
+    },
     {
       "id": "owner-homepage-presentation-refinement-2026-10-12",
       "url": "/",
@@ -72,7 +89,27 @@
       "launchedAt": "2026-10-12",
       "lockUntil": "2026-11-02",
       "preferredReviewAt": "2026-11-09",
-      "reason": "Owner-requested platform download action added to the opening-film experience. Publication depends on confirmed store destinations. Preserve the action's presentation and routing; existing film and FAQ locks remain intact. See docs/seo-experiments/2026-10-12-platform-download-button.md."
+      "reason": "Owner-requested platform download action added to the opening-film experience. Publication depends on confirmed store destinations. Preserve the action's presentation and routing; existing film and FAQ locks remain intact. See docs/seo-experiments/2026-10-12-platform-download-button.md.",
+      "ownerDirectedRevisions": [
+        {
+          "id": "owner-unfair-advantage-opening-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-unfair-advantage-opening.md",
+          "file": "src/components/StoreDownloadButton.tsx",
+          "baseSha256": "942000023777c5e0a81d1925483cb9c0412336102b332846e6053f01f0d59a5e",
+          "headSha256": "8900c08675b80914cac39a0733d607ed954aa0c4e3ed1f8a64556203d9f86221"
+        },
+        {
+          "id": "owner-unfair-advantage-opening-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-unfair-advantage-opening.md",
+          "file": "src/components/StoreDownloadButton.css",
+          "baseSha256": "95635f4db2cfa9d9bce11fef1c3bb180aa6d47f45847725c915bf914b787d21e",
+          "headSha256": "6193339bdbddc1f0ba649d6a9188fbce58ee75f8d577c5e320487b25d72d5be8"
+        }
+      ]
     },
     {
       "id": "owner-requested-opening-film-2026-10-12",
@@ -97,6 +134,15 @@
           "baseSha256": "1f893dfe23564d9d91b8a63e258f850d43970028b645e72cff5dac5b097da1da",
           "headSha256": "6943a5e180e635cdf5d5ca23d348645443146c68dda7641de32a1096834e7ff4",
           "reviewNote": "docs/seo-experiments/2026-10-12-athletic-homepage-revision.md"
+        },
+        {
+          "id": "owner-unfair-advantage-opening-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-unfair-advantage-opening.md",
+          "file": "src/components/OpeningVideo.tsx",
+          "baseSha256": "606adca1bcdefdcd5fccd47c0700d7eb33d3fec7c520340050ada748736614ef",
+          "headSha256": "c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4"
         }
       ]
     },

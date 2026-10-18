@@ -248,6 +248,22 @@
       {
         "source": "/images/showcase-chat-v1.webp",
         "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/videos/intro/izem-unfair-advantage-desktop-v1.mp4",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/videos/intro/izem-unfair-advantage-mobile-v1.mp4",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/images/intro/izem-unfair-advantage-desktop-v1.webp",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      },
+      {
+        "source": "/images/intro/izem-unfair-advantage-mobile-v1.webp",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
       }
     ]
   },
