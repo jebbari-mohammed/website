@@ -614,7 +614,7 @@ test('archive discovery correction preserves protected copy and accepts only its
   const sha = v => createHash('sha256').update(v).digest('hex');
   const record = { id: 'fixture', kind: 'archive-discovery', date: '2026-10-18', file: 'public/blog/index.html',
     baseSha256: sha(original), headSha256: sha(updated), reviewNote: 'docs/seo-experiments/fixture.md' };
-  const base = { version: 1, locks: [{ id: 'archive', url: '/blog/', files: [record.file], launchedAt: '2026-09-27', lockUntil: '2026-10-18', reason: 'protected experiment' }] };
+  const base = { version: 1, locks: [{ id: 'archive', url: '/blog/', files: [record.file], launchedAt: '2026-09-27', lockUntil: '2026-10-18', preferredReviewAt: '2026-10-25', reason: 'protected experiment' }] };
   const head = structuredClone(base); head.locks[0].corrections = [record];
   const files = [record.file, record.reviewNote, 'config/seo-active-experiments.json'];
   const reader = (ref, file) => file === record.file ? (ref === 'base' ? original : updated) : file === record.reviewNote ? Object.values(record).join(' ') : JSON.stringify(head);
