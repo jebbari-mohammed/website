@@ -56,7 +56,8 @@
         "preferredReviewAt": "2026-11-07",
         "reason": "Refresh /vs-fitbod, /workout-consistency-calculator/, and /glossary/ to remove unverified fixed-price claims, add OG social preview metadata, and link contextually into the /workouts/ and /exercises/ hubs. Preserve for a 14-day internal-link and CTR evaluation window."
       },
-      "status": "scheduled"
+      "status": "published",
+      "publishedAt": "2026-10-18"
     },
     {
       "release": 4,

@@ -816,6 +816,19 @@
           "headSha256": "036e0d216df317d92e91b844826ed49feaea65eff2e0eb723874707f167d7bab"
         }
       ]
+    },
+    {
+      "id": "comparison-and-consistency-support-links-2026-10-13",
+      "url": "/vs-fitbod",
+      "files": [
+        "public/vs-fitbod.html",
+        "public/workout-consistency-calculator/index.html",
+        "public/glossary/index.html"
+      ],
+      "launchedAt": "2026-10-17",
+      "lockUntil": "2026-10-31",
+      "preferredReviewAt": "2026-11-07",
+      "reason": "Refresh /vs-fitbod, /workout-consistency-calculator/, and /glossary/ to remove unverified fixed-price claims, add OG social preview metadata, and link contextually into the /workouts/ and /exercises/ hubs. Preserve for a 14-day internal-link and CTR evaluation window."
     }
   ]
 }
