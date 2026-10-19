@@ -20,7 +20,7 @@ export default function Navigation({ cinematic = false }: { cinematic?: boolean 
         <a href="/" className="flex items-center gap-2.5 group">
           <img
             data-izem-navigation-logo="true"
-            src="/images/izem-app-logo-192.png"
+            src="/images/izem-app-logo-96-v1.webp"
             alt="IZEM logo"
             width="34"
             height="34"

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from '../lib/motion';
+import heroPreviewMedia from '../content/hero-preview-media.json';
 import { Dumbbell, MessageSquare, Phone, ArrowRight, CheckCircle, Flame, ScanLine, Activity, ShoppingBasket, ShieldCheck, type LucideIcon } from 'lucide-react';
 
 interface ShowcaseTab {
@@ -23,7 +24,7 @@ const tabs: ShowcaseTab[] = [
     id: 'workout',
     title: 'Adaptive Workouts',
     badge: 'Training Inputs & Logs',
-    videoSrc: '/videos/izem-workout-nutrition-dark-web.mp4',
+    videoSrc: heroPreviewMedia[1].videoPath,
     headline: 'Workouts designed for your real gym, not an ideal world.',
     description: 'Sessions use the equipment, schedule, experience, session length and feedback you provide, with video references when available.',
     features: [
@@ -50,7 +51,7 @@ const tabs: ShowcaseTab[] = [
     id: 'nutrition',
     title: 'Personalized Nutrition',
     badge: 'Plans + Grocery List',
-    videoSrc: '/videos/izem-workout-nutrition-dark-web.mp4',
+    videoSrc: heroPreviewMedia[1].videoPath,
     headline: 'A meal plan that stays connected to the rest of your coaching.',
     description: 'IZEM can build meal plans around your dietary preferences, allergies, meal count and calorie/macro targets, then keep meals, logs and grocery items in the same workflow.',
     features: [
@@ -77,7 +78,7 @@ const tabs: ShowcaseTab[] = [
     id: 'chat',
     title: 'Coach Chat & Calls',
     badge: 'Shared Coaching Context',
-    videoSrc: '/videos/izem-coach-chat-dark-web.mp4',
+    videoSrc: heroPreviewMedia[0].videoPath,
     headline: 'Chat with the coach, call it, or let it call you when you enable that flow.',
     description: 'IZEM can use relevant workout, meal, progress and saved coaching context during supported conversations. Larger plan changes still stay under user control.',
     features: [
@@ -107,10 +108,10 @@ export default function ProductShowcase() {
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const [readyVideo, setReadyVideo] = useState<string | null>(null);
   const videoFrameRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const current = tabs.find((t) => t.id === activeTab) || tabs[0];
-  const poster = current.id === 'chat'
-    ? '/images/showcase-chat-v1.webp'
-    : '/images/showcase-workout-v1.webp';
+  const posterMedia = heroPreviewMedia[current.id === 'chat' ? 0 : 1];
+  const poster = `${posterMedia.posterPath}?v=${posterMedia.posterSha256.slice(0, 12)}`;
 
   useEffect(() => {
     const frame = videoFrameRef.current;
@@ -134,6 +135,58 @@ export default function ProductShowcase() {
     observer.observe(frame);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    const frame = videoFrameRef.current;
+    if (!video || !frame) return;
+
+    let cancelled = false;
+    const isInViewport = () => {
+      const bounds = frame.getBoundingClientRect();
+      return bounds.bottom > 0 && bounds.top < window.innerHeight &&
+        bounds.right > 0 && bounds.left < window.innerWidth;
+    };
+    let inViewport = isInViewport();
+    const canPlay = () => !cancelled && inViewport && !document.hidden;
+    const syncPlayback = () => {
+      if (!canPlay()) {
+        video.pause();
+        return;
+      }
+      void video.play().then(() => {
+        // A scroll, source change or background tab can race media startup.
+        if (!canPlay()) video.pause();
+      }).catch(() => {
+        // Keep the matching still visible if the browser blocks playback.
+      });
+    };
+    const observer = typeof IntersectionObserver === 'undefined' ? null :
+      new IntersectionObserver(([entry]) => {
+        inViewport = entry.isIntersecting && entry.intersectionRatio > 0;
+        syncPlayback();
+      }, { threshold: [0, 0.01] });
+    const syncFallbackViewport = () => {
+      inViewport = isInViewport();
+      syncPlayback();
+    };
+
+    observer?.observe(frame);
+    if (!observer) {
+      window.addEventListener('scroll', syncFallbackViewport, { passive: true });
+      window.addEventListener('resize', syncFallbackViewport);
+    }
+    document.addEventListener('visibilitychange', syncPlayback);
+    syncPlayback();
+    return () => {
+      cancelled = true;
+      observer?.disconnect();
+      window.removeEventListener('scroll', syncFallbackViewport);
+      window.removeEventListener('resize', syncFallbackViewport);
+      document.removeEventListener('visibilitychange', syncPlayback);
+      video.pause();
+    };
+  }, [shouldLoadVideo, current.videoSrc]);
 
   return (
     <section id="showcase" className="editorial-section editorial-showcase">
@@ -184,9 +237,9 @@ export default function ProductShowcase() {
               {shouldLoadVideo && (
                 <video
                   key={current.videoSrc}
+                  ref={videoRef}
                   src={current.videoSrc}
                   poster={poster}
-                  autoPlay
                   loop
                   muted
                   playsInline

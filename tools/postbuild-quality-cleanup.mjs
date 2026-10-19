@@ -85,7 +85,7 @@ function replacePrerenderedHeroVideo(html, relativePath) {
     /<video\b(?=[^>]*data-izem-hero-preview\s*=\s*(["'])true\1)[^>]*>[\s\S]*?<\/video>/i,
     () => {
       changed += 1
-      return `<img data-izem-hero-preview="true" src="${decorativePosterUrls[0]}" alt="IZEM AI coach chat interface preview" width="800" height="1260" loading="eager" decoding="async" fetchpriority="high" class="w-full h-full object-cover">`
+      return `<img data-izem-hero-preview="true" src="${decorativePosterUrls[0]}" alt="IZEM AI coach chat interface preview" width="800" height="1260" loading="lazy" decoding="async" fetchpriority="auto" class="w-full h-full object-cover">`
     },
   )
 

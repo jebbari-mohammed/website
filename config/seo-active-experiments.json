@@ -1,11 +1,75 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-18",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
   },
   "locks": [
+    {
+      "id": "owner-mobile-performance-2026-10-18",
+      "url": "/",
+      "files": [
+        "src/components/Hero.tsx",
+        "src/components/Navigation.tsx",
+        "src/components/ProductShowcase.tsx",
+        "src/content/hero-preview-media.json",
+        "public/images/hero1-desktop-v3.webp",
+        "public/images/hero2-desktop-v3.webp",
+        "public/images/izem-app-logo-96-v1.webp",
+        "public/fonts/izem-body-latin-v1.woff2",
+        "public/fonts/izem-body-latin-ext-v1.woff2",
+        "public/fonts/HankenGrotesk-OFL.txt"
+      ],
+      "launchedAt": "2026-10-18",
+      "lockUntil": "2026-11-08",
+      "preferredReviewAt": "2026-11-15",
+      "reason": "Owner requested measured phone performance improvements while preserving desktop presentation. Local body fonts, smaller matching posters/logo, deferred below-fold screenshot priority, document compression and visibility-aware demo playback address observed report/runtime costs. Preserve this intervention through the observation window; lab results are not field or ranking gains. See docs/seo-experiments/2026-10-18-mobile-performance.md."
+    },
+    {
+      "id": "owner-app-demo-trim-2026-10-18",
+      "url": "/#showcase",
+      "files": [
+        "src/components/ProductShowcase.tsx",
+        "src/content/hero-preview-media.json",
+        "public/videos/izem-coach-chat-dark-web-v2.mp4",
+        "public/videos/izem-workout-nutrition-dark-web-v2.mp4",
+        "public/images/hero1-desktop-v2.webp",
+        "public/images/hero2-desktop-v2.webp"
+      ],
+      "launchedAt": "2026-10-18",
+      "lockUntil": "2026-11-08",
+      "preferredReviewAt": "2026-11-15",
+      "reason": "Owner requested removing the full initial still pause from the two app-demo recordings so playback moves immediately. Trimmed workout/nutrition by 3.2 seconds and chat by 4 seconds, with matching cache-safe posters and shared sources. Preserve this intervention while observing; no ranking or conversion improvement is asserted. See docs/seo-experiments/2026-10-18-app-demo-trim.md.",
+      "ownerDirectedRevisions": [
+        {
+          "id": "owner-mobile-performance-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-mobile-performance.md",
+          "file": "src/components/ProductShowcase.tsx",
+          "baseSha256": "183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c",
+          "headSha256": "60c8691957583f2e4c723d427f25e107b906579727683e777d593497c5f4e992"
+        }
+      ]
+    },
+    {
+      "id": "owner-unfair-advantage-opening-2026-10-18",
+      "url": "/",
+      "files": [
+        "src/components/OpeningVideo.tsx",
+        "src/components/StoreDownloadButton.tsx",
+        "src/components/StoreDownloadButton.css",
+        "public/videos/intro/izem-unfair-advantage-desktop-v1.mp4",
+        "public/videos/intro/izem-unfair-advantage-mobile-v1.mp4",
+        "public/images/intro/izem-unfair-advantage-desktop-v1.webp",
+        "public/images/intro/izem-unfair-advantage-mobile-v1.webp"
+      ],
+      "launchedAt": "2026-10-18",
+      "lockUntil": "2026-11-08",
+      "preferredReviewAt": "2026-11-15",
+      "reason": "Owner explicitly requested the supplied portrait and widescreen Unfair Advantage films and a larger download button. This presentation intervention overlaps earlier homepage film/download observation windows; preserve it while observing, without attributing later engagement solely to earlier releases. See docs/seo-experiments/2026-10-18-unfair-advantage-opening.md."
+    },
     {
       "id": "owner-homepage-presentation-refinement-2026-10-12",
       "url": "/",
@@ -55,6 +119,24 @@
           "baseSha256": "b887314e24516e9411f4cf0948e79948c0f41bc4869949236a9585c87a06edad",
           "headSha256": "95b9e0c4c392b414b3630978d87e00bf8090d2a44b86185f277a82729ba1c4aa",
           "reviewNote": "docs/seo-experiments/2026-10-12-athletic-homepage-revision.md"
+        },
+        {
+          "id": "owner-app-demo-trim-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-app-demo-trim.md",
+          "file": "src/components/ProductShowcase.tsx",
+          "baseSha256": "183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c",
+          "headSha256": "ddbd7e87182baeb16172c74e2c1dbef77113b64790604eabbab92781349d86b1"
+        },
+        {
+          "id": "owner-mobile-performance-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-mobile-performance.md",
+          "file": "src/components/ProductShowcase.tsx",
+          "baseSha256": "183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c",
+          "headSha256": "60c8691957583f2e4c723d427f25e107b906579727683e777d593497c5f4e992"
         }
       ]
     },
@@ -72,7 +154,27 @@
       "launchedAt": "2026-10-12",
       "lockUntil": "2026-11-02",
       "preferredReviewAt": "2026-11-09",
-      "reason": "Owner-requested platform download action added to the opening-film experience. Publication depends on confirmed store destinations. Preserve the action's presentation and routing; existing film and FAQ locks remain intact. See docs/seo-experiments/2026-10-12-platform-download-button.md."
+      "reason": "Owner-requested platform download action added to the opening-film experience. Publication depends on confirmed store destinations. Preserve the action's presentation and routing; existing film and FAQ locks remain intact. See docs/seo-experiments/2026-10-12-platform-download-button.md.",
+      "ownerDirectedRevisions": [
+        {
+          "id": "owner-unfair-advantage-opening-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-unfair-advantage-opening.md",
+          "file": "src/components/StoreDownloadButton.tsx",
+          "baseSha256": "942000023777c5e0a81d1925483cb9c0412336102b332846e6053f01f0d59a5e",
+          "headSha256": "ec59c36c783c110435002591950b4a4c70246632b30d4798be954f3ea12c07ca"
+        },
+        {
+          "id": "owner-unfair-advantage-opening-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-unfair-advantage-opening.md",
+          "file": "src/components/StoreDownloadButton.css",
+          "baseSha256": "95635f4db2cfa9d9bce11fef1c3bb180aa6d47f45847725c915bf914b787d21e",
+          "headSha256": "e7f4106c4dc0946b1370e06141e4cb59f58b906bde6dfd40f07c807b0dc65372"
+        }
+      ]
     },
     {
       "id": "owner-requested-opening-film-2026-10-12",
@@ -97,6 +199,33 @@
           "baseSha256": "1f893dfe23564d9d91b8a63e258f850d43970028b645e72cff5dac5b097da1da",
           "headSha256": "6943a5e180e635cdf5d5ca23d348645443146c68dda7641de32a1096834e7ff4",
           "reviewNote": "docs/seo-experiments/2026-10-12-athletic-homepage-revision.md"
+        },
+        {
+          "id": "owner-unfair-advantage-opening-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-unfair-advantage-opening.md",
+          "file": "src/components/OpeningVideo.tsx",
+          "baseSha256": "606adca1bcdefdcd5fccd47c0700d7eb33d3fec7c520340050ada748736614ef",
+          "headSha256": "c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4"
+        },
+        {
+          "id": "owner-mobile-performance-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-mobile-performance.md",
+          "file": "src/components/Hero.tsx",
+          "baseSha256": "6943a5e180e635cdf5d5ca23d348645443146c68dda7641de32a1096834e7ff4",
+          "headSha256": "cfeb8db18ba2c17b7ddd5e866d3957e6a506a3b7bbc5ca44eb1ec63ff29813f7"
+        },
+        {
+          "id": "owner-mobile-performance-2026-10-18",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-18",
+          "reviewNote": "docs/seo-experiments/2026-10-18-mobile-performance.md",
+          "file": "src/components/Navigation.tsx",
+          "baseSha256": "8ac9738d1054fc19e12266abd97ff399c78ac4670523a6306570e5ec6df94407",
+          "headSha256": "7a851d76ec9537e5dc378ed42fe089184a60a8db2c4531a4b0a6d7bacda36c76"
         }
       ]
     },

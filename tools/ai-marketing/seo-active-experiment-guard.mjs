@@ -126,11 +126,57 @@ export const REVIEWED_OWNER_DESIGN_REVISION = Object.freeze({
   ]),
 });
 
+// A separate owner-requested opening film and download-button revision. The
+// original experiment dates and prior revision records remain unchanged.
+export const REVIEWED_OWNER_MEDIA_REVISION = Object.freeze({
+  id: 'owner-unfair-advantage-opening-2026-10-18',
+  kind: 'owner-directed-presentation-revision',
+  date: '2026-10-18',
+  reviewNote: 'docs/seo-experiments/2026-10-18-unfair-advantage-opening.md',
+  files: Object.freeze([
+    Object.freeze({ file: 'src/components/OpeningVideo.tsx', baseSha256: '606adca1bcdefdcd5fccd47c0700d7eb33d3fec7c520340050ada748736614ef', headSha256: 'c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4' }),
+    Object.freeze({ file: 'src/components/StoreDownloadButton.tsx', baseSha256: '942000023777c5e0a81d1925483cb9c0412336102b332846e6053f01f0d59a5e', headSha256: 'ec59c36c783c110435002591950b4a4c70246632b30d4798be954f3ea12c07ca' }),
+    Object.freeze({ file: 'src/components/StoreDownloadButton.css', baseSha256: '95635f4db2cfa9d9bce11fef1c3bb180aa6d47f45847725c915bf914b787d21e', headSha256: 'e7f4106c4dc0946b1370e06141e4cb59f58b906bde6dfd40f07c807b0dc65372' }),
+  ]),
+});
+
+// The owner requested removing the still lead-in from both app-demo clips.
+export const REVIEWED_OWNER_DEMO_TRIM_REVISION = Object.freeze({
+  id: 'owner-app-demo-trim-2026-10-18',
+  kind: 'owner-directed-presentation-revision',
+  date: '2026-10-18',
+  reviewNote: 'docs/seo-experiments/2026-10-18-app-demo-trim.md',
+  files: Object.freeze([
+    Object.freeze({ file: 'src/components/ProductShowcase.tsx', baseSha256: '183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c', headSha256: 'ddbd7e87182baeb16172c74e2c1dbef77113b64790604eabbab92781349d86b1' }),
+  ]),
+});
+
+// The owner requested improving mobile performance while preserving the
+// presentation. Keep this cumulative PR transition separate from prior reviews.
+export const REVIEWED_OWNER_MOBILE_PERFORMANCE_REVISION = Object.freeze({
+  id: 'owner-mobile-performance-2026-10-18',
+  kind: 'owner-directed-presentation-revision',
+  date: '2026-10-18',
+  reviewNote: 'docs/seo-experiments/2026-10-18-mobile-performance.md',
+  files: Object.freeze([
+    Object.freeze({ file: 'src/components/Hero.tsx', baseSha256: '6943a5e180e635cdf5d5ca23d348645443146c68dda7641de32a1096834e7ff4', headSha256: 'cfeb8db18ba2c17b7ddd5e866d3957e6a506a3b7bbc5ca44eb1ec63ff29813f7' }),
+    Object.freeze({ file: 'src/components/Navigation.tsx', baseSha256: '8ac9738d1054fc19e12266abd97ff399c78ac4670523a6306570e5ec6df94407', headSha256: '7a851d76ec9537e5dc378ed42fe089184a60a8db2c4531a4b0a6d7bacda36c76' }),
+    Object.freeze({ file: 'src/components/ProductShowcase.tsx', baseSha256: '183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c', headSha256: '60c8691957583f2e4c723d427f25e107b906579727683e777d593497c5f4e992' }),
+  ]),
+});
+
+const REVIEWED_OWNER_PRESENTATION_REVISIONS = Object.freeze([
+  REVIEWED_OWNER_DESIGN_REVISION,
+  REVIEWED_OWNER_MEDIA_REVISION,
+  REVIEWED_OWNER_DEMO_TRIM_REVISION,
+  REVIEWED_OWNER_MOBILE_PERFORMANCE_REVISION,
+]);
+
 function isFrozenOwnerDesignReview(reviewed) {
-  const pinned = REVIEWED_OWNER_DESIGN_REVISION;
-  if (!reviewed || ['id', 'kind', 'date', 'reviewNote'].some(field => reviewed[field] !== pinned[field]) ||
+  const pinned = REVIEWED_OWNER_PRESENTATION_REVISIONS.find(manifest => manifest.id === reviewed?.id);
+  if (!pinned || ['id', 'kind', 'date', 'reviewNote'].some(field => reviewed[field] !== pinned[field]) ||
       !Array.isArray(reviewed.files) || reviewed.files.length !== pinned.files.length) return false;
-  return reviewed.files.every((entry, index) => entry.file === pinned.files[index].file &&
+  return reviewed.files.every((entry, index) => entry?.file === pinned.files[index].file &&
     /^[a-f0-9]{64}$/.test(entry.baseSha256 || '') && /^[a-f0-9]{64}$/.test(entry.headSha256 || '') &&
     entry.baseSha256 !== entry.headSha256);
 }
@@ -566,7 +612,9 @@ async function main() {
   const ownerImageSafetyOverrideFiles = ownerImagePolicySafetyOverrideFiles(args.base, args.head, changedFiles);
   const videoSafetyOverrideFiles = documentedVideoSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
   const calculatorSafetyOverrideFiles = documentedCalculatorSafetyOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
-  const ownerDesignOverrideFiles = documentedOwnerDesignOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
+  const ownerDesignOverrideFiles = new Set(REVIEWED_OWNER_PRESENTATION_REVISIONS.flatMap(reviewed =>
+    [...documentedOwnerDesignOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant,
+      exactFileAtRef, reviewed)]));
   const svgRenderingOverrideFiles = documentedSvgRenderingOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);
 
   const archiveDiscoveryOverrideFiles = documentedArchiveDiscoveryOverrideFiles(args.base, args.head, changedFiles, baseConfig, config, instant);

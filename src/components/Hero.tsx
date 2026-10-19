@@ -90,8 +90,8 @@ export default function Hero() {
                   <img
                     data-izem-hero-preview="true"
                     src={previewImage} alt={previewAlt}
-                    width="800" height="1260" loading="eager"
-                    decoding="async" fetchPriority="high"
+                    width="800" height="1260" loading="lazy"
+                    decoding="async" fetchPriority="auto"
                   />
                 )}
               </div>

@@ -25,9 +25,11 @@ export default function StoreDownloadButton() {
       href={getDownloadUrl(platform)}
       aria-label={`Download IZEM from ${destination}`}
     >
-      <Download size={17} aria-hidden="true" />
-      <span>Download IZEM</span>
-      <ArrowUpRight className="store-download-button__arrow" size={17} aria-hidden="true" />
+      <Download className="store-download-button__icon" size={21} strokeWidth={1.8} aria-hidden="true" />
+      <span className="store-download-button__label">Download IZEM</span>
+      <span className="store-download-button__arrow" aria-hidden="true">
+        <ArrowUpRight size={21} strokeWidth={1.8} />
+      </span>
     </a>,
     target,
   );
