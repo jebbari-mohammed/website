@@ -875,6 +875,30 @@
       "lockUntil": "2026-11-01",
       "preferredReviewAt": "2026-11-08",
       "reason": "One contextual link from the matured missed-target progression article to the TRX setup comparison; surrounding copy preserved. Observe discovery and relevant visits without daily rewrites."
+    },
+    {
+      "id": "trust-editorial-and-about-eeat-2026-10-13",
+      "url": "/editorial-policy.html",
+      "files": [
+        "public/editorial-policy.html",
+        "public/about.html"
+      ],
+      "launchedAt": "2026-10-19",
+      "lockUntil": "2026-11-02",
+      "preferredReviewAt": "2026-11-09",
+      "reason": "Add calculator formula documentation, primary peer-reviewed citations, accountable publisher Person schema, and hub links to /editorial-policy.html and /about. Preserve for a 14-day trust and discovery evaluation window."
+    },
+    {
+      "id": "blog-4-day-upper-lower-workout-split-launch-2026-10-19",
+      "url": "/blog/4-day-upper-lower-workout-split",
+      "files": [
+        "public/blog/assets/4-day-upper-lower-workout-split/hero.svg",
+        "public/blog/assets/4-day-upper-lower-workout-split/framework.svg"
+      ],
+      "launchedAt": "2026-10-19",
+      "lockUntil": "2026-11-09",
+      "preferredReviewAt": "2026-11-16",
+      "reason": "Publish SERP-synthesized human guide for \"4 day upper lower workout split\" on the 3-day schedule. Preserve assets for a 21-day crawl, indexing, and ranking evaluation window while allowing dedicated video attachment."
     }
   ]
 }

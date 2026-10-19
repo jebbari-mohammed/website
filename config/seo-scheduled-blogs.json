@@ -80,7 +80,8 @@
         "preferredReviewAt": "2026-11-09",
         "reason": "Add calculator formula documentation, primary peer-reviewed citations, accountable publisher Person schema, and hub links to /editorial-policy.html and /about. Preserve for a 14-day trust and discovery evaluation window."
       },
-      "status": "scheduled"
+      "status": "published",
+      "publishedAt": "2026-10-19"
     }
   ],
   "schedule": [
@@ -105,7 +106,8 @@
       "draftPath": "public/blog/drafts/4-day-upper-lower-workout-split.html",
       "livePath": "public/blog/4-day-upper-lower-workout-split.html",
       "assetsDir": "public/blog/assets/4-day-upper-lower-workout-split",
-      "status": "scheduled"
+      "status": "published",
+      "publishedAt": "2026-10-19"
     },
     {
       "order": 3,
