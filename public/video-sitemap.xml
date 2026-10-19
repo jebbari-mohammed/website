@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/ZLpd1CbDKgY/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/ZLpd1CbDKgY.svg</video:thumbnail_loc>
+      <video:title>4-Day Upper Lower Workout Split: Complete A/B Routine</video:title>
+      <video:description>Build muscle and strength with a 4-day upper/lower workout split. Includes Upper A, Lower A, Upper B, and Lower B tables, dumbbell swaps, and a 3-day fallback rule.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/ZLpd1CbDKgY</video:player_loc>
+      <video:publication_date>2026-10-19T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/ANQ8tU4Vyq4/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/ANQ8tU4Vyq4.svg</video:thumbnail_loc>

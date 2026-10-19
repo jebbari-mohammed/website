@@ -612,7 +612,28 @@
         "frameDigest": "091829d3318fd3a2fd4971e9e8847ea31cbdf1f1abd0008adadae9305df6bd83"
       },
       "date": "2026-10-18T14:41:22.811Z"
+    },
+    {
+      "slug": "4-day-upper-lower-workout-split",
+      "title": "Train upper body on Monday and Thursday, lower body on Tuesday and Friday.",
+      "url": "https://youraicoach.life/blog/4-day-upper-lower-workout-split",
+      "youtube": "https://youtube.com/watch?v=ZLpd1CbDKgY",
+      "notebook_id": "1d8cbc62-da6e-4219-985f-7b0c27d93fb1",
+      "visual_policy": "objects-only-v1",
+      "people_free_validated": true,
+      "publication": {
+        "videoId": "ZLpd1CbDKgY",
+        "title": "Train upper body on Monday and Thursday, lower body on Tuesday and Friday. | IZEM",
+        "channelId": "UCruC83NAOtNJjEsSToD0Ncw",
+        "publishedAt": "2026-10-19T16:30:06Z",
+        "privacyStatus": "public",
+        "uploadStatus": "processed",
+        "processingStatus": "succeeded",
+        "verifiedAt": "2026-10-19T16:30:09.065Z"
+      },
+      "render_method": "notebooklm-native",
+      "date": "2026-10-19T16:30:09.067Z"
     }
   ],
-  "lastRun": "2026-10-18T14:41:22.811Z"
+  "lastRun": "2026-10-19T16:30:09.067Z"
 }

@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "ZLpd1CbDKgY",
+      "title": "4-Day Upper Lower Workout Split: Complete A/B Routine",
+      "description": "Build muscle and strength with a 4-day upper/lower workout split. Includes Upper A, Lower A, Upper B, and Lower B tables, dumbbell swaps, and a 3-day fallback rule.",
+      "uploadDate": "2026-10-19",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/4-day-upper-lower-workout-split",
+          "relativePath": "blog/4-day-upper-lower-workout-split.html",
+          "title": "4-Day Upper Lower Workout Split: Complete A/B Routine"
+        }
+      ]
+    },
+    {
       "id": "ANQ8tU4Vyq4",
       "title": "TRX workout for beginners: a simple routine you can repeat",
       "description": "Start with a simple TRX workout, learn the setup for each move, and use a practical log to track progress without guessing about strap length or body angle.",
