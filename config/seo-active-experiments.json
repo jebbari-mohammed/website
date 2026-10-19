@@ -1,11 +1,26 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-18",
+  "updatedAt": "2026-10-19",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
   },
   "locks": [
+    {
+      "id": "owner-unfair-advantage-renders-2026-10-19",
+      "url": "/",
+      "files": [
+        "src/components/OpeningVideo.tsx",
+        "public/videos/intro/izem-unfair-advantage-desktop-v2.mp4",
+        "public/videos/intro/izem-unfair-advantage-mobile-v2.mp4",
+        "public/images/intro/izem-unfair-advantage-desktop-v2.webp",
+        "public/images/intro/izem-unfair-advantage-mobile-v2.webp"
+      ],
+      "launchedAt": "2026-10-19",
+      "lockUntil": "2026-11-09",
+      "preferredReviewAt": "2026-11-16",
+      "reason": "Owner supplied replacement portrait and widescreen renders after the previous opening-film release. Versioned web copies and matching posters replace only the opening media. Retain the prior experiment windows and account for this owner intervention when interpreting engagement. See docs/seo-experiments/2026-10-19-opening-video-renders.md."
+    },
     {
       "id": "owner-mobile-performance-2026-10-18",
       "url": "/",
@@ -68,7 +83,18 @@
       "launchedAt": "2026-10-18",
       "lockUntil": "2026-11-08",
       "preferredReviewAt": "2026-11-15",
-      "reason": "Owner explicitly requested the supplied portrait and widescreen Unfair Advantage films and a larger download button. This presentation intervention overlaps earlier homepage film/download observation windows; preserve it while observing, without attributing later engagement solely to earlier releases. See docs/seo-experiments/2026-10-18-unfair-advantage-opening.md."
+      "reason": "Owner explicitly requested the supplied portrait and widescreen Unfair Advantage films and a larger download button. This presentation intervention overlaps earlier homepage film/download observation windows; preserve it while observing, without attributing later engagement solely to earlier releases. See docs/seo-experiments/2026-10-18-unfair-advantage-opening.md.",
+      "ownerDirectedRevisions": [
+        {
+          "id": "owner-unfair-advantage-renders-2026-10-19",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-19",
+          "reviewNote": "docs/seo-experiments/2026-10-19-opening-video-renders.md",
+          "file": "src/components/OpeningVideo.tsx",
+          "baseSha256": "c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4",
+          "headSha256": "ddb5b3d337cc17791b03e4c846dad5f9aac86a20468b6d94d0b6ae98d18c44ed"
+        }
+      ]
     },
     {
       "id": "owner-homepage-presentation-refinement-2026-10-12",
@@ -226,6 +252,15 @@
           "file": "src/components/Navigation.tsx",
           "baseSha256": "8ac9738d1054fc19e12266abd97ff399c78ac4670523a6306570e5ec6df94407",
           "headSha256": "7a851d76ec9537e5dc378ed42fe089184a60a8db2c4531a4b0a6d7bacda36c76"
+        },
+        {
+          "id": "owner-unfair-advantage-renders-2026-10-19",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-19",
+          "reviewNote": "docs/seo-experiments/2026-10-19-opening-video-renders.md",
+          "file": "src/components/OpeningVideo.tsx",
+          "baseSha256": "c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4",
+          "headSha256": "ddb5b3d337cc17791b03e4c846dad5f9aac86a20468b6d94d0b6ae98d18c44ed"
         }
       ]
     },

@@ -16,6 +16,7 @@ import {
   REVIEWED_OWNER_MEDIA_REVISION,
   REVIEWED_OWNER_DEMO_TRIM_REVISION,
   REVIEWED_OWNER_MOBILE_PERFORMANCE_REVISION,
+  REVIEWED_OWNER_OPENING_RENDERS_REVISION,
   REVIEWED_SVG_RENDERING_CORRECTION,
   documentedSvgRenderingOverrideFiles,
   documentedArchiveDiscoveryOverrideFiles,
@@ -640,6 +641,29 @@ function ownerMediaFixture(manifest = REVIEWED_OWNER_MEDIA_REVISION) {
     'base', 'head', changed, base, head, now, reader, reviewed);
   return { review, contents, base, head, files, now, note, record, read, check };
 }
+
+test('replacement opening renders permit only the reviewed source transition and retain the lock', () => {
+  const f = ownerMediaFixture(REVIEWED_OWNER_OPENING_RENDERS_REVISION);
+  f.now.setUTCDate(19);
+  assert.deepEqual([...f.check()], ['src/components/OpeningVideo.tsx']);
+  assert.deepEqual(findActiveLockMutationViolations(f.base, f.head, f.now), []);
+  const file = f.review.files[0].file;
+  f.contents[file].head += '\n';
+  assert.equal(f.check().size, 0, 'An additional source change is outside this reviewed replacement');
+});
+
+test('replacement render approval cannot replay or shorten the prior observation window', () => {
+  for (const mutation of [
+    f => { f.base.locks[0].ownerDirectedRevisions.push(f.record(f.review.files[0])); },
+    f => { f.head.locks[0].lockUntil = '2026-10-19'; },
+    f => { f.head.locks[0].ownerDirectedRevisions.at(-1).headSha256 = '0'.repeat(64); },
+  ]) {
+    const f = ownerMediaFixture(REVIEWED_OWNER_OPENING_RENDERS_REVISION);
+    f.now.setUTCDate(19);
+    mutation(f);
+    assert.equal(f.check().size, 0);
+  }
+});
 
 test('the separate owner media revision accepts exact reviewed transitions and retains prior approval records', () => {
   const f = ownerMediaFixture();

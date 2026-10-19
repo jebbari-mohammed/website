@@ -12,10 +12,10 @@ const screenshotDirectory = process.env.OPENING_VIDEO_SCREENSHOT_DIR
   ? path.resolve(process.env.OPENING_VIDEO_SCREENSHOT_DIR) : ''
 const section = '#opening-film'
 const player = `${section} video[data-izem-opening-video]`
-const mobileVideo = '/videos/intro/izem-unfair-advantage-mobile-v1.mp4'
-const desktopVideo = '/videos/intro/izem-unfair-advantage-desktop-v1.mp4'
-const mobilePoster = '/images/intro/izem-unfair-advantage-mobile-v1.webp'
-const desktopPoster = '/images/intro/izem-unfair-advantage-desktop-v1.webp'
+const mobileVideo = '/videos/intro/izem-unfair-advantage-mobile-v2.mp4'
+const desktopVideo = '/videos/intro/izem-unfair-advantage-desktop-v2.mp4'
+const mobilePoster = '/images/intro/izem-unfair-advantage-mobile-v2.webp'
+const desktopPoster = '/images/intro/izem-unfair-advantage-desktop-v2.webp'
 const introVideos = [mobileVideo, desktopVideo]
 assert.ok(existsSync(path.join(root, 'index.html')), `Build first: ${root}/index.html is missing`)
 if (screenshotDirectory) await mkdir(screenshotDirectory, { recursive: true })

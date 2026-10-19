@@ -165,11 +165,24 @@ export const REVIEWED_OWNER_MOBILE_PERFORMANCE_REVISION = Object.freeze({
   ]),
 });
 
+// The owner supplied replacement renders after the initial film release.
+// Only the two versioned media references in OpeningVideo change.
+export const REVIEWED_OWNER_OPENING_RENDERS_REVISION = Object.freeze({
+  id: 'owner-unfair-advantage-renders-2026-10-19',
+  kind: 'owner-directed-presentation-revision',
+  date: '2026-10-19',
+  reviewNote: 'docs/seo-experiments/2026-10-19-opening-video-renders.md',
+  files: Object.freeze([
+    Object.freeze({ file: 'src/components/OpeningVideo.tsx', baseSha256: 'c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4', headSha256: 'ddb5b3d337cc17791b03e4c846dad5f9aac86a20468b6d94d0b6ae98d18c44ed' }),
+  ]),
+});
+
 const REVIEWED_OWNER_PRESENTATION_REVISIONS = Object.freeze([
   REVIEWED_OWNER_DESIGN_REVISION,
   REVIEWED_OWNER_MEDIA_REVISION,
   REVIEWED_OWNER_DEMO_TRIM_REVISION,
   REVIEWED_OWNER_MOBILE_PERFORMANCE_REVISION,
+  REVIEWED_OWNER_OPENING_RENDERS_REVISION,
 ]);
 
 function isFrozenOwnerDesignReview(reviewed) {
