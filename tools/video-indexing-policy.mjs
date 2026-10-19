@@ -9,6 +9,8 @@ export const decorativeVideoPaths = [
   '/videos/intro/izem-intro-mobile-v1.mp4',
   '/videos/intro/izem-unfair-advantage-desktop-v1.mp4',
   '/videos/intro/izem-unfair-advantage-mobile-v1.mp4',
+  '/videos/intro/izem-unfair-advantage-desktop-v2.mp4',
+  '/videos/intro/izem-unfair-advantage-mobile-v2.mp4',
   '/videos/izem-coach-chat-dark-web.mp4',
   '/videos/izem-workout-nutrition-dark-web.mp4',
 ]
@@ -20,6 +22,8 @@ export const decorativePosterPaths = [
   '/images/intro/izem-intro-mobile-v1.webp',
   '/images/intro/izem-unfair-advantage-desktop-v1.webp',
   '/images/intro/izem-unfair-advantage-mobile-v1.webp',
+  '/images/intro/izem-unfair-advantage-desktop-v2.webp',
+  '/images/intro/izem-unfair-advantage-mobile-v2.webp',
   '/images/showcase-workout-v1.webp',
   '/images/showcase-chat-v1.webp',
   '/images/hero1-desktop.webp',
