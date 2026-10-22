@@ -21,8 +21,122 @@ import {
   documentedSvgRenderingOverrideFiles,
   documentedArchiveDiscoveryOverrideFiles,
   documentedTrxPaletteOverrideFiles,
+  REVIEWED_GOOGLE_PLAY_AVAILABILITY_CORRECTION,
+  documentedGooglePlayAvailabilityOverrideFiles,
   validateConfig,
 } from './seo-active-experiment-guard.mjs';
+
+function googlePlayAvailabilityFixture() {
+  const pinned = REVIEWED_GOOGLE_PLAY_AVAILABILITY_CORRECTION;
+  const contents = Object.fromEntries(pinned.files.map(({ file }) => [file, {
+    base: `Existing review status in ${file}.\n`, head: `Verified Google Play availability in ${file}.\n`,
+  }]));
+  const digest = value => createHash('sha256').update(value, 'utf8').digest('hex');
+  const review = { ...pinned, files: pinned.files.map(({ file }) => ({ file,
+    baseSha256: digest(contents[file].base), headSha256: digest(contents[file].head) })) };
+  const prior = { id: 'prior-reviewed-correction', file: review.files[0]?.file, date: '2026-10-20' };
+  const lock = { id: 'availability-home', url: '/', files: review.files.map(entry => entry.file),
+    launchedAt: '2026-10-12', lockUntil: '2026-11-02', preferredReviewAt: '2026-11-09',
+    reason: 'Protect the existing homepage experiment.', corrections: [prior] };
+  const duplicate = { ...structuredClone(lock), id: 'availability-overlap', files: [review.files[0]?.file] };
+  const base = { version: 1, locks: [lock, duplicate] };
+  const head = structuredClone(base);
+  for (const record of head.locks) record.corrections.push(...review.files.filter(entry => record.files.includes(entry.file))
+    .map(entry => ({ id: review.id, kind: review.kind, date: review.date, reviewNote: review.reviewNote, ...entry })));
+  const changed = ['config/seo-active-experiments.json', review.reviewNote, ...review.files.map(entry => entry.file)];
+  const read = (ref, file) => file === 'config/seo-active-experiments.json' ? JSON.stringify(head) :
+    file === review.reviewNote ? JSON.stringify(review) : contents[file]?.[ref] ?? null;
+  const now = new Date('2026-10-22T18:00:00Z');
+  const check = (reader = read, files = changed, reviewed = review, original = base, at = now) =>
+    documentedGooglePlayAvailabilityOverrideFiles('base', 'head', files, original, head, at, reader, reviewed);
+  return { review, contents, base, head, changed, read, check, now };
+}
+
+test('Google Play factual correction accepts only the reviewed transitions with every protecting annotation', () => {
+  const f = googlePlayAvailabilityFixture();
+  assert.deepEqual([...f.check()], f.review.files.map(entry => entry.file));
+  assert.deepEqual(findActiveLockViolations(f.changed, f.head, f.now, { ignoreFiles: f.check() }), []);
+  assert.equal(f.head.locks[0].corrections[0].id, 'prior-reviewed-correction');
+});
+
+test('Google Play correction rejects any changed byte in either side of the reviewed release', () => {
+  for (const mutate of [
+    f => { f.contents[f.review.files[0].file].head += '\n'; },
+    f => { f.contents[f.review.files[0].file].base += '\n'; },
+    f => { f.contents[f.review.files[0].file].head = f.contents[f.review.files[0].file].head.replace('\n', '\r\n'); },
+    f => { f.contents[f.review.files.at(-1).file].head += 'Unrelated content'; },
+  ]) {
+    const f = googlePlayAvailabilityFixture(); mutate(f);
+    assert.equal(f.check().size, 0);
+  }
+});
+
+test('Google Play correction requires committed documentation, configuration and every reviewed file', () => {
+  const f = googlePlayAvailabilityFixture();
+  for (const missing of f.changed) assert.equal(f.check(f.read, f.changed.filter(file => file !== missing)).size, 0);
+  assert.equal(f.check((ref, file) => file === f.review.reviewNote ? 'A factual correction.' : f.read(ref, file)).size, 0);
+  assert.equal(f.check((ref, file) => file === f.review.reviewNote ? null : f.read(ref, file)).size, 0);
+  const committed = JSON.stringify(f.head);
+  f.head.locks[0].corrections.pop();
+  assert.equal(f.check((ref, file) => file === 'config/seo-active-experiments.json' ? committed : f.read(ref, file)).size, 0);
+});
+
+test('Google Play correction rejects missing, modified or replayed annotations in any overlapping lock', () => {
+  for (const mutate of [
+    f => { f.head.locks[1].corrections.pop(); },
+    f => { f.head.locks[0].corrections[1].headSha256 = '0'.repeat(64); },
+    f => { f.head.locks[0].corrections[1].file = 'public/unrelated.html'; },
+    f => { f.base.locks[0].corrections.push(structuredClone(f.head.locks[0].corrections[1])); },
+    f => { f.head.locks[0].corrections.shift(); },
+    f => { f.head.locks[0].corrections[0].id = 'Changed prior history'; },
+  ]) {
+    const f = googlePlayAvailabilityFixture(); mutate(f);
+    assert.equal(f.check().size, 0);
+  }
+});
+
+test('Google Play correction cannot remove, shorten, retarget or otherwise mutate a protecting lock', () => {
+  for (const mutate of [
+    f => { f.head.locks.pop(); },
+    f => { f.head.locks[0].lockUntil = '2026-10-21'; },
+    f => { f.head.locks[0].files.pop(); },
+    f => { f.head.locks[0].url = '/another-page/'; },
+    f => { f.head.locks[0].preferredReviewAt = '2026-11-10'; },
+    f => { f.head.locks[0].reason = 'A different experiment.'; },
+    f => { f.head.locks[0].ownerDirectedRevisions = []; },
+  ]) {
+    const f = googlePlayAvailabilityFixture(); mutate(f);
+    assert.equal(f.check().size, 0);
+  }
+});
+
+test('Google Play correction manifest cannot authorize a different identity or file set', () => {
+  const f = googlePlayAvailabilityFixture();
+  for (const replacement of [
+    { id: 'generic-approval' }, { kind: 'owner-directed-presentation-revision' }, { date: '2026-10-21' },
+    { reviewNote: 'docs/another-note.md' }, { files: [] }, { files: f.review.files.slice(1) },
+    { files: f.review.files.map((entry, index) => index === 0 ? { ...entry, file: 'public/unrelated.html' } : entry) },
+    { files: f.review.files.map((entry, index) => index === 0 ? { ...entry, headSha256: entry.baseSha256 } : entry) },
+  ]) assert.equal(f.check(f.read, f.changed, { ...f.review, ...replacement }).size, 0);
+  assert.equal(f.check(f.read, f.changed, f.review, null).size, 0);
+  assert.equal(f.check(f.read, f.changed, f.review, f.base, new Date('2026-10-21T23:59:59Z')).size, 0);
+  assert.equal(f.check(f.read, f.changed, f.review, f.base, new Date('invalid')).size, 0);
+});
+
+test('Google Play release default rejects fixture hashes and leaves an unrelated protected edit blocked', () => {
+  const f = googlePlayAvailabilityFixture();
+  assert.equal(documentedGooglePlayAvailabilityOverrideFiles('base', 'head', f.changed, f.base, f.head,
+    f.now, f.read).size, 0);
+  const unrelated = 'src/components/Unrelated.tsx';
+  f.base.locks[0].files.push(unrelated);
+  f.head.locks[0].files.push(unrelated);
+  const changed = [...f.changed, unrelated];
+  const ignored = f.check(f.read, changed);
+  assert.equal(ignored.has(unrelated), false);
+  const violations = findActiveLockViolations(changed, f.head, f.now, { ignoreFiles: ignored });
+  assert.equal(violations.length, 1);
+  assert.deepEqual(violations[0].files, [unrelated]);
+});
 
 function svgRenderingFixture() {
   const review = REVIEWED_SVG_RENDERING_CORRECTION;

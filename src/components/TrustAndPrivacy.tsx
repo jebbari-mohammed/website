@@ -20,7 +20,7 @@ const trustPillars = [
   {
     icon: ShieldCheck,
     title: 'Store-Managed Billing',
-    desc: 'The app is awaiting store review. When subscriptions are available, purchases use the applicable store’s billing. IZEM does not process your payment card numbers.',
+    desc: 'IZEM is available on Google Play for Android. In-app purchases use Google Play billing. IZEM does not process your payment card numbers.',
   },
 ];
 

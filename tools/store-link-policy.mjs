@@ -7,8 +7,8 @@ const approvedLinks = Object.freeze({
   google: 'https://play.google.com/store/apps/details?id=com.ai.gym.coach',
 })
 const approvedFile = 'download/index.html'
-const approvedReview = 'docs/seo-experiments/2026-10-12-platform-download-button.md'
-const pendingNotice = 'Store links may be unavailable while the app is awaiting review.'
+const approvedReview = 'docs/seo-experiments/2026-10-22-google-play-availability.md'
+const pendingNotice = 'IZEM is available on Google Play for Android. The iOS App Store listing is not yet available.'
 
 function matchesPinnedLinks(value) {
   return value && typeof value === 'object' && !Array.isArray(value) &&
@@ -21,9 +21,9 @@ export function isOwnerApprovedPendingStoreLink(input = {}) {
   const { htmlFile, html, url, approval, configuredLinks } = input
   const href = typeof url === 'string' ? url : url instanceof URL ? url.href : ''
   if (htmlFile !== approvedFile || typeof html !== 'string' ||
-      !Object.values(approvedLinks).includes(href) || !matchesPinnedLinks(configuredLinks)) return false
-  if (!approval || approval.version !== 1 ||
-      approval.status !== 'owner-approved-pending-listings' || approval.approvedAt !== '2026-10-12' ||
+      href !== approvedLinks.apple || !matchesPinnedLinks(configuredLinks)) return false
+  if (!approval || approval.version !== 2 ||
+      approval.status !== 'owner-approved-pending-apple-listing' || approval.approvedAt !== '2026-10-22' ||
       approval.reviewNote !== approvedReview || approval.allowedFile !== approvedFile ||
       !matchesPinnedLinks(approval.urls)) return false
 

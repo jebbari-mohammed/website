@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from '../lib/motion';
 import { ArrowRight, CheckCircle2, MessageSquare, Dumbbell } from 'lucide-react';
 import heroPreviewMedia from '../content/hero-preview-media.json';
+import storeLinks from '../content/store-links.json';
 
 export default function Hero() {
   const [activeVideo, setActiveVideo] = useState<'chat' | 'workout'>('chat');
@@ -47,7 +48,7 @@ export default function Hero() {
       <div className="editorial-container">
         <div className="athletic-hero-layout">
           <div className="athletic-hero-copy">
-            <p className="athletic-hero-status"><span aria-hidden="true" />App awaiting store review</p>
+            <p className="athletic-hero-status"><span aria-hidden="true" />Available now on Google Play</p>
             <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="athletic-hero-heading">
               <span className="athletic-wordmark">IZEM.</span>{' '}
               <span className="athletic-hero-title">Your AI Personal Trainer</span>
@@ -56,13 +57,13 @@ export default function Hero() {
               Workouts, meals and coaching that share the same context. IZEM connects weekly plans, training logs, progress, AI chat and eligible voice calls around one profile.
             </p>
             <p className="athletic-hero-note">
-              The IZEM app is awaiting store review. While you wait, build a starting plan with the free workout generator on this website.
+              Download IZEM for Android on Google Play, or build a starting plan with the free workout generator on this website.
             </p>
             <div className="athletic-hero-actions">
-              <a href="/workout-plan-generator/" className="editorial-button athletic-primary-action">
-                <span>Try the free workout generator</span><ArrowRight aria-hidden="true" size={18} />
+              <a href={storeLinks.google} className="editorial-button athletic-primary-action">
+                <span>Get it on Google Play</span><ArrowRight aria-hidden="true" size={18} />
               </a>
-              <a href="#capabilities" className="editorial-link">Explore the app’s features</a>
+              <a href="/workout-plan-generator/" className="editorial-link">Try the free workout generator</a>
             </div>
             <div className="athletic-hero-proof">
               {['Workout plans & logs', 'Meals & grocery lists', 'Chat & eligible voice calls'].map((label) => <span key={label}><CheckCircle2 aria-hidden="true" size={15} />{label}</span>)}

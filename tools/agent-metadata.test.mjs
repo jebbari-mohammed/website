@@ -179,7 +179,7 @@ test('homepage application, service, website and publisher share resolvable enti
   assert.equal(app.author['@id'], `${origin}/#organization`);
   assert.equal(app.publisher['@id'], `${origin}/#organization`);
   for (const field of ['offers', 'aggregateRating', 'review', 'downloadUrl', 'installUrl']) {
-    assert.equal(app[field], undefined, `Do not invent ${field} for the app awaiting review`);
+    assert.equal(app[field], undefined, `Do not invent ${field} without verified storefront evidence`);
   }
   const service = byId.get(`${origin}/#coaching-service`);
   assert.equal(service['@type'], 'Service');
@@ -219,7 +219,13 @@ test('the shared homepage FAQ matches visible answers and their JSON-LD exactly'
     assert.equal(visible.find('h3').attr('id'), `faq-${item.id}`);
     assert.equal(visible.find('[data-izem-faq-answer]').text().trim(), item.answer);
     assert.equal(visible.find('a').attr('href'), item.href);
-    assert.ok(publicPathExists(new URL(item.href, origin)), `FAQ link must resolve: ${item.href}`);
+    const destination = new URL(item.href, origin);
+    if (destination.origin === origin) {
+      assert.ok(publicPathExists(destination), `FAQ link must resolve: ${item.href}`);
+    } else {
+      assert.equal(item.id, 'app-availability', 'Only the availability answer links directly to the verified storefront');
+      assert.equal(destination.href, 'https://play.google.com/store/apps/details?id=com.ai.gym.coach');
+    }
     assert.equal(visible.find('button, [hidden], [aria-hidden="true"]').length, 0);
     assert.equal(visible.parents('[hidden], [aria-hidden="true"]').length, 0);
     const question = faqSchemas[0].mainEntity[index];
@@ -250,6 +256,8 @@ test('the canonical product overview uses the same app identity and current avai
   const app = graph.find(node => node['@id'] === `${origin}/#app`);
   assert.equal(app.name, 'IZEM. Your AI Personal Trainer');
   assert.deepEqual(app['@type'], ['SoftwareApplication', 'MobileApplication']);
-  assert.match(overview('body').text(), /The IZEM app is awaiting store review\./);
+  assert.match(overview('body').text(), /IZEM is available for Android on Google Play\./);
+  assert.equal(overview('a[href="https://play.google.com/store/apps/details?id=com.ai.gym.coach"]').length, 1);
+  assert.match(overview('body').text(), /The iOS App Store listing is not yet available\./);
   assert.doesNotMatch(overview('body').text(), /\$24\.99/);
 });

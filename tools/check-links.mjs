@@ -25,7 +25,6 @@ const brandAssets = [
 const knownDeadUrls = [
   'https://apps.apple.com/app/your-ai-coach',
   'https://apps.apple.com/app/id6760679807',
-  'https://play.google.com/store/apps/details?id=com.ai.gym.coach',
   'https://health.gov/our-work/nutrition-physical-activity/physical-activity-guidelines/current-guidelines/adults',
 ]
 

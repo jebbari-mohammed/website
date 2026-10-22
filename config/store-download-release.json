@@ -1,8 +1,8 @@
 {
-  "version": 1,
-  "status": "owner-approved-pending-listings",
-  "approvedAt": "2026-10-12",
-  "reviewNote": "docs/seo-experiments/2026-10-12-platform-download-button.md",
+  "version": 2,
+  "status": "owner-approved-pending-apple-listing",
+  "approvedAt": "2026-10-22",
+  "reviewNote": "docs/seo-experiments/2026-10-22-google-play-availability.md",
   "allowedFile": "download/index.html",
   "urls": {
     "apple": "https://apps.apple.com/app/id6760679807",

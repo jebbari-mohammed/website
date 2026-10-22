@@ -121,7 +121,7 @@ export default function Capabilities() {
               Explore IZEM’s Coaching Features.
             </h2>
             <p className="editorial-intro">
-              The app is awaiting store review. These product capabilities depend on platform and account eligibility; purchase terms and availability will be shown in the app when offered.
+              IZEM is available on Google Play for Android. These product capabilities depend on platform and account eligibility; current purchase terms are shown in the app and storefront.
             </p>
           </motion.div>
 
