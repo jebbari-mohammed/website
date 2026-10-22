@@ -178,7 +178,12 @@ test('homepage application, service, website and publisher share resolvable enti
   assert.equal(app.operatingSystem, 'iOS, Android');
   assert.equal(app.author['@id'], `${origin}/#organization`);
   assert.equal(app.publisher['@id'], `${origin}/#organization`);
-  for (const field of ['offers', 'aggregateRating', 'review', 'downloadUrl', 'installUrl']) {
+  assert.equal(app.installUrl, 'https://play.google.com/store/apps/details?id=com.ai.gym.coach');
+  assert.deepEqual(app.sameAs, [app.installUrl]);
+  assert.ok(app.alternateName.includes('IZEM: AI Fitness Coach'));
+  assert.equal(byId.get(`${origin}/#organization`).sameAs.includes(app.installUrl), false,
+    'The Play listing identifies the app, not the publisher organization');
+  for (const field of ['offers', 'aggregateRating', 'review', 'downloadUrl']) {
     assert.equal(app[field], undefined, `Do not invent ${field} without verified storefront evidence`);
   }
   const service = byId.get(`${origin}/#coaching-service`);
@@ -256,8 +261,16 @@ test('the canonical product overview uses the same app identity and current avai
   const app = graph.find(node => node['@id'] === `${origin}/#app`);
   assert.equal(app.name, 'IZEM. Your AI Personal Trainer');
   assert.deepEqual(app['@type'], ['SoftwareApplication', 'MobileApplication']);
+  const homepageApp = schemaNodes().find(node => node['@id'] === app['@id']);
+  assert.equal(app.installUrl, homepageApp.installUrl, 'Both pages must identify the same verified installation listing');
+  assert.deepEqual(app.sameAs, homepageApp.sameAs);
+  assert.ok(app.alternateName.includes('IZEM: AI Fitness Coach'));
+  for (const field of ['offers', 'aggregateRating', 'review', 'downloadUrl']) assert.equal(app[field], undefined);
+  const organization = graph.find(node => node['@id'] === `${origin}/#organization`);
+  assert.equal(organization.sameAs.includes(app.installUrl), false);
   assert.match(overview('body').text(), /IZEM is available for Android on Google Play\./);
   assert.equal(overview('a[href="https://play.google.com/store/apps/details?id=com.ai.gym.coach"]').length, 1);
+  assert.match(overview('#official-android-listing + p').text(), /IZEM: AI Fitness Coach.*AppsHF.*com\.ai\.gym\.coach/);
   assert.match(overview('body').text(), /The iOS App Store listing is not yet available\./);
   assert.doesNotMatch(overview('body').text(), /\$24\.99/);
 });

@@ -391,6 +391,22 @@ test('fails configuration validation for unsupported protected paths', () => {
   );
 });
 
+test('the root homepage document can be locked and remains protected during its evaluation window', () => {
+  const homepageConfig = { version: 1, locks: [{ ...config.locks[0], files: ['index.html'] }] };
+  assert.equal(validateConfig(homepageConfig), homepageConfig);
+  const violations = findActiveLockViolations(['index.html'], homepageConfig,
+    new Date(`${homepageConfig.locks[0].launchedAt}T12:00:00Z`));
+  assert.equal(violations.length, 1);
+  assert.deepEqual(violations[0].files, ['index.html']);
+});
+
+test('root homepage lock support does not allow other root files or nonexact homepage paths', () => {
+  for (const file of ['package.json', 'index.htm', './index.html', '/index.html', '../index.html']) {
+    assert.throws(() => validateConfig({ version: 1, locks: [{ ...config.locks[0], files: [file] }] }),
+      /unsupported path/);
+  }
+});
+
 test('recognizes an exact remote YouTube thumbnail to verified IZEM artwork safety replacement', () => {
   const base = '<img src="https://i.ytimg.com/vi/abc_123/hqdefault.jpg"><meta property="og:image" content="https://img.youtube.com/vi/abc_123/hqdefault.jpg">';
   const head = '<img src="https://youraicoach.life/youtube/thumbnails/abc_123.svg"><meta property="og:image" content="https://youraicoach.life/youtube/thumbnails/abc_123.svg">';

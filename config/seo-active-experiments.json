@@ -1154,6 +1154,18 @@
       "lockUntil": "2026-11-09",
       "preferredReviewAt": "2026-11-16",
       "reason": "Publish SERP-synthesized human guide for \"4 day upper lower workout split\" on the 3-day schedule. Preserve assets for a 21-day crawl, indexing, and ranking evaluation window while allowing dedicated video attachment."
+    },
+    {
+      "id": "verified-google-play-app-identity-2026-10-22",
+      "url": "/izem-ai-fitness-coach/",
+      "files": [
+        "index.html",
+        "public/izem-ai-fitness-coach/index.html"
+      ],
+      "launchedAt": "2026-10-22",
+      "lockUntil": "2026-11-12",
+      "preferredReviewAt": "2026-11-19",
+      "reason": "Connect the existing app identity on homepage and canonical product overview to its verified Google Play listing through sameAs and installUrl, with the exact public app title and visible developer attribution. This is one app-identity experiment, not a claim of Google endorsement or guaranteed ranking gain. Preserve recent availability and homepage presentation work. See docs/seo-experiments/2026-10-22-google-play-app-identity.md."
     }
   ]
 }

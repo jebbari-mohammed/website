@@ -265,7 +265,7 @@ export function validateConfig(config) {
     if (!lock.url || !String(lock.url).startsWith('/')) throw new Error(`Lock ${lock.id} needs a site-relative url`);
     if (!Array.isArray(lock.files) || lock.files.length === 0) throw new Error(`Lock ${lock.id} needs at least one protected file`);
     for (const file of lock.files) {
-      if (!String(file).startsWith('public/') && !String(file).startsWith('src/')) {
+      if (file !== 'index.html' && !String(file).startsWith('public/') && !String(file).startsWith('src/')) {
         throw new Error(`Lock ${lock.id} protects an unsupported path: ${file}`);
       }
     }
