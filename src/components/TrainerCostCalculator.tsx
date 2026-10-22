@@ -115,10 +115,10 @@ export default function TrainerCostCalculator() {
                       IZEM
                     </div>
                     <p className="editorial-budget-status">
-                      Prelaunch
+                      On Google Play
                     </p>
                     <p className="text-[11px] text-primary/80 mt-1">
-                      App awaiting store review
+                      See the app for current membership pricing
                     </p>
                   </div>
                 </div>

@@ -615,6 +615,84 @@ export function documentedTrxPaletteOverrideFiles(base, head, changedFiles, base
   return allowed;
 }
 
+// One factual release correction after the public Google Play listing became
+// installable. Release code pins the exact files and complete-file transitions;
+// annotations cannot authorize a broader availability claim or another edit.
+export const REVIEWED_GOOGLE_PLAY_AVAILABILITY_CORRECTION = Object.freeze({
+  id: 'google-play-availability-2026-10-22',
+  kind: 'store-availability-factual-correction',
+  date: '2026-10-22',
+  reviewNote: 'docs/seo-experiments/2026-10-22-google-play-availability.md',
+  files: Object.freeze([
+    Object.freeze({"file": "src/components/Hero.tsx", "baseSha256": "cfeb8db18ba2c17b7ddd5e866d3957e6a506a3b7bbc5ca44eb1ec63ff29813f7", "headSha256": "1937a4c289ad0e3f33da3df1e85ca1bd94836ad1f37dd8548b2be7434b9157e2"}),
+    Object.freeze({"file": "src/components/FinalCTA.tsx", "baseSha256": "f57e3e4dd5aa1f07aa525fac59df2aa09b6def049a724173990558a0d5adb103", "headSha256": "f05ccc60ff6fc2c4d83213bcd0072ded0390cb39a25960fd6d77ac0c561ae46c"}),
+    Object.freeze({"file": "src/components/EcosystemStrip.tsx", "baseSha256": "421ef030d97b5a7e18d350cf6497c4ec0f9e7401d6580d2051b697fc7bf44223", "headSha256": "750e2ca576ef37a2cfe4fc549305c46900c2eaf2c7bbfed37ec277b2bd71740a"}),
+    Object.freeze({"file": "src/components/TrainerCostCalculator.tsx", "baseSha256": "b26d7c469e0ff33911116a3584256bfb08cf5faaef42ce2fcd48d41353bf5416", "headSha256": "edbdfb9de71a250ec7727ea39433c3569f27ffc5f39e839a37b38ed3349178d5"}),
+    Object.freeze({"file": "src/components/TrustAndPrivacy.tsx", "baseSha256": "1b8137a1ec422e0715c4938355f12c86dc37183988c8057f7e9115a48dc67570", "headSha256": "4add7e6493a90018c2e512437ee71bd02a80c4b0a58682b2cfdc4a9ac43698a1"}),
+    Object.freeze({"file": "src/components/Capabilities.tsx", "baseSha256": "95b9e0c4c392b414b3630978d87e00bf8090d2a44b86185f277a82729ba1c4aa", "headSha256": "82906067d82bf1a96b64b8889b00d63181d5a157747e5403976293e6fbd5095f"}),
+    Object.freeze({"file": "src/content/homepage-faq.json", "baseSha256": "89bff47e4231ee66fe1f7133ef22a71106d9b239ba7bff47e7e9780bd38b8c60", "headSha256": "aa7d4c6e81e945564af438266ff3906ea468016f27fdc186ed1a996d27c52b9a"}),
+    Object.freeze({"file": "public/download/index.html", "baseSha256": "820cfb00d03aee2769fcf4483aaef00aaaa2ce5cc588e7fa005f9d6777f4fa80", "headSha256": "d4b4aa5123c240563cb3c8da17c7e9089a7713bd600a8e8fa8c2de173e5a7373"}),
+  ]),
+});
+
+function isFrozenGooglePlayAvailabilityReview(reviewed) {
+  const pinned = REVIEWED_GOOGLE_PLAY_AVAILABILITY_CORRECTION;
+  if (!reviewed || ['id', 'kind', 'date', 'reviewNote'].some(field => reviewed[field] !== pinned[field]) ||
+      !Array.isArray(reviewed.files) || !reviewed.files.length || reviewed.files.length !== pinned.files.length) return false;
+  return reviewed.files.every((entry, index) => entry?.file === pinned.files[index].file &&
+    /^[a-f0-9]{64}$/.test(entry.baseSha256 || '') && /^[a-f0-9]{64}$/.test(entry.headSha256 || '') &&
+    entry.baseSha256 !== entry.headSha256);
+}
+
+export function documentedGooglePlayAvailabilityOverrideFiles(base, head, changedFiles, baseConfig, headConfig, now,
+  readAtRef = exactFileAtRef, reviewed = REVIEWED_GOOGLE_PLAY_AVAILABILITY_CORRECTION) {
+  const allowed = new Set();
+  const instant = new Date(now);
+  if (!baseConfig || !isFrozenGooglePlayAvailabilityReview(reviewed) || Number.isNaN(instant.getTime()) ||
+      new Date(`${reviewed.date}T00:00:00Z`) > instant ||
+      findActiveLockMutationViolations(baseConfig, headConfig, instant).length ||
+      !['config/seo-active-experiments.json', reviewed.reviewNote, ...reviewed.files.map(entry => entry.file)]
+        .every(file => changedFiles.includes(file))) return allowed;
+
+  // Only committed annotations can approve the committed release bytes.
+  let committedConfig;
+  try { committedConfig = validateConfig(JSON.parse(readAtRef(head, 'config/seo-active-experiments.json'))); } catch { return allowed; }
+  if (JSON.stringify(committedConfig) !== JSON.stringify(headConfig)) return allowed;
+  const note = readAtRef(head, reviewed.reviewNote);
+  if (typeof note !== 'string' || ![reviewed.id, reviewed.kind, reviewed.date, reviewed.reviewNote]
+    .every(value => note.includes(value))) return allowed;
+
+  const digest = value => typeof value === 'string' ? createHash('sha256').update(value, 'utf8').digest('hex') : null;
+  const records = reviewed.files.map(entry => ({ id: reviewed.id, kind: reviewed.kind,
+    date: reviewed.date, reviewNote: reviewed.reviewNote, ...entry }));
+  for (const entry of reviewed.files) {
+    if (![entry.file, entry.baseSha256, entry.headSha256].every(value => note.includes(value)) ||
+        digest(readAtRef(base, entry.file)) !== entry.baseSha256 ||
+        digest(readAtRef(head, entry.file)) !== entry.headSha256) return allowed;
+  }
+
+  // Every active lock protecting a reviewed file keeps its complete definition
+  // and prior correction history, with only this release's records appended.
+  const protectingLocks = baseConfig.locks.filter(lock =>
+    instant <= new Date(`${lock.lockUntil}T23:59:59.999Z`) && reviewed.files.some(entry => lock.files.includes(entry.file)));
+  if (!protectingLocks.length) return allowed;
+  for (const baseLock of protectingLocks) {
+    const headLock = committedConfig.locks.find(lock => lock.id === baseLock.id);
+    if (!headLock) return allowed;
+    const { corrections: before = [], ...baseDefinition } = baseLock;
+    const { corrections: after = [], ...headDefinition } = headLock;
+    const additions = records.filter(record => baseLock.files.includes(record.file));
+    if (!Array.isArray(before) || !Array.isArray(after) ||
+        JSON.stringify(baseDefinition) !== JSON.stringify(headDefinition) ||
+        before.some(record => record.id === reviewed.id) ||
+        JSON.stringify(after) !== JSON.stringify([...before, ...additions])) return allowed;
+  }
+  for (const entry of reviewed.files) {
+    if (protectingLocks.some(lock => lock.files.includes(entry.file))) allowed.add(entry.file);
+  }
+  return allowed;
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = validateConfig(JSON.parse(fs.readFileSync(args.config, 'utf8')));
@@ -634,6 +712,9 @@ async function main() {
 
   const trxPaletteOverrideFiles = documentedTrxPaletteOverrideFiles(args.base,args.head,changedFiles,baseConfig,config,instant);
 
+  const googlePlayAvailabilityOverrideFiles = documentedGooglePlayAvailabilityOverrideFiles(args.base, args.head,
+    changedFiles, baseConfig, config, instant);
+
   const mutationViolations = findActiveLockMutationViolations(baseConfig, config, instant);
   if (mutationViolations.length) {
     console.error(`SEO active-experiment guard blocked ${mutationViolations.length} active lock weakening mutation(s).`);
@@ -647,7 +728,7 @@ async function main() {
 
   const violations = findActiveLockViolations(changedFiles, config, instant, {
     enforceLockIds: baseLockIds,
-    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles, ...calculatorSafetyOverrideFiles, ...ownerDesignOverrideFiles, ...svgRenderingOverrideFiles, ...archiveDiscoveryOverrideFiles, ...trxPaletteOverrideFiles]),
+    ignoreFiles: new Set([...ownerImageSafetyOverrideFiles, ...videoSafetyOverrideFiles, ...calculatorSafetyOverrideFiles, ...ownerDesignOverrideFiles, ...svgRenderingOverrideFiles, ...archiveDiscoveryOverrideFiles, ...trxPaletteOverrideFiles, ...googlePlayAvailabilityOverrideFiles]),
   });
 
   if (violations.length) {
@@ -676,6 +757,9 @@ async function main() {
   }
   if (svgRenderingOverrideFiles.size) {
     console.log(`SEO active-experiment guard accepted ${svgRenderingOverrideFiles.size} exact reviewed SVG XML rendering correction(s). Other asset content and lock dates remain protected.`);
+  }
+  if (googlePlayAvailabilityOverrideFiles.size) {
+    console.log(`SEO active-experiment guard accepted ${googlePlayAvailabilityOverrideFiles.size} exact reviewed Google Play availability correction(s). All protecting lock definitions and prior correction records remain intact.`);
   }
 
   const introduced = baseLockIds

@@ -32,9 +32,9 @@
     {
       "id": "app-availability",
       "question": "Is IZEM available on iOS and Android?",
-      "answer": "The IZEM app is awaiting store review. It is built for iOS and Android. Availability and purchase terms will depend on the applicable storefront when the app is offered. You can use the free website tools now.",
-      "href": "/tools/",
-      "linkLabel": "Try the free fitness tools"
+      "answer": "IZEM is available for Android on Google Play. The iOS App Store listing is not yet available. Store availability, pricing and subscription terms depend on your region and account. You can also use the free website tools.",
+      "href": "https://play.google.com/store/apps/details?id=com.ai.gym.coach",
+      "linkLabel": "Get IZEM on Google Play"
     },
     {
       "id": "coaching-limits",

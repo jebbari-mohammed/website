@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-19",
+  "updatedAt": "2026-10-22",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
@@ -39,7 +39,18 @@
       "launchedAt": "2026-10-18",
       "lockUntil": "2026-11-08",
       "preferredReviewAt": "2026-11-15",
-      "reason": "Owner requested measured phone performance improvements while preserving desktop presentation. Local body fonts, smaller matching posters/logo, deferred below-fold screenshot priority, document compression and visibility-aware demo playback address observed report/runtime costs. Preserve this intervention through the observation window; lab results are not field or ranking gains. See docs/seo-experiments/2026-10-18-mobile-performance.md."
+      "reason": "Owner requested measured phone performance improvements while preserving desktop presentation. Local body fonts, smaller matching posters/logo, deferred below-fold screenshot priority, document compression and visibility-aware demo playback address observed report/runtime costs. Preserve this intervention through the observation window; lab results are not field or ranking gains. See docs/seo-experiments/2026-10-18-mobile-performance.md.",
+      "corrections": [
+        {
+          "id": "google-play-availability-2026-10-22",
+          "kind": "store-availability-factual-correction",
+          "date": "2026-10-22",
+          "reviewNote": "docs/seo-experiments/2026-10-22-google-play-availability.md",
+          "file": "src/components/Hero.tsx",
+          "baseSha256": "cfeb8db18ba2c17b7ddd5e866d3957e6a506a3b7bbc5ca44eb1ec63ff29813f7",
+          "headSha256": "1937a4c289ad0e3f33da3df1e85ca1bd94836ad1f37dd8548b2be7434b9157e2"
+        }
+      ]
     },
     {
       "id": "owner-app-demo-trim-2026-10-18",
@@ -164,6 +175,53 @@
           "baseSha256": "183205e03a317f932ab4dfd571aeb0eff8d5770be82295856071ed000559809c",
           "headSha256": "60c8691957583f2e4c723d427f25e107b906579727683e777d593497c5f4e992"
         }
+      ],
+      "corrections": [
+        {
+          "id": "google-play-availability-2026-10-22",
+          "kind": "store-availability-factual-correction",
+          "date": "2026-10-22",
+          "reviewNote": "docs/seo-experiments/2026-10-22-google-play-availability.md",
+          "file": "src/components/FinalCTA.tsx",
+          "baseSha256": "f57e3e4dd5aa1f07aa525fac59df2aa09b6def049a724173990558a0d5adb103",
+          "headSha256": "f05ccc60ff6fc2c4d83213bcd0072ded0390cb39a25960fd6d77ac0c561ae46c"
+        },
+        {
+          "id": "google-play-availability-2026-10-22",
+          "kind": "store-availability-factual-correction",
+          "date": "2026-10-22",
+          "reviewNote": "docs/seo-experiments/2026-10-22-google-play-availability.md",
+          "file": "src/components/EcosystemStrip.tsx",
+          "baseSha256": "421ef030d97b5a7e18d350cf6497c4ec0f9e7401d6580d2051b697fc7bf44223",
+          "headSha256": "750e2ca576ef37a2cfe4fc549305c46900c2eaf2c7bbfed37ec277b2bd71740a"
+        },
+        {
+          "id": "google-play-availability-2026-10-22",
+          "kind": "store-availability-factual-correction",
+          "date": "2026-10-22",
+          "reviewNote": "docs/seo-experiments/2026-10-22-google-play-availability.md",
+          "file": "src/components/TrainerCostCalculator.tsx",
+          "baseSha256": "b26d7c469e0ff33911116a3584256bfb08cf5faaef42ce2fcd48d41353bf5416",
+          "headSha256": "edbdfb9de71a250ec7727ea39433c3569f27ffc5f39e839a37b38ed3349178d5"
+        },
+        {
+          "id": "google-play-availability-2026-10-22",
+          "kind": "store-availability-factual-correction",
+          "date": "2026-10-22",
+          "reviewNote": "docs/seo-experiments/2026-10-22-google-play-availability.md",
+          "file": "src/components/TrustAndPrivacy.tsx",
+          "baseSha256": "1b8137a1ec422e0715c4938355f12c86dc37183988c8057f7e9115a48dc67570",
+          "headSha256": "4add7e6493a90018c2e512437ee71bd02a80c4b0a58682b2cfdc4a9ac43698a1"
+        },
+        {
+          "id": "google-play-availability-2026-10-22",
+          "kind": "store-availability-factual-correction",
+          "date": "2026-10-22",
+          "reviewNote": "docs/seo-experiments/2026-10-22-google-play-availability.md",
+          "file": "src/components/Capabilities.tsx",
+          "baseSha256": "95b9e0c4c392b414b3630978d87e00bf8090d2a44b86185f277a82729ba1c4aa",
+          "headSha256": "82906067d82bf1a96b64b8889b00d63181d5a157747e5403976293e6fbd5095f"
+        }
       ]
     },
     {
@@ -199,6 +257,17 @@
           "file": "src/components/StoreDownloadButton.css",
           "baseSha256": "95635f4db2cfa9d9bce11fef1c3bb180aa6d47f45847725c915bf914b787d21e",
           "headSha256": "e7f4106c4dc0946b1370e06141e4cb59f58b906bde6dfd40f07c807b0dc65372"
+        }
+      ],
+      "corrections": [
+        {
+          "id": "google-play-availability-2026-10-22",
+          "kind": "store-availability-factual-correction",
+          "date": "2026-10-22",
+          "reviewNote": "docs/seo-experiments/2026-10-22-google-play-availability.md",
+          "file": "public/download/index.html",
+          "baseSha256": "820cfb00d03aee2769fcf4483aaef00aaaa2ce5cc588e7fa005f9d6777f4fa80",
+          "headSha256": "d4b4aa5123c240563cb3c8da17c7e9089a7713bd600a8e8fa8c2de173e5a7373"
         }
       ]
     },
@@ -262,6 +331,17 @@
           "baseSha256": "c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4",
           "headSha256": "ddb5b3d337cc17791b03e4c846dad5f9aac86a20468b6d94d0b6ae98d18c44ed"
         }
+      ],
+      "corrections": [
+        {
+          "id": "google-play-availability-2026-10-22",
+          "kind": "store-availability-factual-correction",
+          "date": "2026-10-22",
+          "reviewNote": "docs/seo-experiments/2026-10-22-google-play-availability.md",
+          "file": "src/components/Hero.tsx",
+          "baseSha256": "cfeb8db18ba2c17b7ddd5e866d3957e6a506a3b7bbc5ca44eb1ec63ff29813f7",
+          "headSha256": "1937a4c289ad0e3f33da3df1e85ca1bd94836ad1f37dd8548b2be7434b9157e2"
+        }
       ]
     },
     {
@@ -274,7 +354,18 @@
       "launchedAt": "2026-10-08",
       "lockUntil": "2026-10-29",
       "preferredReviewAt": "2026-11-05",
-      "reason": "Seven visible product questions share their exact answers with homepage structured data and Markdown. Preserve this FAQ during a 21-day observation window; factual, safety, rendering, indexing and deployment corrections remain subject to the documented correction process. See docs/seo-experiments/2026-10-08-homepage-geo.md."
+      "reason": "Seven visible product questions share their exact answers with homepage structured data and Markdown. Preserve this FAQ during a 21-day observation window; factual, safety, rendering, indexing and deployment corrections remain subject to the documented correction process. See docs/seo-experiments/2026-10-08-homepage-geo.md.",
+      "corrections": [
+        {
+          "id": "google-play-availability-2026-10-22",
+          "kind": "store-availability-factual-correction",
+          "date": "2026-10-22",
+          "reviewNote": "docs/seo-experiments/2026-10-22-google-play-availability.md",
+          "file": "src/content/homepage-faq.json",
+          "baseSha256": "89bff47e4231ee66fe1f7133ef22a71106d9b239ba7bff47e7e9780bd38b8c60",
+          "headSha256": "aa7d4c6e81e945564af438266ff3906ea468016f27fdc186ed1a996d27c52b9a"
+        }
+      ]
     },
     {
       "id": "accountability-apps-scorecard-refresh-2026-09-14",

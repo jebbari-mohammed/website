@@ -1,5 +1,6 @@
 import { motion } from '../lib/motion';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import storeLinks from '../content/store-links.json';
 
 export default function FinalCTA() {
   return (
@@ -13,7 +14,7 @@ export default function FinalCTA() {
           transition={{ duration: 0.6 }}
         >
           <div className="editorial-eyebrow">
-            <span>APP AWAITING STORE REVIEW</span>
+            <span>AVAILABLE NOW ON GOOGLE PLAY</span>
           </div>
 
           <h2 className="editorial-title">
@@ -29,10 +30,10 @@ export default function FinalCTA() {
 
           <div className="editorial-final-actions">
             <a
-              href="/workout-plan-generator/"
+              href={storeLinks.google}
               className="editorial-button"
             >
-              <span>Try the free workout generator</span>
+              <span>Get it on Google Play</span>
               <ArrowRight size={18} />
             </a>
 
@@ -51,7 +52,7 @@ export default function FinalCTA() {
             </span>
             <span className="flex items-center gap-1.5">
               <CheckCircle2 size={14} aria-hidden="true" />
-              Built for iOS & Android
+              Available for Android on Google Play
             </span>
             <span className="flex items-center gap-1.5">
               <CheckCircle2 size={14} aria-hidden="true" />

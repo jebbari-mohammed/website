@@ -9,7 +9,7 @@ const verifiedPillars = [
 
 const securityBadges = [
   { label: 'Built for iOS & Android', icon: Smartphone },
-  { label: 'App awaiting store review', icon: CheckCircle2 },
+  { label: 'Available on Google Play', icon: CheckCircle2 },
 ];
 
 export default function EcosystemStrip() {
