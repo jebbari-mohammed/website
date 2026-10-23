@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/Gcu7FMvN-cQ/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/Gcu7FMvN-cQ.svg</video:thumbnail_loc>
+      <video:title>Middle back workouts: rows, reverse flyes and a simple plan</video:title>
+      <video:description>Build a manageable middle-back workout with controlled rows, light reverse flyes, equipment options and a clear way to progress without adding more exercises.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/Gcu7FMvN-cQ</video:player_loc>
+      <video:publication_date>2026-10-23T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/NyGwbraAMdI/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/NyGwbraAMdI.svg</video:thumbnail_loc>

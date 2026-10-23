@@ -663,7 +663,37 @@
         "frameDigest": "53bc532d885a3b4080abb4b21f056df21863de930cac5cf0be6f62e8b248fcf9"
       },
       "date": "2026-10-23T16:36:57.259Z"
+    },
+    {
+      "slug": "middle-back-workouts",
+      "title": "Build your middle back with controlled rows and reverse flyes",
+      "url": "https://youraicoach.life/blog/middle-back-workouts",
+      "youtube": "https://youtube.com/watch?v=Gcu7FMvN-cQ",
+      "notebook_id": "9c04560c-2df4-4863-90e7-e6e257258662",
+      "visual_policy": "objects-only-v1",
+      "people_free_validated": true,
+      "publication": {
+        "videoId": "Gcu7FMvN-cQ",
+        "title": "Build your middle back with controlled rows and reverse flyes | IZEM",
+        "channelId": "UCruC83NAOtNJjEsSToD0Ncw",
+        "publishedAt": "2026-10-23T16:51:47Z",
+        "privacyStatus": "public",
+        "uploadStatus": "processed",
+        "processingStatus": "succeeded",
+        "verifiedAt": "2026-10-23T16:51:50.405Z"
+      },
+      "render_method": "notebooklm-narration-object-typography-v1",
+      "visual_validation": {
+        "safe": true,
+        "containsHuman": false,
+        "method": "deterministic-typography-all-frames-v1",
+        "articleSha256": "d8a5aa3ddc058155ae0e6d940d9f8ecdbfe75654a7b3509cb121c41ec78b7c55",
+        "videoSha256": "4ead2237fc8a9f1f9728a54cc459a229b858386e20a6da57ce58ef640e603d84",
+        "frameCount": 3368,
+        "frameDigest": "c2746946de429f3172e706d14e87983920bb671475855d283781fae21db089a9"
+      },
+      "date": "2026-10-23T16:51:50.406Z"
     }
   ],
-  "lastRun": "2026-10-23T16:36:57.259Z"
+  "lastRun": "2026-10-23T16:51:50.406Z"
 }
