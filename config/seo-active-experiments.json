@@ -1166,6 +1166,18 @@
       "lockUntil": "2026-11-12",
       "preferredReviewAt": "2026-11-19",
       "reason": "Connect the existing app identity on homepage and canonical product overview to its verified Google Play listing through sameAs and installUrl, with the exact public app title and visible developer attribution. This is one app-identity experiment, not a claim of Google endorsement or guaranteed ranking gain. Preserve recent availability and homepage presentation work. See docs/seo-experiments/2026-10-22-google-play-app-identity.md."
+    },
+    {
+      "id": "blog-push-pull-legs-3-day-split-launch-2026-10-23",
+      "url": "/blog/push-pull-legs-3-day-split",
+      "files": [
+        "public/blog/assets/push-pull-legs-3-day-split/hero.svg",
+        "public/blog/assets/push-pull-legs-3-day-split/framework.svg"
+      ],
+      "launchedAt": "2026-10-23",
+      "lockUntil": "2026-11-13",
+      "preferredReviewAt": "2026-11-20",
+      "reason": "Publish SERP-synthesized human guide for \"push pull legs 3 day split\" on the 3-day schedule. Preserve assets for a 21-day crawl, indexing, and ranking evaluation window while allowing dedicated video attachment."
     }
   ]
 }
