@@ -633,7 +633,37 @@
       },
       "render_method": "notebooklm-native",
       "date": "2026-10-19T16:30:09.067Z"
+    },
+    {
+      "slug": "push-pull-legs-3-day-split",
+      "title": "Group pushing on Monday, pulling on Wednesday, and legs on Friday.",
+      "url": "https://youraicoach.life/blog/push-pull-legs-3-day-split",
+      "youtube": "https://youtube.com/watch?v=NyGwbraAMdI",
+      "notebook_id": "381137ef-1597-4812-81a3-7bedbec8fa9d",
+      "visual_policy": "objects-only-v1",
+      "people_free_validated": true,
+      "publication": {
+        "videoId": "NyGwbraAMdI",
+        "title": "Group pushing on Monday, pulling on Wednesday, and legs on Friday. | IZEM",
+        "channelId": "UCruC83NAOtNJjEsSToD0Ncw",
+        "publishedAt": "2026-10-23T16:36:48Z",
+        "privacyStatus": "public",
+        "uploadStatus": "processed",
+        "processingStatus": "succeeded",
+        "verifiedAt": "2026-10-23T16:36:57.257Z"
+      },
+      "render_method": "notebooklm-narration-object-typography-v1",
+      "visual_validation": {
+        "safe": true,
+        "containsHuman": false,
+        "method": "deterministic-typography-all-frames-v1",
+        "articleSha256": "3cbf628e33ccf0873975cdb6aab05b6366e1ca379d8c2869191ee6fa865d804e",
+        "videoSha256": "5ba27ac28c848e58c690e774c0c85f55519805c31164db480679e3dc506da5f8",
+        "frameCount": 2980,
+        "frameDigest": "53bc532d885a3b4080abb4b21f056df21863de930cac5cf0be6f62e8b248fcf9"
+      },
+      "date": "2026-10-23T16:36:57.259Z"
     }
   ],
-  "lastRun": "2026-10-19T16:30:09.067Z"
+  "lastRun": "2026-10-23T16:36:57.259Z"
 }

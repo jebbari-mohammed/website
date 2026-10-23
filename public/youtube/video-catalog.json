@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "NyGwbraAMdI",
+      "title": "Push Pull Legs (PPL) 3-Day Split: Routine & Frequency Fix",
+      "description": "Run a 3-day Push Pull Legs (PPL) split on Monday, Wednesday, and Friday. Includes complete Push, Pull, and Legs workout tables plus a simple fix for 2x muscle frequency.",
+      "uploadDate": "2026-10-22",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/push-pull-legs-3-day-split",
+          "relativePath": "blog/push-pull-legs-3-day-split.html",
+          "title": "Push Pull Legs (PPL) 3-Day Split: Routine & Frequency Fix"
+        }
+      ]
+    },
+    {
       "id": "ZLpd1CbDKgY",
       "title": "4-Day Upper Lower Workout Split: Complete A/B Routine",
       "description": "Build muscle and strength with a 4-day upper/lower workout split. Includes Upper A, Lower A, Upper B, and Lower B tables, dumbbell swaps, and a 3-day fallback rule.",
