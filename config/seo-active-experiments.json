@@ -7,6 +7,18 @@
   },
   "locks": [
     {
+      "id": "owner-fullscreen-opening-2026-10-24",
+      "url": "/",
+      "files": [
+        "src/components/OpeningVideo.css",
+        "src/components/Navigation.tsx"
+      ],
+      "launchedAt": "2026-10-24",
+      "lockUntil": "2026-11-14",
+      "preferredReviewAt": "2026-11-21",
+      "reason": "Owner explicitly requested that the opening video fill the entire phone and laptop viewport. Cover framing and floating navigation, download and playback controls replace reserved bands. Preserve prior lock definitions and account for this presentation intervention when interpreting engagement. See docs/seo-experiments/2026-10-24-fullscreen-opening.md."
+    },
+    {
       "id": "owner-unfair-advantage-renders-2026-10-19",
       "url": "/",
       "files": [
@@ -49,6 +61,17 @@
           "file": "src/components/Hero.tsx",
           "baseSha256": "cfeb8db18ba2c17b7ddd5e866d3957e6a506a3b7bbc5ca44eb1ec63ff29813f7",
           "headSha256": "1937a4c289ad0e3f33da3df1e85ca1bd94836ad1f37dd8548b2be7434b9157e2"
+        }
+      ],
+      "ownerDirectedRevisions": [
+        {
+          "id": "owner-fullscreen-opening-2026-10-24",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-24",
+          "reviewNote": "docs/seo-experiments/2026-10-24-fullscreen-opening.md",
+          "file": "src/components/Navigation.tsx",
+          "baseSha256": "7a851d76ec9537e5dc378ed42fe089184a60a8db2c4531a4b0a6d7bacda36c76",
+          "headSha256": "810646c5e04a5ba8bf62c721f56b63e0ed8fe391e5db921e241f18f6b224113d"
         }
       ]
     },
@@ -330,6 +353,24 @@
           "file": "src/components/OpeningVideo.tsx",
           "baseSha256": "c4cfbd972348b3211341e41a7e70b72d190edd5796c6f20bad00c918bcf090b4",
           "headSha256": "ddb5b3d337cc17791b03e4c846dad5f9aac86a20468b6d94d0b6ae98d18c44ed"
+        },
+        {
+          "id": "owner-fullscreen-opening-2026-10-24",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-24",
+          "reviewNote": "docs/seo-experiments/2026-10-24-fullscreen-opening.md",
+          "file": "src/components/OpeningVideo.css",
+          "baseSha256": "402a4fa043fb9b9f0352047f69714ed56b63f2f6ff4c60c1bbb897cdc134a796",
+          "headSha256": "154b27e0b09541fb854732284ed55a56f2a2454cc7e9e2b6f2835fa1c8565b5e"
+        },
+        {
+          "id": "owner-fullscreen-opening-2026-10-24",
+          "kind": "owner-directed-presentation-revision",
+          "date": "2026-10-24",
+          "reviewNote": "docs/seo-experiments/2026-10-24-fullscreen-opening.md",
+          "file": "src/components/Navigation.tsx",
+          "baseSha256": "7a851d76ec9537e5dc378ed42fe089184a60a8db2c4531a4b0a6d7bacda36c76",
+          "headSha256": "810646c5e04a5ba8bf62c721f56b63e0ed8fe391e5db921e241f18f6b224113d"
         }
       ],
       "corrections": [

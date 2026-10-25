@@ -4,20 +4,23 @@
   flex-direction: column;
   height: 100vh;
   height: 100svh;
-  min-height: 360px;
-  padding-top: calc(68px + env(safe-area-inset-top, 0px));
+  height: 100dvh;
+  min-height: 0;
   background: #000;
   isolation: isolate;
 }
 
-.opening-film__stage { position: relative; flex: 1; min-height: 0; }
+.opening-film__stage { position: absolute; inset: 0; }
 .opening-film__poster, .opening-film__video { position: absolute; inset: 0; width: 100%; height: 100%; }
-.opening-film__poster img, .opening-film__video { width: 100%; height: 100%; object-fit: contain; }
+.opening-film__poster img, .opening-film__video { width: 100%; height: 100%; object-fit: cover; }
 .opening-film__poster { display: block; }
 .opening-film__poster--hidden { visibility: hidden; }
 .opening-film__video { opacity: 0; }
 .opening-film__video--ready { opacity: 1; }
 .opening-film__bar {
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,6 +28,7 @@
   min-height: 76px;
   padding: 12px max(32px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(32px, env(safe-area-inset-left, 0px));
   color: #f5f7fa;
+  background: linear-gradient(transparent, #0008 45%, #000c);
 }
 .opening-film__controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .opening-film__controls button, .opening-film__explore {
@@ -42,21 +46,20 @@
   border-radius: 999px;
   transition: background-color 160ms, border-color 160ms;
 }
-.opening-film__controls button { border: 1px solid #ffffff24; background: #ffffff08; cursor: pointer; }
+.opening-film__controls button { border: 1px solid #ffffff38; background: #05080cb8; cursor: pointer; }
 .opening-film__sound { padding: 0 16px; }
 .opening-film__play { width: 44px; padding: 0; }
-.opening-film__controls button:hover { background: #ffffff16; border-color: #ffffff55; }
+.opening-film__controls button:hover { background: #05080ce6; border-color: #ffffff55; }
 .opening-film__controls button:disabled { opacity: .5; cursor: default; }
 .opening-film__caption { color: #92989f; font-size: 10px; letter-spacing: .24em; }
-.opening-film__explore { padding: 0 8px 0 16px; }
+.opening-film__explore { padding: 0 12px 0 16px; background: #05080cb8; }
 .opening-film__explore svg { color: #8dff6a; }
-.opening-film__explore:hover { background: #ffffff0c; }
+.opening-film__explore:hover { background: #05080ce6; }
 .opening-film :is(button, a):focus-visible { outline: 2px solid #8dff6a; outline-offset: 5px; }
-.opening-film__notice { position: absolute; bottom: 80px; left: 16px; right: 16px; text-align: center; font-size: 12px; color: #a9b4c0; }
+.opening-film__notice { position: absolute; z-index: 3; bottom: calc(172px + env(safe-area-inset-bottom, 0px)); left: 16px; right: 16px; padding: 10px 14px; border-radius: 12px; background: #05080ce6; text-align: center; font-size: 12px; color: #d4dce5; }
 #hero { scroll-margin-top: 64px; }
 
 @media (max-width: 767px) {
-  .opening-film { padding-top: calc(64px + env(safe-area-inset-top, 0px)); }
   .opening-film__bar { min-height: 72px; gap: 8px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .opening-film__caption { display: none; }
   .opening-film__sound { padding: 0 13px; }
