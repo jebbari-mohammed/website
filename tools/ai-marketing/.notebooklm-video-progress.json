@@ -693,7 +693,28 @@
         "frameDigest": "c2746946de429f3172e706d14e87983920bb671475855d283781fae21db089a9"
       },
       "date": "2026-10-23T16:51:50.406Z"
+    },
+    {
+      "slug": "reps-in-reserve-rir-chart",
+      "title": "Stop 1 to 2 repetitions shy of technical failure on most working sets.",
+      "url": "https://youraicoach.life/blog/reps-in-reserve-rir-chart",
+      "youtube": "https://youtube.com/watch?v=yKDPKqkKPJs",
+      "notebook_id": "4b8c1b44-9616-42d0-979f-6ee6c987f33a",
+      "visual_policy": "objects-only-v1",
+      "people_free_validated": true,
+      "publication": {
+        "videoId": "yKDPKqkKPJs",
+        "title": "Stop 1 to 2 repetitions shy of technical failure on most working sets. | IZEM",
+        "channelId": "UCruC83NAOtNJjEsSToD0Ncw",
+        "publishedAt": "2026-10-25T14:32:49Z",
+        "privacyStatus": "public",
+        "uploadStatus": "processed",
+        "processingStatus": "succeeded",
+        "verifiedAt": "2026-10-25T14:32:53.264Z"
+      },
+      "render_method": "notebooklm-native",
+      "date": "2026-10-25T14:32:53.266Z"
     }
   ],
-  "lastRun": "2026-10-23T16:51:50.406Z"
+  "lastRun": "2026-10-25T14:32:53.266Z"
 }

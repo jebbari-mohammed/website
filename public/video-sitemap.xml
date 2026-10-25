@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/yKDPKqkKPJs/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/yKDPKqkKPJs.svg</video:thumbnail_loc>
+      <video:title>Reps in Reserve (RIR) Chart: RPE Conversion &amp; Load Guide</video:title>
+      <video:description>Use the Reps in Reserve (RIR) to RPE chart to pick the right weight on every set. Learn why 1 to 2 RIR builds muscle without burnout and adjust loads with our calculator.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/yKDPKqkKPJs</video:player_loc>
+      <video:publication_date>2026-10-25T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/Gcu7FMvN-cQ/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/Gcu7FMvN-cQ.svg</video:thumbnail_loc>
