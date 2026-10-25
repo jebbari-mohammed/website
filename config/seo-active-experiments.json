@@ -1219,6 +1219,18 @@
       "lockUntil": "2026-11-13",
       "preferredReviewAt": "2026-11-20",
       "reason": "Publish SERP-synthesized human guide for \"push pull legs 3 day split\" on the 3-day schedule. Preserve assets for a 21-day crawl, indexing, and ranking evaluation window while allowing dedicated video attachment."
+    },
+    {
+      "id": "blog-reps-in-reserve-rir-chart-launch-2026-10-25",
+      "url": "/blog/reps-in-reserve-rir-chart",
+      "files": [
+        "public/blog/assets/reps-in-reserve-rir-chart/hero.svg",
+        "public/blog/assets/reps-in-reserve-rir-chart/framework.svg"
+      ],
+      "launchedAt": "2026-10-25",
+      "lockUntil": "2026-11-15",
+      "preferredReviewAt": "2026-11-22",
+      "reason": "Publish SERP-synthesized human guide for \"reps in reserve rir chart\" on the 3-day schedule. Preserve assets for a 21-day crawl, indexing, and ranking evaluation window while allowing dedicated video attachment."
     }
   ]
 }

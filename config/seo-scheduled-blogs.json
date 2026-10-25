@@ -130,7 +130,8 @@
       "draftPath": "public/blog/drafts/reps-in-reserve-rir-chart.html",
       "livePath": "public/blog/reps-in-reserve-rir-chart.html",
       "assetsDir": "public/blog/assets/reps-in-reserve-rir-chart",
-      "status": "scheduled"
+      "status": "published",
+      "publishedAt": "2026-10-25"
     },
     {
       "order": 5,
