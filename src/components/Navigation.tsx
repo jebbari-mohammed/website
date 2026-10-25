@@ -10,7 +10,7 @@ export default function Navigation({ cinematic = false }: { cinematic?: boolean 
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-[100] px-4 sm:px-8 py-3.5 border-b transition-colors duration-300 ${cinematic ? 'bg-black border-transparent' : 'bg-[#05080C]/85 backdrop-blur-2xl border-white/[0.08]'}`}
+      className={`fixed top-0 left-0 right-0 z-[100] px-4 sm:px-8 py-3.5 border-b transition-colors duration-300 ${cinematic ? 'bg-gradient-to-b from-black/70 to-transparent border-transparent' : 'bg-[#05080C]/85 backdrop-blur-2xl border-white/[0.08]'}`}
       style={{ paddingTop: 'calc(14px + env(safe-area-inset-top, 0px))' }}
     >
       {/* Bottom subtle glowing accent rail */}

@@ -107,6 +107,8 @@ async function state(page) {
   return page.$eval(player, (video) => {
     const opening = video.closest('#opening-film')
     const rect = opening.getBoundingClientRect()
+    const videoRect = video.getBoundingClientRect()
+    const barRect = opening.querySelector('.opening-film__bar').getBoundingClientRect()
     const image = opening.querySelector('picture img')
     const picture = image?.closest('picture')
     return {
@@ -123,6 +125,9 @@ async function state(page) {
       bottom: rect.bottom,
       height: rect.height,
       viewportHeight: innerHeight,
+      viewportWidth: innerWidth,
+      videoRect: { top: videoRect.top, left: videoRect.left, width: videoRect.width, height: videoRect.height },
+      barBottom: barRect.bottom,
       overflow: document.documentElement.scrollWidth > innerWidth,
       posterSrc: image?.currentSrc || image?.src || '',
       posterLoaded: Boolean(image?.complete && image.naturalWidth > 0),
@@ -144,7 +149,14 @@ async function assertLayout(page, label) {
   assert.equal(sample.overflow, false, `${label}: horizontal overflow`)
   assert.ok(Math.abs(sample.height - sample.viewportHeight) <= 2,
     `${label}: opening must fill one viewport (${sample.height}/${sample.viewportHeight})`)
-  assert.equal(sample.fit, 'contain', `${label}: preserve the complete supplied composition`)
+  assert.equal(sample.fit, 'cover', `${label}: fill the screen without letterboxing`)
+  assert.ok(Math.abs(sample.videoRect.top) <= 2 && Math.abs(sample.videoRect.left) <= 2,
+    `${label}: video must start at the top-left of the viewport`)
+  assert.ok(Math.abs(sample.videoRect.width - sample.viewportWidth) <= 2 &&
+    Math.abs(sample.videoRect.height - sample.viewportHeight) <= 2,
+    `${label}: video must cover the full viewport behind navigation and controls`)
+  assert.ok(Math.abs(sample.barBottom - sample.viewportHeight) <= 2,
+    `${label}: floating controls must stay at the bottom of the viewport`)
   assert.equal(sample.loop, false, `${label}: narration must not loop`)
   assert.equal(sample.playsInline, true, `${label}: mobile playback must stay inline`)
   assert.equal(await page.$$eval(`${section} a[href="#hero"]`, (links) => links.length), 1,
@@ -224,7 +236,7 @@ try {
     await snapshot(page, name)
     assert.deepEqual(runtimeErrors, [], `${name}: browser runtime errors`)
     await page.close()
-    console.log(`Opening film ${name}: correct single source, complete composition, muted autoplay fallback.`)
+    console.log(`Opening film ${name}: correct single source, full-screen coverage, muted autoplay fallback.`)
   }
 
   {

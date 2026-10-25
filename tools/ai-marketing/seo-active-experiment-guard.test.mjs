@@ -17,6 +17,7 @@ import {
   REVIEWED_OWNER_DEMO_TRIM_REVISION,
   REVIEWED_OWNER_MOBILE_PERFORMANCE_REVISION,
   REVIEWED_OWNER_OPENING_RENDERS_REVISION,
+  REVIEWED_OWNER_FULLSCREEN_REVISION,
   REVIEWED_SVG_RENDERING_CORRECTION,
   documentedSvgRenderingOverrideFiles,
   documentedArchiveDiscoveryOverrideFiles,
@@ -771,6 +772,34 @@ function ownerMediaFixture(manifest = REVIEWED_OWNER_MEDIA_REVISION) {
     'base', 'head', changed, base, head, now, reader, reviewed);
   return { review, contents, base, head, files, now, note, record, read, check };
 }
+
+test('fullscreen opening accepts the two exact layout transitions and preserves every protecting lock', () => {
+  const f = ownerMediaFixture(REVIEWED_OWNER_FULLSCREEN_REVISION);
+  f.now.setUTCDate(24);
+  const overlap = { ...structuredClone(f.base.locks[0]), id: 'overlapping-navigation-lock',
+    files: ['src/components/Navigation.tsx'] };
+  f.base.locks.push(overlap);
+  f.head.locks.push({ ...structuredClone(overlap), ownerDirectedRevisions:
+    [...overlap.ownerDirectedRevisions, f.record(f.review.files[1])] });
+  assert.deepEqual([...f.check()], f.review.files.map(entry => entry.file));
+  assert.deepEqual(findActiveLockMutationViolations(f.base, f.head, f.now), []);
+  f.head.locks[1].ownerDirectedRevisions.pop();
+  assert.equal(f.check().has('src/components/Navigation.tsx'), false,
+    'Every overlapping lock must acknowledge the navigation transition');
+});
+
+test('fullscreen opening review rejects extra layout bytes, replay and shortened observation windows', () => {
+  for (const mutate of [
+    f => { f.contents[f.review.files[0].file].head += '\n'; },
+    f => { f.base.locks[0].ownerDirectedRevisions.push(f.record(f.review.files[0])); },
+    f => { f.head.locks[0].lockUntil = '2026-10-24'; },
+  ]) {
+    const f = ownerMediaFixture(REVIEWED_OWNER_FULLSCREEN_REVISION);
+    f.now.setUTCDate(24);
+    mutate(f);
+    assert.equal(f.check().has(f.review.files[0].file), false);
+  }
+});
 
 test('replacement opening renders permit only the reviewed source transition and retain the lock', () => {
   const f = ownerMediaFixture(REVIEWED_OWNER_OPENING_RENDERS_REVISION);

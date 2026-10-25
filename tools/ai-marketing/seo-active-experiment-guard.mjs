@@ -177,12 +177,26 @@ export const REVIEWED_OWNER_OPENING_RENDERS_REVISION = Object.freeze({
   ]),
 });
 
+// The owner explicitly requested viewport-filling playback on phone and laptop.
+// Pin the layout and navigation overlay together without reopening earlier locks.
+export const REVIEWED_OWNER_FULLSCREEN_REVISION = Object.freeze({
+  id: 'owner-fullscreen-opening-2026-10-24',
+  kind: 'owner-directed-presentation-revision',
+  date: '2026-10-24',
+  reviewNote: 'docs/seo-experiments/2026-10-24-fullscreen-opening.md',
+  files: Object.freeze([
+    Object.freeze({ file: 'src/components/OpeningVideo.css', baseSha256: '402a4fa043fb9b9f0352047f69714ed56b63f2f6ff4c60c1bbb897cdc134a796', headSha256: '154b27e0b09541fb854732284ed55a56f2a2454cc7e9e2b6f2835fa1c8565b5e' }),
+    Object.freeze({ file: 'src/components/Navigation.tsx', baseSha256: '7a851d76ec9537e5dc378ed42fe089184a60a8db2c4531a4b0a6d7bacda36c76', headSha256: '810646c5e04a5ba8bf62c721f56b63e0ed8fe391e5db921e241f18f6b224113d' }),
+  ]),
+});
+
 const REVIEWED_OWNER_PRESENTATION_REVISIONS = Object.freeze([
   REVIEWED_OWNER_DESIGN_REVISION,
   REVIEWED_OWNER_MEDIA_REVISION,
   REVIEWED_OWNER_DEMO_TRIM_REVISION,
   REVIEWED_OWNER_MOBILE_PERFORMANCE_REVISION,
   REVIEWED_OWNER_OPENING_RENDERS_REVISION,
+  REVIEWED_OWNER_FULLSCREEN_REVISION,
 ]);
 
 function isFrozenOwnerDesignReview(reviewed) {
