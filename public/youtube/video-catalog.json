@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "7z9Wp91zIJY",
+      "title": "Romanian Deadlift vs. Deadlift: Muscles Worked & Weight Ratio",
+      "description": "Compare the Romanian deadlift (RDL) vs. conventional deadlift by muscles worked, biomechanics, and working weight ratio. Includes an RDL load calculator.",
+      "uploadDate": "2026-10-28",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/romanian-deadlift-vs-deadlift",
+          "relativePath": "blog/romanian-deadlift-vs-deadlift.html",
+          "title": "Romanian Deadlift vs. Deadlift: Muscles Worked & Weight Ratio"
+        }
+      ]
+    },
+    {
       "id": "yKDPKqkKPJs",
       "title": "Reps in Reserve (RIR) Chart: RPE Conversion & Load Guide",
       "description": "Use the Reps in Reserve (RIR) to RPE chart to pick the right weight on every set. Learn why 1 to 2 RIR builds muscle without burnout and adjust loads with our calculator.",

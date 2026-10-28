@@ -714,7 +714,37 @@
       },
       "render_method": "notebooklm-native",
       "date": "2026-10-25T14:32:53.266Z"
+    },
+    {
+      "slug": "romanian-deadlift-vs-deadlift",
+      "title": "Use conventional deadlifts for floor pulling strength and RDLs for hamstring growth.",
+      "url": "https://youraicoach.life/blog/romanian-deadlift-vs-deadlift",
+      "youtube": "https://youtube.com/watch?v=7z9Wp91zIJY",
+      "notebook_id": "d2312d1d-48e2-4e77-836b-b3a96a73b66a",
+      "visual_policy": "objects-only-v1",
+      "people_free_validated": true,
+      "publication": {
+        "videoId": "7z9Wp91zIJY",
+        "title": "Use conventional deadlifts for floor pulling strength and RDLs for hamstring growth. | IZEM",
+        "channelId": "UCruC83NAOtNJjEsSToD0Ncw",
+        "publishedAt": "2026-10-28T13:13:57Z",
+        "privacyStatus": "public",
+        "uploadStatus": "processed",
+        "processingStatus": "succeeded",
+        "verifiedAt": "2026-10-28T13:14:04.471Z"
+      },
+      "render_method": "notebooklm-narration-object-typography-v1",
+      "visual_validation": {
+        "safe": true,
+        "containsHuman": false,
+        "method": "deterministic-typography-all-frames-v1",
+        "articleSha256": "e570b4fd263ce35f73129848177c7b7a7c07c52292960684c40793503358cb0b",
+        "videoSha256": "dc718eefab63ce51c44c8b5997eefd6b357687db29fffbe6f5206d5b35948db5",
+        "frameCount": 2281,
+        "frameDigest": "7d483f64d98d9dcc0aaf666e9d2b61416c4e1cf2ef55ae9f99febe4d14d02dae"
+      },
+      "date": "2026-10-28T13:14:04.472Z"
     }
   ],
-  "lastRun": "2026-10-25T14:32:53.266Z"
+  "lastRun": "2026-10-28T13:14:04.472Z"
 }

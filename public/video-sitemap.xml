@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://youraicoach.life/youtube/7z9Wp91zIJY/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/7z9Wp91zIJY.svg</video:thumbnail_loc>
+      <video:title>Romanian Deadlift vs. Deadlift: Muscles Worked &amp; Weight Ratio</video:title>
+      <video:description>Compare the Romanian deadlift (RDL) vs. conventional deadlift by muscles worked, biomechanics, and working weight ratio. Includes an RDL load calculator.</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/7z9Wp91zIJY</video:player_loc>
+      <video:publication_date>2026-10-28T00:00:00Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://youraicoach.life/about">Mohammed Jebbari</video:uploader>
+    </video:video>
+  </url>
+  <url>
     <loc>https://youraicoach.life/youtube/yKDPKqkKPJs/</loc>
     <video:video>
       <video:thumbnail_loc>https://youraicoach.life/youtube/thumbnails/yKDPKqkKPJs.svg</video:thumbnail_loc>
