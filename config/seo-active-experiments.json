@@ -1244,6 +1244,18 @@
       "lockUntil": "2026-11-13",
       "preferredReviewAt": "2026-11-22",
       "reason": "Protect the existing middle-back article and custom diagrams after its completed dedicated video Gcu7FMvN-cQ and unchanged approved body were reconciled. October 26 rendering correction moves the existing companion below the article so the answer-first H1 is the first heading; no editorial rewrite or new media generation. See docs/seo-experiments/2026-10-26-middle-back-answer-first.md."
+    },
+    {
+      "id": "blog-romanian-deadlift-vs-deadlift-launch-2026-10-28",
+      "url": "/blog/romanian-deadlift-vs-deadlift",
+      "files": [
+        "public/blog/assets/romanian-deadlift-vs-deadlift/hero.svg",
+        "public/blog/assets/romanian-deadlift-vs-deadlift/framework.svg"
+      ],
+      "launchedAt": "2026-10-28",
+      "lockUntil": "2026-11-18",
+      "preferredReviewAt": "2026-11-25",
+      "reason": "Publish SERP-synthesized human guide for \"romanian deadlift vs deadlift\" on the 3-day schedule. Preserve assets for a 21-day crawl, indexing, and ranking evaluation window while allowing dedicated video attachment."
     }
   ]
 }

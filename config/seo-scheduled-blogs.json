@@ -142,7 +142,8 @@
       "draftPath": "public/blog/drafts/romanian-deadlift-vs-deadlift.html",
       "livePath": "public/blog/romanian-deadlift-vs-deadlift.html",
       "assetsDir": "public/blog/assets/romanian-deadlift-vs-deadlift",
-      "status": "scheduled"
+      "status": "published",
+      "publishedAt": "2026-10-28"
     },
     {
       "order": 6,
