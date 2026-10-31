@@ -6,6 +6,12 @@ The ChatGPT senior SEO lead is the strategy, research, implementation-review, an
 
 Read `config/seo-agent-policy.json` before doing SEO work.
 
+## Active publication hold
+
+Read `config/seo-publication-hold.json` before automated SEO work. While its `active` field is true, do not create or publish articles, weave internal links, refresh or consolidate pages, or generate and attach publication media. Read-only research, Search Console collection, technical validation, and reviewed factual corrections remain available.
+
+The `reviewAfter` date schedules a review; it does not expire the hold. Resume publication only after a manual SEO decision records the evidence and explicitly clears the hold. See `docs/seo-experiments/2026-10-31-search-visibility-triage.md` for the current operational state.
+
 ## Private exact Search Console evidence
 
 Before selecting a keyword or page-level SEO action, use the newest exact Search Console query + landing-page evidence when the private handoff is healthy:

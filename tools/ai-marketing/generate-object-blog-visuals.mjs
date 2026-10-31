@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { skipHeldSeoPublication } from './seo-publication-hold.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '../..');
@@ -238,6 +239,7 @@ function insertAfterNthH2(source, block, targetIndex) {
 }
 
 function main() {
+  if (skipHeldSeoPublication({ root: ROOT })) return;
   const { slug } = parseArgs(process.argv.slice(2));
   const file = path.join(BLOG, `${slug}.html`);
   if (!fs.existsSync(file)) throw new Error(`Blog post not found: ${file}`);

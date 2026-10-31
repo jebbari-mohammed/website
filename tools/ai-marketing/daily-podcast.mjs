@@ -23,6 +23,7 @@ import path from 'path';
 import https from 'https';
 import { fileURLToPath, URL } from 'url';
 import { execSync } from 'child_process';
+import { skipHeldSeoPublication } from './seo-publication-hold.mjs';
 
 // Load .env
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -298,6 +299,7 @@ async function uploadToYouTube(filePath, post, accessToken) {
 // MAIN
 // ========================
 async function main() {
+  if (skipHeldSeoPublication()) return;
   console.log('\n🎙️ NotebookLM Daily Podcast Generator\n');
 
   // Load today's post

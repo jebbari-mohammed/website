@@ -8,6 +8,7 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { load } from 'cheerio';
 import { assertWorkflowOutput } from './workflow-output-safety.mjs';
+import { assertSeoFileMutationAllowed, skipHeldSeoPublication } from './seo-publication-hold.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const PUBLIC_DIR = path.join(ROOT, 'public');
@@ -334,6 +335,7 @@ function injectBeforeClosingContainer(html, section) {
 
 export async function applyInternalLinkAction(action, { dryRun = false } = {}) {
   if (!action || action.type !== 'internal-links') throw new Error('A valid internal-link action is required');
+  assertSeoFileMutationAllowed(action.sources.map((source) => source.file), { dryRun });
   const section = linkSection(action);
   const changedFiles = [];
   for (const source of action.sources) {
@@ -343,7 +345,10 @@ export async function applyInternalLinkAction(action, { dryRun = false } = {}) {
     if (!updated.includes(`href="${new URL(action.target.canonical).pathname}"`)) {
       throw new Error(`Injected link validation failed for ${source.relative}`);
     }
-    if (!dryRun) await fsp.writeFile(source.file, updated, 'utf8');
+    if (!dryRun) {
+      assertSeoFileMutationAllowed([source.file]);
+      await fsp.writeFile(source.file, updated, 'utf8');
+    }
     changedFiles.push(source.file);
   }
   return changedFiles;
@@ -362,6 +367,7 @@ async function main() {
     files: '',
   })) setOutput(name, value);
 
+  if (skipHeldSeoPublication({ root: ROOT, dryRun: args.dryRun })) return;
   const pages = await buildPageInventory(args.publicDir);
   const action = chooseInternalLinkAction(pages, args.maxSources);
   if (!action) {

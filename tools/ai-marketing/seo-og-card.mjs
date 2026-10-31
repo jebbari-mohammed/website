@@ -6,6 +6,7 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
 import { escapeHtml } from './seo-publisher-core.mjs';
+import { skipHeldSeoPublication } from './seo-publication-hold.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../..');
@@ -35,6 +36,7 @@ function cardHtml(title) {
 }
 
 async function main() {
+  if (skipHeldSeoPublication({ root: ROOT })) return;
   const record = JSON.parse(fs.readFileSync(RECORD, 'utf8'));
   if (record.action !== 'create' || !record.slug || !record.title) {
     console.log('Latest SEO action is not CREATE; PNG social card skipped.');

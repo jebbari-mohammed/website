@@ -1,11 +1,26 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-22",
+  "updatedAt": "2026-10-31",
   "policy": {
     "defaultMaterialRewriteMinimumDays": 21,
     "note": "Target-file locks protect active SEO experiments from overlapping edits. Shorten or remove a lock only for a documented factual, legal, rendering, indexing, canonical, deployment, or safety correction."
   },
   "locks": [
+    {
+      "id": "search-visibility-accuracy-corrections-2026-10-31",
+      "url": "/best-ai-fitness-app",
+      "files": [
+        "public/best-ai-fitness-app.html",
+        "public/blog/accountability-apps-for-working-out.html",
+        "public/blog/best-accountability-app-for-gym.html",
+        "public/blog/fitness-app-with-real-voice-coaching-not-chatbot.html",
+        "public/blog/workout-reminder-app-that-calls-you.html"
+      ],
+      "launchedAt": "2026-10-31",
+      "lockUntil": "2026-11-21",
+      "preferredReviewAt": "2026-11-28",
+      "reason": "Preserve one reviewed accuracy correction: explicitly unvalidated publisher scorecards, removal of drafting residue and unsupported efficacy certainty, and optional user-enabled/scheduled Premium call eligibility. Titles, URLs, canonicals, links and publication dates are preserved. This does not establish the cause of the visibility drop or promise recovery. See docs/seo-experiments/2026-10-31-search-visibility-triage.md."
+    },
     {
       "id": "owner-fullscreen-opening-2026-10-24",
       "url": "/",

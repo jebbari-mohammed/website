@@ -11,7 +11,7 @@
  * - Commits and pushes to GitHub (auto-deploys via GitHub Pages)
  */
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { skipHeldSeoPublication } from './seo-publication-hold.mjs';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -23,6 +23,7 @@ const PUBLIC_DIR = path.resolve(__dirname, '../../public');
 const BLOG_DIR = path.join(PUBLIC_DIR, 'blog');
 const SITEMAP_PATH = path.join(PUBLIC_DIR, 'sitemap.xml');
 const PROGRESS_FILE = path.join(__dirname, '.daily-progress.json');
+let GoogleGenerativeAI;
 
 // ========================
 // KEYWORD QUEUE (one per day)
@@ -992,6 +993,8 @@ function updateNewsSitemap(post, slug) {
 // MAIN
 // ========================
 async function main() {
+  if (skipHeldSeoPublication()) return;
+  ({ GoogleGenerativeAI } = await import('@google/generative-ai'));
   // Multi-key support: GEMINI_API_KEY, GEMINI_API_KEY_2, GEMINI_API_KEY_3
   let apiKeys = [
     process.env.GEMINI_API_KEY,
