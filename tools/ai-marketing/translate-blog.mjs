@@ -9,6 +9,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
+import { skipHeldSeoPublication } from './seo-publication-hold.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.resolve(__dirname, '../../public');
@@ -323,6 +324,7 @@ function updateTranslationMetadata(blogProgress, translationProgress) {
 }
 
 async function main() {
+  if (skipHeldSeoPublication()) return;
   // Load progress
   if (!fs.existsSync(PROGRESS_FILE)) {
     console.log('No blog posts to translate yet.');

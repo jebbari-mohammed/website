@@ -15,6 +15,7 @@ import { runWithSafeFailure } from './notebooklm-recovery-diagnostic.mjs';
 import { claimNativeAttempt, generateNarrationFallback } from './article-video-fallback.mjs';
 import { retryRequestedFailedVideo } from './notebooklm-retry-failed-artifact.mjs';
 import { assertTypographyVideoIsPeopleFree } from './typography-video-validation.mjs';
+import { assertSeoPublicationAllowed, skipHeldSeoPublication } from './seo-publication-hold.mjs';
 
 const execFileAsync = promisify(execFile);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -212,6 +213,7 @@ function youtubeSnippet(post) {
 }
 
 async function uploadVideo(filePath, post, token) {
+  assertSeoPublicationAllowed({ root: ROOT });
   const fileSize = fs.statSync(filePath).size;
   const metadata = JSON.stringify({ snippet: youtubeSnippet(post), status: { privacyStatus: process.env.YOUTUBE_PRIVACY_STATUS || 'public', selfDeclaredMadeForKids: false } });
   const init = await request({
@@ -267,6 +269,7 @@ function embedBlock(post, youtubeUrl) {
 }
 
 function embedIntoPost(post, youtubeUrl) {
+  assertSeoPublicationAllowed({ root: ROOT });
   const block = embedBlock(post, youtubeUrl);
   let html = fs.readFileSync(post.file, 'utf8');
   if (/<!-- (?:NOTEBOOKLM|IZEM)_VIDEO_START -->/i.test(html)) html = html.replace(/<!-- (?:NOTEBOOKLM|IZEM)_VIDEO_START -->[\s\S]*?<!-- (?:NOTEBOOKLM|IZEM)_VIDEO_END -->/i, block);
@@ -280,6 +283,7 @@ function embedIntoPost(post, youtubeUrl) {
 }
 
 function record(post, youtubeUrl, notebook, publication, renderMethod, visualValidation) {
+  assertSeoPublicationAllowed({ root: ROOT });
   const progress = readJson(PROGRESS_FILE, { completed: [] });
   const previous = (progress.completed || []).find((item) => item.slug === post.slug && item.youtube === youtubeUrl);
   progress.completed = [
@@ -321,6 +325,7 @@ async function verifyGeneratedVisuals(generated, post) {
 }
 
 async function main() {
+  if (skipHeldSeoPublication({ root: ROOT })) return;
   loadEnv();
   const post = readPost(process.env.NOTEBOOKLM_POST_SLUG || '');
   const facts = productFacts();
