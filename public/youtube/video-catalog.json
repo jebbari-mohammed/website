@@ -1,6 +1,19 @@
 {
   "videos": [
     {
+      "id": "_pihiwa8VwE",
+      "title": "Best Incline Dumbbell Press Angle for Upper Chest (15° vs 30° vs 45°)",
+      "description": "Set your bench to 15° or 30° (1 to 2 notches above flat) for the incline dumbbell press. See the EMG data across 0° to 60°, how to eyeball unnumbered benches, and what dumbbell weight to use.",
+      "uploadDate": "2026-10-31",
+      "sources": [
+        {
+          "canonical": "https://youraicoach.life/blog/incline-dumbbell-press-angle",
+          "relativePath": "blog/incline-dumbbell-press-angle.html",
+          "title": "Best Incline Dumbbell Press Angle for Upper Chest (15° vs 30° vs 45°)"
+        }
+      ]
+    },
+    {
       "id": "7z9Wp91zIJY",
       "title": "Romanian Deadlift vs. Deadlift: Muscles Worked & Weight Ratio",
       "description": "Compare the Romanian deadlift (RDL) vs. conventional deadlift by muscles worked, biomechanics, and working weight ratio. Includes an RDL load calculator.",

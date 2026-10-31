@@ -744,7 +744,37 @@
         "frameDigest": "7d483f64d98d9dcc0aaf666e9d2b61416c4e1cf2ef55ae9f99febe4d14d02dae"
       },
       "date": "2026-10-28T13:14:04.472Z"
+    },
+    {
+      "slug": "incline-dumbbell-press-angle",
+      "title": "Best Incline Dumbbell Press Angle: Why 15° to 30° Beats 45° for Upper Chest",
+      "url": "https://youraicoach.life/blog/incline-dumbbell-press-angle",
+      "youtube": "https://youtube.com/watch?v=_pihiwa8VwE",
+      "notebook_id": "b3455509-40cd-4bda-b531-1303b4c5ab2d",
+      "visual_policy": "objects-only-v1",
+      "people_free_validated": true,
+      "publication": {
+        "videoId": "_pihiwa8VwE",
+        "title": "Best Incline Dumbbell Press Angle: Why 15° to 30° Beats 45° for Upper Chest | IZEM",
+        "channelId": "UCruC83NAOtNJjEsSToD0Ncw",
+        "publishedAt": "2026-10-31T13:51:49Z",
+        "privacyStatus": "public",
+        "uploadStatus": "processed",
+        "processingStatus": "succeeded",
+        "verifiedAt": "2026-10-31T13:51:52.032Z"
+      },
+      "render_method": "notebooklm-narration-object-typography-v1",
+      "visual_validation": {
+        "safe": true,
+        "containsHuman": false,
+        "method": "deterministic-typography-all-frames-v1",
+        "articleSha256": "fe37964954004cfd8cbd1961cba2e9c757c64a6c8ea4c55a080359e99bf46260",
+        "videoSha256": "3be201e704b3b845f5ab29b389aa8d37f7fc65ea41faf1d9fc6f684d11fb1bfc",
+        "frameCount": 2708,
+        "frameDigest": "f39ff3fd175604ecc5e2757446622078a742467a1c24886f1cb3a98c2831ef78"
+      },
+      "date": "2026-10-31T13:51:52.034Z"
     }
   ],
-  "lastRun": "2026-10-28T13:14:04.472Z"
+  "lastRun": "2026-10-31T13:51:52.034Z"
 }
