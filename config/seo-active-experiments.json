@@ -1256,6 +1256,18 @@
       "lockUntil": "2026-11-18",
       "preferredReviewAt": "2026-11-25",
       "reason": "Publish SERP-synthesized human guide for \"romanian deadlift vs deadlift\" on the 3-day schedule. Preserve assets for a 21-day crawl, indexing, and ranking evaluation window while allowing dedicated video attachment."
+    },
+    {
+      "id": "blog-incline-dumbbell-press-angle-launch-2026-10-31",
+      "url": "/blog/incline-dumbbell-press-angle",
+      "files": [
+        "public/blog/assets/incline-dumbbell-press-angle/hero.svg",
+        "public/blog/assets/incline-dumbbell-press-angle/framework.svg"
+      ],
+      "launchedAt": "2026-10-31",
+      "lockUntil": "2026-11-21",
+      "preferredReviewAt": "2026-11-28",
+      "reason": "Publish SERP-synthesized human guide for \"incline dumbbell press angle\" on the 3-day schedule. Preserve assets for a 21-day crawl, indexing, and ranking evaluation window while allowing dedicated video attachment."
     }
   ]
 }
