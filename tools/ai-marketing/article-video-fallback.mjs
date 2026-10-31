@@ -3,6 +3,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
+import { assertSeoPublicationAllowed } from './seo-publication-hold.mjs';
 
 const SLUG = /^[a-z0-9][a-z0-9-]{1,119}$/;
 const ORIGIN = 'https://youraicoach.life';
@@ -28,6 +29,7 @@ export function sourceDigest(post) { return digest(`${post.url}\n${post.title}\n
 // This is a durable spending checkpoint, NOT a completion record. Only a single
 // public metadata file is committed; an unsuccessful push aborts before spending.
 export function persistCheckpoint(root, file, state, env = process.env, run = execFileSync) {
+  assertSeoPublicationAllowed({ root });
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(`${file}.tmp`, `${JSON.stringify(state, null, 2)}\n`);
   fs.renameSync(`${file}.tmp`, file);
@@ -57,6 +59,7 @@ function stateFor(root, post) {
 }
 
 export function claimNativeAttempt(root, post, { env = process.env, now = Date.now(), persist = persistCheckpoint } = {}) {
+  assertSeoPublicationAllowed({ root });
   const { file, state } = stateFor(root, post);
   if (state.nativeAttempts >= 1) throw new Error('Native generation was already attempted; use the bounded narration fallback.');
   state.nativeAttempts = 1;
@@ -114,6 +117,7 @@ export async function requestSpeech(text, { env = process.env, fetchImpl = fetch
 }
 
 export async function generateNarrationFallback(root, post, { env = process.env, now = Date.now(), persist = persistCheckpoint, speech = requestSpeech, render, storyboard, probe = execFileSync } = {}) {
+  assertSeoPublicationAllowed({ root });
   if (!render || !storyboard) {
     const module = await import('./object-only-video.mjs');
     render ||= module.rebuildObjectOnlyVideo;

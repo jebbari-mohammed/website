@@ -8,12 +8,11 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { skipHeldSeoPublication } from './seo-publication-hold.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.resolve(__dirname, '../../public');
 const OG_DIR = path.join(PUBLIC_DIR, 'og');
-
-if (!fs.existsSync(OG_DIR)) fs.mkdirSync(OG_DIR, { recursive: true });
 
 // ========================
 // SVG CARD BUILDER
@@ -150,6 +149,8 @@ export function patchOGImageTag(htmlContent, slug) {
 // MAIN (standalone mode)
 // ========================
 async function main() {
+  if (skipHeldSeoPublication()) return;
+  if (!fs.existsSync(OG_DIR)) fs.mkdirSync(OG_DIR, { recursive: true });
   const blogCount = generateBlogOGImages();
   console.log(`✅ Generated ${blogCount} new blog OG images`);
 
@@ -174,4 +175,4 @@ async function main() {
   }
 }
 
-main().catch(console.error);
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch(console.error);

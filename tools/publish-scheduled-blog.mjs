@@ -13,6 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { assertSeoPublicationAllowed, skipHeldSeoPublication } from './ai-marketing/seo-publication-hold.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -49,6 +50,7 @@ function publishDueArchitectureReleases(manifest, today, dryRun) {
       continue;
     }
 
+    assertSeoPublicationAllowed({ root: ROOT });
     execFileSync('git', ['checkout', rel.branch, '--', ...rel.files], {
       cwd: ROOT,
       stdio: 'inherit'
@@ -98,6 +100,8 @@ function main() {
     return;
   }
 
+  if (skipHeldSeoPublication({ root: ROOT, dryRun: args.dryRun })) return;
+
   let archChanged = false;
   if (args.nextDue) {
     archChanged = publishDueArchitectureReleases(manifest, today, args.dryRun);
@@ -145,6 +149,7 @@ function main() {
   }
 
   // Check weekly publish guard before promoting
+  assertSeoPublicationAllowed({ root: ROOT });
   execFileSync('node', ['tools/ai-marketing/weekly-publish-guard.mjs', '--require-slot'], {
     cwd: ROOT,
     stdio: 'inherit'

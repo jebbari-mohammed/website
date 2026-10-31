@@ -26,6 +26,7 @@ for (const html of [
     let written = '';
     vm.runInNewContext(`${embedSource}\nembedIntoPost(post, url);`, {
       fs: { readFileSync: () => html, writeFileSync: (_file, value) => { written = value; } },
+      assertSeoPublicationAllowed() {}, ROOT: '/fixture',
       embedBlock: () => 'VALIDATED_CARD', post: { file: 'article.html' }, url: 'test-url',
     });
     assert.ok(written.includes('VALIDATED_CARD'));
@@ -40,6 +41,7 @@ test('explicit companion slot preserves the answer before a new card and replace
     let written = '';
     vm.runInNewContext(`${embedSource}\nembedIntoPost(post,url);`, {
       fs: {readFileSync: () => input, writeFileSync: (_f,v) => {written=v;}},
+      assertSeoPublicationAllowed() {}, ROOT: '/fixture',
       embedBlock: () => 'VALIDATED_CARD', post: {file:'article.html'}, url:'test-url',
     });
     assert.equal(written, `<main><nav>Breadcrumb</nav><article>${answer}VALIDATED_CARD</article></main>`);
@@ -50,6 +52,7 @@ function harness(overrides = {}) {
   const calls = [];
   let issued = 0;
   const context = {
+    skipHeldSeoPublication: () => false,
     loadEnv() {}, readPost: () => ({ slug: 'test-article' }), productFacts: () => ({}),
     ROOT: '/repo',
     process: { env: { NOTEBOOKLM_AUTH_JSON: 'test-fixture-only' } },
@@ -71,6 +74,11 @@ function harness(overrides = {}) {
   };
   return { calls, run: () => vm.runInNewContext(`${visualVerificationSource}\n${mainSource}\nmain();`, context) };
 }
+test('an active publication hold stops the video publisher before credentials or generation', async () => {
+  const { calls, run } = harness({ skipHeldSeoPublication: () => true, accessToken() { throw new Error('Credentials must not be requested'); } });
+  await run();
+  assert.deepEqual(calls, []);
+});
 test('refreshes the token after safety and verifies before embedding or recording', async () => {
   const { calls, run } = harness(); await run();
   assert.deepEqual(calls, ['generate', 'safety', 'upload:token-2', 'verify', 'embed', 'record']);

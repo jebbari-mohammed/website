@@ -23,6 +23,7 @@ import {
 } from './seo-publisher-core.mjs';
 import { runGroundedResearch } from './gemini-grounded-research.mjs';
 import { parseModelJson } from './model-json.mjs';
+import { assertSeoPublicationAllowed, skipHeldSeoPublication } from './seo-publication-hold.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../..');
@@ -522,6 +523,7 @@ function appendExperiment(record) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   for (const [name, value] of Object.entries({ changed: 'false', action: 'none', slug: '', url: '', marker: '', query_hash: '', validated: 'false', grounded: 'false' })) setOutput(name, value);
+  if (skipHeldSeoPublication({ root: ROOT, dryRun: args.dryRun })) return;
   const plan = readJson(args.plan, null);
   const verifiedZeroRowPlan = Boolean(
     plan &&
@@ -584,6 +586,7 @@ async function main() {
     return;
   }
 
+  assertSeoPublicationAllowed({ root: ROOT });
   fs.mkdirSync(path.dirname(targetFile), { recursive: true });
   fs.writeFileSync(targetFile, result.html, 'utf8');
   const stateRecord = recordState(state, item, result, marker, plan);

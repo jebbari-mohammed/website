@@ -1,0 +1,7 @@
+{
+  "active": true,
+  "startedAt": "2026-10-31",
+  "reviewAfter": "2026-11-03",
+  "manualReleaseRequired": true,
+  "reason": "Investigate the sudden change in search visibility before resuming automated content changes."
+}

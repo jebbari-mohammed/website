@@ -6,7 +6,7 @@
  *   node bulk-blog.mjs --count 5 # Generate only the first 5
  */
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { skipHeldSeoPublication } from './seo-publication-hold.mjs';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -73,6 +73,7 @@ function saveProgress(progress) {
 }
 
 async function main() {
+  if (skipHeldSeoPublication()) return;
   const countArg = process.argv.indexOf('--count');
   const maxCount = countArg !== -1 ? parseInt(process.argv[countArg + 1]) : KEYWORD_LIST.length;
 

@@ -5,6 +5,7 @@ import { appendFileSync } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { skipHeldSeoPublication } from './seo-publication-hold.mjs';
 
 const filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(filename);
@@ -28,6 +29,10 @@ export function evaluateRunOutput(stdout = '', status = 0) {
 }
 
 function main() {
+  if (skipHeldSeoPublication({ dryRun: process.argv.includes('--dry-run') })) {
+    if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, 'changed=false\naction=none\ngrounded=false\n');
+    return;
+  }
   const child = spawnSync(process.execPath, [publisher, ...process.argv.slice(2)], {
     env: process.env,
     encoding: 'utf8',

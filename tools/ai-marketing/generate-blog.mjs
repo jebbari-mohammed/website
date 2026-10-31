@@ -7,7 +7,7 @@
  *   node generate-blog.mjs "AI personal trainer vs human trainer"
  */
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { skipHeldSeoPublication } from './seo-publication-hold.mjs';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -34,14 +34,7 @@ function loadEnv() {
   }
 }
 
-loadEnv();
-
-if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'your_gemini_api_key_here') {
-  console.error('❌ GEMINI_API_KEY not set. Get one at https://aistudio.google.com/apikey');
-  process.exit(1);
-}
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+let genAI;
 
 function slugify(text) {
   return text.toLowerCase()
@@ -247,6 +240,13 @@ async function main() {
   }
 
   // Ensure blog directory exists
+  if (skipHeldSeoPublication()) return;
+  loadEnv();
+  if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'your_gemini_api_key_here') {
+    throw new Error('GEMINI_API_KEY not set.');
+  }
+  const { GoogleGenerativeAI } = await import('@google/generative-ai');
+  genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   if (!fs.existsSync(BLOG_DIR)) {
     fs.mkdirSync(BLOG_DIR, { recursive: true });
   }
