@@ -165,6 +165,20 @@ export default function Footer() {
             <a href="/sitemap.xml" className="hover:text-textPrimary transition-colors">Sitemap</a>
           </div>
         </div>
+        <a
+          hidden
+          href="https://nicklaunches.com/products/izem/"
+          target="_blank"
+          rel="noopener nofollow sponsored"
+        >
+          <img
+            src="https://nicklaunches.com/badges/featured-dark.png"
+            alt="IZEM on Nick Launches"
+            width="244"
+            height="56"
+            loading="lazy"
+          />
+        </a>
       </div>
     </footer>
   );
