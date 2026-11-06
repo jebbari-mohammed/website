@@ -166,10 +166,10 @@ export default function Footer() {
           </div>
         </div>
         <a
-          hidden
           href="https://nicklaunches.com/products/izem/"
           target="_blank"
           rel="noopener nofollow sponsored"
+          className="mx-auto mt-6 block w-fit max-w-full"
         >
           <img
             src="https://nicklaunches.com/badges/featured-dark.png"
