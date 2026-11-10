@@ -18,6 +18,8 @@ test('Firebase isolates the public handler and pins it to the matching Hosting a
   assert.deepEqual(config.hosting.predeploy, ['node functions/agent-pages/prepare.mjs']);
   assert.equal(config.hosting.cleanUrls, true);
   assert.deepEqual(config.hosting.rewrites, [{ source: '**', function: { functionId: 'agentPages', region: 'us-central1', pinTag: true } }]);
+  const draftRule = config.hosting.headers.find(entry => entry.source === '/blog/drafts/**');
+  assert.equal(draftRule.headers.find(header => header.key === 'X-Robots-Tag')?.value, 'noindex, nofollow, noarchive');
   for (const resource of ['/index.md', '/llms.txt']) {
     const rule = config.hosting.headers.find(entry => entry.source === resource);
     assert.equal(rule.headers.find(header => header.key === 'Content-Type')?.value, 'text/markdown; charset=utf-8');
@@ -42,9 +44,11 @@ test('staging removes the static homepage shadow while preserving exact HTML, fa
   const root = mkdtempSync(path.join(os.tmpdir(), 'izem-agent-build-'));
   try {
     mkdirSync(path.join(root, 'dist/.well-known'), { recursive: true });
+    mkdirSync(path.join(root, 'dist/blog/drafts'), { recursive: true });
     writeFileSync(path.join(root, 'dist/index.html'), html);
     writeFileSync(path.join(root, 'dist/404.html'), '<html>Original 404</html>');
     writeFileSync(path.join(root, 'dist/.well-known/assetlinks.json'), '[]');
+    writeFileSync(path.join(root, 'dist/blog/drafts/scheduled.html'), '<h1>Private draft</h1>');
     writeFileSync(path.join(root, 'dist/app.js'), 'original code');
     writeFileSync(path.join(root, 'firebase.json'), JSON.stringify({ hosting: { headers: [{ source: '**', headers: [{ key: 'X-Frame-Options', value: 'DENY' }] }] } }));
     prepareAgentHosting(root);
@@ -54,6 +58,8 @@ test('staging removes the static homepage shadow while preserving exact HTML, fa
     assert.equal(existsSync(path.join(root, 'dist-agent-hosting/index.html')), false);
     assert.equal(readFileSync(path.join(root, 'dist-agent-hosting/app.js'), 'utf8'), 'original code');
     assert.equal(readFileSync(path.join(root, 'dist-agent-hosting/.well-known/assetlinks.json'), 'utf8'), '[]');
+    assert.equal(existsSync(path.join(root, 'dist-agent-hosting/blog/drafts')), false);
+    assert.equal(readFileSync(path.join(root, 'dist/blog/drafts/scheduled.html'), 'utf8'), '<h1>Private draft</h1>');
     assert.deepEqual(JSON.parse(readFileSync(path.join(root, 'functions/agent-pages/bundle/headers.json'))), { 'X-Frame-Options': 'DENY' });
     assert.equal(readFileSync(path.join(root, 'dist-agent-hosting/index.md'), 'utf8'), homepageMarkdown(html));
     prepareAgentHosting(root);

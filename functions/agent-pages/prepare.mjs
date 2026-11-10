@@ -42,6 +42,11 @@ export function prepareAgentHosting(root = projectRoot) {
   rmSync(hosting, { recursive: true, force: true });
   cpSync(dist, hosting, { recursive: true });
   rmSync(path.join(hosting, 'index.html'));
+  // Source drafts must remain available to the reviewed publisher without
+  // becoming public URLs before they are promoted into /blog/. Removing the
+  // directory from the deploy artifact is stronger than relying on discovery
+  // files alone because an unlinked draft can still leak through a direct URL.
+  rmSync(path.join(hosting, 'blog', 'drafts'), { recursive: true, force: true });
   if (existsSync(path.join(hosting, 'index'))) throw new Error('A static /index route would shadow homepage negotiation.');
   mkdirSync(bundle, { recursive: true });
   writeFileSync(path.join(bundle, 'index.html'), html);
